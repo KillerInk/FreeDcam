@@ -1,0 +1,8 @@
+.idea/
+bin/
+.classpath
+.project
+.settings/org.eclipse.jdt.core.prefs
+freecam.properties
+out/
+res/.nomedia
