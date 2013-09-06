@@ -1,5 +1,6 @@
 package com.troop.menu;
 
+import android.hardware.Camera;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -43,6 +44,10 @@ public class ExposureMenu extends BaseMenu {
                 if (camvalue == CameraManager.SwitchCamera_MODE_Front)
                     preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
                 camMan.parameters.set("exposure", tmp);
+                //if (tmp.equals("manual"))
+                    //activity.exposureSeekbar.setVisibility(View.VISIBLE);
+                //else
+                    //activity.exposureSeekbar.setVisibility(View.INVISIBLE);
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);
 

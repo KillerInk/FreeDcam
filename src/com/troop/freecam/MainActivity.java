@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
         thumbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("content:/" + camMan.lastPicturePath);
+                Uri uri = Uri.parse("content://" + camMan.lastPicturePath);
                 Intent i=new Intent(Intent.ACTION_VIEW, uri);
                 i.setType("image/*");
                 startActivity(i);

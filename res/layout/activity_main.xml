@@ -11,8 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button_focus"
-        android:layout_toLeftOf="@+id/imageButton1" />
+        android:layout_toRightOf="@+id/scrollView" />
 
     <ImageButton
         android:id="@+id/imageButton1"
@@ -24,78 +23,6 @@
         android:src="@drawable/ic_launcher" >
     </ImageButton>
 
-    <Button
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:id="@+id/button_flash"
-            android:background="@drawable/flash"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-        android:textColor="#ff0000"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:text="auto" />
-
-    <Button
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:id="@+id/button_focus"
-            android:layout_below="@+id/button_flash"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/focus"
-        android:textColor="#ff0000"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
-
-    <Button
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:id="@+id/buttonScene"
-            android:layout_below="@+id/button_focus"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/scene"
-            android:clickable="true"
-        android:textColor="#ff0000"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
-
-    <Button
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:id="@+id/buttonwhiteBalance"
-            android:layout_below="@+id/buttonScene"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/whitebalance"
-        android:textColor="#ff0000"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
-
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/buttoncolor"
-        android:layout_below="@+id/buttonwhiteBalance"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/color"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:textColor="#ff0000" />
-
-
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/buttoniso"
-        android:layout_below="@+id/buttoncolor"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/iso"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:textColor="#ff0000" />
-
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/button_exposure"
-        android:layout_above="@+id/button_focus"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/exposure"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:textColor="#ff0000" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -106,20 +33,107 @@
         android:focusableInTouchMode="true"
         android:minWidth="300dp" />
 
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/button_switch3d"
-        android:layout_below="@+id/button_exposure"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/switch3d" />
-
     <ImageButton
         android:layout_width="@android:dimen/notification_large_icon_width"
         android:layout_height="@android:dimen/notification_large_icon_height"
         android:id="@+id/imageButton_thumb"
-        android:layout_alignTop="@+id/buttoniso"
-        android:layout_alignRight="@+id/imageButton1" />
+        android:layout_alignBottom="@+id/seekBar_exposure"
+        android:layout_alignParentRight="true" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:showDividers="beginning|end"
+            android:divider="@android:color/holo_green_dark">
+
+            <Button
+                    android:layout_width="@android:dimen/app_icon_size"
+                    android:layout_height="@android:dimen/app_icon_size"
+                    android:id="@+id/button_flash"
+                    android:background="@drawable/flash"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                android:textColor="#ff0000"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:text="auto" />
+
+            <Button
+                    android:layout_width="@android:dimen/app_icon_size"
+                    android:layout_height="@android:dimen/app_icon_size"
+                    android:id="@+id/button_focus"
+                    android:layout_below="@+id/button_flash"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/focus"
+                android:textColor="#ff0000"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <Button
+                    android:layout_width="@android:dimen/app_icon_size"
+                    android:layout_height="@android:dimen/app_icon_size"
+                    android:id="@+id/buttonScene"
+                    android:layout_below="@+id/button_focus"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/scene"
+                    android:clickable="true"
+                android:textColor="#ff0000"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <Button
+                    android:layout_width="@android:dimen/app_icon_size"
+                    android:layout_height="@android:dimen/app_icon_size"
+                    android:id="@+id/buttonwhiteBalance"
+                    android:layout_below="@+id/buttonScene"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/whitebalance"
+                android:textColor="#ff0000"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/buttoncolor"
+                android:layout_below="@+id/buttonwhiteBalance"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/color"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff0000" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/buttoniso"
+                android:layout_below="@+id/buttoncolor"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/iso"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff0000" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_exposure"
+                android:layout_above="@+id/button_focus"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/exposure"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff0000" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_switch3d"
+                android:layout_below="@+id/button_exposure"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/switch3d" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>
