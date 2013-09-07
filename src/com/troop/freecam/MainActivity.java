@@ -31,6 +31,8 @@ import com.troop.menu.ExposureMenu;
 import com.troop.menu.FlashMenu;
 import com.troop.menu.FocusMenu;
 import com.troop.menu.IsoMenu;
+import com.troop.menu.PictureSizeMenu;
+import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.switchcameramenu;
@@ -169,6 +171,8 @@ public class MainActivity extends Activity {
     public Button isoButton;
     public Button exposureButton;
     public Button switch3dButton;
+    public Button pictureSizeButton;
+    public Button previewSizeButton;
 	Camera.Parameters paras;
     SurfaceHolder holder;
     CameraManager camMan;
@@ -246,6 +250,12 @@ public class MainActivity extends Activity {
         isoButton.setOnClickListener(new IsoMenu(camMan, this));
         exposureButton = (Button) findViewById(R.id.button_exposure);
         exposureButton.setOnClickListener(new ExposureMenu(camMan, this));
+        pictureSizeButton = (Button) findViewById(R.id.button_pictureSize);
+        pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, this));
+        previewSizeButton = (Button)findViewById(R.id.button_previewsize);
+        previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
+
+
 
         //exposureSeekbar.setVisibility(View.INVISIBLE);
         switch3dButton = (Button) findViewById(R.id.button_switch3d);

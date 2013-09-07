@@ -1,18 +1,20 @@
 package com.troop.freecam;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.troop.freecam.manager.AutoFocusManager;
+import com.troop.freecam.manager.ManualBrightnessManager;
+import com.troop.freecam.manager.ManualContrastManager;
+import com.troop.freecam.manager.ManualExposureManager;
+import com.troop.freecam.manager.ManualSharpnessManager;
+import com.troop.freecam.manager.MediaScannerManager;
+import com.troop.freecam.manager.ZoomManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +50,12 @@ public class CameraManager implements SurfaceHolder.Callback
     public static final String Preferences_Exposure2D = "2d_exposure";
     public static final String Preferences_Exposure3D = "3d_exposure";
     public static final String Preferences_ExposureFront = "front_exposure";
+    public static final String Preferences_PictureSize2D = "2d_picturesize";
+    public static final String Preferences_PictureSize3D = "3d_picturesize";
+    public static final String Preferences_PictureSizeFront = "front_picturesize";
+    public static final String Preferences_PreviewSize2D = "2d_previewsize";
+    public static final String Preferences_PreviewSize3D = "3d_previewsize";
+    public static final String Preferences_PreviewSizeFront = "front_previewsize";
 
 
 
@@ -58,7 +66,7 @@ public class CameraManager implements SurfaceHolder.Callback
     //MediaScannerManager scanManager;
     CameraManager cameraManager;
     public  Camera.Parameters parameters;
-    public  ZoomManager zoomManager;
+    public ZoomManager zoomManager;
     public boolean Running = false;
     MediaScannerManager scanManager;
     public AutoFocusManager autoFocusManager;
@@ -66,7 +74,7 @@ public class CameraManager implements SurfaceHolder.Callback
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
     public boolean picturetaking = false;
     public boolean touchtofocus = false;
-    MainActivity activity;
+    public MainActivity activity;
     SharedPreferences preferences;
     public ManualExposureManager manualExposureManager;
     public String lastPicturePath;
@@ -134,6 +142,9 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.setColorEffect(preferences.getString(Preferences_Color3D,"none"));
                 parameters.set("iso", preferences.getString(Preferences_Iso3D, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_Exposure3D , "auto"));
+                setPictureSize(preferences.getString(Preferences_PictureSize3D , "320x240"));
+                setPreviewSize(preferences.getString(Preferences_PreviewSize3D, "320x240"));
+
             }
 
             if(tmp.equals("2D"))
@@ -145,6 +156,8 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.setColorEffect(preferences.getString(Preferences_Color2D,"none"));
                 parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
+                setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
+                setPreviewSize(preferences.getString(Preferences_PictureSize2D, "320x240"));
             }
             if (tmp.equals("Front"))
             {
@@ -154,14 +167,11 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.setColorEffect(preferences.getString(Preferences_ColorFront,"none"));
                 parameters.set("iso", preferences.getString(Preferences_IsoFront, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
+                setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
+                setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
             }
             parameters.set("jpeg-quality", 100);
         }
-
-        List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
-        int w = sizes.get(0).width;
-        int h = sizes.get(0).height;
-        parameters.setPictureSize(w,h);
         parameters.set("preview-format", "yuv420p");
 
 
@@ -189,6 +199,9 @@ public class CameraManager implements SurfaceHolder.Callback
         activity.exposureTextView.setText("Exposure: " + parameters.getExposureCompensation());
         activity.contrastTextView.setText("Contrast: " + parameters.get("contrast"));
         activity.brightnessTextView.setText("Brightness: " + parameters.get("brightness"));
+        activity.previewSizeButton.setText(parameters.getPreviewSize().width + "x" + parameters.getPreviewSize().height);
+        String size1 = String.valueOf(parameters.getPictureSize().width) + "x" + String.valueOf(parameters.getPictureSize().height);
+        activity.pictureSizeButton.setText(size1);
 
 
 
@@ -203,6 +216,21 @@ public class CameraManager implements SurfaceHolder.Callback
             activity.brightnessSeekBar.setMax(100);
             mCamera.startPreview();
         }
+    }
+
+    private void setPictureSize(String s)
+    {
+        String[] widthHeight = s.split("x");
+        int w = Integer.parseInt(widthHeight[0]);
+        int h = Integer.parseInt(widthHeight[1]);
+        parameters.setPictureSize(w,h);
+    }
+    private void setPreviewSize(String s)
+    {
+        String[] widthHeight = s.split("x");
+        int w = Integer.parseInt(widthHeight[0]);
+        int h = Integer.parseInt(widthHeight[1]);
+        parameters.setPreviewSize(w, h);
     }
 
     public  void Stop()
@@ -293,7 +321,7 @@ public class CameraManager implements SurfaceHolder.Callback
                     mp.release();
                 }
             });
-            mediaPlayer.setVolume(1,1);
+            //mediaPlayer.setVolume(1,1);
             mediaPlayer.start(); // no need to call prepare(); create() does that for you
             Log.d("FreeCam", "onShutter'd");
         }
@@ -335,9 +363,9 @@ public class CameraManager implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int w,
                                int h) {
         parameters = mCamera.getParameters();
-        List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
-        Camera.Size optimalSize = getOptimalPreviewSize(sizes, w, h);
-        parameters.setPreviewSize(optimalSize.width, optimalSize.height);
+        //List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
+        //Camera.Size optimalSize = getOptimalPreviewSize(sizes, w, h);
+        //parameters.setPreviewSize(optimalSize.width, optimalSize.height);
 
         // 0 : first camera, 1 : second camera, 2 : dual(3D) camera
         //parameters.set(KEY_CAMERA_INDEX, 2);
