@@ -74,7 +74,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
                 mp = null;
             }
         });
-        mediaPlayer.setVolume(1,1);
+        //mediaPlayer.setVolume(1,1);
         mediaPlayer.start();
 
         if(success && cameraManager.takePicture)

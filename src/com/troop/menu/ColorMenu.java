@@ -37,13 +37,13 @@ public class ColorMenu extends BaseMenu {
                 String tmp = item.toString();
                 camMan.parameters.setColorEffect(tmp);
                 String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue == CameraManager.SwitchCamera_MODE_3D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
                 {
                     preferences.edit().putString(CameraManager.Preferences_Color3D, tmp).commit();
                 }
-                if (camvalue == CameraManager.SwitchCamera_MODE_2D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
                     preferences.edit().putString(CameraManager.Preferences_Color2D, tmp).commit();
-                if (camvalue == CameraManager.SwitchCamera_MODE_Front)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(CameraManager.Preferences_ColorFront, tmp).commit();
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);

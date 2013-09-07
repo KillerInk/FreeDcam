@@ -34,11 +34,11 @@ public class IsoMenu extends BaseMenu {
                 String tmp = item.toString();
                 camMan.parameters.set("iso", tmp);
                 String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue == CameraManager.SwitchCamera_MODE_3D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
                     preferences.edit().putString(CameraManager.Preferences_Iso3D, tmp).commit();
-                if (camvalue == CameraManager.SwitchCamera_MODE_2D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
                     preferences.edit().putString(CameraManager.Preferences_Iso2D, tmp).commit();
-                if (camvalue == CameraManager.SwitchCamera_MODE_Front)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(CameraManager.Preferences_IsoFront, tmp).commit();
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);

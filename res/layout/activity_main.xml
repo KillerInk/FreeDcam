@@ -24,34 +24,37 @@
     </ImageButton>
 
 
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar_exposure"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:focusableInTouchMode="true"
-        android:minWidth="300dp" />
-
     <ImageButton
         android:layout_width="@android:dimen/notification_large_icon_width"
         android:layout_height="@android:dimen/notification_large_icon_height"
         android:id="@+id/imageButton_thumb"
-        android:layout_alignBottom="@+id/seekBar_exposure"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="true" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:paddingRight="0dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:showDividers="beginning|end"
-            android:divider="@android:color/holo_green_dark">
+            android:divider="@android:color/holo_green_dark"
+            android:paddingRight="0dp"
+            android:clickable="true">
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_switch3d"
+                android:layout_below="@+id/button_exposure"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/switch3d" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -73,6 +76,16 @@
                     android:background="@drawable/focus"
                 android:textColor="#ff0000"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <TextView
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Auto"
+                android:id="@+id/textView2"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="#ff0000" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -125,15 +138,156 @@
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                 android:textColor="#ff0000" />
 
-            <Button
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Manual"
+                android:id="@+id/textView"
+                android:layout_alignBottom="@+id/imageButton_thumb"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="#ff0000" />
+
+            <CheckBox
                 android:layout_width="@android:dimen/app_icon_size"
                 android:layout_height="@android:dimen/app_icon_size"
-                android:id="@+id/button_switch3d"
-                android:layout_below="@+id/button_exposure"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/switch3d" />
+                android:id="@+id/checkBox_sharpness"
+                android:layout_toRightOf="@+id/scrollView"
+                android:background="@drawable/sharpness" />
+
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/checkBox_exposureManual"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/seekBar_exposure"
+                android:background="@drawable/exposure" />
+
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/radioButton_contrast"
+                android:layout_above="@+id/imageButton1"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:enabled="true"
+                android:background="@drawable/contrast" />
+
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/checkBox_brightness"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="@drawable/brightness" />
         </LinearLayout>
     </ScrollView>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:measureWithLargestChild="false"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/tableVIEW"
+        android:longClickable="false">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:id="@+id/tableRowSharpness"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:text="@string/sharpness"
+                android:id="@+id/textView_sharpness"
+                android:textColor="#ff0000" />
+
+            <SeekBar
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar_sharpness"
+                android:minWidth="300dp"
+                android:layout_gravity="center_vertical"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRowExposure"
+            android:baselineAligned="false">
+
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/exposure"
+                android:id="@+id/textViewexposure"
+                android:singleLine="true"
+                android:textColor="#ff0000" />
+
+            <SeekBar
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar_exposure"
+                android:focusableInTouchMode="true"
+                android:minWidth="300dp"
+                android:layout_column="1"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/imageButton_thumb"
+                android:layout_gravity="center_vertical" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRowContrast">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:text="@string/contrast"
+                android:id="@+id/textView_contrast"
+                android:textColor="#ff0000"
+                android:layout_alignTop="@+id/imageButton1"
+                android:layout_alignLeft="@+id/tableVIEW" />
+
+            <SeekBar
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar_contrast"
+                android:layout_gravity="center_vertical"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRowBrightness">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:text="@string/brightness"
+                android:id="@+id/textView_brightness"
+                android:textColor="#ff0000" />
+
+            <SeekBar
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar_brightness"
+                android:minWidth="300dp"
+                android:layout_gravity="center_vertical"
+                android:layout_column="1" />
+        </TableRow>
+
+    </TableLayout>
 
 
 </RelativeLayout>

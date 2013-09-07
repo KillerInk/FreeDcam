@@ -70,6 +70,9 @@ public class CameraManager implements SurfaceHolder.Callback
     SharedPreferences preferences;
     public ManualExposureManager manualExposureManager;
     public String lastPicturePath;
+    public ManualSharpnessManager manualSharpnessManager;
+    public ManualContrastManager manualContrastManager;
+    public ManualBrightnessManager manualBrightnessManager;
 
     public boolean takePicture = false;
 
@@ -84,6 +87,9 @@ public class CameraManager implements SurfaceHolder.Callback
         preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         manualExposureManager = new ManualExposureManager(this);
         cameraManager = this;
+        manualSharpnessManager = new ManualSharpnessManager(this);
+        manualContrastManager = new ManualContrastManager(this);
+        manualBrightnessManager = new ManualBrightnessManager(this);
 
     }
 
@@ -140,10 +146,8 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
             }
-            //mCamera.setDisplayOrientation(90);
             if (tmp.equals("Front"))
             {
-                //parameters.setFlashMode(preferences.getString("flash", "auto"));
                 parameters.setFocusMode(preferences.getString(Preferences_FocusFront, "auto"));
                 parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalanceFront,"auto"));
                 parameters.setSceneMode(preferences.getString(Preferences_SceneFront,"auto"));
@@ -151,37 +155,26 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.set("iso", preferences.getString(Preferences_IsoFront, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
             }
-
-            //parameters.setFlashMode(preferences.getString("flash", "auto"));
-            //parameters.setFocusMode(preferences.getString("focus", "auto"));
-            //parameters.setWhiteBalance(preferences.getString("whitebalance","auto"));
-            //parameters.setSceneMode(preferences.getString("scene","auto"));
-            //parameters.setColorEffect(preferences.getString("color","none"));
-            //parameters.set("iso", preferences.getString("iso", "auto"));
-            //parameters.set("exposure", preferences.getString("exposure" , "auto"));
+            parameters.set("jpeg-quality", 100);
         }
 
-
-        //parameters.setFlashMode(Parameters.FLASH_MODE_ON);
-        //parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-        //parameters.set("exposure", "beach");
-        //mCamera.stopSmoothZoom();
-        //mCamera.cancelAutoFocus();
         List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
         int w = sizes.get(0).width;
         int h = sizes.get(0).height;
         parameters.setPictureSize(w,h);
+        parameters.set("preview-format", "yuv420p");
 
 
         try
         {
 
             mCamera.setParameters(parameters);
+            parameters = mCamera.getParameters();
         }
         catch (Exception ex)
         {
             Log.e("Parameters Set Fail: ", ex.getMessage());
+            parameters = mCamera.getParameters();
         }
         activity.flashButton.setText(parameters.getFlashMode());
         activity.focusButton.setText(parameters.getFocusMode());
@@ -192,13 +185,22 @@ public class CameraManager implements SurfaceHolder.Callback
         activity.exposureButton.setText(parameters.get("exposure"));
         manualExposureManager.ExternalSet = true;
         activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() - parameters.getMinExposureCompensation());
+        activity.sharpnessTextView.setText("Sharpness: " + parameters.getInt("sharpness"));
+        activity.exposureTextView.setText("Exposure: " + parameters.getExposureCompensation());
+        activity.contrastTextView.setText("Contrast: " + parameters.get("contrast"));
+        activity.brightnessTextView.setText("Brightness: " + parameters.get("brightness"));
+
 
 
         if (startstop)
         {
-            int max = parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
+            int max = 60; //parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
             activity.exposureSeekbar.setMax(max);
-
+            activity.sharpnessSeekBar.setMax(180);
+            activity.sharpnessSeekBar.setProgress(parameters.getInt("sharpness"));
+            activity.contrastSeekBar.setMax(180);
+            activity.contrastSeekBar.setProgress(parameters.getInt("contrast"));
+            activity.brightnessSeekBar.setMax(100);
             mCamera.startPreview();
         }
     }

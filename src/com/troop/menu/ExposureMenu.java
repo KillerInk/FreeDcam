@@ -35,13 +35,13 @@ public class ExposureMenu extends BaseMenu {
                 String tmp = item.toString();
 
                 String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue == CameraManager.SwitchCamera_MODE_3D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
                 {
                     preferences.edit().putString(CameraManager.Preferences_Exposure3D, tmp).commit();
                 }
-                if (camvalue == CameraManager.SwitchCamera_MODE_2D)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
                     preferences.edit().putString(CameraManager.Preferences_Exposure2D, tmp).commit();
-                if (camvalue == CameraManager.SwitchCamera_MODE_Front)
+                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
                 camMan.parameters.set("exposure", tmp);
                 //if (tmp.equals("manual"))
