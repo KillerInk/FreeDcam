@@ -1,7 +1,10 @@
-package com.troop.freecam;
+package com.troop.freecam.manager;
 
 import android.hardware.Camera;
 import android.media.MediaPlayer;
+
+import com.troop.freecam.CameraManager;
+import com.troop.freecam.R;
 
 /**
  * Created by troop on 31.08.13.

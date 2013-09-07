@@ -1,4 +1,4 @@
-package com.troop.freecam;
+package com.troop.freecam.manager;
 
 import android.content.Context;
 import android.media.MediaScannerConnection;

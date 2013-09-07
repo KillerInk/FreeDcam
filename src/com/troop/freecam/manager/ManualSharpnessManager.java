@@ -1,6 +1,8 @@
-package com.troop.freecam;
+package com.troop.freecam.manager;
 
 import android.widget.SeekBar;
+
+import com.troop.freecam.CameraManager;
 
 /**
  * Created by troop on 07.09.13.
