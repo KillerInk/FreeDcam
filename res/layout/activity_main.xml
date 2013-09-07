@@ -65,7 +65,8 @@
                     android:layout_alignParentLeft="true"
                 android:textColor="#ff0000"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:text="auto" />
+                android:text="auto"
+                android:textStyle="bold" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -75,17 +76,20 @@
                     android:layout_alignParentLeft="true"
                     android:background="@drawable/focus"
                 android:textColor="#ff0000"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="@android:dimen/app_icon_size"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Auto"
+                android:text="Auto Modes"
                 android:id="@+id/textView2"
                 android:layout_alignParentTop="true"
                 android:layout_alignLeft="@+id/tableVIEW"
-                android:background="#ff0000" />
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:singleLine="false"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -96,7 +100,8 @@
                     android:background="@drawable/scene"
                     android:clickable="true"
                 android:textColor="#ff0000"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textStyle="bold" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -106,7 +111,8 @@
                     android:layout_alignParentLeft="true"
                     android:background="@drawable/whitebalance"
                 android:textColor="#ff0000"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -116,7 +122,8 @@
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/color"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="#ff0000" />
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -126,7 +133,8 @@
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/iso"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="#ff0000" />
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -136,17 +144,19 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/exposure"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:textColor="#ff0000" />
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@android:dimen/app_icon_size"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Manual"
+                android:text="Manual Modes"
                 android:id="@+id/textView"
                 android:layout_alignBottom="@+id/imageButton_thumb"
                 android:layout_alignLeft="@+id/tableVIEW"
-                android:background="#ff0000" />
+                android:background="#fdfbff"
+                android:textColor="#010101" />
 
             <CheckBox
                 android:layout_width="@android:dimen/app_icon_size"
@@ -179,6 +189,61 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignLeft="@+id/tableVIEW"
                 android:background="@drawable/brightness" />
+
+            <TextView
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="wrap_content"
+                android:text="Setting"
+                android:id="@+id/textView3"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:singleLine="false"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <TextView
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="wrap_content"
+                android:text="Picture"
+                android:id="@+id/textView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:singleLine="false"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_pictureSize"
+                android:singleLine="false"
+                android:background="@drawable/picturesize"
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="wrap_content"
+                android:text="Preview"
+                android:id="@+id/textView5"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/tableVIEW"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:singleLine="true"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+            <Button
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_previewsize"
+                android:singleLine="false"
+                android:background="@drawable/picturesize"
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
+
         </LinearLayout>
     </ScrollView>
 
