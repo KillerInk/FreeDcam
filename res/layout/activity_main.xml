@@ -6,7 +6,7 @@
     tools:context=".MainActivity"
     android:background="@android:color/background_dark">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -14,9 +14,15 @@
             android:id="@+id/camPreview1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/scrollView_menu" />
-    </LinearLayout>
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
+        android:id="@+id/view" />
 
     <ImageButton
         android:id="@+id/imageButton1"

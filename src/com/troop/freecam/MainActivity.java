@@ -28,6 +28,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;
@@ -65,6 +66,7 @@ public class MainActivity extends Activity {
 
 
 	public CamPreview mPreview;
+    public DrawingOverlaySurface drawSurface;
 	private ImageButton shotButton;
 	String imagepath;
 	public Button flashButton;
@@ -126,6 +128,7 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //setContentView(R.layout.activity_main);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.activity_main, null);
 
@@ -133,7 +136,7 @@ public class MainActivity extends Activity {
 
 
         setContentView(R.layout.activity_main);
-
+        drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
 		mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
