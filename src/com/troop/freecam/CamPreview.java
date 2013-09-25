@@ -25,7 +25,7 @@ import java.util.List;
 
 public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
 
-	SurfaceHolder mHolder;
+	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
     private Real3D mReal3D;
     private CameraManager camMan;
@@ -33,6 +33,9 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
     boolean is3d = false;
     Paint mPaint;
     public SizeAbleRectangle drawingRectHelper;
+
+    public int canvasWidth;
+    public int canvasHeight;
 
 
     private void init(Context context) {
@@ -42,7 +45,7 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
         // underlying surface is created and destroyed.
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        //mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         //canvasHolder = getHolder();
         //canvasHolder.addCallback(this);
@@ -97,8 +100,6 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-
-
         drawingRectHelper.OnTouch(event);
         return true;
     }
@@ -115,13 +116,15 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
     protected void onDraw(Canvas canvas)
     {
         drawingRectHelper.Draw(canvas);
-        //super.onDraw(canvas);
+        super.onDraw(canvas);
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(SurfaceHolder holder)
+    {
         setWillNotDraw(false);
-
+        canvasWidth = getWidth();
+        canvasHeight = getHeight();
     }
 
     @Override

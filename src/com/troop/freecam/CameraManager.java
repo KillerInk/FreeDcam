@@ -1,6 +1,7 @@
 package com.troop.freecam;
 
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -119,10 +120,10 @@ public class CameraManager implements SurfaceHolder.Callback
             mCamera = Camera.open(1);
 
         try {
-            mCamera.setPreviewDisplay(context.getHolder());
+            mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
             zoomManager.ResetZoom();
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             mCamera.release();
             mCamera = null;
 
@@ -185,6 +186,14 @@ public class CameraManager implements SurfaceHolder.Callback
                 setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
                 setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
                 parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
+            }
+
+            if (parameters.getFocusMode().equals("auto"))
+            {
+                context.drawingRectHelper.Enabled = true;
+            }
+            else {
+                context.drawingRectHelper.Enabled = false;
             }
 
         }

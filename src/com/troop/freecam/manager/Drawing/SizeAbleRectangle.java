@@ -37,40 +37,44 @@ public class SizeAbleRectangle
         this.camPreview = camPreview;
 
         mPaint = new Paint();
-
         mPaint.setDither(true);
-
         mPaint.setColor(Color.RED);
-
         mPaint.setStyle(Paint.Style.STROKE);
-
         mPaint.setStrokeJoin(Paint.Join.ROUND);
-
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-
         mPaint.setStrokeWidth(3);
-
         mPaint.setFilterBitmap(true);
     }
 
     public  void Draw(Canvas canvas)
     {
-        if (drawRectangle == true && Enabled)
+
+
+        if (drawRectangle == true && Enabled && canvas != null)
         {
             String tmp = camPreview.preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
             if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
             {
-
                 int pos_x = (int)beginCoordinate.x;
-                int depth = 1;
+                int depth = 3;
                 int pos_y = (int)beginCoordinate.y;
                 int size_w = (int)mainRect.width();
                 int size_h = (int)mainRect.height();
                 int c_width = (int) canvas.getWidth();
-                canvas.drawRect(new Rect(pos_x + depth, pos_y, pos_x + depth + size_w, pos_y + size_h), mPaint);
-                canvas.drawRect(new Rect(pos_x + c_width/2 - depth, pos_y, pos_x + c_width/2 - depth + size_w, pos_y + size_h), mPaint);
 
+                int startxleft = pos_x + depth;
+                int endxleft = pos_x + depth + size_w;
 
+                int startXright = pos_x + c_width/2 - depth;
+                int endXright = pos_x + c_width/2 - depth + size_w;
+
+                canvas.drawRect(new Rect(startxleft, pos_y, endxleft, pos_y + size_h), mPaint);
+                canvas.drawRect(new Rect(startXright, pos_y, endXright , pos_y + size_h), mPaint);
+
+                canvas.drawRect(new Rect(184, 260, 184 + 80, 360), mPaint);
+                canvas.drawRect(new Rect(400+186, 260, 400 + 186 + 80, 360), mPaint);
+                //canvas.drawRect(new Rect(pos_x,pos_y,size_w/2,size_h), mPaint);
+                //canvas.drawRect(new Rect(size_w/2+1,pos_y,size_w,size_h), mPaint);
             }
             else
             {
@@ -79,6 +83,9 @@ public class SizeAbleRectangle
                 canvas.drawRect(leftRect, mPaint);
             }
 
+            //c.drawBitmap(bmL, null, new Rect(0,0,mCanvasWidth/2,mCanvasHeight), null);
+
+            //c.drawBitmap(bmR, null, new Rect(mCanvasWidth/2+1,0,mCanvasWidth,mCanvasHeight), null);
             //c.drawBitmap(bm, null, new Rect(pos_x + depth, pos_y, pos_x + depth + size_w, pos_y + size_h), mPaint);
             //c.drawBitmap(bm, null, new Rect(pos_x + c_width/2 - depth, pos_y, pos_x + c_width/2 - depth + size_w, pos_y + size_h), mPaint);
         }
@@ -116,16 +123,14 @@ public class SizeAbleRectangle
                 {
                     drawRectangle = false;
                     camPreview.invalidate();
-                }
 
+                }
             }
             else
                 camPreview.invalidate();
         }
     }
 
-    float lastX;
-    float lastY;
 
     private void moveRect(MotionEvent event)
     {
@@ -133,15 +138,10 @@ public class SizeAbleRectangle
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
-                lastX = event.getX();
-                lastY = event.getY();
                 mainRecMoving = true;
-            //camPreview.invalidate();
             }
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-
-            //endCoordinate.x = event.getX();
                 float movedY = mainRect.height() /2;
                 if (movedY < 0)
                     movedY = movedY * -1;
@@ -154,14 +154,10 @@ public class SizeAbleRectangle
                 endCoordinate.x = (event.getX() + movedX);
                 setRectanglePosition();
                 camPreview.invalidate();
-            // Tell View that the canvas needs to be redrawn
             }
             if (event.getAction() == MotionEvent.ACTION_UP)
             {
-                //drawRectangle = false;
                 mainRecMoving = false;
-                //camPreview.invalidate();
-                // Tell View that the canvas needs to be redrawn
             }
         }
     }
@@ -176,18 +172,13 @@ public class SizeAbleRectangle
             }
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                //endCoordinate.x = event.getX();
                 beginCoordinate.y = event.getY();
                 setRectanglePosition();
                 camPreview.invalidate();
-            // Tell View that the canvas needs to be redrawn
             }
             if (event.getAction() == MotionEvent.ACTION_UP)
             {
-                //drawRectangle = false;
                 topRecMoving = false;
-                //camPreview.invalidate();
-            // Tell View that the canvas needs to be redrawn
             }
         }
     }
@@ -202,18 +193,13 @@ public class SizeAbleRectangle
             }
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                //endCoordinate.x = event.getX();
                 beginCoordinate.x = event.getX();
                 setRectanglePosition();
                 camPreview.invalidate();
-                // Tell View that the canvas needs to be redrawn
             }
             if (event.getAction() == MotionEvent.ACTION_UP)
             {
-                //drawRectangle = false;
                 leftRecMoving = false;
-                //camPreview.invalidate();
-                // Tell View that the canvas needs to be redrawn
             }
         }
     }
@@ -226,6 +212,5 @@ public class SizeAbleRectangle
         float centerHeigth = (f.height() / 2) + beginCoordinate.y;
         topRect.set(centerWidth - 20, beginCoordinate.y, centerWidth+20, beginCoordinate.y+40);
         leftRect.set(beginCoordinate.x, centerHeigth - 20, beginCoordinate.x + 40, centerHeigth +20);
-        //Log.d("draw", topRect.toString());
     }
 }
