@@ -5,28 +5,20 @@ import android.widget.SeekBar;
 import com.troop.freecam.CameraManager;
 
 /**
- * Created by troop on 07.09.13.
+ * Created by troop on 08.09.13.
  */
-public class ManualContrastManager implements SeekBar.OnSeekBarChangeListener
-{
-    public ManualContrastManager(CameraManager cameraManager) {
+public class ManualSaturationManager implements  SeekBar.OnSeekBarChangeListener{
+    public ManualSaturationManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
     }
-
-    public boolean ExternalSet = false;
 
     CameraManager cameraManager;
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        if (ExternalSet == false)
-        {
-            cameraManager.parameters.set("contrast", progress);
-            cameraManager.Restart(false);
-        }
-        else
-            ExternalSet = false;
+        cameraManager.parameters.set("saturation", progress);
+        cameraManager.Restart(false);
     }
 
     @Override

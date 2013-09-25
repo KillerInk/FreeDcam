@@ -1,7 +1,10 @@
 package com.troop.freecam;
 
 import android.content.SharedPreferences;
+import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
@@ -56,6 +59,9 @@ public class CameraManager implements SurfaceHolder.Callback
     public static final String Preferences_PreviewSize2D = "2d_previewsize";
     public static final String Preferences_PreviewSize3D = "3d_previewsize";
     public static final String Preferences_PreviewSizeFront = "front_previewsize";
+    public static final String Preferences_IPP2D = "2d_ipp";
+    public static final String Preferences_IPP3D = "3d_ipp";
+    public static final String Preferences_IPPFront = "front_ipp";
 
 
 
@@ -131,7 +137,13 @@ public class CameraManager implements SurfaceHolder.Callback
         {
             parameters = mCamera.getParameters();
             mCamera.stopPreview();
+            parameters.set("jpeg-quality", 100);
+            parameters.set("contrast", 100);
+            parameters.setExposureCompensation(0);
+            parameters.set("preview-format", "yuv420p");
+
             String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
+            activity.switch3dButton.setText(tmp);
 
             if (tmp.equals("3D"))
             {
@@ -143,7 +155,9 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.set("iso", preferences.getString(Preferences_Iso3D, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_Exposure3D , "auto"));
                 setPictureSize(preferences.getString(Preferences_PictureSize3D , "320x240"));
+                //setPictureSize("2592x1458");
                 setPreviewSize(preferences.getString(Preferences_PreviewSize3D, "320x240"));
+                parameters.set("ipp",preferences.getString(Preferences_IPP3D, "ldc-nsf"));
 
             }
 
@@ -157,7 +171,8 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
                 parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
                 setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
-                setPreviewSize(preferences.getString(Preferences_PictureSize2D, "320x240"));
+                setPreviewSize(preferences.getString(Preferences_PreviewSize2D, "320x240"));
+                parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
             }
             if (tmp.equals("Front"))
             {
@@ -169,17 +184,23 @@ public class CameraManager implements SurfaceHolder.Callback
                 parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
                 setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
                 setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
+                parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
             }
-            parameters.set("jpeg-quality", 100);
+
         }
-        parameters.set("preview-format", "yuv420p");
 
-
+        //parameters.set("gbce","true");
+        //String maxSharpnessString = parameters.get("max-sharpness");
+        //String t = parameters.flatten();
+        //parameters.set("mode-values", "exposure-bracketing");
+        //int pis = parameters.getPictureFormat();
+        //parameters.setPictureFormat(ImageFormat.RGB_565);
         try
         {
-
+            //set parameters
             mCamera.setParameters(parameters);
-            parameters = mCamera.getParameters();
+            //get parameters to see if changed
+            //parameters = mCamera.getParameters();
         }
         catch (Exception ex)
         {
@@ -193,27 +214,41 @@ public class CameraManager implements SurfaceHolder.Callback
         activity.colorButton.setText(parameters.getColorEffect());
         activity.isoButton.setText(parameters.get("iso"));
         activity.exposureButton.setText(parameters.get("exposure"));
-        manualExposureManager.ExternalSet = true;
-        activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() - parameters.getMinExposureCompensation());
+
+
         activity.sharpnessTextView.setText("Sharpness: " + parameters.getInt("sharpness"));
         activity.exposureTextView.setText("Exposure: " + parameters.getExposureCompensation());
         activity.contrastTextView.setText("Contrast: " + parameters.get("contrast"));
+        activity.saturationTextView.setText("Saturation: " + parameters.get("saturation"));
         activity.brightnessTextView.setText("Brightness: " + parameters.get("brightness"));
         activity.previewSizeButton.setText(parameters.getPreviewSize().width + "x" + parameters.getPreviewSize().height);
         String size1 = String.valueOf(parameters.getPictureSize().width) + "x" + String.valueOf(parameters.getPictureSize().height);
         activity.pictureSizeButton.setText(size1);
+        activity.ippButton.setText(parameters.get("ipp"));
+
+        activity.saturationCheckBox.setText(parameters.get("saturation"));
+        activity.manualExposure.setText(String.valueOf(parameters.getExposureCompensation()));
+        activity.brightnessCheckBox.setText(parameters.get("brightness"));
+        activity.contrastRadioButton.setText(parameters.get("contrast"));
+        activity.manualShaprness.setText(parameters.get("sharpness"));
 
 
 
         if (startstop)
         {
+
             int max = 60; //parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
             activity.exposureSeekbar.setMax(max);
+            manualExposureManager.ExternalSet = true;
+            activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
             activity.sharpnessSeekBar.setMax(180);
             activity.sharpnessSeekBar.setProgress(parameters.getInt("sharpness"));
             activity.contrastSeekBar.setMax(180);
+            manualContrastManager.ExternalSet = true;
             activity.contrastSeekBar.setProgress(parameters.getInt("contrast"));
             activity.brightnessSeekBar.setMax(100);
+            activity.brightnessSeekBar.setProgress(parameters.getInt("brightness"));
+            activity.saturationSeekBar.setMax(180);
             mCamera.startPreview();
         }
     }
@@ -247,8 +282,17 @@ public class CameraManager implements SurfaceHolder.Callback
     {
         if (parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO))
         {
-            takePicture = true;
-            mCamera.autoFocus(autoFocusManager);
+
+            if (context.drawingRectHelper.drawRectangle == true)
+            {
+
+                SetTouchFocus(context.drawingRectHelper.mainRect);
+            }
+            else
+            {
+                takePicture = true;
+                mCamera.autoFocus(autoFocusManager);
+            }
         }
         else
         {
@@ -265,20 +309,20 @@ public class CameraManager implements SurfaceHolder.Callback
         }
     }
 
-    public  void SetTouchFocus(Rect rectangle)
+    public  void SetTouchFocus(RectF rectangle)
     {
         if (touchtofocus == false)
         {
             touchtofocus = true;
         //Convert from View's width and height to +/- 1000
             final Rect targetFocusRect = new Rect(
-                rectangle.left * 2000/context.getWidth() - 1000,
-                rectangle.top * 2000/context.getHeight() - 1000,
-                rectangle.right * 2000/context.getWidth() - 1000,
-                rectangle.bottom * 2000/context.getHeight() - 1000);
+                    (int)rectangle.left * 2000/context.getWidth() - 1000,
+                    (int)rectangle.top * 2000/context.getHeight() - 1000,
+                    (int)rectangle.right * 2000/context.getWidth() - 1000,
+                    (int)rectangle.bottom * 2000/context.getHeight() - 1000);
 
             final List<Camera.Area> focusList = new ArrayList<Camera.Area>();
-            Camera.Area focusArea = new Camera.Area(targetFocusRect, 600);
+            Camera.Area focusArea = new Camera.Area(targetFocusRect, 1000);
             focusList.add(focusArea);
             if (parameters.getMaxNumFocusAreas() > 0 && parameters.getMaxNumMeteringAreas() > 0)
             {
@@ -381,6 +425,7 @@ public class CameraManager implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
+
         Start();
         Running = true;
 
