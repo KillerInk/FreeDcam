@@ -11,26 +11,58 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
 
     private CameraManager cameramanager;
     public boolean ExternalSet =false;
+    private int minValue = 0;
+    private int maxValue = 10;
+    private int currentValue = 0;
+
     public  ManualExposureManager(CameraManager cameraManager)
     {
         this.cameramanager = cameraManager;
+
     }
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
         if (ExternalSet == false)
         {
-            int truevalue = progress + cameramanager.parameters.getMinExposureCompensation();
-            if (truevalue >= cameramanager.parameters.getMinExposureCompensation() && truevalue <= cameramanager.parameters.getMaxExposureCompensation())
+            currentValue = progress + minValue;
+            //if (maxValue < 61)
+            //{
+                if (currentValue >= cameramanager.parameters.getMinExposureCompensation() && currentValue <= cameramanager.parameters.getMaxExposureCompensation())
+                {
+                    cameramanager.parameters.setExposureCompensation(currentValue);
+                    cameramanager.Restart(false);
+                }
+            /*}
+            else
             {
-                cameramanager.parameters.setExposureCompensation(truevalue);
+                cameramanager.parameters.set("manual-exposure", currentValue);
                 cameramanager.Restart(false);
-            }
+            }*/
         }
         else
         {
             ExternalSet = false;
         }
+    }
+
+    public  void SetMinMax(int min, int max)
+    {
+        minValue = min;
+        maxValue = max;
+        cameramanager.activity.exposureSeekbar.setMax(max + min * -1);
+    }
+
+    public int GetCurrentValue()
+    {
+        int val = cameramanager.activity.exposureSeekbar.getProgress() + minValue;
+        return val;
+    }
+
+    public void SetCurrentValue(int progress)
+    {
+        int val = progress + maxValue;
+        cameramanager.activity.exposureSeekbar.setProgress(val);
     }
 
     @Override

@@ -226,7 +226,10 @@ public class CameraManager implements SurfaceHolder.Callback
 
 
         activity.sharpnessTextView.setText("Sharpness: " + parameters.getInt("sharpness"));
-        activity.exposureTextView.setText("Exposure: " + parameters.getExposureCompensation());
+        //if (!parameters.get("exposure").equals("manual"))
+            activity.exposureTextView.setText("Exposure: " + parameters.getExposureCompensation());
+        //else
+            //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
         activity.contrastTextView.setText("Contrast: " + parameters.get("contrast"));
         activity.saturationTextView.setText("Saturation: " + parameters.get("saturation"));
         activity.brightnessTextView.setText("Brightness: " + parameters.get("brightness"));
@@ -246,10 +249,23 @@ public class CameraManager implements SurfaceHolder.Callback
         if (startstop)
         {
 
-            int max = 60; //parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
-            activity.exposureSeekbar.setMax(max);
-            manualExposureManager.ExternalSet = true;
-            activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
+            //int max = 60; //parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
+            //if (!parameters.get("exposure").equals("manual"))
+            //{
+                manualExposureManager.SetMinMax(parameters.getMinExposureCompensation(), parameters.getMaxExposureCompensation());
+                manualExposureManager.ExternalSet = true;
+                manualExposureManager.SetCurrentValue(parameters.getExposureCompensation());
+            /*}
+            else
+            {
+                manualExposureManager.SetMinMax(1, 125);
+                manualExposureManager.ExternalSet = true;
+                manualExposureManager.SetCurrentValue(parameters.getInt("manual-exposure"));
+            }*/
+
+            //activity.exposureSeekbar.setMax(max);
+
+            //activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
             activity.sharpnessSeekBar.setMax(180);
             activity.sharpnessSeekBar.setProgress(parameters.getInt("sharpness"));
             activity.contrastSeekBar.setMax(180);
