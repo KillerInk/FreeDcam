@@ -324,24 +324,43 @@ public class CameraManager implements SurfaceHolder.Callback
         {
             touchtofocus = true;
         //Convert from View's width and height to +/- 1000
+
             final Rect targetFocusRect = new Rect(
                     (int)rectangle.left * 2000/context.getWidth() - 1000,
                     (int)rectangle.top * 2000/context.getHeight() - 1000,
                     (int)rectangle.right * 2000/context.getWidth() - 1000,
                     (int)rectangle.bottom * 2000/context.getHeight() - 1000);
 
-            final List<Camera.Area> focusList = new ArrayList<Camera.Area>();
+            Rect top = new Rect(-999, -999, 999, targetFocusRect.top);
+            Rect bottom = new Rect(-999, targetFocusRect.bottom, 999, 999);
+            Rect left = new Rect(-999, targetFocusRect.top, targetFocusRect.left, targetFocusRect.bottom);
+            Rect right = new Rect(targetFocusRect.right, targetFocusRect.top, 999, targetFocusRect.bottom);
+
+            final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
             Camera.Area focusArea = new Camera.Area(targetFocusRect, 1000);
-            focusList.add(focusArea);
+            Camera.Area topArea = new Camera.Area(top,1);
+            Camera.Area bottomArea = new Camera.Area(bottom,1);
+            Camera.Area leftArea = new Camera.Area(left,1);
+            Camera.Area rightArea = new Camera.Area(right,1);
+            meteringList.add(focusArea);
+            meteringList.add(topArea);
+            meteringList.add(bottomArea);
+            meteringList.add(leftArea);
+            meteringList.add(rightArea);
             if (parameters.getMaxNumFocusAreas() > 0 && parameters.getMaxNumMeteringAreas() > 0)
             {
-                //if (parameters.getFocusAreas() == null && parameters.getMeteringAreas() == null)
-                //{
+                parameters.setFocusAreas(meteringList);
+                try
+                {
+                    mCamera.setParameters(parameters);
+                    //mCamera.autoFocus(autoFocusManager);
+                }
+                catch (Exception ex)
+                {
+                    Log.e("TouchToFocus", "failed to set focusareas");
+                }
 
-                    parameters.setFocusAreas(focusList);
-                    parameters.setMeteringAreas(focusList);
-                    //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                    //mCamera.cancelAutoFocus();
+                parameters.setMeteringAreas(meteringList);
                 try
                 {
                     mCamera.setParameters(parameters);
@@ -349,7 +368,7 @@ public class CameraManager implements SurfaceHolder.Callback
                 }
                 catch (Exception ex)
                 {
-                    String exe = ex.getMessage();
+                    Log.e("TouchToFocus", "failed to set meteringareas");
                 }
 
 
@@ -416,14 +435,6 @@ public class CameraManager implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int w,
                                int h) {
         parameters = mCamera.getParameters();
-        //List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
-        //Camera.Size optimalSize = getOptimalPreviewSize(sizes, w, h);
-        //parameters.setPreviewSize(optimalSize.width, optimalSize.height);
-
-        // 0 : first camera, 1 : second camera, 2 : dual(3D) camera
-        //parameters.set(KEY_CAMERA_INDEX, 2);
-        //parameters.set(KEY_S3D_SUPPORTED_STR, "true");
-        //parameters.setPictureSize(4096, 1536);
 
 
        Restart(true);
