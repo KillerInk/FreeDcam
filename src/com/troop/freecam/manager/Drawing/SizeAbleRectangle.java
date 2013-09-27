@@ -56,7 +56,7 @@ public class SizeAbleRectangle
 
             if (drawRectangle == true && Enabled && canvas != null)
             {
-            String tmp = camPreview.preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+                String tmp = camPreview.preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
                 if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
                 {
                     int pos_x = (int)beginCoordinate.x;
@@ -85,14 +85,14 @@ public class SizeAbleRectangle
                     //canvas.drawRect(new Rect(size_w/2+1,pos_y,size_w,size_h), mPaint);
                 }
                 else
-            {
+                {
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     canvas.drawRect(mainRect, mPaint);
                     canvas.drawRect(topRect, mPaint);
                     canvas.drawRect(leftRect, mPaint);
-            }
-
                 }
+
+
             }
             camPreview.mHolder.unlockCanvasAndPost(canvas);
         }
