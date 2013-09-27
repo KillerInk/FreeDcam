@@ -21,8 +21,9 @@ public class SizeAbleRectangle
     DrawingOverlaySurface camPreview;
     Paint mPaint;
 
-    public PointF beginCoordinate = new PointF(100,100);
-    public PointF endCoordinate = new PointF(300,300);
+    public PointF beginCoordinate = new PointF(300,140);
+
+    public PointF endCoordinate = new PointF(500,340);
     RectF topRect = new RectF(0, 0, 20, 20);
     RectF leftRect = new RectF(0, 0, 20, 20);
     public RectF mainRect = new RectF(beginCoordinate.x, beginCoordinate.y, endCoordinate.x, endCoordinate.y);
@@ -131,6 +132,8 @@ public class SizeAbleRectangle
             if (drawRectangle == false)
             {
                 drawRectangle = true;
+                beginCoordinate = new PointF(event.getX(), event.getY());
+                endCoordinate = new PointF(event.getX() +100, event.getY() +100);
                 Draw();
                 //camPreview.invalidate();
                 return;
