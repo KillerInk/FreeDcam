@@ -59,30 +59,51 @@ public class SizeAbleRectangle
                 String tmp = camPreview.preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
                 if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
                 {
+                    //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;
-                    int depth = 5;
+                    int depth = 4;
+                    int depth2 = 4;
                     int pos_y = (int)beginCoordinate.y;
                     int size_w = (int)mainRect.width();
                     int size_h = (int)mainRect.height();
                     int c_width = (int) canvas.getWidth();
 
-                    int startxleft = pos_x /2 + depth;
-                    int endxleft = pos_x /2 + depth + size_w/2;
+                    int startxleft = pos_x /2;
+                    int endxleft = pos_x /2 + size_w/2;
 
-                    int startXright = pos_x /2 + c_width/2 - depth;
-                    int endXright = pos_x /2 + c_width/2 - depth + size_w /2;
+                    int startXright = pos_x /2 + c_width/2 + depth;
+                    int endXright = pos_x /2 + c_width/2 + depth + size_w /2;
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
-                    canvas.drawRect(new Rect(startxleft, pos_y, endxleft, pos_y + size_h), mPaint);
-                    canvas.drawRect(new Rect(startXright, pos_y, endXright , pos_y + size_h), mPaint);
+                    Rect leftmain = new Rect(startxleft, pos_y, endxleft, pos_y + size_h);
+                    Rect rightmain = new Rect(startXright, pos_y, endXright , pos_y + size_h);
+                    canvas.drawRect(leftmain, mPaint);
+                    canvas.drawRect(rightmain, mPaint);
 
-                    //canvas.drawRect(new Rect(184, 260, 184 + 80, 360), mPaint);
-                    //canvas.drawRect(new Rect(400+186, 260, 400 + 186 + 80, 360), mPaint);
+                    //draw TopRectangle
+                    int centerWidth = (int)(leftmain.width() /2) ;
+                    int centerHeigth = (int) (leftmain.height() / 2);
+                    int topstartX = startxleft + centerWidth - 10;
+                    int topstartY = pos_y;
+                    int topendY = pos_y + 40;
+                    int topendX = startxleft + centerWidth  + 10;
+                    Rect topleft  = new Rect(topstartX, topstartY, topendX, topendY);
+                    Rect topright = new Rect(topstartX + c_width /2 + depth2,topstartY, topendX + c_width/2+ depth2, topendY );
+                    canvas.drawRect(topleft, mPaint);
+                    canvas.drawRect(topright, mPaint);
 
+                    //draw left
 
-                    //canvas.drawRect(new Rect(pos_x,pos_y,size_w/2,size_h), mPaint);
-                    //canvas.drawRect(new Rect(size_w/2+1,pos_y,size_w,size_h), mPaint);
+                    int leftSx = startxleft;
+                    int leftSy = pos_y + centerHeigth -20;
+                    int leftEx = startxleft + 20;
+                    int leftEy = pos_y + centerHeigth +20;
+                    Rect leftleft = new Rect(leftSx, leftSy, leftEx, leftEy);
+                    Rect leftright = new Rect(leftSx + c_width /2 +depth2, leftSy, leftEx + c_width/2 +depth2, leftEy);
+                    canvas.drawRect(leftleft, mPaint);
+                    canvas.drawRect(leftright, mPaint);
+
                 }
                 else
                 {
@@ -93,6 +114,10 @@ public class SizeAbleRectangle
                 }
 
 
+            }
+            else if (canvas !=null && drawRectangle == false)
+            {
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             }
             camPreview.mHolder.unlockCanvasAndPost(canvas);
         }
@@ -137,6 +162,7 @@ public class SizeAbleRectangle
             }
             else
             {
+                drawRectangle = false;
                 Draw();
             }
                 //camPreview.invalidate();
