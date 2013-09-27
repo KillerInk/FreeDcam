@@ -16,13 +16,13 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true" />
 
-    </RelativeLayout>
+        <view
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
+            android:id="@+id/view" />
 
-    <view
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
-        android:id="@+id/view" />
+    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/imageButton1"
