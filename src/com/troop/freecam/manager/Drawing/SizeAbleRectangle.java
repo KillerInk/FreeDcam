@@ -52,7 +52,7 @@ public class SizeAbleRectangle
         if (camPreview.RDY)
         {
             Canvas canvas;
-            canvas = camPreview.getHolder().lockCanvas(null);
+            canvas = camPreview.mHolder.lockCanvas(null);
 
             if (drawRectangle == true && Enabled && canvas != null)
             {
@@ -60,47 +60,41 @@ public class SizeAbleRectangle
                 if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
                 {
                     int pos_x = (int)beginCoordinate.x;
-                    int depth = 8;
+                    int depth = 5;
                     int pos_y = (int)beginCoordinate.y;
                     int size_w = (int)mainRect.width();
                     int size_h = (int)mainRect.height();
                     int c_width = (int) canvas.getWidth();
 
-                    int startxleft = pos_x + depth;
-                    int endxleft = pos_x + depth + size_w;
+                    int startxleft = pos_x /2 + depth;
+                    int endxleft = pos_x /2 + depth + size_w/2;
 
-                    int startXright = pos_x + c_width/2 - depth;
-                    int endXright = pos_x + c_width/2 - depth + size_w;
+                    int startXright = pos_x /2 + c_width/2 - depth;
+                    int endXright = pos_x /2 + c_width/2 - depth + size_w /2;
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
                     canvas.drawRect(new Rect(startxleft, pos_y, endxleft, pos_y + size_h), mPaint);
                     canvas.drawRect(new Rect(startXright, pos_y, endXright , pos_y + size_h), mPaint);
 
-                    canvas.drawRect(new Rect(184, 260, 184 + 80, 360), mPaint);
-                    canvas.drawRect(new Rect(400+186, 260, 400 + 186 + 80, 360), mPaint);
-                    camPreview.mHolder.unlockCanvasAndPost(canvas);
+                    //canvas.drawRect(new Rect(184, 260, 184 + 80, 360), mPaint);
+                    //canvas.drawRect(new Rect(400+186, 260, 400 + 186 + 80, 360), mPaint);
+
 
                     //canvas.drawRect(new Rect(pos_x,pos_y,size_w/2,size_h), mPaint);
                     //canvas.drawRect(new Rect(size_w/2+1,pos_y,size_w,size_h), mPaint);
                 }
                 else
                 {
-
+                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     canvas.drawRect(mainRect, mPaint);
                     canvas.drawRect(topRect, mPaint);
                     canvas.drawRect(leftRect, mPaint);
-                    camPreview.mHolder.unlockCanvasAndPost(canvas);
+                    //camPreview.mHolder.unlockCanvasAndPost(canvas);
 
                 }
-
-
-                //c.drawBitmap(bmL, null, new Rect(0,0,mCanvasWidth/2,mCanvasHeight), null);
-
-                //c.drawBitmap(bmR, null, new Rect(mCanvasWidth/2+1,0,mCanvasWidth,mCanvasHeight), null);
-                //c.drawBitmap(bm, null, new Rect(pos_x + depth, pos_y, pos_x + depth + size_w, pos_y + size_h), mPaint);
-                //c.drawBitmap(bm, null, new Rect(pos_x + c_width/2 - depth, pos_y, pos_x + c_width/2 - depth + size_w, pos_y + size_h), mPaint);
             }
+            camPreview.mHolder.unlockCanvasAndPost(canvas);
         }
 
     }

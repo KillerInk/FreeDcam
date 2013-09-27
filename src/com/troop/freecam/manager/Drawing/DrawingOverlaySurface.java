@@ -2,6 +2,7 @@ package com.troop.freecam.manager.Drawing;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -41,9 +42,10 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
 
     private void init()
     {
-
+        this.setZOrderOnTop(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
+        mHolder.setFormat(PixelFormat.TRANSLUCENT);
         mHolder.addCallback(this);
         // Initialize Real3D object
         mReal3D = new Real3D(mHolder);
