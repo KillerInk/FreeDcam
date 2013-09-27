@@ -190,10 +190,10 @@ public class CameraManager implements SurfaceHolder.Callback
 
             if (parameters.getFocusMode().equals("auto"))
             {
-                context.drawingRectHelper.Enabled = true;
+                activity.drawSurface.drawingRectHelper.Enabled = true;
             }
             else {
-                context.drawingRectHelper.Enabled = false;
+                activity.drawSurface.drawingRectHelper.Enabled = false;
             }
 
         }
@@ -308,10 +308,10 @@ public class CameraManager implements SurfaceHolder.Callback
         if (parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO))
         {
 
-            if (context.drawingRectHelper.drawRectangle == true)
+            if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
             {
 
-                SetTouchFocus(context.drawingRectHelper.mainRect);
+                SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
             }
             else
             {

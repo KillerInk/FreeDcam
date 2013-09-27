@@ -23,7 +23,7 @@ import com.troop.freecam.manager.Drawing.SizeAbleRectangle;
 
 import java.util.List;
 
-public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
+public class CamPreview extends SurfaceView  {
 
 	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
@@ -31,8 +31,6 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
     private CameraManager camMan;
     public SharedPreferences preferences;
     boolean is3d = false;
-    Paint mPaint;
-    public SizeAbleRectangle drawingRectHelper;
 
     public int canvasWidth;
     public int canvasHeight;
@@ -40,21 +38,9 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
 
     private void init(Context context) {
 
-
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
-        //mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        //canvasHolder = getHolder();
-        //canvasHolder.addCallback(this);
-        mHolder.addCallback(this);
-        // Initialize Real3D object
         mReal3D = new Real3D(mHolder);
-        drawingRectHelper = new SizeAbleRectangle(this);
-        // Set type to Side by Side.
-        //mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
         SwitchViewMode();
 
     }
@@ -83,57 +69,24 @@ public class CamPreview extends SurfaceView implements SurfaceHolder.Callback  {
 
         if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
         {
-            //mReal3D.setViewMode(1);
             mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
         }
         else
         {
-            //mReal3D = null;
-            //mReal3D.setViewMode(2);
             mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
         }
     }
 
-
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        drawingRectHelper.OnTouch(event);
+        //drawingRectHelper.OnTouch(event);
         return true;
     }
-
-
 
     public void SetCameraManager(CameraManager cameraManager)
     {
         this.camMan = cameraManager;
     }
 
-
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        drawingRectHelper.Draw(canvas);
-        super.onDraw(canvas);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder)
-    {
-        setWillNotDraw(false);
-        canvasWidth = getWidth();
-        canvasHeight = getHeight();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
 }

@@ -37,6 +37,7 @@ public class switchcameramenu extends  BaseMenu
 
                 camMan.Stop();
                 activity.mPreview.SwitchViewMode();
+                activity.drawSurface.SwitchViewMode();
                 camMan.Start();
                 camMan.Restart(true);
 
