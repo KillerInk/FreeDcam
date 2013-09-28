@@ -109,15 +109,25 @@ public class MainActivity extends Activity {
     public SeekBar brightnessSeekBar;
     TableRow brightnessRow;
     CheckBox brightnessCheckBox;
-    Button showHideMenuButton;
-    ScrollView menuLayout;
-    LinearLayout menuLinearLayout;
+    //Button showHideMenuButton;
+    //ScrollView menuLayout;
+    //LinearLayout menuLinearLayout;
 
     public TextView saturationTextView;
     public SeekBar saturationSeekBar;
     public CheckBox saturationCheckBox;
     public TableRow saturationRow;
 
+    Button manualLayoutButton;
+    Button autoLayoutButton;
+    Button settingLayoutButton;
+    LinearLayout baseMenuLayout;
+    LinearLayout manualMenuLayout;
+    LinearLayout autoMenuLayout;
+    LinearLayout settingsMenuLayout;
+    boolean hideManualMenu = true;
+    boolean hideSettingsMenu = true;
+    boolean hideAutoMenu = true;
 
     int currentZoom = 0;
 	
@@ -145,10 +155,135 @@ public class MainActivity extends Activity {
         mPreview.SetCameraManager(camMan);
 
         initButtons();
+        initMenu();
 
 	}
 
-    private  boolean hide = false;
+    private void initMenu()
+    {
+        baseMenuLayout = (LinearLayout)findViewById(R.id.baseMenuLayout);
+        autoMenuLayout = (LinearLayout)findViewById(R.id.LayoutAuto);
+        manualMenuLayout = (LinearLayout)findViewById(R.id.Layout_Manual);
+        settingsMenuLayout = (LinearLayout)findViewById(R.id.LayoutSettings);
+
+
+        manualLayoutButton = (Button)findViewById(R.id.buttonManualMode);
+        manualLayoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (hideManualMenu == false)
+                {
+                    hideManualMenu = true;
+                    baseMenuLayout.removeView(manualMenuLayout);
+                }
+                else
+                {
+                    hideManualMenu = false;
+                    baseMenuLayout.addView(manualMenuLayout);
+                    if (hideAutoMenu == false)
+                    {
+                        hideAutoMenu = true;
+                        baseMenuLayout.removeView(autoMenuLayout);
+                    }
+                    if (hideSettingsMenu == false)
+                    {
+                        hideSettingsMenu = true;
+                        baseMenuLayout.removeView(settingsMenuLayout);
+                    }
+                }
+
+            }
+        });
+        autoLayoutButton = (Button)findViewById(R.id.buttonAutoMode);
+        autoLayoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (hideAutoMenu == false)
+                {
+                    hideAutoMenu = true;
+                    baseMenuLayout.removeView(autoMenuLayout);
+                }
+                else
+                {
+                    hideAutoMenu = false;
+                    baseMenuLayout.addView(autoMenuLayout);
+
+                    if (hideSettingsMenu == false)
+                    {
+                        hideSettingsMenu = true;
+                        baseMenuLayout.removeView(settingsMenuLayout);
+                    }
+                    if (hideManualMenu == false)
+                    {
+                        hideManualMenu = true;
+                        baseMenuLayout.removeView(manualMenuLayout);
+                    }
+
+                }
+
+            }
+        });
+        settingLayoutButton = (Button)findViewById(R.id.buttonSettingsMode);
+        settingLayoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (hideSettingsMenu == false)
+                {
+                    hideSettingsMenu = true;
+                    baseMenuLayout.removeView(settingsMenuLayout);
+                }
+                else
+                {
+                    hideSettingsMenu = false;
+                    baseMenuLayout.addView(settingsMenuLayout);
+                    if (hideAutoMenu == false)
+                    {
+                        hideAutoMenu = true;
+                        baseMenuLayout.removeView(autoMenuLayout);
+                    }
+                    if (hideManualMenu == false)
+                    {
+                        hideManualMenu = true;
+                        baseMenuLayout.removeView(manualMenuLayout);
+                    }
+
+                }
+
+            }
+        });
+
+        baseMenuLayout.removeView(autoMenuLayout);
+        baseMenuLayout.removeView(manualMenuLayout);
+        baseMenuLayout.removeView(settingsMenuLayout);
+
+
+
+        /*
+        showHideMenuButton = (Button)findViewById(R.id.button_ShowHideMenu);
+        showHideMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (hide == false){
+                    menuLayout.removeView(menuLinearLayout);
+                    hide = true;
+                }
+                else {
+                    menuLayout.addView(menuLinearLayout);
+                    hide = false;
+                }
+
+            }
+        });
+        menuLayout = (ScrollView) findViewById(R.id.scrollView_menu);
+        menuLinearLayout = (LinearLayout)findViewById(R.id.linearLayoutMenu);
+        */
+    }
+
+    //private  boolean hide = false;
 
     private void initButtons()
     {
@@ -175,24 +310,7 @@ public class MainActivity extends Activity {
         ippButton = (Button)findViewById(R.id.button_ipp);
         ippButton.setOnClickListener(new IppMenu(camMan, this));
 
-        showHideMenuButton = (Button)findViewById(R.id.button_ShowHideMenu);
-        showHideMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hide == false){
-                    menuLayout.removeView(menuLinearLayout);
-                    hide = true;
-                }
-                else {
-                    menuLayout.addView(menuLinearLayout);
-                    hide = false;
-                }
 
-            }
-        });
-        menuLayout = (ScrollView) findViewById(R.id.scrollView_menu);
-        menuLinearLayout = (LinearLayout)findViewById(R.id.linearLayoutMenu);
 
 
 
