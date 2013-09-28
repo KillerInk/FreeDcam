@@ -1,8 +1,11 @@
 package com.troop.freecam;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.troop.freecam.manager.MediaScannerManager;
@@ -20,11 +23,14 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
     MediaScannerManager mediaScannerManager;
     boolean is3d = false;
     CameraManager cameraManager;
+    SharedPreferences preferences;
+
     public  SavePictureTask (MediaScannerManager mediaScannerManager, boolean is3d, CameraManager cameraManager)
     {
         this.mediaScannerManager = mediaScannerManager;
         this.is3d = is3d;
         this.cameraManager = cameraManager;
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(cameraManager.activity);
     }
 
     @Override
@@ -40,10 +46,27 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         try {
             // write to local sandbox file system
             // Or write to sdcard
+            if (preferences.getBoolean("crop", false) == true && is3d)
+            {
+                Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
+                android.hardware.Camera.Size size = cameraManager.parameters.getPictureSize();
+                Integer newheigt = size.width /32 * 9;
+                Integer tocrop = originalBmp.getHeight() - newheigt ;
+                Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
+                outStream = new FileOutputStream(file);
+                croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                outStream.flush();
+                outStream.close();
 
-            outStream = new FileOutputStream(file);
-            outStream.write(params[0]);
-            outStream.close();
+
+            }
+            else
+            {
+                outStream = new FileOutputStream(file);
+                outStream.write(params[0]);
+                outStream.flush();
+                outStream.close();
+            }
             //Log.d("SavePictureTask", "onPictureTaken - wrote bytes: " + data.length);
             //new MediaScannerManager().startScan(file.getAbsolutePath());
             //scanMedia(file);

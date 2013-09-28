@@ -3,12 +3,14 @@ package com.troop.freecam;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,7 +70,6 @@ public class MainActivity extends Activity {
 	public CamPreview mPreview;
     public DrawingOverlaySurface drawSurface;
 	private ImageButton shotButton;
-	String imagepath;
 	public Button flashButton;
     public Button focusButton;
     public Button sceneButton;
@@ -109,9 +110,6 @@ public class MainActivity extends Activity {
     public SeekBar brightnessSeekBar;
     TableRow brightnessRow;
     CheckBox brightnessCheckBox;
-    //Button showHideMenuButton;
-    //ScrollView menuLayout;
-    //LinearLayout menuLinearLayout;
 
     public TextView saturationTextView;
     public SeekBar saturationSeekBar;
@@ -128,6 +126,9 @@ public class MainActivity extends Activity {
     boolean hideManualMenu = true;
     boolean hideSettingsMenu = true;
     boolean hideAutoMenu = true;
+    SharedPreferences preferences;
+
+    CheckBox crop;
 
     int currentZoom = 0;
 	
@@ -141,8 +142,7 @@ public class MainActivity extends Activity {
         //setContentView(R.layout.activity_main);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.activity_main, null);
-
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         setContentView(R.layout.activity_main);
@@ -180,7 +180,8 @@ public class MainActivity extends Activity {
                 else
                 {
                     hideManualMenu = false;
-                    baseMenuLayout.addView(manualMenuLayout);
+                    if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
+                        baseMenuLayout.addView(manualMenuLayout);
                     if (hideAutoMenu == false)
                     {
                         hideAutoMenu = true;
@@ -195,6 +196,7 @@ public class MainActivity extends Activity {
 
             }
         });
+
         autoLayoutButton = (Button)findViewById(R.id.buttonAutoMode);
         autoLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,11 +205,13 @@ public class MainActivity extends Activity {
                 if (hideAutoMenu == false)
                 {
                     hideAutoMenu = true;
+
                     baseMenuLayout.removeView(autoMenuLayout);
                 }
                 else
                 {
                     hideAutoMenu = false;
+                    if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
                     baseMenuLayout.addView(autoMenuLayout);
 
                     if (hideSettingsMenu == false)
@@ -238,7 +242,8 @@ public class MainActivity extends Activity {
                 else
                 {
                     hideSettingsMenu = false;
-                    baseMenuLayout.addView(settingsMenuLayout);
+                    if (baseMenuLayout.findViewById(R.id.LayoutSettings) == null)
+                        baseMenuLayout.addView(settingsMenuLayout);
                     if (hideAutoMenu == false)
                     {
                         hideAutoMenu = true;
@@ -259,31 +264,15 @@ public class MainActivity extends Activity {
         baseMenuLayout.removeView(manualMenuLayout);
         baseMenuLayout.removeView(settingsMenuLayout);
 
-
-
-        /*
-        showHideMenuButton = (Button)findViewById(R.id.button_ShowHideMenu);
-        showHideMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hide == false){
-                    menuLayout.removeView(menuLinearLayout);
-                    hide = true;
-                }
-                else {
-                    menuLayout.addView(menuLinearLayout);
-                    hide = false;
-                }
-
-            }
-        });
-        menuLayout = (ScrollView) findViewById(R.id.scrollView_menu);
-        menuLinearLayout = (LinearLayout)findViewById(R.id.linearLayoutMenu);
-        */
+        if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        {
+            settingsMenuLayout.removeView(crop);
+        }
+        else
+        {
+            crop.setChecked(true);
+        }
     }
-
-    //private  boolean hide = false;
 
     private void initButtons()
     {
@@ -309,6 +298,22 @@ public class MainActivity extends Activity {
         previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
         ippButton = (Button)findViewById(R.id.button_ipp);
         ippButton.setOnClickListener(new IppMenu(camMan, this));
+
+        crop = (CheckBox)findViewById(R.id.checkBox_crop);
+        crop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (crop.isChecked())
+                {
+                    preferences.edit().putBoolean("crop", true).commit();
+                }
+                else
+                {
+                    preferences.edit().putBoolean("crop", false).commit();
+                }
+            }
+        });
 
 
 
@@ -475,6 +480,18 @@ public class MainActivity extends Activity {
 			camMan.StartTakePicture();
 		}
 	};
+
+    public void SwitchCropButton()
+    {
+        if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        {
+            settingsMenuLayout.removeView(crop);
+        }
+        else
+        {
+            settingsMenuLayout.addView(crop);
+        }
+    }
 
 
 

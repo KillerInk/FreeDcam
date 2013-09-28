@@ -375,6 +375,12 @@
                 android:singleLine="false"
                 android:layout_gravity="left" />
 
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/checkBox_crop"
+                android:background="@drawable/crop" />
+
         </LinearLayout>
     </LinearLayout>
 

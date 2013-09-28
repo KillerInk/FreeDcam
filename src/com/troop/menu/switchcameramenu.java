@@ -42,6 +42,7 @@ public class switchcameramenu extends  BaseMenu
                 camMan.Start();
                 camMan.Restart(true);
                 activity.drawSurface.drawingRectHelper.Draw();
+                activity.SwitchCropButton();
 
                 //camMan.Restart(false);
 
