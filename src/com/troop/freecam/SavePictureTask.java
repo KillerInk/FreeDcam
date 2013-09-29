@@ -52,7 +52,9 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
             end = "jps";
         else
             end = "jpg";
-        File file = new File(String.format("sdcard/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
+        File sdcardpath = Environment.getExternalStorageDirectory();
+
+        File file = new File(String.format(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
         Log.d("SavePictureTask FilePath: ", file.getAbsolutePath());
         Integer bytesize = params[0].length;
         Log.d("SavePictureTask ByteArraySize: ",bytesize.toString());
