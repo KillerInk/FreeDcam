@@ -27,6 +27,8 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
     public SizeAbleRectangle drawingRectHelper;
     public boolean RDY = false;
 
+    long lastclick;
+
     public DrawingOverlaySurface(Context context)
     {
         super(context);
@@ -91,6 +93,7 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
     public boolean onTouchEvent(MotionEvent event)
     {
         drawingRectHelper.OnTouch(event);
+
         return true;
     }
 }

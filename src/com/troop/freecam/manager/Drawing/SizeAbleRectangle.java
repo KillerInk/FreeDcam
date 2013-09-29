@@ -125,18 +125,29 @@ public class SizeAbleRectangle
 
     }
 
+    long lastclick;
+    int waitTime = 300;
+
     public void OnTouch(MotionEvent event)
     {
         if  (Enabled)
         {
+            long timeelapsed = event.getEventTime() - lastclick;
             if (drawRectangle == false)
             {
-                drawRectangle = true;
-                beginCoordinate = new PointF(event.getX(), event.getY());
-                endCoordinate = new PointF(event.getX() +100, event.getY() +100);
-                Draw();
-                //camPreview.invalidate();
-                return;
+                //long timeelapsed = event.getEventTime() - lastclick;
+                if (timeelapsed > waitTime)
+                {
+
+                    lastclick = event.getEventTime();
+                    drawRectangle = true;
+                    beginCoordinate = new PointF(event.getX(), event.getY());
+                    endCoordinate = new PointF(event.getX() +100, event.getY() +100);
+                    Draw();
+                    //camPreview.invalidate();
+                    return;
+                }
+
 
             }
 
@@ -157,8 +168,12 @@ public class SizeAbleRectangle
                 }
                 else
                 {
-                    drawRectangle = false;
-                    Draw();
+                    if (timeelapsed > waitTime)
+                    {
+                        drawRectangle = false;
+                        Draw();
+                        lastclick = event.getEventTime();
+                    }
                     //camPreview.invalidate();
 
                 }

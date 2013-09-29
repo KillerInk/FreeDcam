@@ -319,7 +319,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
 
     public void StartTakePicture()
     {
-        if (takePicture == false && touchtofocus == false)
+        if (takePicture == false)
         {
             Log.d("StartTakingPicture", "takepicture:" + takePicture);
             Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
