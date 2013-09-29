@@ -2,6 +2,7 @@ package com.troop.freecam.manager;
 
 import android.hardware.Camera;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.R;
@@ -87,15 +88,23 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         //mediaPlayer.setVolume(1,1);
         mediaPlayer.start();
 
-        if(success && cameraManager.takePicture)
+        /*if(success && cameraManager.takePicture)
         {
             cameraManager.TakePicture();
             cameraManager.takePicture = false;
-        }
+        }*/
+        Log.d("onAutoFocus", "takepicture:" + cameraManager.takePicture);
+        Log.d("onAutoFocus", "touchtofocus:" + cameraManager.touchtofocus);
         if (success && cameraManager.touchtofocus)
         {
             cameraManager.TakePicture();
             cameraManager.touchtofocus = false;
+        }
+        else
+        {
+            cameraManager.mCamera.cancelAutoFocus();
+            cameraManager.touchtofocus = false;
+            cameraManager.takePicture = false;
         }
     }
 

@@ -79,7 +79,7 @@ public class CameraManager implements SurfaceHolder.Callback
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
-    public boolean picturetaking = false;
+    //public boolean picturetaking = false;
     public boolean touchtofocus = false;
     public MainActivity activity;
     SharedPreferences preferences;
@@ -111,6 +111,7 @@ public class CameraManager implements SurfaceHolder.Callback
     public  void Start()
     {
         String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+        //mCamera.unlock();
         if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
             mCamera = Camera.open(2);
         if(tmp.equals(CameraManager.SwitchCamera_MODE_2D))
@@ -305,33 +306,48 @@ public class CameraManager implements SurfaceHolder.Callback
 
     public void StartTakePicture()
     {
-        if (parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO))
+        if (takePicture == false && touchtofocus == false)
         {
-
-            if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
+            Log.d("StartTakingPicture", "takepicture:" + takePicture);
+            Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
+            takePicture = true;
+            if (parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO))
             {
 
-                SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+                if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
+                {
+                    SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+                }
+                else if (touchtofocus == false)
+                {
+                    touchtofocus = true;
+
+
+                    //mCamera.cancelAutoFocus();
+                    try
+                    {
+                        mCamera.autoFocus(this.autoFocusManager);
+                    }
+                    catch (RuntimeException ex)
+                    {
+                        mCamera.cancelAutoFocus();
+
+                        mCamera.autoFocus(autoFocusManager);
+                    }
+                }
             }
             else
             {
-                takePicture = true;
-                mCamera.autoFocus(autoFocusManager);
+                TakePicture();
             }
-        }
-        else
-        {
-            TakePicture();
         }
     }
 
     public void TakePicture()
     {
-        if (picturetaking == false)
-        {
+
             mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
-            picturetaking = true;
-        }
+
     }
 
     public  void SetTouchFocus(RectF rectangle)
@@ -373,18 +389,26 @@ public class CameraManager implements SurfaceHolder.Callback
                 }
                 catch (Exception ex)
                 {
-                    Log.e("TouchToFocus", "failed to set focusareas");
+                    Log.d("TouchToFocus", "failed to set focusareas");
                 }
 
                 parameters.setMeteringAreas(meteringList);
                 try
                 {
+
                     mCamera.setParameters(parameters);
-                    mCamera.autoFocus(autoFocusManager);
+                    try
+                    {
+                        mCamera.autoFocus(autoFocusManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("TakingPicture Focus Faild", ex.getMessage());
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Log.e("TouchToFocus", "failed to set meteringareas");
+                    Log.d("TouchToFocus", "failed to set meteringareas");
                 }
 
 
@@ -427,7 +451,7 @@ public class CameraManager implements SurfaceHolder.Callback
     {
         public void onPictureTaken(byte[] data, Camera camera)
         {
-            //Log.d("Camman", "Data clone startet;");
+            Log.d("PictureCallback", "takingpicture:" + cameraManager.takePicture);
             //byte[] newdata = data.clone();
             //Log.d("Camman", "Data clone ended;");
             boolean is3d = false;
@@ -437,13 +461,17 @@ public class CameraManager implements SurfaceHolder.Callback
             }
 
 
+
             SavePictureTask task = new SavePictureTask(scanManager, is3d, cameraManager);
+
             task.execute(data);
 
             //activity.thumbButton.invalidate();
 
-            picturetaking =false;
+
             mCamera.startPreview();
+            takePicture = false;
+
         }
     };
 
