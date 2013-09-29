@@ -38,7 +38,6 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public static final String SwitchCamera_MODE_3D = "3D";
     public static final String SwitchCamera_MODE_2D = "2D";
     public static final String SwitchCamera_MODE_Front = "Front";
-
     public static final String Preferences_Flash3D = "3d_flash";
     public static final String Preferences_Flash2D = "2d_flash";
     public static final String Preferences_Focus2D = "2d_focus";
@@ -68,10 +67,6 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public static final String Preferences_IPP2D = "2d_ipp";
     public static final String Preferences_IPP3D = "3d_ipp";
     public static final String Preferences_IPPFront = "front_ipp";
-
-
-
-
 
     CamPreview context;
     public Camera mCamera;
@@ -460,9 +455,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     {
         public void onPictureTaken(byte[] data, Camera camera)
         {
-            Log.d("PictureCallback", "takingpicture:" + cameraManager.takePicture);
-            //byte[] newdata = data.clone();
-            //Log.d("Camman", "Data clone ended;");
+            Log.d("PictureCallback", "DATAsize:" + data.length);
             boolean is3d = false;
             if (preferences.getString("switchcam", "3D").equals("3D"))
             {

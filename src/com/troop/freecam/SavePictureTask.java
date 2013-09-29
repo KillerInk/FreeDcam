@@ -27,12 +27,17 @@ import java.io.IOException;
 /**
  * Created by troop on 29.08.13.
  */
+
+
+
 public class SavePictureTask extends AsyncTask<byte[], Void, String>
 {
     MediaScannerManager mediaScannerManager;
     boolean is3d = false;
     CameraManager cameraManager;
     SharedPreferences preferences;
+
+    final String TAG = "FreeDCam.PictureTask";
 
     public  SavePictureTask (MediaScannerManager mediaScannerManager, boolean is3d, CameraManager cameraManager)
     {
@@ -44,7 +49,7 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
 
     @Override
     protected String doInBackground(byte[]... params) {
-        Log.d("SavePictureTask", "Starting Saving Data");
+        Log.d(TAG, "Starting Saving Data");
         FileOutputStream outStream = null;
         String end;
 
@@ -55,9 +60,9 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         File sdcardpath = Environment.getExternalStorageDirectory();
 
         File file = new File(String.format(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
-        Log.d("SavePictureTask FilePath: ", file.getAbsolutePath());
+        Log.d( TAG + " FilePath: ", file.getAbsolutePath());
         Integer bytesize = params[0].length;
-        Log.d("SavePictureTask ByteArraySize: ",bytesize.toString());
+        Log.d(TAG+" ByteArraySize: ",bytesize.toString());
         try {
             // write to local sandbox file system
             // Or write to sdcard
@@ -103,7 +108,7 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         finally
         {
         }
-        Log.d("SavePictureTask", "finished saving");
+        Log.d(TAG, "finished saving");
         return file.getPath();
     }
 
