@@ -1,5 +1,7 @@
 package com.troop.freecam.manager.Drawing;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +14,7 @@ import android.view.MotionEvent;
 
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.CameraManager;
+import com.troop.freecam.R;
 
 /**
  * Created by troop on 24.09.13.
@@ -21,9 +24,9 @@ public class SizeAbleRectangle
     DrawingOverlaySurface camPreview;
     Paint mPaint;
 
-    public PointF beginCoordinate = new PointF(300,140);
+    public PointF beginCoordinate = new PointF(200,140);
 
-    public PointF endCoordinate = new PointF(500,340);
+    public PointF endCoordinate = new PointF(600,340);
     RectF topRect = new RectF(0, 0, 20, 20);
     RectF leftRect = new RectF(0, 0, 20, 20);
     public RectF mainRect = new RectF(beginCoordinate.x, beginCoordinate.y, endCoordinate.x, endCoordinate.y);
@@ -33,6 +36,8 @@ public class SizeAbleRectangle
     boolean topRecMoving = false;
     boolean mainRecMoving = false;
     boolean leftRecMoving = false;
+    Bitmap croshairLeft;
+    Bitmap croshairRight;
 
     public SizeAbleRectangle(DrawingOverlaySurface camPreview)
     {
@@ -46,6 +51,8 @@ public class SizeAbleRectangle
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
         mPaint.setFilterBitmap(true);
+        croshairLeft = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
+        croshairRight = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
     }
 
     public  void Draw()
@@ -62,24 +69,26 @@ public class SizeAbleRectangle
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;
-                    int depth = 4;
+                    int depth = 5;
                     int depth2 = 4;
                     int pos_y = (int)beginCoordinate.y;
                     int size_w = (int)mainRect.width();
                     int size_h = (int)mainRect.height();
                     int c_width = (int) canvas.getWidth();
 
-                    int startxleft = pos_x /2;
-                    int endxleft = pos_x /2 + size_w/2;
+                    int startxleft = pos_x - depth /2;
+                    int endxleft = pos_x  + size_w/2 - depth/2;
 
-                    int startXright = pos_x /2 + c_width/2 + depth;
-                    int endXright = pos_x /2 + c_width/2 + depth + size_w /2;
+                    int startXright = pos_x  + c_width/2 + depth/2;
+                    int endXright = pos_x  + c_width/2 + depth/2 + size_w /2;
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
                     Rect leftmain = new Rect(startxleft, pos_y, endxleft, pos_y + size_h);
                     Rect rightmain = new Rect(startXright, pos_y, endXright , pos_y + size_h);
-                    canvas.drawRect(leftmain, mPaint);
+                    canvas.drawBitmap(croshairLeft, null, leftmain, mPaint);
+                    canvas.drawBitmap(croshairRight, null, rightmain, mPaint);
+                    /*canvas.drawRect(leftmain, mPaint);
                     canvas.drawRect(rightmain, mPaint);
 
                     //draw TopRectangle
@@ -103,15 +112,16 @@ public class SizeAbleRectangle
                     Rect leftleft = new Rect(leftSx, leftSy, leftEx, leftEy);
                     Rect leftright = new Rect(leftSx + c_width /2 +depth2, leftSy, leftEx + c_width/2 +depth2, leftEy);
                     canvas.drawRect(leftleft, mPaint);
-                    canvas.drawRect(leftright, mPaint);
+                    canvas.drawRect(leftright, mPaint);*/
 
                 }
                 else
                 {
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                    canvas.drawRect(mainRect, mPaint);
+                    canvas.drawBitmap(croshairLeft, null, mainRect, mPaint);
+                    /*canvas.drawRect(mainRect, mPaint);
                     canvas.drawRect(topRect, mPaint);
-                    canvas.drawRect(leftRect, mPaint);
+                    canvas.drawRect(leftRect, mPaint);*/
                 }
 
 
