@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -131,6 +133,8 @@ public class MainActivity extends Activity {
     CheckBox crop;
 
     int currentZoom = 0;
+    SensorManager sensorManager;
+    Sensor sensor;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +157,13 @@ public class MainActivity extends Activity {
         camMan = new CameraManager(mPreview, this);
 
         mPreview.SetCameraManager(camMan);
+
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        //List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+
+
+
 
         initButtons();
         initMenu();
@@ -493,6 +504,18 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(camMan, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(camMan);
+    }
 
 
 }

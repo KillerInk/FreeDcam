@@ -9,10 +9,12 @@
         android:targetSdkVersion="14" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <uses-feature android:name="lge.hardware.real3d.barrier.landscape"/>
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.sensor.compass"/>
 
     <application
         android:allowBackup="true"

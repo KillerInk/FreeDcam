@@ -1,5 +1,6 @@
 package com.troop.freecam;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ImageFormat;
@@ -7,6 +8,10 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,7 +32,7 @@ import java.util.List;
 /**
  * Created by troop on 25.08.13.
  */
-public class CameraManager implements SurfaceHolder.Callback
+public class CameraManager implements SurfaceHolder.Callback , SensorEventListener
 {
     public static final String SwitchCamera = "switchcam";
     public static final String SwitchCamera_MODE_3D = "3D";
@@ -89,6 +94,11 @@ public class CameraManager implements SurfaceHolder.Callback
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
 
+    float mLastX;
+    float mLastZ;
+    float mLastY;
+
+
     public boolean takePicture = false;
 
     public CameraManager(CamPreview context, MainActivity activity)
@@ -123,6 +133,7 @@ public class CameraManager implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
+
             zoomManager.ResetZoom();
         } catch (Exception exception) {
             mCamera.release();
@@ -130,6 +141,7 @@ public class CameraManager implements SurfaceHolder.Callback
 
             // TODO: add more exception handling logic here
         }
+
     }
 
     //if startstop true cam preview will be stopped and restartet
@@ -302,6 +314,7 @@ public class CameraManager implements SurfaceHolder.Callback
         mCamera.stopPreview();
         mCamera.release();
         mCamera = null;
+
     }
 
     public void StartTakePicture()
@@ -317,23 +330,18 @@ public class CameraManager implements SurfaceHolder.Callback
                 if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
                 {
                     SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+                    autoFocusManager.focusing = true;
+                    if (autoFocusManager.hasFocus)
+                        TakePicture();
+                    else
+                        mCamera.autoFocus(autoFocusManager);
                 }
                 else if (touchtofocus == false)
                 {
                     touchtofocus = true;
+                    autoFocusManager.focusing = false;
+                    mCamera.autoFocus(this.autoFocusManager);
 
-
-                    //mCamera.cancelAutoFocus();
-                    try
-                    {
-                        mCamera.autoFocus(this.autoFocusManager);
-                    }
-                    catch (RuntimeException ex)
-                    {
-                        mCamera.cancelAutoFocus();
-
-                        mCamera.autoFocus(autoFocusManager);
-                    }
                 }
             }
             else
@@ -397,14 +405,14 @@ public class CameraManager implements SurfaceHolder.Callback
                 {
 
                     mCamera.setParameters(parameters);
-                    try
+                    /*try
                     {
                         mCamera.autoFocus(autoFocusManager);
                     }
                     catch (Exception ex)
                     {
                         Log.d("TakingPicture Focus Faild", ex.getMessage());
-                    }
+                    }*/
                 }
                 catch (Exception ex)
                 {
@@ -418,6 +426,7 @@ public class CameraManager implements SurfaceHolder.Callback
         else
         {
             mCamera.cancelAutoFocus();
+            autoFocusManager.focusing = false;
             touchtofocus = false;
         }
     }
@@ -501,6 +510,9 @@ public class CameraManager implements SurfaceHolder.Callback
         Running = false;
     }
 
+
+
+
     private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.05;
         double targetRatio = (double) w / h;
@@ -534,5 +546,41 @@ public class CameraManager implements SurfaceHolder.Callback
             }
         }
         return optimalSize;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event)
+    {
+        /*if (parameters != null && parameters.getFocusMode().equals("auto"))
+        {
+            if (takePicture == false)
+            {
+                float x = event.values[0];
+                float y = event.values[1];
+                float z = event.values[2];
+
+                float deltaX  = Math.abs(mLastX - x);
+                float deltaY = Math.abs(mLastY - y);
+                float deltaZ = Math.abs(mLastZ - z);
+
+                if ((deltaX > 15 || deltaY > 15 || deltaZ > 15) && autoFocusManager.focusing){ //AUTOFOCUS (while it is not autofocusing)
+                    autoFocusManager.focusing = false;
+                    mCamera.autoFocus(autoFocusManager);
+                    mLastX = x;
+                    mLastY = y;
+                    mLastZ = z;
+                }
+            }
+        }*/
+
+
+
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy)
+    {
+
     }
 }

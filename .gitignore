@@ -13,3 +13,5 @@ out/production/FreeDCam/FreeDCam.afp.apk
 out/production/FreeDCam/FreeDCam.apk.res
 out/production/FreeDCam/FreeDCam.unaligned.apk
 out/res-cache/FreeDCam/drawable*
+out/production/FreeDCam/FreeDCam.unsigned.apk
+out/production/FreeDCam/FreeDCam.apk.res.release

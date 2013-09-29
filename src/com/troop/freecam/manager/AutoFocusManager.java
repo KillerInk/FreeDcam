@@ -14,6 +14,9 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
 {
     CameraManager cameraManager;
 
+    public boolean focusing = false;
+    public boolean hasFocus = false;
+
     public  AutoFocusManager(CameraManager cameraManager)
     {
         this.cameraManager = cameraManager;
@@ -76,6 +79,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
     @Override
     public void onAutoFocus(boolean success, Camera camera)
     {
+        focusing = true;
         MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
         {
@@ -95,6 +99,11 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         }*/
         Log.d("onAutoFocus", "takepicture:" + cameraManager.takePicture);
         Log.d("onAutoFocus", "touchtofocus:" + cameraManager.touchtofocus);
+        if (success)
+            hasFocus = true;
+        else
+            hasFocus = false;
+
         if (success && cameraManager.touchtofocus)
         {
             cameraManager.TakePicture();
@@ -102,7 +111,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         }
         else
         {
-            cameraManager.mCamera.cancelAutoFocus();
+            //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.touchtofocus = false;
             cameraManager.takePicture = false;
         }
