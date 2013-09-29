@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.drew.imaging.ImageMetadataReader;
@@ -23,6 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * Created by troop on 29.08.13.
@@ -48,7 +51,8 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
     }
 
     @Override
-    protected String doInBackground(byte[]... params) {
+    protected String doInBackground(byte[]... params)
+    {
         Log.d(TAG, "Starting Saving Data");
         FileOutputStream outStream = null;
         String end;
@@ -58,70 +62,108 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         else
             end = "jpg";
         File sdcardpath = Environment.getExternalStorageDirectory();
-
-        File file = new File(String.format(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
-        Log.d( TAG + " FilePath: ", file.getAbsolutePath());
-        Integer bytesize = params[0].length;
-        Log.d(TAG+" ByteArraySize: ",bytesize.toString());
-        try {
-            // write to local sandbox file system
-            // Or write to sdcard
-            if (preferences.getBoolean("crop", false) == true && is3d)
-            {
-                Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
-                android.hardware.Camera.Size size = cameraManager.parameters.getPictureSize();
-                Integer newheigt = size.width /32 * 9;
-                Integer tocrop = originalBmp.getHeight() - newheigt ;
-                //ByteArrayInputStream reader = new ByteArrayInputStream(params[0]);
-                //BufferedInputStream stream = new BufferedInputStream(reader);
-
-                //Metadata metadataorginal = ImageMetadataReader.readMetadata(stream, false);
-                Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
-                outStream = new FileOutputStream(file);
-                croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-
-                //ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
-                //exifInterface
-
-
-
-            }
-            else
-            {
-                outStream = new FileOutputStream(file);
-                outStream.write(params[0]);
-                outStream.flush();
-                outStream.close();
-            }
-            //Log.d("SavePictureTask", "onPictureTaken - wrote bytes: " + data.length);
-            //new MediaScannerManager().startScan(file.getAbsolutePath());
-            //scanMedia(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        //} catch (ImageProcessingException e) {
-           // e.printStackTrace();
-        }
-        finally
+        if (!sdcardpath.exists())
         {
+            Log.e(TAG, "sdcard ist not connected");
+            return null;
         }
-        Log.d(TAG, "finished saving");
-        return file.getPath();
+        else
+        {
+            File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/");
+            if (!freeCamImageDirectory.exists())
+            {
+                Log.d(TAG, "FreeCamFolder not exists try to create");
+                try
+                {
+                    freeCamImageDirectory.mkdir();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    return null;
+                }
+
+
+            }
+            File file = new File(String.format(freeCamImageDirectory + "/%d." + end, System.currentTimeMillis()));
+            if (!file.exists())
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            //long time = System.currentTimeMillis();
+            //URI newuri = MediaStore.Images.Media.INTERNAL_CONTENT_URI.buildUpon().appendPath("DCIM").appendPath("FreeCam").appendPath( time +end ).build();
+            //file = new File(newuri);
+            Log.d( TAG + " FilePath: ", file.getAbsolutePath());
+            Integer bytesize = params[0].length;
+            Log.d(TAG+" ByteArraySize: ",bytesize.toString());
+            try {
+                // write to local sandbox file system
+                // Or write to sdcard
+                if (preferences.getBoolean("crop", false) == true && is3d)
+                {
+                    Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
+                    android.hardware.Camera.Size size = cameraManager.parameters.getPictureSize();
+                    Integer newheigt = size.width /32 * 9;
+                    Integer tocrop = originalBmp.getHeight() - newheigt ;
+                    //ByteArrayInputStream reader = new ByteArrayInputStream(params[0]);
+                    //BufferedInputStream stream = new BufferedInputStream(reader);
+
+                    //Metadata metadataorginal = ImageMetadataReader.readMetadata(stream, false);
+                    Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
+                    outStream = new FileOutputStream(file);
+                    croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+                    //ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
+                    //exifInterface
+
+
+
+                }
+                else
+                {
+                    outStream = new FileOutputStream(file);
+                    outStream.write(params[0]);
+                    outStream.flush();
+                    outStream.close();
+                }
+                //Log.d("SavePictureTask", "onPictureTaken - wrote bytes: " + data.length);
+                //new MediaScannerManager().startScan(file.getAbsolutePath());
+                //scanMedia(file);
+            } catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+                //} catch (ImageProcessingException e) {
+                // e.printStackTrace();
+            }
+            finally
+            {
+            }
+            Log.d(TAG, "finished saving");
+            return file.getPath();
+        }
     }
 
     @Override
     protected void onPostExecute(String s)
     {
-        mediaScannerManager.startScan(s);
-        Bitmap bitmaporg = BitmapFactory.decodeFile(s);
-        int w = cameraManager.activity.thumbButton.getWidth();
-        int h = cameraManager.activity.thumbButton.getHeight();
-        bitmaporg = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
-        cameraManager.activity.thumbButton.setImageBitmap(bitmaporg);
-        cameraManager.lastPicturePath = s;
+        if (s != null)
+        {
+            mediaScannerManager.startScan(s);
+            Bitmap bitmaporg = BitmapFactory.decodeFile(s);
+            int w = cameraManager.activity.thumbButton.getWidth();
+            int h = cameraManager.activity.thumbButton.getHeight();
+            bitmaporg = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
+            cameraManager.activity.thumbButton.setImageBitmap(bitmaporg);
+            cameraManager.lastPicturePath = s;
+        }
         //cameraManager.takePicture =false;
 
         //super.onPostExecute(s);
