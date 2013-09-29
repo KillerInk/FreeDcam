@@ -1,10 +1,12 @@
 package com.troop.freecam;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -45,11 +47,15 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         Log.d("SavePictureTask", "Starting Saving Data");
         FileOutputStream outStream = null;
         String end;
+
         if (is3d)
             end = "jps";
         else
             end = "jpg";
-        File file = new File(String.format("/mnt/sdcard/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
+        File file = new File(String.format("sdcard/DCIM/FreeCam/%d." + end, System.currentTimeMillis()));
+        Log.d("SavePictureTask FilePath: ", file.getAbsolutePath());
+        Integer bytesize = params[0].length;
+        Log.d("SavePictureTask ByteArraySize: ",bytesize.toString());
         try {
             // write to local sandbox file system
             // Or write to sdcard
