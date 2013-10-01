@@ -128,7 +128,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         try {
             mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
-
+            mCamera.setDisplayOrientation(180);
             zoomManager.ResetZoom();
         } catch (Exception exception) {
             mCamera.release();
@@ -150,6 +150,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             parameters.set("contrast", 100);
             parameters.setExposureCompensation(0);
             parameters.set("preview-format", "yuv420p");
+            parameters.setRotation(180);
 
             String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
             activity.switch3dButton.setText(tmp);
