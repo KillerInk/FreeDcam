@@ -128,7 +128,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         try {
             mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
-            mCamera.setDisplayOrientation(180);
+            fixCameraDisplayOrientation();
             zoomManager.ResetZoom();
         } catch (Exception exception) {
             mCamera.release();
@@ -137,6 +137,38 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             // TODO: add more exception handling logic here
         }
 
+    }
+
+    private void fixCameraDisplayOrientation()
+    {
+        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+
+        if(!tmp.equals(CameraManager.SwitchCamera_MODE_3D) && !tmp.equals(CameraManager.SwitchCamera_MODE_2D))
+        {
+            mCamera.setDisplayOrientation(0);
+            //mParameters.setRotation(0);
+        }
+        else
+        {
+            mCamera.setDisplayOrientation(180);
+            //mParameters.setRotation(180);
+        }
+    }
+
+    private void fixParametersOrientation()
+    {
+        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+
+        if(!tmp.equals(CameraManager.SwitchCamera_MODE_3D) && !tmp.equals(CameraManager.SwitchCamera_MODE_2D))
+        {
+           // mCamera.setDisplayOrientation(0);
+            parameters.setRotation(0);
+        }
+        else
+        {
+            mCamera.setDisplayOrientation(180);
+            parameters.setRotation(180);
+        }
     }
 
     //if startstop true cam preview will be stopped and restartet
@@ -150,7 +182,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             parameters.set("contrast", 100);
             parameters.setExposureCompensation(0);
             parameters.set("preview-format", "yuv420p");
-            parameters.setRotation(180);
+            fixParametersOrientation();
 
             String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
             activity.switch3dButton.setText(tmp);
