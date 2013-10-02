@@ -2,6 +2,7 @@ package com.troop.freecam;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -32,6 +33,7 @@ import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
@@ -130,6 +132,7 @@ public class MainActivity extends Activity {
     boolean hideSettingsMenu = true;
     boolean hideAutoMenu = true;
     SharedPreferences preferences;
+    CheckBox upsidedown;
 
     CheckBox crop;
 
@@ -453,6 +456,33 @@ public class MainActivity extends Activity {
             }
         });
         tableLayout.removeView(saturationRow);
+
+        upsidedown = (CheckBox) findViewById(R.id.button_fixupsidedown);
+        boolean upsidedownfix = preferences.getBoolean("upsidedown", false);
+        if (upsidedownfix == true)
+            upsidedown.setChecked(true);
+        upsidedown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (upsidedown.isChecked())
+                {
+                    preferences.edit().putBoolean("upsidedown", true).commit();
+                    camMan.Stop();
+                    camMan.Start();
+
+                    camMan.Restart(true);
+                }
+                else
+                {
+                    preferences.edit().putBoolean("upsidedown", false).commit();
+                    camMan.Stop();
+                    camMan.Start();
+                    camMan.Restart(true);
+                }
+
+            }
+        });
 
     }
 

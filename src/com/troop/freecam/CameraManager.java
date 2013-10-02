@@ -128,7 +128,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         try {
             mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
-            fixCameraDisplayOrientation();
+            if(preferences.getBoolean("upsidedown", false) == true)
+                fixCameraDisplayOrientation();
             zoomManager.ResetZoom();
         } catch (Exception exception) {
             mCamera.release();
@@ -182,7 +183,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             parameters.set("contrast", 100);
             parameters.setExposureCompensation(0);
             parameters.set("preview-format", "yuv420p");
-            fixParametersOrientation();
+            if (preferences.getBoolean("upsidedown", false) == true)
+                fixParametersOrientation();
 
             String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
             activity.switch3dButton.setText(tmp);
