@@ -381,6 +381,12 @@
                 android:id="@+id/checkBox_crop"
                 android:background="@drawable/crop" />
 
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/button_fixupsidedown"
+                android:background="@drawable/upsidedown" />
+
         </LinearLayout>
     </LinearLayout>
 
