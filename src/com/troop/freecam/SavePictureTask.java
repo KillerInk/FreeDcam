@@ -12,10 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.lang.ByteArrayReader;
-import com.drew.metadata.Metadata;
+
 import com.troop.freecam.manager.MediaScannerManager;
 
 import java.io.BufferedInputStream;
