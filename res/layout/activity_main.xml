@@ -212,7 +212,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/Layout_Manual"
             android:focusableInTouchMode="false"
-            android:background="#b7b7b7">
+            >
 
             <CheckBox
                 android:layout_width="@android:dimen/app_icon_size"
@@ -261,7 +261,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/LayoutAuto"
-            android:background="#b7b7b7">
+            >
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -315,7 +315,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@android:dimen/app_icon_size"
             android:id="@+id/LayoutSettings"
-            android:background="#b7b7b7">
+            >
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
