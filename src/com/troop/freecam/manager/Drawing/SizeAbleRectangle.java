@@ -84,11 +84,11 @@ public class SizeAbleRectangle
                     int size_h = (int)mainRect.height();
                     int c_width = (int) canvas.getWidth();
 
-                    int startxleft = pos_x - depth /2;
-                    int endxleft = pos_x  + size_w/2 - depth/2;
+                    int startxleft = pos_x/2 - depth /2;
+                    int endxleft = pos_x/2  + size_w/2 - depth/2;
 
-                    int startXright = pos_x  + c_width/2 + depth/2;
-                    int endXright = pos_x  + c_width/2 + depth/2 + size_w /2;
+                    int startXright = pos_x/2  + c_width/2 + depth/2;
+                    int endXright = pos_x/2  + c_width/2 + depth/2 + size_w /2;
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
