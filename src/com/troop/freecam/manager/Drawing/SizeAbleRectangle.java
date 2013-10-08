@@ -29,6 +29,8 @@ public class SizeAbleRectangle
     public PointF endCoordinate = new PointF(600,340);
     RectF topRect = new RectF(0, 0, 20, 20);
     RectF leftRect = new RectF(0, 0, 20, 20);
+    RectF rightRect = new RectF(0,0,20,20);
+    RectF bottomRect = new RectF(0,0,20,20);
     public RectF mainRect = new RectF(beginCoordinate.x, beginCoordinate.y, endCoordinate.x, endCoordinate.y);
     public boolean drawRectangle = false;
     public boolean Enabled = false;
@@ -36,8 +38,14 @@ public class SizeAbleRectangle
     boolean topRecMoving = false;
     boolean mainRecMoving = false;
     boolean leftRecMoving = false;
+    boolean rightRecMoving = false;
+    boolean bottomRecMoving = false;
     Bitmap croshairLeft;
     Bitmap croshairRight;
+
+    int width = 250;
+    int height = 250;
+    final int minsize = 250;
 
     public SizeAbleRectangle(DrawingOverlaySurface camPreview)
     {
@@ -152,7 +160,8 @@ public class SizeAbleRectangle
                     lastclick = event.getEventTime();
                     drawRectangle = true;
                     beginCoordinate = new PointF(event.getX(), event.getY());
-                    endCoordinate = new PointF(event.getX() +100, event.getY() +100);
+                    endCoordinate = new PointF(event.getX() +width, event.getY() +height);
+                    setRectanglePosition();
                     Draw();
                     //camPreview.invalidate();
                     return;
@@ -170,6 +179,14 @@ public class SizeAbleRectangle
                 else if (leftRect.contains(event.getX(), event.getY()) || leftRecMoving == true)
                 {
                     moveLeftRect(event);
+                }
+                else if (rightRect.contains(event.getX(), event.getY())|| rightRecMoving)
+                {
+                    moveRightRect(event);
+                }
+                else if (bottomRect.contains(event.getX(), event.getY())|| bottomRecMoving)
+                {
+                    moveBottomRect(event);
                 }
                 else
                 if (mainRect.contains(event.getX(), event.getY()) || mainRecMoving)
@@ -197,10 +214,47 @@ public class SizeAbleRectangle
         }
     }
 
+    private void moveRightRect(MotionEvent event)
+    {
+        if (mainRecMoving == false && topRecMoving == false && bottomRecMoving == false && leftRecMoving == false)
+        {
+            if(event.getAction() == MotionEvent.ACTION_DOWN)
+            {
+                rightRecMoving =true;
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE)
+            {
+                int tempwidth = (int)event.getX() - (int)beginCoordinate.x;
+                if(tempwidth >= minsize)
+                {
+                    endCoordinate.x = event.getX();
+                    width = (int)endCoordinate.x - (int)beginCoordinate.x;
+                    setRectanglePosition();
+                    Draw();
+                }
+                else if (tempwidth < minsize)
+                {
+
+                    setRectanglePosition();
+                    Draw();
+                }
+                //camPreview.invalidate();
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP)
+            {
+                rightRecMoving = false;
+                if (width < minsize)
+                    width = minsize;
+                if (height < minsize)
+                    height = minsize;
+            }
+        }
+    }
+
 
     private void moveRect(MotionEvent event)
     {
-        if (topRecMoving == false && leftRecMoving == false)
+        if (topRecMoving == false && leftRecMoving == false && rightRecMoving == false && bottomRecMoving ==false)
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
@@ -231,7 +285,7 @@ public class SizeAbleRectangle
 
     private void moveTopRect(MotionEvent event)
     {
-        if (mainRecMoving == false && leftRecMoving == false)
+        if (mainRecMoving == false && leftRecMoving == false && rightRecMoving == false && bottomRecMoving == false)
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
@@ -239,21 +293,73 @@ public class SizeAbleRectangle
             }
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                beginCoordinate.y = event.getY();
-                setRectanglePosition();
+                int tempheight = (int)endCoordinate.y - (int)event.getY();
+                if (tempheight >= minsize)
+                {
+                    beginCoordinate.y = event.getY();
+                    height = (int)endCoordinate.y - (int)beginCoordinate.y;
+                    setRectanglePosition();
                 //camPreview.invalidate();
-                Draw();
+                    Draw();
+                }
+                else if (tempheight < minsize)
+                {
+                    setRectanglePosition();
+                    //camPreview.invalidate();
+                    Draw();
+                }
             }
             if (event.getAction() == MotionEvent.ACTION_UP)
             {
                 topRecMoving = false;
+                if (width < minsize)
+                    width = minsize;
+                if (height < minsize)
+                    height = minsize;
+            }
+        }
+    }
+
+    private void moveBottomRect(MotionEvent event)
+    {
+        if (mainRecMoving == false && leftRecMoving == false && rightRecMoving == false && topRecMoving == false)
+        {
+            if(event.getAction() == MotionEvent.ACTION_DOWN)
+            {
+                bottomRecMoving =true;
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE)
+            {
+                int tempheight = (int)event.getY() - (int)beginCoordinate.y;
+                if (tempheight >= minsize)
+                {
+                   endCoordinate.y = event.getY();
+                    height = (int)endCoordinate.y - (int)beginCoordinate.y;
+                    setRectanglePosition();
+                    //camPreview.invalidate();
+                    Draw();
+                }
+                else if (tempheight < minsize)
+                {
+                    setRectanglePosition();
+                    //camPreview.invalidate();
+                    Draw();
+                }
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP)
+            {
+               bottomRecMoving = false;
+                if (width < minsize)
+                    width = minsize;
+                if (height < minsize)
+                    height = minsize;
             }
         }
     }
 
     private void moveLeftRect(MotionEvent event)
     {
-        if (mainRecMoving == false && topRecMoving == false)
+        if (mainRecMoving == false && topRecMoving == false && rightRecMoving == false && bottomRecMoving == false)
         {
             if(event.getAction() == MotionEvent.ACTION_DOWN)
             {
@@ -261,14 +367,29 @@ public class SizeAbleRectangle
             }
             if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                beginCoordinate.x = event.getX();
-                setRectanglePosition();
-                Draw();
+                int temp = (int)endCoordinate.x - (int)event.getX();
+                if(temp >= minsize)
+                {
+                    beginCoordinate.x = event.getX();
+                    width = (int)endCoordinate.x - (int)beginCoordinate.x;
+                    setRectanglePosition();
+                    Draw();
+                }
+                else
+                {
+                    setRectanglePosition();
+                    Draw();
+
+                }
                 //camPreview.invalidate();
             }
             if (event.getAction() == MotionEvent.ACTION_UP)
             {
                 leftRecMoving = false;
+                if (width < minsize)
+                    width = minsize;
+                if (height < minsize)
+                    height = minsize;
             }
         }
     }
@@ -279,7 +400,9 @@ public class SizeAbleRectangle
         RectF f = mainRect;
         float centerWidth = (f.width() /2) + beginCoordinate.x ;
         float centerHeigth = (f.height() / 2) + beginCoordinate.y;
-        topRect.set(centerWidth - 20, beginCoordinate.y, centerWidth+20, beginCoordinate.y+40);
-        leftRect.set(beginCoordinate.x, centerHeigth - 20, beginCoordinate.x + 40, centerHeigth +20);
+        topRect.set(beginCoordinate.x + 25, beginCoordinate.y, endCoordinate.y - 25, beginCoordinate.y+50);
+        leftRect.set(beginCoordinate.x, beginCoordinate.y + 25, beginCoordinate.x + 50, endCoordinate.y - 25);
+        rightRect.set(endCoordinate.x - 50, beginCoordinate.y + 25, endCoordinate.x, endCoordinate.y - 25);
+        bottomRect.set(beginCoordinate.x + 25, endCoordinate.y - 50, endCoordinate.x - 25, endCoordinate.y);
     }
 }
