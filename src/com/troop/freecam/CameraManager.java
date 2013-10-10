@@ -167,7 +167,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         }
         else
         {
-            mCamera.setDisplayOrientation(180);
+            //mCamera.setDisplayOrientation(180);
             parameters.setRotation(180);
         }
     }

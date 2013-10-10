@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -121,6 +122,8 @@ public class MainActivity extends Activity {
     public CheckBox saturationCheckBox;
     public TableRow saturationRow;
 
+    Button switchVideoPicture;
+
     Button manualLayoutButton;
     Button autoLayoutButton;
     Button settingLayoutButton;
@@ -133,6 +136,7 @@ public class MainActivity extends Activity {
     boolean hideAutoMenu = true;
     SharedPreferences preferences;
     CheckBox upsidedown;
+    boolean recordVideo = false;
 
     CheckBox crop;
 
@@ -151,7 +155,7 @@ public class MainActivity extends Activity {
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.activity_main, null);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        recordVideo = preferences.getBoolean("recordVideo", false);
 
         setContentView(R.layout.activity_main);
         drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
@@ -166,7 +170,8 @@ public class MainActivity extends Activity {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         //List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
 
-
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
 
 
         initButtons();
@@ -484,6 +489,36 @@ public class MainActivity extends Activity {
             }
         });
 
+        switchVideoPicture = (Button)findViewById(R.id.button_switchVideoPicture);
+        setSwitchVideoPictureBackground();
+        switchVideoPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recordVideo)
+                {
+                    recordVideo = false;
+
+                }
+                else
+                {
+                    recordVideo = true;
+                }
+                setSwitchVideoPictureBackground();
+            }
+        });
+
+    }
+
+    private void setSwitchVideoPictureBackground()
+    {
+        if (recordVideo)
+        {
+            switchVideoPicture.setBackgroundResource(R.drawable.Video);
+        }
+        else
+        {
+            switchVideoPicture.setBackgroundResource(R.drawable.picture);
+        }
     }
 
     @Override

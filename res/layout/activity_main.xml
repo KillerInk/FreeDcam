@@ -22,6 +22,15 @@
             class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
             android:id="@+id/view" />
 
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/button_switchVideoPicture"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/Video" />
+
     </RelativeLayout>
 
     <ImageButton
