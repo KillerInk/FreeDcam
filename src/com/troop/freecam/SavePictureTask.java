@@ -66,30 +66,8 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         }
         else
         {
-            File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/");
-            if (!freeCamImageDirectory.exists())
-            {
-                Log.d(TAG, "FreeCamFolder not exists try to create");
-                try
-                {
-                    freeCamImageDirectory.mkdir();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    return null;
-                }
-
-
-            }
-            File file = new File(String.format(freeCamImageDirectory + "/%d." + end, System.currentTimeMillis()));
-            if (!file.exists())
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
+            File file = getFilePath(end, sdcardpath);
+            if (file == null) return null;
             //long time = System.currentTimeMillis();
             //URI newuri = MediaStore.Images.Media.INTERNAL_CONTENT_URI.buildUpon().appendPath("DCIM").appendPath("FreeCam").appendPath( time +end ).build();
             //file = new File(newuri);
@@ -148,6 +126,34 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
             Log.d(TAG, "finished saving");
             return file.getPath();
         }
+    }
+
+    public static File getFilePath(String end, File sdcardpath) {
+        File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/");
+        if (!freeCamImageDirectory.exists())
+        {
+            Log.d("SavePictureTask", "FreeCamFolder not exists try to create");
+            try
+            {
+                freeCamImageDirectory.mkdir();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                return null;
+            }
+
+
+        }
+        File file = new File(String.format(freeCamImageDirectory + "/%d." + end, System.currentTimeMillis()));
+        if (!file.exists())
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        return file;
     }
 
     Bitmap bitmascale;

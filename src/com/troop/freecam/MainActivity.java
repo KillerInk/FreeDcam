@@ -548,7 +548,15 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			camMan.StartTakePicture();
+            if(recordVideo == false)
+			    camMan.StartTakePicture();
+            else
+            {
+                if (camMan.IsRecording == false)
+                    camMan.StartRecording();
+                else
+                    camMan.StopRecording();
+            }
 		}
 	};
 

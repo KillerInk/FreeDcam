@@ -13,9 +13,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
+import android.view.SurfaceView;
 
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
@@ -25,6 +30,7 @@ import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ZoomManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +98,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     float mLastX;
     float mLastZ;
     float mLastY;
+    MediaRecorder recorder;
 
 
     public boolean takePicture = false;
@@ -137,6 +144,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
 
             // TODO: add more exception handling logic here
         }
+
+        recorder = new MediaRecorder();
 
     }
 
@@ -341,6 +350,9 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         // Surface will be destroyed when we return, so stop the preview.
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
+        recorder.reset();
+        recorder.release();
+        recorder = null;
         mCamera.stopPreview();
         mCamera.release();
         mCamera = null;
@@ -459,6 +471,39 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             autoFocusManager.focusing = false;
             touchtofocus = false;
         }
+    }
+
+    public boolean IsRecording = false;
+    public void StartRecording()
+    {
+        mCamera.unlock();
+        File sdcardpath = Environment.getExternalStorageDirectory();
+
+        recorder.setCamera(mCamera);
+        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
+        //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        recorder.setOutputFile(SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath());
+        recorder.setPreviewDisplay(context.getHolder().getSurface());
+        try {
+            recorder.prepare();
+            recorder.start();
+            IsRecording = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ;
+    }
+
+    public  void StopRecording()
+    {
+        IsRecording = false;
+        recorder.stop();
+        recorder.reset();
+        mCamera.lock();
     }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {

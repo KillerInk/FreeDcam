@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.troop.freecam"
     android:versionCode="2"
-    android:versionName="2.2" >
+    android:versionName="2.2"
+    android:largeHeap="true">
+
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="14" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.STORAGE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <uses-feature android:name="lge.hardware.real3d.barrier.landscape"/>
