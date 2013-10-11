@@ -484,7 +484,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             Log.d("FreeCam", "onPictureTaken - raw");
         }
     };
-
+    SavePictureTask task;
     /** Handles data for jpeg picture */
     public Camera.PictureCallback jpegCallback = new Camera.PictureCallback()
     {
@@ -497,11 +497,12 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
                 is3d = true;
             }
 
+            task = new SavePictureTask(scanManager, is3d, cameraManager);
 
 
-            SavePictureTask task = new SavePictureTask(scanManager, is3d, cameraManager);
 
             task.execute(data);
+
 
             //activity.thumbButton.invalidate();
 

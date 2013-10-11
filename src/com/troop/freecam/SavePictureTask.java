@@ -114,6 +114,8 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                     croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                     outStream.flush();
                     outStream.close();
+                    originalBmp.recycle();
+                    croppedBmp.recycle();
 
                     //ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
                     //exifInterface
@@ -148,18 +150,35 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
         }
     }
 
+    Bitmap bitmascale;
     @Override
     protected void onPostExecute(String s)
     {
         if (s != null)
         {
-            mediaScannerManager.startScan(s);
-            Bitmap bitmaporg = BitmapFactory.decodeFile(s);
-            int w = cameraManager.activity.thumbButton.getWidth();
-            int h = cameraManager.activity.thumbButton.getHeight();
-            bitmaporg = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
-            cameraManager.activity.thumbButton.setImageBitmap(bitmaporg);
-            cameraManager.lastPicturePath = s;
+            if(bitmascale != null)
+                bitmascale.recycle();
+            try
+            {
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                Bitmap bitmaporg = BitmapFactory.decodeFile(s, options);
+                mediaScannerManager.startScan(s);
+
+                int w = cameraManager.activity.thumbButton.getWidth();
+                int h = cameraManager.activity.thumbButton.getHeight();
+                bitmascale = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
+                cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
+                cameraManager.lastPicturePath = s;
+                bitmaporg.recycle();
+                System.gc();
+                //bitmascale.recycle();
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
         //cameraManager.takePicture =false;
 
