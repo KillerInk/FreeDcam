@@ -2,12 +2,8 @@ package com.troop.freecam;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -15,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,13 +23,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
@@ -49,8 +41,6 @@ import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.switchcameramenu;
-
-import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -513,7 +503,7 @@ public class MainActivity extends Activity {
     {
         if (recordVideo)
         {
-            switchVideoPicture.setBackgroundResource(R.drawable.Video);
+            switchVideoPicture.setBackgroundResource(R.drawable.video);
         }
         else
         {
