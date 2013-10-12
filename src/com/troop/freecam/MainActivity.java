@@ -553,9 +553,15 @@ public class MainActivity extends Activity {
             else
             {
                 if (camMan.IsRecording == false)
+                {
                     camMan.StartRecording();
+                    shotButton.setBackgroundResource(R.drawable.ic_launcher_recording);
+                }
                 else
+                {
                     camMan.StopRecording();
+                    shotButton.setBackgroundResource(R.drawable.ic_launcher);
+                }
             }
 		}
 	};
