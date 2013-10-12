@@ -99,6 +99,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     float mLastZ;
     float mLastY;
     MediaRecorder recorder;
+    String mediaSavePath;
 
 
     public boolean takePicture = false;
@@ -530,7 +531,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        recorder.setOutputFile(SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath());
+        mediaSavePath = SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath();
+        recorder.setOutputFile(mediaSavePath);
         recorder.setPreviewDisplay(context.getHolder().getSurface());
         try {
             recorder.prepare();
@@ -546,6 +548,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     {
         IsRecording = false;
         recorder.stop();
+        scanManager.startScan(mediaSavePath);
         recorder.reset();
         mCamera.lock();
     }
