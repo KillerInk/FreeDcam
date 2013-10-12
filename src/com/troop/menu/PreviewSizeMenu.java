@@ -27,7 +27,9 @@ public class PreviewSizeMenu extends BaseMenu {
             sizes = camMan.parameters.getSupportedPreviewSizes();
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
-        for (int i = 0; i < sizes.size(); i++) {
+        for (int i = 0; i < sizes.size(); i++)
+        {
+            if (sizes.get(i).height != 576)
             popupMenu.getMenu().add((CharSequence) (sizes.get(i).width + "x" + sizes.get(i).height));
         }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -167,6 +167,8 @@ public class MainActivity extends Activity {
         initButtons();
         initMenu();
 
+
+
 	}
 
     private void initMenu()
@@ -324,9 +326,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
-
-
 
 
         //exposureSeekbar.setVisibility(View.INVISIBLE);

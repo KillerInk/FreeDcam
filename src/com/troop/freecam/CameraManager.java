@@ -350,6 +350,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         // Surface will be destroyed when we return, so stop the preview.
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
+        if (IsRecording)
+            StopRecording();
         recorder.reset();
         recorder.release();
         recorder = null;
@@ -482,7 +484,49 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         recorder.setCamera(mCamera);
         recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
+        if (parameters.getPreviewSize().height == 1080)
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
+        if (parameters.getPreviewSize().height == 720)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+            if (parameters.getPreviewSize().width == 960)
+                recorder.setVideoSize(960, 720);
+        }
+        if (parameters.getPreviewSize().height == 480)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+            if (parameters.getPreviewSize().height == 800)
+                recorder.setVideoSize(800, 480);
+            if (parameters.getPreviewSize().height == 640)
+                recorder.setVideoSize(640,480);
+
+        }
+        /*if (parameters.getPreviewSize().height == 576)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+            recorder.setVideoSize(720,576);
+        }*/
+        if (parameters.getPreviewSize().height == 240)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
+            recorder.setVideoSize(320,240);
+        }
+        if (parameters.getPreviewSize().height == 288)
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
+        if (parameters.getPreviewSize().height == 160)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
+            recorder.setVideoSize(240,160);
+        }
+        if (parameters.getPreviewSize().height == 144)
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
+
+
+
+
+
+
+
         //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
@@ -495,7 +539,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ;
+
     }
 
     public  void StopRecording()
