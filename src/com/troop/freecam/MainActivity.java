@@ -486,11 +486,12 @@ public class MainActivity extends Activity {
                 if (recordVideo)
                 {
                     recordVideo = false;
-
+                    preferences.edit().putBoolean("recordVideo", false).commit();
                 }
                 else
                 {
                     recordVideo = true;
+                    preferences.edit().putBoolean("recordVideo", true).commit();
                 }
                 setSwitchVideoPictureBackground();
             }
