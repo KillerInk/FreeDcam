@@ -522,12 +522,15 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         if (parameters.getPreviewSize().height == 144)
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
 
+        if (preferences.getBoolean("upsidedown", false) == true)
+        {
+            String rota = parameters.get("rotation");
 
-
-
-
-
-
+            if (rota != null && rota.equals("180"))
+                recorder.setOrientationHint(180);
+            if (rota == null)
+                recorder.setOrientationHint(0);
+        }
         //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
