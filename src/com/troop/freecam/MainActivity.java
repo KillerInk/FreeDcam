@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -344,14 +346,17 @@ public class MainActivity extends Activity {
         thumbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("file:/" + camMan.lastPicturePath);
-                //Uri newuri = MediaStore.Images.Media.INTERNAL_CONTENT_URI.buildUpon().appendPath("DCIM").appendPath("FreeCam").appendPath( uri.getLastPathSegment()).build();
-                Intent i=new Intent(Intent.ACTION_VIEW);
-                //i.setType("image/*");
-                //i.setData(uri);
-                i.setDataAndType(uri, "image/*");
-                //i.setComponent(Intent.CATEGORY_LAUNCHER)
-                startActivity(i);
+                if  (camMan.lastPicturePath != null)
+                {
+                    Uri uri = Uri.parse("file:/" + camMan.lastPicturePath);
+
+                    Intent i=new Intent(Intent.ACTION_VIEW);
+                    if (camMan.lastPicturePath.endsWith("mp4"))
+                        i.setDataAndType(uri, "video/*");
+                    else
+                        i.setDataAndType(uri, "image/*");
+                    startActivity(i);
+                }
             }
         });
 
@@ -579,6 +584,7 @@ public class MainActivity extends Activity {
                     camMan.StopRecording();
                     recordTimer.Stop();
                     shotButton.setBackgroundResource(R.drawable.ic_launcher);
+                    thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath,MediaStore.Images.Thumbnails.MINI_KIND));
                     mainlayout.removeView(recordingTimerTextView);
                 }
             }
