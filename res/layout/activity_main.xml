@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:id="@+id/mainRelativLayout">
 
         <com.troop.freecam.CamPreview
             android:id="@+id/camPreview1"
@@ -20,7 +21,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
-            android:id="@+id/view" />
+            android:id="@+id/view"
+            android:alpha="0.5" />
 
         <Button
             android:layout_width="@android:dimen/app_icon_size"
@@ -30,6 +32,19 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="42dp"
             android:background="@drawable/video" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView_timerRecording"
+            android:background="#010101"
+            android:textColor="#ffffff"
+            android:alpha="0.5"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button_switchVideoPicture"
+            android:layout_marginRight="16dp" />
 
     </RelativeLayout>
 

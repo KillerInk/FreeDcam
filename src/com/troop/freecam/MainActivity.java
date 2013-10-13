@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -133,6 +134,9 @@ public class MainActivity extends Activity {
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
+
+    TextView recordingTimerTextView;
+    RelativeLayout mainlayout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -497,6 +501,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        recordingTimerTextView = (TextView)findViewById(R.id.textView_timerRecording);
+        mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
+        mainlayout.removeView(recordingTimerTextView);
+
     }
 
     private void setSwitchVideoPictureBackground()
@@ -556,11 +564,13 @@ public class MainActivity extends Activity {
                 {
                     camMan.StartRecording();
                     shotButton.setBackgroundResource(R.drawable.ic_launcher_recording);
+                    mainlayout.addView(recordingTimerTextView);
                 }
                 else
                 {
                     camMan.StopRecording();
                     shotButton.setBackgroundResource(R.drawable.ic_launcher);
+                    mainlayout.removeView(recordingTimerTextView);
                 }
             }
 		}

@@ -492,6 +492,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
             if (parameters.getPreviewSize().width == 960)
                 recorder.setVideoSize(960, 720);
+            else
+                recorder.setVideoSize(1280,720);
         }
         if (parameters.getPreviewSize().height == 480)
         {
