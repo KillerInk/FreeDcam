@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
+import com.troop.freecam.manager.MyTimer;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;
 import com.troop.menu.FlashMenu;
@@ -137,6 +138,9 @@ public class MainActivity extends Activity {
 
     TextView recordingTimerTextView;
     RelativeLayout mainlayout;
+
+    MyTimer recordTimer;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +174,7 @@ public class MainActivity extends Activity {
 
         initButtons();
         initMenu();
+        recordTimer = new MyTimer(recordingTimerTextView);
 
 
 
@@ -490,11 +495,13 @@ public class MainActivity extends Activity {
                 if (recordVideo)
                 {
                     recordVideo = false;
+
                     preferences.edit().putBoolean("recordVideo", false).commit();
                 }
                 else
                 {
                     recordVideo = true;
+
                     preferences.edit().putBoolean("recordVideo", true).commit();
                 }
                 setSwitchVideoPictureBackground();
@@ -563,12 +570,14 @@ public class MainActivity extends Activity {
                 if (camMan.IsRecording == false)
                 {
                     camMan.StartRecording();
+                    recordTimer.Start();
                     shotButton.setBackgroundResource(R.drawable.ic_launcher_recording);
                     mainlayout.addView(recordingTimerTextView);
                 }
                 else
                 {
                     camMan.StopRecording();
+                    recordTimer.Stop();
                     shotButton.setBackgroundResource(R.drawable.ic_launcher);
                     mainlayout.removeView(recordingTimerTextView);
                 }

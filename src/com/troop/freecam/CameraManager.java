@@ -554,6 +554,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         IsRecording = false;
         recorder.stop();
         scanManager.startScan(mediaSavePath);
+        lastPicturePath = mediaSavePath;
         recorder.reset();
         mCamera.lock();
     }
