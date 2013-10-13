@@ -34,7 +34,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c19a282c-b4ff-4fdc-bc06-fd291de795ef" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FreeDCam.iml" afterPath="$PROJECT_DIR$/FreeDCam.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FreeCam.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,7 +59,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -94,6 +95,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
@@ -108,20 +110,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CameraManager.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CameraManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="542" column="0" selection-start="23374" selection-end="23374" vertical-scroll-proportion="1.7513044" vertical-offset="7646" max-vertical-offset="11373">
+            <state line="556" column="40" selection-start="23736" selection-end="23736" vertical-scroll-proportion="0.0" vertical-offset="8588" max-vertical-offset="11424">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Camera.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Android/sources/android-14/android/hardware/Camera.java">
+      <file leaf-file-name="MyTimer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/manager/MyTimer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2383" column="25" selection-start="100122" selection-end="100122" vertical-scroll-proportion="0.0" vertical-offset="39725" max-vertical-offset="58344">
-              <folding />
+            <state line="20" column="26" selection-start="450" selection-end="450" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#367#745#0" expanded="true" />
+                <element signature="e#738#739#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,15 +136,6 @@
         <entry file="file://$PROJECT_DIR$/src/com/troop/menu/PreviewSizeMenu.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="31" column="42" selection-start="901" selection-end="901" vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="1139">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CamcorderProfile.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Android/sources/android-14/android/media/CamcorderProfile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="39" selection-start="2104" selection-end="2115" vertical-scroll-proportion="0.0" vertical-offset="1105" max-vertical-offset="5831">
               <folding />
             </state>
           </provider>
@@ -156,7 +153,7 @@
       <file leaf-file-name="CamPreview.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/CamPreview.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="13" selection-start="720" selection-end="720" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1666">
+            <state line="25" column="13" selection-start="720" selection-end="720" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1309">
               <folding />
             </state>
           </provider>
@@ -164,24 +161,47 @@
       </file>
       <file leaf-file-name="activity_main.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
           <provider editor-type-id="text-editor">
-            <state line="271" column="12" selection-start="10609" selection-end="10609" vertical-scroll-proportion="0.0" vertical-offset="4295" max-vertical-offset="6936">
+            <state line="286" column="12" selection-start="11244" selection-end="11244" vertical-scroll-proportion="0.0" vertical-offset="4550" max-vertical-offset="7191">
               <folding />
             </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="562" column="75" selection-start="20983" selection-end="20983" vertical-scroll-proportion="0.0" vertical-offset="7768" max-vertical-offset="8908">
+            <state line="586" column="105" selection-start="21712" selection-end="21712" vertical-scroll-proportion="0.0" vertical-offset="8482" max-vertical-offset="9639">
               <folding>
-                <element signature="e#20391#21024#0" expanded="true" />
-                <element signature="e#21020#21021#0" expanded="true" />
+                <element signature="e#12797#13383#0" expanded="true" />
+                <element signature="e#13372#13373#0" expanded="true" />
+                <element signature="e#13963#14343#0" expanded="true" />
+                <element signature="e#14332#14333#0" expanded="true" />
+                <element signature="e#14863#15398#0" expanded="true" />
+                <element signature="e#15387#15388#0" expanded="true" />
+                <element signature="e#15874#16175#0" expanded="true" />
+                <element signature="e#16164#16165#0" expanded="true" />
+                <element signature="e#16667#16971#0" expanded="true" />
+                <element signature="e#16960#16961#0" expanded="true" />
+                <element signature="e#17509#17813#0" expanded="true" />
+                <element signature="e#17802#17803#0" expanded="true" />
+                <element signature="e#18128#18782#0" expanded="true" />
+                <element signature="e#18771#18772#0" expanded="true" />
+                <element signature="e#18958#19497#0" expanded="true" />
+                <element signature="e#19486#19487#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="28" selection-start="196" selection-end="196" vertical-scroll-proportion="0.11826087" vertical-offset="0" max-vertical-offset="782">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -189,7 +209,7 @@
       <file leaf-file-name="SavePictureTask.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/SavePictureTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="29" selection-start="5953" selection-end="5986" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3009">
+            <state line="170" column="41" selection-start="5863" selection-end="5863" vertical-scroll-proportion="0.0" vertical-offset="2281" max-vertical-offset="3009">
               <folding />
             </state>
           </provider>
@@ -216,7 +236,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/ManualExposureManager.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/CamPreview.java" />
         <option value="$PROJECT_DIR$/res/layout/new_main.xml" />
         <option value="$PROJECT_DIR$/res/values/dimens.xml" />
@@ -225,13 +244,14 @@
         <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/AutoFocusManager.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/Drawing/DrawingOverlaySurface.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/Drawing/SizeAbleRectangle.java" />
-        <option value="$PROJECT_DIR$/src/com/troop/freecam/SavePictureTask.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/troop/menu/VideoSizeMenu.java" />
         <option value="$PROJECT_DIR$/src/com/troop/menu/PreviewSizeMenu.java" />
         <option value="$PROJECT_DIR$/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/MyTimer.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java" />
+        <option value="$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/troop/freecam/SavePictureTask.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -267,6 +287,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -347,6 +369,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="troop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="freecam" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FreeDCam" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FreeCam" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -371,8 +419,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -480,6 +526,19 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -505,19 +564,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -641,7 +687,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35653105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35653105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35653105" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -652,14 +698,14 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6702356" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18789144" sideWeight="0.643469" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18789144" sideWeight="0.643469" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282881" sideWeight="0.643469" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993576" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -668,13 +714,13 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35653105" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13489583" sideWeight="0.28586724" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13489583" sideWeight="0.28586724" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18802084" sideWeight="0.643469" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -704,11 +750,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Android/sources/android-14/android/graphics/Canvas.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1076" column="16" selection-start="40923" selection-end="40923" vertical-scroll-proportion="0.0" vertical-offset="18645" max-vertical-offset="30056" />
-      </provider>
-    </entry>
     <entry file="file://C:/Android/sources/android-14/android/widget/Toast.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="231" column="24" selection-start="6931" selection-end="6931" vertical-scroll-proportion="0.0" vertical-offset="3243" max-vertical-offset="6681" />
@@ -752,9 +793,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
+      <provider editor-type-id="text-editor">
+        <state line="286" column="12" selection-start="11244" selection-end="11244" vertical-scroll-proportion="0.0" vertical-offset="4550" max-vertical-offset="7191">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://C:/Android/sources/android-14/com/android/internal/os/ZygoteInit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="65" selection-start="599" selection-end="599" vertical-scroll-proportion="0.23130435" vertical-offset="105" max-vertical-offset="782">
+        <state line="793" column="0" selection-start="27031" selection-end="27031" vertical-scroll-proportion="3.7791305" vertical-offset="10628" max-vertical-offset="12988" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="556" column="40" selection-start="23736" selection-end="23736" vertical-scroll-proportion="0.0" vertical-offset="8588" max-vertical-offset="11424">
           <folding />
         </state>
       </provider>
@@ -766,50 +822,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="271" column="12" selection-start="10609" selection-end="10609" vertical-scroll-proportion="0.0" vertical-offset="4295" max-vertical-offset="6936">
+    <entry file="file://C:/Android/sources/android-14/android/hardware/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2383" column="25" selection-start="100122" selection-end="100122" vertical-scroll-proportion="-0.94608694" vertical-offset="40511" max-vertical-offset="58344">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/manager/MyTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="26" selection-start="450" selection-end="450" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#367#745#0" expanded="true" />
+            <element signature="e#738#739#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="562" column="75" selection-start="20983" selection-end="20983" vertical-scroll-proportion="0.0" vertical-offset="7768" max-vertical-offset="8908">
+        <state line="586" column="105" selection-start="21712" selection-end="21712" vertical-scroll-proportion="0.0" vertical-offset="8482" max-vertical-offset="9639">
           <folding>
-            <element signature="e#20391#21024#0" expanded="true" />
-            <element signature="e#21020#21021#0" expanded="true" />
+            <element signature="e#12797#13383#0" expanded="true" />
+            <element signature="e#13372#13373#0" expanded="true" />
+            <element signature="e#13963#14343#0" expanded="true" />
+            <element signature="e#14332#14333#0" expanded="true" />
+            <element signature="e#14863#15398#0" expanded="true" />
+            <element signature="e#15387#15388#0" expanded="true" />
+            <element signature="e#15874#16175#0" expanded="true" />
+            <element signature="e#16164#16165#0" expanded="true" />
+            <element signature="e#16667#16971#0" expanded="true" />
+            <element signature="e#16960#16961#0" expanded="true" />
+            <element signature="e#17509#17813#0" expanded="true" />
+            <element signature="e#17802#17803#0" expanded="true" />
+            <element signature="e#18128#18782#0" expanded="true" />
+            <element signature="e#18771#18772#0" expanded="true" />
+            <element signature="e#18958#19497#0" expanded="true" />
+            <element signature="e#19486#19487#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/SavePictureTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="29" selection-start="5953" selection-end="5986" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3009">
+        <state line="170" column="41" selection-start="5863" selection-end="5863" vertical-scroll-proportion="0.0" vertical-offset="2281" max-vertical-offset="3009">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Android/sources/android-14/android/hardware/Camera.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2383" column="25" selection-start="100122" selection-end="100122" vertical-scroll-proportion="0.0" vertical-offset="39725" max-vertical-offset="58344">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Android/sources/android-14/com/android/internal/os/ZygoteInit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="793" column="0" selection-start="27031" selection-end="27031" vertical-scroll-proportion="3.7791305" vertical-offset="10628" max-vertical-offset="12988">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="542" column="0" selection-start="23374" selection-end="23374" vertical-scroll-proportion="1.7513044" vertical-offset="7646" max-vertical-offset="11373">
+        <state line="4" column="28" selection-start="196" selection-end="196" vertical-scroll-proportion="0.11826087" vertical-offset="0" max-vertical-offset="782">
           <folding />
         </state>
       </provider>
