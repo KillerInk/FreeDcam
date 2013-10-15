@@ -72,15 +72,15 @@ public class HdrManager
     {
         if (count == 0)
         {
-            cameraManager.parameters.setExposureCompensation(-15);
+            cameraManager.parameters.setExposureCompensation(0);
         }
         else if (count == 1)
         {
-            cameraManager.parameters.setExposureCompensation(0);
+            cameraManager.parameters.setExposureCompensation(30);
         }
         else if (count == 2)
         {
-            cameraManager.parameters.setExposureCompensation(15);
+            cameraManager.parameters.setExposureCompensation(-30);
         }
         cameraManager.mCamera.setParameters(cameraManager.parameters);
     }
@@ -196,7 +196,7 @@ public class HdrManager
 
 
         }
-        File file = new File(String.format(freeCamImageDirectory + String.valueOf(count) + "." + end));
+        File file = new File(String.format(freeCamImageDirectory + "/" + String.valueOf(count) + "." + end));
         if (!file.exists())
             try {
                 file.createNewFile();
