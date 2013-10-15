@@ -332,6 +332,12 @@
                 android:textColor="#ff0000"
                 android:textStyle="bold"
                 android:layout_gravity="left" />
+
+            <CheckBox
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:id="@+id/checkBox_hdr"
+                android:background="@drawable/hdr" />
         </LinearLayout>
 
         <LinearLayout

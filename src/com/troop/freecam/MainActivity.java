@@ -143,6 +143,9 @@ public class MainActivity extends Activity {
 
     MyTimer recordTimer;
 
+    CheckBox checkboxHDR;
+    boolean HDRMode = false;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -517,6 +520,15 @@ public class MainActivity extends Activity {
         mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
         mainlayout.removeView(recordingTimerTextView);
 
+        checkboxHDR = (CheckBox)findViewById(R.id.checkBox_hdr);
+        checkboxHDR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HDRMode = checkboxHDR.isChecked();
+            }
+        });
+
+
     }
 
     private void setSwitchVideoPictureBackground()
@@ -569,7 +581,12 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
             if(recordVideo == false)
-			    camMan.StartTakePicture();
+            {
+                if (HDRMode == false)
+			        camMan.StartTakePicture();
+                else
+                    camMan.HdrRender.TakeHDRPictures(true);
+            }
             else
             {
                 if (camMan.IsRecording == false)

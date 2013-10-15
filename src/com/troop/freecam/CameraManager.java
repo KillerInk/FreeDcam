@@ -22,7 +22,9 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.view.SurfaceView;
 
+import com.troop.freecam.cm.HdrSoftwareProcessor;
 import com.troop.freecam.manager.AutoFocusManager;
+import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
 import com.troop.freecam.manager.ManualContrastManager;
 import com.troop.freecam.manager.ManualExposureManager;
@@ -81,19 +83,20 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public  Camera.Parameters parameters;
     public ZoomManager zoomManager;
     public boolean Running = false;
-    MediaScannerManager scanManager;
+    public MediaScannerManager scanManager;
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
     //public boolean picturetaking = false;
     public boolean touchtofocus = false;
     public MainActivity activity;
-    SharedPreferences preferences;
+    public SharedPreferences preferences;
     public ManualExposureManager manualExposureManager;
     public String lastPicturePath;
     public ManualSharpnessManager manualSharpnessManager;
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
+    public HdrManager HdrRender;
 
     float mLastX;
     float mLastZ;
@@ -118,6 +121,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         manualSharpnessManager = new ManualSharpnessManager(this);
         manualContrastManager = new ManualContrastManager(this);
         manualBrightnessManager = new ManualBrightnessManager(this);
+        HdrRender = new HdrManager(this);
 
     }
 
@@ -559,7 +563,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         mCamera.lock();
     }
 
-    Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
+    public Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
         public void onShutter() {
 
             MediaPlayer mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.camerashutter);
@@ -577,7 +581,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     };
 
     /** Handles data for raw picture */
-    Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
+    public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d("FreeCam", "onPictureTaken - raw");
         }
