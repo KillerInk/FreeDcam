@@ -22,8 +22,7 @@ public class ManualContrastManager implements SeekBar.OnSeekBarChangeListener
     {
         if (ExternalSet == false)
         {
-            cameraManager.parameters.set("contrast", progress);
-            cameraManager.Restart(false);
+            cameraManager.parametersManager.SetContrast(progress);
         }
         else
             ExternalSet = false;

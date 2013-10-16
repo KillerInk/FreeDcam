@@ -30,6 +30,7 @@ import com.troop.freecam.manager.ManualContrastManager;
 import com.troop.freecam.manager.ManualExposureManager;
 import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.MediaScannerManager;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.ZoomManager;
 
 import java.io.File;
@@ -97,6 +98,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
     public HdrManager HdrRender;
+    public ParametersManager parametersManager;
 
     float mLastX;
     float mLastZ;
@@ -122,6 +124,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         manualContrastManager = new ManualContrastManager(this);
         manualBrightnessManager = new ManualBrightnessManager(this);
         HdrRender = new HdrManager(this);
+        parametersManager = new ParametersManager(this);
 
     }
 
@@ -195,7 +198,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             mCamera.stopPreview();
             parameters.set("jpeg-quality", 100);
             parameters.set("contrast", 100);
-            parameters.setExposureCompensation(0);
+            //parameters.setExposureCompensation(0);
             parameters.set("preview-format", "yuv420p");
             if (preferences.getBoolean("upsidedown", false) == true)
                 fixParametersOrientation();
@@ -249,7 +252,8 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
             {
                 activity.drawSurface.drawingRectHelper.Enabled = true;
             }
-            else {
+            else
+            {
                 activity.drawSurface.drawingRectHelper.Enabled = false;
             }
 
@@ -296,7 +300,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         activity.ippButton.setText(parameters.get("ipp"));
 
         activity.saturationCheckBox.setText(parameters.get("saturation"));
-        activity.manualExposure.setText(String.valueOf(parameters.getExposureCompensation()));
+
         activity.brightnessCheckBox.setText(parameters.get("brightness"));
         activity.contrastRadioButton.setText(parameters.get("contrast"));
         activity.manualShaprness.setText(parameters.get("sharpness"));
@@ -616,11 +620,9 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     };
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int w,
-                               int h) {
-        parameters = mCamera.getParameters();
-
-
+    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
+    {
+       //parameters = mCamera.getParameters();
        Restart(true);
 
     }

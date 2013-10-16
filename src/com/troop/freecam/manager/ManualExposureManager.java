@@ -30,8 +30,9 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
             //{
                 if (currentValue >= cameramanager.parameters.getMinExposureCompensation() && currentValue <= cameramanager.parameters.getMaxExposureCompensation())
                 {
-                    cameramanager.parameters.setExposureCompensation(currentValue);
-                    cameramanager.Restart(false);
+                    cameramanager.parametersManager.SetExposureCompensation(currentValue);
+                    //cameramanager.parameters.setExposureCompensation(currentValue);
+                    //cameramanager.Restart(false);
                 }
             /*}
             else
