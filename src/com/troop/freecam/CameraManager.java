@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.view.SurfaceView;
 
 import com.troop.freecam.camera.BaseCamera;
 import com.troop.freecam.camera.PictureCam;
+import com.troop.freecam.camera.VideoCam;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
@@ -35,7 +37,7 @@ import java.util.List;
 /**
  * Created by troop on 25.08.13.
  */
-public class CameraManager extends PictureCam implements SurfaceHolder.Callback , SensorEventListener
+public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
     public static final String SwitchCamera = "switchcam";
     public static final String SwitchCamera_MODE_3D = "3D";
@@ -72,49 +74,31 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
     public static final String Preferences_IPPFront = "front_ipp";
 
     CamPreview context;
-    //public Camera mCamera;
-    //MediaScannerManager scanManager;
     CameraManager cameraManager;
-    public  Camera.Parameters parameters;
     public ZoomManager zoomManager;
     public boolean Running = false;
     public MediaScannerManager scanManager;
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
-    //public boolean picturetaking = false;
     public boolean touchtofocus = false;
     public MainActivity activity;
-    //public SharedPreferences preferences;
     public ManualExposureManager manualExposureManager;
-    public String lastPicturePath;
     public ManualSharpnessManager manualSharpnessManager;
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
     public HdrManager HdrRender;
     public ParametersManager parametersManager;
-
-
-    float mLastX;
-    float mLastZ;
-    float mLastY;
-    MediaRecorder recorder;
-    String mediaSavePath;
-
-
-
     public boolean takePicture = false;
 
     public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
     {
-        super(activity.getApplicationContext(), preferences);
-        this.context = context;
+        super(context, preferences);
         scanManager = new MediaScannerManager(context.getContext());
-        context.mHolder.addCallback(this);
+        context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
         autoFocusManager = new AutoFocusManager(this);
         this.activity = activity;
-        //preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         manualExposureManager = new ManualExposureManager(this);
         cameraManager = this;
         manualSharpnessManager = new ManualSharpnessManager(this);
@@ -122,8 +106,6 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
         manualBrightnessManager = new ManualBrightnessManager(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this);
-
-
     }
 
     Bitmap bitmascale;
@@ -158,22 +140,23 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
 
     public  void Start()
     {
+        OpenCamera();
+    }
+
+    @Override
+    protected void OpenCamera() {
         super.OpenCamera();
         try {
-            mCamera.setPreviewDisplay(context.mHolder);
+            mCamera.setPreviewDisplay(activity.mPreview.getHolder());
             mCamera.setZoomChangeListener(zoomManager);
             if(preferences.getBoolean("upsidedown", false) == true)
                 fixCameraDisplayOrientation();
             zoomManager.ResetZoom();
         } catch (Exception exception) {
-            mCamera.release();
-            mCamera = null;
+            CloseCamera();
 
             // TODO: add more exception handling logic here
         }
-
-        recorder = new MediaRecorder();
-
     }
 
     private void fixCameraDisplayOrientation()
@@ -380,13 +363,9 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
         // Surface will be destroyed when we return, so stop the preview.
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
-        if (IsRecording)
-            StopRecording();
-        recorder.reset();
-        recorder.release();
-        recorder = null;
+
         mCamera.stopPreview();
-        super.CloseCamera();
+        CloseCamera();
     }
 
 
@@ -424,8 +403,6 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
             }
         }
     }
-
-
 
     public  void SetTouchFocus(RectF rectangle)
     {
@@ -500,91 +477,6 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
         }
     }
 
-    public boolean IsRecording = false;
-    public void StartRecording()
-    {
-        mCamera.unlock();
-        File sdcardpath = Environment.getExternalStorageDirectory();
-
-        recorder.setCamera(mCamera);
-        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        if (parameters.getPreviewSize().height == 1080)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
-        if (parameters.getPreviewSize().height == 720)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            if (parameters.getPreviewSize().width == 960)
-                recorder.setVideoSize(960, 720);
-            else
-                recorder.setVideoSize(1280,720);
-        }
-        if (parameters.getPreviewSize().height == 480)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
-            if (parameters.getPreviewSize().height == 800)
-                recorder.setVideoSize(800, 480);
-            if (parameters.getPreviewSize().height == 640)
-                recorder.setVideoSize(640,480);
-
-        }
-        /*if (parameters.getPreviewSize().height == 576)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            recorder.setVideoSize(720,576);
-        }*/
-        if (parameters.getPreviewSize().height == 240)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-            recorder.setVideoSize(320,240);
-        }
-        if (parameters.getPreviewSize().height == 288)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-        if (parameters.getPreviewSize().height == 160)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-            recorder.setVideoSize(240,160);
-        }
-        if (parameters.getPreviewSize().height == 144)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
-
-        if (preferences.getBoolean("upsidedown", false) == true)
-        {
-            String rota = parameters.get("rotation");
-
-            if (rota != null && rota.equals("180"))
-                recorder.setOrientationHint(180);
-            if (rota == null)
-                recorder.setOrientationHint(0);
-        }
-        //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        mediaSavePath = SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath();
-        recorder.setOutputFile(mediaSavePath);
-        recorder.setPreviewDisplay(context.getHolder().getSurface());
-        try {
-            recorder.prepare();
-            recorder.start();
-            IsRecording = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public  void StopRecording()
-    {
-        IsRecording = false;
-        recorder.stop();
-        scanManager.startScan(mediaSavePath);
-        lastPicturePath = mediaSavePath;
-        recorder.reset();
-        mCamera.lock();
-    }
-
-
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
     {
@@ -609,11 +501,6 @@ public class CameraManager extends PictureCam implements SurfaceHolder.Callback 
         Running = false;
 
     }
-
-
-
-
-
 
     private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.05;

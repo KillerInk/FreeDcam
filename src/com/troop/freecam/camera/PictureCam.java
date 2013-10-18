@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.SurfaceView;
 
+import com.troop.freecam.CamPreview;
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
@@ -18,19 +20,19 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 {
     protected MediaScannerManager scanManager;
     protected SoundPlayer soundPlayer;
-    protected Context context;
+    protected CamPreview context;
     protected SavePicture savePicture;
     public boolean crop = false;
 
     public SavePictureCallback onsavePicture;
 
 
-    public PictureCam(Context context,SharedPreferences preferences)
+    public PictureCam(CamPreview context,SharedPreferences preferences)
     {
         super(preferences);
         this.context = context;
-        this.scanManager = new MediaScannerManager(context);
-        soundPlayer = new SoundPlayer(context);
+        this.scanManager = new MediaScannerManager(context.getContext());
+        soundPlayer = new SoundPlayer(context.getContext());
         savePicture = new SavePicture(scanManager);
         savePicture.onSavePicture = this;
     }
