@@ -1,7 +1,7 @@
 /*___Generated_by_IDEA___*/
 
 C:\Users\troop\workspace\FreeCam\res\raw\hdrsoftware.bc \
-  C:\Users\troop\AppData\Local\Temp\android_renderscript_autogeneration8991433325533288040tmp\com\android\camera\ScriptC_HdrSoftware.java: \
+  C:\Users\troop\AppData\Local\Temp\android_renderscript_autogeneration8513195827348572607tmp\com\android\camera\ScriptC_HdrSoftware.java: \
   C:\Users\troop\workspace\FreeCam\src\com\troop\freecam\cm\HdrSoftware.rs \
   C:\Android\build-tools\18.1.0\renderscript\include\rs_core.rsh \
   C:\Android\build-tools\18.1.0\renderscript\include/rs_types.rsh \

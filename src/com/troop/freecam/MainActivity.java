@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
 		mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
-        camMan = new CameraManager(mPreview, this);
+        camMan = new CameraManager(mPreview, this, preferences);
 
         mPreview.SetCameraManager(camMan);
 

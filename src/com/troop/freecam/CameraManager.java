@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by troop on 25.08.13.
  */
-public class CameraManager implements SurfaceHolder.Callback , SensorEventListener
+public class CameraManager extends BaseCamera implements SurfaceHolder.Callback , SensorEventListener
 {
     public static final String SwitchCamera = "switchcam";
     public static final String SwitchCamera_MODE_3D = "3D";
@@ -78,7 +78,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public static final String Preferences_IPPFront = "front_ipp";
 
     CamPreview context;
-    public Camera mCamera;
+    //public Camera mCamera;
     //MediaScannerManager scanManager;
     CameraManager cameraManager;
     public  Camera.Parameters parameters;
@@ -109,15 +109,16 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
 
     public boolean takePicture = false;
 
-    public CameraManager(CamPreview context, MainActivity activity)
+    public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
     {
+        super(preferences);
         this.context = context;
         scanManager = new MediaScannerManager(context.getContext());
         context.mHolder.addCallback(this);
         zoomManager = new ZoomManager(this);
         autoFocusManager = new AutoFocusManager(this);
         this.activity = activity;
-        preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        //preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         manualExposureManager = new ManualExposureManager(this);
         cameraManager = this;
         manualSharpnessManager = new ManualSharpnessManager(this);
@@ -130,16 +131,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
 
     public  void Start()
     {
-        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-        //mCamera.unlock();
-        if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
-            mCamera = Camera.open(2);
-        if(tmp.equals(CameraManager.SwitchCamera_MODE_2D))
-            mCamera = Camera.open(0);
-            //mCamera.setDisplayOrientation(90);
-        if (tmp.equals(CameraManager.SwitchCamera_MODE_Front))
-            mCamera = Camera.open(1);
-
+        super.OpenCamera();
         try {
             mCamera.setPreviewDisplay(context.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
@@ -365,9 +357,7 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
         recorder.release();
         recorder = null;
         mCamera.stopPreview();
-        mCamera.release();
-        mCamera = null;
-
+        super.CloseCamera();
     }
 
     public void StartTakePicture()
@@ -641,7 +631,10 @@ public class CameraManager implements SurfaceHolder.Callback , SensorEventListen
     public void surfaceDestroyed(SurfaceHolder holder) {
         Stop();
         Running = false;
+
     }
+
+
 
 
 
