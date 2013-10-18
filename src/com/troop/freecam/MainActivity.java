@@ -46,27 +46,8 @@ import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.switchcameramenu;
 
-public class MainActivity extends Activity {
-
-    //focus-mode-values=off,auto,infinity,infinity,portrait,extended
-    //flash-mode-values=on,off,auto,torch
-    //exposure-mode-values=manual,auto,night,backlighting,spotlight,sports,snow,beach,aperture,small-aperture
-    //auto-convergence-mode-values=disable,frame,center,touch,manual
-    //preview-format-values=yuv420sp,yuv420p,yuv420p
-    //scene-mode-values=auto,closeup,landscape,aqua,sports,mood,night-portrait,night-indoor,fireworks,document,barcode,super-night,cine,old-film,action,beach,candlelight,night,party,portrait,snow,steadyphoto,sunset,theatre
-    //supported-picture-sidebyside-size-values=4096x1536,3200x1200,2560x960,2048x768,1280x480,640x240
-    //whitebalance-values=auto,daylight,cloudy-daylight,tungsten,fluorescent,incandescent,horizon,sunset,shade,twilight,warm-fluorescent
-    //iso-mode-values=auto,100,200,400,800
-    //exposure-mode-values=manual,auto,night,backlighting,spotlight,sports,snow,beach,aperture,small-aperture
-    //focal-length=4.76
-    //sharpness=100;
-    //contrast=100
-    //jpeg-quality=95;
-    //brightness=50
-
-
-
-
+public class MainActivity extends Activity
+{
 	public CamPreview mPreview;
     public DrawingOverlaySurface drawSurface;
 	private ImageButton shotButton;
@@ -132,7 +113,7 @@ public class MainActivity extends Activity {
     CheckBox upsidedown;
     boolean recordVideo = false;
 
-    CheckBox crop;
+    CheckBox crop_box;
 
     int currentZoom = 0;
     SensorManager sensorManager;
@@ -292,11 +273,11 @@ public class MainActivity extends Activity {
 
         if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
         {
-            settingsMenuLayout.removeView(crop);
+            settingsMenuLayout.removeView(crop_box);
         }
         else
         {
-            crop.setChecked(true);
+            crop_box.setChecked(true);
         }
     }
 
@@ -325,17 +306,19 @@ public class MainActivity extends Activity {
         ippButton = (Button)findViewById(R.id.button_ipp);
         ippButton.setOnClickListener(new IppMenu(camMan, this));
 
-        crop = (CheckBox)findViewById(R.id.checkBox_crop);
-        crop.setOnClickListener(new View.OnClickListener() {
+        crop_box = (CheckBox)findViewById(R.id.checkBox_crop);
+        crop_box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                if (crop.isChecked())
+                if (crop_box.isChecked())
                 {
+                    camMan.crop = true;
                     preferences.edit().putBoolean("crop", true).commit();
                 }
                 else
                 {
+                    camMan.crop = false;
                     preferences.edit().putBoolean("crop", false).commit();
                 }
             }
@@ -612,11 +595,11 @@ public class MainActivity extends Activity {
     {
         if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
         {
-            settingsMenuLayout.removeView(crop);
+            settingsMenuLayout.removeView(crop_box);
         }
         else
         {
-            settingsMenuLayout.addView(crop);
+            settingsMenuLayout.addView(crop_box);
         }
     }
 

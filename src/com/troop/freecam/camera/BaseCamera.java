@@ -1,8 +1,12 @@
-package com.troop.freecam;
+package com.troop.freecam.camera;
 
 import android.content.SharedPreferences;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.troop.freecam.CameraManager;
 
 /**
  * Created by troop on 18.10.13.
@@ -10,7 +14,7 @@ import android.view.SurfaceHolder;
 public class BaseCamera
 {
     public Camera mCamera;
-    protected SharedPreferences preferences;
+    public SharedPreferences preferences;
 
     public BaseCamera(SharedPreferences preferences)
     {

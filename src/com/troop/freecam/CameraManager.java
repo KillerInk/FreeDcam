@@ -1,28 +1,22 @@
 package com.troop.freecam;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.media.MediaPlayer;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.view.SurfaceView;
 
-import com.troop.freecam.cm.HdrSoftwareProcessor;
+import com.troop.freecam.camera.BaseCamera;
+import com.troop.freecam.camera.PictureCam;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
@@ -41,7 +35,7 @@ import java.util.List;
 /**
  * Created by troop on 25.08.13.
  */
-public class CameraManager extends BaseCamera implements SurfaceHolder.Callback , SensorEventListener
+public class CameraManager extends PictureCam implements SurfaceHolder.Callback , SensorEventListener
 {
     public static final String SwitchCamera = "switchcam";
     public static final String SwitchCamera_MODE_3D = "3D";
@@ -91,7 +85,7 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
     //public boolean picturetaking = false;
     public boolean touchtofocus = false;
     public MainActivity activity;
-    public SharedPreferences preferences;
+    //public SharedPreferences preferences;
     public ManualExposureManager manualExposureManager;
     public String lastPicturePath;
     public ManualSharpnessManager manualSharpnessManager;
@@ -100,6 +94,7 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
     public HdrManager HdrRender;
     public ParametersManager parametersManager;
 
+
     float mLastX;
     float mLastZ;
     float mLastY;
@@ -107,11 +102,12 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
     String mediaSavePath;
 
 
+
     public boolean takePicture = false;
 
     public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
     {
-        super(preferences);
+        super(activity.getApplicationContext(), preferences);
         this.context = context;
         scanManager = new MediaScannerManager(context.getContext());
         context.mHolder.addCallback(this);
@@ -127,6 +123,37 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this);
 
+
+    }
+
+    Bitmap bitmascale;
+    @Override
+    public void onPictureSaved(File file)
+    {
+        takePicture = false;
+        if(bitmascale != null)
+            bitmascale.recycle();
+        try
+        {
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+            Bitmap bitmaporg = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            //mediaScannerManager.startScan(s);
+
+            int w = cameraManager.activity.thumbButton.getWidth();
+            int h = cameraManager.activity.thumbButton.getHeight();
+            bitmascale = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
+            cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
+            cameraManager.lastPicturePath =file.getAbsolutePath();
+            bitmaporg.recycle();
+            System.gc();
+            //bitmascale.recycle();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public  void Start()
@@ -327,6 +354,8 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
             activity.brightnessSeekBar.setMax(100);
             activity.brightnessSeekBar.setProgress(parameters.getInt("brightness"));
             activity.saturationSeekBar.setMax(180);
+            activity.crop_box.setChecked(preferences.getBoolean("crop", false));
+            crop = activity.crop_box.isChecked();
             mCamera.startPreview();
         }
     }
@@ -360,6 +389,8 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
         super.CloseCamera();
     }
 
+
+
     public void StartTakePicture()
     {
         if (takePicture == false)
@@ -375,7 +406,7 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
                     SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
                     autoFocusManager.focusing = true;
                     if (autoFocusManager.hasFocus)
-                        TakePicture();
+                        TakePicture(crop);
                     else
                         mCamera.autoFocus(autoFocusManager);
                 }
@@ -389,17 +420,12 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
             }
             else
             {
-                TakePicture();
+                TakePicture(crop);
             }
         }
     }
 
-    public void TakePicture()
-    {
 
-            mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
-
-    }
 
     public  void SetTouchFocus(RectF rectangle)
     {
@@ -557,57 +583,7 @@ public class CameraManager extends BaseCamera implements SurfaceHolder.Callback 
         mCamera.lock();
     }
 
-    public Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
-        public void onShutter() {
 
-            MediaPlayer mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.camerashutter);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-            {
-                public void onCompletion(MediaPlayer mp)
-                {
-                    mp.release();
-                }
-            });
-            //mediaPlayer.setVolume(1,1);
-            mediaPlayer.start(); // no need to call prepare(); create() does that for you
-            Log.d("FreeCam", "onShutter'd");
-        }
-    };
-
-    /** Handles data for raw picture */
-    public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
-        public void onPictureTaken(byte[] data, Camera camera) {
-            Log.d("FreeCam", "onPictureTaken - raw");
-        }
-    };
-    SavePictureTask task;
-    /** Handles data for jpeg picture */
-    public Camera.PictureCallback jpegCallback = new Camera.PictureCallback()
-    {
-        public void onPictureTaken(byte[] data, Camera camera)
-        {
-            Log.d("PictureCallback", "DATAsize:" + data.length);
-            boolean is3d = false;
-            if (preferences.getString("switchcam", "3D").equals("3D"))
-            {
-                is3d = true;
-            }
-
-            task = new SavePictureTask(scanManager, is3d, cameraManager);
-
-
-
-            task.execute(data);
-
-
-            //activity.thumbButton.invalidate();
-
-
-            mCamera.startPreview();
-            takePicture = false;
-
-        }
-    };
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
