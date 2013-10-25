@@ -260,7 +260,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             }
 
         }
-
         //parameters.set("gbce","true");
         //String maxSharpnessString = parameters.get("max-sharpness");
         //String t = parameters.flatten();

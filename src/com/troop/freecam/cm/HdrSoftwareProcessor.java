@@ -88,7 +88,8 @@ public class HdrSoftwareProcessor {
             mRSHost.setBitmapInput(mSourceBitmap, i);
 
             // try to use as few memory as possible
-            mSourceBitmap.recycle();    
+            mSourceBitmap.recycle();
+            //System.gc();
         }
     }
 
@@ -103,6 +104,7 @@ public class HdrSoftwareProcessor {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             mOutputBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            mOutputBitmap.recycle();
             return out.toByteArray();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());

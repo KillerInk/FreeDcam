@@ -27,7 +27,7 @@ public class CamPreview extends SurfaceView  {
 
 	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
-    private Real3D mReal3D;
+    Real3D mReal3D;
     private CameraManager camMan;
     public SharedPreferences preferences;
     boolean is3d = false;
@@ -41,6 +41,7 @@ public class CamPreview extends SurfaceView  {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
         mReal3D = new Real3D(mHolder);
+        mReal3D.setMinimumNegative(-1);
         SwitchViewMode();
 
     }
@@ -69,7 +70,11 @@ public class CamPreview extends SurfaceView  {
 
         if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
         {
-            mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+            if(preferences.getBoolean("upsidedown", false) == false)
+                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+            else
+                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_RL));
+
         }
         else
         {

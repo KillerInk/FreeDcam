@@ -1,7 +1,11 @@
 package com.troop.freecam.manager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,16 +14,20 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freecam.CameraManager;
+import com.troop.freecam.HdrRenderActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.cm.HdrSoftwareProcessor;
 import com.troop.freecam.cm.HdrSoftwareRS;
 import com.troop.freecam.manager.interfaces.PictureTakeFinish;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by troop on 15.10.13.
@@ -38,9 +46,11 @@ public class HdrManager implements PictureTakeFinish
     int count = 0;
     int interval = 500;
     boolean takepicture = false;
+    boolean working = false;
     PictureTakeFinish pictureTakeFinish;
 
-    HdrSoftwareProcessor HdrRender;
+
+
 
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable()
@@ -59,7 +69,7 @@ public class HdrManager implements PictureTakeFinish
 
                 starttakePicture();
             }
-            if(takepicture)
+            else if(takepicture)
                 handler.postDelayed(runnable, interval);
         }
         else
@@ -77,7 +87,14 @@ public class HdrManager implements PictureTakeFinish
 
 
             File sdcardpath = Environment.getExternalStorageDirectory();
-            renderHDRandSAve(end, sdcardpath);
+            //TODO add intent
+            Intent hdractiv = new Intent(cameraManager.activity.getApplicationContext(), HdrRenderActivity.class);
+            String[] ar = new String[3];
+            ar[0] = uris[0].getPath();
+            ar[1] = uris[1].getPath();
+            ar[2] = uris[2].getPath();
+            hdractiv.putExtra("uris", ar);
+            cameraManager.activity.startActivity(hdractiv);
             cameraManager.parameters.set("video-stabilization", "false");
             cameraManager.parametersManager.SetExposureCompensation(0);
 
@@ -91,7 +108,7 @@ public class HdrManager implements PictureTakeFinish
     {
         this.cameraManager = cameraManager;
         uris  = new Uri[3];
-        HdrRender = new HdrSoftwareProcessor(cameraManager.activity.getBaseContext());
+        //HdrRender = new HdrSoftwareProcessor(cameraManager.activity.getBaseContext());
         pictureTakeFinish = this;
     }
 
@@ -182,6 +199,7 @@ public class HdrManager implements PictureTakeFinish
             if (!sdcardpath.exists())
             {
                 Log.e(TAG, "sdcard ist not connected");
+                return;
 
             }else
             {
@@ -218,40 +236,9 @@ public class HdrManager implements PictureTakeFinish
         }
     }
 
-    private void renderHDRandSAve(String end, File sdcardpath) {
-        try {
-            HdrRender.prepare(cameraManager.activity.getBaseContext(),uris);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte[] hdrpic = HdrRender.computeHDR(cameraManager.activity.getBaseContext());
-        File file = SavePictureTask.getFilePath(end, sdcardpath);
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-            outStream.write(hdrpic);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-        Bitmap bitmaporg = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        cameraManager.scanManager.startScan(file.getAbsolutePath());
 
-        int w = cameraManager.activity.thumbButton.getWidth();
-        int h = cameraManager.activity.thumbButton.getHeight();
-        Bitmap bitmascale = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
-        cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
-        cameraManager.lastPicturePath = file.getAbsolutePath();
-        bitmaporg.recycle();
-        bitmascale.recycle();
-        System.gc();
-    }
+
 
     private File getFilePath(String end, File sdcardpath) {
         File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");
@@ -310,4 +297,7 @@ public class HdrManager implements PictureTakeFinish
     {
         doAction();
     }
+
+
+
 }

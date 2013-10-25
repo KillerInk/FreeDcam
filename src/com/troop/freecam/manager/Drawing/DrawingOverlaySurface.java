@@ -51,6 +51,8 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
         mHolder.addCallback(this);
         // Initialize Real3D object
         mReal3D = new Real3D(mHolder);
+        mReal3D.setMinimumNegative(-1);
+        mReal3D.setMaximumPositive(1);
         drawingRectHelper = new SizeAbleRectangle(this);
         SwitchViewMode();
     }
