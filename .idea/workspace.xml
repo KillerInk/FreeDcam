@@ -38,21 +38,12 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="freecam" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c19a282c-b4ff-4fdc-bc06-fd291de795ef" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/CamPreview.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/CamPreview.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/manager/Drawing/DrawingOverlaySurface.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/manager/Drawing/DrawingOverlaySurface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FreeDCam.iml" afterPath="$PROJECT_DIR$/FreeDCam.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/troop/freecam/cm/HdrSoftware.d" afterPath="$PROJECT_DIR$/gen/com/troop/freecam/cm/HdrSoftware.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/cm/HdrSoftwareProcessor.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/cm/HdrSoftwareProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/android/camera/ScriptC_HdrSoftware.java" afterPath="$PROJECT_DIR$/gen/com/android/camera/ScriptC_HdrSoftware.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/hdrsoftware.bc" afterPath="$PROJECT_DIR$/res/raw/hdrsoftware.bc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java" afterPath="$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java" />
     </list>
     <ignored path="FreeCam.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -112,21 +103,6 @@
       </breakpoint>
     </breakpoint_any>
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java" line="164" class="com.troop.freecam.HdrRenderActivity" package="com.troop.freecam">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java" line="142" class="com.troop.freecam.HdrRenderActivity" package="com.troop.freecam">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -160,7 +136,7 @@
       <file leaf-file-name="HdrManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="87" selection-start="2273" selection-end="2273" vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="5253">
+            <state line="217" column="0" selection-start="6244" selection-end="6244" vertical-scroll-proportion="0.0" vertical-offset="2868" max-vertical-offset="4386">
               <folding />
             </state>
           </provider>
@@ -178,7 +154,7 @@
       <file leaf-file-name="HdrRenderActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="8" selection-start="4373" selection-end="4373" vertical-scroll-proportion="-0.550173" vertical-offset="2256" max-vertical-offset="6664">
+            <state line="164" column="0" selection-start="5128" selection-end="5128" vertical-scroll-proportion="0.33217993" vertical-offset="2120" max-vertical-offset="6664">
               <folding />
             </state>
           </provider>
@@ -241,12 +217,12 @@
         <option value="$PROJECT_DIR$/src/com/troop/freecam/camera/PictureCam.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/camera/VideoCam.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/cm/HdrSoftwareProcessor.java" />
-        <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/CamPreview.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/Drawing/DrawingOverlaySurface.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/CameraManager.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/layout/hdr_layout.xml" />
+        <option value="$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java" />
         <option value="$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java" />
       </list>
     </option>
@@ -798,7 +774,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35538954" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35538954" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35538954" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18729989" sideWeight="0.23407644" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -875,13 +851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/cm/HdrSoftwareProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="14" selection-start="2853" selection-end="2853" vertical-scroll-proportion="0.6764706" vertical-offset="629" max-vertical-offset="1717">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Android/sources/android-14/android/app/Instrumentation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1166" column="0" selection-start="43897" selection-end="43897" vertical-scroll-proportion="0.6851211" vertical-offset="18440" max-vertical-offset="26996" />
@@ -890,13 +859,6 @@
     <entry file="file://C:/Android/sources/android-14/android/app/Activity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4651" column="0" selection-start="192138" selection-end="192138" vertical-scroll-proportion="0.64705884" vertical-offset="76840" max-vertical-offset="77418">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="87" selection-start="2273" selection-end="2273" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4454">
           <folding />
         </state>
       </provider>
@@ -968,9 +930,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/manager/HdrManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="217" column="0" selection-start="6244" selection-end="6244" vertical-scroll-proportion="0.0" vertical-offset="2868" max-vertical-offset="4386">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/cm/HdrSoftwareProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="2507" selection-end="2507" vertical-scroll-proportion="-0.44117647" vertical-offset="1139" max-vertical-offset="1717">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/troop/freecam/HdrRenderActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="8" selection-start="4373" selection-end="4373" vertical-scroll-proportion="-0.550173" vertical-offset="2256" max-vertical-offset="6664">
+        <state line="164" column="0" selection-start="5128" selection-end="5128" vertical-scroll-proportion="0.33217993" vertical-offset="2120" max-vertical-offset="6664">
           <folding />
         </state>
       </provider>

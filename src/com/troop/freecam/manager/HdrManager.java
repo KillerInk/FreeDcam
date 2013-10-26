@@ -236,10 +236,6 @@ public class HdrManager implements PictureTakeFinish
         }
     }
 
-
-
-
-
     private File getFilePath(String end, File sdcardpath) {
         File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");
         if (!freeCamImageDirectory.exists())

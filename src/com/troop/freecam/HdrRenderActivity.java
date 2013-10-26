@@ -62,9 +62,9 @@ public class HdrRenderActivity extends Activity
             String[] muh = new String[3];
             muh = extras.getStringArray("uris");
             uris = new Uri[3];
-            uris[0] = Uri.parse(muh[0]);
-            uris[1] = Uri.parse(muh[1]);
-            uris[2] = Uri.parse(muh[2]);
+            uris[0] = Uri.fromFile(new File(muh[0]));
+            uris[1] = Uri.fromFile(new File(muh[1]));
+            uris[2] = Uri.fromFile(new File(muh[2]));
             HdrRender = new HdrSoftwareProcessor(this);
             button_renderHDR = (Button)findViewById(R.id.button_RenderHdr);
             button_renderHDR.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +141,7 @@ public class HdrRenderActivity extends Activity
     private void render2d(String end, File sdcardpath) {
         try {
             HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this,uris);
+            HdrRender.prepare(this, uris);
         } catch (IOException e) {
             e.printStackTrace();
         }
