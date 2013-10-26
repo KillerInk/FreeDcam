@@ -266,6 +266,14 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         //parameters.set("mode-values", "exposure-bracketing");
         //int pis = parameters.getPictureFormat();
         //parameters.setPictureFormat(ImageFormat.RGB_565);
+        //parameters.set("exposure", "manual");
+        //parameters.set("manual-exposure-right-compensation", 150);
+        //parameters.set("manual-exposure-compensation", 1500);
+        //parameters.set("manual-exposure-left-compensation", 1500);
+        //parameters.setAutoExposureLock(true);
+        //parameters.setAutoWhiteBalanceLock(true);
+        //parameters.setExposureCompensation(30);
+
         try
         {
             //set parameters

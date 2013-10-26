@@ -97,6 +97,8 @@ public class HdrManager implements PictureTakeFinish
             cameraManager.activity.startActivity(hdractiv);
             cameraManager.parameters.set("video-stabilization", "false");
             cameraManager.parametersManager.SetExposureCompensation(0);
+            cameraManager.parameters.setAutoExposureLock(false);
+            cameraManager.parameters.setAutoWhiteBalanceLock(false);
 
             //cameraManager.parametersManager.SetBrightness(100);
             //cameraManager.parametersManager.SetContrast(50);
@@ -132,6 +134,11 @@ public class HdrManager implements PictureTakeFinish
     {
 
         setParameters();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         takepicture = true;
         cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
@@ -139,36 +146,51 @@ public class HdrManager implements PictureTakeFinish
 
     private void setParameters()
     {
+        if (cameraManager.parameters.getAutoWhiteBalanceLock() == false)
+            cameraManager.parameters.setAutoWhiteBalanceLock(true);
+        if (cameraManager.parameters.getAutoExposureLock() == false)
+            cameraManager.parameters.setAutoExposureLock(true);
+
         if (count == 0)
         {
-            int dif = 15;
+            /*int dif = 30;
             for (int i = 0; i < dif; i++ )
             {
                 cameraManager.parametersManager.SetExposureCompensation(i);
-            }
+            }*/
+            cameraManager.parametersManager.SetExposureCompensation(20);
+            cameraManager.parametersManager.SetBrightness(80);
+            cameraManager.parametersManager.SetContrast(120);
+
             //cameraManager.parametersManager.SetBrightness(180);
             //cameraManager.parametersManager.SetContrast(100);
 
         }
         else if (count == 1)
         {
-            int dif = -15;
+            /*int dif = -15;
             for (int i = 15; i >= dif; i-- )
             {
                 cameraManager.parametersManager.SetExposureCompensation(i);
-            }
-            //cameraManager.parametersManager.SetExposureCompensation(0);
+            }*/
+            cameraManager.parametersManager.SetExposureCompensation(0);
+            cameraManager.parametersManager.SetBrightness(50);
+            cameraManager.parametersManager.SetContrast(100);
+
             //cameraManager.parametersManager.SetBrightness(100);
             //cameraManager.parametersManager.SetContrast(50);
         }
         else if (count == 2)
         {
-            int dif = -30;
+            /*int dif = -30;
             for (int i = -15; i >= dif; i-- )
             {
                 cameraManager.parametersManager.SetExposureCompensation(i);
-            }
-            //cameraManager.parametersManager.SetExposureCompensation(-30);
+            }*/
+            cameraManager.parametersManager.SetExposureCompensation(-20);
+            //cameraManager.parametersManager.SetBrightness(50);
+            //cameraManager.parametersManager.SetContrast(100);
+
             //cameraManager.parametersManager.SetBrightness(0);
             //cameraManager.parametersManager.SetContrast(0);
         }

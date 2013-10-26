@@ -87,10 +87,10 @@ public class HdrRenderActivity extends Activity
             basePicture = (ImageView) findViewById(R.id.imageView_basePic);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
-            basePicture.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[0].getPath(),options),800 , 480,true));
+            basePicture.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[1].getPath(),options),800 , 480,true));
 
             firstPic = (ImageView) findViewById(R.id.imageView_firstPic);
-            firstPic.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[1].getPath(),options),800 , 480,true));
+            firstPic.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[0].getPath(),options),800 , 480,true));
             firstPic.setAlpha(85);
 
             secondPic = (ImageView) findViewById(R.id.imageView_secondPic);

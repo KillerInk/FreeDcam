@@ -19,7 +19,8 @@ public class ParametersManager
 
     public void SetExposureCompensation(int exp)
     {
-        cameraManager.parameters.setExposureCompensation(exp);
+        //cameraManager.parameters.setExposureCompensation(exp);
+        cameraManager.parameters.set("exposure-compensation", exp);
         try
         {
             cameraManager.mCamera.setParameters(cameraManager.parameters);
