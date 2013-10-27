@@ -67,6 +67,8 @@ public class HdrRenderActivity extends Activity
     boolean moving = false;
     int moveX;
     int moveY;
+    int leftmargine;
+    int topmargine;
 
     Rect currentviewRectangle;
     Rect completviewRectangle;
@@ -128,10 +130,10 @@ public class HdrRenderActivity extends Activity
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         Bitmap orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), options);
-        int leftmargine = (options.outWidth - 800) /2;
-        int topmargine = (options.outHeight - 480) /2;
+        leftmargine = (options.outWidth - 800) /2;
+        topmargine = (options.outHeight - 480) /2;
         completviewRectangle = new Rect(0,0, options.outWidth, options.outHeight);
-        currentviewRectangle = new Rect(leftmargine, topmargine, leftmargine + 800, topmargine +480);
+
 
         basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine,800, 480));
 
@@ -146,20 +148,28 @@ public class HdrRenderActivity extends Activity
                     moveY = (int)event.getY();
                     moving = true;
                 }
-                else if (moving)
+                if (moving)
                 {
-                    int lastmovex = moveX + (int)event.getX();
-                    int lastmovey = moveY + (int)event.getY();
+                    int lastmovex = moveX - (int)event.getX();
+                    int lastmovey = moveY - (int)event.getY();
                     moveX = (int)event.getX();
                     moveY = (int)event.getY();
-                    if (currentviewRectangle.left + lastmovex >= 0 && currentviewRectangle.top + lastmovey >= 0 && currentviewRectangle.right + lastmovex <= completviewRectangle.right && currentviewRectangle.bottom + lastmovey <= completviewRectangle.bottom)
-                    {
-                        currentviewRectangle = new Rect(currentviewRectangle.left + lastmovex , currentviewRectangle.top + lastmovey, 800, 480);
-                        basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), currentviewRectangle.left, currentviewRectangle.top, 800, 480));
-                    }
+                    if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= completviewRectangle.right)
+                        leftmargine = leftmargine + lastmovex;
+                    if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= completviewRectangle.bottom)
+                        topmargine = topmargine + lastmovey;
+
+                    basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
+                    firstPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
+                    secondPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
+
                 }
-                else if (event.getAction() == MotionEvent.ACTION_UP)
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                {
                     moving = false;
+
+
+                }
                 return false;
             }
         });
