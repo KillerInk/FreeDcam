@@ -1,6 +1,7 @@
 package com.troop.freecam;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,11 +12,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,6 +52,17 @@ public class HdrRenderActivity extends Activity
     ImageView basePicture;
     ImageView firstPic;
     ImageView secondPic;
+    Button button_moveleft;
+    Button button_moveright;
+    Button button_movetop;
+    Button button_movebottom;
+    CheckBox picone;
+    CheckBox pictwo;
+    public  ViewGroup appViewGroup;
+
+    RelativeLayout picView;
+
+    boolean workingPictureOne = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +73,9 @@ public class HdrRenderActivity extends Activity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+            //LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //appViewGroup = (ViewGroup) inflater.inflate(R.layout.hdr_layout, null);
+
             setContentView(R.layout.hdr_layout);
             Bundle extras = getIntent().getExtras();
             String[] muh = new String[3];
@@ -66,36 +85,7 @@ public class HdrRenderActivity extends Activity
             uris[1] = Uri.fromFile(new File(muh[1]));
             uris[2] = Uri.fromFile(new File(muh[2]));
             HdrRender = new HdrSoftwareProcessor(this);
-            button_renderHDR = (Button)findViewById(R.id.button_RenderHdr);
-            button_renderHDR.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String end = "";
-                    if (uris[0].getPath().endsWith("jps"))
-                        end = "jps";
-                    else
-                        end = "jpg";
-                    File sdcardpath = Environment.getExternalStorageDirectory();
-                    basePicture.setImageBitmap(null);
-                    firstPic.setImageBitmap(null);
-                    secondPic.setImageBitmap(null);
-                    System.gc();
-                    renderHDRandSAve(end, sdcardpath);
-                }
-            });
-
-            basePicture = (ImageView) findViewById(R.id.imageView_basePic);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            basePicture.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[1].getPath(),options),800 , 480,true));
-
-            firstPic = (ImageView) findViewById(R.id.imageView_firstPic);
-            firstPic.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[0].getPath(),options),800 , 480,true));
-            firstPic.setAlpha(85);
-
-            secondPic = (ImageView) findViewById(R.id.imageView_secondPic);
-            secondPic.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(uris[2].getPath(),options),800 , 480,true));
-            firstPic.setAlpha(85);
+            initControls();
 
 
 
@@ -104,6 +94,98 @@ public class HdrRenderActivity extends Activity
             //basePicture.invalidate();
 
         }
+    }
+
+    private void initControls() {
+        button_renderHDR = (Button)findViewById(R.id.button_RenderHdr);
+        button_renderHDR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String end = "";
+                if (uris[0].getPath().endsWith("jps"))
+                    end = "jps";
+                else
+                    end = "jpg";
+                File sdcardpath = Environment.getExternalStorageDirectory();
+                basePicture.setImageBitmap(null);
+                firstPic.setImageBitmap(null);
+                secondPic.setImageBitmap(null);
+                System.gc();
+                renderHDRandSAve(end, sdcardpath);
+            }
+        });
+
+        picView = (RelativeLayout)findViewById(R.id.LayoutPics);
+
+        basePicture = (ImageView) findViewById(R.id.imageView_basePic);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Bitmap orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), options);
+        int leftmargine = (options.outWidth - 800) /2;
+        int topmargine = (options.outHeight - 480) /2;
+
+        basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine,800, 480));
+
+        firstPic = (ImageView) findViewById(R.id.imageView_firstPic);
+        firstPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), leftmargine, topmargine, 800, 480));
+        firstPic.setAlpha(85);
+
+        secondPic = (ImageView) findViewById(R.id.imageView_secondPic);
+        secondPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), leftmargine, topmargine, 800, 480));
+        secondPic.setAlpha(85);
+
+        picView.removeView(secondPic);
+
+
+        button_moveleft = (Button)findViewById(R.id.button_left);
+        button_moveright = (Button)findViewById(R.id.button_right);
+        button_movetop = (Button)findViewById(R.id.button_top);
+        button_movebottom = (Button)findViewById(R.id.button_bottom);
+
+        picone = (CheckBox) findViewById(R.id.checkBox_picFirst);
+        picone.setChecked(true);
+        picone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!picone.isChecked()) {
+                    picone.setChecked(false);
+                    pictwo.setChecked(true);
+
+                    picView.removeView(firstPic);
+
+                    picView.addView(secondPic);
+                } else {
+                    picone.setChecked(true);
+                    pictwo.setChecked(false);
+                    picView.removeView(secondPic);
+
+                    picView.addView(firstPic);
+
+
+                }
+            }
+        });
+        pictwo = (CheckBox)findViewById(R.id.checkBox_picSecond);
+        pictwo.setChecked(false);
+        pictwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!pictwo.isChecked())
+                {
+                    picone.setChecked(true);
+                    pictwo.setChecked(false);
+                    picView.addView(firstPic);
+                    picView.removeViewInLayout(secondPic);
+                }
+                else
+                {
+                    picone.setChecked(false);
+                    pictwo.setChecked(true);
+                    picView.removeView(firstPic);
+                    picView.addView(secondPic);
+                }
+            }
+        });
     }
 
     @Override

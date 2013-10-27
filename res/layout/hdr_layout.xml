@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:id="@+id/LayoutPics">
 
         <ImageView
             android:layout_width="fill_parent"
@@ -36,22 +37,77 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/imageView_secondPic"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
             android:longClickable="false"
             android:alpha="0.5"
-            android:cropToPadding="false" />
+            android:cropToPadding="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+
     </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Render HDR"
-        android:id="@+id/button_RenderHdr"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:enabled="true" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picture 2"
+            android:id="@+id/checkBox_picSecond"
+            android:layout_alignBottom="@+id/checkBox_picFirst"
+            android:layout_toRightOf="@+id/button_right"
+            android:layout_marginLeft="30dp"
+            android:singleLine="false" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picture 1"
+            android:id="@+id/checkBox_picFirst"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:text="↑"
+            android:id="@+id/button_top"
+            android:singleLine="false"
+            android:layout_above="@+id/button_left"
+            android:layout_alignLeft="@+id/button_bottom" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:text="←"
+            android:id="@+id/button_left"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:text="→"
+            android:id="@+id/button_right"
+            android:layout_alignTop="@+id/button_left"
+            android:layout_toRightOf="@+id/button_top" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:text="↓"
+            android:id="@+id/button_bottom"
+            android:layout_below="@+id/button_left"
+            android:layout_toRightOf="@+id/button_left" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Render HDR"
+            android:id="@+id/button_RenderHdr"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:enabled="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
