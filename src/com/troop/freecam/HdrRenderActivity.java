@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -62,7 +64,12 @@ public class HdrRenderActivity extends Activity
 
     RelativeLayout picView;
 
-    boolean workingPictureOne = false;
+    boolean moving = false;
+    int moveX;
+    int moveY;
+
+    Rect currentviewRectangle;
+    Rect completviewRectangle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +130,39 @@ public class HdrRenderActivity extends Activity
         Bitmap orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), options);
         int leftmargine = (options.outWidth - 800) /2;
         int topmargine = (options.outHeight - 480) /2;
+        completviewRectangle = new Rect(0,0, options.outWidth, options.outHeight);
+        currentviewRectangle = new Rect(leftmargine, topmargine, leftmargine + 800, topmargine +480);
 
         basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine,800, 480));
+
+        basePicture.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN && moving == false)
+                {
+                    moveX = (int)event.getX();
+                    moveY = (int)event.getY();
+                    moving = true;
+                }
+                else if (moving)
+                {
+                    int lastmovex = moveX + (int)event.getX();
+                    int lastmovey = moveY + (int)event.getY();
+                    moveX = (int)event.getX();
+                    moveY = (int)event.getY();
+                    if (currentviewRectangle.left + lastmovex >= 0 && currentviewRectangle.top + lastmovey >= 0 && currentviewRectangle.right + lastmovex <= completviewRectangle.right && currentviewRectangle.bottom + lastmovey <= completviewRectangle.bottom)
+                    {
+                        currentviewRectangle = new Rect(currentviewRectangle.left + lastmovex , currentviewRectangle.top + lastmovey, 800, 480);
+                        basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), currentviewRectangle.left, currentviewRectangle.top, 800, 480));
+                    }
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP)
+                    moving = false;
+                return false;
+            }
+        });
 
         firstPic = (ImageView) findViewById(R.id.imageView_firstPic);
         firstPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), leftmargine, topmargine, 800, 480));
