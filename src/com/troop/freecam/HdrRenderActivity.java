@@ -5,7 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,6 +36,7 @@ import java.io.IOException;
 
 import com.troop.freecam.cm.HdrSoftwareProcessor;
 import com.troop.freecam.cm.HdrSoftwareRS;
+import com.troop.freecam.manager.Drawing.OverlayView;
 
 /**
  * Created by troop on 18.10.13.
@@ -51,9 +55,7 @@ public class HdrRenderActivity extends Activity
     HdrSoftwareProcessor HdrRender;
 
     Button button_renderHDR;
-    ImageView basePicture;
-    ImageView firstPic;
-    ImageView secondPic;
+    OverlayView overlayView;
     Button button_moveleft;
     Button button_moveright;
     Button button_movetop;
@@ -64,14 +66,7 @@ public class HdrRenderActivity extends Activity
 
     RelativeLayout picView;
 
-    boolean moving = false;
-    int moveX;
-    int moveY;
-    int leftmargine;
-    int topmargine;
 
-    Rect currentviewRectangle;
-    Rect completviewRectangle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,73 +111,18 @@ public class HdrRenderActivity extends Activity
                 else
                     end = "jpg";
                 File sdcardpath = Environment.getExternalStorageDirectory();
-                basePicture.setImageBitmap(null);
-                firstPic.setImageBitmap(null);
-                secondPic.setImageBitmap(null);
+                overlayView.Destroy();
                 System.gc();
                 renderHDRandSAve(end, sdcardpath);
             }
         });
 
         picView = (RelativeLayout)findViewById(R.id.LayoutPics);
-
-        basePicture = (ImageView) findViewById(R.id.imageView_basePic);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        Bitmap orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), options);
-        leftmargine = (options.outWidth - 800) /2;
-        topmargine = (options.outHeight - 480) /2;
-        completviewRectangle = new Rect(0,0, options.outWidth, options.outHeight);
-
-
-        basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine,800, 480));
-
-        basePicture.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN && moving == false)
-                {
-                    moveX = (int)event.getX();
-                    moveY = (int)event.getY();
-                    moving = true;
-                }
-                if (moving)
-                {
-                    int lastmovex = moveX - (int)event.getX();
-                    int lastmovey = moveY - (int)event.getY();
-                    moveX = (int)event.getX();
-                    moveY = (int)event.getY();
-                    if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= completviewRectangle.right)
-                        leftmargine = leftmargine + lastmovex;
-                    if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= completviewRectangle.bottom)
-                        topmargine = topmargine + lastmovey;
-
-                    basePicture.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
-                    firstPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
-                    secondPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftmargine, topmargine, 800, 480));
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    moving = false;
-
-
-                }
-                return false;
-            }
-        });
-
-        firstPic = (ImageView) findViewById(R.id.imageView_firstPic);
-        firstPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), leftmargine, topmargine, 800, 480));
-        firstPic.setAlpha(85);
-
-        secondPic = (ImageView) findViewById(R.id.imageView_secondPic);
-        secondPic.setImageBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), leftmargine, topmargine, 800, 480));
-        secondPic.setAlpha(85);
-
-        picView.removeView(secondPic);
+        overlayView = (OverlayView) findViewById(R.id.view_overlay);
+        overlayView.Load(uris);
+        //basePicture = (ImageView) findViewById(R.id.imageView_basePic);
+        //BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inJustDecodeBounds = true;
 
 
         button_moveleft = (Button)findViewById(R.id.button_left);
@@ -198,18 +138,9 @@ public class HdrRenderActivity extends Activity
                 if (!picone.isChecked()) {
                     picone.setChecked(false);
                     pictwo.setChecked(true);
-
-                    picView.removeView(firstPic);
-
-                    picView.addView(secondPic);
                 } else {
                     picone.setChecked(true);
                     pictwo.setChecked(false);
-                    picView.removeView(secondPic);
-
-                    picView.addView(firstPic);
-
-
                 }
             }
         });
@@ -222,15 +153,11 @@ public class HdrRenderActivity extends Activity
                 {
                     picone.setChecked(true);
                     pictwo.setChecked(false);
-                    picView.addView(firstPic);
-                    picView.removeViewInLayout(secondPic);
                 }
                 else
                 {
                     picone.setChecked(false);
                     pictwo.setChecked(true);
-                    picView.removeView(firstPic);
-                    picView.addView(secondPic);
                 }
             }
         });
@@ -249,8 +176,11 @@ public class HdrRenderActivity extends Activity
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
+        overlayView.Destroy();
         super.onPause();
+
     }
 
 
@@ -258,17 +188,19 @@ public class HdrRenderActivity extends Activity
 
     private void renderHDRandSAve(String end, File sdcardpath)
     {
+        String path = "";
         if(end.equals("jps"))
         {
-            render3d(end,sdcardpath);
+            path = render3d(end,sdcardpath);
         }
         else
         {
-            render2d(end, sdcardpath);
+            path = render2d(end, sdcardpath);
         }
+
     }
 
-    private void render2d(String end, File sdcardpath) {
+    private String render2d(String end, File sdcardpath) {
         try {
             HdrRender = new HdrSoftwareProcessor(this);
             HdrRender.prepare(this, uris);
@@ -288,9 +220,10 @@ public class HdrRenderActivity extends Activity
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return file.getAbsolutePath();
     }
 
-    private void render3d(String end, File sdcardpath)
+    private String render3d(String end, File sdcardpath)
     {
         urisLeftTop = new Uri[3];
         urisLeftBottom = new Uri[3];
@@ -333,12 +266,12 @@ public class HdrRenderActivity extends Activity
         rightbottom.recycle();
         gc();
 
-        File file = new File(String.format(freeCamImageDirectory + "/%d." + end, System.currentTimeMillis()));
+        File file = SavePictureTask.getFilePath("jps", sdcardpath);
         saveBitmap(file.getAbsolutePath(), orgi);
 
         orgi.recycle();
         gc();
-
+        return file.getAbsolutePath();
     }
 
     private void renderSplittetHDRPics(String end,File freeCamImageDirectory)

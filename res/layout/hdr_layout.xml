@@ -6,43 +6,18 @@
     android:layout_height="match_parent"
     android:gravity="fill_horizontal"
     tools:context=".HdrRenderActivity"
-    android:background="@android:color/background_dark">
+    android:background="#ffffff">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/LayoutPics">
 
-        <ImageView
+        <view
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView_basePic"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/imageView_firstPic"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
-            android:longClickable="false"
-            android:alpha="0.5" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/imageView_secondPic"
-            android:longClickable="false"
-            android:alpha="0.5"
-            android:cropToPadding="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true" />
-
+            class="com.troop.freecam.manager.Drawing.OverlayView"
+            android:id="@+id/view_overlay" />
     </RelativeLayout>
 
     <RelativeLayout
