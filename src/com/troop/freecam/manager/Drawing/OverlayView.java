@@ -31,13 +31,13 @@ public class OverlayView extends View
     int leftmargine;
     int topmargine;
 
-    int leftMargineFirstPic = 0;
-    int topMargineFirstPic = 0;
-    int leftMargineSecondPic = 0;
-    int topMargineSecondPic = 0;
+    public int leftMargineFirstPic = 0;
+    public int topMargineFirstPic = 0;
+    public int leftMargineSecondPic = 0;
+    public int topMargineSecondPic = 0;
 
     Rect currentviewRectangle;
-    Rect completviewRectangle;
+    public Rect completviewRectangle;
     Bitmap orginalImage;
     BitmapDrawable firstImage;
     BitmapDrawable secondImage;

@@ -121,6 +121,7 @@ public class HdrRenderActivity extends Activity
         picView = (RelativeLayout)findViewById(R.id.LayoutPics);
         overlayView = (OverlayView) findViewById(R.id.view_overlay);
         overlayView.Load(uris);
+        overlayView.drawFirstPic = true;
         //basePicture = (ImageView) findViewById(R.id.imageView_basePic);
         //BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inJustDecodeBounds = true;
@@ -153,9 +154,9 @@ public class HdrRenderActivity extends Activity
             @Override
             public void onClick(View v) {
                 if (picone.isChecked())
-                    overlayView.AddTop(true, -1);
+                    overlayView.AddTop(true, 1);
                 else
-                    overlayView.AddTop(false, -1);
+                    overlayView.AddTop(false, 1);
             }
         });
         button_movebottom = (Button)findViewById(R.id.button_bottom);
@@ -163,9 +164,9 @@ public class HdrRenderActivity extends Activity
             @Override
             public void onClick(View v) {
                 if (picone.isChecked())
-                    overlayView.AddTop(true, 1);
+                    overlayView.AddTop(true, -1);
                 else
-                    overlayView.AddTop(false, 1);
+                    overlayView.AddTop(false, -1);
             }
         });
 
@@ -174,7 +175,7 @@ public class HdrRenderActivity extends Activity
         picone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!picone.isChecked()) {
+                if (picone.isChecked()) {
                     picone.setChecked(false);
                     pictwo.setChecked(true);
                     overlayView.drawFirstPic = true;
@@ -235,6 +236,7 @@ public class HdrRenderActivity extends Activity
 
     private void renderHDRandSAve(String end, File sdcardpath)
     {
+        cropPictures();
         String path = "";
         if(end.equals("jps"))
         {
@@ -244,6 +246,68 @@ public class HdrRenderActivity extends Activity
         {
             path = render2d(end, sdcardpath);
         }
+
+    }
+
+    private void cropPictures()
+    {
+        Rect firstimage = new Rect(
+                overlayView.completviewRectangle.left + overlayView.leftMargineFirstPic,
+                overlayView.completviewRectangle.top + overlayView.topMargineFirstPic,
+                overlayView.completviewRectangle.right + overlayView.leftMargineFirstPic,
+                overlayView.completviewRectangle.bottom + overlayView.topMargineFirstPic);
+        Rect secondimage = new Rect(
+                overlayView.completviewRectangle.left + overlayView.leftMargineSecondPic,
+                overlayView.completviewRectangle.top + overlayView.topMargineSecondPic,
+                overlayView.completviewRectangle.right + overlayView.leftMargineSecondPic,
+                overlayView.completviewRectangle.bottom + overlayView.topMargineSecondPic);
+        int right = overlayView.completviewRectangle.right;
+        if (firstimage.left < 0 || secondimage.left < 0)
+        {
+            if (firstimage.left < 0 && firstimage.left < secondimage.left)
+                right -= firstimage.left;
+            if (secondimage.left < 0 && secondimage.left < firstimage.left)
+                right -= secondimage.left;
+        }
+        int left = 0;
+        if (firstimage.left > 0 || secondimage.left > 0)
+        {
+            if (firstimage.left > 0 && firstimage.left > secondimage.left)
+                left = firstimage.left;
+            if (secondimage.left > 0 && secondimage.left > firstimage.left)
+                left = secondimage.left;
+        }
+        int top = 0;
+        if (firstimage.top > 0 || secondimage.top > 0)
+        {
+            if (firstimage.top > secondimage.top)
+                top = firstimage.top;
+            if (secondimage.top > firstimage.top)
+                top = secondimage.top;
+        }
+        int bottom = overlayView.completviewRectangle.bottom;
+        if (firstimage.top < 0 || secondimage.top < 0)
+        {
+            if (firstimage.top < secondimage.top)
+                bottom += firstimage.top;
+            if (secondimage.top < firstimage.top)
+                bottom += secondimage.top;
+        }
+        Rect newImageSize = new Rect(left, top, right,bottom);
+        if (overlayView.leftMargineFirstPic < 0)
+            overlayView.leftMargineFirstPic = 0;
+        if (overlayView.topMargineFirstPic < 0)
+            overlayView.topMargineFirstPic = 0;
+        if (overlayView.leftMargineSecondPic < 0)
+            overlayView.leftMargineSecondPic = 0;
+        if (overlayView.topMargineSecondPic < 0)
+            overlayView.topMargineSecondPic = 0;
+        Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), overlayView.leftMargineFirstPic, overlayView.topMargineFirstPic, newImageSize.width(), newImageSize.height());
+        saveBitmap(uris[0].getPath(), newFirstPic);
+        Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), overlayView.leftMargineSecondPic, overlayView.topMargineSecondPic, newImageSize.width(), newImageSize.height());
+        saveBitmap(uris[2].getPath(), newSecondPic);
+        Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), 0, 0, newImageSize.width(), newImageSize.height());
+        saveBitmap(uris[1].getPath(), newBaseImage);
 
     }
 
@@ -476,9 +540,15 @@ public class HdrRenderActivity extends Activity
 
     private void saveBitmap(String filepath, Bitmap bitmap)
     {
+        File file = new File(filepath);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         FileOutputStream outStream = null;
         try {
-            outStream = new FileOutputStream(filepath);
+            outStream = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
