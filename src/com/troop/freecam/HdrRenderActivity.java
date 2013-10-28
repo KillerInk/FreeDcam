@@ -64,6 +64,7 @@ public class HdrRenderActivity extends Activity
     CheckBox pictwo;
     public  ViewGroup appViewGroup;
 
+
     RelativeLayout picView;
 
 
@@ -126,9 +127,47 @@ public class HdrRenderActivity extends Activity
 
 
         button_moveleft = (Button)findViewById(R.id.button_left);
+        button_moveleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (picone.isChecked())
+                    overlayView.AddLeft(true, -1);
+                else
+                    overlayView.AddLeft(false, -1);
+            }
+        });
         button_moveright = (Button)findViewById(R.id.button_right);
+        button_moveright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (picone.isChecked())
+                    overlayView.AddLeft(true, 1);
+                else
+                    overlayView.AddLeft(false, 1);
+
+            }
+        });
         button_movetop = (Button)findViewById(R.id.button_top);
+        button_movetop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (picone.isChecked())
+                    overlayView.AddTop(true, -1);
+                else
+                    overlayView.AddTop(false, -1);
+            }
+        });
         button_movebottom = (Button)findViewById(R.id.button_bottom);
+        button_movebottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (picone.isChecked())
+                    overlayView.AddTop(true, 1);
+                else
+                    overlayView.AddTop(false, 1);
+            }
+        });
 
         picone = (CheckBox) findViewById(R.id.checkBox_picFirst);
         picone.setChecked(true);
@@ -138,9 +177,13 @@ public class HdrRenderActivity extends Activity
                 if (!picone.isChecked()) {
                     picone.setChecked(false);
                     pictwo.setChecked(true);
+                    overlayView.drawFirstPic = true;
+                    overlayView.invalidate();
                 } else {
                     picone.setChecked(true);
                     pictwo.setChecked(false);
+                    overlayView.drawFirstPic = false;
+                    overlayView.invalidate();
                 }
             }
         });
@@ -153,11 +196,15 @@ public class HdrRenderActivity extends Activity
                 {
                     picone.setChecked(true);
                     pictwo.setChecked(false);
+                    overlayView.drawFirstPic = true;
+                    overlayView.invalidate();
                 }
                 else
                 {
                     picone.setChecked(false);
                     pictwo.setChecked(true);
+                    overlayView.drawFirstPic = false;
+                    overlayView.invalidate();
                 }
             }
         });

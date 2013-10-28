@@ -31,6 +31,11 @@ public class OverlayView extends View
     int leftmargine;
     int topmargine;
 
+    int leftMargineFirstPic = 0;
+    int topMargineFirstPic = 0;
+    int leftMargineSecondPic = 0;
+    int topMargineSecondPic = 0;
+
     Rect currentviewRectangle;
     Rect completviewRectangle;
     Bitmap orginalImage;
@@ -39,6 +44,7 @@ public class OverlayView extends View
     BitmapDrawable previewImage;
     String TAG = "OverlayView";
     Uri[] uris;
+    public boolean drawFirstPic = false;
 
     public OverlayView(Context context) {
         super(context);
@@ -56,28 +62,13 @@ public class OverlayView extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        //canvas.save();
-
-        Paint paint = new Paint();
-        //paint.setColor(Color.WHITE);
-        paint.setFilterBitmap(true);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
-
-
-        //paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
-
-        //canvas.drawColor(Color.WHITE);
-        //paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-
         Bitmap newmap =null;
         Canvas newcanvas = null;
         if (previewImage != null && moving)
         {
             newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
             newcanvas = new Canvas(newmap);
-            //newcanvas.drawColor(Color.WHITE);
-            previewImage.draw(canvas);
-            //newcanvas.drawBitmap(previewImage,0,0, null);
+            previewImage.draw(newcanvas);
         }
         else if (!moving)
         {
@@ -87,22 +78,16 @@ public class OverlayView extends View
                 newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
                 newcanvas = new Canvas(newmap);
                 previewImage.draw(newcanvas);
-                //newcanvas.drawBitmap(previewImage,0,0, null);
             }
 
 
-            if (firstImage != null && newmap != null && newcanvas != null)
+            if (firstImage != null && newmap != null && newcanvas != null && drawFirstPic)
             {
-                //paint.setShader(new BitmapShader(firstImage, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-
                 firstImage.setAlpha(125);
                 firstImage.draw(newcanvas);
-                //newcanvas.drawBitmap(firstImage, 0,0,paint);
-
             }
-            if (secondImage != null && newmap != null && newcanvas != null)
+            if (secondImage != null && newmap != null && newcanvas != null && !drawFirstPic)
             {
-                //paint.setShader(new BitmapShader(secondImage, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
                 secondImage.setAlpha(125);
                 secondImage.draw(newcanvas);
             }
@@ -174,22 +159,30 @@ public class OverlayView extends View
             }
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine, topmargine, 800, 480));
-            firstImage.setBounds(0,0,800,480);
+            loadFirstImage(o);
             if (secondImage != null)
             {
                 secondImage.getBitmap().recycle();
                 secondImage = null;
                 System.gc();
             }
-            secondImage = new BitmapDrawable (Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine, topmargine, 800, 480));
-            secondImage.setBounds(0,0,800,480);
+            loadSecondImage(o);
             invalidate();
             //Log.d(TAG, "Margines overlay: left: " + leftmargine + "Top: " +topmargine);
             toreturn = false;
 
         }
         return toreturn;
+    }
+
+    private void loadSecondImage(BitmapFactory.Options o) {
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine + leftMargineSecondPic, topmargine + topMargineSecondPic, 800, 480));
+        secondImage.setBounds(0, 0, 800, 480);
+    }
+
+    private void loadFirstImage(BitmapFactory.Options o) {
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine + leftMargineFirstPic, topmargine + topMargineFirstPic, 800, 480));
+        firstImage.setBounds(0,0,800,480);
     }
 
     private void init()
@@ -204,6 +197,7 @@ public class OverlayView extends View
         previewImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath(),o), leftmargine, topmargine, 800, 480));
         firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800, 480));
         secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800, 480));
+        invalidate();
     }
 
 
@@ -226,5 +220,39 @@ public class OverlayView extends View
         secondImage = null;
         if (previewImage !=null)
             previewImage.getBitmap().recycle();
+    }
+
+    public void AddTop(boolean firstpic, int value)
+    {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        if (firstpic)
+        {
+            topMargineFirstPic += value;
+            loadFirstImage(o);
+        }
+        else
+        {
+            topMargineSecondPic +=value;
+            loadSecondImage(o);
+        }
+        invalidate();
+    }
+
+    public void AddLeft(boolean firspic, int value)
+    {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        if (firspic)
+        {
+            leftMargineFirstPic += value;
+            loadFirstImage(o);
+        }
+        else
+        {
+            leftMargineSecondPic += value;
+            loadSecondImage(o);
+        }
+        invalidate();
     }
 }
