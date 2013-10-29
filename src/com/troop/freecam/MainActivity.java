@@ -46,6 +46,8 @@ import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.switchcameramenu;
 
+import java.io.File;
+
 public class MainActivity extends Activity
 {
 	public CamPreview mPreview;
@@ -616,7 +618,19 @@ public class MainActivity extends Activity
         sensorManager.unregisterListener(camMan);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
 
+            if(resultCode == RESULT_OK){
+                String result=data.getStringExtra("result");
+                camMan.onPictureSaved(new File(result));
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
 }
 	
 

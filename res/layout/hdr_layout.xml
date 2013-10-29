@@ -40,7 +40,8 @@
             android:text="Picture 1"
             android:id="@+id/checkBox_picFirst"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:checked="true" />
 
         <Button
             android:layout_width="@android:dimen/app_icon_size"

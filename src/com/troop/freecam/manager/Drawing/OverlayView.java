@@ -68,6 +68,7 @@ public class OverlayView extends View
         {
             newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
             newcanvas = new Canvas(newmap);
+            previewImage.setAlpha(180);
             previewImage.draw(newcanvas);
         }
         else if (!moving)
@@ -77,18 +78,19 @@ public class OverlayView extends View
 
                 newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
                 newcanvas = new Canvas(newmap);
+                previewImage.setAlpha(150);
                 previewImage.draw(newcanvas);
             }
 
 
             if (firstImage != null && newmap != null && newcanvas != null && drawFirstPic)
             {
-                firstImage.setAlpha(125);
+                firstImage.setAlpha(150);
                 firstImage.draw(newcanvas);
             }
             if (secondImage != null && newmap != null && newcanvas != null && !drawFirstPic)
             {
-                secondImage.setAlpha(125);
+                secondImage.setAlpha(150);
                 secondImage.draw(newcanvas);
             }
 
@@ -139,7 +141,8 @@ public class OverlayView extends View
             }
             if (draw)
             {
-                previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800, 480));
+                previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800/2, 480/2));
+
                 previewImage.setBounds(0,0,800,480);
                 invalidate();
             }
@@ -158,7 +161,8 @@ public class OverlayView extends View
                 System.gc();
             }
             BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            o.inSampleSize = 2;
+            //o.inPreferredConfig = Bitmap.Config.ARGB_8888;
             loadFirstImage(o);
             if (secondImage != null)
             {
@@ -176,28 +180,28 @@ public class OverlayView extends View
     }
 
     private void loadSecondImage(BitmapFactory.Options o) {
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine + leftMargineSecondPic, topmargine + topMargineSecondPic, 800, 480));
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine + leftMargineSecondPic, topmargine + topMargineSecondPic, 800/2, 480/2));
         secondImage.setBounds(0, 0, 800, 480);
     }
 
     private void loadFirstImage(BitmapFactory.Options o) {
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine + leftMargineFirstPic, topmargine + topMargineFirstPic, 800, 480));
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine + leftMargineFirstPic, topmargine + topMargineFirstPic, 800/2, 480/2));
         firstImage.setBounds(0,0,800,480);
     }
 
     private void init()
     {
         BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        o.inSampleSize = 2;
         orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), o);
-
+        System.gc();
         leftmargine = (orginalImage.getWidth() - 800) /2;
         topmargine = (orginalImage.getHeight() - 480) /2;
         completviewRectangle = new Rect(0,0, orginalImage.getWidth(), orginalImage.getHeight());
         previewImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath(),o), leftmargine, topmargine, 800, 480));
         firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800, 480));
         secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800, 480));
-        invalidate();
+        this.invalidate();
     }
 
 
@@ -225,7 +229,7 @@ public class OverlayView extends View
     public void AddTop(boolean firstpic, int value)
     {
         BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        o.inSampleSize = 2;
         if (firstpic)
         {
             topMargineFirstPic += value;
@@ -242,7 +246,7 @@ public class OverlayView extends View
     public void AddLeft(boolean firspic, int value)
     {
         BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        o.inSampleSize = 2;
         if (firspic)
         {
             leftMargineFirstPic += value;
@@ -255,4 +259,5 @@ public class OverlayView extends View
         }
         invalidate();
     }
+
 }
