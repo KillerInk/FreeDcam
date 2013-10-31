@@ -154,9 +154,9 @@ public class HdrRenderActivity extends Activity
             @Override
             public void onClick(View v) {
                 if (picone.isChecked())
-                    overlayView.AddTop(true, 1);
+                    overlayView.AddTop(true, -1);
                 else
-                    overlayView.AddTop(false, 1);
+                    overlayView.AddTop(false, -1);
             }
         });
         button_movebottom = (Button)findViewById(R.id.button_bottom);
@@ -164,9 +164,9 @@ public class HdrRenderActivity extends Activity
             @Override
             public void onClick(View v) {
                 if (picone.isChecked())
-                    overlayView.AddTop(true, -1);
+                    overlayView.AddTop(true, 1);
                 else
-                    overlayView.AddTop(false, -1);
+                    overlayView.AddTop(false, 1);
             }
         });
 
@@ -258,8 +258,137 @@ public class HdrRenderActivity extends Activity
 
     private void cropPictures()
     {
+        int orgiwidth = overlayView.completviewRectangle.right * 2;
+        int orgiheight = overlayView.completviewRectangle.bottom * 2;
+        int firstpicwidth = 0;
+        if (overlayView.leftMargineFirstPic >= 0)
+        {
+            firstpicwidth = orgiwidth - overlayView.leftMargineFirstPic;
+        }
+        else
+        {
+            firstpicwidth = orgiwidth + overlayView.leftMargineFirstPic;
+        }
+
+        int firstpicheight = 0;
+        if (overlayView.topMargineFirstPic >= 0)
+            firstpicheight = orgiheight - overlayView.topMargineFirstPic;
+        else
+            firstpicheight = orgiheight + overlayView.topMargineFirstPic;
+
+        int secondpicwidth = 0;
+        if (overlayView.leftMargineSecondPic >= 0)
+        {
+            secondpicwidth = orgiwidth - overlayView.leftMargineSecondPic;
+        }
+        else
+            secondpicwidth = orgiwidth + overlayView.leftMargineSecondPic;
+
+        int secondpicheight = 0;
+        if (overlayView.topMargineSecondPic >= 0)
+            secondpicheight = orgiheight - overlayView.topMargineSecondPic;
+        else
+            secondpicheight = orgiheight + overlayView.topMargineSecondPic;
+
+
+        int newWidth = 0;
+        int newHeight = 0;
+        int difFirstPicLeft = 0;
+        int difSecondPicLeft = 0;
+        int difFirstPicTop = 0;
+        int difSecondPicTop = 0;
+        if (firstpicwidth > secondpicwidth)
+        {
+            newWidth = secondpicwidth;
+            difFirstPicLeft = firstpicwidth - secondpicwidth;
+        }
+        else
+        {
+            newWidth = firstpicwidth;
+            difSecondPicLeft = secondpicwidth - firstpicwidth;
+        }
+        if (firstpicheight > secondpicheight)
+        {
+            newHeight = secondpicheight;
+            difFirstPicTop = firstpicheight - secondpicheight;
+        }
+        else
+        {
+            newHeight = firstpicheight;
+            difSecondPicTop = secondpicheight - firstpicheight;
+        }
+
+        int baseLeft = 0;
+        int baseTop = 0;
+
+        int firstleft = 0;
+        int firstright = newWidth;
+        if (overlayView.leftMargineFirstPic > 0)
+        {
+            firstleft = overlayView.leftMargineFirstPic;
+            firstleft += difFirstPicLeft;
+
+        }
+        else
+        {
+            firstleft = -overlayView.leftMargineFirstPic;
+            firstleft += difFirstPicLeft;
+
+
+        }
+        int firsttop = 0;
+        int firstbottom = newHeight;
+        if (overlayView.topMargineFirstPic > 0)
+        {
+            firsttop = overlayView.topMargineSecondPic;
+            firsttop += difFirstPicTop;
+
+        }
+        else
+        {
+            firsttop = -overlayView.topMargineSecondPic;
+            firsttop += difFirstPicTop;
+        }
+
+        int secondleft = 0;
+        int secondright = newWidth;
+        if (overlayView.leftMargineSecondPic > 0)
+        {
+            secondleft = overlayView.leftMargineSecondPic;
+            secondleft += difSecondPicLeft;
+
+        }
+        else
+        {
+            secondleft = -overlayView.leftMargineFirstPic;
+            secondleft += difSecondPicLeft;
+
+        }
+        int secondtop = 0;
+        int secondbottom = newHeight;
+        if (overlayView.topMargineSecondPic > 0)
+        {
+            secondtop = overlayView.topMargineSecondPic;
+            secondtop += difSecondPicTop;
+
+        }
+        else
+        {
+            secondtop = -overlayView.topMargineSecondPic;
+            secondtop += difSecondPicTop;
+        }
+        System.gc();
+        Runtime.getRuntime().gc();
+        System.gc();
+        Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), firstleft, firsttop, firstright, firstbottom);
+        saveBitmap(uris[0].getPath(), newFirstPic);
+        Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), secondleft, secondtop, newWidth, newHeight);
+        saveBitmap(uris[2].getPath(), newSecondPic);
+        Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), baseLeft, baseTop, newWidth, newHeight);
+        saveBitmap(uris[1].getPath(), newBaseImage);
+
         //create the current Picture Overlay Rectangles
-        Rect firstimage = new Rect(
+        /*Rect firstimage = new Rect(
                 overlayView.completviewRectangle.left + overlayView.leftMargineFirstPic *2,
                 overlayView.completviewRectangle.top + overlayView.topMargineFirstPic *2,
                 overlayView.completviewRectangle.right * 2 + overlayView.leftMargineFirstPic*2,
@@ -284,7 +413,7 @@ public class HdrRenderActivity extends Activity
                 right += secondimage.left;
             }
         }
-        
+
 
         int left = 0;
         if (firstimage.left > 0 || secondimage.left > 0)
@@ -329,7 +458,7 @@ public class HdrRenderActivity extends Activity
         Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), overlayView.leftMargineSecondPic, overlayView.topMargineSecondPic, newImageSize.width(), newImageSize.height());
         saveBitmap(uris[2].getPath(), newSecondPic);
         Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), 0, 0, newImageSize.width(), newImageSize.height());
-        saveBitmap(uris[1].getPath(), newBaseImage);
+        saveBitmap(uris[1].getPath(), newBaseImage);*/
 
     }
 

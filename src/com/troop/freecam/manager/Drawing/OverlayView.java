@@ -61,7 +61,7 @@ public class OverlayView extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
         Bitmap newmap =null;
         Canvas newcanvas = null;
         if (previewImage != null && moving)
@@ -101,6 +101,7 @@ public class OverlayView extends View
         {
             canvas.drawBitmap(newmap,0,0,null);
             newmap.recycle();
+            System.gc();
         }
         //canvas.restore();
     }
@@ -195,12 +196,15 @@ public class OverlayView extends View
         o.inSampleSize = 2;
         orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), o);
         System.gc();
-        leftmargine = (orginalImage.getWidth() - 800) /2;
-        topmargine = (orginalImage.getHeight() - 480) /2;
+        leftmargine = (orginalImage.getWidth() - 800);
+        topmargine = (orginalImage.getHeight() - 480);
         completviewRectangle = new Rect(0,0, orginalImage.getWidth(), orginalImage.getHeight());
-        previewImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath(),o), leftmargine, topmargine, 800, 480));
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800, 480));
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800, 480));
+        previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800/2, 480/2));
+        previewImage.setBounds(0,0,800,480);
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800/2, 480/2));
+        firstImage.setBounds(0,0,800,480);
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800/2, 480/2));
+        secondImage.setBounds(0,0,800,480);
         this.invalidate();
     }
 
