@@ -68,30 +68,36 @@ public class OverlayView extends View
         {
             newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
             newcanvas = new Canvas(newmap);
-            previewImage.setAlpha(180);
+            //previewImage.setAlpha(180);
             previewImage.draw(newcanvas);
         }
         else if (!moving)
         {
             if (newmap == null && newcanvas == null && previewImage != null)
             {
-
                 newmap = Bitmap.createBitmap(800, 480, previewImage.getBitmap().getConfig());
                 newcanvas = new Canvas(newmap);
-                previewImage.setAlpha(150);
+                //previewImage.setAlpha(200);
                 previewImage.draw(newcanvas);
             }
 
+            try {
 
-            if (firstImage != null && newmap != null && newcanvas != null && drawFirstPic)
-            {
-                firstImage.setAlpha(150);
-                firstImage.draw(newcanvas);
+
+                if (firstImage != null && newmap != null && newcanvas != null && drawFirstPic)
+                {
+                    firstImage.setAlpha(180);
+                    firstImage.draw(newcanvas);
+                }
+                if (secondImage != null && newmap != null && newcanvas != null && !drawFirstPic)
+                {
+                    secondImage.setAlpha(180);
+                    secondImage.draw(newcanvas);
+                }
             }
-            if (secondImage != null && newmap != null && newcanvas != null && !drawFirstPic)
+            catch (Exception ex)
             {
-                secondImage.setAlpha(150);
-                secondImage.draw(newcanvas);
+                ex.printStackTrace();
             }
 
 
@@ -99,7 +105,7 @@ public class OverlayView extends View
         }
         if (newmap != null)
         {
-            canvas.drawBitmap(newmap,0,0,null);
+            canvas.drawBitmap(newmap, 0, 0, null);
             newmap.recycle();
             System.gc();
         }
@@ -134,15 +140,16 @@ public class OverlayView extends View
                 topmargine = topmargine + lastmovey;
             else
                 draw = false;
-            if (previewImage != null)
-            {
-                previewImage.getBitmap().recycle();
-                previewImage = null;
-                System.gc();
-            }
+
             if (draw)
             {
-                previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800/2, 480/2));
+                if (previewImage != null)
+                {
+                    previewImage.getBitmap().recycle();
+                    previewImage = null;
+                    System.gc();
+                }
+                previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800, 480));
 
                 previewImage.setBounds(0,0,800,480);
                 invalidate();
@@ -181,12 +188,25 @@ public class OverlayView extends View
     }
 
     private void loadSecondImage(BitmapFactory.Options o) {
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine + leftMargineSecondPic, topmargine + topMargineSecondPic, 800/2, 480/2));
+        int width = 800;
+        if(leftmargine + leftMargineSecondPic + 800 > orginalImage.getWidth())
+            width = 800 - leftMargineSecondPic;
+        int height = 480;
+        if (topmargine + topMargineSecondPic + 480 > orginalImage.getHeight())
+            height = 480 - topMargineSecondPic;
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(), o), leftmargine + leftMargineSecondPic, topmargine + topMargineSecondPic, width, height));
         secondImage.setBounds(0, 0, 800, 480);
     }
 
-    private void loadFirstImage(BitmapFactory.Options o) {
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine + leftMargineFirstPic, topmargine + topMargineFirstPic, 800/2, 480/2));
+    private void loadFirstImage(BitmapFactory.Options o)
+    {   int width = 800;
+        if(leftmargine + leftMargineFirstPic + 800 > orginalImage.getWidth())
+            width = 800 - leftMargineFirstPic;
+        int height = 480;
+        if (topmargine + topMargineFirstPic + 480 > orginalImage.getHeight())
+            height = 480 - topMargineFirstPic;
+
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(), o), leftmargine + leftMargineFirstPic, topmargine + topMargineFirstPic, width, height));
         firstImage.setBounds(0,0,800,480);
     }
 
@@ -199,11 +219,11 @@ public class OverlayView extends View
         leftmargine = (orginalImage.getWidth() - 800);
         topmargine = (orginalImage.getHeight() - 480);
         completviewRectangle = new Rect(0,0, orginalImage.getWidth(), orginalImage.getHeight());
-        previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800/2, 480/2));
+        previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine, topmargine, 800, 480));
         previewImage.setBounds(0,0,800,480);
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800/2, 480/2));
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath(),o), leftmargine, topmargine, 800, 480));
         firstImage.setBounds(0,0,800,480);
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800/2, 480/2));
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath(),o), leftmargine, topmargine, 800, 480));
         secondImage.setBounds(0,0,800,480);
         this.invalidate();
     }

@@ -38,6 +38,7 @@ import java.io.IOException;
 
 import com.troop.freecam.cm.HdrSoftwareProcessor;
 import com.troop.freecam.cm.HdrSoftwareRS;
+import com.troop.freecam.manager.Drawing.BitmapHandler;
 import com.troop.freecam.manager.Drawing.OverlayView;
 
 /**
@@ -66,6 +67,10 @@ public class HdrRenderActivity extends Activity
     CheckBox pictwo;
     public  ViewGroup appViewGroup;
 
+    BitmapHandler basePicHandler;
+    BitmapHandler FirstPicHandler;
+    BitmapHandler SecondPicHandler;
+
 
     RelativeLayout picView;
 
@@ -85,12 +90,22 @@ public class HdrRenderActivity extends Activity
 
             setContentView(R.layout.hdr_layout);
             Bundle extras = getIntent().getExtras();
-            String[] muh = new String[3];
-            muh = extras.getStringArray("uris");
+            String[] muh =null;
+            if (extras != null)
+                muh = extras.getStringArray("uris");
             uris = new Uri[3];
-            uris[0] = Uri.fromFile(new File(muh[0]));
-            uris[1] = Uri.fromFile(new File(muh[1]));
-            uris[2] = Uri.fromFile(new File(muh[2]));
+            if (muh != null)
+            {
+                uris[0] = Uri.fromFile(new File(muh[0]));
+                uris[1] = Uri.fromFile(new File(muh[1]));
+                uris[2] = Uri.fromFile(new File(muh[2]));
+            }
+            else
+            {
+                uris[0] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/0.jpg"));
+                uris[1] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/1.jpg"));
+                uris[2] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/2.jpg"));
+            }
             HdrRender = new HdrSoftwareProcessor(this);
             initControls();
 
@@ -259,140 +274,60 @@ public class HdrRenderActivity extends Activity
 
     private void cropPictures()
     {
-        int orgiwidth = overlayView.completviewRectangle.right * 2;
-        int orgiheight = overlayView.completviewRectangle.bottom * 2;
-        int firstpicwidth = 0;
-        //SET FIRSTPIC WIDTH
-        if (overlayView.leftMargineFirstPic >= 0)
+        FirstPicHandler = new BitmapHandler(uris[0]);
+        FirstPicHandler.AddX(overlayView.leftMargineFirstPic);
+        FirstPicHandler.AddY(overlayView.topMargineFirstPic);
+        SecondPicHandler = new BitmapHandler(uris[2]);
+        SecondPicHandler.AddX(overlayView.leftMargineSecondPic);
+        SecondPicHandler.AddY(overlayView.topMargineSecondPic);
+
+        basePicHandler = new BitmapHandler(uris[1]);
+        if (FirstPicHandler.X >= SecondPicHandler.X)
         {
-            firstpicwidth = orgiwidth - overlayView.leftMargineFirstPic*2;
+            basePicHandler.X = FirstPicHandler.X;
         }
         else
         {
-            firstpicwidth = orgiwidth + overlayView.leftMargineFirstPic*2;
+            basePicHandler.X = SecondPicHandler.X;
         }
-        //SET FIRSPIC HEIGHT
-        int firstpicheight = 0;
-        if (overlayView.topMargineFirstPic >= 0)
-            firstpicheight = orgiheight - overlayView.topMargineFirstPic*2;
-        else
-            firstpicheight = orgiheight + overlayView.topMargineFirstPic*2;
-        //SET SECONDPIC WIDTH
-        int secondpicwidth = 0;
-        if (overlayView.leftMargineSecondPic >= 0)
+        if (FirstPicHandler.Y >= SecondPicHandler.Y)
         {
-            secondpicwidth = orgiwidth - overlayView.leftMargineSecondPic*2;
-        }
-        else
-            secondpicwidth = orgiwidth + overlayView.leftMargineSecondPic*2;
-        //SET SECONDPIC HEIGHT
-        int secondpicheight = 0;
-        if (overlayView.topMargineSecondPic >= 0)
-            secondpicheight = orgiheight - overlayView.topMargineSecondPic*2;
-        else
-            secondpicheight = orgiheight + overlayView.topMargineSecondPic*2;
-
-
-        //SET NEW WIDTH AND HEIGHT
-        int newWidth = 0;
-        int newHeight = 0;
-        if (firstpicwidth > secondpicwidth)
-        {
-            newWidth = secondpicwidth;
-            //difFirstPicLeft = firstpicwidth - secondpicwidth;
+            basePicHandler.Y = FirstPicHandler.Y;
         }
         else
         {
-            newWidth = firstpicwidth;
-            //difSecondPicLeft = secondpicwidth - firstpicwidth;
+            basePicHandler.Y = SecondPicHandler.Y;
         }
-        if (firstpicheight > secondpicheight)
+
+        if (FirstPicHandler.Width >= SecondPicHandler.Width)
         {
-            newHeight = secondpicheight;
-            //difFirstPicTop = firstpicheight - secondpicheight;
+            basePicHandler.Width = SecondPicHandler.Width;
+            FirstPicHandler.Width = SecondPicHandler.Width;
         }
         else
         {
-            newHeight = firstpicheight;
-            //difSecondPicTop = secondpicheight - firstpicheight;
+            basePicHandler.Width = FirstPicHandler.Width;
+            SecondPicHandler.Width = FirstPicHandler.Width;
         }
 
-
-        //SET MARGINES
-        int baseLeft = 0;
-        int baseTop = 0;
-        //FIRSTPIC
-        int firstleft = 0;
-        int firstright = newWidth;
-        if (overlayView.leftMargineFirstPic >= 0)
+        if (FirstPicHandler.Height >= SecondPicHandler.Height)
         {
-            firstleft = overlayView.leftMargineFirstPic*2;
-            //firstleft += difFirstPicLeft;
-
+            basePicHandler.Height = SecondPicHandler.Height;
+            FirstPicHandler.Height = SecondPicHandler.Height;
         }
         else
         {
-            firstleft = (overlayView.leftMargineFirstPic *-1) *2;
-            //firstleft += difFirstPicLeft;
+            basePicHandler.Height = FirstPicHandler.Height;
+            SecondPicHandler.Height = FirstPicHandler.Height;
+        }
 
-
-        }
-        int firsttop = 0;
-        int firstbottom = newHeight;
-        if (overlayView.topMargineFirstPic >= 0)
-        {
-            firsttop = overlayView.topMargineSecondPic*2;
-            //firsttop += difFirstPicTop;
-
-        }
-        else
-        {
-            firsttop = (overlayView.topMargineSecondPic *-1) *2;
-            //firsttop += difFirstPicTop;
-        }
-        //SECONDPIC
-        int secondleft = 0;
-        int secondright = newWidth;
-        if (overlayView.leftMargineSecondPic >= 0)
-        {
-            secondleft = overlayView.leftMargineSecondPic *2;
-            //secondleft += difSecondPicLeft;
-
-        }
-        else
-        {
-            secondleft = (overlayView.leftMargineFirstPic * -1)*2;
-            //secondleft += difSecondPicLeft;
-
-        }
-        int secondtop = 0;
-        int secondbottom = newHeight;
-        if (overlayView.topMargineSecondPic >= 0)
-        {
-            secondtop = overlayView.topMargineSecondPic*2;
-            //secondtop += difSecondPicTop;
-
-        }
-        else
-        {
-            secondtop = (overlayView.topMargineSecondPic *-1)*2;
-            //secondtop += difSecondPicTop;
-        }
-        //GC
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        //SAVE SIZED IMAGES
         try
         {
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), firstleft, firsttop, firstright, firstbottom);
+            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), FirstPicHandler.X, FirstPicHandler.Y, FirstPicHandler.Width, FirstPicHandler.Height);
             saveBitmap(uris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), secondleft, secondtop, newWidth, newHeight);
+            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), SecondPicHandler.X, SecondPicHandler.Y, SecondPicHandler.Width, SecondPicHandler.Height);
             saveBitmap(uris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), baseLeft, baseTop, newWidth, newHeight);
+            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), basePicHandler.X, basePicHandler.Y, basePicHandler.Width, basePicHandler.Height);
             saveBitmap(uris[1].getPath(), newBaseImage);
         }
         catch (OutOfMemoryError ex)
@@ -401,6 +336,116 @@ public class HdrRenderActivity extends Activity
 
             ex.printStackTrace();
         }
+
+        /*int orgiwidth = overlayView.completviewRectangle.right * 2;
+        int orgiheight = overlayView.completviewRectangle.bottom * 2;
+        int leftFirst = 0;
+        int widthFirst = orgiwidth;
+        if (overlayView.leftMargineFirstPic >= 0)
+        {
+            leftFirst = overlayView.leftMargineFirstPic;
+            widthFirst -= overlayView.leftMargineFirstPic;
+        }
+        else
+        {
+            widthFirst += overlayView.leftMargineFirstPic;
+            leftFirst -= overlayView.leftMargineFirstPic;
+        }
+        int topFIrst = 0;
+        int heigtFIrst = orgiheight;
+        if (overlayView.topMargineFirstPic >= 0)
+        {
+            topFIrst = overlayView.topMargineFirstPic;
+            heigtFIrst -= overlayView.topMargineFirstPic;
+        }
+        else
+        {
+            heigtFIrst += overlayView.topMargineFirstPic;
+            topFIrst -= overlayView.topMargineFirstPic;
+        }
+
+        int leftsec = 0;
+        int widthsec = orgiwidth;
+        if (overlayView.leftMargineSecondPic >= 0)
+        {
+            leftsec = overlayView.leftMargineSecondPic;
+            widthsec -= overlayView.leftMargineSecondPic;
+        }
+        else
+        {
+            widthsec += overlayView.leftMargineSecondPic;
+            leftsec -= overlayView.leftMargineSecondPic;
+        }
+        int topsec = 0;
+        int heightsec = orgiheight;
+        if (overlayView.topMargineSecondPic >= 0)
+        {
+            topsec = overlayView.topMargineSecondPic;
+            heightsec -= overlayView.topMargineSecondPic;
+        }
+        else
+        {
+            heightsec += overlayView.topMargineSecondPic;
+            topsec -= overlayView.topMargineSecondPic;
+        }
+
+        int newwidth = 0;
+        int newheigt = 0;
+        if (widthFirst > widthsec)
+            newwidth = widthsec;
+        else
+            newwidth = widthFirst;
+        if (heigtFIrst > heightsec)
+            newheigt = heightsec;
+        else
+            newheigt = heigtFIrst;
+
+        int topBase = 0;
+        int leftBase = 0;
+        if (topFIrst >= topsec)
+        {
+            topBase = topFIrst;
+            topsec += topFIrst;
+        }
+        else
+        {
+            topBase = topsec;
+            topFIrst += topsec;
+        }
+        if (leftFirst>= leftsec)
+        {
+            leftBase = leftFirst;
+            leftsec += leftFirst;
+        }
+        else
+        {
+            leftBase = leftsec;
+            leftFirst += leftsec;
+        }
+
+        try
+        {
+            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), leftFirst, topFIrst, newwidth, newheigt);
+            saveBitmap(uris[0].getPath(), newFirstPic);
+            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), leftsec, topsec, newwidth, newheigt);
+            saveBitmap(uris[2].getPath(), newSecondPic);
+            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftBase, topBase, newwidth, newheigt);
+            saveBitmap(uris[1].getPath(), newBaseImage);
+        }
+        catch (OutOfMemoryError ex)
+        {
+            Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
+
+            ex.printStackTrace();
+        }*/
+
+        //cropImages(orgiwidth, orgiheight);
+
+
+    }
+
+    private void cropImages(int orgiwidth, int orgiheight) {
+
     }
 
     private String render2d(String end, File sdcardpath) {
