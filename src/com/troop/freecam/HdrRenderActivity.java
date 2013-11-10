@@ -275,12 +275,17 @@ public class HdrRenderActivity extends Activity
     private void cropPictures()
     {
         FirstPicHandler = new BitmapHandler(uris[0]);
+        int orgiwidth = FirstPicHandler.Width;
+        int orgiheight = FirstPicHandler.Height;
         FirstPicHandler.AddX(overlayView.leftMargineFirstPic);
         FirstPicHandler.AddY(overlayView.topMargineFirstPic);
         SecondPicHandler = new BitmapHandler(uris[2]);
         SecondPicHandler.AddX(overlayView.leftMargineSecondPic);
         SecondPicHandler.AddY(overlayView.topMargineSecondPic);
 
+
+
+        //create new Width and Height for baseImage
         basePicHandler = new BitmapHandler(uris[1]);
         if (FirstPicHandler.X >= SecondPicHandler.X)
         {
@@ -289,14 +294,6 @@ public class HdrRenderActivity extends Activity
         else
         {
             basePicHandler.X = SecondPicHandler.X;
-        }
-        if (FirstPicHandler.Y >= SecondPicHandler.Y)
-        {
-            basePicHandler.Y = FirstPicHandler.Y;
-        }
-        else
-        {
-            basePicHandler.Y = SecondPicHandler.Y;
         }
 
         if (FirstPicHandler.Width >= SecondPicHandler.Width)
@@ -310,6 +307,15 @@ public class HdrRenderActivity extends Activity
             SecondPicHandler.Width = FirstPicHandler.Width;
         }
 
+        if (FirstPicHandler.Y >= SecondPicHandler.Y)
+        {
+            basePicHandler.Y = FirstPicHandler.Y;
+        }
+        else
+        {
+            basePicHandler.Y = SecondPicHandler.Y;
+        }
+
         if (FirstPicHandler.Height >= SecondPicHandler.Height)
         {
             basePicHandler.Height = SecondPicHandler.Height;
@@ -319,6 +325,66 @@ public class HdrRenderActivity extends Activity
         {
             basePicHandler.Height = FirstPicHandler.Height;
             SecondPicHandler.Height = FirstPicHandler.Height;
+        }
+        if (FirstPicHandler.X < basePicHandler.X)
+        {
+            int dif = 0;
+            if (overlayView.leftMargineFirstPic >= 0)
+                dif = overlayView.leftMargineFirstPic;
+            else
+                dif -= overlayView.leftMargineFirstPic;
+            FirstPicHandler.X += basePicHandler.X - FirstPicHandler.X + basePicHandler.X - dif;
+            if (FirstPicHandler.X + FirstPicHandler.Width > orgiwidth)
+            {
+                FirstPicHandler.Width -= FirstPicHandler.X  + FirstPicHandler.Width - orgiwidth;
+                basePicHandler.Width = FirstPicHandler.Width;
+                SecondPicHandler.Width = FirstPicHandler.Width;
+            }
+        }
+        if (SecondPicHandler.X < basePicHandler.X)
+        {
+            int dif = 0;
+            if (overlayView.leftMargineSecondPic >= 0)
+                dif = overlayView.leftMargineSecondPic;
+            else
+                dif -= overlayView.leftMargineSecondPic;
+            SecondPicHandler.X += basePicHandler.X - SecondPicHandler.X + basePicHandler.X -dif;
+            if (SecondPicHandler.X + SecondPicHandler.Width > orgiwidth)
+            {
+                SecondPicHandler.Width -= SecondPicHandler.Width + SecondPicHandler.X - orgiwidth;
+                FirstPicHandler.Width = SecondPicHandler.Width;
+                basePicHandler.Width = SecondPicHandler.Width;
+            }
+        }
+        if (FirstPicHandler.Y < basePicHandler.Y)
+        {
+            int dif = 0;
+            if (overlayView.topMargineFirstPic >= 0)
+                dif = overlayView.topMargineFirstPic;
+            else
+                dif -= overlayView.topMargineFirstPic;
+            FirstPicHandler.Y += basePicHandler.Y - FirstPicHandler.Y + basePicHandler.Y - dif;
+            if (FirstPicHandler.Y + FirstPicHandler.Width > orgiheight)
+            {
+                FirstPicHandler.Height -= FirstPicHandler.Y + FirstPicHandler.Height - orgiheight;
+                SecondPicHandler.Height = FirstPicHandler.Height;
+                basePicHandler.Height = FirstPicHandler.Height;
+            }
+        }
+        if (SecondPicHandler.Y < basePicHandler.Y)
+        {
+            int dif = 0;
+            if (overlayView.topMargineSecondPic >= 0)
+                dif = overlayView.topMargineSecondPic;
+            else
+                dif -= overlayView.topMargineSecondPic;
+            SecondPicHandler.Y += basePicHandler.Y - SecondPicHandler.Y + basePicHandler.Y - dif;
+            if (SecondPicHandler.Height + SecondPicHandler.Y > orgiheight)
+            {
+                SecondPicHandler.Height -= SecondPicHandler.Height + SecondPicHandler.Y - orgiheight;
+                FirstPicHandler.Height = SecondPicHandler.Height;
+                basePicHandler.Height = SecondPicHandler.Height;
+            }
         }
 
         try
@@ -336,110 +402,6 @@ public class HdrRenderActivity extends Activity
 
             ex.printStackTrace();
         }
-
-        /*int orgiwidth = overlayView.completviewRectangle.right * 2;
-        int orgiheight = overlayView.completviewRectangle.bottom * 2;
-        int leftFirst = 0;
-        int widthFirst = orgiwidth;
-        if (overlayView.leftMargineFirstPic >= 0)
-        {
-            leftFirst = overlayView.leftMargineFirstPic;
-            widthFirst -= overlayView.leftMargineFirstPic;
-        }
-        else
-        {
-            widthFirst += overlayView.leftMargineFirstPic;
-            leftFirst -= overlayView.leftMargineFirstPic;
-        }
-        int topFIrst = 0;
-        int heigtFIrst = orgiheight;
-        if (overlayView.topMargineFirstPic >= 0)
-        {
-            topFIrst = overlayView.topMargineFirstPic;
-            heigtFIrst -= overlayView.topMargineFirstPic;
-        }
-        else
-        {
-            heigtFIrst += overlayView.topMargineFirstPic;
-            topFIrst -= overlayView.topMargineFirstPic;
-        }
-
-        int leftsec = 0;
-        int widthsec = orgiwidth;
-        if (overlayView.leftMargineSecondPic >= 0)
-        {
-            leftsec = overlayView.leftMargineSecondPic;
-            widthsec -= overlayView.leftMargineSecondPic;
-        }
-        else
-        {
-            widthsec += overlayView.leftMargineSecondPic;
-            leftsec -= overlayView.leftMargineSecondPic;
-        }
-        int topsec = 0;
-        int heightsec = orgiheight;
-        if (overlayView.topMargineSecondPic >= 0)
-        {
-            topsec = overlayView.topMargineSecondPic;
-            heightsec -= overlayView.topMargineSecondPic;
-        }
-        else
-        {
-            heightsec += overlayView.topMargineSecondPic;
-            topsec -= overlayView.topMargineSecondPic;
-        }
-
-        int newwidth = 0;
-        int newheigt = 0;
-        if (widthFirst > widthsec)
-            newwidth = widthsec;
-        else
-            newwidth = widthFirst;
-        if (heigtFIrst > heightsec)
-            newheigt = heightsec;
-        else
-            newheigt = heigtFIrst;
-
-        int topBase = 0;
-        int leftBase = 0;
-        if (topFIrst >= topsec)
-        {
-            topBase = topFIrst;
-            topsec += topFIrst;
-        }
-        else
-        {
-            topBase = topsec;
-            topFIrst += topsec;
-        }
-        if (leftFirst>= leftsec)
-        {
-            leftBase = leftFirst;
-            leftsec += leftFirst;
-        }
-        else
-        {
-            leftBase = leftsec;
-            leftFirst += leftsec;
-        }
-
-        try
-        {
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), leftFirst, topFIrst, newwidth, newheigt);
-            saveBitmap(uris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), leftsec, topsec, newwidth, newheigt);
-            saveBitmap(uris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), leftBase, topBase, newwidth, newheigt);
-            saveBitmap(uris[1].getPath(), newBaseImage);
-        }
-        catch (OutOfMemoryError ex)
-        {
-            Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
-
-            ex.printStackTrace();
-        }*/
-
-        //cropImages(orgiwidth, orgiheight);
 
 
     }
