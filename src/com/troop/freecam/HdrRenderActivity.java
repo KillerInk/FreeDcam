@@ -283,109 +283,28 @@ public class HdrRenderActivity extends Activity
         SecondPicHandler.AddX(overlayView.leftMargineSecondPic);
         SecondPicHandler.AddY(overlayView.topMargineSecondPic);
 
-
-
-        //create new Width and Height for baseImage
         basePicHandler = new BitmapHandler(uris[1]);
-        if (FirstPicHandler.X >= SecondPicHandler.X)
-        {
+        //basepic new width and height
+        //X
+        if (FirstPicHandler.X > SecondPicHandler.X)
             basePicHandler.X = FirstPicHandler.X;
-        }
         else
-        {
             basePicHandler.X = SecondPicHandler.X;
-        }
-
-        if (FirstPicHandler.Width >= SecondPicHandler.Width)
-        {
+        //Width
+        if (FirstPicHandler.Width > SecondPicHandler.Width)
             basePicHandler.Width = SecondPicHandler.Width;
-            FirstPicHandler.Width = SecondPicHandler.Width;
-        }
         else
-        {
             basePicHandler.Width = FirstPicHandler.Width;
-            SecondPicHandler.Width = FirstPicHandler.Width;
-        }
-
-        if (FirstPicHandler.Y >= SecondPicHandler.Y)
-        {
-            basePicHandler.Y = FirstPicHandler.Y;
-        }
-        else
-        {
+        //Y
+        if (FirstPicHandler.Y > SecondPicHandler.Y)
             basePicHandler.Y = SecondPicHandler.Y;
-        }
-
-        if (FirstPicHandler.Height >= SecondPicHandler.Height)
-        {
-            basePicHandler.Height = SecondPicHandler.Height;
-            FirstPicHandler.Height = SecondPicHandler.Height;
-        }
         else
-        {
+            basePicHandler.Y = FirstPicHandler.Y;
+        //Height
+        if (FirstPicHandler.Height > SecondPicHandler.Height)
+            basePicHandler.Height = SecondPicHandler.Height;
+        else
             basePicHandler.Height = FirstPicHandler.Height;
-            SecondPicHandler.Height = FirstPicHandler.Height;
-        }
-        if (FirstPicHandler.X < basePicHandler.X)
-        {
-            int dif = 0;
-            if (overlayView.leftMargineFirstPic >= 0)
-                dif = overlayView.leftMargineFirstPic;
-            else
-                dif -= overlayView.leftMargineFirstPic;
-            FirstPicHandler.X += basePicHandler.X - FirstPicHandler.X + basePicHandler.X - dif;
-            if (FirstPicHandler.X + FirstPicHandler.Width > orgiwidth)
-            {
-                FirstPicHandler.Width -= FirstPicHandler.X  + FirstPicHandler.Width - orgiwidth;
-                basePicHandler.Width = FirstPicHandler.Width;
-                SecondPicHandler.Width = FirstPicHandler.Width;
-            }
-        }
-        if (SecondPicHandler.X < basePicHandler.X)
-        {
-            int dif = 0;
-            if (overlayView.leftMargineSecondPic >= 0)
-                dif = overlayView.leftMargineSecondPic;
-            else
-                dif -= overlayView.leftMargineSecondPic;
-            SecondPicHandler.X += basePicHandler.X - SecondPicHandler.X + basePicHandler.X -dif;
-            if (SecondPicHandler.X + SecondPicHandler.Width > orgiwidth)
-            {
-                SecondPicHandler.Width -= SecondPicHandler.Width + SecondPicHandler.X - orgiwidth;
-                FirstPicHandler.Width = SecondPicHandler.Width;
-                basePicHandler.Width = SecondPicHandler.Width;
-            }
-        }
-        if (FirstPicHandler.Y < basePicHandler.Y)
-        {
-            int dif = 0;
-            if (overlayView.topMargineFirstPic >= 0)
-                dif = overlayView.topMargineFirstPic;
-            else
-                dif -= overlayView.topMargineFirstPic;
-            FirstPicHandler.Y += basePicHandler.Y - FirstPicHandler.Y + basePicHandler.Y - dif;
-            if (FirstPicHandler.Y + FirstPicHandler.Width > orgiheight)
-            {
-                FirstPicHandler.Height -= FirstPicHandler.Y + FirstPicHandler.Height - orgiheight;
-                SecondPicHandler.Height = FirstPicHandler.Height;
-                basePicHandler.Height = FirstPicHandler.Height;
-            }
-        }
-        if (SecondPicHandler.Y < basePicHandler.Y)
-        {
-            int dif = 0;
-            if (overlayView.topMargineSecondPic >= 0)
-                dif = overlayView.topMargineSecondPic;
-            else
-                dif -= overlayView.topMargineSecondPic;
-            SecondPicHandler.Y += basePicHandler.Y - SecondPicHandler.Y + basePicHandler.Y - dif;
-            if (SecondPicHandler.Height + SecondPicHandler.Y > orgiheight)
-            {
-                SecondPicHandler.Height -= SecondPicHandler.Height + SecondPicHandler.Y - orgiheight;
-                FirstPicHandler.Height = SecondPicHandler.Height;
-                basePicHandler.Height = SecondPicHandler.Height;
-            }
-        }
 
         try
         {
