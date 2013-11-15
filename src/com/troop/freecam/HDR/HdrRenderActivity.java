@@ -1,31 +1,21 @@
-package com.troop.freecam;
+package com.troop.freecam.HDR;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,10 +26,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.troop.freecam.R;
+import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.cm.HdrSoftwareProcessor;
-import com.troop.freecam.cm.HdrSoftwareRS;
-import com.troop.freecam.manager.Drawing.BitmapHandler;
-import com.troop.freecam.manager.Drawing.OverlayView;
 
 /**
  * Created by troop on 18.10.13.
@@ -74,6 +63,8 @@ public class HdrRenderActivity extends Activity
 
     RelativeLayout picView;
 
+    boolean topintent = true;
+
 
 
     @Override
@@ -96,17 +87,18 @@ public class HdrRenderActivity extends Activity
             uris = new Uri[3];
             if (muh != null)
             {
+                topintent = true;
                 uris[0] = Uri.fromFile(new File(muh[0]));
                 uris[1] = Uri.fromFile(new File(muh[1]));
                 uris[2] = Uri.fromFile(new File(muh[2]));
             }
             else
             {
-                uris[0] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/0.jpg"));
-                uris[1] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/1.jpg"));
-                uris[2] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/2.jpg"));
+                uris[0] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/Tmp/0.jpg"));
+                uris[1] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/Tmp/1.jpg"));
+                uris[2] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/Tmp/2.jpg"));
             }
-            HdrRender = new HdrSoftwareProcessor(this);
+            //HdrRender = new HdrSoftwareProcessor(this);
             initControls();
 
 
@@ -265,46 +257,155 @@ public class HdrRenderActivity extends Activity
             cropPictures();
             path = render2d(end, sdcardpath);
         }
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("result",path);
-        setResult(RESULT_OK,returnIntent);
-        finish();
+        if (topintent)
+        {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result",path);
+            setResult(RESULT_OK,returnIntent);
+            finish();
+        }
+        else
+        {
+            overlayView.LoadImage(path);
+        }
 
     }
 
     private void cropPictures()
     {
         FirstPicHandler = new BitmapHandler(uris[0]);
+        //FirstPicHandler.DifFromNullLeft = overlayView.leftMargineFirstPic;
+        //FirstPicHandler.DifFromNullTop = overlayView.topMargineFirstPic;
         int orgiwidth = FirstPicHandler.Width;
         int orgiheight = FirstPicHandler.Height;
         FirstPicHandler.AddX(overlayView.leftMargineFirstPic);
-        FirstPicHandler.AddY(overlayView.topMargineFirstPic);
+        FirstPicHandler.AddY(overlayView.topMargineFirstPic) ;
         SecondPicHandler = new BitmapHandler(uris[2]);
         SecondPicHandler.AddX(overlayView.leftMargineSecondPic);
         SecondPicHandler.AddY(overlayView.topMargineSecondPic);
 
         basePicHandler = new BitmapHandler(uris[1]);
-        //basepic new width and height
-        //X
-        if (FirstPicHandler.X > SecondPicHandler.X)
-            basePicHandler.X = FirstPicHandler.X;
-        else
-            basePicHandler.X = SecondPicHandler.X;
-        //Width
-        if (FirstPicHandler.Width > SecondPicHandler.Width)
-            basePicHandler.Width = SecondPicHandler.Width;
-        else
+        if (FirstPicHandler.DifFromNullLeft >  SecondPicHandler.DifFromNullLeft && FirstPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+        {
+            int newDifFromnull = getPlusInt(FirstPicHandler.DifFromNullLeft);
+
+            FirstPicHandler.X = 0;
+            if (SecondPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+            {
+                SecondPicHandler.X += newDifFromnull - getPlusInt(SecondPicHandler.DifFromNullLeft);
+                basePicHandler.X += getPlusInt(FirstPicHandler.DifFromNullLeft) + getPlusInt(SecondPicHandler.DifFromNullLeft);
+            }
+            else
+            {
+                basePicHandler.X += newDifFromnull;
+                SecondPicHandler.X += basePicHandler.X;
+            }
+        }
+        else if (SecondPicHandler.DifFromNullLeft > FirstPicHandler.DifFromNullLeft && SecondPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+        {
+            int newDifFromnull = getPlusInt(SecondPicHandler.DifFromNullLeft);
+            SecondPicHandler.X = 0;
+            if (FirstPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+            {
+                FirstPicHandler.X += newDifFromnull - getPlusInt(FirstPicHandler.DifFromNullLeft);
+                basePicHandler.X  += getPlusInt(FirstPicHandler.DifFromNullLeft) + getPlusInt(SecondPicHandler.DifFromNullLeft);
+            }
+            else
+            {
+                basePicHandler.X += newDifFromnull;
+                FirstPicHandler.X += basePicHandler.X;
+            }
+        }
+        else if (basePicHandler.DifFromNullLeft >= SecondPicHandler.DifFromNullLeft && basePicHandler.DifFromNullLeft >= FirstPicHandler.DifFromNullLeft)
+        {
+            basePicHandler.X = 0;
+            FirstPicHandler.X = getPlusInt(FirstPicHandler.DifFromNullLeft);
+            SecondPicHandler.X = getPlusInt(SecondPicHandler.DifFromNullLeft);
+
+        }
+
+        if (FirstPicHandler.DifFromNullTop > SecondPicHandler.DifFromNullTop && FirstPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+        {
+            int newDifFromnull = getPlusInt(FirstPicHandler.DifFromNullTop);
+            FirstPicHandler.Y = 0;
+            if (SecondPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+            {
+                SecondPicHandler.Y += newDifFromnull - getPlusInt(SecondPicHandler.DifFromNullTop);
+                basePicHandler.Y += getPlusInt(FirstPicHandler.DifFromNullTop) + getPlusInt(SecondPicHandler.DifFromNullTop);
+            }
+            else
+            {
+                basePicHandler.Y += newDifFromnull;
+                SecondPicHandler.Y += basePicHandler.Y;
+            }
+
+        }
+        else if (SecondPicHandler.DifFromNullTop > FirstPicHandler.DifFromNullTop && SecondPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+        {
+            int newDifFromnull = getPlusInt(SecondPicHandler.DifFromNullTop);
+            SecondPicHandler.Y = 0;
+            if (FirstPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+            {
+                FirstPicHandler.Y += newDifFromnull - getPlusInt(FirstPicHandler.DifFromNullTop);
+                basePicHandler.Y = getPlusInt(FirstPicHandler.DifFromNullTop) + getPlusInt(SecondPicHandler.DifFromNullTop);
+            }
+            else
+            {
+                basePicHandler.Y += newDifFromnull;
+                FirstPicHandler.Y += basePicHandler.Y;
+            }
+        }
+        else if (basePicHandler.DifFromNullTop >= SecondPicHandler.DifFromNullTop && basePicHandler.DifFromNullTop >= FirstPicHandler.DifFromNullTop)
+        {
+            basePicHandler.Y = 0;
+            FirstPicHandler.Y = getPlusInt(FirstPicHandler.DifFromNullTop);
+            SecondPicHandler.Y = getPlusInt(SecondPicHandler.DifFromNullTop);
+        }
+
+
+
+
+        //Check if width is bigger than the orginalwidth and crop
+        if (FirstPicHandler.X + FirstPicHandler.Width > orgiwidth)
+        {
+            FirstPicHandler.Width -= FirstPicHandler.X + FirstPicHandler.Width - orgiwidth;
             basePicHandler.Width = FirstPicHandler.Width;
-        //Y
-        if (FirstPicHandler.Y > SecondPicHandler.Y)
-            basePicHandler.Y = SecondPicHandler.Y;
-        else
-            basePicHandler.Y = FirstPicHandler.Y;
-        //Height
-        if (FirstPicHandler.Height > SecondPicHandler.Height)
-            basePicHandler.Height = SecondPicHandler.Height;
-        else
+            SecondPicHandler.Width = FirstPicHandler.Width;
+        }
+        if (SecondPicHandler.X +SecondPicHandler.Width > orgiwidth)
+        {
+            SecondPicHandler.Width -= SecondPicHandler.Width + SecondPicHandler.X - orgiwidth;
+            FirstPicHandler.Width = SecondPicHandler.Width;
+            basePicHandler.Width = SecondPicHandler.Width;
+        }
+        if (basePicHandler.X + basePicHandler.Width > orgiwidth)
+        {
+            basePicHandler.Width -= basePicHandler.Width + basePicHandler.X - orgiwidth;
+            FirstPicHandler.Width = basePicHandler.Width;
+            SecondPicHandler.Width = basePicHandler.Width;
+        }
+
+        if (FirstPicHandler.Y + FirstPicHandler.Height > orgiheight)
+        {
+            FirstPicHandler.Height -= FirstPicHandler.Y + FirstPicHandler.Height - orgiheight;
+            SecondPicHandler.Height = FirstPicHandler.Height;
             basePicHandler.Height = FirstPicHandler.Height;
+        }
+        if (SecondPicHandler.Y + SecondPicHandler.Height > orgiheight)
+        {
+            SecondPicHandler.Height -= SecondPicHandler.Y + SecondPicHandler.Height - orgiheight;
+            FirstPicHandler.Height = SecondPicHandler.Height;
+            basePicHandler.Height = SecondPicHandler.Height;
+        }
+        if (basePicHandler.Y + basePicHandler.Height > orgiheight)
+        {
+            basePicHandler.Height -= basePicHandler.Y + basePicHandler.Height - orgiheight;
+            FirstPicHandler.Height = basePicHandler.Height;
+            SecondPicHandler.Height = basePicHandler.Height;
+        }
+
+
+
 
         try
         {
@@ -323,6 +424,14 @@ public class HdrRenderActivity extends Activity
         }
 
 
+    }
+
+    private int getPlusInt(int i)
+    {
+        if (i > 0)
+            return i;
+        else
+            return i*-1;
     }
 
     private void cropImages(int orgiwidth, int orgiheight) {

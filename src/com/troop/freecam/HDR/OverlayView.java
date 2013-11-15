@@ -1,24 +1,18 @@
-package com.troop.freecam.manager.Drawing;
+package com.troop.freecam.HDR;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.troop.freecam.HDR.BitmapHandler;
 
 /**
  * Created by troop on 27.10.13.
@@ -44,7 +38,11 @@ public class OverlayView extends View
     BitmapDrawable previewImage;
     String TAG = "OverlayView";
     Uri[] uris;
+    BitmapHandler firstHolder;
+    BitmapHandler secondHolder;
+    BitmapHandler baseHolder;
     public boolean drawFirstPic = false;
+    boolean finish = false;
 
     public OverlayView(Context context) {
         super(context);
@@ -62,6 +60,8 @@ public class OverlayView extends View
     protected void onDraw(Canvas canvas)
     {
         //super.onDraw(canvas);
+        if (finish == false)
+        {
         Bitmap newmap =null;
         Canvas newcanvas = null;
         if (previewImage != null && moving)
@@ -82,16 +82,14 @@ public class OverlayView extends View
             }
 
             try {
-
-
                 if (firstImage != null && newmap != null && newcanvas != null && drawFirstPic)
                 {
-                    firstImage.setAlpha(180);
+                    firstImage.setAlpha(125);
                     firstImage.draw(newcanvas);
                 }
                 if (secondImage != null && newmap != null && newcanvas != null && !drawFirstPic)
                 {
-                    secondImage.setAlpha(180);
+                    secondImage.setAlpha(125);
                     secondImage.draw(newcanvas);
                 }
             }
@@ -99,15 +97,19 @@ public class OverlayView extends View
             {
                 ex.printStackTrace();
             }
-
-
-
         }
         if (newmap != null)
         {
             canvas.drawBitmap(newmap, 0, 0, null);
             newmap.recycle();
             System.gc();
+        }
+        }
+        else
+        {
+            previewImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, 0, 0, 800, 480));
+            previewImage.setBounds(0,0,800,480);
+            previewImage.draw(canvas);
         }
         //canvas.restore();
     }
@@ -216,6 +218,9 @@ public class OverlayView extends View
         o.inSampleSize = 2;
         orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), o);
         System.gc();
+        baseHolder = new BitmapHandler(orginalImage.getWidth() *2, orginalImage.getHeight()*2);
+        firstHolder = new BitmapHandler(orginalImage.getWidth() *2, orginalImage.getHeight()*2);
+        secondHolder = new BitmapHandler(orginalImage.getWidth() *2, orginalImage.getHeight()*2);
         leftmargine = (orginalImage.getWidth() - 800);
         topmargine = (orginalImage.getHeight() - 480);
         completviewRectangle = new Rect(0,0, orginalImage.getWidth(), orginalImage.getHeight());
@@ -257,6 +262,7 @@ public class OverlayView extends View
         if (firstpic)
         {
             topMargineFirstPic += value;
+
             loadFirstImage(o);
         }
         else
@@ -274,6 +280,7 @@ public class OverlayView extends View
         if (firspic)
         {
             leftMargineFirstPic += value;
+
             loadFirstImage(o);
         }
         else
@@ -281,6 +288,15 @@ public class OverlayView extends View
             leftMargineSecondPic += value;
             loadSecondImage(o);
         }
+        invalidate();
+    }
+
+    public void LoadImage(String path)
+    {
+        finish = true;
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inSampleSize = 2;
+        orginalImage = BitmapFactory.decodeFile(path, o);
         invalidate();
     }
 

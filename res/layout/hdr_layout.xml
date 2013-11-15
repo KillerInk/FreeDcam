@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="fill_horizontal"
-    tools:context=".HdrRenderActivity"
+    tools:context=".HDR.HdrRenderActivity"
     android:background="#ffffff">
 
     <RelativeLayout
@@ -16,8 +16,16 @@
         <view
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            class="com.troop.freecam.manager.Drawing.OverlayView"
+            class="com.troop.freecam.HDR.OverlayView"
             android:id="@+id/view_overlay" />
+
+        <view
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            class="com.troop.freecam.HDR.ImageOverlayView"
+            android:id="@+id/view_overlay2"/>
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -84,6 +92,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:enabled="true" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -1,11 +1,6 @@
 package com.troop.freecam.manager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,20 +9,14 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freecam.CameraManager;
-import com.troop.freecam.HdrRenderActivity;
+import com.troop.freecam.HDR.HdrRenderActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.SavePictureTask;
-import com.troop.freecam.cm.HdrSoftwareProcessor;
-import com.troop.freecam.cm.HdrSoftwareRS;
 import com.troop.freecam.manager.interfaces.PictureTakeFinish;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by troop on 15.10.13.
