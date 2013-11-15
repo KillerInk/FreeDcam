@@ -172,29 +172,39 @@ public class ImageOverlayView extends View
             if (topmargine + secondHolder.Y + 240 > OrginalHeight)
                 topmargine = OrginalHeight - secondHolder.Y - 240;
 
-            if (orginalImage != null && baseHolder !=null)
+            if(orginalImage != null && baseHolder !=null)
             {
                 baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, 400, 240));
                 baseImage.setBounds(0,0,800,480);
                 baseImage.draw(canvas);
             }
 
-            if (secondorginalImage != null && secondHolder !=null && drawFirstPic == false)
+            if (drawFirstPic)
             {
-                secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 400, 240));
-                secondImage.setBounds(0,0,800,480);
-                secondImage.setAlpha(125);
-                secondImage.draw(canvas);
+                drawFirstImage(canvas);
             }
-            if (firstImage != null && firstHolder != null && drawFirstPic == true);
+            else
             {
-                firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 400, 240));
-                firstImage.setBounds(0,0,800,480);
-                firstImage.setAlpha(125);
-                firstImage.draw(canvas);
+                drawSecondImage(canvas);
             }
+
+
         }
 
+    }
+
+    private void drawSecondImage(Canvas canvas) {
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 400, 240));
+        secondImage.setBounds(0,0,800,480);
+        secondImage.setAlpha(125);
+        secondImage.draw(canvas);
+    }
+
+    private void drawFirstImage(Canvas canvas) {
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 400, 240));
+        firstImage.setBounds(0,0,800,480);
+        firstImage.setAlpha(125);
+        firstImage.draw(canvas);
     }
 
     int moveX = 0;

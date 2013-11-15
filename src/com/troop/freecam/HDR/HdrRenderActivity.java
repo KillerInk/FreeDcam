@@ -349,10 +349,6 @@ public class HdrRenderActivity extends Activity
             return i*-1;
     }
 
-    private void cropImages(int orgiwidth, int orgiheight) {
-
-    }
-
     private String render2d(String end, File sdcardpath) {
         try {
             HdrRender = new HdrSoftwareProcessor(this);
