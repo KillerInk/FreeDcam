@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -22,10 +23,16 @@ public class ImageOverlayView extends View
     Bitmap orginalImage;
     Bitmap firtorginalImage;
     Bitmap secondorginalImage;
-    BitmapHandler firstHolder;
-    BitmapHandler secondHolder;
-    BitmapHandler baseHolder;
+    public BitmapHandler firstHolder;
+    public BitmapHandler secondHolder;
+    public BitmapHandler baseHolder;
     boolean running = false;
+    public int OrginalWidth;
+    public int OrginalHeight;
+
+    int topmargine = 0;
+    int leftmargine = 0;
+    //boolean drawFirstPic = true;
 
     public boolean drawFirstPic = false;
 
@@ -58,6 +65,8 @@ public class ImageOverlayView extends View
         baseHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
         firstHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
         secondHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
+        OrginalHeight = orginalImage.getHeight();
+        OrginalWidth = orginalImage.getWidth();
     }
 
     public void AddTop(boolean firstpic, int value)
@@ -68,31 +77,24 @@ public class ImageOverlayView extends View
         {
             if (value > 0)
             {
-
-                firstHolder.Height -= value;
-                baseHolder.Height -= value;
+                baseHolder.Y += value;
+                secondHolder.Y += value;
             }
             else
             {
                 firstHolder.Y -= value;
-                firstHolder.Height += value;
-                baseHolder.Height += value;
             }
         }
         else
         {
             if (value > 0)
             {
-
-                secondHolder.Height -= value;
                 baseHolder.Y += value;
-                baseHolder.Height -= value;
+                firstHolder.Y += value;
             }
             else
             {
                 secondHolder.Y -= value;
-                secondHolder.Height += value;
-                baseHolder.Height += value;
             }
         }
         invalidate();
@@ -106,35 +108,48 @@ public class ImageOverlayView extends View
         {
             if (value > 0)
             {
-
-                firstHolder.Width -= value;
                 baseHolder.X += value;
-                baseHolder.Width -= value;
+                secondHolder.X += value;
             }
             else
             {
                 firstHolder.X -= value;
-                firstHolder.Width += value;
-                baseHolder.Width += value;
             }
         }
         else
         {
             if (value > 0)
             {
-
-                secondHolder.Width -= value;
                 baseHolder.X += value;
-                baseHolder.Width -= value;
+                firstHolder.X += value;
             }
             else
             {
                 secondHolder.X -= value;
-                secondHolder.Width += value;
-                baseHolder.Width += value;
             }
         }
         invalidate();
+    }
+
+    public void Destroy()
+    {
+        if (orginalImage != null)
+            orginalImage.recycle();
+        orginalImage = null;
+        if (firstImage != null)
+            firstImage.getBitmap().recycle();
+        firstImage = null;
+        if(secondImage != null)
+            secondImage.getBitmap().recycle();
+        secondImage = null;
+        if (baseImage !=null)
+            baseImage.getBitmap().recycle();
+        if (firtorginalImage != null)
+            firtorginalImage.recycle();
+        firtorginalImage = null;
+        if (secondorginalImage != null)
+            secondorginalImage.recycle();
+        secondorginalImage = null;
     }
 
     @Override
@@ -143,20 +158,79 @@ public class ImageOverlayView extends View
         super.onDraw(canvas);
         if  (running)
         {
-            if (orginalImage != null && baseImage != null && baseHolder !=null)
+            if (leftmargine + baseHolder.X +400 > OrginalWidth)
+                leftmargine = OrginalWidth - baseHolder.X - 400;
+            if (leftmargine + firstHolder.X + 400 > OrginalWidth)
+                leftmargine = OrginalWidth - firstHolder.X - 400;
+            if (leftmargine + secondHolder.X +400 > OrginalWidth)
+                leftmargine = OrginalWidth - secondHolder.X - 400;
+
+            if (topmargine + baseHolder.Y + 240 > OrginalHeight)
+                topmargine = OrginalHeight - baseHolder.Y - 240;
+            if (topmargine + firstHolder.Y + 240 > OrginalHeight)
+                topmargine = OrginalHeight - firstHolder.Y - 240;
+            if (topmargine + secondHolder.Y + 240 > OrginalHeight)
+                topmargine = OrginalHeight - secondHolder.Y - 240;
+
+            if (orginalImage != null && baseHolder !=null)
             {
-                baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, baseHolder.X, baseHolder.Y, 800, 480));
+                baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, 400, 240));
+                baseImage.setBounds(0,0,800,480);
+                baseImage.draw(canvas);
             }
 
-            if (secondorginalImage != null && secondImage != null && secondHolder !=null)
+            if (secondorginalImage != null && secondHolder !=null && drawFirstPic == false)
             {
-                secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, secondHolder.X, secondHolder.Y, 800, 480));
+                secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 400, 240));
+                secondImage.setBounds(0,0,800,480);
+                secondImage.setAlpha(125);
+                secondImage.draw(canvas);
             }
-            if (firstImage != null  && firtorginalImage!= null && firstHolder != null);
+            if (firstImage != null && firstHolder != null && drawFirstPic == true);
             {
-                firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, firstHolder.X, firstHolder.Y, 800, 480));
+                firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 400, 240));
+                firstImage.setBounds(0,0,800,480);
+                firstImage.setAlpha(125);
+                firstImage.draw(canvas);
             }
         }
 
+    }
+
+    int moveX = 0;
+    int moveY = 0;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        boolean toreturn = false;
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            moveX = (int)event.getX();
+            moveY = (int)event.getY();
+            toreturn = true;
+        }
+        if (event.getAction() == MotionEvent.ACTION_MOVE )
+        {
+            int lastmovex = moveX - (int)event.getX();
+            int lastmovey = moveY - (int)event.getY();
+            //Log.d(TAG, "moved by: X:" + lastmovex + " Y: " + lastmovey);
+            moveX = (int)event.getX();
+            moveY = (int)event.getY();
+
+            if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= OrginalWidth)
+                leftmargine = leftmargine + lastmovex;
+
+            if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= OrginalHeight)
+                topmargine = topmargine + lastmovey;
+
+            toreturn = true;
+            invalidate();
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP)
+        {
+            toreturn = false;
+        }
+        return  toreturn;
     }
 }

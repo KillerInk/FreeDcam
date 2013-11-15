@@ -47,7 +47,7 @@ public class HdrRenderActivity extends Activity
     HdrSoftwareProcessor HdrRender;
 
     Button button_renderHDR;
-    OverlayView overlayView;
+    ImageOverlayView overlayView;
     Button button_moveleft;
     Button button_moveright;
     Button button_movetop;
@@ -128,7 +128,7 @@ public class HdrRenderActivity extends Activity
         });
 
         picView = (RelativeLayout)findViewById(R.id.LayoutPics);
-        overlayView = (OverlayView) findViewById(R.id.view_overlay);
+        overlayView = (ImageOverlayView) findViewById(R.id.view_overlay2);
 
         //basePicture = (ImageView) findViewById(R.id.imageView_basePic);
         //BitmapFactory.Options options = new BitmapFactory.Options();
@@ -266,154 +266,71 @@ public class HdrRenderActivity extends Activity
         }
         else
         {
-            overlayView.LoadImage(path);
+            //overlayView.LoadImage(path);
         }
 
     }
 
+    private void setWidth(int width)
+    {
+        overlayView.baseHolder.Width = width;
+        overlayView.secondHolder.Width = width;
+        overlayView.firstHolder.Width = width;
+    }
+
+    private  void setHeigth(int height)
+    {
+        overlayView.firstHolder.Height = height;
+        overlayView.secondHolder.Height = height;
+        overlayView.baseHolder.Height = height;
+    }
+
     private void cropPictures()
     {
-        FirstPicHandler = new BitmapHandler(uris[0]);
-        //FirstPicHandler.DifFromNullLeft = overlayView.leftMargineFirstPic;
-        //FirstPicHandler.DifFromNullTop = overlayView.topMargineFirstPic;
-        int orgiwidth = FirstPicHandler.Width;
-        int orgiheight = FirstPicHandler.Height;
-        FirstPicHandler.AddX(overlayView.leftMargineFirstPic);
-        FirstPicHandler.AddY(overlayView.topMargineFirstPic) ;
-        SecondPicHandler = new BitmapHandler(uris[2]);
-        SecondPicHandler.AddX(overlayView.leftMargineSecondPic);
-        SecondPicHandler.AddY(overlayView.topMargineSecondPic);
+        int width = 0;
+        int height =0;
+        int orgiWidth = overlayView.OrginalWidth *2;
 
-        basePicHandler = new BitmapHandler(uris[1]);
-        if (FirstPicHandler.DifFromNullLeft >  SecondPicHandler.DifFromNullLeft && FirstPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+        if (overlayView.baseHolder.X + overlayView.baseHolder.Width * 2 > orgiWidth)
         {
-            int newDifFromnull = getPlusInt(FirstPicHandler.DifFromNullLeft);
-
-            FirstPicHandler.X = 0;
-            if (SecondPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
-            {
-                SecondPicHandler.X += newDifFromnull - getPlusInt(SecondPicHandler.DifFromNullLeft);
-                basePicHandler.X += getPlusInt(FirstPicHandler.DifFromNullLeft) + getPlusInt(SecondPicHandler.DifFromNullLeft);
-            }
-            else
-            {
-                basePicHandler.X += newDifFromnull;
-                SecondPicHandler.X += basePicHandler.X;
-            }
+            width = orgiWidth - overlayView.baseHolder.X;
+            setWidth(width);
         }
-        else if (SecondPicHandler.DifFromNullLeft > FirstPicHandler.DifFromNullLeft && SecondPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
+        if (overlayView.firstHolder.X + overlayView.firstHolder.Width > orgiWidth)
         {
-            int newDifFromnull = getPlusInt(SecondPicHandler.DifFromNullLeft);
-            SecondPicHandler.X = 0;
-            if (FirstPicHandler.DifFromNullLeft > basePicHandler.DifFromNullLeft)
-            {
-                FirstPicHandler.X += newDifFromnull - getPlusInt(FirstPicHandler.DifFromNullLeft);
-                basePicHandler.X  += getPlusInt(FirstPicHandler.DifFromNullLeft) + getPlusInt(SecondPicHandler.DifFromNullLeft);
-            }
-            else
-            {
-                basePicHandler.X += newDifFromnull;
-                FirstPicHandler.X += basePicHandler.X;
-            }
+            width = orgiWidth - overlayView.firstHolder.X;
+            setWidth(width);
         }
-        else if (basePicHandler.DifFromNullLeft >= SecondPicHandler.DifFromNullLeft && basePicHandler.DifFromNullLeft >= FirstPicHandler.DifFromNullLeft)
+        if (overlayView.secondHolder.X + overlayView.secondHolder.Width > orgiWidth)
         {
-            basePicHandler.X = 0;
-            FirstPicHandler.X = getPlusInt(FirstPicHandler.DifFromNullLeft);
-            SecondPicHandler.X = getPlusInt(SecondPicHandler.DifFromNullLeft);
-
+            width = orgiWidth - overlayView.secondHolder.X;
+            setWidth(width);
         }
 
-        if (FirstPicHandler.DifFromNullTop > SecondPicHandler.DifFromNullTop && FirstPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+        int orgiHeight = overlayView.OrginalHeight * 2;
+        if (overlayView.baseHolder.Y + overlayView.baseHolder.Height * 2 > orgiHeight)
         {
-            int newDifFromnull = getPlusInt(FirstPicHandler.DifFromNullTop);
-            FirstPicHandler.Y = 0;
-            if (SecondPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
-            {
-                SecondPicHandler.Y += newDifFromnull - getPlusInt(SecondPicHandler.DifFromNullTop);
-                basePicHandler.Y += getPlusInt(FirstPicHandler.DifFromNullTop) + getPlusInt(SecondPicHandler.DifFromNullTop);
-            }
-            else
-            {
-                basePicHandler.Y += newDifFromnull;
-                SecondPicHandler.Y += basePicHandler.Y;
-            }
-
+            height = orgiHeight - overlayView.baseHolder.Y;
+            setHeigth(height);
         }
-        else if (SecondPicHandler.DifFromNullTop > FirstPicHandler.DifFromNullTop && SecondPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
+        if (overlayView.firstHolder.Y + overlayView.firstHolder.Height > orgiHeight)
         {
-            int newDifFromnull = getPlusInt(SecondPicHandler.DifFromNullTop);
-            SecondPicHandler.Y = 0;
-            if (FirstPicHandler.DifFromNullTop > basePicHandler.DifFromNullTop)
-            {
-                FirstPicHandler.Y += newDifFromnull - getPlusInt(FirstPicHandler.DifFromNullTop);
-                basePicHandler.Y = getPlusInt(FirstPicHandler.DifFromNullTop) + getPlusInt(SecondPicHandler.DifFromNullTop);
-            }
-            else
-            {
-                basePicHandler.Y += newDifFromnull;
-                FirstPicHandler.Y += basePicHandler.Y;
-            }
+            height = orgiHeight - overlayView.firstHolder.Y;
+            setHeigth(height);
         }
-        else if (basePicHandler.DifFromNullTop >= SecondPicHandler.DifFromNullTop && basePicHandler.DifFromNullTop >= FirstPicHandler.DifFromNullTop)
+        if (overlayView.secondHolder.Y + overlayView.secondHolder.Height  > orgiHeight)
         {
-            basePicHandler.Y = 0;
-            FirstPicHandler.Y = getPlusInt(FirstPicHandler.DifFromNullTop);
-            SecondPicHandler.Y = getPlusInt(SecondPicHandler.DifFromNullTop);
+            height = orgiHeight - overlayView.secondHolder.Y;
+            setHeigth(height);
         }
-
-
-
-
-        //Check if width is bigger than the orginalwidth and crop
-        if (FirstPicHandler.X + FirstPicHandler.Width > orgiwidth)
-        {
-            FirstPicHandler.Width -= FirstPicHandler.X + FirstPicHandler.Width - orgiwidth;
-            basePicHandler.Width = FirstPicHandler.Width;
-            SecondPicHandler.Width = FirstPicHandler.Width;
-        }
-        if (SecondPicHandler.X +SecondPicHandler.Width > orgiwidth)
-        {
-            SecondPicHandler.Width -= SecondPicHandler.Width + SecondPicHandler.X - orgiwidth;
-            FirstPicHandler.Width = SecondPicHandler.Width;
-            basePicHandler.Width = SecondPicHandler.Width;
-        }
-        if (basePicHandler.X + basePicHandler.Width > orgiwidth)
-        {
-            basePicHandler.Width -= basePicHandler.Width + basePicHandler.X - orgiwidth;
-            FirstPicHandler.Width = basePicHandler.Width;
-            SecondPicHandler.Width = basePicHandler.Width;
-        }
-
-        if (FirstPicHandler.Y + FirstPicHandler.Height > orgiheight)
-        {
-            FirstPicHandler.Height -= FirstPicHandler.Y + FirstPicHandler.Height - orgiheight;
-            SecondPicHandler.Height = FirstPicHandler.Height;
-            basePicHandler.Height = FirstPicHandler.Height;
-        }
-        if (SecondPicHandler.Y + SecondPicHandler.Height > orgiheight)
-        {
-            SecondPicHandler.Height -= SecondPicHandler.Y + SecondPicHandler.Height - orgiheight;
-            FirstPicHandler.Height = SecondPicHandler.Height;
-            basePicHandler.Height = SecondPicHandler.Height;
-        }
-        if (basePicHandler.Y + basePicHandler.Height > orgiheight)
-        {
-            basePicHandler.Height -= basePicHandler.Y + basePicHandler.Height - orgiheight;
-            FirstPicHandler.Height = basePicHandler.Height;
-            SecondPicHandler.Height = basePicHandler.Height;
-        }
-
-
-
 
         try
         {
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), FirstPicHandler.X, FirstPicHandler.Y, FirstPicHandler.Width, FirstPicHandler.Height);
+            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), overlayView.firstHolder.X, overlayView.firstHolder.Y, overlayView.firstHolder.Width, overlayView.firstHolder.Height);
             saveBitmap(uris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), SecondPicHandler.X, SecondPicHandler.Y, SecondPicHandler.Width, SecondPicHandler.Height);
+            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), overlayView.secondHolder.X, overlayView.secondHolder.Y, overlayView.secondHolder.Width, overlayView.secondHolder.Height);
             saveBitmap(uris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), basePicHandler.X, basePicHandler.Y, basePicHandler.Width, basePicHandler.Height);
+            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), overlayView.baseHolder.X, overlayView.baseHolder.Y, overlayView.baseHolder.Width, overlayView.baseHolder.Height);
             saveBitmap(uris[1].getPath(), newBaseImage);
         }
         catch (OutOfMemoryError ex)
@@ -422,8 +339,6 @@ public class HdrRenderActivity extends Activity
 
             ex.printStackTrace();
         }
-
-
     }
 
     private int getPlusInt(int i)
