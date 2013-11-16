@@ -139,6 +139,8 @@ public class HdrManager implements PictureTakeFinish
             cameraManager.parameters.setAutoWhiteBalanceLock(true);
         if (cameraManager.parameters.getAutoExposureLock() == false)
             cameraManager.parameters.setAutoExposureLock(true);
+        //disable, frame, center, fft and manual.
+        cameraManager.parameters.set("auto-convergence-mode", "disable");
 
         if (count == 0)
         {
@@ -147,7 +149,7 @@ public class HdrManager implements PictureTakeFinish
             {
                 cameraManager.parametersManager.SetExposureCompensation(i);
             }*/
-            cameraManager.parametersManager.SetExposureCompensation(20);
+            cameraManager.parametersManager.SetExposureCompensation(15);
             cameraManager.parametersManager.SetBrightness(80);
             cameraManager.parametersManager.SetContrast(120);
 
@@ -176,9 +178,9 @@ public class HdrManager implements PictureTakeFinish
             {
                 cameraManager.parametersManager.SetExposureCompensation(i);
             }*/
-            cameraManager.parametersManager.SetExposureCompensation(-20);
-            //cameraManager.parametersManager.SetBrightness(50);
-            //cameraManager.parametersManager.SetContrast(100);
+            cameraManager.parametersManager.SetExposureCompensation(-15);
+            cameraManager.parametersManager.SetBrightness(20);
+            cameraManager.parametersManager.SetContrast(80);
 
             //cameraManager.parametersManager.SetBrightness(0);
             //cameraManager.parametersManager.SetContrast(0);

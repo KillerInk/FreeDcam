@@ -54,15 +54,13 @@ public class HdrRenderActivity extends Activity
     Button button_movebottom;
     CheckBox picone;
     CheckBox pictwo;
-    public  ViewGroup appViewGroup;
 
-    BitmapHandler basePicHandler;
-    BitmapHandler FirstPicHandler;
-    BitmapHandler SecondPicHandler;
+    ThreeDBitmapHandler threeDBitmapHandler;
 
 
     RelativeLayout picView;
 
+    //should always true, if not it can be used to load the activity from start
     boolean topintent = true;
 
 
@@ -129,11 +127,6 @@ public class HdrRenderActivity extends Activity
 
         picView = (RelativeLayout)findViewById(R.id.LayoutPics);
         overlayView = (ImageOverlayView) findViewById(R.id.view_overlay2);
-
-        //basePicture = (ImageView) findViewById(R.id.imageView_basePic);
-        //BitmapFactory.Options options = new BitmapFactory.Options();
-        //options.inJustDecodeBounds = true;
-
 
         button_moveleft = (Button)findViewById(R.id.button_left);
         button_moveleft.setOnClickListener(new View.OnClickListener() {
@@ -228,10 +221,20 @@ public class HdrRenderActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        overlayView.Load(uris);
+        if (uris[0].getPath().endsWith("jps"))
+        {
+            threeDBitmapHandler = new ThreeDBitmapHandler(uris, this);
+            overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
+        }
+        else
+        {
+            overlayView.Load(uris);
+        }
         overlayView.drawFirstPic = true;
 
     }
+
+
 
     @Override
     protected void onPause()
@@ -250,7 +253,8 @@ public class HdrRenderActivity extends Activity
         String path = "";
         if(end.equals("jps"))
         {
-            path = render3d(end,sdcardpath);
+            threeDBitmapHandler.CropImagesToNewSize(overlayView.baseHolder, overlayView.firstHolder, overlayView.secondHolder, overlayView.OrginalWidth ,overlayView.OrginalHeight);
+            path = threeDBitmapHandler.Render3d();
         }
         else
         {
@@ -341,13 +345,6 @@ public class HdrRenderActivity extends Activity
         }
     }
 
-    private int getPlusInt(int i)
-    {
-        if (i > 0)
-            return i;
-        else
-            return i*-1;
-    }
 
     private String render2d(String end, File sdcardpath) {
         try {
@@ -372,181 +369,11 @@ public class HdrRenderActivity extends Activity
         return file.getAbsolutePath();
     }
 
-    private String render3d(String end, File sdcardpath)
-    {
-        urisLeftTop = new Uri[3];
-        urisLeftBottom = new Uri[3];
-        urisRightTop = new Uri[3];
-        urisRightBottom = new Uri[3];
-        urisLeft = new Uri[3];
-        urisRight = new Uri[3];
-        File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");
-
-        Log.d(TAG, "Start splitting images");
-        Bitmap orgi = null;
-        //split pictues
-        splitBitmaps(end, freeCamImageDirectory, orgi);
-        ///render left/right pic
-        renderSplittetHDRPics(end, freeCamImageDirectory);
-        ///merge pics
-        gc();
-        Paint paint = new Paint();
-
-        Bitmap left = BitmapFactory.decodeFile(String.format(freeCamImageDirectory + "/lefttop." + end));
-        orgi = Bitmap.createBitmap(left.getWidth() * 2, left.getHeight()*2, Bitmap.Config.ARGB_8888);
-        Canvas cav = new Canvas(orgi);
-        cav.drawBitmap(left,0,0,paint);
-        left.recycle();
-        left =null;
-        gc();
-
-        Bitmap leftbottom = BitmapFactory.decodeFile(String.format(freeCamImageDirectory + "/leftbottom." + end));
-        cav.drawBitmap(leftbottom, 0,orgi.getHeight()/2,paint);
-        leftbottom.recycle();
-        gc();
-
-        Bitmap rightTop = BitmapFactory.decodeFile(String.format(freeCamImageDirectory + "/righttop." + end));
-        cav.drawBitmap(rightTop, orgi.getWidth()/2, 0, paint);
-        rightTop.recycle();
-        gc();
-
-        Bitmap rightbottom = BitmapFactory.decodeFile(String.format(freeCamImageDirectory + "/rightbottom." + end));
-        cav.drawBitmap(rightbottom, orgi.getWidth()/2, orgi.getHeight()/2, paint);
-        rightbottom.recycle();
-        gc();
-
-        File file = SavePictureTask.getFilePath("jps", sdcardpath);
-        saveBitmap(file.getAbsolutePath(), orgi);
-
-        orgi.recycle();
-        gc();
-        return file.getAbsolutePath();
-    }
-
-    private void renderSplittetHDRPics(String end,File freeCamImageDirectory)
-    {
-        //left pic top
-        try {
-            HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this,urisLeftTop);
-            byte[] hdrpic = HdrRender.computeHDR(this);
 
 
-            saveFile(String.format(freeCamImageDirectory + "/lefttop." + end), hdrpic);
-            gc();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-        //left pic bottom
-        try {
-            HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this,urisLeftBottom);
-            byte[] hdrpic = HdrRender.computeHDR(this);
-
-            saveFile(String.format(freeCamImageDirectory + "/leftbottom." + end), hdrpic);
-            gc();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-
-        ///render right pic top
-        try {
-            HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this,urisRightTop);
-            byte[] hdrpic = HdrRender.computeHDR(this);
-
-            saveFile(String.format(freeCamImageDirectory + "/righttop." + end), hdrpic);
-            System.gc();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-
-        ///render right pic bottom
-        try {
-            HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this,urisRightBottom);
-            byte[] hdrpic = HdrRender.computeHDR(this);
-
-            saveFile(String.format(freeCamImageDirectory + "/rightbottom." + end), hdrpic);
-            System.gc();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    private void splitBitmaps(String end, File freeCamImageDirectory, Bitmap orgi) {
-        for(int i=0; i < uris.length; i++ )
-        {
-
-            try {
-                /// LEFT TOP IMAGE
-                Log.d(TAG, "Split " + i + " Image");
-                gc();
-                File file = new File(String.format(freeCamImageDirectory + "/lefttop" + String.valueOf(i) + "." + end));
-                urisLeftTop[i] = Uri.fromFile(file);
-                file.createNewFile();
-
-                File orginalImageFile = new File(uris[i].getPath());
-                byte[] bytes = loadBytesFromFile(orginalImageFile);
-
-                orgi = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Log.d(TAG, "Orginal Image Top " + i + " Size :" + orgi.getWidth() + "x"+ orgi.getHeight());
-                bytes = null;
-                gc();
-                Bitmap lefttop = Bitmap.createBitmap(orgi,0,0, orgi.getWidth()/2, orgi.getHeight()/2);
-                saveBitmap(file.getAbsolutePath(), lefttop);
-                gc();
-                //LEFT BOTTOM IMAGE
-                File fileb = new File(String.format(freeCamImageDirectory + "/leftbottom" + String.valueOf(i) + "." + end));
-                urisLeftBottom[i] = Uri.fromFile(fileb);
-                fileb.createNewFile();
-                Bitmap leftbottom = Bitmap.createBitmap(orgi, 0, orgi.getHeight() / 2, orgi.getWidth() / 2, orgi.getHeight() / 2);
-                Log.d(TAG, "Left Image Bottom " + i + " Size :" + lefttop.getWidth() + "x"+ lefttop.getHeight());
-                saveBitmap(fileb.getAbsolutePath(), leftbottom);
-                gc();
-                //RIGHT TOP IMAGE
-                Bitmap right = Bitmap.createBitmap(orgi,orgi.getWidth()/2, 0, orgi.getWidth()/2, orgi.getHeight()/2);
-                Log.d(TAG, "Right Image Top " + i + " Size :" + right.getWidth() + "x"+ right.getHeight());
-                File fileright = new File(String.format(freeCamImageDirectory + "/righttop" + String.valueOf(i) + "." + end));
-                fileright.createNewFile();
-                urisRightTop[i] = Uri.fromFile(fileright);
-                saveBitmap(fileright.getAbsolutePath(), right);
-                gc();
-                Bitmap rightbottom = Bitmap.createBitmap(orgi,orgi.getWidth()/2, orgi.getHeight()/2, orgi.getWidth()/2, orgi.getHeight()/2);
-                Log.d(TAG, "Right Image Bottom " + i + " Size :" + right.getWidth() + "x"+ right.getHeight());
-                File filerightb = new File(String.format(freeCamImageDirectory + "/rightbottom" + String.valueOf(i) + "." + end));
-                fileright.createNewFile();
-                urisRightBottom[i] = Uri.fromFile(filerightb);
-                saveBitmap(filerightb.getAbsolutePath(), rightbottom);
 
 
-                orgi.recycle();
-                orgi = null;
-                gc();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        Log.d(TAG, "Splitting Images done!");
-    }
 
     private void gc() {
         /*System.gc();
