@@ -77,24 +77,46 @@ public class ImageOverlayView extends View
         {
             if (value > 0)
             {
-                baseHolder.Y += value;
-                secondHolder.Y += value;
+                if (baseHolder.Y - value >= 0 && secondHolder.Y - value >= 0)
+                {
+                    baseHolder.Y -= value;
+                    secondHolder.Y -= value;
+                }
+                else
+                    firstHolder.Y += value;
             }
             else
             {
-                firstHolder.Y -= value;
+                if (firstHolder.Y + value >= 0)
+                    firstHolder.Y += value;
+                else
+                {
+                    baseHolder.Y -= value;
+                    secondHolder.Y -= value;
+                }
             }
         }
         else
         {
             if (value > 0)
             {
-                baseHolder.Y += value;
-                firstHolder.Y += value;
+                if (baseHolder.Y - value >= 0 && firstHolder.Y - value >= 0)
+                {
+                    baseHolder.Y -= value;
+                    firstHolder.Y -= value;
+                }
+                else
+                    secondHolder.Y += value;
             }
             else
             {
-                secondHolder.Y -= value;
+                if (secondHolder.Y + value >= 0)
+                    secondHolder.Y += value;
+                else
+                {
+                    baseHolder.Y -= value;
+                    firstHolder.Y -= value;
+                }
             }
         }
         invalidate();
@@ -108,24 +130,46 @@ public class ImageOverlayView extends View
         {
             if (value > 0)
             {
-                baseHolder.X += value;
-                secondHolder.X += value;
+                if (baseHolder.X - value >= 0 && secondHolder.X - value >= 0)
+                {
+                    baseHolder.X -= value;
+                    secondHolder.X -= value;
+                }
+                else
+                    firstHolder.X += value;
             }
             else
             {
-                firstHolder.X -= value;
+                if (firstHolder.X + value >= 0)
+                    firstHolder.X += value;
+                else
+                {
+                    baseHolder.X -= value;
+                    secondHolder.X -= value;
+                }
             }
         }
         else
         {
             if (value > 0)
             {
-                baseHolder.X += value;
-                firstHolder.X += value;
+                if (baseHolder.X - value >= 0 && firstHolder.X - value >= 0)
+                {
+                    baseHolder.X -= value;
+                    firstHolder.X -= value;
+                }
+                else
+                    secondHolder.X += value;
             }
             else
             {
-                secondHolder.X -= value;
+                if (secondHolder.X + value >= 0)
+                    secondHolder.X += value;
+                else
+                {
+                    baseHolder.X -= value;
+                    firstHolder.X -= value;
+                }
             }
         }
         invalidate();
@@ -159,18 +203,18 @@ public class ImageOverlayView extends View
         if  (running)
         {
             if (leftmargine + baseHolder.X +400 > OrginalWidth)
-                leftmargine = OrginalWidth - baseHolder.X - 400;
+                leftmargine -= OrginalWidth - baseHolder.X - 400;
             if (leftmargine + firstHolder.X + 400 > OrginalWidth)
-                leftmargine = OrginalWidth - firstHolder.X - 400;
+                leftmargine -= OrginalWidth - firstHolder.X - 400;
             if (leftmargine + secondHolder.X +400 > OrginalWidth)
-                leftmargine = OrginalWidth - secondHolder.X - 400;
+                leftmargine -= OrginalWidth - secondHolder.X - 400;
 
             if (topmargine + baseHolder.Y + 240 > OrginalHeight)
-                topmargine = OrginalHeight - baseHolder.Y - 240;
+                topmargine -= OrginalHeight - baseHolder.Y - 240;
             if (topmargine + firstHolder.Y + 240 > OrginalHeight)
-                topmargine = OrginalHeight - firstHolder.Y - 240;
+                topmargine -= OrginalHeight - firstHolder.Y - 240;
             if (topmargine + secondHolder.Y + 240 > OrginalHeight)
-                topmargine = OrginalHeight - secondHolder.Y - 240;
+                topmargine -= OrginalHeight - secondHolder.Y - 240;
 
             if(orginalImage != null && baseHolder !=null)
             {

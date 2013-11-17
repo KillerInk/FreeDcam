@@ -26,25 +26,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Picture 2"
-            android:id="@+id/checkBox_picSecond"
-            android:layout_alignBottom="@+id/checkBox_picFirst"
-            android:layout_toRightOf="@+id/button_right"
-            android:layout_marginLeft="30dp"
-            android:singleLine="false" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Picture 1"
-            android:id="@+id/checkBox_picFirst"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:checked="true" />
-
         <Button
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
@@ -86,6 +67,98 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:enabled="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/button_RenderHdr"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:background="#726969">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Picture 1"
+                android:id="@+id/checkBox_picFirst"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:checked="true" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Picture 2"
+                android:id="@+id/checkBox_picSecond"
+                android:layout_alignBottom="@+id/checkBox_picFirst"
+                android:layout_toRightOf="@+id/button_right"
+                android:singleLine="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout"
+            android:background="#909090">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="bl:0"
+                android:id="@+id/textView_baseLeft" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="fl:0"
+                android:id="@+id/textView_firstLeft"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="sl:0"
+                android:id="@+id/textView_secondLeft"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentLeft="true"
+            android:background="#9e9e9e">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="bt:0"
+                android:id="@+id/textView_baseTop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="ft:0"
+                android:id="@+id/textView2_firstTop"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="st:0"
+                android:id="@+id/textView3_secondTop"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -81,7 +81,8 @@ public class ThreeDBitmapHandler
         this.first = first;
         this.second = second;
 
-        if (base.X + base.Width * 2 > orgiWidth)
+        setWidth(orgiWidth);
+        if (base.X + base.Width> orgiWidth)
         {
             width = orgiWidth - base.X;
             setWidth(width);
@@ -98,7 +99,8 @@ public class ThreeDBitmapHandler
         }
 
         int orgiHeight = height * 2;
-        if (base.Y + base.Height * 2 > orgiHeight)
+        setHeigth(orgiHeight);
+        if (base.Y + base.Height > orgiHeight)
         {
             height = orgiHeight - base.Y;
             setHeigth(height);

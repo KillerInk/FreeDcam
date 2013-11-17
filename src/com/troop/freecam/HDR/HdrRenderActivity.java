@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -54,6 +55,13 @@ public class HdrRenderActivity extends Activity
     Button button_movebottom;
     CheckBox picone;
     CheckBox pictwo;
+
+    TextView firstleft;
+    TextView secondleft;
+    TextView baseleft;
+    TextView firstTop;
+    TextView secondTop;
+    TextView baseTop;
 
     ThreeDBitmapHandler threeDBitmapHandler;
 
@@ -136,6 +144,7 @@ public class HdrRenderActivity extends Activity
                     overlayView.AddLeft(true, -1);
                 else
                     overlayView.AddLeft(false, -1);
+                updateTextBoxes();
             }
         });
         button_moveright = (Button)findViewById(R.id.button_right);
@@ -147,6 +156,7 @@ public class HdrRenderActivity extends Activity
                     overlayView.AddLeft(true, 1);
                 else
                     overlayView.AddLeft(false, 1);
+                updateTextBoxes();
 
             }
         });
@@ -158,6 +168,7 @@ public class HdrRenderActivity extends Activity
                     overlayView.AddTop(true, -1);
                 else
                     overlayView.AddTop(false, -1);
+                updateTextBoxes();
             }
         });
         button_movebottom = (Button)findViewById(R.id.button_bottom);
@@ -168,6 +179,7 @@ public class HdrRenderActivity extends Activity
                     overlayView.AddTop(true, 1);
                 else
                     overlayView.AddTop(false, 1);
+                updateTextBoxes();
             }
         });
 
@@ -210,6 +222,13 @@ public class HdrRenderActivity extends Activity
                 }
             }
         });
+
+        firstleft = (TextView)findViewById(R.id.textView_firstLeft);
+        firstTop =(TextView) findViewById(R.id.textView2_firstTop);
+        secondleft = (TextView) findViewById(R.id.textView_secondLeft);
+        secondTop =(TextView) findViewById(R.id.textView3_secondTop);
+        baseleft = (TextView) findViewById(R.id.textView_baseLeft);
+        baseTop = (TextView) findViewById(R.id.textView_baseTop);
     }
 
     @Override
@@ -294,8 +313,9 @@ public class HdrRenderActivity extends Activity
         int width = 0;
         int height =0;
         int orgiWidth = overlayView.OrginalWidth *2;
+        setWidth(orgiWidth);
 
-        if (overlayView.baseHolder.X + overlayView.baseHolder.Width * 2 > orgiWidth)
+        if (overlayView.baseHolder.X + overlayView.baseHolder.Width > orgiWidth)
         {
             width = orgiWidth - overlayView.baseHolder.X;
             setWidth(width);
@@ -312,7 +332,8 @@ public class HdrRenderActivity extends Activity
         }
 
         int orgiHeight = overlayView.OrginalHeight * 2;
-        if (overlayView.baseHolder.Y + overlayView.baseHolder.Height * 2 > orgiHeight)
+        setHeigth(orgiHeight);
+        if (overlayView.baseHolder.Y + overlayView.baseHolder.Height > orgiHeight)
         {
             height = orgiHeight - overlayView.baseHolder.Y;
             setHeigth(height);
@@ -460,5 +481,15 @@ public class HdrRenderActivity extends Activity
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         overlayView.invalidate();
+    }
+
+    private void updateTextBoxes()
+    {
+        firstTop.setText("ft:"+overlayView.firstHolder.Y);
+        firstleft.setText("fl:" + overlayView.firstHolder.X);
+        secondTop.setText("st:" + overlayView.secondHolder.Y);
+        secondleft.setText("sl:" + overlayView.secondHolder.X);
+        baseTop.setText("bt:" + overlayView.baseHolder.Y);
+        baseleft.setText("bl:" + overlayView.baseHolder.X);
     }
 }

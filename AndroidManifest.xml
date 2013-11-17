@@ -38,7 +38,7 @@
         <activity
 
             android:screenOrientation="landscape"
-            android:name=".HdrRenderActivity" >
+            android:name="com.troop.freecam.HDR.HdrRenderActivity" >
 
         </activity>
     </application>
