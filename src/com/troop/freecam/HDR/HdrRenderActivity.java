@@ -313,6 +313,14 @@ public class HdrRenderActivity extends Activity
         int width = 0;
         int height =0;
         int orgiWidth = overlayView.OrginalWidth *2;
+
+        overlayView.baseHolder.X *= 2;
+        overlayView.firstHolder.X *= 2;
+        overlayView.secondHolder.X *= 2;
+        overlayView.baseHolder.Y *= 2;
+        overlayView.firstHolder.Y *=2;
+        overlayView.secondHolder.Y *=2;
+
         setWidth(orgiWidth);
 
         if (overlayView.baseHolder.X + overlayView.baseHolder.Width > orgiWidth)

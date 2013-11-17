@@ -199,26 +199,28 @@ public class ImageOverlayView extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
+        int width = 800;
+        int height = 480;
         super.onDraw(canvas);
         if  (running)
         {
-            if (leftmargine + baseHolder.X +400 > OrginalWidth)
-                leftmargine -= OrginalWidth - baseHolder.X - 400;
-            if (leftmargine + firstHolder.X + 400 > OrginalWidth)
-                leftmargine -= OrginalWidth - firstHolder.X - 400;
-            if (leftmargine + secondHolder.X +400 > OrginalWidth)
-                leftmargine -= OrginalWidth - secondHolder.X - 400;
+            if (leftmargine + baseHolder.X +width > OrginalWidth)
+                leftmargine = OrginalWidth - baseHolder.X - width;
+            if (leftmargine + firstHolder.X + width > OrginalWidth)
+                leftmargine = OrginalWidth - firstHolder.X - width;
+            if (leftmargine + secondHolder.X +width > OrginalWidth)
+                leftmargine = OrginalWidth - secondHolder.X - width;
 
-            if (topmargine + baseHolder.Y + 240 > OrginalHeight)
-                topmargine -= OrginalHeight - baseHolder.Y - 240;
-            if (topmargine + firstHolder.Y + 240 > OrginalHeight)
-                topmargine -= OrginalHeight - firstHolder.Y - 240;
-            if (topmargine + secondHolder.Y + 240 > OrginalHeight)
-                topmargine -= OrginalHeight - secondHolder.Y - 240;
+            if (topmargine + baseHolder.Y + height > OrginalHeight)
+                topmargine = OrginalHeight - baseHolder.Y - height;
+            if (topmargine + firstHolder.Y + height > OrginalHeight)
+                topmargine = OrginalHeight - firstHolder.Y - height;
+            if (topmargine + secondHolder.Y + height > OrginalHeight)
+                topmargine = OrginalHeight - secondHolder.Y - height;
 
             if(orginalImage != null && baseHolder !=null)
             {
-                baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, 400, 240));
+                baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, width, height));
                 baseImage.setBounds(0,0,800,480);
                 baseImage.draw(canvas);
             }
@@ -238,16 +240,16 @@ public class ImageOverlayView extends View
     }
 
     private void drawSecondImage(Canvas canvas) {
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 400, 240));
+        secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 800, 480));
         secondImage.setBounds(0,0,800,480);
-        secondImage.setAlpha(125);
+        secondImage.setAlpha(100);
         secondImage.draw(canvas);
     }
 
     private void drawFirstImage(Canvas canvas) {
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 400, 240));
+        firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 800, 480));
         firstImage.setBounds(0,0,800,480);
-        firstImage.setAlpha(125);
+        firstImage.setAlpha(100);
         firstImage.draw(canvas);
     }
 

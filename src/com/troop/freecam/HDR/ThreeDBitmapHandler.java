@@ -81,6 +81,13 @@ public class ThreeDBitmapHandler
         this.first = first;
         this.second = second;
 
+        base.X *= 2;
+        first.X *= 2;
+        second.X *= 2;
+        base.Y *= 2;
+        first.Y *=2;
+        second.Y *=2;
+
         setWidth(orgiWidth);
         if (base.X + base.Width> orgiWidth)
         {
