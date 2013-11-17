@@ -128,6 +128,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             bitmascale = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
             cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
             cameraManager.lastPicturePath =file.getAbsolutePath();
+            scanManager.startScan(lastPicturePath);
             bitmaporg.recycle();
             System.gc();
             //bitmascale.recycle();
