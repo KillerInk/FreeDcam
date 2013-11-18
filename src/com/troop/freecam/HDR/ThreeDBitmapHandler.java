@@ -1,12 +1,14 @@
 package com.troop.freecam.HDR;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.troop.freecam.SavePictureTask;
@@ -60,11 +62,13 @@ public class ThreeDBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
+            System.gc();
             Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath()), 0, 0, o.outWidth / 2, o.outHeight);
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
             saveBitmap(file.getAbsolutePath(), left);
             LeftUris[i] = Uri.fromFile(file);
 
+            System.gc();
             Bitmap right = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath()), o.outWidth / 2, 0, o.outWidth/2, o.outHeight);
             File fileright = new File(String.format(freeCamImageDirectoryTmp + "/right" + String.valueOf(i) + "." + end));
             saveBitmap(fileright.getAbsolutePath(), right);
@@ -251,6 +255,7 @@ public class ThreeDBitmapHandler
             byte[] hdrpic = HdrRender.computeHDR(activity);
 
             saveFile(String.format(freeCamImageDirectoryTmp + "/rightbottom.jps"), hdrpic);
+            HdrRender = null;
             System.gc();
         } catch (IOException e) {
             e.printStackTrace();
@@ -266,9 +271,11 @@ public class ThreeDBitmapHandler
         Paint paint = new Paint();
 
         Bitmap left = BitmapFactory.decodeFile(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
-        Bitmap orgi = Bitmap.createBitmap(left.getWidth() * 2, left.getHeight()*2, Bitmap.Config.ARGB_8888);
+        Bitmap orgi = Bitmap.createBitmap(left.getWidth() * 2, left.getHeight()*2, left.getConfig());
         Canvas cav = new Canvas(orgi);
         cav.drawBitmap(left,0,0,paint);
+        int width = orgi.getWidth();
+        int height = orgi.getHeight();
         left.recycle();
         left =null;
         //gc();
@@ -287,9 +294,14 @@ public class ThreeDBitmapHandler
         rightbottom.recycle();
 
         File file = SavePictureTask.getFilePath("jps", sdcardpath);
+
+        croptTosixtenToNine(orgi, width, height, file.getAbsolutePath());
         saveBitmap(file.getAbsolutePath(), orgi);
 
         orgi.recycle();
+        orgi = null;
+
+        //croptTosixtenToNine(file.getAbsolutePath(), width, height);
         return file.getAbsolutePath();
     }
 
@@ -346,6 +358,21 @@ public class ThreeDBitmapHandler
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void croptTosixtenToNine(Bitmap bitmap, int width, int height, String path)
+    {
+        if (PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("crop", false) == true)
+        {
+            int newheigt = width /32 * 9;
+            int tocrop = height - newheigt ;
+
+            System.gc();
+            Runtime.getRuntime().gc();
+            System.gc();
+
+            bitmap = Bitmap.createBitmap(bitmap, 0, tocrop /2, width, newheigt);
         }
     }
 }

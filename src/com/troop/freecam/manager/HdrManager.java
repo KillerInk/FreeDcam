@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.HDR.HdrRenderActivity;
+import com.troop.freecam.HDR.SavePictureRunnable;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.interfaces.PictureTakeFinish;
 
@@ -37,6 +38,9 @@ public class HdrManager implements PictureTakeFinish
     boolean takepicture = false;
     boolean working = false;
     PictureTakeFinish pictureTakeFinish;
+    SavePictureRunnable saveFirstPic;
+    SavePictureRunnable saveSecondPic;
+    SavePictureRunnable saveThirdPic;
 
 
 
@@ -63,20 +67,16 @@ public class HdrManager implements PictureTakeFinish
         }
         else
         {
-            boolean is3d = false;
-            String end;
-            if (cameraManager.preferences.getString("switchcam", "3D").equals("3D"))
+            while (saveFirstPic.Running || saveSecondPic.Running || saveThirdPic.Running )
             {
-                is3d = true;
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            if (is3d)
-                end = "jps";
-            else
-                end = "jpg";
+            //File sdcardpath = Environment.getExternalStorageDirectory();
 
-
-            File sdcardpath = Environment.getExternalStorageDirectory();
-            //TODO add intent
             Intent hdractiv = new Intent(cameraManager.activity.getApplicationContext(), HdrRenderActivity.class);
             String[] ar = new String[3];
             ar[0] = uris[0].getPath();
@@ -84,14 +84,14 @@ public class HdrManager implements PictureTakeFinish
             ar[2] = uris[2].getPath();
             hdractiv.putExtra("uris", ar);
             cameraManager.activity.startActivityForResult(hdractiv, 1);
-            cameraManager.parameters.set("video-stabilization", "false");
-            cameraManager.parametersManager.SetExposureCompensation(0);
-            cameraManager.parameters.setAutoExposureLock(false);
-            cameraManager.parameters.setAutoWhiteBalanceLock(false);
+            //cameraManager.parameters.set("video-stabilization", "false");
+            //cameraManager.parametersManager.SetExposureCompensation(0);
+            //cameraManager.parameters.setAutoExposureLock(false);
+            //cameraManager.parameters.setAutoWhiteBalanceLock(false);
 
             //cameraManager.parametersManager.SetBrightness(100);
             //cameraManager.parametersManager.SetContrast(50);
-            cameraManager.mCamera.startPreview();
+            //cameraManager.mCamera.startPreview();
         }
     }
 
@@ -99,35 +99,27 @@ public class HdrManager implements PictureTakeFinish
     {
         this.cameraManager = cameraManager;
         uris  = new Uri[3];
-        //HdrRender = new HdrSoftwareProcessor(cameraManager.activity.getBaseContext());
         pictureTakeFinish = this;
     }
 
     public void TakeHDRPictures(boolean reset)
     {
-        /*if (reset)
-        count = 0;
-        cameraManager.parameters.set("video-stabilization", "true");
-        setParameters();
-        takepicture = true;
-        cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);*/
         System.gc();
         cameraManager.parameters.set("video-stabilization", "true");
         cameraManager.mCamera.setParameters(cameraManager.parameters);
         count = 0;
         starttakePicture();
-        //handler.postDelayed(runnable, interval);
     }
 
     private void starttakePicture()
     {
 
         setParameters();
-        try {
+        /*try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
         takepicture = true;
         cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
@@ -144,46 +136,21 @@ public class HdrManager implements PictureTakeFinish
 
         if (count == 0)
         {
-            /*int dif = 30;
-            for (int i = 0; i < dif; i++ )
-            {
-                cameraManager.parametersManager.SetExposureCompensation(i);
-            }*/
             cameraManager.parametersManager.SetExposureCompensation(15);
-            cameraManager.parametersManager.SetBrightness(80);
-            cameraManager.parametersManager.SetContrast(120);
-
-            //cameraManager.parametersManager.SetBrightness(180);
-            //cameraManager.parametersManager.SetContrast(100);
-
+            cameraManager.parametersManager.SetBrightness(60);
+            //cameraManager.parametersManager.SetContrast(120);
         }
         else if (count == 1)
         {
-            /*int dif = -15;
-            for (int i = 15; i >= dif; i-- )
-            {
-                cameraManager.parametersManager.SetExposureCompensation(i);
-            }*/
             cameraManager.parametersManager.SetExposureCompensation(0);
             cameraManager.parametersManager.SetBrightness(50);
-            cameraManager.parametersManager.SetContrast(100);
-
-            //cameraManager.parametersManager.SetBrightness(100);
-            //cameraManager.parametersManager.SetContrast(50);
+            //cameraManager.parametersManager.SetContrast(100);
         }
         else if (count == 2)
         {
-            /*int dif = -30;
-            for (int i = -15; i >= dif; i-- )
-            {
-                cameraManager.parametersManager.SetExposureCompensation(i);
-            }*/
             cameraManager.parametersManager.SetExposureCompensation(-15);
-            cameraManager.parametersManager.SetBrightness(20);
-            cameraManager.parametersManager.SetContrast(80);
-
-            //cameraManager.parametersManager.SetBrightness(0);
-            //cameraManager.parametersManager.SetContrast(0);
+            cameraManager.parametersManager.SetBrightness(40);
+            //cameraManager.parametersManager.SetContrast(80);
         }
 
     }
@@ -216,7 +183,25 @@ public class HdrManager implements PictureTakeFinish
 
             }else
             {
-                savePic(data, end, sdcardpath);
+                //TODO move saving into new thread for faster picture taking
+                File file = getFilePath(end,sdcardpath);
+                uris[count] = Uri.fromFile(file);
+                if (count == 0)
+                {
+                    saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
+                    handler.post(saveFirstPic);
+                }
+                else if (count == 1)
+                {
+                    saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
+                    handler.post(saveSecondPic);
+                }
+                else if (count == 2)
+                {
+                    saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
+                    handler.post(saveThirdPic);
+                }
+                //savePic(data, end, sdcardpath);
             }
             count++;
             takepicture = false;
@@ -225,29 +210,7 @@ public class HdrManager implements PictureTakeFinish
         }
     };
 
-    private void savePic(byte[] data, String end, File sdcardpath) {
-        File file = getFilePath(end, sdcardpath);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        uris[count] = Uri.fromFile(file);
-        Log.d(TAG, "save HdrPicture NR" + String.valueOf(count));
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-            outStream.write(data);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "save HdrPicture NR" + String.valueOf(count));
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     private File getFilePath(String end, File sdcardpath) {
         File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");

@@ -26,7 +26,7 @@ public class ImageOverlayView extends View
     public BitmapHandler firstHolder;
     public BitmapHandler secondHolder;
     public BitmapHandler baseHolder;
-    boolean running = false;
+    public boolean running = false;
     public int OrginalWidth;
     public int OrginalHeight;
 
@@ -177,6 +177,7 @@ public class ImageOverlayView extends View
 
     public void Destroy()
     {
+        running = false;
         if (orginalImage != null)
             orginalImage.recycle();
         orginalImage = null;
@@ -194,6 +195,7 @@ public class ImageOverlayView extends View
         if (secondorginalImage != null)
             secondorginalImage.recycle();
         secondorginalImage = null;
+        System.gc();
     }
 
     @Override
@@ -222,6 +224,10 @@ public class ImageOverlayView extends View
             {
                 baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, width, height));
                 baseImage.setBounds(0,0,800,480);
+                if (drawFirstPic)
+                    baseImage.setAlpha(255);
+                else
+                    baseImage.setAlpha(200);
                 baseImage.draw(canvas);
             }
 
@@ -242,14 +248,14 @@ public class ImageOverlayView extends View
     private void drawSecondImage(Canvas canvas) {
         secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 800, 480));
         secondImage.setBounds(0,0,800,480);
-        secondImage.setAlpha(100);
+        secondImage.setAlpha(150);
         secondImage.draw(canvas);
     }
 
     private void drawFirstImage(Canvas canvas) {
         firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 800, 480));
         firstImage.setBounds(0,0,800,480);
-        firstImage.setAlpha(100);
+        firstImage.setAlpha(60);
         firstImage.draw(canvas);
     }
 
@@ -260,32 +266,35 @@ public class ImageOverlayView extends View
     public boolean onTouchEvent(MotionEvent event)
     {
         boolean toreturn = false;
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        if (running)
         {
-            moveX = (int)event.getX();
-            moveY = (int)event.getY();
-            toreturn = true;
-        }
-        if (event.getAction() == MotionEvent.ACTION_MOVE )
-        {
-            int lastmovex = moveX - (int)event.getX();
-            int lastmovey = moveY - (int)event.getY();
-            //Log.d(TAG, "moved by: X:" + lastmovex + " Y: " + lastmovey);
-            moveX = (int)event.getX();
-            moveY = (int)event.getY();
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
+            {
+                moveX = (int)event.getX();
+                moveY = (int)event.getY();
+                toreturn = true;
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE )
+            {
+                int lastmovex = moveX - (int)event.getX();
+                int lastmovey = moveY - (int)event.getY();
+                //Log.d(TAG, "moved by: X:" + lastmovex + " Y: " + lastmovey);
+                moveX = (int)event.getX();
+                moveY = (int)event.getY();
 
-            if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= OrginalWidth)
-                leftmargine = leftmargine + lastmovex;
+                if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= OrginalWidth)
+                    leftmargine = leftmargine + lastmovex;
 
-            if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= OrginalHeight)
-                topmargine = topmargine + lastmovey;
+                if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= OrginalHeight)
+                    topmargine = topmargine + lastmovey;
 
-            toreturn = true;
-            invalidate();
-        }
-        if (event.getAction() == MotionEvent.ACTION_UP)
-        {
-            toreturn = false;
+                toreturn = true;
+                invalidate();
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP)
+            {
+                toreturn = false;
+            }
         }
         return  toreturn;
     }

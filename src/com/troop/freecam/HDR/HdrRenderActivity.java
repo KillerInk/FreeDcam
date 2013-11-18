@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class HdrRenderActivity extends Activity
     TextView firstTop;
     TextView secondTop;
     TextView baseTop;
+    TextView statusText;
 
     ThreeDBitmapHandler threeDBitmapHandler;
 
@@ -116,22 +118,33 @@ public class HdrRenderActivity extends Activity
         }
     }
 
+    private void disableControls()
+    {
+        button_movebottom.setEnabled(false);
+        button_moveleft.setEnabled(false);
+        button_moveright.setEnabled(false);
+        button_movetop.setEnabled(false);
+        picone.setEnabled(false);
+        pictwo.setEnabled(false);
+        button_renderHDR.setEnabled(false);
+        overlayView.running = false;
+        overlayView.setEnabled(false);
+
+    }
+
     private void initControls() {
         button_renderHDR = (Button)findViewById(R.id.button_RenderHdr);
         button_renderHDR.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String end = "";
-                if (uris[0].getPath().endsWith("jps"))
-                    end = "jps";
-                else
-                    end = "jpg";
-                File sdcardpath = Environment.getExternalStorageDirectory();
-                overlayView.Destroy();
-                System.gc();
-                renderHDRandSAve(end, sdcardpath);
+            public void onClick(View v)
+            {
+                disableControls();
+                statusText.setText("Rendering...");
+                handler.post(runnableRender);
             }
         });
+
+        statusText = (TextView)findViewById(R.id.textView_Status);
 
         picView = (RelativeLayout)findViewById(R.id.LayoutPics);
         overlayView = (ImageOverlayView) findViewById(R.id.view_overlay2);
@@ -240,20 +253,20 @@ public class HdrRenderActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
+        statusText.setText("Loading...");
         if (uris[0].getPath().endsWith("jps"))
         {
             threeDBitmapHandler = new ThreeDBitmapHandler(uris, this);
-            overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
+            //overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
         }
-        else
-        {
-            overlayView.Load(uris);
-        }
-        overlayView.drawFirstPic = true;
-
+        handler.post(runnableLoad);
+        //else
+        //{
+        //    overlayView.Load(uris);
+        //}
+        //overlayView.drawFirstPic = true;
+        int i = 4;
     }
-
-
 
     @Override
     protected void onPause()
@@ -262,9 +275,6 @@ public class HdrRenderActivity extends Activity
         super.onPause();
 
     }
-
-
-
 
     private void renderHDRandSAve(String end, File sdcardpath)
     {
@@ -398,23 +408,6 @@ public class HdrRenderActivity extends Activity
         return file.getAbsolutePath();
     }
 
-
-
-
-
-
-
-    private void gc() {
-        /*System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-    }
-
     private void saveFile(String filepath, byte[] bytes)
     {
         File file = new File(filepath);
@@ -500,4 +493,42 @@ public class HdrRenderActivity extends Activity
         baseTop.setText("bt:" + overlayView.baseHolder.Y);
         baseleft.setText("bl:" + overlayView.baseHolder.X);
     }
+
+    private Handler handler = new Handler();
+    private Runnable runnableRender = new Runnable()
+    {
+        public void run()
+        {
+            doRender();
+        }
+    };
+
+    private void doRender()
+    {
+        String end = "";
+        if (uris[0].getPath().endsWith("jps"))
+            end = "jps";
+        else
+            end = "jpg";
+        File sdcardpath = Environment.getExternalStorageDirectory();
+        overlayView.Destroy();
+        System.gc();
+        renderHDRandSAve(end, sdcardpath);
+    }
+
+    private Runnable runnableLoad = new Runnable() {
+        @Override
+        public void run() {
+            if (uris[0].getPath().endsWith("jps"))
+            {
+                overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
+            }
+            else
+            {
+                overlayView.Load(uris);
+            }
+            overlayView.drawFirstPic = true;
+            statusText.setText("");
+        }
+    };
 }
