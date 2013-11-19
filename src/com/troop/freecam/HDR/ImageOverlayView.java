@@ -204,7 +204,7 @@ public class ImageOverlayView extends View
         int width = 800;
         int height = 480;
         super.onDraw(canvas);
-        if  (running)
+        if  (running && baseHolder != null && firstHolder != null && secondHolder != null)
         {
             if (leftmargine + baseHolder.X +width > OrginalWidth)
                 leftmargine = OrginalWidth - baseHolder.X - width;

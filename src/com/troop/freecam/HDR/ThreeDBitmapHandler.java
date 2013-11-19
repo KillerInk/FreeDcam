@@ -63,6 +63,13 @@ public class ThreeDBitmapHandler
         for(int i=0; i < uris.length; i++ )
         {
             System.gc();
+            Runtime.getRuntime().gc();
+            System.gc();
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath()), 0, 0, o.outWidth / 2, o.outHeight);
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
             saveBitmap(file.getAbsolutePath(), left);

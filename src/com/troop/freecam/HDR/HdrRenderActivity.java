@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import com.troop.freecam.R;
 import com.troop.freecam.SavePictureTask;
@@ -83,6 +84,7 @@ public class HdrRenderActivity extends Activity
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
             //LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //appViewGroup = (ViewGroup) inflater.inflate(R.layout.hdr_layout, null);
@@ -259,7 +261,7 @@ public class HdrRenderActivity extends Activity
             threeDBitmapHandler = new ThreeDBitmapHandler(uris, this);
             //overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
         }
-        handler.post(runnableLoad);
+        new Thread(runnableLoad).start();
         //else
         //{
         //    overlayView.Load(uris);
@@ -369,6 +371,14 @@ public class HdrRenderActivity extends Activity
 
         try
         {
+            System.gc();
+            Runtime.getRuntime().gc();
+            System.gc();
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), overlayView.firstHolder.X, overlayView.firstHolder.Y, overlayView.firstHolder.Width, overlayView.firstHolder.Height);
             saveBitmap(uris[0].getPath(), newFirstPic);
             Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), overlayView.secondHolder.X, overlayView.secondHolder.Y, overlayView.secondHolder.Width, overlayView.secondHolder.Height);
@@ -385,7 +395,16 @@ public class HdrRenderActivity extends Activity
     }
 
 
-    private String render2d(String end, File sdcardpath) {
+    private String render2d(String end, File sdcardpath)
+    {
+        System.gc();
+        Runtime.getRuntime().gc();
+        System.gc();
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try {
             HdrRender = new HdrSoftwareProcessor(this);
             HdrRender.prepare(this, uris);
@@ -528,7 +547,13 @@ public class HdrRenderActivity extends Activity
                 overlayView.Load(uris);
             }
             overlayView.drawFirstPic = true;
-            statusText.setText("");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    statusText.setText("");
+                    overlayView.invalidate();
+                }
+            });
         }
     };
 }
