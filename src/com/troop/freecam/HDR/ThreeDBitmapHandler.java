@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -302,13 +304,13 @@ public class ThreeDBitmapHandler
 
         File file = SavePictureTask.getFilePath("jps", sdcardpath);
 
-        croptTosixtenToNine(orgi, width, height, file.getAbsolutePath());
+        //croptTosixtenToNine(orgi, width, height, file.getAbsolutePath());
         saveBitmap(file.getAbsolutePath(), orgi);
 
         orgi.recycle();
         orgi = null;
 
-        //croptTosixtenToNine(file.getAbsolutePath(), width, height);
+        croptTosixtenToNine(file.getAbsolutePath(), width, height);
         return file.getAbsolutePath();
     }
 
@@ -340,7 +342,7 @@ public class ThreeDBitmapHandler
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
         try {
             outStream.flush();
             outStream.close();
@@ -368,7 +370,7 @@ public class ThreeDBitmapHandler
         }
     }
 
-    private void croptTosixtenToNine(Bitmap bitmap, int width, int height, String path)
+    private void croptTosixtenToNine(String path, int width, int height)
     {
         if (PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("crop", false) == true)
         {
@@ -378,8 +380,24 @@ public class ThreeDBitmapHandler
             System.gc();
             Runtime.getRuntime().gc();
             System.gc();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.gc();
+            Runtime.getRuntime().gc();
+            System.gc();
 
-            bitmap = Bitmap.createBitmap(bitmap, 0, tocrop /2, width, newheigt);
+            //Bitmap bitmap =
+            try {
+                BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(path, true);
+                saveBitmap(path, decoder.decodeRegion(new Rect(0, tocrop / 2, width, newheigt), null));
+                decoder.recycle();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
