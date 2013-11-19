@@ -135,16 +135,20 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         return mergeRenderedImages();
     }
 
-    private void splitLeftAndRightIntoTopAndBottom() {
+    private void splitLeftAndRightIntoTopAndBottom()
+    {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(LeftUris[0].getPath(), o);
         for(int i=0; i < LeftUris.length; i++ )
         {
             File filelefttop = new File(String.format(freeCamImageDirectoryTmp + "/lefttop" + String.valueOf(i) + ".jps"));
-            Bitmap lefttop = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath()), 0, 0 , base.Width, base.Height /2);
+            Bitmap lefttop = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath()), 0, 0 , o.outWidth, o.outHeight /2);
             saveBitmap(filelefttop.getAbsolutePath(), lefttop);
             urisLeftTop[i] = Uri.fromFile(filelefttop);
 
             File fileleftbottom = new File(String.format(freeCamImageDirectoryTmp + "/leftbottom" + String.valueOf(i) + ".jps"));
-            Bitmap leftbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath()), 0, base.Height /2, base.Width, base.Height /2);
+            Bitmap leftbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath()), 0, o.outHeight /2, o.outWidth, o.outHeight /2);
             saveBitmap(fileleftbottom.getAbsolutePath(), leftbottom);
             urisLeftBottom[i] = Uri.fromFile(fileleftbottom);
 
@@ -153,12 +157,12 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         for(int i=0; i < RightUris.length; i++ )
         {
             File filerighttop = new File(String.format(freeCamImageDirectoryTmp + "/righttop" + String.valueOf(i) + ".jps"));
-            Bitmap righttop = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath()), 0, 0 , base.Width, base.Height /2);
+            Bitmap righttop = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath()), 0, 0 , o.outWidth, o.outHeight /2);
             saveBitmap(filerighttop.getAbsolutePath(), righttop);
             urisRightTop[i] = Uri.fromFile(filerighttop);
 
             File filerightbottom = new File(String.format(freeCamImageDirectoryTmp + "/rightbottom" + String.valueOf(i) + ".jps"));
-            Bitmap rightbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath()), 0, base.Height /2, base.Width, base.Height /2);
+            Bitmap rightbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath()), 0, o.outHeight /2, o.outWidth, o.outHeight /2);
             saveBitmap(filerightbottom.getAbsolutePath(), rightbottom);
             urisRightBottom[i] = Uri.fromFile(filerightbottom);
         }
