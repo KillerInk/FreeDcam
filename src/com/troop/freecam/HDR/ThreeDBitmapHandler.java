@@ -24,9 +24,9 @@ import java.io.IOException;
 /**
  * Created by troop on 16.11.13.
  */
-public class ThreeDBitmapHandler
+public class ThreeDBitmapHandler extends BaseBitmapHandler
 {
-    public Uri[] OrginalUris;
+    //public Uri[] OrginalUris;
     public Uri[] LeftUris;
     public Uri[] RightUris;
     Uri[] urisLeftTop;
@@ -43,9 +43,10 @@ public class ThreeDBitmapHandler
 
     Activity activity;
 
-    public ThreeDBitmapHandler(Uri[] orginalUris, Activity activity)
+    public ThreeDBitmapHandler(Activity activity, Uri[] orginalUris)
     {
-        OrginalUris = orginalUris;
+        super(activity, orginalUris);
+        this.uris = orginalUris;
         this.activity = activity;
         LeftUris = new Uri[3];
         RightUris = new Uri[3];
@@ -89,53 +90,7 @@ public class ThreeDBitmapHandler
 
     public  void CropImagesToNewSize(BitmapHandler base, BitmapHandler first, BitmapHandler second, int width, int height)
     {
-        int orgiWidth = width * 2;
-        this.base = base;
-        this.first = first;
-        this.second = second;
-
-        base.X *= 2;
-        first.X *= 2;
-        second.X *= 2;
-        base.Y *= 2;
-        first.Y *=2;
-        second.Y *=2;
-
-        setWidth(orgiWidth);
-        if (base.X + base.Width> orgiWidth)
-        {
-            width = orgiWidth - base.X;
-            setWidth(width);
-        }
-        if (first.X + first.Width > orgiWidth)
-        {
-            width = orgiWidth - first.X;
-            setWidth(width);
-        }
-        if (second.X + second.Width > orgiWidth)
-        {
-            width = orgiWidth - second.X;
-            setWidth(width);
-        }
-
-        int orgiHeight = height * 2;
-        setHeigth(orgiHeight);
-        if (base.Y + base.Height > orgiHeight)
-        {
-            height = orgiHeight - base.Y;
-            setHeigth(height);
-        }
-        if (first.Y + first.Height > orgiHeight)
-        {
-            height = orgiHeight - first.Y;
-            setHeigth(height);
-        }
-        if (second.Y + second.Height  > orgiHeight)
-        {
-            height = orgiHeight - second.Y;
-            setHeigth(height);
-        }
-
+        super.cropPictures(base, first, second, width, height);
         try
         {
             Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[0].getPath()), first.X, first.Y, first.Width, first.Height);
@@ -314,44 +269,7 @@ public class ThreeDBitmapHandler
         return file.getAbsolutePath();
     }
 
-    private void setWidth(int width)
-    {
-        base.Width = width;
-        second.Width = width;
-        first.Width = width;
-    }
 
-    private  void setHeigth(int height)
-    {
-        first.Height = height;
-        second.Height = height;
-        base.Height = height;
-    }
-
-    private void saveBitmap(String filepath, Bitmap bitmap)
-    {
-        File file = new File(filepath);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-        try {
-            outStream.flush();
-            outStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap.recycle();
-        bitmap =null;
-    }
 
     private void saveFile(String filepath, byte[] bytes)
     {

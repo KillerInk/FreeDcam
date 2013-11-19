@@ -67,11 +67,12 @@ public class HdrRenderActivity extends Activity
     TextView statusText;
 
     ThreeDBitmapHandler threeDBitmapHandler;
+    TwoDBitmapHandler twoDBitmapHandler;
 
 
     RelativeLayout picView;
 
-    //should always true, if not it can be used to load the activity from start
+    //should always true, if not it can be used to load the activity from start for debugging
     boolean topintent = true;
 
 
@@ -85,9 +86,6 @@ public class HdrRenderActivity extends Activity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-            //LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //appViewGroup = (ViewGroup) inflater.inflate(R.layout.hdr_layout, null);
 
             setContentView(R.layout.hdr_layout);
             Bundle extras = getIntent().getExtras();
@@ -108,15 +106,7 @@ public class HdrRenderActivity extends Activity
                 uris[1] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/Tmp/1.jpg"));
                 uris[2] = Uri.fromFile(new File("/mnt/sdcard/DCIM/FreeCam/Tmp/Tmp/2.jpg"));
             }
-            //HdrRender = new HdrSoftwareProcessor(this);
             initControls();
-
-
-
-            //basePicture.setBackgroundDrawable(draw);
-
-            //basePicture.invalidate();
-
         }
     }
 
@@ -258,16 +248,13 @@ public class HdrRenderActivity extends Activity
         statusText.setText("Loading...");
         if (uris[0].getPath().endsWith("jps"))
         {
-            threeDBitmapHandler = new ThreeDBitmapHandler(uris, this);
-            //overlayView.Load(threeDBitmapHandler.split3DImagesIntoLeftRight(uris));
+            threeDBitmapHandler = new ThreeDBitmapHandler(this, uris);
+        }
+        else
+        {
+            twoDBitmapHandler = new TwoDBitmapHandler(this, uris);
         }
         new Thread(runnableLoad).start();
-        //else
-        //{
-        //    overlayView.Load(uris);
-        //}
-        //overlayView.drawFirstPic = true;
-        int i = 4;
     }
 
     @Override
@@ -289,8 +276,8 @@ public class HdrRenderActivity extends Activity
         }
         else
         {
-            cropPictures();
-            path = render2d(end, sdcardpath);
+            twoDBitmapHandler.cropPictures(overlayView.baseHolder, overlayView.firstHolder, overlayView.secondHolder, overlayView.OrginalWidth ,overlayView.OrginalHeight);
+            path = twoDBitmapHandler.render2d(end, sdcardpath);
         }
         if (topintent)
         {
@@ -304,197 +291,6 @@ public class HdrRenderActivity extends Activity
             //overlayView.LoadImage(path);
         }
 
-    }
-
-    private void setWidth(int width)
-    {
-        overlayView.baseHolder.Width = width;
-        overlayView.secondHolder.Width = width;
-        overlayView.firstHolder.Width = width;
-    }
-
-    private  void setHeigth(int height)
-    {
-        overlayView.firstHolder.Height = height;
-        overlayView.secondHolder.Height = height;
-        overlayView.baseHolder.Height = height;
-    }
-
-    private void cropPictures()
-    {
-        int width = 0;
-        int height =0;
-        int orgiWidth = overlayView.OrginalWidth *2;
-
-        overlayView.baseHolder.X *= 2;
-        overlayView.firstHolder.X *= 2;
-        overlayView.secondHolder.X *= 2;
-        overlayView.baseHolder.Y *= 2;
-        overlayView.firstHolder.Y *=2;
-        overlayView.secondHolder.Y *=2;
-
-        setWidth(orgiWidth);
-
-        if (overlayView.baseHolder.X + overlayView.baseHolder.Width > orgiWidth)
-        {
-            width = orgiWidth - overlayView.baseHolder.X;
-            setWidth(width);
-        }
-        if (overlayView.firstHolder.X + overlayView.firstHolder.Width > orgiWidth)
-        {
-            width = orgiWidth - overlayView.firstHolder.X;
-            setWidth(width);
-        }
-        if (overlayView.secondHolder.X + overlayView.secondHolder.Width > orgiWidth)
-        {
-            width = orgiWidth - overlayView.secondHolder.X;
-            setWidth(width);
-        }
-
-        int orgiHeight = overlayView.OrginalHeight * 2;
-        setHeigth(orgiHeight);
-        if (overlayView.baseHolder.Y + overlayView.baseHolder.Height > orgiHeight)
-        {
-            height = orgiHeight - overlayView.baseHolder.Y;
-            setHeigth(height);
-        }
-        if (overlayView.firstHolder.Y + overlayView.firstHolder.Height > orgiHeight)
-        {
-            height = orgiHeight - overlayView.firstHolder.Y;
-            setHeigth(height);
-        }
-        if (overlayView.secondHolder.Y + overlayView.secondHolder.Height  > orgiHeight)
-        {
-            height = orgiHeight - overlayView.secondHolder.Y;
-            setHeigth(height);
-        }
-
-        try
-        {
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), overlayView.firstHolder.X, overlayView.firstHolder.Y, overlayView.firstHolder.Width, overlayView.firstHolder.Height);
-            saveBitmap(uris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), overlayView.secondHolder.X, overlayView.secondHolder.Y, overlayView.secondHolder.Width, overlayView.secondHolder.Height);
-            saveBitmap(uris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), overlayView.baseHolder.X, overlayView.baseHolder.Y, overlayView.baseHolder.Width, overlayView.baseHolder.Height);
-            saveBitmap(uris[1].getPath(), newBaseImage);
-        }
-        catch (OutOfMemoryError ex)
-        {
-            Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
-
-            ex.printStackTrace();
-        }
-    }
-
-
-    private String render2d(String end, File sdcardpath)
-    {
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            HdrRender = new HdrSoftwareProcessor(this);
-            HdrRender.prepare(this, uris);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte[] hdrpic = HdrRender.computeHDR(this);
-        File file = SavePictureTask.getFilePath(end, sdcardpath);
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-            outStream.write(hdrpic);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file.getAbsolutePath();
-    }
-
-    private void saveFile(String filepath, byte[] bytes)
-    {
-        File file = new File(filepath);
-        FileOutputStream outStream = null;
-        try {
-            file.createNewFile();
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveBitmap(String filepath, Bitmap bitmap)
-    {
-        File file = new File(filepath);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
-        try {
-            outStream.flush();
-            outStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap.recycle();
-        bitmap =null;
-    }
-
-    private byte[] loadBytesFromFile(File file)
-    {
-        FileInputStream is =null;
-        ByteArrayOutputStream bos = null;
-        byte[] bytes = null;
-        try {
-            is = new FileInputStream(file);
-
-            bos = new ByteArrayOutputStream();
-            byte[] b = new byte[1024];
-            int bytesRead = 0;
-            while (
-                    (bytesRead = is.read(b)) != -1
-                    )
-            {
-                bos.write(b, 0, bytesRead);
-            }
-            bytes = bos.toByteArray();
-            is.close();
-            bos.close();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return  bytes;
     }
 
     @Override
