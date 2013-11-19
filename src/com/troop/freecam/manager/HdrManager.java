@@ -134,21 +134,23 @@ public class HdrManager implements PictureTakeFinish
         //disable, frame, center, fft and manual.
         cameraManager.parameters.set("auto-convergence-mode", "disable");
 
+        int conv  = cameraManager.parameters.getExposureCompensation();
+
         if (count == 0)
         {
-            cameraManager.parametersManager.SetExposureCompensation(15);
+            cameraManager.parametersManager.SetExposureCompensation(conv + 10);
             cameraManager.parametersManager.SetBrightness(60);
             //cameraManager.parametersManager.SetContrast(120);
         }
         else if (count == 1)
         {
-            cameraManager.parametersManager.SetExposureCompensation(0);
+            cameraManager.parametersManager.SetExposureCompensation(conv);
             cameraManager.parametersManager.SetBrightness(50);
             //cameraManager.parametersManager.SetContrast(100);
         }
         else if (count == 2)
         {
-            cameraManager.parametersManager.SetExposureCompensation(-15);
+            cameraManager.parametersManager.SetExposureCompensation(conv - 10);
             cameraManager.parametersManager.SetBrightness(40);
             //cameraManager.parametersManager.SetContrast(80);
         }
@@ -189,17 +191,17 @@ public class HdrManager implements PictureTakeFinish
                 if (count == 0)
                 {
                     saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    handler.post(saveFirstPic);
+                    new Thread(saveFirstPic).start();
                 }
                 else if (count == 1)
                 {
                     saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    handler.post(saveSecondPic);
+                    new Thread(saveSecondPic).start();
                 }
                 else if (count == 2)
                 {
                     saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    handler.post(saveThirdPic);
+                    new Thread(saveThirdPic).start();
                 }
                 //savePic(data, end, sdcardpath);
             }

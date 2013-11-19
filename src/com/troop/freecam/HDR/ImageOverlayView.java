@@ -227,7 +227,7 @@ public class ImageOverlayView extends View
                 if (drawFirstPic)
                     baseImage.setAlpha(255);
                 else
-                    baseImage.setAlpha(200);
+                    baseImage.setAlpha(255);
                 baseImage.draw(canvas);
             }
 
@@ -248,14 +248,14 @@ public class ImageOverlayView extends View
     private void drawSecondImage(Canvas canvas) {
         secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 800, 480));
         secondImage.setBounds(0,0,800,480);
-        secondImage.setAlpha(150);
+        secondImage.setAlpha(100);
         secondImage.draw(canvas);
     }
 
     private void drawFirstImage(Canvas canvas) {
         firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 800, 480));
         firstImage.setBounds(0,0,800,480);
-        firstImage.setAlpha(60);
+        firstImage.setAlpha(100);
         firstImage.draw(canvas);
     }
 
