@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 
@@ -51,6 +52,13 @@ public class SavePicture
             Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             Integer newheigt = size.width /32 * 9;
             Integer tocrop = originalBmp.getHeight() - newheigt ;
+            outStream = new FileOutputStream(file);
+            outStream.write(bytes, 0, bytes.length);
+            outStream.flush();
+            outStream.close();
+
+            ExifManager manager = new ExifManager();
+            manager.LoadExifFrom(file.getAbsolutePath());
             Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
             outStream = new FileOutputStream(file);
             croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
@@ -58,6 +66,7 @@ public class SavePicture
             outStream.close();
             originalBmp.recycle();
             croppedBmp.recycle();
+            manager.SaveExifTo(file.getAbsolutePath());
         }
         else
         {
