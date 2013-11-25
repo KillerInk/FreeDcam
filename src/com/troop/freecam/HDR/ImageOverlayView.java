@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,9 +22,9 @@ public class ImageOverlayView extends View
     BitmapDrawable firstImage;
     BitmapDrawable secondImage;
     BitmapDrawable baseImage;
-    Bitmap orginalImage;
-    Bitmap firtorginalImage;
-    Bitmap secondorginalImage;
+    //Bitmap orginalImage;
+    //Bitmap firtorginalImage;
+    //Bitmap secondorginalImage;
     public BitmapHandler firstHolder;
     public BitmapHandler secondHolder;
     public BitmapHandler baseHolder;
@@ -32,20 +34,27 @@ public class ImageOverlayView extends View
 
     int topmargine = 0;
     int leftmargine = 0;
+    int rightmargine = 0;
+    int bottommargine = 0;
+    private GestureDetectorCompat mDetector;
     //boolean drawFirstPic = true;
 
     public boolean drawFirstPic = false;
 
-    public ImageOverlayView(Context context) {
+    public ImageOverlayView(Context context)
+    {
         super(context);
+
     }
 
     public ImageOverlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
     }
 
     public ImageOverlayView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
     }
 
     public void Load(Uri[] uris)
@@ -59,14 +68,16 @@ public class ImageOverlayView extends View
         running = true;
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inSampleSize = 2;
-        orginalImage = BitmapFactory.decodeFile(uris[1].getPath(), o);
-        firtorginalImage = BitmapFactory.decodeFile(uris[0].getPath(), o);
-        secondorginalImage = BitmapFactory.decodeFile(uris[2].getPath(), o);
-        baseHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
-        firstHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
-        secondHolder = new BitmapHandler(orginalImage.getWidth(), orginalImage.getHeight());
-        OrginalHeight = orginalImage.getHeight();
-        OrginalWidth = orginalImage.getWidth();
+        baseImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[1].getPath(), o));
+        firstImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[0].getPath(), o));
+        secondImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[2].getPath(), o));
+        baseHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
+        firstHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
+        secondHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
+        rightmargine = baseImage.getBitmap().getWidth();
+        bottommargine = baseImage.getBitmap().getHeight();
+        OrginalHeight = baseImage.getIntrinsicHeight();
+        OrginalWidth = baseImage.getIntrinsicWidth();
     }
 
     public void AddTop(boolean firstpic, int value)
@@ -178,9 +189,9 @@ public class ImageOverlayView extends View
     public void Destroy()
     {
         running = false;
-        if (orginalImage != null)
+        /*if (orginalImage != null)
             orginalImage.recycle();
-        orginalImage = null;
+        orginalImage = null;*/
         if (firstImage != null)
             firstImage.getBitmap().recycle();
         firstImage = null;
@@ -189,55 +200,22 @@ public class ImageOverlayView extends View
         secondImage = null;
         if (baseImage !=null)
             baseImage.getBitmap().recycle();
-        if (firtorginalImage != null)
+        /*if (firtorginalImage != null)
             firtorginalImage.recycle();
         firtorginalImage = null;
         if (secondorginalImage != null)
             secondorginalImage.recycle();
-        secondorginalImage = null;
+        secondorginalImage = null;*/
         System.gc();
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
-        int width = 800;
-        int height = 480;
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
         if  (running && baseHolder != null && firstHolder != null && secondHolder != null)
         {
-            if (topmargine < 0)
-                topmargine = 0;
-            if (leftmargine < 0)
-                leftmargine = 0;
-
-            if (leftmargine + baseHolder.X +width > OrginalWidth)
-                leftmargine = OrginalWidth - baseHolder.X - width;
-            if (leftmargine + firstHolder.X + width > OrginalWidth)
-                leftmargine = OrginalWidth - firstHolder.X - width;
-            if (leftmargine + secondHolder.X +width > OrginalWidth)
-                leftmargine = OrginalWidth - secondHolder.X - width;
-
-            if (topmargine + baseHolder.Y + height > OrginalHeight)
-                topmargine = OrginalHeight - baseHolder.Y - height;
-            if (topmargine + firstHolder.Y + height > OrginalHeight)
-                topmargine = OrginalHeight - firstHolder.Y - height;
-            if (topmargine + secondHolder.Y + height > OrginalHeight)
-                topmargine = OrginalHeight - secondHolder.Y - height;
-
-            if(orginalImage != null && baseHolder !=null)
-            {
-
-                baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, width, height));
-
-                baseImage.setBounds(0,0,800,480);
-                if (drawFirstPic)
-                    baseImage.setAlpha(255);
-                else
-                    baseImage.setAlpha(255);
-                baseImage.draw(canvas);
-            }
-
+            drawImage(canvas, baseImage, baseHolder,false);
             if (drawFirstPic)
             {
                 drawFirstImage(canvas);
@@ -247,27 +225,39 @@ public class ImageOverlayView extends View
                 drawSecondImage(canvas);
             }
 
-
         }
 
     }
 
     private void drawSecondImage(Canvas canvas) {
-        secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 800, 480));
-        secondImage.setBounds(0,0,800,480);
-        secondImage.setAlpha(100);
-        secondImage.draw(canvas);
+        //secondImage = new BitmapDrawable(Bitmap.createBitmap(secondorginalImage, leftmargine + secondHolder.X, topmargine + secondHolder.Y, 800, 480));
+        drawImage(canvas, secondImage, secondHolder, true);
     }
 
     private void drawFirstImage(Canvas canvas) {
-        firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 800, 480));
-        firstImage.setBounds(0,0,800,480);
-        firstImage.setAlpha(100);
-        firstImage.draw(canvas);
+        //firstImage = new BitmapDrawable(Bitmap.createBitmap(firtorginalImage, leftmargine + firstHolder.X, topmargine + firstHolder.Y, 800, 480));
+        drawImage(canvas, firstImage, firstHolder,true);
+    }
+
+    private void drawImage(Canvas canvas, BitmapDrawable bitmapdraw,BitmapHandler holder, boolean alpha)
+    {
+        int left = ((leftmargine  * scale) / 1000)+ holder.X;
+        int top = ((topmargine * scale) / 1000)  + holder.Y;
+        int right = ((rightmargine * scale ) / 1000) + holder.X;
+        int bottom = ((bottommargine * scale ) / 1000  )+ holder.Y;
+
+        bitmapdraw.setBounds(left,top,right,bottom);
+        if (alpha)
+            bitmapdraw.setAlpha(100);
+        bitmapdraw.draw(canvas);
+
     }
 
     int moveX = 0;
     int moveY = 0;
+    int moveX2 = 0;
+    int moveY2 = 0;
+    int scale = 1000;
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -275,32 +265,59 @@ public class ImageOverlayView extends View
         boolean toreturn = false;
         if (running)
         {
-            if (event.getAction() == MotionEvent.ACTION_DOWN)
+
+            if (event.getPointerCount() == 1)
             {
-                moveX = (int)event.getX();
-                moveY = (int)event.getY();
-                toreturn = true;
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    moveX = (int)event.getX();
+                    moveY = (int)event.getY();
+                    toreturn = true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_MOVE )
+                {
+                    int lastmovex = moveX - (int)event.getX();
+                    int lastmovey = moveY - (int)event.getY();
+                    //Log.d(TAG, "moved by: X:" + lastmovex + " Y: " + lastmovey);
+                    moveX = (int)event.getX();
+                    moveY = (int)event.getY();
+
+                    //if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= OrginalWidth)
+                    leftmargine = leftmargine - lastmovex;
+                    rightmargine = rightmargine - lastmovex;
+
+                    //if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= OrginalHeight)
+                    topmargine = topmargine - lastmovey;
+                    bottommargine -= lastmovey;
+
+                    toreturn = true;
+                    invalidate();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    toreturn = false;
+                }
             }
-            if (event.getAction() == MotionEvent.ACTION_MOVE )
+            else
             {
-                int lastmovex = moveX - (int)event.getX();
-                int lastmovey = moveY - (int)event.getY();
-                //Log.d(TAG, "moved by: X:" + lastmovex + " Y: " + lastmovey);
-                moveX = (int)event.getX();
-                moveY = (int)event.getY();
+                if (event.getAction() == MotionEvent.ACTION_MOVE )
+                {
 
-                if (leftmargine + lastmovex >= 0 && leftmargine + 800 + lastmovex <= OrginalWidth)
-                    leftmargine = leftmargine + lastmovex;
-
-                if(topmargine + lastmovey >= 0 && topmargine + 480 + lastmovey <= OrginalHeight)
-                    topmargine = topmargine + lastmovey;
-
-                toreturn = true;
-                invalidate();
-            }
-            if (event.getAction() == MotionEvent.ACTION_UP)
-            {
-                toreturn = false;
+                    int lastmovey2 = (int)event.getY(0) - (int)event.getY(1);
+                    if (moveY2 == 0)
+                        moveY2 = lastmovey2;
+                    if (lastmovey2 > moveY2 && scale < 3000)
+                        scale += 20;
+                    if (lastmovey2 < moveY2 && scale > 1000)
+                        scale -= 20;
+                    moveY2 = lastmovey2;
+                    toreturn = true;
+                    invalidate();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    toreturn = false;
+                }
             }
         }
         return  toreturn;
