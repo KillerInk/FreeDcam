@@ -54,9 +54,9 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
     public Uri[] split3DImagesIntoLeftRight(Uri[] uris)
     {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(uris[0].getPath(), o);
+        BitmapFactory.Options op = new BitmapFactory.Options();
+        op.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(uris[0].getPath(), op);
         String end = "";
         if (uris[0].getPath().endsWith("jps"))
             end = "jps";
@@ -65,6 +65,7 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
+            //croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
             System.gc();
             Runtime.getRuntime().gc();
             System.gc();
@@ -73,6 +74,9 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(uris[i].getPath(), o);
             Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath()), 0, 0, o.outWidth / 2, o.outHeight);
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
             saveBitmap(file.getAbsolutePath(), left);
@@ -303,7 +307,7 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             Runtime.getRuntime().gc();
             System.gc();
             try {
-                Thread.sleep(20);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

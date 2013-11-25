@@ -206,6 +206,11 @@ public class ImageOverlayView extends View
         super.onDraw(canvas);
         if  (running && baseHolder != null && firstHolder != null && secondHolder != null)
         {
+            if (topmargine < 0)
+                topmargine = 0;
+            if (leftmargine < 0)
+                leftmargine = 0;
+
             if (leftmargine + baseHolder.X +width > OrginalWidth)
                 leftmargine = OrginalWidth - baseHolder.X - width;
             if (leftmargine + firstHolder.X + width > OrginalWidth)
@@ -222,7 +227,9 @@ public class ImageOverlayView extends View
 
             if(orginalImage != null && baseHolder !=null)
             {
+
                 baseImage = new BitmapDrawable(Bitmap.createBitmap(orginalImage, leftmargine + baseHolder.X, topmargine + baseHolder.Y, width, height));
+
                 baseImage.setBounds(0,0,800,480);
                 if (drawFirstPic)
                     baseImage.setAlpha(255);

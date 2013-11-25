@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 
+import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 
 import java.io.BufferedInputStream;
@@ -80,6 +81,12 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 if (preferences.getBoolean("crop", false) == true && is3d)
                 {
                     Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
+                    outStream = new FileOutputStream(file);
+                    outStream.write(params[0], 0 , params[0].length);
+                    outStream.flush();
+                    outStream.close();
+                    ExifManager manager = new ExifManager();
+                    manager.LoadExifFrom(file.getAbsolutePath());
                     android.hardware.Camera.Size size = cameraManager.parameters.getPictureSize();
                     Integer newheigt = size.width /32 * 9;
                     Integer tocrop = originalBmp.getHeight() - newheigt ;
