@@ -65,7 +65,7 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
-            //croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
+            croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
             System.gc();
             Runtime.getRuntime().gc();
             System.gc();
@@ -273,7 +273,7 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         orgi.recycle();
         orgi = null;
 
-        croptTosixtenToNine(file.getAbsolutePath(), width, height);
+        //croptTosixtenToNine(file.getAbsolutePath(), width, height);
         return file.getAbsolutePath();
     }
 
