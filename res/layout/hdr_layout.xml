@@ -76,25 +76,18 @@
             android:layout_alignTop="@+id/button_RenderHdr"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
-            android:background="#726969">
+            android:background="#726969"
+            android:id="@+id/linearLayout2">
 
-            <CheckBox
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Picture 1"
-                android:id="@+id/checkBox_picFirst"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
+                android:text="Pic 1"
+                android:id="@+id/switch_Pic"
+                android:layout_below="@+id/button_bottom"
+                android:layout_toRightOf="@+id/linearLayout2"
+                android:focusableInTouchMode="true"
                 android:checked="true" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Picture 2"
-                android:id="@+id/checkBox_picSecond"
-                android:layout_alignBottom="@+id/checkBox_picFirst"
-                android:layout_toRightOf="@+id/button_right"
-                android:singleLine="false" />
         </LinearLayout>
 
         <LinearLayout

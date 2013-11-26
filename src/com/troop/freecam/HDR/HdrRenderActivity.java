@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +56,7 @@ public class HdrRenderActivity extends Activity
     Button button_moveright;
     Button button_movetop;
     Button button_movebottom;
-    CheckBox picone;
-    CheckBox pictwo;
+    Switch switchPic;
 
     TextView firstleft;
     TextView secondleft;
@@ -116,8 +116,7 @@ public class HdrRenderActivity extends Activity
         button_moveleft.setEnabled(false);
         button_moveright.setEnabled(false);
         button_movetop.setEnabled(false);
-        picone.setEnabled(false);
-        pictwo.setEnabled(false);
+        switchPic.setEnabled(false);
         button_renderHDR.setEnabled(false);
         overlayView.running = false;
         overlayView.setEnabled(false);
@@ -145,7 +144,7 @@ public class HdrRenderActivity extends Activity
         button_moveleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (picone.isChecked())
+                if (switchPic.isChecked())
                     overlayView.AddLeft(true, -1);
                 else
                     overlayView.AddLeft(false, -1);
@@ -157,7 +156,7 @@ public class HdrRenderActivity extends Activity
             @Override
             public void onClick(View v) {
 
-                if (picone.isChecked())
+                if (switchPic.isChecked())
                     overlayView.AddLeft(true, 1);
                 else
                     overlayView.AddLeft(false, 1);
@@ -169,7 +168,7 @@ public class HdrRenderActivity extends Activity
         button_movetop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (picone.isChecked())
+                if (switchPic.isChecked())
                     overlayView.AddTop(true, -1);
                 else
                     overlayView.AddTop(false, -1);
@@ -180,7 +179,7 @@ public class HdrRenderActivity extends Activity
         button_movebottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (picone.isChecked())
+                if (switchPic.isChecked())
                     overlayView.AddTop(true, 1);
                 else
                     overlayView.AddTop(false, 1);
@@ -188,40 +187,15 @@ public class HdrRenderActivity extends Activity
             }
         });
 
-        picone = (CheckBox) findViewById(R.id.checkBox_picFirst);
-        picone.setChecked(true);
-        picone.setOnClickListener(new View.OnClickListener() {
+        switchPic = (Switch) findViewById(R.id.switch_Pic);
+        switchPic.setChecked(true);
+        switchPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (picone.isChecked()) {
-                    picone.setChecked(false);
-                    pictwo.setChecked(true);
+                if (switchPic.isChecked()) {
                     overlayView.drawFirstPic = true;
                     overlayView.invalidate();
                 } else {
-                    picone.setChecked(true);
-                    pictwo.setChecked(false);
-                    overlayView.drawFirstPic = false;
-                    overlayView.invalidate();
-                }
-            }
-        });
-        pictwo = (CheckBox)findViewById(R.id.checkBox_picSecond);
-        pictwo.setChecked(false);
-        pictwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!pictwo.isChecked())
-                {
-                    picone.setChecked(true);
-                    pictwo.setChecked(false);
-                    overlayView.drawFirstPic = true;
-                    overlayView.invalidate();
-                }
-                else
-                {
-                    picone.setChecked(false);
-                    pictwo.setChecked(true);
                     overlayView.drawFirstPic = false;
                     overlayView.invalidate();
                 }
