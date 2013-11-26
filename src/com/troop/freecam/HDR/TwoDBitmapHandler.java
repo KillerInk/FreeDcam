@@ -76,7 +76,7 @@ public class TwoDBitmapHandler extends BaseBitmapHandler
             saveBitmap(uris[0].getPath(), newFirstPic);
             Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), second.X, second.Y, second.Width, second.Height);
             saveBitmap(uris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), second.X, second.Y, second.Width, second.Height);
+            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[1].getPath()), base.X, base.Y, base.Width, base.Height);
             saveBitmap(uris[1].getPath(), newBaseImage);
         }
         catch (OutOfMemoryError ex)

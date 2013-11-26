@@ -41,6 +41,8 @@ public abstract class BaseBitmapHandler
         first.Y *=2;
         second.Y *=2;
 
+        base.Compare(base,first,second);
+
         setWidth(orgiWidth);
         if (base.X + base.Width> orgiWidth)
         {
@@ -57,6 +59,8 @@ public abstract class BaseBitmapHandler
             width = orgiWidth - second.X;
             setWidth(width);
         }
+
+
 
         int orgiHeight = height * 2;
         setHeigth(orgiHeight);

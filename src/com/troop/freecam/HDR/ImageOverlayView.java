@@ -68,22 +68,26 @@ public class ImageOverlayView extends View
         running = true;
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inSampleSize = 2;
+        BitmapFactory.Options sizes = new BitmapFactory.Options();
+        sizes.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(uris[1].getPath(), sizes);
+        OrginalHeight = sizes.outHeight /2;
+        OrginalWidth = sizes.outWidth / 2;
+
         baseImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[1].getPath(), o));
         firstImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[0].getPath(), o));
         secondImage = new BitmapDrawable(BitmapFactory.decodeFile(uris[2].getPath(), o));
-        baseHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
-        firstHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
-        secondHolder = new BitmapHandler(baseImage.getIntrinsicWidth(), baseImage.getIntrinsicHeight());
-        rightmargine = baseImage.getBitmap().getWidth();
-        bottommargine = baseImage.getBitmap().getHeight();
-        OrginalHeight = baseImage.getIntrinsicHeight();
-        OrginalWidth = baseImage.getIntrinsicWidth();
+        baseHolder = new BitmapHandler(OrginalWidth, OrginalHeight);
+        firstHolder = new BitmapHandler(OrginalWidth, OrginalHeight);
+        secondHolder = new BitmapHandler(OrginalWidth, OrginalHeight);
+        rightmargine = OrginalWidth;
+        bottommargine = OrginalHeight;
+
     }
 
     public void AddTop(boolean firstpic, int value)
     {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inSampleSize = 2;
+        //value *= -1;
         if (firstpic)
         {
             if (value > 0)
@@ -135,8 +139,7 @@ public class ImageOverlayView extends View
 
     public void AddLeft(boolean firspic, int value)
     {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inSampleSize = 2;
+        //value *= -1;
         if (firspic)
         {
             if (value > 0)
@@ -241,10 +244,10 @@ public class ImageOverlayView extends View
 
     private void drawImage(Canvas canvas, BitmapDrawable bitmapdraw,BitmapHandler holder, boolean alpha)
     {
-        int left = ((leftmargine  * scale) / 1000)+ holder.X;
-        int top = ((topmargine * scale) / 1000)  + holder.Y;
-        int right = ((rightmargine * scale ) / 1000) + holder.X;
-        int bottom = ((bottommargine * scale ) / 1000  )+ holder.Y;
+        int left = ((leftmargine + holder.X  )* scale) / 1000;
+        int top = ((topmargine  + holder.Y) * scale) / 1000;
+        int right = ((rightmargine + holder.X ) * scale) / 1000;
+        int bottom = ((bottommargine + holder.Y ) * scale ) / 1000;
 
         bitmapdraw.setBounds(left,top,right,bottom);
         if (alpha)

@@ -17,7 +17,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             class="com.troop.freecam.HDR.ImageOverlayView"
-            android:id="@+id/view_overlay2"/>
+            android:id="@+id/view_overlay2"
+            android:background="#ababab" />
 
 
     </RelativeLayout>
