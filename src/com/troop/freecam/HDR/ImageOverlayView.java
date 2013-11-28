@@ -261,6 +261,7 @@ public class ImageOverlayView extends View
     int moveX2 = 0;
     int moveY2 = 0;
     int scale = 1000;
+    double distance = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -305,15 +306,21 @@ public class ImageOverlayView extends View
             {
                 if (event.getAction() == MotionEvent.ACTION_MOVE )
                 {
+                    double dist = Math.sqrt(Math.pow(event.getY(0) - event.getY(1), 2) + Math.pow(event.getX(0)- event.getX(1), 2));
+                    if (dist > distance && scale < 3000)
+                        scale+=20;
+                    if (dist < distance && scale > 1000)
+                        scale-=20;
+                    distance = dist;
 
-                    int lastmovey2 = (int)event.getY(0) - (int)event.getY(1);
+                    /*int lastmovey2 = (int)event.getY(0) - (int)event.getY(1);
                     if (moveY2 == 0)
                         moveY2 = lastmovey2;
                     if (lastmovey2 > moveY2 && scale < 3000)
                         scale += 20;
                     if (lastmovey2 < moveY2 && scale > 1000)
                         scale -= 20;
-                    moveY2 = lastmovey2;
+                    moveY2 = lastmovey2;*/
                     toreturn = true;
                     invalidate();
                 }
