@@ -412,6 +412,12 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
+    public void StartFocus()
+    {
+        SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+        mCamera.autoFocus(autoFocusManager);
+    }
+
     public  void SetTouchFocus(RectF rectangle)
     {
         if (touchtofocus == false)
@@ -420,10 +426,10 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         //Convert from View's width and height to +/- 1000
 
             final Rect targetFocusRect = new Rect(
-                    (int)rectangle.left * 2000/context.getWidth() - 1000,
-                    (int)rectangle.top * 2000/context.getHeight() - 1000,
-                    (int)rectangle.right * 2000/context.getWidth() - 1000,
-                    (int)rectangle.bottom * 2000/context.getHeight() - 1000);
+                    (int)rectangle.left * 2000/activity.drawSurface.getWidth() - 1000,
+                    (int)rectangle.top * 2000/activity.drawSurface.getHeight() - 1000,
+                    (int)rectangle.right * 2000/activity.drawSurface.getWidth() - 1000,
+                    (int)rectangle.bottom * 2000/activity.drawSurface.getHeight() - 1000);
 
             Rect top = new Rect(-999, -999, 999, targetFocusRect.top);
             Rect bottom = new Rect(-999, targetFocusRect.bottom, 999, 999);
@@ -459,14 +465,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 {
 
                     mCamera.setParameters(parameters);
-                    /*try
-                    {
-                        mCamera.autoFocus(autoFocusManager);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.d("TakingPicture Focus Faild", ex.getMessage());
-                    }*/
                 }
                 catch (Exception ex)
                 {

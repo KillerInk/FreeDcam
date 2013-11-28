@@ -106,7 +106,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
 
         if (success && cameraManager.touchtofocus)
         {
-            cameraManager.TakePicture(cameraManager.preferences.getBoolean("crop", false));
+            //cameraManager.TakePicture(cameraManager.preferences.getBoolean("crop", false));
             cameraManager.touchtofocus = false;
         }
         else

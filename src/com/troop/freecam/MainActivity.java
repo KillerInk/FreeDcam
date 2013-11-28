@@ -151,6 +151,7 @@ public class MainActivity extends Activity
         camMan = new CameraManager(mPreview, this, preferences);
 
         mPreview.SetCameraManager(camMan);
+        drawSurface.SetCameraManager(camMan);
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);

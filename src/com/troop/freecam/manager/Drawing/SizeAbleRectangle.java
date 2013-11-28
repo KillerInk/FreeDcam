@@ -42,12 +42,13 @@ public class SizeAbleRectangle
     boolean bottomRecMoving = false;
     Bitmap croshairLeft;
     Bitmap croshairRight;
+    public CameraManager cameraManager;
 
     int width = 250;
     int height = 250;
     final int minsize = 250;
 
-    public SizeAbleRectangle(DrawingOverlaySurface camPreview)
+    public SizeAbleRectangle(DrawingOverlaySurface camPreview, CameraManager cameraManager)
     {
         this.camPreview = camPreview;
 
@@ -61,6 +62,7 @@ public class SizeAbleRectangle
         mPaint.setFilterBitmap(true);
         croshairLeft = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
         croshairRight = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
+        this.cameraManager = cameraManager;
     }
 
     public  void Draw()
@@ -150,67 +152,86 @@ public class SizeAbleRectangle
     {
         if  (Enabled)
         {
+
             long timeelapsed = event.getEventTime() - lastclick;
-            if (drawRectangle == false)
+            if (timeelapsed > waitTime)
             {
-                //long timeelapsed = event.getEventTime() - lastclick;
-                if (timeelapsed > waitTime)
-                {
-
-                    lastclick = event.getEventTime();
-                    drawRectangle = true;
-                    beginCoordinate = new PointF(event.getX(), event.getY());
-                    endCoordinate = new PointF(event.getX() +width, event.getY() +height);
-                    setRectanglePosition();
-                    Draw();
-                    //camPreview.invalidate();
-                    return;
-                }
-
-
+                lastclick = event.getEventTime();
+                drawRectangle = true;
+                beginCoordinate = new PointF(event.getX() - width/2, event.getY() - height/2);
+                endCoordinate = new PointF(beginCoordinate.x +width, beginCoordinate.y +height);
+                setRectanglePosition();
+                Draw();
+                cameraManager.StartFocus();
             }
-
-            if (drawRectangle == true)
+            /*if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
-                if (topRect.contains(event.getX(), event.getY()) || topRecMoving == true)
-                {
-                    moveTopRect(event);
-                }
-                else if (leftRect.contains(event.getX(), event.getY()) || leftRecMoving == true)
-                {
-                    moveLeftRect(event);
-                }
-                else if (rightRect.contains(event.getX(), event.getY())|| rightRecMoving)
-                {
-                    moveRightRect(event);
-                }
-                else if (bottomRect.contains(event.getX(), event.getY())|| bottomRecMoving)
-                {
-                    moveBottomRect(event);
-                }
-                else
-                if (mainRect.contains(event.getX(), event.getY()) || mainRecMoving)
-                {
-                    moveRect(event);
-                }
-                else
+
+                if (drawRectangle == false)
                 {
                     if (timeelapsed > waitTime)
                     {
-                        drawRectangle = false;
-                        Draw();
                         lastclick = event.getEventTime();
+                        drawRectangle = true;
+                        beginCoordinate = new PointF(event.getX(), event.getY());
+                        endCoordinate = new PointF(event.getX() +width, event.getY() +height);
+                        setRectanglePosition();
+                        Draw();
+                        //camPreview.invalidate();
+                        return;
                     }
-                    //camPreview.invalidate();
-
+                }
+                else
+                {
+                    drawRectangle = false;
+                    Draw();
                 }
             }
-            else
+            if (event.getAction() == MotionEvent.ACTION_MOVE)
             {
-                drawRectangle = false;
-                Draw();
+                if (drawRectangle == true)
+                {
+                    if (topRect.contains(event.getX(), event.getY()) || topRecMoving == true)
+                    {
+                        moveTopRect(event);
+                    }
+                    else if (leftRect.contains(event.getX(), event.getY()) || leftRecMoving == true)
+                    {
+                        moveLeftRect(event);
+                    }
+                    else if (rightRect.contains(event.getX(), event.getY())|| rightRecMoving)
+                    {
+                        moveRightRect(event);
+                    }
+                    else if (bottomRect.contains(event.getX(), event.getY())|| bottomRecMoving)
+                    {
+                        moveBottomRect(event);
+                    }
+                    else
+                    if (mainRect.contains(event.getX(), event.getY()) || mainRecMoving)
+                    {
+                        moveRect(event);
+                    }
+                    else
+                    {
+                        if (timeelapsed > waitTime)
+                        {
+                            drawRectangle = false;
+                            Draw();
+                            lastclick = event.getEventTime();
+                        }
+                    }
+                }
+
             }
-                //camPreview.invalidate();
+            if (event.getAction() == MotionEvent.ACTION_UP)
+            {
+                if (drawRectangle && mainRect != null)
+                {
+                    cameraManager.StartFocus();
+                }
+
+            }*/
         }
     }
 

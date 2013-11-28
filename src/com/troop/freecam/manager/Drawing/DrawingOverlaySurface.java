@@ -26,6 +26,7 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
     Context context;
     public SizeAbleRectangle drawingRectHelper;
     public boolean RDY = false;
+    private CameraManager camMan;
 
     long lastclick;
 
@@ -53,7 +54,7 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
         mReal3D = new Real3D(mHolder);
         mReal3D.setMinimumNegative(-1);
         mReal3D.setMaximumPositive(1);
-        drawingRectHelper = new SizeAbleRectangle(this);
+        drawingRectHelper = new SizeAbleRectangle(this, camMan);
         SwitchViewMode();
     }
 
@@ -97,5 +98,11 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
         drawingRectHelper.OnTouch(event);
 
         return true;
+    }
+
+    public void SetCameraManager(CameraManager cameraManager)
+    {
+        this.camMan = cameraManager;
+        drawingRectHelper.cameraManager = cameraManager;
     }
 }
