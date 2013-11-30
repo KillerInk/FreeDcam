@@ -23,6 +23,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public boolean crop = false;
 
     public SavePictureCallback onsavePicture;
+    public boolean IsWorking = false;
 
 
     public PictureCam(CamPreview context,SharedPreferences preferences)
@@ -37,6 +38,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
     public void TakePicture(boolean crop)
     {
+        IsWorking = true;
         this.crop = crop;
         mCamera.takePicture(this, rawCallback, this);
     }
@@ -63,6 +65,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d);
 
         mCamera.startPreview();
+        IsWorking = false;
         //takePicture = false;
     }
 

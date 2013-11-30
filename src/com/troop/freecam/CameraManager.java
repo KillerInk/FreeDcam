@@ -380,7 +380,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     public void StartTakePicture()
     {
-        if (takePicture == false)
+        if (IsWorking == false)
         {
             Log.d("StartTakingPicture", "takepicture:" + takePicture);
             Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
@@ -391,7 +391,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
                 {
                     SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
-                    autoFocusManager.focusing = true;
+                    //autoFocusManager.focusing = true;
                     if (autoFocusManager.hasFocus)
                         TakePicture(crop);
                     else
@@ -399,8 +399,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 }
                 else if (touchtofocus == false)
                 {
-                    touchtofocus = true;
-                    autoFocusManager.focusing = false;
+                    touchtofocus = false;
+                    //autoFocusManager.focusing = false;
                     mCamera.autoFocus(this.autoFocusManager);
 
                 }

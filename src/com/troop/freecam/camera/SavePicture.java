@@ -27,6 +27,7 @@ public class SavePicture
     boolean is3d = false;
     byte[] bytes;
     public SavePictureCallback onSavePicture;
+    public boolean IsWorking = false;
 
     public SavePicture(MediaScannerManager mediaScannerManager)
     {
