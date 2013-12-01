@@ -3,6 +3,7 @@ package com.troop.freecam.camera;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -130,7 +131,7 @@ public class SavePicture
                     writePictureToSD(bytes, file, crop);
                     if (onSavePicture != null)
                         onSavePicture.onPictureSaved(file);
-                    mediaScannerManager.startScan(file.getAbsolutePath());
+                    mediaScannerManager.startScan(Uri.fromFile(file).getPath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

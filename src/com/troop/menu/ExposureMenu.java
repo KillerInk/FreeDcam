@@ -23,7 +23,14 @@ public class ExposureMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
+        {
+            try {
+                exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
+            }
+            catch (Exception ex)
+            {}
+        }
+
         if (exposures != null)
         {
             PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());

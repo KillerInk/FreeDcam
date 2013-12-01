@@ -22,8 +22,17 @@ public class IsoMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
-        if (isos != null)
+        {
+            try
+            {
+                isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        if (isos != null && !isos.equals(""))
         {
             PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
