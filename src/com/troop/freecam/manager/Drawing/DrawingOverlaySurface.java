@@ -45,18 +45,20 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
 
     private void init()
     {
+        isReald3d();
         this.setZOrderOnTop(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
         mHolder.setFormat(PixelFormat.TRANSLUCENT);
         mHolder.addCallback(this);
+        drawingRectHelper = new SizeAbleRectangle(this, camMan);
         // Initialize Real3D object
         if (hasReal3d)
         {
             mReal3D = new Real3D(mHolder);
             mReal3D.setMinimumNegative(-1);
             mReal3D.setMaximumPositive(1);
-            drawingRectHelper = new SizeAbleRectangle(this, camMan);
+
             SwitchViewMode();
         }
     }

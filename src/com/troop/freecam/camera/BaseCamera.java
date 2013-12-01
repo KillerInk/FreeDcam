@@ -23,7 +23,7 @@ public class BaseCamera
 
     protected void OpenCamera()
     {
-        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_2D);
         //mCamera.unlock();
         if (tmp.equals(CameraManager.SwitchCamera_MODE_3D))
             mCamera = Camera.open(2);
