@@ -26,7 +26,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
     {
         if (Camera.Parameters.FOCUS_MODE_AUTO.equals(focusmode))
         {
-            cameraManager.parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             cameraManager.activity.drawSurface.drawingRectHelper.Enabled = true;
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(this);
@@ -40,37 +40,37 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
 
         if ("infinity".equals(focusmode))
         {
-            cameraManager.parameters.setFocusMode("infinity");
+            cameraManager.parametersManager.getParameters().setFocusMode("infinity");
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(null);
         }
         if (focusmode.equals("off"))
         {
-            cameraManager.parameters.setFocusMode("off");
+            cameraManager.parametersManager.getParameters().setFocusMode("off");
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(null);
         }
         if (focusmode.equals("portrait"))
         {
-            cameraManager.parameters.setFocusMode("portrait");
+            cameraManager.parametersManager.getParameters().setFocusMode("portrait");
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(this);
         }
         if (focusmode.equals("extended"))
         {
-            cameraManager.parameters.setFocusMode("extended");
+            cameraManager.parametersManager.getParameters().setFocusMode("extended");
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(null);
         }
         if (focusmode.equals(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE))
         {
-            cameraManager.parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             //cameraManager.mCamera.cancelAutoFocus();
             cameraManager.mCamera.autoFocus(null);
         }
         if (focusmode.equals(Camera.Parameters.FOCUS_MODE_MACRO))
         {
-            cameraManager.parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
+            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
             cameraManager.mCamera.autoFocus(this);
         }
 

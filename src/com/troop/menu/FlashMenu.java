@@ -35,7 +35,7 @@ public class FlashMenu extends BaseMenu
     public void onClick(View v)
     {
         if(camMan.Running)
-            modes = camMan.parameters.get("flash-mode-values").split(",");
+            modes = camMan.parametersManager.getParameters().get("flash-mode-values").split(",");
 
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         for (int i = 0; i < modes.length; i++) {
@@ -49,7 +49,7 @@ public class FlashMenu extends BaseMenu
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                camMan.parameters.setFlashMode(tmp);
+                camMan.parametersManager.getParameters().setFlashMode(tmp);
 
                 String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))

@@ -105,8 +105,8 @@ public class HdrManager implements PictureTakeFinish
     public void TakeHDRPictures(boolean reset)
     {
         System.gc();
-        cameraManager.parameters.set("video-stabilization", "true");
-        cameraManager.mCamera.setParameters(cameraManager.parameters);
+        cameraManager.parametersManager.getParameters().set("video-stabilization", "true");
+        cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
         count = 0;
         starttakePicture();
     }
@@ -127,15 +127,15 @@ public class HdrManager implements PictureTakeFinish
 
     private void setParameters()
     {
-        if (cameraManager.parameters.getAutoWhiteBalanceLock() == false)
-            cameraManager.parameters.setAutoWhiteBalanceLock(true);
-        if (cameraManager.parameters.getAutoExposureLock() == false)
-            cameraManager.parameters.setAutoExposureLock(true);
+        if (cameraManager.parametersManager.getParameters().getAutoWhiteBalanceLock() == false)
+            cameraManager.parametersManager.getParameters().setAutoWhiteBalanceLock(true);
+        if (cameraManager.parametersManager.getParameters().getAutoExposureLock() == false)
+            cameraManager.parametersManager.getParameters().setAutoExposureLock(true);
         //disable, frame, center, fft and manual.
-        cameraManager.parameters.set("auto-convergence-mode", "disable");
+        cameraManager.parametersManager.getParameters().set("auto-convergence-mode", "disable");
 
 
-        int conv  = cameraManager.parameters.getExposureCompensation();
+        int conv  = cameraManager.parametersManager.getParameters().getExposureCompensation();
 
         if (count == 0)
         {

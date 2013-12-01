@@ -28,7 +28,7 @@ public class WhiteBalanceMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            whitebalance = camMan.parameters.getSupportedWhiteBalance();
+            whitebalance = camMan.parametersManager.getParameters().getSupportedWhiteBalance();
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < whitebalance.size(); i++) {
@@ -49,8 +49,8 @@ public class WhiteBalanceMenu extends BaseMenu {
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(ParametersManager.Preferences_WhiteBalanceFront, tmp).commit();
                 //preferences.edit().putString("whitebalance", tmp).commit();
-                camMan.parameters.setWhiteBalance(tmp);
-                Log.d(TAG, "whitebalance is " + camMan.parameters.getWhiteBalance());
+                camMan.parametersManager.getParameters().setWhiteBalance(tmp);
+                Log.d(TAG, "whitebalance is " + camMan.parametersManager.getParameters().getWhiteBalance());
                 camMan.Restart(false);
 
                 return true;

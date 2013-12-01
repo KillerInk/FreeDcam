@@ -87,7 +87,7 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                     outStream.close();
                     ExifManager manager = new ExifManager();
                     manager.LoadExifFrom(file.getAbsolutePath());
-                    android.hardware.Camera.Size size = cameraManager.parameters.getPictureSize();
+                    android.hardware.Camera.Size size = cameraManager.parametersManager.getParameters().getPictureSize();
                     Integer newheigt = size.width /32 * 9;
                     Integer tocrop = originalBmp.getHeight() - newheigt ;
                     //ByteArrayInputStream reader = new ByteArrayInputStream(params[0]);

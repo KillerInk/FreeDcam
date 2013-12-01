@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.manager.MediaScannerManager;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class VideoCam extends PictureCam
     protected MediaRecorder recorder;
     String mediaSavePath;
     public boolean IsRecording = false;
-    public Camera.Parameters parameters;
+    public ParametersManager parametersManager;
     public String lastPicturePath;
 
     public VideoCam(CamPreview context, SharedPreferences preferences)
@@ -40,22 +41,22 @@ public class VideoCam extends PictureCam
         recorder.setCamera(mCamera);
         recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        if (parameters.getPreviewSize().height == 1080)
+        if (parametersManager.getParameters().getPreviewSize().height == 1080)
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
-        if (parameters.getPreviewSize().height == 720)
+        if (parametersManager.getParameters().getPreviewSize().height == 720)
         {
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            if (parameters.getPreviewSize().width == 960)
+            if (parametersManager.getParameters().getPreviewSize().width == 960)
                 recorder.setVideoSize(960, 720);
             else
                 recorder.setVideoSize(1280,720);
         }
-        if (parameters.getPreviewSize().height == 480)
+        if (parametersManager.getParameters().getPreviewSize().height == 480)
         {
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
-            if (parameters.getPreviewSize().height == 800)
+            if (parametersManager.getParameters().getPreviewSize().height == 800)
                 recorder.setVideoSize(800, 480);
-            if (parameters.getPreviewSize().height == 640)
+            if (parametersManager.getParameters().getPreviewSize().height == 640)
                 recorder.setVideoSize(640,480);
 
         }
@@ -64,24 +65,24 @@ public class VideoCam extends PictureCam
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
             recorder.setVideoSize(720,576);
         }*/
-        if (parameters.getPreviewSize().height == 240)
+        if (parametersManager.getParameters().getPreviewSize().height == 240)
         {
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
             recorder.setVideoSize(320,240);
         }
-        if (parameters.getPreviewSize().height == 288)
+        if (parametersManager.getParameters().getPreviewSize().height == 288)
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-        if (parameters.getPreviewSize().height == 160)
+        if (parametersManager.getParameters().getPreviewSize().height == 160)
         {
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
             recorder.setVideoSize(240,160);
         }
-        if (parameters.getPreviewSize().height == 144)
+        if (parametersManager.getParameters().getPreviewSize().height == 144)
             recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
 
         if (preferences.getBoolean("upsidedown", false) == true)
         {
-            String rota = parameters.get("rotation");
+            String rota = parametersManager.getParameters().get("rotation");
 
             if (rota != null && rota.equals("180"))
                 recorder.setOrientationHint(180);

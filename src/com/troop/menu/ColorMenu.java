@@ -25,7 +25,7 @@ public class ColorMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            colors = camMan.parameters.getSupportedColorEffects();
+            colors = camMan.parametersManager.getParameters().getSupportedColorEffects();
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < colors.size(); i++) {
@@ -36,7 +36,7 @@ public class ColorMenu extends BaseMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                camMan.parameters.setColorEffect(tmp);
+                camMan.parametersManager.getParameters().setColorEffect(tmp);
                 String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
                 {

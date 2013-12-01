@@ -25,7 +25,7 @@ public class PreviewSizeMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            sizes = camMan.parameters.getSupportedPreviewSizes();
+            sizes = camMan.parametersManager.getParameters().getSupportedPreviewSizes();
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < sizes.size(); i++)
@@ -49,7 +49,7 @@ public class PreviewSizeMenu extends BaseMenu {
                 int w = Integer.parseInt(widthHeight[0]);
                 int h = Integer.parseInt(widthHeight[1]);
 
-                camMan.parameters.setPreviewSize(w,h);
+                camMan.parametersManager.getParameters().setPreviewSize(w,h);
 
                 camMan.Restart(false);
 

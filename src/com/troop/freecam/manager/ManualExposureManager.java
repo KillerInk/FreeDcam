@@ -28,7 +28,7 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
             currentValue = progress + minValue;
             //if (maxValue < 61)
             //{
-                if (currentValue >= cameramanager.parameters.getMinExposureCompensation() && currentValue <= cameramanager.parameters.getMaxExposureCompensation())
+                if (currentValue >= cameramanager.parametersManager.getParameters().getMinExposureCompensation() && currentValue <= cameramanager.parametersManager.getParameters().getMaxExposureCompensation())
                 {
                     cameramanager.parametersManager.SetExposureCompensation(currentValue);
                     //cameramanager.parameters.setExposureCompensation(currentValue);

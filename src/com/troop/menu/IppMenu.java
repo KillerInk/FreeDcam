@@ -22,7 +22,7 @@ public class IppMenu extends  BaseMenu
     public void onClick(View v)
     {
         if(camMan.Running)
-            ipp = camMan.parameters.get("ipp-values").split(",");
+            ipp = camMan.parametersManager.getParameters().get("ipp-values").split(",");
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < ipp.length; i++) {
@@ -33,7 +33,7 @@ public class IppMenu extends  BaseMenu
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                camMan.parameters.set("ipp", tmp);
+                camMan.parametersManager.getParameters().set("ipp", tmp);
                 String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
                     preferences.edit().putString(ParametersManager.Preferences_IPP3D, tmp).commit();

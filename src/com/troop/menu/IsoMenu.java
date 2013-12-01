@@ -22,7 +22,7 @@ public class IsoMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            isos = camMan.parameters.get("iso-mode-values").split(",");
+            isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < isos.length; i++) {
@@ -33,7 +33,7 @@ public class IsoMenu extends BaseMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                camMan.parameters.set("iso", tmp);
+                camMan.parametersManager.getParameters().set("iso", tmp);
                 String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
                     preferences.edit().putString(ParametersManager.Preferences_Iso3D, tmp).commit();

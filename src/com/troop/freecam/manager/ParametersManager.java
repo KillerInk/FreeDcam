@@ -48,6 +48,7 @@ public class ParametersManager
 
     CameraManager cameraManager;
     android.hardware.Camera.Parameters parameters;
+    public android.hardware.Camera.Parameters getParameters(){return parameters;}
     SharedPreferences preferences;
     boolean supportSharpness = false;
     public boolean getSupportSharpness() { return supportSharpness;};
@@ -65,11 +66,13 @@ public class ParametersManager
         loadDefaultOrLastSavedSettings();
     }
 
+
+
     private void checkParametersSupport()
     {
         try
         {
-            parameters.getInt("sharpness");
+            int i = parameters.getInt("sharpness");
             supportSharpness = true;
         }
         catch (Exception ex)
@@ -81,6 +84,7 @@ public class ParametersManager
     private void loadDefaultOrLastSavedSettings()
     {
         String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
+        parameters.set("preview-format", "yuv420p");
         if (tmp.equals("3D"))
         {
             parameters.setFlashMode(preferences.getString(Preferences_Flash3D, "auto"));
@@ -122,6 +126,7 @@ public class ParametersManager
             setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
             parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
+        cameraManager.mCamera.setParameters(parameters);
     }
 
     private void setPictureSize(String s)
@@ -142,11 +147,11 @@ public class ParametersManager
     public void SetExposureCompensation(int exp)
     {
         //cameraManager.parameters.setExposureCompensation(exp);
-        cameraManager.parameters.set("exposure-compensation", exp);
+        parameters.set("exposure-compensation", exp);
         try
         {
-            cameraManager.mCamera.setParameters(cameraManager.parameters);
-            cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(cameraManager.parameters.getExposureCompensation()));
+            cameraManager.mCamera.setParameters(parameters);
+            cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -157,33 +162,44 @@ public class ParametersManager
 
     public void SetContrast(int contrast)
     {
-        cameraManager.parameters.set("contrast", contrast);
+        parameters.set("contrast", contrast);
         try
         {
-            cameraManager.mCamera.setParameters(cameraManager.parameters);
+            cameraManager.mCamera.setParameters(parameters);
             Log.d("ParametersMAnager", "Contrast:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
         {
             Log.e("Contrast Set Fail", ex.getMessage());
         }
-        cameraManager.activity.contrastTextView.setText(String.valueOf(cameraManager.parameters.get("contrast")));
+        cameraManager.activity.contrastTextView.setText(String.valueOf(parameters.get("contrast")));
 
     }
 
     public void SetBrightness(int bright)
     {
-        cameraManager.parameters.set("brightness", bright);
+        parameters.set("brightness", bright);
         try
         {
-            cameraManager.mCamera.setParameters(cameraManager.parameters);
+            cameraManager.mCamera.setParameters(parameters);
             Log.d("ParametersMAnager", "brightness:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
         {
             Log.e("brightness Set Fail", ex.getMessage());
         }
-        cameraManager.activity.brightnessTextView.setText(String.valueOf(cameraManager.parameters.get("brightness")));
+        cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
 
+    }
+
+    public void SetJpegQuality(int quality)
+    {
+        parameters.set("jpeg-quality", quality);
+        setToPreferencesToCamera();
+    }
+
+    private void setToPreferencesToCamera()
+    {
+        cameraManager.mCamera.setParameters(parameters);
     }
 }

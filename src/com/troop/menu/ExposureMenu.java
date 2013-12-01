@@ -23,7 +23,7 @@ public class ExposureMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            exposures = camMan.parameters.get("exposure-mode-values").split(",");
+            exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < exposures.length; i++) {
@@ -44,7 +44,7 @@ public class ExposureMenu extends BaseMenu {
                     preferences.edit().putString(ParametersManager.Preferences_Exposure2D, tmp).commit();
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(ParametersManager.Preferences_ExposureFront, tmp).commit();
-                camMan.parameters.set("exposure", tmp);
+                camMan.parametersManager.getParameters().set("exposure", tmp);
                 //if (tmp.equals("manual"))
                     //activity.exposureSeekbar.setVisibility(View.VISIBLE);
                 //else

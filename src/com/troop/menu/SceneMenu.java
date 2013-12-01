@@ -24,7 +24,7 @@ public class SceneMenu extends BaseMenu
     public void onClick(View v)
     {
         if(camMan.Running)
-            sceneModes = camMan.parameters.getSupportedSceneModes();
+            sceneModes = camMan.parametersManager.getParameters().getSupportedSceneModes();
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < sceneModes.size(); i++) {
@@ -43,7 +43,7 @@ public class SceneMenu extends BaseMenu
                 if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
                     preferences.edit().putString(ParametersManager.Preferences_SceneFront, tmp).commit();
                 //preferences.edit().putString("scene", tmp).commit();
-                camMan.parameters.setSceneMode(tmp);
+                camMan.parametersManager.getParameters().setSceneMode(tmp);
 
                 camMan.Restart(false);
 

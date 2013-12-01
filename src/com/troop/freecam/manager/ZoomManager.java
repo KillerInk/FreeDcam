@@ -23,10 +23,10 @@ public class ZoomManager implements Camera.OnZoomChangeListener
         if(!zoomaktiv)
         {
         int temp = currentzoom + zoom;
-            if ( temp >= 0 && temp <= cameraManager.parameters.getMaxZoom() )
+            if ( temp >= 0 && temp <= cameraManager.parametersManager.getParameters().getMaxZoom() )
             {
                 currentzoom = temp;
-                cameraManager.parameters.setZoom(currentzoom);
+                cameraManager.parametersManager.getParameters().setZoom(currentzoom);
                 cameraManager.mCamera.startSmoothZoom(currentzoom);
                 zoomaktiv = true;
             }

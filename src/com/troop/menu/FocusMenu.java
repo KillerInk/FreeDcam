@@ -32,7 +32,7 @@ public class FocusMenu extends BaseMenu {
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
         if(camMan.Running)
-            modes = camMan.parameters.get("focus-mode-values").split(",");
+            modes = camMan.parametersManager.getParameters().get("focus-mode-values").split(",");
 
         //PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         for (int i = 0; i < modes.length; i++) {
