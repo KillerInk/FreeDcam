@@ -19,11 +19,12 @@ import android.view.SurfaceView;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
+import com.troop.freecam.manager.Drawing.BasePreview;
 import com.troop.freecam.manager.Drawing.SizeAbleRectangle;
 
 import java.util.List;
 
-public class CamPreview extends SurfaceView  {
+public class CamPreview extends BasePreview {
 
 	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
@@ -31,20 +32,29 @@ public class CamPreview extends SurfaceView  {
     private CameraManager camMan;
     public SharedPreferences preferences;
     boolean is3d = false;
+    boolean hasReal3d = false;
 
     public int canvasWidth;
     public int canvasHeight;
 
 
-    private void init(Context context) {
 
+    private void init(Context context)
+    {
+
+        isReald3d();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
-        mReal3D = new Real3D(mHolder);
-        mReal3D.setMinimumNegative(-1);
-        SwitchViewMode();
+        if (hasReal3d)
+        {
+            mReal3D = new Real3D(mHolder);
+            mReal3D.setMinimumNegative(-1);
+            SwitchViewMode();
+        }
 
     }
+
+
 	
 	public CamPreview(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -67,18 +77,20 @@ public class CamPreview extends SurfaceView  {
 
     public  void SwitchViewMode()
     {
-
-        if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        if (hasReal3d)
         {
-            if(preferences.getBoolean("upsidedown", false) == false)
-                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+            if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+            {
+                if(preferences.getBoolean("upsidedown", false) == false)
+                    mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+                else
+                    mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_RL));
+
+            }
             else
-                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_RL));
-
-        }
-        else
-        {
-            mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+            {
+                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+            }
         }
     }
 

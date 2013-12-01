@@ -17,7 +17,7 @@ import com.troop.freecam.CameraManager;
 /**
  * Created by troop on 25.09.13.
  */
-public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.Callback
+public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.Callback
 {
 
     public SurfaceHolder mHolder;
@@ -51,26 +51,32 @@ public class DrawingOverlaySurface extends SurfaceView implements SurfaceHolder.
         mHolder.setFormat(PixelFormat.TRANSLUCENT);
         mHolder.addCallback(this);
         // Initialize Real3D object
-        mReal3D = new Real3D(mHolder);
-        mReal3D.setMinimumNegative(-1);
-        mReal3D.setMaximumPositive(1);
-        drawingRectHelper = new SizeAbleRectangle(this, camMan);
-        SwitchViewMode();
+        if (hasReal3d)
+        {
+            mReal3D = new Real3D(mHolder);
+            mReal3D.setMinimumNegative(-1);
+            mReal3D.setMaximumPositive(1);
+            drawingRectHelper = new SizeAbleRectangle(this, camMan);
+            SwitchViewMode();
+        }
     }
 
     public  void SwitchViewMode()
     {
 
-        if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        if (hasReal3d)
         {
-            //mReal3D.setViewMode(1);
-            mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
-        }
-        else
-        {
-            //mReal3D = null;
-            //mReal3D.setViewMode(2);
-            mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+            if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+            {
+                //mReal3D.setViewMode(1);
+                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+            }
+            else
+            {
+                //mReal3D = null;
+                //mReal3D.setViewMode(2);
+                mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+            }
         }
     }
 
