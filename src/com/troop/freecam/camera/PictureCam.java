@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.manager.MediaScannerManager;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 
@@ -57,7 +58,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         Log.d("PictureCallback", "DATAsize:" + data.length);
         boolean is3d = false;
-        if (preferences.getString("switchcam", "3D").equals("3D"))
+        if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
             is3d = true;
         }
