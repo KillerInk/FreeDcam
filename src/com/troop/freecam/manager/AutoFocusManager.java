@@ -76,10 +76,25 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
 
     }
 
+    public void StartFocus()
+    {
+        if (!focusing)
+        {
+            focusing = true;
+            cameraManager.mCamera.autoFocus(this);
+        }
+    }
+
+    public void CancelFocus()
+    {
+        cameraManager.mCamera.cancelAutoFocus();
+        focusing = false;
+    }
+
     @Override
     public void onAutoFocus(boolean success, Camera camera)
     {
-        focusing = true;
+        focusing = false;
         MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
         {

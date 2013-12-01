@@ -395,14 +395,12 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                     if (autoFocusManager.hasFocus)
                         TakePicture(crop);
                     else
-                        mCamera.autoFocus(autoFocusManager);
+                        autoFocusManager.StartFocus();
                 }
                 else if (touchtofocus == false)
                 {
                     touchtofocus = false;
-                    //autoFocusManager.focusing = false;
-                    mCamera.autoFocus(this.autoFocusManager);
-
+                    autoFocusManager.StartFocus();
                 }
             }
             else
@@ -420,7 +418,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     public  void SetTouchFocus(RectF rectangle)
     {
-        if (touchtofocus == false)
+        if (touchtofocus == false && !autoFocusManager.focusing)
         {
             touchtofocus = true;
         //Convert from View's width and height to +/- 1000
@@ -463,22 +461,17 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 parameters.setMeteringAreas(meteringList);
                 try
                 {
-
                     mCamera.setParameters(parameters);
                 }
                 catch (Exception ex)
                 {
                     Log.d("TouchToFocus", "failed to set meteringareas");
                 }
-
-
-                //}
             }
         }
         else
         {
-            mCamera.cancelAutoFocus();
-            autoFocusManager.focusing = false;
+            autoFocusManager.CancelFocus();
             touchtofocus = false;
         }
     }

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.support.v4.view.GestureDetectorCompat;
+//import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -36,7 +36,7 @@ public class ImageOverlayView extends View
     int leftmargine = 0;
     int rightmargine = 0;
     int bottommargine = 0;
-    private GestureDetectorCompat mDetector;
+    //private GestureDetectorCompat mDetector;
     //boolean drawFirstPic = true;
 
     public boolean drawFirstPic = false;
