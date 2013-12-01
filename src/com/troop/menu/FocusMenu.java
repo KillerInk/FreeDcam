@@ -33,33 +33,35 @@ public class FocusMenu extends BaseMenu {
 
         if(camMan.Running)
             modes = camMan.parametersManager.getParameters().get("focus-mode-values").split(",");
-
-        //PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
-        for (int i = 0; i < modes.length; i++) {
-            popupMenu.getMenu().add((CharSequence) modes[i]);
-        }
-
-        //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_focus, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String tmp = item.toString();
-                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(ParametersManager.Preferences_Focus3D, tmp).commit();
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(ParametersManager.Preferences_Focus2D, tmp).commit();
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(ParametersManager.Preferences_FocusFront, tmp).commit();
-                //preferences.edit().putString("focus", tmp).commit();
-                camMan.autoFocusManager.SetFocus(tmp);
-                camMan.Restart(false);
-                return true;
+        if (modes != null)
+        {
+            //PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            for (int i = 0; i < modes.length; i++) {
+                popupMenu.getMenu().add((CharSequence) modes[i]);
             }
-        });
 
-        popupMenu.show();
-        activity.appViewGroup.removeView(canvasView);
+            //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_focus, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    String tmp = item.toString();
+                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                        preferences.edit().putString(ParametersManager.Preferences_Focus3D, tmp).commit();
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                        preferences.edit().putString(ParametersManager.Preferences_Focus2D, tmp).commit();
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                        preferences.edit().putString(ParametersManager.Preferences_FocusFront, tmp).commit();
+                    //preferences.edit().putString("focus", tmp).commit();
+                    camMan.autoFocusManager.SetFocus(tmp);
+                    camMan.Restart(false);
+                    return true;
+                }
+            });
+
+            popupMenu.show();
+            activity.appViewGroup.removeView(canvasView);
+        }
     }
 }

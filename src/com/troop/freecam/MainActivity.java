@@ -35,6 +35,7 @@ import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;
 import com.troop.menu.FlashMenu;
@@ -49,7 +50,7 @@ import com.troop.menu.switchcameramenu;
 
 import java.io.File;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements ParametersChangedInterface
 {
 	public CamPreview mPreview;
     public DrawingOverlaySurface drawSurface;
@@ -150,6 +151,7 @@ public class MainActivity extends Activity
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
         camMan = new CameraManager(mPreview, this, preferences);
+        camMan.parametersManager.setParametersChanged(this);
 
         mPreview.SetCameraManager(camMan);
         drawSurface.SetCameraManager(camMan);
@@ -632,6 +634,80 @@ public class MainActivity extends Activity
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    public void parametersHasChanged(boolean restarted)
+    {
+        flashButton.setText(camMan.parametersManager.getParameters().getFlashMode());
+        focusButton.setText(camMan.parametersManager.getParameters().getFocusMode());
+        sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
+        whitebalanceButton.setText(camMan.parametersManager.getParameters().getWhiteBalance());
+        colorButton.setText(camMan.parametersManager.getParameters().getColorEffect());
+        isoButton.setText(camMan.parametersManager.getParameters().get("iso"));
+        exposureButton.setText(camMan.parametersManager.getParameters().get("exposure"));
+
+        if (camMan.parametersManager.getSupportSharpness())
+            sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
+        //if (!parameters.get("exposure").equals("manual"))
+        exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
+        //else
+        //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
+        contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
+        saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
+        brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
+        previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+        String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
+        pictureSizeButton.setText(size1);
+        ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
+
+        saturationCheckBox.setText(camMan.parametersManager.getParameters().get("saturation"));
+
+        brightnessCheckBox.setText(camMan.parametersManager.getParameters().get("brightness"));
+        contrastRadioButton.setText(camMan.parametersManager.getParameters().get("contrast"));
+        manualShaprness.setText(camMan.parametersManager.getParameters().get("sharpness"));
+
+
+            camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
+            camMan.manualExposureManager.ExternalSet = true;
+            camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
+            /*}
+            else
+            {
+                manualExposureManager.SetMinMax(1, 125);
+                manualExposureManager.ExternalSet = true;
+                manualExposureManager.SetCurrentValue(parameters.getInt("manual-exposure"));
+            }*/
+
+            //activity.exposureSeekbar.setMax(max);
+
+            //activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
+        if (camMan.parametersManager.getSupportSharpness())
+        {
+            sharpnessSeekBar.setMax(180);
+            sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
+        }
+        if (camMan.parametersManager.getSupportContrast())
+        {
+            contrastSeekBar.setMax(180);
+            camMan.manualContrastManager.ExternalSet = true;
+            contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
+        }
+        if (camMan.parametersManager.getSupportBrightness())
+        {
+            brightnessSeekBar.setMax(100);
+            brightnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("brightness"));
+        }
+        if (camMan.parametersManager.getSupportSaturation())
+        {
+            saturationSeekBar.setMax(180);
+        }
+            crop_box.setChecked(preferences.getBoolean("crop", false));
+        if (camMan.parametersManager.getSupportFlash())
+            settingsMenuLayout.removeView(flashButton);
+
+
+
     }
 }
 	

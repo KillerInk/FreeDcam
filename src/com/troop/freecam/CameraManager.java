@@ -160,10 +160,10 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
-    //if startstop true cam preview will be stopped and restartet
-    public  void Restart(boolean startstop)
+    //if restarted true cam preview will be stopped and restartet
+    public  void Restart(boolean restarted)
     {
-        if (startstop)
+        if (restarted)
         {
             parametersManager.SetCameraParameters(mCamera.getParameters());
             mCamera.stopPreview();
@@ -176,10 +176,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             activity.switch3dButton.setText(tmp);
-            //parametersManager.SetCameraParameters(parameters);
-
-
-
             if (parametersManager.getParameters().getFocusMode().equals("auto"))
             {
                 activity.drawSurface.drawingRectHelper.Enabled = true;
@@ -188,6 +184,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             {
                 activity.drawSurface.drawingRectHelper.Enabled = false;
             }
+            mCamera.startPreview();
 
         }
         else
@@ -204,68 +201,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 Log.e("Parameters Set Fail: ", ex.getMessage());
                 parametersManager.SetCameraParameters(mCamera.getParameters());
             }
-        }
-        activity.flashButton.setText(parametersManager.getParameters().getFlashMode());
-        activity.focusButton.setText(parametersManager.getParameters().getFocusMode());
-        activity.sceneButton.setText(parametersManager.getParameters().getSceneMode());
-        activity.whitebalanceButton.setText(parametersManager.getParameters().getWhiteBalance());
-        activity.colorButton.setText(parametersManager.getParameters().getColorEffect());
-        activity.isoButton.setText(parametersManager.getParameters().get("iso"));
-        activity.exposureButton.setText(parametersManager.getParameters().get("exposure"));
-
-
-        activity.sharpnessTextView.setText("Sharpness: " + parametersManager.getParameters().getInt("sharpness"));
-        //if (!parameters.get("exposure").equals("manual"))
-            activity.exposureTextView.setText("Exposure: " + parametersManager.getParameters().getExposureCompensation());
-        //else
-            //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
-        activity.contrastTextView.setText("Contrast: " + parametersManager.getParameters().get("contrast"));
-        activity.saturationTextView.setText("Saturation: " + parametersManager.getParameters().get("saturation"));
-        activity.brightnessTextView.setText("Brightness: " + parametersManager.getParameters().get("brightness"));
-        activity.previewSizeButton.setText(parametersManager.getParameters().getPreviewSize().width + "x" + parametersManager.getParameters().getPreviewSize().height);
-        String size1 = String.valueOf(parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(parametersManager.getParameters().getPictureSize().height);
-        activity.pictureSizeButton.setText(size1);
-        activity.ippButton.setText(parametersManager.getParameters().get("ipp"));
-
-        activity.saturationCheckBox.setText(parametersManager.getParameters().get("saturation"));
-
-        activity.brightnessCheckBox.setText(parametersManager.getParameters().get("brightness"));
-        activity.contrastRadioButton.setText(parametersManager.getParameters().get("contrast"));
-        activity.manualShaprness.setText(parametersManager.getParameters().get("sharpness"));
-
-
-
-        if (startstop)
-        {
-
-            //int max = 60; //parameters.getMaxExposureCompensation() - parameters.getMinExposureCompensation();
-            //if (!parameters.get("exposure").equals("manual"))
-            //{
-                manualExposureManager.SetMinMax(parametersManager.getParameters().getMinExposureCompensation(), parametersManager.getParameters().getMaxExposureCompensation());
-                manualExposureManager.ExternalSet = true;
-                manualExposureManager.SetCurrentValue(parametersManager.getParameters().getExposureCompensation());
-            /*}
-            else
-            {
-                manualExposureManager.SetMinMax(1, 125);
-                manualExposureManager.ExternalSet = true;
-                manualExposureManager.SetCurrentValue(parameters.getInt("manual-exposure"));
-            }*/
-
-            //activity.exposureSeekbar.setMax(max);
-
-            //activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
-            activity.sharpnessSeekBar.setMax(180);
-            activity.sharpnessSeekBar.setProgress(parametersManager.getParameters().getInt("sharpness"));
-            activity.contrastSeekBar.setMax(180);
-            manualContrastManager.ExternalSet = true;
-            activity.contrastSeekBar.setProgress(parametersManager.getParameters().getInt("contrast"));
-            activity.brightnessSeekBar.setMax(100);
-            activity.brightnessSeekBar.setProgress(parametersManager.getParameters().getInt("brightness"));
-            activity.saturationSeekBar.setMax(180);
-            activity.crop_box.setChecked(preferences.getBoolean("crop", false));
-            crop = activity.crop_box.isChecked();
-            mCamera.startPreview();
         }
     }
 

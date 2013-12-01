@@ -20,7 +20,7 @@ public class ManualContrastManager implements SeekBar.OnSeekBarChangeListener
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        if (ExternalSet == false)
+        if (ExternalSet == false && cameraManager.parametersManager.getSupportContrast())
         {
             cameraManager.parametersManager.SetContrast(progress);
         }

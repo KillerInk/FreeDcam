@@ -26,33 +26,36 @@ public class ColorMenu extends BaseMenu {
     {
         if(camMan.Running)
             colors = camMan.parametersManager.getParameters().getSupportedColorEffects();
-        PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
-        //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
-        for (int i = 0; i < colors.size(); i++) {
-            popupMenu.getMenu().add((CharSequence) colors.get(i));
-        }
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String tmp = item.toString();
-                camMan.parametersManager.getParameters().setColorEffect(tmp);
-                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
-                {
-                    preferences.edit().putString(ParametersManager.Preferences_Color3D, tmp).commit();
-                }
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(ParametersManager.Preferences_Color2D, tmp).commit();
-                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(ParametersManager.Preferences_ColorFront, tmp).commit();
-                //preferences.edit().putString("color", tmp).commit();
-                camMan.Restart(false);
-
-                return true;
+        if (colors != null)
+        {
+            PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
+            for (int i = 0; i < colors.size(); i++) {
+                popupMenu.getMenu().add((CharSequence) colors.get(i));
             }
-        });
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-        popupMenu.show();
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    String tmp = item.toString();
+                    camMan.parametersManager.getParameters().setColorEffect(tmp);
+                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    {
+                        preferences.edit().putString(ParametersManager.Preferences_Color3D, tmp).commit();
+                    }
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                        preferences.edit().putString(ParametersManager.Preferences_Color2D, tmp).commit();
+                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                        preferences.edit().putString(ParametersManager.Preferences_ColorFront, tmp).commit();
+                    //preferences.edit().putString("color", tmp).commit();
+                    camMan.Restart(false);
+
+                    return true;
+                }
+            });
+
+            popupMenu.show();
+        }
     }
 }

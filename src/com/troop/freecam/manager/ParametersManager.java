@@ -5,6 +5,7 @@ import android.graphics.Camera;
 import android.util.Log;
 
 import com.troop.freecam.CameraManager;
+import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 
 /**
  * Created by troop on 16.10.13.
@@ -51,7 +52,16 @@ public class ParametersManager
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
     SharedPreferences preferences;
     boolean supportSharpness = false;
-    public boolean getSupportSharpness() { return supportSharpness;};
+    public boolean getSupportSharpness() { return supportSharpness;}
+    boolean supportContrast = false;
+    public boolean getSupportContrast() { return  supportContrast;}
+    boolean supportBrightness = false;
+    public boolean getSupportBrightness() { return  supportBrightness;}
+    boolean supportSaturation = false;
+    public boolean getSupportSaturation() { return  supportSaturation;}
+    boolean supportFlash = false;
+    public boolean getSupportFlash() { return  supportFlash;}
+    private ParametersChangedInterface parametersChanged;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -66,7 +76,16 @@ public class ParametersManager
         loadDefaultOrLastSavedSettings();
     }
 
+    public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
+    {
+        this.parametersChanged = parametersChangedInterface;
+    }
 
+    private void onParametersCHanged()
+    {
+        if (parametersChanged != null)
+            parametersChanged.parametersHasChanged(false);
+    }
 
     private void checkParametersSupport()
     {
@@ -79,11 +98,43 @@ public class ParametersManager
         {
             supportSharpness = false;
         }
+        try
+        {
+            int i = parameters.getInt("contrast");
+            supportContrast = true;
+        }
+        catch (Exception ex)
+        {
+            supportContrast = false;
+        }
+        try
+        {
+            int i = parameters.getInt("brightness");
+            supportBrightness = true;
+        }
+        catch (Exception ex)
+        {
+            supportBrightness = false;
+        }
+        try
+        {
+            int i = parameters.getInt("saturation");
+            supportSaturation = true;
+        }
+        catch (Exception ex)
+        {
+            supportSaturation = false;
+        }
+
+        if (parameters.getFlashMode() != null)
+            supportFlash = true;
+        else
+            supportFlash = false;
     }
 
     private void loadDefaultOrLastSavedSettings()
     {
-        String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_Front);
         parameters.set("preview-format", "yuv420p");
         if (tmp.equals("3D"))
         {
@@ -116,17 +167,29 @@ public class ParametersManager
         }
         if (tmp.equals("Front"))
         {
-            parameters.setFocusMode(preferences.getString(Preferences_FocusFront, "auto"));
-            parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalanceFront,"auto"));
-            parameters.setSceneMode(preferences.getString(Preferences_SceneFront,"auto"));
-            parameters.setColorEffect(preferences.getString(Preferences_ColorFront,"none"));
-            parameters.set("iso", preferences.getString(Preferences_IsoFront, "auto"));
-            parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
-            setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
-            setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
-            parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
+            if (preferences.getString(Preferences_FocusFront, null) != null)
+            {
+                parameters.setFocusMode(preferences.getString(Preferences_FocusFront, null));
+            }
+            if (preferences.getString(Preferences_WhiteBalanceFront, null) != null)
+                parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalanceFront, null));
+            if (preferences.getString(Preferences_SceneFront, null) != null)
+                parameters.setSceneMode(preferences.getString(Preferences_SceneFront,null));
+            if (preferences.getString(Preferences_ColorFront, null) != null)
+                parameters.setColorEffect(preferences.getString(Preferences_ColorFront,"none"));
+            if (preferences.getString(Preferences_IsoFront, null) != null)
+                parameters.set("iso", preferences.getString(Preferences_IsoFront, null));
+            if (preferences.getString(Preferences_ExposureFront , null) != null)
+                parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
+            if (preferences.getString(Preferences_PictureSizeFront , null) != null)
+                setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
+            if (preferences.getString(Preferences_PreviewSizeFront, null) != null)
+                setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
+            if (preferences.getString(Preferences_IPPFront, null) != null)
+                parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
-        cameraManager.mCamera.setParameters(parameters);
+        onParametersCHanged();
+        setToPreferencesToCamera();
     }
 
     private void setPictureSize(String s)
@@ -148,9 +211,10 @@ public class ParametersManager
     {
         //cameraManager.parameters.setExposureCompensation(exp);
         parameters.set("exposure-compensation", exp);
+        onParametersCHanged();
         try
         {
-            cameraManager.mCamera.setParameters(parameters);
+            setToPreferencesToCamera();
             cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
@@ -163,9 +227,10 @@ public class ParametersManager
     public void SetContrast(int contrast)
     {
         parameters.set("contrast", contrast);
+        onParametersCHanged();
         try
         {
-            cameraManager.mCamera.setParameters(parameters);
+            setToPreferencesToCamera();
             Log.d("ParametersMAnager", "Contrast:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -179,9 +244,10 @@ public class ParametersManager
     public void SetBrightness(int bright)
     {
         parameters.set("brightness", bright);
+        onParametersCHanged();
         try
         {
-            cameraManager.mCamera.setParameters(parameters);
+            setToPreferencesToCamera();
             Log.d("ParametersMAnager", "brightness:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -195,6 +261,7 @@ public class ParametersManager
     public void SetJpegQuality(int quality)
     {
         parameters.set("jpeg-quality", quality);
+        onParametersCHanged();
         setToPreferencesToCamera();
     }
 
