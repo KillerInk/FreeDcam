@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;
 import com.troop.menu.FlashMenu;
@@ -274,7 +275,7 @@ public class MainActivity extends Activity
         baseMenuLayout.removeView(manualMenuLayout);
         baseMenuLayout.removeView(settingsMenuLayout);
 
-        if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
             settingsMenuLayout.removeView(crop_box);
         }
@@ -596,7 +597,7 @@ public class MainActivity extends Activity
 
     public void SwitchCropButton()
     {
-        if(!preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
             settingsMenuLayout.removeView(crop_box);
         }

@@ -21,6 +21,7 @@ import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.Drawing.BasePreview;
 import com.troop.freecam.manager.Drawing.SizeAbleRectangle;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class CamPreview extends BasePreview {
     {
         if (hasReal3d)
         {
-            if (preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D).equals(CameraManager.SwitchCamera_MODE_3D))
+            if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
             {
                 if(preferences.getBoolean("upsidedown", false) == false)
                     mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

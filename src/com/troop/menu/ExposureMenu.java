@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 /**
  * Created by troop on 03.09.13.
@@ -34,15 +35,15 @@ public class ExposureMenu extends BaseMenu {
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
 
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
                 {
-                    preferences.edit().putString(CameraManager.Preferences_Exposure3D, tmp).commit();
+                    preferences.edit().putString(ParametersManager.Preferences_Exposure3D, tmp).commit();
                 }
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_Exposure2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_Exposure2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_ExposureFront, tmp).commit();
                 camMan.parameters.set("exposure", tmp);
                 //if (tmp.equals("manual"))
                     //activity.exposureSeekbar.setVisibility(View.VISIBLE);

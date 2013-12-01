@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 /**
  * Created by troop on 08.09.13.
@@ -33,13 +34,13 @@ public class IppMenu extends  BaseMenu
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
                 camMan.parameters.set("ipp", tmp);
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(CameraManager.Preferences_IPP3D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_IPP2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_IPPFront, tmp).commit();
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    preferences.edit().putString(ParametersManager.Preferences_IPP3D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_IPP2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_IPPFront, tmp).commit();
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);
 

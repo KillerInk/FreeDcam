@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
 
@@ -34,13 +35,13 @@ public class SceneMenu extends BaseMenu
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(CameraManager.Preferences_Scene3D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_Scene2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_SceneFront, tmp).commit();
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    preferences.edit().putString(ParametersManager.Preferences_Scene3D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_Scene2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_SceneFront, tmp).commit();
                 //preferences.edit().putString("scene", tmp).commit();
                 camMan.parameters.setSceneMode(tmp);
 

@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 
 /**
@@ -33,13 +34,13 @@ public class IsoMenu extends BaseMenu {
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
                 camMan.parameters.set("iso", tmp);
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(CameraManager.Preferences_Iso3D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_Iso2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_IsoFront, tmp).commit();
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    preferences.edit().putString(ParametersManager.Preferences_Iso3D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_Iso2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_IsoFront, tmp).commit();
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);
 

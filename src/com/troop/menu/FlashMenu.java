@@ -10,6 +10,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
 
@@ -50,11 +51,11 @@ public class FlashMenu extends BaseMenu
                 String tmp = item.toString();
                 camMan.parameters.setFlashMode(tmp);
 
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(CameraManager.Preferences_Flash3D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_Flash2D, tmp).commit();
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    preferences.edit().putString(ParametersManager.Preferences_Flash3D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_Flash2D, tmp).commit();
                 //if (camvalue == CameraManager.SwitchCamera_MODE_Front)
                     //preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
                 //preferences.edit().putString("flash", tmp).commit();

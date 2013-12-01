@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
 
@@ -40,13 +41,13 @@ public class WhiteBalanceMenu extends BaseMenu {
                 String tmp = item.toString();
                 //camMan.parameters.setAutoWhiteBalanceLock(true);
                 Log.d(TAG, "setWhiteBalance to " + tmp);
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
-                    preferences.edit().putString(CameraManager.Preferences_WhiteBalance3D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_WhiteBalance2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_WhiteBalanceFront, tmp).commit();
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    preferences.edit().putString(ParametersManager.Preferences_WhiteBalance3D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_WhiteBalance2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_WhiteBalanceFront, tmp).commit();
                 //preferences.edit().putString("whitebalance", tmp).commit();
                 camMan.parameters.setWhiteBalance(tmp);
                 Log.d(TAG, "whitebalance is " + camMan.parameters.getWhiteBalance());

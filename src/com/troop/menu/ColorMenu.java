@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
+import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
 
@@ -36,15 +37,15 @@ public class ColorMenu extends BaseMenu {
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
                 camMan.parameters.setColorEffect(tmp);
-                String camvalue = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_3D))
+                String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
                 {
-                    preferences.edit().putString(CameraManager.Preferences_Color3D, tmp).commit();
+                    preferences.edit().putString(ParametersManager.Preferences_Color3D, tmp).commit();
                 }
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_2D))
-                    preferences.edit().putString(CameraManager.Preferences_Color2D, tmp).commit();
-                if (camvalue.equals(CameraManager.SwitchCamera_MODE_Front))
-                    preferences.edit().putString(CameraManager.Preferences_ColorFront, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    preferences.edit().putString(ParametersManager.Preferences_Color2D, tmp).commit();
+                if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    preferences.edit().putString(ParametersManager.Preferences_ColorFront, tmp).commit();
                 //preferences.edit().putString("color", tmp).commit();
                 camMan.Restart(false);
 

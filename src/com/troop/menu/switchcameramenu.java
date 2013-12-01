@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.ParametersManager;
 
 /**
  * Created by troop on 05.09.13.
@@ -23,9 +24,9 @@ public class switchcameramenu extends  BaseMenu
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
 
-        popupMenu.getMenu().add((CharSequence) CameraManager.SwitchCamera_MODE_3D);
-        popupMenu.getMenu().add((CharSequence) CameraManager.SwitchCamera_MODE_2D);
-        popupMenu.getMenu().add((CharSequence) CameraManager.SwitchCamera_MODE_Front);
+        popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_3D);
+        popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_2D);
+        popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
             @Override
@@ -33,7 +34,7 @@ public class switchcameramenu extends  BaseMenu
                 String tmp = item.toString();
                 //camMan.parameters.setAutoWhiteBalanceLock(true);
 
-                preferences.edit().putString(CameraManager.SwitchCamera, tmp).commit();
+                preferences.edit().putString(ParametersManager.SwitchCamera, tmp).commit();
 
                 camMan.Stop();
                 activity.mPreview.SwitchViewMode();

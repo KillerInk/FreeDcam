@@ -39,39 +39,7 @@ import java.util.List;
  */
 public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
-    public static final String SwitchCamera = "switchcam";
-    public static final String SwitchCamera_MODE_3D = "3D";
-    public static final String SwitchCamera_MODE_2D = "2D";
-    public static final String SwitchCamera_MODE_Front = "Front";
-    public static final String Preferences_Flash3D = "3d_flash";
-    public static final String Preferences_Flash2D = "2d_flash";
-    public static final String Preferences_Focus2D = "2d_focus";
-    public static final String Preferences_Focus3D = "3d_focus";
-    public static final String Preferences_FocusFront = "front_focus";
-    public static final String Preferences_WhiteBalanceFront = "front_whitebalance";
-    public static final String Preferences_WhiteBalance3D = "3d_whitebalance";
-    public static final String Preferences_WhiteBalance2D = "2d_whitebalance";
-    public static final String Preferences_SceneFront = "front_scene";
-    public static final String Preferences_Scene3D = "3d_scene";
-    public static final String Preferences_Scene2D = "2d_scene";
-    public static final String Preferences_Color2D = "2d_color";
-    public static final String Preferences_Color3D = "3d_color";
-    public static final String Preferences_ColorFront = "front_color";
-    public static final String Preferences_IsoFront = "front_iso";
-    public static final String Preferences_Iso3D = "3d_iso";
-    public static final String Preferences_Iso2D = "2d_iso";
-    public static final String Preferences_Exposure2D = "2d_exposure";
-    public static final String Preferences_Exposure3D = "3d_exposure";
-    public static final String Preferences_ExposureFront = "front_exposure";
-    public static final String Preferences_PictureSize2D = "2d_picturesize";
-    public static final String Preferences_PictureSize3D = "3d_picturesize";
-    public static final String Preferences_PictureSizeFront = "front_picturesize";
-    public static final String Preferences_PreviewSize2D = "2d_previewsize";
-    public static final String Preferences_PreviewSize3D = "3d_previewsize";
-    public static final String Preferences_PreviewSizeFront = "front_previewsize";
-    public static final String Preferences_IPP2D = "2d_ipp";
-    public static final String Preferences_IPP3D = "3d_ipp";
-    public static final String Preferences_IPPFront = "front_ipp";
+
 
     CamPreview context;
     CameraManager cameraManager;
@@ -105,7 +73,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualContrastManager = new ManualContrastManager(this);
         manualBrightnessManager = new ManualBrightnessManager(this);
         HdrRender = new HdrManager(this);
-        parametersManager = new ParametersManager(this);
+        parametersManager = new ParametersManager(this, preferences);
     }
 
     Bitmap bitmascale;
@@ -162,9 +130,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixCameraDisplayOrientation()
     {
-        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
 
-        if(!tmp.equals(CameraManager.SwitchCamera_MODE_3D) && !tmp.equals(CameraManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {
             mCamera.setDisplayOrientation(0);
             //mParameters.setRotation(0);
@@ -178,9 +146,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixParametersOrientation()
     {
-        String tmp = preferences.getString(CameraManager.SwitchCamera, CameraManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
 
-        if(!tmp.equals(CameraManager.SwitchCamera_MODE_3D) && !tmp.equals(CameraManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {
            // mCamera.setDisplayOrientation(0);
             parameters.setRotation(0);
@@ -206,50 +174,10 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             if (preferences.getBoolean("upsidedown", false) == true)
                 fixParametersOrientation();
 
-            String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_3D);
+            String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             activity.switch3dButton.setText(tmp);
 
-            if (tmp.equals("3D"))
-            {
-                parameters.setFlashMode(preferences.getString(Preferences_Flash3D, "auto"));
-                parameters.setFocusMode(preferences.getString(Preferences_Focus3D, "auto"));
-                parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance3D,"auto"));
-                parameters.setSceneMode(preferences.getString(Preferences_Scene3D,"auto"));
-                parameters.setColorEffect(preferences.getString(Preferences_Color3D,"none"));
-                parameters.set("iso", preferences.getString(Preferences_Iso3D, "auto"));
-                parameters.set("exposure", preferences.getString(Preferences_Exposure3D , "auto"));
-                setPictureSize(preferences.getString(Preferences_PictureSize3D , "320x240"));
-                //setPictureSize("2592x1458");
-                setPreviewSize(preferences.getString(Preferences_PreviewSize3D, "320x240"));
-                parameters.set("ipp",preferences.getString(Preferences_IPP3D, "ldc-nsf"));
 
-            }
-
-            if(tmp.equals("2D"))
-            {
-                parameters.setFlashMode(preferences.getString(Preferences_Flash2D, "auto"));
-                parameters.setFocusMode(preferences.getString(Preferences_Focus2D, "auto"));
-                parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance2D,"auto"));
-                parameters.setSceneMode(preferences.getString(Preferences_Scene2D,"auto"));
-                parameters.setColorEffect(preferences.getString(Preferences_Color2D,"none"));
-                parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
-                parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
-                setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
-                setPreviewSize(preferences.getString(Preferences_PreviewSize2D, "320x240"));
-                parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
-            }
-            if (tmp.equals("Front"))
-            {
-                parameters.setFocusMode(preferences.getString(Preferences_FocusFront, "auto"));
-                parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalanceFront,"auto"));
-                parameters.setSceneMode(preferences.getString(Preferences_SceneFront,"auto"));
-                parameters.setColorEffect(preferences.getString(Preferences_ColorFront,"none"));
-                parameters.set("iso", preferences.getString(Preferences_IsoFront, "auto"));
-                parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
-                setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
-                setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
-                parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
-            }
 
             if (parameters.getFocusMode().equals("auto"))
             {
@@ -351,20 +279,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
-    private void setPictureSize(String s)
-    {
-        String[] widthHeight = s.split("x");
-        int w = Integer.parseInt(widthHeight[0]);
-        int h = Integer.parseInt(widthHeight[1]);
-        parameters.setPictureSize(w,h);
-    }
-    private void setPreviewSize(String s)
-    {
-        String[] widthHeight = s.split("x");
-        int w = Integer.parseInt(widthHeight[0]);
-        int h = Integer.parseInt(widthHeight[1]);
-        parameters.setPreviewSize(w, h);
-    }
+
 
     public  void Stop()
     {
