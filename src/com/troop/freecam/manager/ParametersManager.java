@@ -81,6 +81,11 @@ public class ParametersManager
         this.parametersChanged = parametersChangedInterface;
     }
 
+    public void UpdateUI()
+    {
+        onParametersCHanged();
+    }
+
     private void onParametersCHanged()
     {
         if (parametersChanged != null)

@@ -193,6 +193,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             {
                 //set parameters
                 mCamera.setParameters(parametersManager.getParameters());
+                parametersManager.UpdateUI();
                 //get parameters to see if changed
                 //parameters = mCamera.getParameters();
             }

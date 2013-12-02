@@ -599,7 +599,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     public void SwitchCropButton()
     {
-        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
             settingsMenuLayout.removeView(crop_box);
         }
@@ -703,7 +703,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             saturationSeekBar.setMax(180);
         }
             crop_box.setChecked(preferences.getBoolean("crop", false));
-        if (camMan.parametersManager.getSupportFlash())
+        if (!camMan.parametersManager.getSupportFlash())
             settingsMenuLayout.removeView(flashButton);
 
 

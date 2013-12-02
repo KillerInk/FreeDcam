@@ -33,7 +33,7 @@ public class CamPreview extends BasePreview {
     private CameraManager camMan;
     public SharedPreferences preferences;
     boolean is3d = false;
-    boolean hasReal3d = false;
+
 
     public int canvasWidth;
     public int canvasHeight;
@@ -80,7 +80,7 @@ public class CamPreview extends BasePreview {
     {
         if (hasReal3d)
         {
-            if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
+            if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
             {
                 if(preferences.getBoolean("upsidedown", false) == false)
                     mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
