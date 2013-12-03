@@ -95,7 +95,7 @@ public class BitmapHandler
     {
         BitmapHandler[] widthhandlers = new BitmapHandler[3];
 
-        if (base.X > first.X && base.X > second.X)
+        if (base.X >= first.X && base.X >= second.X)
         {
             widthhandlers[0] = base;
             if (first.X > second.X)
@@ -144,7 +144,7 @@ public class BitmapHandler
     {
         BitmapHandler[] widthhandlers = new BitmapHandler[3];
 
-        if (base.Y > first.Y && base.Y > second.Y)
+        if (base.Y >= first.Y && base.Y >= second.Y)
         {
             widthhandlers[0] = base;
             if (first.Y > second.Y)
