@@ -16,6 +16,7 @@ public class BaseCamera
 {
     public Camera mCamera;
     public SharedPreferences preferences;
+    //protected byte[] rawbuffer = new byte[52428800];
 
     public BaseCamera(SharedPreferences preferences)
     {
@@ -33,6 +34,7 @@ public class BaseCamera
         //mCamera.setDisplayOrientation(90);
         if (tmp.equals(ParametersManager.SwitchCamera_MODE_Front))
             mCamera = Camera.open(1);
+        //mCamera.addCallbackBuffer(rawbuffer);
     }
 
     protected  void CloseCamera()

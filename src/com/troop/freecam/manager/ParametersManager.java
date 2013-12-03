@@ -193,6 +193,9 @@ public class ParametersManager
             if (preferences.getString(Preferences_IPPFront, null) != null)
                 parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
+        //parameters.set("rawsave-mode", "1");
+        //parameters.set("rawfname", "/mnt/sdcard/test.raw");
+
         onParametersCHanged();
         setToPreferencesToCamera();
     }
