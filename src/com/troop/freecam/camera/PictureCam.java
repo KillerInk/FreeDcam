@@ -48,9 +48,9 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         savePicture.onSavePicture = this;
     }
 
-    private static final int CAMERA_MSG_RAW_IMAGE = 0x080;
-    private native final void _addCallbackBuffer(
-            byte[] callbackBuffer, int msgType);
+    //private static final int CAMERA_MSG_RAW_IMAGE = 0x080;
+    //private native final void _addCallbackBuffer(
+            //byte[] callbackBuffer, int msgType);
 
     public void TakePicture(boolean crop)
     {
