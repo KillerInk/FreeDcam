@@ -56,7 +56,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
     public HdrManager HdrRender;
-    public ParametersManager parametersManager;
+    //public ParametersManager parametersManager;
     public boolean takePicture = false;
 
     public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
