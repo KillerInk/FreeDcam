@@ -130,7 +130,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixCameraDisplayOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
         if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {
@@ -146,7 +146,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixParametersOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
         if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {
