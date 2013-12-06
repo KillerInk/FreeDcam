@@ -168,7 +168,7 @@ public class HdrManager implements PictureTakeFinish
             String end;
 
 
-            if (cameraManager.preferences.getString("switchcam", "3D").equals("3D"))
+            if (cameraManager.preferences.getString("switchcam", "2D").equals("3D"))
             {
                 is3d = true;
             }
@@ -189,20 +189,22 @@ public class HdrManager implements PictureTakeFinish
                 //TODO move saving into new thread for faster picture taking
                 File file = getFilePath(end,sdcardpath);
                 uris[count] = Uri.fromFile(file);
+                boolean upsidedownfix = cameraManager.preferences.getBoolean("upsidedown", false);
+
                 if (count == 0)
                 {
-                    saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    new Thread(saveFirstPic).start();
+                    saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
+                    handler.post(saveFirstPic);
                 }
                 else if (count == 1)
                 {
-                    saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    new Thread(saveSecondPic).start();
+                    saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
+                    handler.post(saveSecondPic);
                 }
                 else if (count == 2)
                 {
-                    saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count);
-                    new Thread(saveThirdPic).start();
+                    saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
+                    handler.post(saveThirdPic);
                 }
                 //savePic(data, end, sdcardpath);
             }

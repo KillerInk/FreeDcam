@@ -13,6 +13,7 @@ import android.util.Log;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
+import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,23 +58,15 @@ public class SavePicture
         {
             if (crop)
             {
-                BitmapFactory.Options opts = new BitmapFactory.Options();
-                opts.inPurgeable = true; // Tell to gc that whether it needs free
-                // memory, the Bitmap can be cleared
-                opts.inInputShareable = true; // Which kind of reference will be used to
-                // recover the Bitmap data after being
-                // clear, when it will be used in the
-                // future
-                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
-                saveBytesToFile(file, bytes);
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
+                BitmapUtils.saveBytesToFile(file, bytes);
                 ExifManager manager = new ExifManager();
                 manager.LoadExifFrom(file.getAbsolutePath());
                 bytes = new byte[0];
-                System.gc();
 
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
-                    originalBmp = rotateBitmap(originalBmp);
+                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
                 }
 
                 Integer newheigt = size.width /32 * 9;
@@ -81,24 +74,23 @@ public class SavePicture
 
                 final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
                 originalBmp.recycle();
-                saveBitmapToFile(file, croppedBmp);
+                BitmapUtils.saveBitmapToFile(file, croppedBmp);
 
                 manager.SaveExifTo(file.getAbsolutePath());
             }
             else
             {
-                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                saveBytesToFile(file, bytes);
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
+                BitmapUtils.saveBytesToFile(file, bytes);
                 ExifManager manager = new ExifManager();
                 manager.LoadExifFrom(file.getAbsolutePath());
                 bytes = new byte[0];
-                System.gc();
 
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
-                    originalBmp = rotateBitmap(originalBmp);
+                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
                 }
-                saveBitmapToFile(file, originalBmp);
+                BitmapUtils.saveBitmapToFile(file, originalBmp);
                 manager.SaveExifTo(file.getAbsolutePath());
             }
         }
@@ -106,64 +98,22 @@ public class SavePicture
         {
             if (preferences.getBoolean("upsidedown", false) == true)
             {
-                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
                 bytes = new byte[0];
                 System.gc();
-                Bitmap rot = rotateBitmap(originalBmp);
-                saveBitmapToFile(file, rot);
+                Bitmap rot = BitmapUtils.rotateBitmap(originalBmp);
+                BitmapUtils.saveBitmapToFile(file, rot);
 
                 rot.recycle();
             }
             else
             {
-                saveBytesToFile(file, bytes);
+                BitmapUtils.saveBytesToFile(file, bytes);
             }
         }
     }
 
-    private Bitmap rotateBitmap(Bitmap originalBmp)
-    {
-        Matrix m = new Matrix();
-        m.postRotate(180);
-        Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
-        originalBmp.recycle();
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        return rot;
-    }
 
-    private void saveBitmapToFile(File file, Bitmap bitmap)
-    {
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void saveBytesToFile(File file, byte[] bytes)
-    {
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public static File getFilePath(String end, File sdcardpath) {
         File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/");
