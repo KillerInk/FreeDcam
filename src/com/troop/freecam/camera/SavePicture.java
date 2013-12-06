@@ -1,7 +1,9 @@
 package com.troop.freecam.camera;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
@@ -29,11 +31,12 @@ public class SavePicture
     byte[] bytes;
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
+    SharedPreferences preferences;
 
-    public SavePicture(MediaScannerManager mediaScannerManager)
+    public SavePicture(MediaScannerManager mediaScannerManager, SharedPreferences preferences)
     {
         this.mediaScannerManager = mediaScannerManager;
-
+        this.preferences = preferences;
     }
 
     public void SaveToSD(byte[] bytes, boolean crop, Camera.Size size, boolean is3d)
@@ -42,6 +45,7 @@ public class SavePicture
         this.size = size;
         this.is3d = is3d;
         this.bytes = bytes;
+        bytes = new byte[0];
         handler.post(runnable);
 
     }
@@ -49,33 +53,114 @@ public class SavePicture
     private void writePictureToSD(byte[] bytes, File file, boolean crop) throws IOException
     {
         FileOutputStream outStream = null;
-        if (crop && is3d)
+        if (is3d)
         {
-            Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            Integer newheigt = size.width /32 * 9;
-            Integer tocrop = originalBmp.getHeight() - newheigt ;
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes, 0, bytes.length);
-            outStream.flush();
-            outStream.close();
+            if (crop)
+            {
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                opts.inPurgeable = true; // Tell to gc that whether it needs free
+                // memory, the Bitmap can be cleared
+                opts.inInputShareable = true; // Which kind of reference will be used to
+                // recover the Bitmap data after being
+                // clear, when it will be used in the
+                // future
+                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
+                saveBytesToFile(file, bytes);
+                ExifManager manager = new ExifManager();
+                manager.LoadExifFrom(file.getAbsolutePath());
+                bytes = new byte[0];
+                System.gc();
 
-            ExifManager manager = new ExifManager();
-            manager.LoadExifFrom(file.getAbsolutePath());
-            Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
-            outStream = new FileOutputStream(file);
-            croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-            originalBmp.recycle();
-            croppedBmp.recycle();
-            manager.SaveExifTo(file.getAbsolutePath());
+                if (preferences.getBoolean("upsidedown", false) == true)
+                {
+                    originalBmp = rotateBitmap(originalBmp);
+                }
+
+                Integer newheigt = size.width /32 * 9;
+                Integer tocrop = originalBmp.getHeight() - newheigt ;
+
+                final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
+                originalBmp.recycle();
+                saveBitmapToFile(file, croppedBmp);
+
+                manager.SaveExifTo(file.getAbsolutePath());
+            }
+            else
+            {
+                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                saveBytesToFile(file, bytes);
+                ExifManager manager = new ExifManager();
+                manager.LoadExifFrom(file.getAbsolutePath());
+                bytes = new byte[0];
+                System.gc();
+
+                if (preferences.getBoolean("upsidedown", false) == true)
+                {
+                    originalBmp = rotateBitmap(originalBmp);
+                }
+                saveBitmapToFile(file, originalBmp);
+                manager.SaveExifTo(file.getAbsolutePath());
+            }
         }
         else
         {
+            if (preferences.getBoolean("upsidedown", false) == true)
+            {
+                Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+                bytes = new byte[0];
+                System.gc();
+                Bitmap rot = rotateBitmap(originalBmp);
+                saveBitmapToFile(file, rot);
+
+                rot.recycle();
+            }
+            else
+            {
+                saveBytesToFile(file, bytes);
+            }
+        }
+    }
+
+    private Bitmap rotateBitmap(Bitmap originalBmp)
+    {
+        Matrix m = new Matrix();
+        m.postRotate(180);
+        Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
+        originalBmp.recycle();
+        System.gc();
+        Runtime.getRuntime().gc();
+        System.gc();
+        return rot;
+    }
+
+    private void saveBitmapToFile(File file, Bitmap bitmap)
+    {
+        FileOutputStream outStream = null;
+        try {
+            outStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void saveBytesToFile(File file, byte[] bytes)
+    {
+        FileOutputStream outStream = null;
+        try {
             outStream = new FileOutputStream(file);
             outStream.write(bytes);
             outStream.flush();
             outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

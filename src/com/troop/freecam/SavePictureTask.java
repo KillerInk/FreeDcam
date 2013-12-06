@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -110,10 +111,30 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 }
                 else
                 {
-                    outStream = new FileOutputStream(file);
-                    outStream.write(params[0]);
-                    outStream.flush();
-                    outStream.close();
+                    if (preferences.getBoolean("upsidedown", false) == true)
+                    {
+                        Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
+                        params[0] = null;
+                        System.gc();
+                        Matrix m = new Matrix();
+                        m.postRotate(180);
+                        Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
+                        originalBmp.recycle();
+                        System.gc();
+                        outStream = new FileOutputStream(file);
+                        rot.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                        outStream.flush();
+                        outStream.close();
+
+                        rot.recycle();
+                    }
+                    else
+                    {
+                        outStream = new FileOutputStream(file);
+                        outStream.write(params[0]);
+                        outStream.flush();
+                        outStream.close();
+                    }
                 }
                 //Log.d("SavePictureTask", "onPictureTaken - wrote bytes: " + data.length);
                 //new MediaScannerManager().startScan(file.getAbsolutePath());

@@ -44,7 +44,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         this.context = context;
         this.scanManager = new MediaScannerManager(context.getContext());
         soundPlayer = new SoundPlayer(context.getContext());
-        savePicture = new SavePicture(scanManager);
+        savePicture = new SavePicture(scanManager, preferences);
         savePicture.onSavePicture = this;
     }
 
@@ -100,6 +100,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         mCamera.startPreview();
         IsWorking = false;
+        data = null;
         //takePicture = false;
     }
 
