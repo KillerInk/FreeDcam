@@ -91,7 +91,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             cameraManager.lastPicturePath =file.getAbsolutePath();
             scanManager.startScan(lastPicturePath);
             bitmaporg.recycle();
-            System.gc();
+            
             //bitmascale.recycle();
         }
         catch (Exception ex)

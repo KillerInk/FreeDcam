@@ -570,6 +570,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			thumbButton.setImageBitmap(null);
             if(recordVideo == false)
             {
                 if (HDRMode == false)

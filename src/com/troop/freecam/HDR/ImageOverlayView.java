@@ -208,7 +208,7 @@ public class ImageOverlayView extends View
         if (secondorginalImage != null)
             secondorginalImage.recycle();
         secondorginalImage = null;*/
-        System.gc();
+        
     }
 
     @Override

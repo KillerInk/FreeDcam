@@ -68,14 +68,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         for(int i=0; i < uris.length; i++ )
         {
             croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(uris[i].getPath(), o);
@@ -84,7 +76,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             saveBitmap(file.getAbsolutePath(), left);
             LeftUris[i] = Uri.fromFile(file);
 
-            System.gc();
             Bitmap right = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), o.outWidth / 2, 0, o.outWidth/2, o.outHeight);
             File fileright = new File(String.format(freeCamImageDirectoryTmp + "/right" + String.valueOf(i) + "." + end));
             saveBitmap(fileright.getAbsolutePath(), right);
@@ -219,7 +210,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             byte[] hdrpic = HdrRender.computeHDR(activity);
 
             saveFile(String.format(freeCamImageDirectoryTmp + "/righttop.jps"), hdrpic);
-            System.gc();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -236,7 +226,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
             saveFile(String.format(freeCamImageDirectoryTmp + "/rightbottom.jps"), hdrpic);
             HdrRender = null;
-            System.gc();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -249,7 +238,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
     private String mergeRenderedImages()
     {
         Paint paint = new Paint();
-        System.gc();
         Bitmap left = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
         Bitmap orgi = Bitmap.createBitmap(left.getWidth() * 2, left.getHeight()*2, left.getConfig());
         Canvas cav = new Canvas(orgi);
@@ -310,18 +298,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         {
             int newheigt = width /32 * 9;
             int tocrop = height - newheigt ;
-
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
 
             //Bitmap bitmap =
             try {

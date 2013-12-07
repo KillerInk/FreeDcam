@@ -17,8 +17,13 @@ public class BitmapUtils
 {
     public static Bitmap rotateBitmap(Bitmap originalBmp)
     {
-        BitmapUtils utils = new BitmapUtils();
-        return utils.rotate180(originalBmp);
+        JniBitmapHolder holder = new JniBitmapHolder();
+        holder.storeBitmap(originalBmp);
+        originalBmp.recycle();
+        holder.rotateBitmap180();
+        return holder.getBitmapAndFree();
+        //BitmapUtils utils = new BitmapUtils();
+        //return utils.rotate180(originalBmp);
         /*Matrix m = new Matrix();
         m.postRotate(180);
         System.gc();

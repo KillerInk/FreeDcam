@@ -97,7 +97,7 @@ public class SavePicture
             {
                 Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
                 bytes = new byte[0];
-                System.gc();
+                
                 Bitmap rot = BitmapUtils.rotateBitmap(originalBmp);
                 BitmapUtils.saveBitmapToFile(file, rot);
 

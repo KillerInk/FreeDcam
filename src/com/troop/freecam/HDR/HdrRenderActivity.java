@@ -286,7 +286,7 @@ public class HdrRenderActivity extends Activity
             end = "jpg";
         File sdcardpath = Environment.getExternalStorageDirectory();
         overlayView.Destroy();
-        System.gc();
+        
         renderHDRandSAve(end, sdcardpath);
     }
 

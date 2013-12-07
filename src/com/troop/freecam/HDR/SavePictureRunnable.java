@@ -67,7 +67,6 @@ public class SavePictureRunnable implements  Runnable
         }
         else
         {
-            System.gc();
             Bitmap orgi = BitmapUtils.loadFromBytes(data);
             orgi = BitmapUtils.rotateBitmap(orgi);
             BitmapUtils.saveBitmapToFile(file, orgi);

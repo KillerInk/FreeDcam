@@ -102,7 +102,7 @@ public class HdrManager implements PictureTakeFinish
 
     public void TakeHDRPictures(boolean reset)
     {
-        System.gc();
+        
         cameraManager.parametersManager.getParameters().set("video-stabilization", "true");
         cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
         count = 0;

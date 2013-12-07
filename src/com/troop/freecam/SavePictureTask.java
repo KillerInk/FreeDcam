@@ -106,12 +106,10 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                     {
                         Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
                         params[0] = null;
-                        System.gc();
                         Matrix m = new Matrix();
                         m.postRotate(180);
                         Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
                         originalBmp.recycle();
-                        System.gc();
                         outStream = new FileOutputStream(file);
                         rot.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                         outStream.flush();
@@ -197,7 +195,6 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
                 cameraManager.lastPicturePath = s;
                 bitmaporg.recycle();
-                System.gc();
                 //bitmascale.recycle();
             }
             catch (Exception ex)
