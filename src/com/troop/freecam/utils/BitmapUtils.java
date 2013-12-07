@@ -91,4 +91,18 @@ public class BitmapUtils
         Bitmap ret = BitmapFactory.decodeFile(path, opts);
         return ret;
     }
+
+    public static Bitmap cropBitmap(Bitmap orgi, int x, int y, int width, int height)
+    {
+        JniBitmapHolder holder = new JniBitmapHolder();
+        holder.storeBitmap(orgi);
+        orgi.recycle();
+        holder.cropBitmap(x,y,width,height);
+        return holder.getBitmapAndFree();
+    }
+
+    public static Bitmap createEmptyBitmpap(int width, int height, Bitmap.Config config)
+    {
+        return Bitmap.createBitmap(width, height, config);
+    }
 }

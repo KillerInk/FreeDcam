@@ -67,16 +67,18 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
-            croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(uris[i].getPath(), o);
-            Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), 0, 0, o.outWidth / 2, o.outHeight);
+            Bitmap orgi = cropToSixteenToNine(BitmapUtils.loadFromPath(uris[i].getPath()), op.outWidth, op.outHeight);
+            //croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
+            //Bitmap orgi = BitmapUtils.loadFromPath(uris[i].getPath());
+            Bitmap left = BitmapUtils.cropBitmap(orgi, 0, 0, orgi.getWidth() / 2, orgi.getHeight());
+            //Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), 0, 0, o.outWidth / 2, o.outHeight);
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
             saveBitmap(file.getAbsolutePath(), left);
             LeftUris[i] = Uri.fromFile(file);
 
-            Bitmap right = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), o.outWidth / 2, 0, o.outWidth/2, o.outHeight);
+            orgi = BitmapUtils.loadFromPath(uris[i].getPath());
+            Bitmap right = BitmapUtils.cropBitmap(orgi, 0, 0, orgi.getWidth() / 2, orgi.getHeight());
+            //Bitmap right = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), o.outWidth / 2, 0, o.outWidth/2, o.outHeight);
             File fileright = new File(String.format(freeCamImageDirectoryTmp + "/right" + String.valueOf(i) + "." + end));
             saveBitmap(fileright.getAbsolutePath(), right);
             RightUris[i] = Uri.fromFile(fileright);
@@ -239,11 +241,9 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
     {
         Paint paint = new Paint();
         Bitmap left = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
-        Bitmap orgi = Bitmap.createBitmap(left.getWidth() * 2, left.getHeight()*2, left.getConfig());
+        Bitmap orgi = BitmapUtils.createEmptyBitmpap(left.getWidth() * 2, left.getHeight() * 2, left.getConfig());
         Canvas cav = new Canvas(orgi);
         cav.drawBitmap(left,0,0,paint);
-        int width = orgi.getWidth();
-        int height = orgi.getHeight();
         left.recycle();
         left =null;
         //gc();
@@ -300,14 +300,28 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             int tocrop = height - newheigt ;
 
             //Bitmap bitmap =
-            try {
-                BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(path, true);
-                saveBitmap(path, decoder.decodeRegion(new Rect(0, tocrop / 2, width, newheigt), null));
-                decoder.recycle();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            //try {
+                //BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(path, true);
+                //saveBitmap(path, decoder.decodeRegion(new Rect(0, tocrop / 2, width, newheigt), null));
+                //decoder.recycle();
+                saveBitmap(path, BitmapUtils.cropBitmap(BitmapUtils.loadFromPath(path), 0, tocrop / 2, width, newheigt));
+            //} catch (IOException e) {
+            //    e.printStackTrace();
+            //}
 
         }
     }
+      
+    private Bitmap cropToSixteenToNine(Bitmap bitmap, int width, int height)
+    {
+        if (PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("crop", false) == true)
+        {
+            int newheigt = width /32 * 9;
+            int tocrop = height - newheigt ;
+
+            bitmap = BitmapUtils.cropBitmap(bitmap, 0, tocrop / 2, width, newheigt );
+        }
+        return bitmap;
+    }
+
 }
