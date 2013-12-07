@@ -1,7 +1,6 @@
 package com.troop.freecam.HDR;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
@@ -11,7 +10,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.cm.HdrSoftwareProcessor;

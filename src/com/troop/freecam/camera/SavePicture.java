@@ -2,8 +2,6 @@ package com.troop.freecam.camera;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
@@ -16,7 +14,6 @@ import com.troop.freecam.manager.interfaces.SavePictureCallback;
 import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 

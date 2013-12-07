@@ -9,15 +9,9 @@ import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.media.CamcorderProfile;
-import android.media.MediaRecorder;
-import android.view.SurfaceView;
 
-import com.troop.freecam.camera.BaseCamera;
-import com.troop.freecam.camera.PictureCam;
 import com.troop.freecam.camera.VideoCam;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.HdrManager;
@@ -30,7 +24,6 @@ import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.ZoomManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

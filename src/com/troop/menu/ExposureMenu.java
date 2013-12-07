@@ -1,6 +1,5 @@
 package com.troop.menu;
 
-import android.hardware.Camera;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;

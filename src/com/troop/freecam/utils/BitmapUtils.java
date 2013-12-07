@@ -2,9 +2,8 @@ package com.troop.freecam.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
+
+import com.troop.bitmap_operations.JniBitmapHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,21 +17,23 @@ public class BitmapUtils
 {
     public static Bitmap rotateBitmap(Bitmap originalBmp)
     {
-        Matrix m = new Matrix();
-        m.postRotate(180);
-        Canvas canvas = new Canvas(originalBmp);
-        //originalBmp.prepareToDraw();
-
-        canvas.setMatrix(m);
-        canvas.drawBitmap(originalBmp, m, new Paint());
-        canvas.setBitmap(null);
-        return originalBmp;
+        BitmapUtils utils = new BitmapUtils();
+        return utils.rotate180(originalBmp);
         /*Matrix m = new Matrix();
         m.postRotate(180);
         System.gc();
         Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
         originalBmp.recycle();
         return rot;*/
+    }
+
+    private  Bitmap  rotate180(Bitmap originalBmp)
+    {
+        JniBitmapHolder holder = new JniBitmapHolder();
+        holder.storeBitmap(originalBmp);
+        originalBmp.recycle();
+        holder.rotateBitmap180();
+        return holder.getBitmapAndFree();
     }
 
     public static void saveBitmapToFile(File file, Bitmap bitmap)

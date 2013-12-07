@@ -16,24 +16,18 @@
 
 package com.troop.freecam.cm;
 
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.renderscript.RenderScript;
 import android.util.Log;
 
 import com.troop.freecam.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class HdrSoftwareProcessor {
     public final static String TAG = "SW_HDR";

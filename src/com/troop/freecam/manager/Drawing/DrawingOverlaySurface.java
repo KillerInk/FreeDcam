@@ -7,8 +7,6 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;

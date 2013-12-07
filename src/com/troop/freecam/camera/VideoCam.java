@@ -1,16 +1,12 @@
 package com.troop.freecam.camera;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.view.SurfaceView;
 
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.SavePictureTask;
-import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
 
 import java.io.File;

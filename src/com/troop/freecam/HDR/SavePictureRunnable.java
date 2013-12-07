@@ -1,7 +1,6 @@
 package com.troop.freecam.HDR;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 
 import com.troop.freecam.utils.BitmapUtils;

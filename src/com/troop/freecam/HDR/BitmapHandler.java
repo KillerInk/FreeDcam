@@ -1,9 +1,6 @@
 package com.troop.freecam.HDR;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
 /**

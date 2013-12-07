@@ -9,10 +9,8 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.troop.freecam.CamPreview;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
