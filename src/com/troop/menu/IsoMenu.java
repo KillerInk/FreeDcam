@@ -18,6 +18,7 @@ public class IsoMenu extends BaseMenu {
     }
 
     String[] isos;
+
     @Override
     public void onClick(View v)
     {
@@ -25,7 +26,11 @@ public class IsoMenu extends BaseMenu {
         {
             try
             {
-                isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
+                if(CameraManager.isOmap())
+                    isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
+                if(CameraManager.isQualcomm())
+                    isos = camMan.parametersManager.getParameters().get("iso-values").split(",");
+
             }
             catch (Exception ex)
             {

@@ -95,6 +95,9 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
 
                     //Metadata metadataorginal = ImageMetadataReader.readMetadata(stream, false);
                     Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inDither = true;
+                    options.inPreferQualityOverSpeed = true;
                     outStream = new FileOutputStream(file);
                     croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                     outStream.flush();

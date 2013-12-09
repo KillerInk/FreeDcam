@@ -18,7 +18,7 @@
 
 /*
  * This file is auto-generated. DO NOT MODIFY!
- * The source Renderscript file: C:\\Users\\troop\\workspace\\FreeCam\\src\\com\\troop\\freecam\\cm\\HdrSoftware.rs
+ * The source Renderscript file: C:\\Android\\Code\\FreeDCamMyUI\\src\\com\\troop\\freecam\\cm\\HdrSoftware.rs
  */
 package com.android.camera;
 
@@ -41,10 +41,14 @@ public class ScriptC_HdrSoftware extends ScriptC {
 
     public  ScriptC_HdrSoftware(RenderScript rs, Resources resources, int id) {
         super(rs, resources, id);
+        __SCRIPT = Element.SCRIPT(rs);
+        __ALLOCATION = Element.ALLOCATION(rs);
         __I32 = Element.I32(rs);
     }
 
+    private Element __ALLOCATION;
     private Element __I32;
+    private Element __SCRIPT;
     private FieldPacker __rs_fp_ALLOCATION;
     private FieldPacker __rs_fp_I32;
     private FieldPacker __rs_fp_SCRIPT;
@@ -59,6 +63,10 @@ public class ScriptC_HdrSoftware extends ScriptC {
         return mExportVar_gScript;
     }
 
+    public Script.FieldID getFieldID_gScript() {
+        return createFieldID(mExportVarIdx_gScript, null);
+    }
+
     private final static int mExportVarIdx_gInIndex = 1;
     private Allocation mExportVar_gInIndex;
     public synchronized void set_gInIndex(Allocation v) {
@@ -68,6 +76,10 @@ public class ScriptC_HdrSoftware extends ScriptC {
 
     public Allocation get_gInIndex() {
         return mExportVar_gInIndex;
+    }
+
+    public Script.FieldID getFieldID_gInIndex() {
+        return createFieldID(mExportVarIdx_gInIndex, null);
     }
 
     private final static int mExportVarIdx_gInputLow = 2;
@@ -129,8 +141,20 @@ public class ScriptC_HdrSoftware extends ScriptC {
         return mExportVar_gImageWidth;
     }
 
+    public Script.FieldID getFieldID_gImageWidth() {
+        return createFieldID(mExportVarIdx_gImageWidth, null);
+    }
+
     private final static int mExportForEachIdx_root = 0;
+    public Script.KernelID getKernelID_root() {
+        return createKernelID(mExportForEachIdx_root, 3, null, null);
+    }
+
     public void forEach_root(Allocation ain, Allocation aout) {
+        forEach_root(ain, aout, null);
+    }
+
+    public void forEach_root(Allocation ain, Allocation aout, Script.LaunchOptions sc) {
         // check ain
         if (!ain.getType().getElement().isCompatible(__I32)) {
             throw new RSRuntimeException("Type mismatch with I32!");
@@ -150,7 +174,7 @@ public class ScriptC_HdrSoftware extends ScriptC {
             (tIn.hasMipmaps() != tOut.hasMipmaps())) {
             throw new RSRuntimeException("Dimension mismatch between input and output parameters!");
         }
-        forEach(mExportForEachIdx_root, ain, aout, null);
+        forEach(mExportForEachIdx_root, ain, aout, null, sc);
     }
 
     private final static int mExportFuncIdx_performHdrComputation = 0;

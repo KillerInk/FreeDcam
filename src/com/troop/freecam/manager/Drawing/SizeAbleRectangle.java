@@ -16,12 +16,14 @@ import com.troop.freecam.CamPreview;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.MainActivity;
 
 /**
  * Created by troop on 24.09.13.
  */
 public class SizeAbleRectangle
 {
+    MainActivity mainActivity;
     DrawingOverlaySurface camPreview;
     Paint mPaint;
 
@@ -148,11 +150,12 @@ public class SizeAbleRectangle
 
     long lastclick;
     int waitTime = 300;
-
+//Touched @ 1:22AM
     public void OnTouch(MotionEvent event)
     {
         if  (Enabled)
         {
+
 
             long timeelapsed = event.getEventTime() - lastclick;
             if (timeelapsed > waitTime)
@@ -165,6 +168,7 @@ public class SizeAbleRectangle
                 Draw();
                 cameraManager.StartFocus();
             }
+
             /*if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
 

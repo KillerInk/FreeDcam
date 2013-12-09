@@ -103,7 +103,7 @@ public class HdrSoftwareProcessor {
         // Save image to memory - will be later fed into ImageSaver
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            mOutputBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            mOutputBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             mOutputBitmap.recycle();
             return out.toByteArray();
         } catch (Exception e) {

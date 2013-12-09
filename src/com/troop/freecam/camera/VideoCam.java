@@ -1,8 +1,6 @@
 package com.troop.freecam.camera;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -35,6 +33,8 @@ public class VideoCam extends PictureCam
 
     public void StartRecording()
     {
+        try
+        {
         mCamera.unlock();
         File sdcardpath = Environment.getExternalStorageDirectory();
 
@@ -101,6 +101,11 @@ public class VideoCam extends PictureCam
             IsRecording = true;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        }
+        catch (NullPointerException ex)
+        {
+
         }
 
     }
