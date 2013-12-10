@@ -19,3 +19,5 @@ out/
 obj/
 .idea/
 out/
+gen/
+project.properties
