@@ -240,8 +240,12 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
     private String mergeRenderedImages()
     {
         Paint paint = new Paint();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"), options);
+        System.gc();
+        Bitmap orgi = BitmapUtils.createEmptyBitmpap((options.outWidth) * 2, options.outHeight * 2, options.inPreferredConfig);
         Bitmap left = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
-        Bitmap orgi = BitmapUtils.createEmptyBitmpap(left.getWidth() * 2, left.getHeight() * 2, left.getConfig());
         Canvas cav = new Canvas(orgi);
         cav.drawBitmap(left,0,0,paint);
         left.recycle();

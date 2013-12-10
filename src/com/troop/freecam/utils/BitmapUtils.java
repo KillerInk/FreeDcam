@@ -21,7 +21,9 @@ public class BitmapUtils
         holder.storeBitmap(originalBmp);
         originalBmp.recycle();
         holder.rotateBitmap180();
-        return holder.getBitmapAndFree();
+        originalBmp = holder.getBitmapAndFree();
+        holder =null;
+        return originalBmp;
         //BitmapUtils utils = new BitmapUtils();
         //return utils.rotate180(originalBmp);
         /*Matrix m = new Matrix();

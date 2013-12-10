@@ -184,7 +184,7 @@ public class HdrManager implements PictureTakeFinish
 
             }else
             {
-                //TODO move saving into new thread for faster picture taking
+                //TODO move saving into new thread for faster picture taking not added yet because of oom
                 File file = getFilePath(end,sdcardpath);
                 uris[count] = Uri.fromFile(file);
                 boolean upsidedownfix = cameraManager.preferences.getBoolean("upsidedown", false);

@@ -72,7 +72,11 @@ public class SavePictureRunnable implements  Runnable
             BitmapUtils.saveBitmapToFile(file, orgi);
             orgi.recycle();
         }
+
         data = null;
+        System.gc();
+        Runtime.getRuntime().gc();
+        System.gc();
         Running = false;
     }
 
