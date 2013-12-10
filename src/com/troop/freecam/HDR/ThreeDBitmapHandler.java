@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.cm.HdrSoftwareProcessor;
 import com.troop.freecam.utils.BitmapUtils;
@@ -244,34 +245,41 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"), options);
         System.gc();
-        Bitmap orgi = BitmapUtils.createEmptyBitmpap((options.outWidth) * 2, options.outHeight * 2, options.inPreferredConfig);
+        int width = options.outWidth * 2;
+        int height = options.outHeight * 2;
+
+        Bitmap orgi = BitmapUtils.createEmptyBitmpap(width, height, options.inPreferredConfig);
+        JniBitmapHolder orginalHolder = new JniBitmapHolder(orgi);
+        orgi.recycle();
+
         Bitmap left = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
-        Canvas cav = new Canvas(orgi);
-        cav.drawBitmap(left,0,0,paint);
+        JniBitmapHolder drawHolder = new JniBitmapHolder(left);
         left.recycle();
-        left =null;
-        //gc();
+        orginalHolder.AddImageIntoExisting(drawHolder._handler, 0, 0);
 
         Bitmap leftbottom = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/leftbottom.jps"));
-        cav.drawBitmap(leftbottom, 0,orgi.getHeight()/2,paint);
+        drawHolder.storeBitmap(leftbottom);
         leftbottom.recycle();
-
+        orginalHolder.AddImageIntoExisting(drawHolder._handler, 0, height/2);
 
         Bitmap rightTop = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/righttop.jps"));
-        cav.drawBitmap(rightTop, orgi.getWidth()/2, 0, paint);
+        drawHolder.storeBitmap(rightTop);
         rightTop.recycle();
+        orginalHolder.AddImageIntoExisting(drawHolder._handler, width/2, 0);
 
         Bitmap rightbottom = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/rightbottom.jps"));
-        cav.drawBitmap(rightbottom, orgi.getWidth()/2, orgi.getHeight()/2, paint);
+        drawHolder.storeBitmap(rightbottom);
         rightbottom.recycle();
+        orginalHolder.AddImageIntoExisting(drawHolder._handler, width/2, height/2);
 
         File file = SavePictureTask.getFilePath("jps", sdcardpath);
 
         //croptTosixtenToNine(orgi, width, height, file.getAbsolutePath());
-        saveBitmap(file.getAbsolutePath(), orgi);
+        System.gc();
+        saveBitmap(file.getAbsolutePath(), orginalHolder.getBitmapAndFree());
 
-        orgi.recycle();
-        orgi = null;
+        //orgi.recycle();
+        //orgi = null;
 
         //croptTosixtenToNine(file.getAbsolutePath(), width, height);
         return file.getAbsolutePath();

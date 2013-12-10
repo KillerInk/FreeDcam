@@ -3,7 +3,7 @@ package com.troop.freecam.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.troop.bitmap_operations.JniBitmapHolder;
+import com.jni.bitmap_operations.JniBitmapHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;

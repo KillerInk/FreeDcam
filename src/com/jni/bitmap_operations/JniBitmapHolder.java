@@ -1,16 +1,16 @@
-package com.troop.bitmap_operations;
+package com.jni.bitmap_operations;
+import java.nio.ByteBuffer;
 
+import android.R.integer;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.nio.ByteBuffer;
-
 public class JniBitmapHolder
   {
-  ByteBuffer _handler =null;
+  public ByteBuffer _handler =null;
   static
     {
-        System.loadLibrary("JniBitmapOperations");
+    System.loadLibrary("JniBitmapOperations");
     }
 
   private native ByteBuffer jniStoreBitmapData(Bitmap bitmap);
@@ -28,6 +28,8 @@ public class JniBitmapHolder
   private native void jniScaleNNBitmap(ByteBuffer handler,final int newWidth,final int newHeight);
   
   private native void jniRotateBitmap180(ByteBuffer handler);
+  
+  private native void jniAddImageIntoImage(ByteBuffer handler, ByteBuffer hand, int margineX, int margineY);
 
   public JniBitmapHolder()
     {}
@@ -36,6 +38,14 @@ public class JniBitmapHolder
     {
     storeBitmap(bitmap);
     }
+  
+  public void AddImageIntoExisting(ByteBuffer nioBuffer, int x, int y)
+  {
+	  if(_handler==null)
+	      return;
+	  jniAddImageIntoImage(_handler, nioBuffer, x,y);
+  }
+  
 
   public void storeBitmap(final Bitmap bitmap)
     {
@@ -43,6 +53,7 @@ public class JniBitmapHolder
       freeBitmap();
     _handler=jniStoreBitmapData(bitmap);
     }
+  
 
   public void rotateBitmapCcw90()
     {
