@@ -3,6 +3,9 @@ package com.troop.freecam.manager;
 import android.content.SharedPreferences;
 import android.graphics.Camera;
 import android.util.Log;
+import android.view.View;
+
+import com.troop.freecam.MainActivity;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
@@ -45,9 +48,19 @@ public class ParametersManager
     public static final String Preferences_IPP2D = "2d_ipp";
     public static final String Preferences_IPP3D = "3d_ipp";
     public static final String Preferences_IPPFront = "front_ipp";
-
+    //New Pref 07-12-13
+    public static final String Preferences_PictureFormat = "picture_format";
+    public static final String Preferences_PreviewFormat = "preview_format";
+    public static final String Preferences_AFPValue = "focus_priority";
+    public static final String Preferences_MTRValue = "meter_priority";
+    public static final String Preferences_Denoise = "denoise";
+   // public static final String Preferences_Stab = "stablization";
+    public static final String Preferences_ZSL = "zsl_value";
+    //public static final String Preferences_Composition = "front_ipp";
+    //public static final String Preferences_HFR = "hfr_video";
 
     CameraManager cameraManager;
+    MainActivity mainActivity;
     android.hardware.Camera.Parameters parameters;
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
     SharedPreferences preferences;
@@ -165,10 +178,20 @@ public class ParametersManager
             parameters.setSceneMode(preferences.getString(Preferences_Scene2D,"auto"));
             parameters.setColorEffect(preferences.getString(Preferences_Color2D,"none"));
             parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
+
             parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
+
             setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
             setPreviewSize(preferences.getString(Preferences_PreviewSize2D, "320x240"));
+
             parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
+
+            if(CameraManager.isQualcomm())
+            {
+                parameters.set("denoise","denoise-off");
+                parameters.set("power-mode","Normal_Power");
+                parameters.set("mce","disable");
+            }
         }
         if (tmp.equals("Front"))
         {
@@ -252,6 +275,26 @@ public class ParametersManager
     public void SetBrightness(int bright)
     {
         parameters.set("brightness", bright);
+        onParametersCHanged();
+        try
+        {
+            setToPreferencesToCamera();
+            Log.d("ParametersMAnager", "brightness:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
+        }
+        catch (Exception ex)
+        {
+            Log.e("brightness Set Fail", ex.getMessage());
+        }
+        cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
+
+    }
+
+    public void SetMFocus(int focus)
+    {
+        mainActivity.focusButton.setEnabled(false);
+        parameters.set("manual-focus", 0);
+        parameters.setFocusMode("normal");
+        parameters.set("manualfocus_step", focus);
         onParametersCHanged();
         try
         {

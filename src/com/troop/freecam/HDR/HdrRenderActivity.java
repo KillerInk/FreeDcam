@@ -294,6 +294,8 @@ public class HdrRenderActivity extends Activity
 
     private void doRender()
     {
+        try
+        {
         String end = "";
         if (uris[0].getPath().endsWith("jps"))
             end = "jps";
@@ -303,6 +305,11 @@ public class HdrRenderActivity extends Activity
         overlayView.Destroy();
         System.gc();
         renderHDRandSAve(end, sdcardpath);
+        }
+        catch (NullPointerException ex)
+        {
+
+        }
     }
 
     private Runnable runnableLoad = new Runnable() {

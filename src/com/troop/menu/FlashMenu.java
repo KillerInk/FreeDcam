@@ -23,6 +23,8 @@ public class FlashMenu extends BaseMenu
     String[] modes;
     CameraManager camMan;
     MainActivity activity;
+
+
     public  FlashMenu(CameraManager cameraManager, MainActivity activity)
     {
         super(cameraManager, activity);
@@ -50,7 +52,11 @@ public class FlashMenu extends BaseMenu
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
+                    String tmpp = "torch";
+                    if(activity.recordVideo == false)
                     camMan.parametersManager.getParameters().setFlashMode(tmp);
+                    if(activity.recordVideo == true)
+                       camMan.parametersManager.getParameters().setFlashMode(tmpp);
 
                     String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
                     if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))

@@ -30,7 +30,7 @@ public class PreviewSizeMenu extends BaseMenu {
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < sizes.size(); i++)
         {
-            if (sizes.get(i).height != 576)
+            //if (sizes.get(i).height != 576)
             popupMenu.getMenu().add((CharSequence) (sizes.get(i).width + "x" + sizes.get(i).height));
         }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -8,7 +8,6 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 
 /**
@@ -18,6 +17,7 @@ public class FocusMenu extends BaseMenu {
 
 
     String [] modes;
+
     public FocusMenu(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
     }

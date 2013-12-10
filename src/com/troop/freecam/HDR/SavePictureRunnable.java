@@ -1,6 +1,5 @@
 package com.troop.freecam.HDR;
 
-import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
