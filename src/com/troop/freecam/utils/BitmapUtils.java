@@ -20,6 +20,7 @@ public class BitmapUtils
         JniBitmapHolder holder = new JniBitmapHolder();
         holder.storeBitmap(originalBmp);
         originalBmp.recycle();
+        System.gc();
         holder.rotateBitmap180();
         originalBmp = holder.getBitmapAndFree();
         holder =null;

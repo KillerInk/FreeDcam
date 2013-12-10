@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
+import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
@@ -62,20 +63,25 @@ public class SavePicture
                 manager.LoadExifFrom(file.getAbsolutePath());
                 bytes = new byte[0];
 
+                JniBitmapHolder orgiHolder = new JniBitmapHolder(originalBmp);
+                originalBmp.recycle();
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
-                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
+                    orgiHolder.rotateBitmap180();
                 }
 
                 Integer newheigt = size.width /32 * 9;
                 Integer tocrop = originalBmp.getHeight() - newheigt ;
 
-                final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inDither = true;
-            options.inPreferQualityOverSpeed = true;
-                originalBmp.recycle();
-                BitmapUtils.saveBitmapToFile(file, croppedBmp);
+                orgiHolder.cropBitmap(0, tocrop /2, originalBmp.getWidth(), newheigt);
+                //final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inDither = true;
+                options.inPreferQualityOverSpeed = true;
+                //originalBmp.recycle();
+                System.gc();
+                BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
+                orgiHolder = null;
 
                 manager.SaveExifTo(file.getAbsolutePath());
             }
