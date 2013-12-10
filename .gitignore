@@ -15,3 +15,7 @@ out/production/FreeDCam/FreeDCam.unaligned.apk
 out/res-cache/FreeDCam/drawable*
 out/production/FreeDCam/FreeDCam.unsigned.apk
 out/production/FreeDCam/FreeDCam.apk.res.release
+out/
+obj/
+.idea/
+out/
