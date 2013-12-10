@@ -1,29 +1,21 @@
 package com.troop.freecam;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
-import android.net.Uri;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.util.Log;
-
 
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 
 /**
  * Created by troop on 29.08.13.
@@ -113,10 +105,28 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 }
                 else
                 {
-                    outStream = new FileOutputStream(file);
-                    outStream.write(params[0]);
-                    outStream.flush();
-                    outStream.close();
+                    if (preferences.getBoolean("upsidedown", false) == true)
+                    {
+                        Bitmap originalBmp = BitmapFactory.decodeByteArray(params[0], 0 , params[0].length);
+                        params[0] = null;
+                        Matrix m = new Matrix();
+                        m.postRotate(180);
+                        Bitmap rot = Bitmap.createBitmap(originalBmp, 0, 0, originalBmp.getWidth(), originalBmp.getHeight(), m, false);
+                        originalBmp.recycle();
+                        outStream = new FileOutputStream(file);
+                        rot.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                        outStream.flush();
+                        outStream.close();
+
+                        rot.recycle();
+                    }
+                    else
+                    {
+                        outStream = new FileOutputStream(file);
+                        outStream.write(params[0]);
+                        outStream.flush();
+                        outStream.close();
+                    }
                 }
                 //Log.d("SavePictureTask", "onPictureTaken - wrote bytes: " + data.length);
                 //new MediaScannerManager().startScan(file.getAbsolutePath());
@@ -188,7 +198,6 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
                 cameraManager.lastPicturePath = s;
                 bitmaporg.recycle();
-                System.gc();
                 //bitmascale.recycle();
             }
             catch (Exception ex)

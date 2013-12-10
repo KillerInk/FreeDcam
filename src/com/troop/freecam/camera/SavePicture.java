@@ -1,7 +1,7 @@
 package com.troop.freecam.camera;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
@@ -11,6 +11,7 @@ import android.util.Log;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
+import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,11 +29,12 @@ public class SavePicture
     byte[] bytes;
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
+    SharedPreferences preferences;
 
-    public SavePicture(MediaScannerManager mediaScannerManager)
+    public SavePicture(MediaScannerManager mediaScannerManager, SharedPreferences preferences)
     {
         this.mediaScannerManager = mediaScannerManager;
-
+        this.preferences = preferences;
     }
 
     public void SaveToSD(byte[] bytes, boolean crop, Camera.Size size, boolean is3d)
@@ -41,6 +43,7 @@ public class SavePicture
         this.size = size;
         this.is3d = is3d;
         this.bytes = bytes;
+        bytes = new byte[0];
         handler.post(runnable);
 
     }
@@ -48,39 +51,69 @@ public class SavePicture
     private void writePictureToSD(byte[] bytes, File file, boolean crop) throws IOException
     {
         FileOutputStream outStream = null;
-        if (crop && is3d)
+        if (is3d)
         {
-            Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            Integer newheigt = size.width /32 * 9;
-            Integer tocrop = originalBmp.getHeight() - newheigt ;
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes, 0, bytes.length);
-            outStream.flush();
-            outStream.close();
+            if (crop)
+            {
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
+                BitmapUtils.saveBytesToFile(file, bytes);
+                ExifManager manager = new ExifManager();
+                manager.LoadExifFrom(file.getAbsolutePath());
+                bytes = new byte[0];
 
-            ExifManager manager = new ExifManager();
-            manager.LoadExifFrom(file.getAbsolutePath());
+                if (preferences.getBoolean("upsidedown", false) == true)
+                {
+                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
+                }
+
+                Integer newheigt = size.width /32 * 9;
+                Integer tocrop = originalBmp.getHeight() - newheigt ;
+
+                final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inDither = true;
             options.inPreferQualityOverSpeed = true;
-            Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
-            outStream = new FileOutputStream(file);
-            croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-            originalBmp.recycle();
-            croppedBmp.recycle();
-            manager.SaveExifTo(file.getAbsolutePath());
+                originalBmp.recycle();
+                BitmapUtils.saveBitmapToFile(file, croppedBmp);
+
+                manager.SaveExifTo(file.getAbsolutePath());
+            }
+            else
+            {
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
+                BitmapUtils.saveBytesToFile(file, bytes);
+                ExifManager manager = new ExifManager();
+                manager.LoadExifFrom(file.getAbsolutePath());
+                bytes = new byte[0];
+
+                if (preferences.getBoolean("upsidedown", false) == true)
+                {
+                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
+                }
+                BitmapUtils.saveBitmapToFile(file, originalBmp);
+                manager.SaveExifTo(file.getAbsolutePath());
+            }
         }
         else
         {
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        }
+            if (preferences.getBoolean("upsidedown", false) == true)
+            {
+                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
+                bytes = new byte[0];
+                
+                Bitmap rot = BitmapUtils.rotateBitmap(originalBmp);
+                BitmapUtils.saveBitmapToFile(file, rot);
 
+                rot.recycle();
+            }
+            else
+            {
+                BitmapUtils.saveBytesToFile(file, bytes);
+            }
+        }
     }
+
+
 
     public static File getFilePath(String end, File sdcardpath) {
         File freeCamImageDirectory = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/");

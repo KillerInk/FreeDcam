@@ -32,6 +32,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
@@ -891,6 +892,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			thumbButton.setImageBitmap(null);
             if(recordVideo == false)
             {
                 if (HDRMode == false)

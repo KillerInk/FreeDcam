@@ -15,21 +15,19 @@
  */
 package com.troop.freecam.cm;
 
-import com.android.camera.ScriptC_HdrSoftware;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.Matrix4f;
-//import android.renderscript.ProgramFragment;
-//import android.renderscript.ProgramFragmentFixedFunction;
-//import android.renderscript.ProgramStore;
-//import android.renderscript.ProgramVertex;
-//import android.renderscript.ProgramVertexFixedFunction;
+import android.renderscript.ProgramFragment;
+import android.renderscript.ProgramFragmentFixedFunction;
+import android.renderscript.ProgramStore;
+import android.renderscript.ProgramVertex;
+import android.renderscript.ProgramVertexFixedFunction;
 import android.renderscript.RenderScript;
-import android.renderscript.Sampler;
 import android.util.Log;
+
+import com.android.camera.ScriptC_HdrSoftware;
 
 /**
  * RenderScript host class for HdrSoftware RenderScript.

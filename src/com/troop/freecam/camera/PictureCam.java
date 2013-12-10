@@ -12,12 +12,8 @@ import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import android.hardware.Camera;
 
 /**
  * Created by troop on 18.10.13.
@@ -44,7 +40,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         this.context = context;
         this.scanManager = new MediaScannerManager(context.getContext());
         soundPlayer = new SoundPlayer(context.getContext());
-        savePicture = new SavePicture(scanManager);
+        savePicture = new SavePicture(scanManager, preferences);
         savePicture.onSavePicture = this;
     }
 
@@ -100,6 +96,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         mCamera.startPreview();
         IsWorking = false;
+        data = null;
         //takePicture = false;
     }
 

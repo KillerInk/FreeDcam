@@ -1,16 +1,15 @@
 package com.troop.freecam.HDR;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-//import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+//import android.support.v4.view.GestureDetectorCompat;
 
 /**
  * Created by troop on 14.11.13.
@@ -209,7 +208,7 @@ public class ImageOverlayView extends View
         if (secondorginalImage != null)
             secondorginalImage.recycle();
         secondorginalImage = null;*/
-        System.gc();
+        
     }
 
     @Override

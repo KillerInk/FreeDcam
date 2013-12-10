@@ -25,14 +25,6 @@ public class TwoDBitmapHandler extends BaseBitmapHandler
 
     public String render2d(String end, File sdcardpath)
     {
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         HdrSoftwareProcessor HdrRender = null;
         try {
             HdrRender = new HdrSoftwareProcessor(activity);
@@ -64,14 +56,6 @@ public class TwoDBitmapHandler extends BaseBitmapHandler
 
         try
         {
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[0].getPath()), first.X, first.Y, first.Width, first.Height);
             saveBitmap(uris[0].getPath(), newFirstPic);
             Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[2].getPath()), second.X, second.Y, second.Width, second.Height);

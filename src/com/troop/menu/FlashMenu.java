@@ -1,7 +1,6 @@
 package com.troop.menu;
 
 import android.annotation.TargetApi;
-import android.hardware.Camera;
 import android.os.Build;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,10 +8,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
-
-import java.util.List;
 
 /**
  * Created by troop on 27.08.13.

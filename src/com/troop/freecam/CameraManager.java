@@ -145,7 +145,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             cameraManager.lastPicturePath =file.getAbsolutePath();
             scanManager.startScan(lastPicturePath);
             bitmaporg.recycle();
-            System.gc();
+            
             //bitmascale.recycle();
         }
         catch (Exception ex)
@@ -191,7 +191,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
-    private void fixParametersOrientation()
+    /*private void fixParametersOrientation()
     {
         String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
@@ -205,7 +205,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             //mCamera.setDisplayOrientation(180);
             parametersManager.getParameters().setRotation(180);
         }
-    }
+    }*/
 
     //if restarted true cam preview will be stopped and restartet
     public  void Restart(boolean restarted)
@@ -218,8 +218,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             parametersManager.SetContrast(100);
             //parameters.setExposureCompensation(0);
 
-            if (preferences.getBoolean("upsidedown", false) == true)
-                fixParametersOrientation();
+            /*if (preferences.getBoolean("upsidedown", false) == true)
+                fixParametersOrientation();*/
 
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             activity.switch3dButton.setText(tmp);

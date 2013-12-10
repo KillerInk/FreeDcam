@@ -2,29 +2,16 @@ package com.troop.freecam;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.hardware.Camera;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.Drawing.BasePreview;
-import com.troop.freecam.manager.Drawing.SizeAbleRectangle;
 import com.troop.freecam.manager.ParametersManager;
-
-import java.util.List;
 
 public class CamPreview extends BasePreview {
 
