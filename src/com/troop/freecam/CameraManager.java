@@ -45,8 +45,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
 
     CamPreview context;
-
-
     CameraManager cameraManager;
     public ZoomManager zoomManager;
     public boolean Running = false;
@@ -62,12 +60,11 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualBrightnessManager manualBrightnessManager;
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
-    public ParametersManager parametersManager;
+    //public ParametersManager parametersManager;
     public boolean takePicture = false;
 
     public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
     {
-
         super(context, preferences);
         scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
@@ -180,7 +177,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixCameraDisplayOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
         if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {
@@ -196,7 +193,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixParametersOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
         if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
         {

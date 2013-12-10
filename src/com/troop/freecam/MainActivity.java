@@ -184,8 +184,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public Button button_stab;
     View view;
 
-    private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+    //private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
 	
 	@Override
