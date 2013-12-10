@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -47,7 +48,7 @@ public class CamPreview extends BasePreview {
         }
         catch (NoSuchMethodError noSuchMethodError)
         {
-            Log.d("Not"," 3D Device");
+            Log.d("Not", " 3D Device");
         }
 
     }
