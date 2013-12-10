@@ -30,7 +30,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
-    byte[] rawbuffer = new byte[31457280];
+    //byte[] rawbuffer = new byte[31457280];
 
 
 
@@ -44,9 +44,9 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         savePicture.onSavePicture = this;
     }
 
-    private static final int CAMERA_MSG_RAW_IMAGE = 0x080;
-    private native final void _addCallbackBuffer(
-            byte[] callbackBuffer, int msgType);
+    //private static final int CAMERA_MSG_RAW_IMAGE = 0x080;
+    //private native final void _addCallbackBuffer(
+            //byte[] callbackBuffer, int msgType);
 
     public void TakePicture(boolean crop)
     {
@@ -74,9 +74,9 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d("FreeCam", "onPictureTaken - raw");
-            if (data != null)
+            //if (data != null)
 
-                saveRawData(data);
+                //saveRawData(data);
         }
     };
 
