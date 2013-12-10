@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.Drawing.BasePreview;
@@ -29,6 +30,7 @@ public class CamPreview extends BasePreview {
 
 	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
+
     Real3D mReal3D;
     private CameraManager camMan;
     public SharedPreferences preferences;
@@ -42,6 +44,9 @@ public class CamPreview extends BasePreview {
 
     private void init(Context context)
     {
+        try {
+
+
 
         isReald3d();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -51,6 +56,11 @@ public class CamPreview extends BasePreview {
             mReal3D = new Real3D(mHolder);
             mReal3D.setMinimumNegative(-1);
             SwitchViewMode();
+        }
+        }
+        catch (NoSuchMethodError noSuchMethodError)
+        {
+            Log.d("Not"," 3D Device");
         }
 
     }

@@ -18,11 +18,21 @@ public class IppMenu extends  BaseMenu
     }
 
     String[] ipp;
+
+
     @Override
     public void onClick(View v)
     {
         if(camMan.Running)
+            try{
+
             ipp = camMan.parametersManager.getParameters().get("ipp-values").split(",");
+            }
+            catch (NullPointerException ex)
+            {
+
+            }
+
         if (ipp != null)
         {
             PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
@@ -52,5 +62,7 @@ public class IppMenu extends  BaseMenu
 
             popupMenu.show();
         }
+
     }
+
 }

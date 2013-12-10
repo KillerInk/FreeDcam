@@ -1,6 +1,5 @@
 package com.troop.menu;
 
-import android.hardware.Camera;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -19,13 +18,18 @@ public class ExposureMenu extends BaseMenu {
 
     String[] exposures;
 
+
     @Override
     public void onClick(View v)
     {
         if(camMan.Running)
         {
             try {
+
+                if(CameraManager.isOmap())
                 exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
+                if(CameraManager.isQualcomm() || CameraManager.isExynos() || CameraManager.isTegra())
+                    exposures = null;
             }
             catch (Exception ex)
             {}

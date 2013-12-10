@@ -13,7 +13,6 @@ import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -61,6 +60,9 @@ public class SavePicture
 
             ExifManager manager = new ExifManager();
             manager.LoadExifFrom(file.getAbsolutePath());
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inDither = true;
+            options.inPreferQualityOverSpeed = true;
             Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
             outStream = new FileOutputStream(file);
             croppedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,17 +37,24 @@ import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
+import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
+import com.troop.menu.DenoiseMenu;
 import com.troop.menu.ExposureMenu;
 import com.troop.menu.FlashMenu;
 import com.troop.menu.FocusMenu;
 import com.troop.menu.IppMenu;
 import com.troop.menu.IsoMenu;
+import com.troop.menu.MeteringMenu;
+import com.troop.menu.PictureFormatMenu;
 import com.troop.menu.PictureSizeMenu;
+import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
+import com.troop.menu.ZslMenu;
 import com.troop.menu.switchcameramenu;
+
 
 import java.io.File;
 
@@ -54,7 +62,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 {
 	public CamPreview mPreview;
     public DrawingOverlaySurface drawSurface;
-	private ImageButton shotButton;
+	public ImageButton shotButton;
 	public Button flashButton;
     public Button focusButton;
     public Button sceneButton;
@@ -66,20 +74,58 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public Button pictureSizeButton;
     public Button previewSizeButton;
     public Button ippButton;
+
+    //06-12-13***********
+    public Button buttonAfPriority;
+    public Button buttonMetering;
+    public Button buttonPictureFormat;
+    public Button buttonPreviewFormat;
+    public CheckBox checkBoxOnScreen;
+    public CheckBox checkBoxZSL;
+    //*******************
 	Camera.Parameters paras;
     SurfaceHolder holder;
     CameraManager camMan;
-    public TextView flashText;
-    public TextView focusText;
-    public TextView sceneText;
-    public TextView whitebalanceText;
-    public TextView colorText;
+    //************************Text Views Add****************05-12-13
+    TextView OnScreenBrightnessText;
+    TextView OnScreenBrightnessValue;
+    TextView OnScreenContrastText;
+    TextView OnScreenContrastValue;
+    TextView OnScreenEVText;
+    TextView OnScreenEVValue;
+    TextView OnScreenFlashText;
+    TextView OnScreenFlashValue;
+    TextView OnScreenEffectText;
+    TextView OnScreenEffectValue;
+    public TextView OnScreenFocusText;
+    public TextView OnScreenFocusValue;
+    TextView OnScreeISOText;
+    TextView OnScreeISOValue;
+    TextView OnScreeMeterText;
+    public TextView OnScreeMeterValue;
+    TextView OnScreenSaturationText;
+    TextView OnScreeSaturationValue;
+    TextView OnScreeSceneText;
+    TextView OnScreeSceneValue;
+    TextView OnScreenPictureText;
+    TextView OnScreenPictureValue;
+    TextView OnScreeSharpnessText;
+    TextView OnScreenSharpnessValue;
+    TextView OnScreenWBText;
+    TextView OnScreenWBValue;
+
+    //******************************************************
+
     public  ViewGroup appViewGroup;
     public SeekBar exposureSeekbar;
     public ImageButton thumbButton;
+
     public CheckBox manualExposure;
     TableRow exposureRow;
+
     public CheckBox manualShaprness;
+    public CheckBox manualFocus;
+
     TableRow sharpnessRow;
     public SeekBar sharpnessSeekBar;
     TableLayout tableLayout;
@@ -88,18 +134,20 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     public  TextView contrastTextView;
     TableRow contrastRow;
-    public CheckBox contrastRadioButton;
+    public CheckBox contrastcheckBox;
     public SeekBar contrastSeekBar;
 
     public TextView brightnessTextView;
     public SeekBar brightnessSeekBar;
+    public SeekBar focusSeekBar;
     TableRow brightnessRow;
+    TableRow focusRow;
     CheckBox brightnessCheckBox;
 
     public TextView saturationTextView;
     public SeekBar saturationSeekBar;
     public CheckBox saturationCheckBox;
-    public TableRow saturationRow;
+    TableRow saturationRow;
 
     Button switchVideoPicture;
 
@@ -110,12 +158,12 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     LinearLayout manualMenuLayout;
     LinearLayout autoMenuLayout;
     LinearLayout settingsMenuLayout;
-    boolean hideManualMenu = true;
-    boolean hideSettingsMenu = true;
-    boolean hideAutoMenu = true;
+    public boolean hideManualMenu = true;
+    public boolean hideSettingsMenu = true;
+    public boolean hideAutoMenu = true;
     SharedPreferences preferences;
     CheckBox upsidedown;
-    boolean recordVideo = false;
+    public boolean recordVideo = false;
 
     CheckBox crop_box;
 
@@ -130,6 +178,14 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     CheckBox checkboxHDR;
     boolean HDRMode = false;
+
+    public Button button_zsl;
+    public Button button_denoise;
+    public Button button_stab;
+    View view;
+
+    private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
 	
 	@Override
@@ -164,16 +220,37 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         String model = Build.MODEL;
 
 
+
         initButtons();
         initMenu();
         recordTimer = new MyTimer(recordingTimerTextView);
+        chipsetProp();
+        onScreenText();
+        showtext();
+        hidenavkeys();
+
+
+
 
 
 
 	}
 
-    private void initMenu()
+
+
+    public void videoui()
     {
+
+
+    }
+
+
+
+
+
+    public void initMenu()
+    {
+
         baseMenuLayout = (LinearLayout)findViewById(R.id.baseMenuLayout);
         autoMenuLayout = (LinearLayout)findViewById(R.id.LayoutAuto);
         manualMenuLayout = (LinearLayout)findViewById(R.id.Layout_Manual);
@@ -225,7 +302,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 {
                     hideAutoMenu = false;
                     if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
-                    baseMenuLayout.addView(autoMenuLayout);
+                        baseMenuLayout.addView(autoMenuLayout);
 
                     if (hideSettingsMenu == false)
                     {
@@ -287,8 +364,12 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         }
     }
 
-    private void initButtons()
+
+    public void initButtons()
     {
+
+
+
         flashButton = (Button) findViewById(R.id.button_flash);
         flashButton.setOnClickListener(new FlashMenu(camMan, this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
@@ -309,6 +390,23 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, this));
         previewSizeButton = (Button)findViewById(R.id.button_previewsize);
         previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
+
+        //06-12-13*************************************************************
+        buttonAfPriority = (Button)findViewById(R.id.buttonAFPriority);
+        buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,this));
+
+        buttonMetering = (Button)findViewById(R.id.buttonMetering);
+        buttonMetering.setOnClickListener(new MeteringMenu(camMan,this));
+
+        buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
+        buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,this));
+
+        buttonPreviewFormat = (Button)findViewById(R.id.buttonPreviewFormat);
+        buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,this));
+        //**********************************************************************
+
+
+
         ippButton = (Button)findViewById(R.id.button_ipp);
         ippButton.setOnClickListener(new IppMenu(camMan, this));
 
@@ -403,6 +501,30 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             }
         });
 
+        //********************ManualFocus******************************************
+        focusRow = (TableRow)findViewById(R.id.tableRowFocus);
+        focusSeekBar = (SeekBar)findViewById(R.id.seekBarFocus);
+        focusSeekBar.setMax(60);
+        manualFocus = (CheckBox)findViewById(R.id.checkBox_focus);
+        brightnessTextView = (TextView)(findViewById(R.id.textViewFocus));
+        focusSeekBar.setOnSeekBarChangeListener(camMan.manualFocus);
+
+        manualFocus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (manualFocus.isChecked())
+
+                    tableLayout.addView(focusRow);
+
+                else
+                    tableLayout.removeView(focusRow);
+                focusButton.setEnabled(true);
+            }
+        });
+        tableLayout.removeView(focusRow);
+
+        //*****************************************End********************************************
+
         contrastRow = (TableRow)findViewById(R.id.tableRowContrast);
 
         contrastSeekBar = (SeekBar) findViewById(R.id.seekBar_contrast);
@@ -410,11 +532,11 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         contrastSeekBar.setOnSeekBarChangeListener(camMan.manualContrastManager);
 
         contrastTextView = (TextView) findViewById(R.id.textView_contrast);
-        contrastRadioButton = (CheckBox)findViewById(R.id.radioButton_contrast);
-        contrastRadioButton.setOnClickListener(new View.OnClickListener() {
+        contrastcheckBox = (CheckBox)findViewById(R.id.checkBox_contrast);
+        contrastcheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contrastRadioButton.isChecked())
+                if (contrastcheckBox.isChecked())
                     tableLayout.addView(contrastRow);
                 else
                     tableLayout.removeView(contrastRow);
@@ -518,17 +640,217 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         });
 
 
+
+        //06-12-13********************
+
+
+        checkBoxOnScreen = (CheckBox)findViewById(R.id.checkBoxOnscreen);
+        checkBoxOnScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (checkBoxOnScreen.isChecked())
+                {
+                    showCurrentConfig();
+                }
+                else
+                {
+                    hideCurrentConfig();
+                }
+            }
+        });
+
+        //07-12-13
+       // button_stab = (Button)findViewById(R.id.button_ipp);
+       // button_stab.setOnClickListener(new IppMenu(camMan, this));
+
+        button_denoise = (Button)findViewById(R.id.button_denoise);
+        button_denoise.setOnClickListener(new DenoiseMenu(camMan, this));
+
+        button_zsl = (Button)findViewById(R.id.buttonZsl);
+        button_zsl.setOnClickListener(new ZslMenu(camMan, this));
+
+        /*Hfr Menu****
+        ippButton = (Button)findViewById(R.id.button_ipp);
+        ippButton.setOnClickListener(new IppMenu(camMan, this));
+        */
+
+
+
+
+
+        //*****************************
+
+
     }
 
-    private void setSwitchVideoPictureBackground()
+    public void onScreenText()
+    {
+        try {
+
+
+            OnScreenBrightnessText = (TextView) findViewById(R.id.textViewBrightnessText);
+            OnScreenBrightnessValue = (TextView) findViewById(R.id.textViewBrightnessValue);
+            OnScreenContrastText = (TextView) findViewById(R.id.textViewContrastText);
+            OnScreenContrastValue = (TextView) findViewById(R.id.textViewContrastValue);
+            OnScreenEVText = (TextView) findViewById(R.id.textViewEVText);
+            OnScreenEVValue = (TextView) findViewById(R.id.textViewEvValue);
+            OnScreenFlashText = (TextView) findViewById(R.id.textViewFlashtext);
+            OnScreenFlashValue = (TextView) findViewById(R.id.textViewFlashValue);
+            OnScreenEffectText = (TextView) findViewById(R.id.textViewEffetText);
+            OnScreenEffectValue = (TextView) findViewById(R.id.textViewEffectValue);
+            OnScreenFocusText = (TextView) findViewById(R.id.textViewFocusText);
+            OnScreenFocusValue = (TextView) findViewById(R.id.textViewFocusValue);
+            OnScreeISOText = (TextView) findViewById(R.id.textViewISOText);
+            OnScreeISOValue = (TextView) findViewById(R.id.textViewISOValue);
+            OnScreeMeterText = (TextView) findViewById(R.id.textViewMeterText);
+            OnScreeMeterValue = (TextView) findViewById(R.id.textViewMeterValue);
+            OnScreenSaturationText = (TextView) findViewById(R.id.textViewSatuText);
+            OnScreeSaturationValue = (TextView) findViewById(R.id.textViewSatuValue);
+            OnScreeSceneText = (TextView) findViewById(R.id.textViewSceneText);
+            OnScreeSceneValue = (TextView) findViewById(R.id.textViewSceneValue);
+            OnScreenPictureText = (TextView) findViewById(R.id.textViewPictureText);
+            OnScreenPictureValue = (TextView) findViewById(R.id.textViewPictureValue);
+            OnScreeSharpnessText = (TextView) findViewById(R.id.textViewSharpText);
+            OnScreenSharpnessValue = (TextView) findViewById(R.id.textViewSharpValue);
+            OnScreenWBText = (TextView) findViewById(R.id.textViewWBText);
+            OnScreenWBValue = (TextView) findViewById(R.id.textViewWBValue);
+
+
+        }
+        catch (NullPointerException ex)
+        {
+
+
+        }
+    }
+
+
+    public void tabletScaling()
+    {
+        //Will Scale Entire UI For Tablet Mode Current Tabs Nexus 7 / Nexus 10
+    }
+
+
+    public void chipsetProp()
+    {
+        try {
+            String s = Build.MODEL;
+
+            if(!CameraManager.isG2())
+                manualFocus.setVisibility(View.GONE);
+
+            if (!CameraManager.isQualcomm())
+                checkBoxZSL.setEnabled(false);
+                buttonMetering.setEnabled(false);
+
+            if(!s.equals("LG-P720") || !s.equals("LG-P725"))
+                upsidedown.setVisibility(View.GONE);
+
+            if (!CameraManager.isOmap())
+                ippButton.setEnabled(false);
+                exposureButton.setEnabled(false);
+        }
+        catch (NullPointerException ex)
+        {
+
+
+        }
+
+
+
+
+
+
+    }
+    public void hidenavkeys()
+    {
+        try {
+
+            view.setSystemUiVisibility(2);
+        }
+        catch (NullPointerException ex)
+        {
+
+        }
+
+
+    }
+
+    public void hideCurrentConfig ()
+    {
+        OnScreenBrightnessText.setVisibility(View.INVISIBLE);
+        OnScreenBrightnessValue.setVisibility(View.INVISIBLE);
+        OnScreenContrastText.setVisibility(View.INVISIBLE);
+        OnScreenContrastValue.setVisibility(View.INVISIBLE);
+        OnScreenEVText.setVisibility(View.INVISIBLE);
+        OnScreenEVValue.setVisibility(View.INVISIBLE);
+        OnScreenFlashText.setVisibility(View.INVISIBLE);
+        OnScreenFlashValue.setVisibility(View.INVISIBLE);
+        OnScreenEffectText.setVisibility(View.INVISIBLE);
+        OnScreenEffectValue.setVisibility(View.INVISIBLE);
+        OnScreenFocusText.setVisibility(View.INVISIBLE);
+        OnScreenFocusValue.setVisibility(View.INVISIBLE);
+        OnScreeISOText.setVisibility(View.INVISIBLE);
+        OnScreeISOValue.setVisibility(View.INVISIBLE);
+        OnScreeMeterText.setVisibility(View.INVISIBLE);
+        OnScreeMeterValue.setVisibility(View.INVISIBLE);
+        OnScreenSaturationText.setVisibility(View.INVISIBLE);
+        OnScreeSaturationValue.setVisibility(View.INVISIBLE);
+        OnScreeSceneText.setVisibility(View.INVISIBLE);
+        OnScreeSceneValue.setVisibility(View.INVISIBLE);
+        OnScreenPictureText.setVisibility(View.INVISIBLE);
+        OnScreenPictureValue.setVisibility(View.INVISIBLE);
+        OnScreeSharpnessText.setVisibility(View.INVISIBLE);
+        OnScreenSharpnessValue.setVisibility(View.INVISIBLE);
+        OnScreenWBText.setVisibility(View.INVISIBLE);
+        OnScreenWBValue.setVisibility(View.INVISIBLE);
+
+    }
+
+
+    public void showCurrentConfig ()
+    {
+        OnScreenBrightnessText.setVisibility(View.VISIBLE);
+        OnScreenBrightnessValue.setVisibility(View.VISIBLE);
+        OnScreenContrastText.setVisibility(View.VISIBLE);
+        OnScreenContrastValue.setVisibility(View.VISIBLE);
+        OnScreenEVText.setVisibility(View.VISIBLE);
+        OnScreenEVValue.setVisibility(View.VISIBLE);
+        OnScreenFlashText.setVisibility(View.VISIBLE);
+        OnScreenFlashValue.setVisibility(View.VISIBLE);
+        OnScreenEffectText.setVisibility(View.VISIBLE);
+        OnScreenEffectValue.setVisibility(View.VISIBLE);
+        OnScreenFocusText.setVisibility(View.VISIBLE);
+        OnScreenFocusValue.setVisibility(View.VISIBLE);
+        OnScreeISOText.setVisibility(View.VISIBLE);
+        OnScreeISOValue.setVisibility(View.VISIBLE);
+        OnScreeMeterText.setVisibility(View.VISIBLE);
+        OnScreeMeterValue.setVisibility(View.VISIBLE);
+        OnScreenSaturationText.setVisibility(View.VISIBLE);
+        OnScreeSaturationValue.setVisibility(View.VISIBLE);
+        OnScreeSceneText.setVisibility(View.VISIBLE);
+        OnScreeSceneValue.setVisibility(View.VISIBLE);
+        OnScreenPictureText.setVisibility(View.VISIBLE);
+        OnScreenPictureValue.setVisibility(View.VISIBLE);
+        OnScreeSharpnessText.setVisibility(View.VISIBLE);
+        OnScreenSharpnessValue.setVisibility(View.VISIBLE);
+        OnScreenWBText.setVisibility(View.VISIBLE);
+        OnScreenWBValue.setVisibility(View.VISIBLE);
+
+    }
+
+
+    public void setSwitchVideoPictureBackground()
     {
         if (recordVideo)
         {
-            switchVideoPicture.setBackgroundResource(R.drawable.video);
+            switchVideoPicture.setBackgroundResource(R.drawable.icon_video_mode);
+            shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
         }
         else
         {
-            switchVideoPicture.setBackgroundResource(R.drawable.picture);
+            switchVideoPicture.setBackgroundResource(R.drawable.icon_picture_mode);
         }
     }
 
@@ -544,7 +866,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 camMan.zoomManager.setZoom(-1);
             }
-            else if(key == KeyEvent.KEYCODE_3D_MODE)
+            else if(key == KeyEvent.KEYCODE_3D_MODE ||key == KeyEvent.KEYCODE_POWER )
             {
                 camMan.StartTakePicture();
             }
@@ -575,6 +897,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 			        camMan.StartTakePicture();
                 else
                     camMan.HdrRender.TakeHDRPictures(true);
+                    showtext();
+
             }
             else
             {
@@ -582,14 +906,17 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 {
                     camMan.StartRecording();
                     recordTimer.Start();
-                    shotButton.setBackgroundResource(R.drawable.ic_launcher_recording);
+                    shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
                     mainlayout.addView(recordingTimerTextView);
+                    OnScreenPictureText.setText("Video Size:");
+                    OnScreenPictureValue.setText(camMan.parametersManager.getParameters().get("video-size"));
                 }
                 else
                 {
+
                     camMan.StopRecording();
                     recordTimer.Stop();
-                    shotButton.setBackgroundResource(R.drawable.ic_launcher);
+                    shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
                     thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath,MediaStore.Images.Thumbnails.MINI_KIND));
                     mainlayout.removeView(recordingTimerTextView);
                 }
@@ -639,33 +966,34 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     @Override
     public void parametersHasChanged(boolean restarted)
     {
-        flashButton.setText(camMan.parametersManager.getParameters().getFlashMode());
-        focusButton.setText(camMan.parametersManager.getParameters().getFocusMode());
-        sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
-        whitebalanceButton.setText(camMan.parametersManager.getParameters().getWhiteBalance());
-        colorButton.setText(camMan.parametersManager.getParameters().getColorEffect());
-        isoButton.setText(camMan.parametersManager.getParameters().get("iso"));
-        exposureButton.setText(camMan.parametersManager.getParameters().get("exposure"));
+        try{
 
-        if (camMan.parametersManager.getSupportSharpness())
+
+
+           if (camMan.parametersManager.getSupportSharpness())
             sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
-        //if (!parameters.get("exposure").equals("manual"))
-        exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
-        //else
-        //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
-        contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
-        saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
-        brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
-        previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
-        String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-        pictureSizeButton.setText(size1);
-        ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
+            //if (!parameters.get("exposure").equals("manual"))
+            exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
+            //else
+            //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
 
-        saturationCheckBox.setText(camMan.parametersManager.getParameters().get("saturation"));
+            contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
+            saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
+            brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
 
-        brightnessCheckBox.setText(camMan.parametersManager.getParameters().get("brightness"));
-        contrastRadioButton.setText(camMan.parametersManager.getParameters().get("contrast"));
-        manualShaprness.setText(camMan.parametersManager.getParameters().get("sharpness"));
+
+            previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+            String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
+            pictureSizeButton.setText(size1);
+
+
+            ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
+
+            //saturationCheckBox.setText(camMan.parametersManager.getParameters().get("saturation"));
+
+            //brightnessCheckBox.setText(camMan.parametersManager.getParameters().get("brightness"));
+            //contrastRadioButton.setText(camMan.parametersManager.getParameters().get("contrast"));
+            //manualShaprness.setText(camMan.parametersManager.getParameters().get("sharpness"));
 
 
             camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
@@ -682,31 +1010,65 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             //activity.exposureSeekbar.setMax(max);
 
             //activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
-        if (camMan.parametersManager.getSupportSharpness())
-        {
-            sharpnessSeekBar.setMax(180);
-            sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
-        }
-        if (camMan.parametersManager.getSupportContrast())
-        {
-            contrastSeekBar.setMax(180);
-            camMan.manualContrastManager.ExternalSet = true;
-            contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
-        }
-        if (camMan.parametersManager.getSupportBrightness())
-        {
-            brightnessSeekBar.setMax(100);
-            brightnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("brightness"));
-        }
-        if (camMan.parametersManager.getSupportSaturation())
-        {
-            saturationSeekBar.setMax(180);
-        }
+            if (camMan.parametersManager.getSupportSharpness())
+            {
+                sharpnessSeekBar.setMax(180);
+                sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
+            }
+            if (camMan.parametersManager.getSupportContrast())
+            {
+                contrastSeekBar.setMax(180);
+                camMan.manualContrastManager.ExternalSet = true;
+                contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
+            }
+            if (camMan.parametersManager.getSupportBrightness())
+            {
+                brightnessSeekBar.setMax(100);
+                brightnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("brightness"));
+            }
+            if (camMan.parametersManager.getSupportSaturation())
+            {
+                saturationSeekBar.setMax(180);
+            }
             crop_box.setChecked(preferences.getBoolean("crop", false));
-        if (!camMan.parametersManager.getSupportFlash())
-            settingsMenuLayout.removeView(flashButton);
+            if (!camMan.parametersManager.getSupportFlash())
+                settingsMenuLayout.removeView(flashButton);
+            showtext();
+        }
+        catch (NullPointerException ex)
+        {
+
+        }
 
 
+
+
+    }
+    public void showtext()
+    {
+
+        try
+        {
+            OnScreenBrightnessValue.setText(camMan.parametersManager.getParameters().get("brightness"));
+            OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast"));
+            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("saturation"));
+            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("sharpness"));
+            OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation"));
+            OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect"));
+            OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso"));
+            OnScreenFlashValue.setText(camMan.parametersManager.getParameters().get("flash-mode"));
+            OnScreenFocusValue.setText(camMan.parametersManager.getParameters().get("focus-mode"));
+            String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
+            OnScreenPictureValue.setText(size1);
+            OnScreeSceneValue.setText(camMan.parametersManager.getParameters().get("scene-mode"));
+            OnScreenWBValue.setText(camMan.parametersManager.getParameters().get("whitebalance"));
+            if (CameraManager.isOmap())
+                OnScreeMeterValue.setText(camMan.parametersManager.getParameters().get("auto-exposure"));
+        }
+        catch (Exception ex)
+        {
+
+        }
 
     }
 }

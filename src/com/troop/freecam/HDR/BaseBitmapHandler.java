@@ -2,6 +2,7 @@ package com.troop.freecam.HDR;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 import java.io.File;
@@ -109,6 +110,9 @@ public abstract class BaseBitmapHandler
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDither = true;
+        options.inPreferQualityOverSpeed = true;
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
         try {
             outStream.flush();
