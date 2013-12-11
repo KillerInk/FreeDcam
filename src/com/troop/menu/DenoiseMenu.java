@@ -27,7 +27,14 @@ public class DenoiseMenu extends BaseMenu {
             try
             {
                 if(CameraManager.isOmap())
+                {
+
                     noise = camMan.parametersManager.getParameters().get("vnf-supported").split(",");
+                    String[] tmp = new String[2];
+                    tmp[0] = noise[0];
+                    tmp[1] = "false";
+                    noise = tmp;
+                }
                 if(CameraManager.isQualcomm())
                     noise = camMan.parametersManager.getParameters().get("denoise-values").split(",");
 
@@ -50,7 +57,9 @@ public class DenoiseMenu extends BaseMenu {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     if (CameraManager.isOmap())
-                    camMan.parametersManager.getParameters().set("vnf", tmp);
+                    {
+                        camMan.parametersManager.getParameters().set("vnf", tmp);
+                    }
                     if(CameraManager.isQualcomm())
                         camMan.parametersManager.getParameters().set("denoise", tmp);
                     activity.button_denoise.setText(tmp);

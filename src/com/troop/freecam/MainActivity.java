@@ -379,12 +379,10 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         buttonAfPriority = (Button)findViewById(R.id.buttonAFPriority);
         buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,this));
 
+
         buttonMetering = (Button)findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,this));
-        if (!camMan.parametersManager.getSupportAutoExposure())
-        {
-            buttonMetering.setVisibility(View.GONE);
-        }
+
 
 
         buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
@@ -950,6 +948,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         }
     }
 
+    ///this updates the complete ui. its called everytime the camera parameters are changed
     @Override
     public void parametersHasChanged(boolean restarted)
     {
@@ -958,7 +957,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
            if (camMan.parametersManager.getSupportSharpness())
-            sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
+                sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
             //if (!parameters.get("exposure").equals("manual"))
             exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
             //else
@@ -976,27 +975,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
             ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
 
-            //saturationCheckBox.setText(camMan.parametersManager.getParameters().get("saturation"));
-
-            //brightnessCheckBox.setText(camMan.parametersManager.getParameters().get("brightness"));
-            //contrastRadioButton.setText(camMan.parametersManager.getParameters().get("contrast"));
-            //manualShaprness.setText(camMan.parametersManager.getParameters().get("sharpness"));
-
-
             camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
             camMan.manualExposureManager.ExternalSet = true;
             camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
-            /*}
-            else
-            {
-                manualExposureManager.SetMinMax(1, 125);
-                manualExposureManager.ExternalSet = true;
-                manualExposureManager.SetCurrentValue(parameters.getInt("manual-exposure"));
-            }*/
-
-            //activity.exposureSeekbar.setMax(max);
-
-            //activity.exposureSeekbar.setProgress(parameters.getExposureCompensation() + parameters.getMaxExposureCompensation());
             if (camMan.parametersManager.getSupportSharpness())
             {
                 sharpnessSeekBar.setMax(180);
@@ -1021,6 +1002,13 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
             showtext();
+
+            if (!camMan.parametersManager.getSupportAfpPriority())
+                buttonAfPriority.setVisibility(View.GONE);
+            if (!camMan.parametersManager.getSupportAutoExposure())
+            {
+                buttonMetering.setVisibility(View.GONE);
+            }
         }
         catch (NullPointerException ex)
         {

@@ -75,6 +75,8 @@ public class ParametersManager
     public boolean getSupportVNF() { return supportVNF;}
     boolean supportAutoExposure = false;
     public boolean getSupportAutoExposure() { return supportAutoExposure;}
+    boolean supportAfpPriority = false;
+    public boolean getSupportAfpPriority() { return supportAfpPriority;}
     private ParametersChangedInterface parametersChanged;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
@@ -166,6 +168,19 @@ public class ParametersManager
         catch (Exception ex)
         {
             supportAutoExposure = false;
+        }
+
+        try {
+            if (CameraManager.isQualcomm())
+                if(!parameters.get("selectable-zone-af-values").equals(""))
+                    supportAfpPriority = true;
+            if (CameraManager.isOmap())
+                if(!parameters.get("auto-convergence-mode-values").equals(""))
+                    supportAfpPriority = true;
+        }
+        catch (Exception ex)
+        {
+            supportAfpPriority = false;
         }
 
     }
