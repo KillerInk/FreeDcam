@@ -49,7 +49,7 @@ public class PreviewSizeMenu extends BaseMenu {
                 int w = Integer.parseInt(widthHeight[0]);
                 int h = Integer.parseInt(widthHeight[1]);
 
-                camMan.parametersManager.getParameters().setPreviewSize(w,h);
+                camMan.parametersManager.SetPreviewSizeToCameraParameters(w, h);
 
                 camMan.Restart(false);
 

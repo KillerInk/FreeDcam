@@ -28,12 +28,14 @@ public class DenoiseMenu extends BaseMenu {
             {
                 if(CameraManager.isOmap())
                 {
-
                     noise = camMan.parametersManager.getParameters().get("vnf-supported").split(",");
-                    String[] tmp = new String[2];
-                    tmp[0] = noise[0];
-                    tmp[1] = "false";
-                    noise = tmp;
+                    if (noise.length == 1)
+                    {
+                        String[] tmp = new String[2];
+                        tmp[0] = noise[0];
+                        tmp[1] = "false";
+                        noise = tmp;
+                    }
                 }
                 if(CameraManager.isQualcomm())
                     noise = camMan.parametersManager.getParameters().get("denoise-values").split(",");

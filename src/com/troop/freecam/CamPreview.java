@@ -102,6 +102,19 @@ public class CamPreview extends BasePreview {
     public void SetCameraManager(CameraManager cameraManager)
     {
         this.camMan = cameraManager;
+        camMan.parametersManager.setPreviewSizeCHanged = this;
     }
 
+    @Override
+    public void onPreviewsizeHasChanged(int w, int h) {
+        super.onPreviewsizeHasChanged(w, h);
+
+        double ratio = (double)w/(double)h;
+        //1920x1080 = 1280x720 = 1.7777777777777777
+        //960x720 = 640x480 = 1.3333333333333333
+        //800x480 = 1.6666666666666667;
+        //720x576 = 1.25
+        //720x480 = 1.5
+
+    }
 }

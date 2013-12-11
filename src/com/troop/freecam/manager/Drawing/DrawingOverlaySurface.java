@@ -52,7 +52,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     {
         this.isInEditMode();
         isReald3d();
-        //this.setZOrderOnTop(true);
+        this.setZOrderOnTop(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
         mHolder.setFormat(PixelFormat.TRANSLUCENT);
@@ -110,7 +110,6 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     public boolean onTouchEvent(MotionEvent event)
     {
         drawingRectHelper.OnTouch(event);
-
         return true;
     }
 

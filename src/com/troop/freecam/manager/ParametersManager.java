@@ -6,6 +6,7 @@ import android.util.Log;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
+import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
 
 /**
  * Created by troop on 16.10.13.
@@ -258,6 +259,14 @@ public class ParametersManager
         setToPreferencesToCamera();
     }
 
+    public PreviewSizeChangedInterface setPreviewSizeCHanged;
+
+    private void onpreviewsizehasChanged(int w, int h)
+    {
+        if (setPreviewSizeCHanged != null)
+            setPreviewSizeCHanged.onPreviewsizeHasChanged(w, h);
+    }
+
     private void setPictureSize(String s)
     {
         String[] widthHeight = s.split("x");
@@ -271,6 +280,13 @@ public class ParametersManager
         int w = Integer.parseInt(widthHeight[0]);
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPreviewSize(w, h);
+        onpreviewsizehasChanged(w,h);
+    }
+
+    public void SetPreviewSizeToCameraParameters(int w, int h)
+    {
+        parameters.setPreviewSize(w,h);
+        onpreviewsizehasChanged(w,h);
     }
 
     public void SetExposureCompensation(int exp)

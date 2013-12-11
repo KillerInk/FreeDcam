@@ -1,13 +1,18 @@
 package com.troop.freecam.manager.Drawing;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+
+import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
+
+import java.util.List;
 
 /**
  * Created by troop on 01.12.13.
  */
-public class BasePreview extends SurfaceView
+public class BasePreview extends SurfaceView implements PreviewSizeChangedInterface
 {
 
     protected boolean hasReal3d = false;
@@ -15,7 +20,6 @@ public class BasePreview extends SurfaceView
 
     public BasePreview(Context context)
     {
-
         super(context);
         this.context = context;
     }
@@ -50,4 +54,50 @@ public class BasePreview extends SurfaceView
 
     }
 
+    public void setPreviewSize(Camera.Size size)
+    {
+        {
+            double targetRatio = (double) size.width / size.height;
+        }
+    }
+
+    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.05;
+        double targetRatio = (double) w / h;
+        if (sizes == null)
+            return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+
+        int targetHeight = h;
+
+        // Try to find an size match aspect ratio and size
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
+                continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+
+        // Cannot find the one match the aspect ratio, ignore the requirement
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
+    }
+
+    @Override
+    public void onPreviewsizeHasChanged(int w, int h) {
+
+    }
 }
