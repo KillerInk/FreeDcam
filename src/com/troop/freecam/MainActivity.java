@@ -217,8 +217,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
-
-
         initButtons();
         initMenu();
         recordTimer = new MyTimer(recordingTimerTextView);
@@ -227,24 +225,15 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         showtext();
         hidenavkeys();
 
-
-
-
-
+        hideCurrentConfig();
 
 	}
-
-
 
     public void videoui()
     {
 
 
     }
-
-
-
-
 
     public void initMenu()
     {
@@ -658,6 +647,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             }
         });
 
+
         //07-12-13
        // button_stab = (Button)findViewById(R.id.button_ipp);
        // button_stab.setOnClickListener(new IppMenu(camMan, this));
@@ -754,10 +744,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
         }
-
-
-
-
 
 
     }

@@ -24,14 +24,6 @@
             android:id="@+id/view"
             />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-
-            android:layout_toLeftOf="@+id/button_switchVideoPicture"
-            android:layout_alignParentBottom="true" />
-
         <Button
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
@@ -58,397 +50,489 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_toLeftOf="@+id/textView_timerRecording">
+            android:layout_marginLeft="50dp">
 
-            <TextView
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Brightness:"
+                        android:id="@+id/textViewBrightnessText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignTop="@+id/textViewFocusValue"
+                        android:layout_toLeftOf="@+id/textViewBrightnessValue"
+                        android:autoText="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewBrightnessValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:singleLine="true"
+                        android:layout_below="@+id/textViewWBText"
+                        android:layout_toLeftOf="@+id/textViewMeterValue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Contrast:"
+                        android:id="@+id/textViewContrastText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignBaseline="@+id/textViewPictureText"
+                        android:layout_alignBottom="@+id/textViewPictureText"
+                        android:layout_alignLeft="@+id/textViewISOText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewContrastValue"
+                        android:textSize="8dp"
+                        android:layout_below="@+id/textViewBrightnessValue"
+                        android:layout_alignLeft="@+id/textViewBrightnessValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Holo"
+                        android:text="EV:"
+                        android:id="@+id/textViewEVText"
+                        android:textSize="8dp"
+                        android:layout_below="@+id/textViewEffetText"
+                        android:layout_alignLeft="@+id/textViewContrastText"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewEvValue"
+                        android:textSize="8dp"
+                        android:layout_below="@+id/textViewEffectValue"
+                        android:layout_alignLeft="@+id/textViewEffectValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Effect:"
+                        android:id="@+id/textViewEffetText"
+                        android:textSize="8dp"
+                        android:layout_below="@+id/textViewContrastText"
+                        android:layout_alignLeft="@+id/textViewEVText"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewEffectValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignBaseline="@+id/textViewSatuValue"
+                        android:layout_alignBottom="@+id/textViewSatuValue"
+                        android:layout_alignLeft="@+id/textViewBrightnessText" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Brightness:"
-                android:id="@+id/textViewBrightnessText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignTop="@+id/textViewFocusValue"
-                android:layout_toLeftOf="@+id/textViewBrightnessValue" />
+                android:layout_marginLeft="50dp">
 
-            <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Focus:"
+                        android:id="@+id/textViewFocusText"
+                        android:textSize="8dp"
+                        android:layout_alignTop="@+id/textViewBrightnessValue"
+                        android:layout_toRightOf="@+id/textViewEffectValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewFocusValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignBaseline="@+id/textViewPictureText"
+                        android:layout_alignBottom="@+id/textViewPictureText"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Flash:"
+                        android:id="@+id/textViewFlashtext"
+                        android:textSize="8dp"
+                        android:layout_alignBaseline="@+id/textViewContrastValue"
+                        android:layout_alignBottom="@+id/textViewContrastValue"
+                        android:layout_alignLeft="@+id/textViewFocusText"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewFlashValue"
+                        android:textSize="8dp"
+                        android:layout_alignBaseline="@+id/textViewFlashtext"
+                        android:layout_alignBottom="@+id/textViewFlashtext"
+                        android:layout_alignLeft="@+id/textViewFocusValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="ISO:"
+                        android:id="@+id/textViewISOText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewWBValue"
+                        android:layout_toRightOf="@+id/textViewFocusText"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewISOValue"
+                        android:textSize="8dp"
+                        android:layout_below="@+id/textViewFlashValue"
+                        android:layout_alignLeft="@+id/textViewFlashValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Meter:"
+                        android:id="@+id/textViewMeterText"
+                        android:layout_alignTop="@+id/textViewEvValue"
+                        android:layout_alignLeft="@+id/textViewISOText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewMeterValue"
+                        android:textSize="8dp"
+                        android:layout_alignBaseline="@+id/textViewMeterText"
+                        android:layout_alignBottom="@+id/textViewMeterText"
+                        android:layout_alignLeft="@+id/textViewISOValue"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewBrightnessValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:singleLine="true"
-                android:layout_below="@+id/textViewWBText"
-                android:layout_toLeftOf="@+id/textViewMeterValue"
-                android:layout_marginLeft="2dp" />
+                android:layout_marginLeft="50dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Contrast:"
-                android:id="@+id/textViewContrastText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignBaseline="@+id/textViewPictureText"
-                android:layout_alignBottom="@+id/textViewPictureText"
-                android:layout_alignLeft="@+id/textViewISOText"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="-62.5dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewContrastValue"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewBrightnessValue"
-                android:layout_alignLeft="@+id/textViewBrightnessValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Saturation:"
+                        android:id="@+id/textViewSatuText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewFlashValue"
+                        android:layout_toRightOf="@+id/textViewFlashValue" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Holo"
-                android:text="EV:"
-                android:id="@+id/textViewEVText"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewEffetText"
-                android:layout_alignLeft="@+id/textViewContrastText"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="-52.5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewSatuValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewPictureValue"
+                        android:layout_alignLeft="@+id/textViewPictureValue" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewEvValue"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewEffectValue"
-                android:layout_alignLeft="@+id/textViewEffectValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="2dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout2" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Effect:"
-                android:id="@+id/textViewEffetText"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewContrastText"
-                android:layout_alignLeft="@+id/textViewEVText"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="-22.5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Scene:"
+                        android:id="@+id/textViewSceneText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewISOValue"
+                        android:layout_alignLeft="@+id/textViewSatuText"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewEffectValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignBaseline="@+id/textViewSatuValue"
-                android:layout_alignBottom="@+id/textViewSatuValue"
-                android:layout_alignLeft="@+id/textViewBrightnessText"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewSceneValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewSatuValue"
+                        android:layout_alignLeft="@+id/textViewSatuValue"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Focus:"
-                android:id="@+id/textViewFocusText"
-                android:textSize="8dp"
-                android:layout_alignTop="@+id/textViewBrightnessValue"
-                android:layout_toRightOf="@+id/textViewEffectValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginLeft="40dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout3" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewFocusValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignBaseline="@+id/textViewPictureText"
-                android:layout_alignBottom="@+id/textViewPictureText"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Sharpness:"
+                        android:id="@+id/textViewSharpText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewMeterValue"
+                        android:layout_alignLeft="@+id/textViewSceneText"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Flash:"
-                android:id="@+id/textViewFlashtext"
-                android:textSize="8dp"
-                android:layout_alignBaseline="@+id/textViewContrastValue"
-                android:layout_alignBottom="@+id/textViewContrastValue"
-                android:layout_alignLeft="@+id/textViewFocusText"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="-37.5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@+id/textViewSharpValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewSceneValue"
+                        android:layout_alignLeft="@+id/textViewSceneValue"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewFlashValue"
-                android:textSize="8dp"
-                android:layout_alignBaseline="@+id/textViewFlashtext"
-                android:layout_alignBottom="@+id/textViewFlashtext"
-                android:layout_alignLeft="@+id/textViewFocusValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="2dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout4" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="ISO:"
-                android:id="@+id/textViewISOText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewWBValue"
-                android:layout_toRightOf="@+id/textViewFocusText"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="-37.5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="White Balance:"
+                        android:id="@id/textViewWBText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewWBValue"
+                        android:layout_alignLeft="@+id/textViewSharpText"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewISOValue"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewFlashValue"
-                android:layout_alignLeft="@+id/textViewFlashValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@id/textViewWBValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_below="@+id/textViewSharpValue"
+                        android:layout_alignLeft="@+id/textViewSharpValue"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Meter:"
-                android:id="@+id/textViewMeterText"
-                android:layout_alignTop="@+id/textViewEvValue"
-                android:layout_alignLeft="@+id/textViewISOText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="-27.5dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout5" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewMeterValue"
-                android:textSize="8dp"
-                android:layout_alignBaseline="@+id/textViewMeterText"
-                android:layout_alignBottom="@+id/textViewMeterText"
-                android:layout_alignLeft="@+id/textViewISOValue"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Picture Size:"
+                        android:id="@id/textViewPictureText"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignBaseline="@+id/textView_timerRecording"
+                        android:layout_alignBottom="@+id/textView_timerRecording"
+                        android:layout_alignLeft="@+id/textViewSatuText"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Saturation:"
-                android:id="@+id/textViewSatuText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewFlashValue"
-                android:layout_toRightOf="@+id/textViewFlashValue"
-                android:layout_marginLeft="45dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewSatuValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewPictureValue"
-                android:layout_alignLeft="@+id/textViewPictureValue"
-                android:layout_marginLeft="2dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Scene:"
-                android:id="@+id/textViewSceneText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewISOValue"
-                android:layout_alignLeft="@+id/textViewSatuText"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="-62.5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewSceneValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewSatuValue"
-                android:layout_alignLeft="@+id/textViewSatuValue"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="2dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Sharpness:"
-                android:id="@+id/textViewSharpText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewMeterValue"
-                android:layout_alignLeft="@+id/textViewSceneText"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="-37.5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewSharpValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewSceneValue"
-                android:layout_alignLeft="@+id/textViewSceneValue"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="White Balance:"
-                android:id="@+id/textViewWBText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewWBValue"
-                android:layout_alignLeft="@+id/textViewSharpText"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="-57.5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewWBValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewSharpValue"
-                android:layout_alignLeft="@+id/textViewSharpValue"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Picture Size:"
-                android:id="@+id/textViewPictureText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignBaseline="@+id/textView_timerRecording"
-                android:layout_alignBottom="@+id/textView_timerRecording"
-                android:layout_alignLeft="@+id/textViewSatuText"
-                android:layout_marginLeft="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewPictureValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_alignBottom="@+id/textView_timerRecording"
-                android:layout_toLeftOf="@+id/textView_timerRecording"
-                android:layout_marginLeft="2dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="*"
+                        android:id="@id/textViewPictureValue"
+                        android:textSize="8dp"
+                        android:background="@drawable/icon_bg_7n"
+                        android:textColor="#ffffff"
+                        android:typeface="monospace"
+                        android:layout_alignBottom="@+id/textView_timerRecording"
+                        android:layout_toLeftOf="@+id/textView_timerRecording"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
@@ -462,14 +546,6 @@
         android:background="@drawable/icon_shutter_thanos_blast">
     </ImageButton>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewWeight"
-        android:background="@drawable/icon_meter_spot"
-        android:layout_marginLeft="550dp"
-        android:layout_marginTop="180dp" />
 
     <ImageButton
         android:layout_width="@android:dimen/notification_large_icon_width"
