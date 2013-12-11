@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.Drawing.BasePreview;

@@ -1,6 +1,5 @@
 package com.troop.menu;
 
-import android.hardware.Camera;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -8,8 +7,6 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.ParametersManager;
-
-import java.util.List;
 
 /**
  * Created by George on 12/6/13.

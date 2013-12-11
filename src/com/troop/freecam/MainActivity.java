@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +31,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
@@ -55,7 +53,6 @@ import com.troop.menu.SceneMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.ZslMenu;
 import com.troop.menu.switchcameramenu;
-
 
 import java.io.File;
 

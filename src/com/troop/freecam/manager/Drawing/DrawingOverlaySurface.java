@@ -42,10 +42,17 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
         init();
     }
 
+    public DrawingOverlaySurface(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        init();
+    }
+
     private void init()
     {
+        this.isInEditMode();
         isReald3d();
-        this.setZOrderOnTop(true);
+        //this.setZOrderOnTop(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
         mHolder.setFormat(PixelFormat.TRANSLUCENT);

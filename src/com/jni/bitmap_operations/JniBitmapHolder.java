@@ -1,9 +1,9 @@
 package com.jni.bitmap_operations;
-import java.nio.ByteBuffer;
 
-import android.R.integer;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import java.nio.ByteBuffer;
 
 public class JniBitmapHolder
   {

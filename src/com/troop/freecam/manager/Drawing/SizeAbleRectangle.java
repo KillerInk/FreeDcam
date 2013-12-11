@@ -12,9 +12,9 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.troop.freecam.CameraManager;
+import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
-import com.troop.freecam.MainActivity;
 
 /**
  * Created by troop on 24.09.13.

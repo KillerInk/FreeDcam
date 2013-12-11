@@ -22,13 +22,13 @@
             android:layout_height="fill_parent"
             class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
             android:id="@+id/view"
-            android:alpha="0.5" />
+            />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:background="@drawable/comp_grid_4_3"
+
             android:layout_toLeftOf="@+id/button_switchVideoPicture"
             android:layout_alignParentBottom="true" />
 
@@ -657,47 +657,43 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="wrap_content"
+        android:background="@drawable/camera_frame_box_ver_bg">
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/buttonManualMode"
+            android:background="@drawable/icon_manual_set" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/buttonAutoMode"
+            android:background="@drawable/icon_auto_set" />
+
+        <Button
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/buttonSettingsMode"
+            android:background="@drawable/icon_settings" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/baseMenuLayout"
         android:longClickable="false"
-        android:measureWithLargestChild="false">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="47dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/camera_frame_box_ver_bg">
-
-            <Button
-                android:layout_width="@android:dimen/app_icon_size"
-                android:layout_height="@android:dimen/app_icon_size"
-                android:id="@+id/buttonManualMode"
-                android:background="@drawable/icon_manual_set" />
-
-            <Button
-                android:layout_width="@android:dimen/app_icon_size"
-                android:layout_height="@android:dimen/app_icon_size"
-                android:id="@+id/buttonAutoMode"
-                android:background="@drawable/icon_auto_set"
-                android:layout_marginTop="2dp" />
-
-            <Button
-                android:layout_width="@android:dimen/app_icon_size"
-                android:layout_height="@android:dimen/app_icon_size"
-                android:id="@+id/buttonSettingsMode"
-                android:background="@drawable/icon_settings"
-                android:layout_marginTop="2dp" />
-        </LinearLayout>
+        android:layout_marginLeft="@android:dimen/app_icon_size">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="49dp"
+            android:layout_height="@android:dimen/app_icon_size"
             android:id="@+id/Layout_Manual"
             android:focusableInTouchMode="false"
             android:orientation="horizontal"
-            android:layout_marginTop="-148dp"
-            android:layout_marginLeft="50dp"
             android:background="@drawable/camera_frame_box_ver_bg">
 
             <CheckBox
@@ -749,10 +745,10 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="@android:dimen/app_icon_size"
             android:id="@+id/LayoutAuto"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/camera_frame_box_ver_bg">
+            android:background="@drawable/camera_frame_box_ver_bg"
+            android:layout_marginTop="@android:dimen/app_icon_size">
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -763,7 +759,8 @@
                 android:textColor="#ff1100"
                 android:textStyle="bold"
                 android:typeface="serif"
-                android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:layout_gravity="left" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -773,7 +770,8 @@
                 android:textAppearance="@android:style/TextAppearance.Holo.Small"
                 android:textColor="#ff1100"
                 android:textStyle="bold"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:layout_gravity="left" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -784,7 +782,8 @@
                 android:textColor="#ff1100"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:layout_gravity="left" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -796,7 +795,8 @@
                 android:textStyle="bold"
                 android:typeface="serif"
                 android:singleLine="true"
-                android:textSize="@dimen/TextSizeSmall" />
+                android:textSize="@dimen/TextSizeSmall"
+                android:layout_gravity="left" />
 
             <Button
                 android:layout_width="@android:dimen/app_icon_size"
@@ -808,7 +808,8 @@
                 android:textColor="#ff1100"
                 android:textStyle="bold"
                 android:typeface="serif"
-                android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:layout_gravity="left" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -820,7 +821,8 @@
                 android:textAppearance="@android:style/TextAppearance.Holo.Small"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:layout_gravity="left" />
 
             <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -831,7 +833,8 @@
                 android:textAppearance="@android:style/TextAppearance.Holo.Small"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:layout_gravity="left" />
 
             <CheckBox
                 android:layout_width="@android:dimen/app_icon_size"
@@ -839,18 +842,18 @@
                 android:id="@+id/checkBox_hdr"
                 android:background="@drawable/icon_hdr"
                 android:singleLine="true"
-                android:textColor="#ff2141" />
+                android:textColor="#ff2141"
+                android:layout_gravity="left" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/LayoutSettings"
-            android:layout_marginLeft="50dp"
             android:background="@drawable/camera_frame_box_ver_bg"
-            android:layout_marginBottom="-3dp"
             android:longClickable="false"
-            android:measureWithLargestChild="true">
+            android:measureWithLargestChild="true"
+            android:layout_marginTop="@dimen/appiconsizedouble">
 
             <LinearLayout
                 android:orientation="vertical"

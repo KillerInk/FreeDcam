@@ -82,6 +82,8 @@ public class BitmapUtils
         opts.inPurgeable = true; // Tell to gc that whether it needs free
         // memory, the Bitmap can be cleared
         opts.inInputShareable = true;
+        opts.inDither = true;
+        opts.inPreferQualityOverSpeed = true;
         Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
         return  originalBmp;
     }
