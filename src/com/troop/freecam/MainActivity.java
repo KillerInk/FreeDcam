@@ -354,9 +354,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     public void initButtons()
     {
-
-
-
         flashButton = (Button) findViewById(R.id.button_flash);
         flashButton.setOnClickListener(new FlashMenu(camMan, this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
@@ -384,6 +381,11 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
         buttonMetering = (Button)findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,this));
+        if (!camMan.parametersManager.getSupportAutoExposure())
+        {
+            buttonMetering.setVisibility(View.GONE);
+        }
+
 
         buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
         buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,this));

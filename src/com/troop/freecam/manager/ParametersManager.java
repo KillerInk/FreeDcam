@@ -71,6 +71,10 @@ public class ParametersManager
     public boolean getSupportSaturation() { return  supportSaturation;}
     boolean supportFlash = false;
     public boolean getSupportFlash() { return  supportFlash;}
+    boolean supportVNF = false;
+    public boolean getSupportVNF() { return supportVNF;}
+    boolean supportAutoExposure = false;
+    public boolean getSupportAutoExposure() { return supportAutoExposure;}
     private ParametersChangedInterface parametersChanged;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
@@ -145,6 +149,25 @@ public class ParametersManager
             supportFlash = true;
         else
             supportFlash = false;
+        try
+        {
+            if (!parameters.get("vnf-supported").equals(""))
+                supportVNF = true;
+        }
+        catch (Exception ex)
+        {
+            supportVNF = false;
+        }
+        try
+        {
+            if (!parameters.get("auto-exposure-values").equals(""))
+                supportAutoExposure= true;
+        }
+        catch (Exception ex)
+        {
+            supportAutoExposure = false;
+        }
+
     }
 
     private void loadDefaultOrLastSavedSettings()

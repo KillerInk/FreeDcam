@@ -29,7 +29,7 @@ public class MeteringMenu extends BaseMenu   {
         View canvasView = super.GetPlaceHolder();
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
-        if(camMan.Running)
+        if(camMan.Running && camMan.parametersManager.getSupportAutoExposure())
 
             modes = camMan.parametersManager.getParameters().get("auto-exposure-values").split(",");
 
