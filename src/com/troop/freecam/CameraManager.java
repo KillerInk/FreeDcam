@@ -16,6 +16,8 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.view.SurfaceView;
 import android.os.Build;
+import android.os.StatFs;
+
 
 
 import com.troop.freecam.camera.BaseCamera;
@@ -115,6 +117,73 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     {
         String s = Build.MODEL;
         return s.equals("Nexus 7") || s.equals("Nexus 10");
+    }
+    
+    //Remaining Pictures Ca;cu;ation
+    public int RemainingPics ()
+    {
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getBlockCount();
+        long megAvailable = bytesAvailable / 1048576;
+
+        int mb = (int) megAvailable / 10;
+
+        return mb;
+
+
+    }
+//WIP
+    public int VideoLength ()
+    {
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getBlockCount();
+        long megAvailable = bytesAvailable / 1048576;
+
+        int mb = (int) megAvailable / 10;
+
+        return mb;
+
+    }
+    //Aspect ratio Calc
+    public String Aspect()
+    {
+        int w = parametersManager.getParameters().getPictureSize().width;
+        int h = parametersManager.getParameters().getPictureSize().height;
+
+        String box = "4:3";
+        String wide = "16:9";
+
+        double ar = w / h;
+
+
+        if (ar == 1.777777777777778)
+            return wide;
+
+        if(ar == 1.333333333333333)
+            return box;
+
+
+        return box;
+
+    }
+    
+    //On Picture Size Detect Do Action
+    public void DoAr()
+    {
+        if (Double.parseDouble(Aspect()) == 1.777777777777778)
+            parametersManager.getParameters().setPreviewSize(1920,1080);
+
+
+        if(isG2())
+            if(Double.parseDouble(Aspect()) == 1.333333333333333)
+                parametersManager.getParameters().setPreviewSize(1440,1080);
+
+        if(Double.parseDouble(Aspect()) == 1.333333333333333)
+            parametersManager.getParameters().setPreviewSize(1440,1080);
+
+        //532 Layer
+
+
     }
 
     public static boolean isG2()
