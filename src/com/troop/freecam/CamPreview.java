@@ -2,11 +2,15 @@ package com.troop.freecam;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.Camera;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
@@ -105,11 +109,35 @@ public class CamPreview extends BasePreview {
         camMan.parametersManager.setPreviewSizeCHanged = this;
     }
 
+    //NOTE this is called each time when the preview size changes
     @Override
     public void onPreviewsizeHasChanged(int w, int h) {
         super.onPreviewsizeHasChanged(w, h);
 
-        double ratio = (double)w/(double)h;
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        double ratio = (double)w/h;
+        double displayratio = metrics.widthPixels/metrics.heightPixels;
+        //if rato 16/9:10
+        if (ratio == 1.7777777777777777 || ratio == 1.6666666666666667)
+        {
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(metrics.widthPixels, metrics.heightPixels);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams.leftMargin = 0;
+            this.setLayoutParams(layoutParams);
+        }
+        else
+        {
+            //TODO calculate 4:3 from screen size
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(metrics.widthPixels - 100, metrics.heightPixels);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams.leftMargin = 50;
+            this.setLayoutParams(layoutParams);
+        }
+
+
         //1920x1080 = 1280x720 = 1.7777777777777777
         //960x720 = 640x480 = 1.3333333333333333
         //800x480 = 1.6666666666666667;
