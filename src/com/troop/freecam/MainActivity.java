@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -917,7 +918,14 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         }
         else
         {
+            try
+            {
             settingsMenuLayout.addView(crop_box);
+            }
+            catch (Exception ex)
+            {
+                Log.d("MainActivity", "CropBox is already added");
+            }
         }
     }
 

@@ -73,7 +73,7 @@ public class SavePicture
                 Integer newheigt = size.width /32 * 9;
                 Integer tocrop = originalBmp.getHeight() - newheigt ;
 
-                orgiHolder.cropBitmap(0, tocrop /2, originalBmp.getWidth(), newheigt);
+                orgiHolder.cropBitmap(0, tocrop /2, originalBmp.getWidth(), newheigt + (tocrop /2));
                 //final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inDither = true;
@@ -180,6 +180,4 @@ public class SavePicture
             }
         }
     };
-
-
 }
