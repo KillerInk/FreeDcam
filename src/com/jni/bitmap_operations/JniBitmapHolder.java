@@ -1,9 +1,9 @@
 package com.jni.bitmap_operations;
+import java.nio.ByteBuffer;
 
+import android.R.integer;
 import android.graphics.Bitmap;
 import android.util.Log;
-
-import java.nio.ByteBuffer;
 
 public class JniBitmapHolder
   {
@@ -30,6 +30,8 @@ public class JniBitmapHolder
   private native void jniRotateBitmap180(ByteBuffer handler);
   
   private native void jniAddImageIntoImage(ByteBuffer handler, ByteBuffer hand, int margineX, int margineY);
+  
+  private native void jniToneMapImages(ByteBuffer base, ByteBuffer high, ByteBuffer low);
 
   public JniBitmapHolder()
     {}
@@ -46,6 +48,10 @@ public class JniBitmapHolder
 	  jniAddImageIntoImage(_handler, nioBuffer, x,y);
   }
   
+  public void ToneMapImages(JniBitmapHolder high, JniBitmapHolder low)
+  {
+	  jniToneMapImages(_handler, high._handler, low._handler);
+  }
 
   public void storeBitmap(final Bitmap bitmap)
     {

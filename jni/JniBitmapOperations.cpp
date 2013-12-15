@@ -1,4 +1,3 @@
-
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
@@ -13,21 +12,25 @@
 extern "C"
   {
   //store
-  JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniStoreBitmapData(JNIEnv * env, jobject obj, jobject bitmap);
+  JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniStoreBitmapData(JNIEnv * env, jobject obj, jobject bitmap);
+
   //get
-  JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniGetBitmapFromStoredBitmapData(JNIEnv * env, jobject obj, jobject handle);
+  JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniGetBitmapFromStoredBitmapData(JNIEnv * env, jobject obj, jobject handle);
   //free
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniFreeBitmapData(JNIEnv * env, jobject obj, jobject handle);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniFreeBitmapData(JNIEnv * env, jobject obj, jobject handle);
   //rotate 90 degrees CCW
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCcw90(JNIEnv * env, jobject obj, jobject handle);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCcw90(JNIEnv * env, jobject obj, jobject handle);
   //rotate 90 degrees CW
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCw90(JNIEnv * env, jobject obj, jobject handle);
-  //rotate 180 degress
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmap180(JNIEnv * env, jobject obj, jobject handle);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCw90(JNIEnv * env, jobject obj, jobject handle);
+  //rotate 180 degrees
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmap180(JNIEnv * env, jobject obj, jobject handle);
   //crop
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniCropBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t left, uint32_t top, uint32_t right, uint32_t bottom);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniCropBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t left, uint32_t top, uint32_t right, uint32_t bottom);
   //scale using nearest neighbor
-  JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniScaleNNBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t newWidth, uint32_t newHeight);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniScaleNNBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t newWidth, uint32_t newHeight);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniAddImageIntoImage(JNIEnv * env, jobject obj, jobject handle, jobject bitmap, jint margineX, jint margineY);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMapImages(JNIEnv * env, jobject obj, jobject handle, jobject high,
+  		jobject low);
   }
 
 class JniBitmap
@@ -42,7 +45,7 @@ class JniBitmap
   };
 
 /**crops the bitmap within to be smaller. note that no validations are done*/ //
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniCropBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t left, uint32_t top, uint32_t right, uint32_t bottom)
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniCropBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t left, uint32_t top, uint32_t right, uint32_t bottom)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -51,14 +54,17 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniCrop
   uint32_t oldWidth = jniBitmap->_bitmapInfo.width;
   uint32_t newWidth = right - left, newHeight = bottom - top;
   uint32_t* newBitmapPixels = new uint32_t[newWidth * newHeight];
-  uint32_t* whereToGet = previousData + left + top * oldWidth;
-  uint32_t* whereToPut = newBitmapPixels;
-  for (int y = top; y < bottom; ++y)
+  uint32_t whereToGet =oldWidth * top + left;
+  uint32_t whereToPut = 0;
+  for (int y = 0;y < newHeight; y++)
     {
-    memcpy(whereToPut, whereToGet, sizeof(uint32_t) * newWidth);
-    whereToGet += oldWidth;
-    whereToPut += newWidth;
+      for (int x = 0; x < newWidth; x++)
+  	  {
+  		  uint32_t pixel = previousData[oldWidth * (y + top) + (x + left)];
+  		  newBitmapPixels[newWidth * y + x] = pixel;
+  	  }
     }
+
   //done copying , so replace old data with new one
   delete[] previousData;
   jniBitmap->_storedBitmapPixels = newBitmapPixels;
@@ -66,7 +72,7 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniCrop
   jniBitmap->_bitmapInfo.height = newHeight;
   }
 
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmap180(JNIEnv * env, jobject obj, jobject handle)
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmap180(JNIEnv * env, jobject obj, jobject handle)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -81,6 +87,7 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRota
       for (int x = 0; x < bitmapInfo.width; x++)
 	  {
 		  uint32_t pixel = previousData[whereToGet++];
+
 		  newBitmapPixels[bitmapInfo.width * (bitmapInfo.height - 1 - y) + x] = pixel;
 	  }
   }
@@ -92,8 +99,8 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRota
   bitmapInfo.height = temp;
   }
 
-/**rotates the inner bitmap data by 90 degress counter clock wise*/ //
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCcw90(JNIEnv * env, jobject obj, jobject handle)
+/**rotates the inner bitmap data by 90 degrees counter clock wise*/ //
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCcw90(JNIEnv * env, jobject obj, jobject handle)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -119,7 +126,7 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRota
   bitmapInfo.height = temp;
   }
 
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCw90(JNIEnv * env, jobject obj, jobject handle)
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniRotateBitmapCw90(JNIEnv * env, jobject obj, jobject handle)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -146,18 +153,19 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniRota
   }
 
 /**free bitmap*/  //
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniFreeBitmapData(JNIEnv * env, jobject obj, jobject handle)
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniFreeBitmapData(JNIEnv * env, jobject obj, jobject handle)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
     return;
   delete[] jniBitmap->_storedBitmapPixels;
   jniBitmap->_storedBitmapPixels = NULL;
+
   delete jniBitmap;
   }
 
 /**restore java bitmap (from JNI data)*/  //
-JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniGetBitmapFromStoredBitmapData(JNIEnv * env, jobject obj, jobject handle)
+JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniGetBitmapFromStoredBitmapData(JNIEnv * env, jobject obj, jobject handle)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -195,7 +203,7 @@ JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniG
   }
 
 /**store java bitmap as JNI data*/  //
-JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniStoreBitmapData(JNIEnv * env, jobject obj, jobject bitmap)
+JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniStoreBitmapData(JNIEnv * env, jobject obj, jobject bitmap)
   {
   AndroidBitmapInfo bitmapInfo;
   uint32_t* storedBitmapPixels = NULL;
@@ -234,7 +242,7 @@ JNIEXPORT jobject JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniS
   }
 
 /**scales the image using the fastest, simplest algorithm called "nearest neighbor" */ //
-JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniScaleNNBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t newWidth, uint32_t newHeight)
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniScaleNNBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t newWidth, uint32_t newHeight)
   {
   JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
   if (jniBitmap->_storedBitmapPixels == NULL)
@@ -269,6 +277,107 @@ JNIEXPORT void JNICALL Java_com_troop_bitmap_1operations_JniBitmapHolder_jniScal
   jniBitmap->_bitmapInfo.width = newWidth;
   jniBitmap->_bitmapInfo.height = newHeight;
   }
+
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniAddImageIntoImage(JNIEnv * env, jobject obj, jobject handle, jobject bitmap,
+		jint margineX, jint margineY)
+{
+	JniBitmap* jniBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
+	JniBitmap* jniToDrawBitmap = (JniBitmap*) env->GetDirectBufferAddress(bitmap);
+	if (jniBitmap->_storedBitmapPixels == NULL || jniToDrawBitmap->_storedBitmapPixels == NULL)
+	    return;
+	//uint32_t* previousData = jniBitmap->_storedBitmapPixels;
+	AndroidBitmapInfo bitmapInfo = jniBitmap->_bitmapInfo;
+	AndroidBitmapInfo bitmapInfoSecond = jniToDrawBitmap->_bitmapInfo;
+	uint32_t* newBitmapPixels = jniBitmap->_storedBitmapPixels;
+	int whereToGet = 0;
+
+	for (int y = 0;y < bitmapInfoSecond.height; y++)
+	{
+	    for (int x = 0; x < bitmapInfoSecond.width; x++)
+		{
+			uint32_t pixel = jniToDrawBitmap->_storedBitmapPixels[whereToGet++];
+
+				newBitmapPixels[bitmapInfo.width * (y + margineY) + (x + margineX)] = pixel;
+		}
+	}
+	jniBitmap->_storedBitmapPixels = newBitmapPixels;
+	if(jniToDrawBitmap->_storedBitmapPixels != NULL)
+	  {
+		  delete[] jniToDrawBitmap->_storedBitmapPixels;
+		  jniToDrawBitmap->_storedBitmapPixels = NULL;
+	  }
+}
+
+class rgba
+{
+public:
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t alpha;
+    rgba()
+    {}
+};
+
+
+rgba unPackPixelFromByte(uint32_t pixel)
+{
+	rgba toret;
+	toret.alpha = (int)((pixel >> 24 ) & 0xFF);
+	toret.red = (int) ((pixel >> 16) & 0xFF);
+	toret.green = (int)((pixel >> 8) & 0xFF);
+	toret.blue = (int) (pixel & 0xFF);
+
+
+
+	return toret;
+}
+
+uint32_t packPixelToByte(rgba rgb)
+{
+	uint32_t pixel = (rgb.alpha << 24) |
+					 (rgb.red << 16) |
+					 (rgb.green << 8) |
+					 rgb.blue;
+	return pixel;
+}
+
+uint32_t tonemapColors(rgba base, rgba high, rgba low)
+{
+	rgba toReturn;
+	toReturn.blue = (base.blue + high.blue + low.blue)/3;
+	toReturn.red = (base.red + high.red + low.red)/3;
+	toReturn.green = (base.green + high.green + low.green)/3;
+
+	uint32_t pixel = packPixelToByte(toReturn);
+	return pixel;
+}
+
+JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMapImages(JNIEnv * env, jobject obj, jobject handle, jobject high,
+		jobject low)
+{
+	JniBitmap* baseBitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
+	JniBitmap* highBitmap = (JniBitmap*) env->GetDirectBufferAddress(high);
+	JniBitmap* lowBitmap = (JniBitmap*) env->GetDirectBufferAddress(low);
+	AndroidBitmapInfo bitmapInfo = baseBitmap->_bitmapInfo;
+	int whereToGet = 0;
+	for (int y = 0;y < bitmapInfo.height; y++)
+		{
+		    for (int x = 0; x < bitmapInfo.width; x++)
+			{
+				uint32_t bpixel = baseBitmap->_storedBitmapPixels[whereToGet];
+				rgba basePixelColor = unPackPixelFromByte(bpixel);
+				uint32_t hpixel = highBitmap->_storedBitmapPixels[whereToGet];
+				rgba highPixelColor = unPackPixelFromByte(hpixel);
+				uint32_t lpixel = lowBitmap->_storedBitmapPixels[whereToGet];
+				rgba lowPixelColor = unPackPixelFromByte(lpixel);
+				uint32_t pixel = tonemapColors(basePixelColor, highPixelColor, lowPixelColor);
+				baseBitmap->_storedBitmapPixels[whereToGet] = pixel;
+				whereToGet++;
+			}
+		}
+}
+
 
 
 
