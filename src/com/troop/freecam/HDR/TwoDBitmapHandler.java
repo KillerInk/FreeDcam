@@ -51,9 +51,9 @@ public class TwoDBitmapHandler extends BaseBitmapHandler
             baseJni = new JniBitmapHolder(BitmapFactory.decodeFile(uris[1].getPath()));
             highJni = new JniBitmapHolder(BitmapFactory.decodeFile(uris[0].getPath()));
             lowJni  = new JniBitmapHolder(BitmapFactory.decodeFile(uris[2].getPath()));
-            baseJni.cropBitmap(base.X, base.Y, base.Width, base.Height);
-            highJni.cropBitmap(first.X, first.Y, first.Width, first.Height);
-            lowJni.cropBitmap(second.X, second.Y, second.Width, second.Height);
+            baseJni.cropBitmap(base.X, base.Y, base.Width + base.X, base.Y + base.Height);
+            highJni.cropBitmap(first.X, first.Y, first.Width + first.X, first.Y + first.Height);
+            lowJni.cropBitmap(second.X, second.Y, second.X + second.Width, second.Y + second.Height);
         }
         catch (OutOfMemoryError ex)
         {
