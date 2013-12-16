@@ -29,8 +29,9 @@ extern "C"
   //scale using nearest neighbor
   JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniScaleNNBitmap(JNIEnv * env, jobject obj, jobject handle, uint32_t newWidth, uint32_t newHeight);
   JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniAddImageIntoImage(JNIEnv * env, jobject obj, jobject handle, jobject bitmap, jint margineX, jint margineY);
-  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMapImages(JNIEnv * env, jobject obj, jobject handle, jobject high,
-  		jobject low);
+  JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMapImages(JNIEnv * env, jobject obj, jobject handle, jobject high, jobject low);
+  JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniHeight(JNIEnv * env, jobject obj, jobject handle);
+  JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniWidth(JNIEnv * env, jobject obj, jobject handle);
   }
 
 class JniBitmap
@@ -376,6 +377,25 @@ JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMa
 				whereToGet++;
 			}
 		}
+}
+
+JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniWidth(JNIEnv * env, jobject obj, jobject handle)
+{
+	JniBitmap* bitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
+	if(bitmap == NULL)
+		return 0;
+	AndroidBitmapInfo bitmapInfo = bitmap->_bitmapInfo;
+	return (jint) bitmapInfo.width;;
+}
+
+JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniHeight(JNIEnv * env, jobject obj, jobject handle)
+{
+	JniBitmap* bitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
+	if(bitmap == NULL)
+		return 0;
+	AndroidBitmapInfo bitmapInfo = bitmap->_bitmapInfo;
+	int ret = bitmapInfo.height;
+	return (jint) ret;
 }
 
 

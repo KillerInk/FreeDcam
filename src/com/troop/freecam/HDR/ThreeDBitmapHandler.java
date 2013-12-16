@@ -40,12 +40,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
     public Uri[] split3DImagesIntoLeftRight(Uri[] uris)
     {
-        BitmapFactory.Options op = new BitmapFactory.Options();
-        op.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(uris[0].getPath(), op);
-        op.inJustDecodeBounds = false;
-        op.inInputShareable =true;
-        op.inPurgeable = true;
         String end = "";
         if (uris[0].getPath().endsWith("jps"))
             end = "jps";
@@ -54,20 +48,20 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
-            Bitmap orgi = cropToSixteenToNine(BitmapUtils.loadFromPath(uris[i].getPath()), op.outWidth, op.outHeight);
-            //croptTosixtenToNine(uris[i].getPath(), op.outWidth, op.outHeight);
-            //Bitmap orgi = BitmapUtils.loadFromPath(uris[i].getPath());
-            Bitmap left = BitmapUtils.cropBitmap(orgi, 0, 0, orgi.getWidth() / 2, orgi.getHeight());
-            //Bitmap left = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), 0, 0, o.outWidth / 2, o.outHeight);
+            JniBitmapHolder orgi = new JniBitmapHolder(BitmapFactory.decodeFile(uris[i].getPath()));
+            int newheigt = orgi.getWidth() /32 * 9;
+            int tocrop = orgi.getHeight() - newheigt ;
+            orgi.cropBitmap(0, tocrop / 2, orgi.getWidth(), tocrop / 2 + newheigt);
+            orgi.cropBitmap(0, 0, orgi.getWidth() / 2, orgi.getHeight());
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
-            saveBitmap(file.getAbsolutePath(), left);
+            saveBitmap(file.getAbsolutePath(), orgi.getBitmapAndFree());
             LeftUris[i] = Uri.fromFile(file);
 
-            orgi = BitmapUtils.loadFromPath(uris[i].getPath());
-            Bitmap right = BitmapUtils.cropBitmap(orgi, 0, 0, orgi.getWidth() / 2, orgi.getHeight());
-            //Bitmap right = Bitmap.createBitmap(BitmapFactory.decodeFile(uris[i].getPath(), op), o.outWidth / 2, 0, o.outWidth/2, o.outHeight);
+            orgi = new JniBitmapHolder(BitmapFactory.decodeFile(uris[i].getPath()));
+            orgi.cropBitmap(0, tocrop / 2, orgi.getWidth(), tocrop / 2 + newheigt);
+            orgi.cropBitmap(orgi.getWidth() / 2, 0, orgi.getWidth(), orgi.getHeight());
             File fileright = new File(String.format(freeCamImageDirectoryTmp + "/right" + String.valueOf(i) + "." + end));
-            saveBitmap(fileright.getAbsolutePath(), right);
+            saveBitmap(fileright.getAbsolutePath(), orgi.getBitmapAndFree());
             RightUris[i] = Uri.fromFile(fileright);
         }
         return  LeftUris;

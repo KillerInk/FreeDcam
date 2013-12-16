@@ -32,6 +32,9 @@ public class JniBitmapHolder
   private native void jniAddImageIntoImage(ByteBuffer handler, ByteBuffer hand, int margineX, int margineY);
   
   private native void jniToneMapImages(ByteBuffer base, ByteBuffer high, ByteBuffer low);
+  
+  private native int jniWidth(ByteBuffer buffer);
+  private native int jniHeight(ByteBuffer buffer);
 
   public JniBitmapHolder()
     {}
@@ -46,6 +49,16 @@ public class JniBitmapHolder
 	  if(_handler==null)
 	      return;
 	  jniAddImageIntoImage(_handler, nioBuffer, x,y);
+  }
+  
+  public int getWidth()
+  {
+	  return jniWidth(_handler);
+  }
+  
+  public int getHeight()
+  {
+	  return jniHeight(_handler);
   }
   
   public void ToneMapImages(JniBitmapHolder high, JniBitmapHolder low)
