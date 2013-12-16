@@ -23,21 +23,10 @@ import java.io.IOException;
  */
 public class ThreeDBitmapHandler extends BaseBitmapHandler
 {
-    //public Uri[] OrginalUris;
     public Uri[] LeftUris;
     public Uri[] RightUris;
-    Uri[] urisLeftTop;
-    Uri[] urisLeftBottom;
-    Uri[] urisRightTop;
-    Uri[] urisRightBottom;
-
     public File sdcardpath = Environment.getExternalStorageDirectory();
     public File freeCamImageDirectoryTmp = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");
-
-    BitmapHandler base;
-    BitmapHandler first;
-    BitmapHandler second;
-
     Activity activity;
 
     public ThreeDBitmapHandler(Activity activity, Uri[] orginalUris)
@@ -84,205 +73,66 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         return  LeftUris;
     }
 
-
-    public  void CropImagesToNewSize(BitmapHandler base, BitmapHandler first, BitmapHandler second, int width, int height)
+    public String Render3d(BitmapHandler base, BitmapHandler first, BitmapHandler second, int width, int height)
     {
         super.cropPictures(base, first, second, width, height);
-        BitmapFactory.Options op = new BitmapFactory.Options();
-        op.inInputShareable =true;
-        op.inPurgeable = true;
-        try
-        {
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[0].getPath(), op), first.X, first.Y, first.Width, first.Height);
-            saveBitmap(LeftUris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[2].getPath(), op), second.X, second.Y, second.Width, second.Height);
-            saveBitmap(LeftUris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[1].getPath(), op), base.X, base.Y, base.Width, base.Height);
-            saveBitmap(LeftUris[1].getPath(), newBaseImage);
-        }
-        catch (OutOfMemoryError ex)
-        {
-            //Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
-
-            ex.printStackTrace();
-        }
-        try
-        {
-            Bitmap newFirstPic = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[0].getPath(), op), first.X, first.Y, first.Width, first.Height);
-            saveBitmap(RightUris[0].getPath(), newFirstPic);
-            Bitmap newSecondPic = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[2].getPath(), op), second.X, second.Y, second.Width, second.Height);
-            saveBitmap(RightUris[2].getPath(), newSecondPic);
-            Bitmap newBaseImage = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[1].getPath(), op), base.X, base.Y, base.Width, base.Height);
-            saveBitmap(RightUris[1].getPath(), newBaseImage);
-        }
-        catch (OutOfMemoryError ex)
-        {
-            //Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
-
-            ex.printStackTrace();
-        }
-    }
-
-    public String Render3d()
-    {
-        urisLeftTop = new Uri[3];
-        urisLeftBottom = new Uri[3];
-        urisRightTop = new Uri[3];
-        urisRightBottom = new Uri[3];
-
-        splitLeftAndRightIntoTopAndBottom();
-        renderSplittetPics();
-        return mergeRenderedImages();
-    }
-
-    private void splitLeftAndRightIntoTopAndBottom()
-    {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(LeftUris[0].getPath(), o);
-        o.inJustDecodeBounds = false;
-        o.inInputShareable =true;
-        o.inPurgeable = true;
-        for(int i=0; i < LeftUris.length; i++ )
-        {
-            File filelefttop = new File(String.format(freeCamImageDirectoryTmp + "/lefttop" + String.valueOf(i) + ".jps"));
-            Bitmap lefttop = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath(), o), 0, 0 , o.outWidth, o.outHeight /2);
-            saveBitmap(filelefttop.getAbsolutePath(), lefttop);
-            urisLeftTop[i] = Uri.fromFile(filelefttop);
-
-            File fileleftbottom = new File(String.format(freeCamImageDirectoryTmp + "/leftbottom" + String.valueOf(i) + ".jps"));
-            Bitmap leftbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(LeftUris[i].getPath(), o), 0, o.outHeight /2, o.outWidth, o.outHeight /2);
-            saveBitmap(fileleftbottom.getAbsolutePath(), leftbottom);
-            urisLeftBottom[i] = Uri.fromFile(fileleftbottom);
-
-        }
-
-        for(int i=0; i < RightUris.length; i++ )
-        {
-            File filerighttop = new File(String.format(freeCamImageDirectoryTmp + "/righttop" + String.valueOf(i) + ".jps"));
-            Bitmap righttop = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath(), o), 0, 0 , o.outWidth, o.outHeight /2);
-            saveBitmap(filerighttop.getAbsolutePath(), righttop);
-            urisRightTop[i] = Uri.fromFile(filerighttop);
-
-            File filerightbottom = new File(String.format(freeCamImageDirectoryTmp + "/rightbottom" + String.valueOf(i) + ".jps"));
-            Bitmap rightbottom = Bitmap.createBitmap(BitmapFactory.decodeFile(RightUris[i].getPath(), o), 0, o.outHeight /2, o.outWidth, o.outHeight /2);
-            saveBitmap(filerightbottom.getAbsolutePath(), rightbottom);
-            urisRightBottom[i] = Uri.fromFile(filerightbottom);
-        }
-    }
-
-    private void renderSplittetPics()
-    {
-        try {
-            HdrSoftwareProcessor HdrRender = new HdrSoftwareProcessor(activity);
-            HdrRender.prepare(activity,urisLeftTop);
-            byte[] hdrpic = HdrRender.computeHDR(activity);
-
-
-            saveFile(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"), hdrpic);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-        //left pic bottom
-        try {
-            HdrSoftwareProcessor HdrRender = new HdrSoftwareProcessor(activity);
-            HdrRender.prepare(activity,urisLeftBottom);
-            byte[] hdrpic = HdrRender.computeHDR(activity);
-
-            saveFile(String.format(freeCamImageDirectoryTmp + "/leftbottom.jps"), hdrpic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-
-        ///render right pic top
-        try {
-            HdrSoftwareProcessor HdrRender = new HdrSoftwareProcessor(activity);
-            HdrRender.prepare(activity,urisRightTop);
-            byte[] hdrpic = HdrRender.computeHDR(activity);
-
-            saveFile(String.format(freeCamImageDirectoryTmp + "/righttop.jps"), hdrpic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-
-        ///render right pic bottom
-        try {
-            HdrSoftwareProcessor HdrRender = new HdrSoftwareProcessor(activity);
-            HdrRender.prepare(activity,urisRightBottom);
-            byte[] hdrpic = HdrRender.computeHDR(activity);
-
-            saveFile(String.format(freeCamImageDirectoryTmp + "/rightbottom.jps"), hdrpic);
-            HdrRender = null;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (OutOfMemoryError ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    private String mergeRenderedImages()
-    {
-        Paint paint = new Paint();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"), options);
-        System.gc();
-        int width = options.outWidth * 2;
-        int height = options.outHeight * 2;
-
-        Bitmap orgi = BitmapUtils.createEmptyBitmpap(width, height, options.inPreferredConfig);
-        JniBitmapHolder orginalHolder = new JniBitmapHolder(orgi);
-        orgi.recycle();
-
-        Bitmap left = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/lefttop.jps"));
-        JniBitmapHolder drawHolder = new JniBitmapHolder(left);
-        left.recycle();
-        orginalHolder.AddImageIntoExisting(drawHolder._handler, 0, 0);
-
-        Bitmap leftbottom = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/leftbottom.jps"));
-        drawHolder.storeBitmap(leftbottom);
-        leftbottom.recycle();
-        orginalHolder.AddImageIntoExisting(drawHolder._handler, 0, height/2);
-
-        Bitmap rightTop = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/righttop.jps"));
-        drawHolder.storeBitmap(rightTop);
-        rightTop.recycle();
-        orginalHolder.AddImageIntoExisting(drawHolder._handler, width/2, 0);
-
-        Bitmap rightbottom = BitmapUtils.loadFromPath(String.format(freeCamImageDirectoryTmp + "/rightbottom.jps"));
-        drawHolder.storeBitmap(rightbottom);
-        rightbottom.recycle();
-        orginalHolder.AddImageIntoExisting(drawHolder._handler, width/2, height/2);
-
         File file = SavePictureTask.getFilePath("jps", sdcardpath);
+        try
+        {
+            //base Image
+            JniBitmapHolder baseJni = new JniBitmapHolder(Bitmap.createBitmap(base.Width * 2, base.Height, Bitmap.Config.ARGB_8888));
+            //left
+            JniBitmapHolder baseJniL = new JniBitmapHolder(BitmapFactory.decodeFile(LeftUris[1].getPath()));
+            baseJniL.cropBitmap(base.X, base.Y, base.Width + base.X, base.Y + base.Height);
+            baseJni.AddImageIntoExisting(baseJniL._handler, 0,0);
+            baseJniL.freeBitmap();
+            //right
+            JniBitmapHolder baseJniR = new JniBitmapHolder(BitmapFactory.decodeFile(RightUris[1].getPath()));
+            baseJniR.cropBitmap(base.X, base.Y, base.Width + base.X, base.Y + base.Height);
+            baseJni.AddImageIntoExisting(baseJniR._handler, base.Width,0);
+            baseJniR.freeBitmap();
 
-        //croptTosixtenToNine(orgi, width, height, file.getAbsolutePath());
-        System.gc();
-        saveBitmap(file.getAbsolutePath(), orginalHolder.getBitmapAndFree());
+            //High image
+            JniBitmapHolder highJni = new JniBitmapHolder(Bitmap.createBitmap(first.Width * 2, first.Height, Bitmap.Config.ARGB_8888));
+            //left
+            JniBitmapHolder highJniL = new JniBitmapHolder(BitmapFactory.decodeFile(LeftUris[0].getPath()));
+            highJniL.cropBitmap(first.X, first.Y, first.X + first.Width, first.Y + first.Height);
+            highJni.AddImageIntoExisting(highJniL._handler, 0,0);
+            highJniL.freeBitmap();
+            //right
+            JniBitmapHolder highJniR = new JniBitmapHolder(BitmapFactory.decodeFile(RightUris[0].getPath()));
+            highJniR.cropBitmap(first.X, first.Y, first.X + first.Width, first.Y + first.Height);
+            highJni.AddImageIntoExisting(highJniR._handler, first.Width,0);
+            highJniR.freeBitmap();
 
-        //orgi.recycle();
-        //orgi = null;
+            //low Image
+            JniBitmapHolder lowJni = new JniBitmapHolder(Bitmap.createBitmap(second.Width * 2, second.Height, Bitmap.Config.ARGB_8888));
+            //left
+            JniBitmapHolder lowJniL  = new JniBitmapHolder(BitmapFactory.decodeFile(LeftUris[2].getPath()));
+            lowJniL.cropBitmap(second.X, second.Y, second.X + second.Width, second.Y + second.Height);
+            lowJni.AddImageIntoExisting(lowJniL._handler, 0,0);
+            lowJniL.freeBitmap();
+            //right
+            JniBitmapHolder lowJniR  = new JniBitmapHolder(BitmapFactory.decodeFile(RightUris[2].getPath()));
+            lowJniR.cropBitmap(second.X, second.Y, second.X + second.Width, second.Y + second.Height);
+            lowJni.AddImageIntoExisting(lowJniR._handler, second.Width, 0);
+            lowJniR.freeBitmap();
 
-        //croptTosixtenToNine(file.getAbsolutePath(), width, height);
+            //Render Images
+            baseJni.ToneMapImages(highJni, lowJni);
+            highJni.freeBitmap();
+            lowJni.freeBitmap();
+
+            saveBitmap(file.getAbsolutePath(), baseJni.getBitmapAndFree());
+        }
+        catch (OutOfMemoryError ex)
+        {
+            //Toast.makeText(this, "OutOFMEMORY SUCKS AS HELL", 10).show();
+
+            ex.printStackTrace();
+        }
         return file.getAbsolutePath();
     }
-
-
 
     private void saveFile(String filepath, byte[] bytes)
     {
@@ -298,26 +148,6 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void croptTosixtenToNine(String path, int width, int height)
-    {
-        if (PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("crop", false) == true)
-        {
-            int newheigt = width /32 * 9;
-            int tocrop = height - newheigt ;
-
-            //Bitmap bitmap =
-            //try {
-                //BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(path, true);
-                //saveBitmap(path, decoder.decodeRegion(new Rect(0, tocrop / 2, width, newheigt), null));
-                //decoder.recycle();
-                saveBitmap(path, BitmapUtils.cropBitmap(BitmapUtils.loadFromPath(path), 0, tocrop / 2, width, newheigt));
-            //} catch (IOException e) {
-            //    e.printStackTrace();
-            //}
-
         }
     }
       

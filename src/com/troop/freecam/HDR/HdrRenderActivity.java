@@ -13,9 +13,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import com.troop.freecam.R;
-import com.troop.freecam.cm.HdrSoftwareProcessor;
 
 import java.io.File;
 
@@ -27,13 +25,6 @@ public class HdrRenderActivity extends Activity
 
     public final String TAG = "HDRActivity";
     private Uri[] uris;
-    Uri[] urisLeftTop = new Uri[3];
-    Uri[] urisLeftBottom = new Uri[3];
-    Uri[] urisRightTop = new Uri[3];
-    Uri[] urisRightBottom = new Uri[3];
-    Uri[] urisLeft = new Uri[3];
-    Uri[] urisRight = new Uri[3];
-    HdrSoftwareProcessor HdrRender;
 
     Button button_renderHDR;
     ImageOverlayView overlayView;
@@ -230,8 +221,7 @@ public class HdrRenderActivity extends Activity
         String path = "";
         if(end.equals("jps"))
         {
-            threeDBitmapHandler.CropImagesToNewSize(overlayView.baseHolder, overlayView.firstHolder, overlayView.secondHolder, overlayView.OrginalWidth ,overlayView.OrginalHeight);
-            path = threeDBitmapHandler.Render3d();
+            path = threeDBitmapHandler.Render3d(overlayView.baseHolder, overlayView.firstHolder, overlayView.secondHolder, overlayView.OrginalWidth ,overlayView.OrginalHeight);
         }
         else
         {
