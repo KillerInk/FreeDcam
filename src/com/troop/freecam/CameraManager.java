@@ -11,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.os.StatFs;
@@ -37,6 +38,7 @@ import java.util.List;
  */
 public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
+    MainActivity mainActivity;
 
 
     CamPreview context;
@@ -366,8 +368,28 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         mCamera.autoFocus(autoFocusManager);
     }
 
+    public void AutoFocusAssit()
+    {
+        String atr = "torch";
+        parametersManager.getParameters().setFlashMode(atr);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+               // parametersManager.setFlashMode(preferences.getString(Preferences_Flash2D, "auto"));
+            }
+        }, 2000); //time in millis
+    }
+
     public  void SetTouchFocus(RectF rectangle)
     {
+        //Attempt at af Assit light
+        if (mainActivity.AFS_enable == true)
+        {
+            AutoFocusAssit();
+
+        }
+
         if (touchtofocus == false && !autoFocusManager.focusing)
         {
             touchtofocus = true;

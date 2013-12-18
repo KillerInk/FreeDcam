@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public SeekBar exposureSeekbar;
     public ImageButton thumbButton;
 
+    public Boolean AFS_enable;
+
     public CheckBox manualExposure;
     TableRow exposureRow;
 
@@ -149,6 +152,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     TableRow saturationRow;
 
     Button switchVideoPicture;
+    Button AfAssitButton;
 
     Button manualLayoutButton;
     Button autoLayoutButton;
@@ -194,13 +198,15 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         //setContentView(R.layout.activity_main);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        appViewGroup = (ViewGroup) inflater.inflate(R.layout.activity_main, null);
+        appViewGroup = (ViewGroup) inflater.inflate(R.layout.main, null);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         recordVideo = preferences.getBoolean("recordVideo", false);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
         drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
 		mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
@@ -229,6 +235,20 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         hideCurrentConfig();
 
 	}
+
+   /* @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        getWindow().getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        //Check the event and do magic here, such as...
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+
+        }
+
+        //Be careful not to override the return unless necessary
+        return super.dispatchTouchEvent(event);
+    } */
 
     public void videoui()
     {
@@ -359,6 +379,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         flashButton.setOnClickListener(new FlashMenu(camMan, this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
         shotButton.setOnClickListener(shotListner);
+        AfAssitButton = (Button)findViewById(R.id.button_af_assit);
+        AfAssitButton.setOnClickListener(AFSListner);
         focusButton = (Button) findViewById(R.id.button_focus);
         focusButton.setOnClickListener(new FocusMenu(camMan, this));
         sceneButton = (Button) findViewById(R.id.buttonScene);
@@ -383,7 +405,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
         buttonMetering = (Button)findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,this));
-
 
 
         buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
@@ -870,6 +891,22 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+    View.OnClickListener AFSListner = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            if (AFS_enable != true)
+            {
+                AFS_enable = true;
+            }
+            else
+            {
+                AFS_enable = false;
+            }
+
+        }
+    };
 	
 	View.OnClickListener shotListner = new View.OnClickListener() {
 		
