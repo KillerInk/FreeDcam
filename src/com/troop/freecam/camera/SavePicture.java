@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.Metadata;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 import com.troop.freecam.utils.BitmapUtils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,52 +55,33 @@ public class SavePicture
 
     private void writePictureToSD(byte[] bytes, File file, boolean crop) throws IOException
     {
-        FileOutputStream outStream = null;
         if (is3d)
         {
-            if (crop)
+            BitmapUtils.saveBytesToFile(file, bytes);
+            bytes = new byte[0];
+            System.gc();
+            Runtime.getRuntime().gc();
+            System.gc();
+            if (preferences.getBoolean("upsidedown", false) == true || crop)
             {
-                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
-                BitmapUtils.saveBytesToFile(file, bytes);
                 ExifManager manager = new ExifManager();
                 manager.LoadExifFrom(file.getAbsolutePath());
-                bytes = new byte[0];
-
-                JniBitmapHolder orgiHolder = new JniBitmapHolder(originalBmp);
-                originalBmp.recycle();
+                Bitmap orgi = BitmapFactory.decodeFile(file.getAbsolutePath());
+                JniBitmapHolder orgiHolder = new JniBitmapHolder(orgi);
+                orgi.recycle();
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
                     orgiHolder.rotateBitmap180();
                 }
-
-                Integer newheigt = size.width /32 * 9;
-                Integer tocrop = originalBmp.getHeight() - newheigt ;
-
-                orgiHolder.cropBitmap(0, tocrop /2, originalBmp.getWidth(), newheigt + (tocrop /2));
-                //final Bitmap croppedBmp = Bitmap.createBitmap(originalBmp, 0, tocrop /2, originalBmp.getWidth(), newheigt);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inDither = true;
-                options.inPreferQualityOverSpeed = true;
-                //originalBmp.recycle();
-                System.gc();
-                BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
-                orgiHolder = null;
-
-                manager.SaveExifTo(file.getAbsolutePath());
-            }
-            else
-            {
-                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
-                BitmapUtils.saveBytesToFile(file, bytes);
-                ExifManager manager = new ExifManager();
-                manager.LoadExifFrom(file.getAbsolutePath());
-                bytes = new byte[0];
-
-                if (preferences.getBoolean("upsidedown", false) == true)
+                if (crop)
                 {
-                    originalBmp = BitmapUtils.rotateBitmap(originalBmp);
+                    Integer newheigt = size.width /32 * 9;
+                    Integer tocrop = orgiHolder.getHeight() - newheigt ;
+                    orgiHolder.cropBitmap(0, tocrop /2, orgiHolder.getWidth(), newheigt + (tocrop /2));
                 }
-                BitmapUtils.saveBitmapToFile(file, originalBmp);
+
+                BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
+
                 manager.SaveExifTo(file.getAbsolutePath());
             }
         }
@@ -105,13 +89,9 @@ public class SavePicture
         {
             if (preferences.getBoolean("upsidedown", false) == true)
             {
-                Bitmap originalBmp = BitmapUtils.loadFromBytes(bytes);
-                bytes = new byte[0];
-                
-                Bitmap rot = BitmapUtils.rotateBitmap(originalBmp);
-                BitmapUtils.saveBitmapToFile(file, rot);
-
-                rot.recycle();
+                JniBitmapHolder h = new JniBitmapHolder(BitmapUtils.loadFromBytes(bytes));
+                h.rotateBitmap180();
+                BitmapUtils.saveBitmapToFile(file, h.getBitmapAndFree());
             }
             else
             {

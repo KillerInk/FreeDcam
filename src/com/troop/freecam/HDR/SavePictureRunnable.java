@@ -3,6 +3,7 @@ package com.troop.freecam.HDR;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class SavePictureRunnable implements  Runnable
             return;
         }
         //uris[count] = Uri.fromFile(file);
-        if(!rotate)
+        if(true)
         {
             Log.d(TAG, "save HdrPicture NR" + String.valueOf(count));
             FileOutputStream outStream = null;
@@ -65,13 +66,13 @@ public class SavePictureRunnable implements  Runnable
                 e.printStackTrace();
             }
         }
-        else
+        /*else
         {
             Bitmap orgi = BitmapUtils.loadFromBytes(data);
-            orgi = BitmapUtils.rotateBitmap(orgi);
+            JniBitmapHolder h = new Jn
             BitmapUtils.saveBitmapToFile(file, orgi);
             orgi.recycle();
-        }
+        }*/
 
         data = null;
         System.gc();

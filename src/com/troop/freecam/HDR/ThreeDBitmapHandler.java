@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.media.Metadata;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -27,19 +28,20 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
     public Uri[] RightUris;
     public File sdcardpath = Environment.getExternalStorageDirectory();
     public File freeCamImageDirectoryTmp = new File(sdcardpath.getAbsolutePath() + "/DCIM/FreeCam/Tmp/");
-    Activity activity;
+    HdrRenderActivity activity;
 
     public ThreeDBitmapHandler(Activity activity, Uri[] orginalUris)
     {
         super(activity, orginalUris);
         this.uris = orginalUris;
-        this.activity = activity;
+        this.activity = (HdrRenderActivity) activity;
         LeftUris = new Uri[3];
         RightUris = new Uri[3];
     }
 
     public Uri[] split3DImagesIntoLeftRight(Uri[] uris)
     {
+
         String end = "";
         if (uris[0].getPath().endsWith("jps"))
             end = "jps";
@@ -51,6 +53,8 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             JniBitmapHolder orgi = new JniBitmapHolder(BitmapFactory.decodeFile(uris[i].getPath()));
             int newheigt = orgi.getWidth() /32 * 9;
             int tocrop = orgi.getHeight() - newheigt ;
+            if (activity.preferences.getBoolean("upsidedown", false))
+                orgi.rotateBitmap180();
             orgi.cropBitmap(0, tocrop / 2, orgi.getWidth(), tocrop / 2 + newheigt);
             orgi.cropBitmap(0, 0, orgi.getWidth() / 2, orgi.getHeight());
             File file = new File(String.format(freeCamImageDirectoryTmp + "/left" + String.valueOf(i) + "." + end));
@@ -58,6 +62,8 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
             LeftUris[i] = Uri.fromFile(file);
 
             orgi = new JniBitmapHolder(BitmapFactory.decodeFile(uris[i].getPath()));
+            if (activity.preferences.getBoolean("upsidedown", false))
+                orgi.rotateBitmap180();
             orgi.cropBitmap(0, tocrop / 2, orgi.getWidth(), tocrop / 2 + newheigt);
             orgi.cropBitmap(orgi.getWidth() / 2, 0, orgi.getWidth(), orgi.getHeight());
             File fileright = new File(String.format(freeCamImageDirectoryTmp + "/right" + String.valueOf(i) + "." + end));
@@ -127,34 +133,4 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
         }
         return file.getAbsolutePath();
     }
-
-    private void saveFile(String filepath, byte[] bytes)
-    {
-        File file = new File(filepath);
-        FileOutputStream outStream = null;
-        try {
-            file.createNewFile();
-            outStream = new FileOutputStream(file);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-      
-    private Bitmap cropToSixteenToNine(Bitmap bitmap, int width, int height)
-    {
-        if (PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("crop", false) == true)
-        {
-            int newheigt = width /32 * 9;
-            int tocrop = height - newheigt ;
-
-            bitmap = BitmapUtils.cropBitmap(bitmap, 0, tocrop / 2, width, newheigt );
-        }
-        return bitmap;
-    }
-
 }
