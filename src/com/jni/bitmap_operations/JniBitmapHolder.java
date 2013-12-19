@@ -3,6 +3,7 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
 import android.R.integer;
+import android.R.string;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -37,6 +38,7 @@ public class JniBitmapHolder
   private native int jniWidth(ByteBuffer buffer);
   private native int jniHeight(ByteBuffer buffer);
   private native void jniSave(ByteBuffer buffer,FileOutputStream outstreamFileOutputStream);
+  private native ByteBuffer jniLoadFromPath(String path);
 
   public JniBitmapHolder()
     {}
@@ -45,6 +47,11 @@ public class JniBitmapHolder
     {
     storeBitmap(bitmap);
     }
+  
+  public JniBitmapHolder(final String path)
+  {
+	  loadFromPath(path);
+  }
   
   public void AddImageIntoExisting(ByteBuffer nioBuffer, int x, int y)
   {
@@ -85,6 +92,15 @@ public class JniBitmapHolder
       freeBitmap();
     _handler=jniStoreBitmapData(bitmap);
     }
+  
+  public void loadFromPath(String path)
+  {
+	  if (_handler != null) 
+	  {
+		  freeBitmap();
+	  }
+	  _handler = jniLoadFromPath(path);
+  }
   
 
   public void rotateBitmapCcw90()

@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by troop on 18.10.13.
@@ -66,9 +67,7 @@ public class SavePicture
             {
                 ExifManager manager = new ExifManager();
                 manager.LoadExifFrom(file.getAbsolutePath());
-                Bitmap orgi = BitmapFactory.decodeFile(file.getAbsolutePath());
-                JniBitmapHolder orgiHolder = new JniBitmapHolder(orgi);
-                orgi.recycle();
+                JniBitmapHolder orgiHolder = new JniBitmapHolder(BitmapFactory.decodeFile(file.getAbsolutePath()));
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
                     orgiHolder.rotateBitmap180();
@@ -80,7 +79,8 @@ public class SavePicture
                     orgiHolder.cropBitmap(0, tocrop /2, orgiHolder.getWidth(), newheigt + (tocrop /2));
                 }
 
-                BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
+                //BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
+                BitmapUtils.saveBitmapNativeToFile(file, orgiHolder);
 
                 manager.SaveExifTo(file.getAbsolutePath());
             }
@@ -91,7 +91,8 @@ public class SavePicture
             {
                 JniBitmapHolder h = new JniBitmapHolder(BitmapUtils.loadFromBytes(bytes));
                 h.rotateBitmap180();
-                BitmapUtils.saveBitmapToFile(file, h.getBitmapAndFree());
+                BitmapUtils.saveBitmapNativeToFile(file, h);
+                //BitmapUtils.saveBitmapToFile(file, h.getBitmapAndFree());
             }
             else
             {

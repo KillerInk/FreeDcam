@@ -33,6 +33,7 @@ extern "C"
   JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniHeight(JNIEnv * env, jobject obj, jobject handle);
   JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniWidth(JNIEnv * env, jobject obj, jobject handle);
   JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniSave(JNIEnv * env, jobject obj, jobject handle, jobject fileoutputstream);
+  JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniLoadFromPath(JNIEnv * env, jobject obj, jstring path);
   }
 
 class JniBitmap
@@ -45,6 +46,17 @@ class JniBitmap
       _storedBitmapPixels = NULL;
       }
   };
+
+class rgba
+{
+public:
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t alpha;
+    rgba()
+    {}
+};
 
 jobject createjBitmap(JNIEnv * env, JniBitmap* jniBitmap)
 {
@@ -71,6 +83,97 @@ jobject createjBitmap(JNIEnv * env, JniBitmap* jniBitmap)
 	  memcpy(newBitmapPixels, jniBitmap->_storedBitmapPixels, sizeof(uint32_t) * pixelsCount);
 	  AndroidBitmap_unlockPixels(env, newBitmap);
 	  return newBitmap;
+}
+
+JniBitmap* createNativeBitmap(JNIEnv * env, jobject bitmap)
+{
+	AndroidBitmapInfo bitmapInfo;
+	  uint32_t* storedBitmapPixels = NULL;
+	  //LOGD("reading bitmap info...");
+	  int ret;
+	  if ((ret = AndroidBitmap_getInfo(env, bitmap, &bitmapInfo)) < 0)
+	    {
+	    LOGE("AndroidBitmap_getInfo() failed ! error=%d", ret);
+	    return NULL;
+	    }
+	  //LOGD("width:%d height:%d stride:%d", bitmapInfo.width, bitmapInfo.height, bitmapInfo.stride);
+	  if (bitmapInfo.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
+	    {
+	    LOGE("Bitmap format is not RGBA_8888!");
+	    return NULL;
+	    }
+	  //
+	  //read pixels of bitmap into native memory :
+	  //
+	  //LOGD("reading bitmap pixels...");
+	  void* bitmapPixels;
+	  if ((ret = AndroidBitmap_lockPixels(env, bitmap, &bitmapPixels)) < 0)
+	    {
+	    LOGE("AndroidBitmap_lockPixels() failed ! error=%d", ret);
+	    return NULL;
+	    }
+	  uint32_t* src = (uint32_t*) bitmapPixels;
+	  storedBitmapPixels = new uint32_t[bitmapInfo.height * bitmapInfo.width];
+	  int pixelsCount = bitmapInfo.height * bitmapInfo.width;
+	  memcpy(storedBitmapPixels, src, sizeof(uint32_t) * pixelsCount);
+	  AndroidBitmap_unlockPixels(env, bitmap);
+	  JniBitmap *jniBitmap = new JniBitmap();
+	  jniBitmap->_bitmapInfo = bitmapInfo;
+	  jniBitmap->_storedBitmapPixels = storedBitmapPixels;
+	  return jniBitmap;
+}
+
+rgba unPackPixelFromByte(uint32_t pixel)
+{
+	rgba toret;
+	toret.alpha = (int)((pixel >> 24 ) & 0xFF);
+	toret.red = (int) ((pixel >> 16) & 0xFF);
+	toret.green = (int)((pixel >> 8) & 0xFF);
+	toret.blue = (int) (pixel & 0xFF);
+
+
+
+	return toret;
+}
+
+uint32_t packPixelToByte(rgba rgb)
+{
+	uint32_t pixel = (rgb.alpha << 24) |
+					 (rgb.red << 16) |
+					 (rgb.green << 8) |
+					 rgb.blue;
+	return pixel;
+}
+
+uint32_t tonemapColors(rgba base, rgba high, rgba low)
+{
+	rgba toReturn;
+	toReturn.blue = (base.blue + high.blue + low.blue)/3;
+	toReturn.red = (base.red + high.red + low.red)/3;
+	toReturn.green = (base.green + high.green + low.green)/3;
+
+	uint32_t pixel = packPixelToByte(toReturn);
+	return pixel;
+}
+
+void compress(JNIEnv* env, jobject fOut, jobject bitmap)
+{
+	jclass bitmapCompressClass = env->FindClass("android/graphics/Bitmap$CompressFormat");
+	jstring enumValue = env->NewStringUTF("JPEG");
+	jmethodID valueOfBitmapCompressFunction = env->GetStaticMethodID(bitmapCompressClass, "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$CompressFormat;");
+	jobject bitmapCompress = env->CallStaticObjectMethod(bitmapCompressClass, valueOfBitmapCompressFunction, enumValue);
+	jclass bitmapCls = env->GetObjectClass(bitmap);
+	jmethodID compressBitmapMethodID = env->GetMethodID(bitmapCls,"compress","(Landroid/graphics/Bitmap$CompressFormat;ILjava/io/OutputStream;)Z");
+
+	env->CallBooleanMethod(bitmap, compressBitmapMethodID, bitmapCompress, (jint)100, fOut);
+
+}
+
+void recyleJavaBitmap(JNIEnv* env, jobject bitmap)
+{
+		jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
+		jmethodID recycle = env->GetMethodID(bitmapCls,"recycle","()V");
+		env->CallVoidMethod(bitmap, recycle, bitmapCls);
 }
 
 /**crops the bitmap within to be smaller. note that no validations are done*/ //
@@ -209,40 +312,8 @@ JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniGet
 /**store java bitmap as JNI data*/  //
 JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniStoreBitmapData(JNIEnv * env, jobject obj, jobject bitmap)
   {
-  AndroidBitmapInfo bitmapInfo;
-  uint32_t* storedBitmapPixels = NULL;
-  //LOGD("reading bitmap info...");
-  int ret;
-  if ((ret = AndroidBitmap_getInfo(env, bitmap, &bitmapInfo)) < 0)
-    {
-    LOGE("AndroidBitmap_getInfo() failed ! error=%d", ret);
-    return NULL;
-    }
-  //LOGD("width:%d height:%d stride:%d", bitmapInfo.width, bitmapInfo.height, bitmapInfo.stride);
-  if (bitmapInfo.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
-    {
-    LOGE("Bitmap format is not RGBA_8888!");
-    return NULL;
-    }
-  //
-  //read pixels of bitmap into native memory :
-  //
-  //LOGD("reading bitmap pixels...");
-  void* bitmapPixels;
-  if ((ret = AndroidBitmap_lockPixels(env, bitmap, &bitmapPixels)) < 0)
-    {
-    LOGE("AndroidBitmap_lockPixels() failed ! error=%d", ret);
-    return NULL;
-    }
-  uint32_t* src = (uint32_t*) bitmapPixels;
-  storedBitmapPixels = new uint32_t[bitmapInfo.height * bitmapInfo.width];
-  int pixelsCount = bitmapInfo.height * bitmapInfo.width;
-  memcpy(storedBitmapPixels, src, sizeof(uint32_t) * pixelsCount);
-  AndroidBitmap_unlockPixels(env, bitmap);
-  JniBitmap *jniBitmap = new JniBitmap();
-  jniBitmap->_bitmapInfo = bitmapInfo;
-  jniBitmap->_storedBitmapPixels = storedBitmapPixels;
-  return env->NewDirectByteBuffer(jniBitmap, 0);
+	JniBitmap* map = createNativeBitmap(env, bitmap);
+  return env->NewDirectByteBuffer(map, 0);
   }
 
 /**scales the image using the fastest, simplest algorithm called "nearest neighbor" */ //
@@ -312,51 +383,6 @@ JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniAddIma
 	  }
 }
 
-class rgba
-{
-public:
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-    uint8_t alpha;
-    rgba()
-    {}
-};
-
-
-rgba unPackPixelFromByte(uint32_t pixel)
-{
-	rgba toret;
-	toret.alpha = (int)((pixel >> 24 ) & 0xFF);
-	toret.red = (int) ((pixel >> 16) & 0xFF);
-	toret.green = (int)((pixel >> 8) & 0xFF);
-	toret.blue = (int) (pixel & 0xFF);
-
-
-
-	return toret;
-}
-
-uint32_t packPixelToByte(rgba rgb)
-{
-	uint32_t pixel = (rgb.alpha << 24) |
-					 (rgb.red << 16) |
-					 (rgb.green << 8) |
-					 rgb.blue;
-	return pixel;
-}
-
-uint32_t tonemapColors(rgba base, rgba high, rgba low)
-{
-	rgba toReturn;
-	toReturn.blue = (base.blue + high.blue + low.blue)/3;
-	toReturn.red = (base.red + high.red + low.red)/3;
-	toReturn.green = (base.green + high.green + low.green)/3;
-
-	uint32_t pixel = packPixelToByte(toReturn);
-	return pixel;
-}
-
 JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniToneMapImages(JNIEnv * env, jobject obj, jobject handle, jobject high,
 		jobject low)
 {
@@ -402,29 +428,24 @@ JNIEXPORT jint JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniHeight
 	return (jint) ret;
 }
 
-void compress(JNIEnv* env, jobject fOut, jobject bitmap)
-{
-	jclass bitmapCompressClass = env->FindClass("android/graphics/Bitmap$CompressFormat");
-	jstring enumValue = env->NewStringUTF("JPEG");
-	jmethodID valueOfBitmapCompressFunction = env->GetStaticMethodID(bitmapCompressClass, "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$CompressFormat;");
-	jobject bitmapCompress = env->CallStaticObjectMethod(bitmapCompressClass, valueOfBitmapCompressFunction, enumValue);
-	jclass bitmapCls = env->GetObjectClass(bitmap);
-	jmethodID compressBitmapMethodID = env->GetMethodID(bitmapCls,"compress","(Landroid/graphics/Bitmap$CompressFormat;ILjava/io/OutputStream;)Z");
-
-	env->CallBooleanMethod(bitmap, compressBitmapMethodID, bitmapCompress, (jint)100, fOut);
-
-}
-
 JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniSave(JNIEnv * env, jobject obj, jobject handle, jobject fileoutputstream)
 {
 	JniBitmap* bitmap = (JniBitmap*) env->GetDirectBufferAddress(handle);
 	jobject bitmapToSave = createjBitmap(env, bitmap);
 	compress(env, fileoutputstream, bitmapToSave);
-	jclass bitmapCls = env->GetObjectClass(bitmapToSave);
-	jmethodID recycle = env->GetMethodID(bitmapCls,"recycle","()V");
-	env->CallVoidMethod(bitmapToSave, recycle, bitmapCls);
+	recyleJavaBitmap(env,bitmapToSave);
+	delete bitmapToSave;
 }
 
+JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniLoadFromPath(JNIEnv * env, jobject obj, jstring path)
+{
+	jclass bitmapCls = env->FindClass("android/graphics/BitmapFactory");
+	jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "decodeFile", "(Ljava/lang/String;)Landroid/graphics/Bitmap;");
+	jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, path);
+	JniBitmap* newJniBitmap = createNativeBitmap(env, newBitmap);
+	recyleJavaBitmap(env, newBitmap);
+	return env->NewDirectByteBuffer(newJniBitmap, 0);
+}
 
 
 
