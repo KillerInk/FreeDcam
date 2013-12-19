@@ -1,4 +1,5 @@
 package com.jni.bitmap_operations;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
 import android.R.integer;
@@ -35,6 +36,7 @@ public class JniBitmapHolder
   
   private native int jniWidth(ByteBuffer buffer);
   private native int jniHeight(ByteBuffer buffer);
+  private native void jniSave(ByteBuffer buffer,FileOutputStream outstreamFileOutputStream);
 
   public JniBitmapHolder()
     {}
@@ -53,12 +55,23 @@ public class JniBitmapHolder
   
   public int getWidth()
   {
+	  if(_handler==null)
+		return 0;
 	  return jniWidth(_handler);
   }
   
   public int getHeight()
   {
+	  if(_handler==null)
+			return 0;
 	  return jniHeight(_handler);
+  }
+  
+  public void Save(FileOutputStream outputStream)
+  {
+	  if(_handler == null)
+		  return;
+	  jniSave(_handler, outputStream);
   }
   
   public void ToneMapImages(JniBitmapHolder high, JniBitmapHolder low)
@@ -113,6 +126,7 @@ public class JniBitmapHolder
     {
     final Bitmap bitmap=getBitmap();
     freeBitmap();
+    
     return bitmap;
     }
 
