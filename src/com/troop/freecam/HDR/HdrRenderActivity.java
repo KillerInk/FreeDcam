@@ -2,10 +2,12 @@ package com.troop.freecam.HDR;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -44,7 +46,7 @@ public class HdrRenderActivity extends Activity
 
     ThreeDBitmapHandler threeDBitmapHandler;
     TwoDBitmapHandler twoDBitmapHandler;
-
+    public SharedPreferences preferences;
 
     RelativeLayout picView;
 
@@ -62,7 +64,7 @@ public class HdrRenderActivity extends Activity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+            preferences = PreferenceManager.getDefaultSharedPreferences(this);
             setContentView(R.layout.hdr_layout);
             Bundle extras = getIntent().getExtras();
             String[] muh =null;

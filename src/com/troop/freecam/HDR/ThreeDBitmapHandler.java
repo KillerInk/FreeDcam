@@ -11,8 +11,7 @@ import android.preference.PreferenceManager;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.SavePictureTask;
-import com.troop.freecam.cm.HdrSoftwareProcessor;
-import com.troop.freecam.utils.BitmapUtils;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;

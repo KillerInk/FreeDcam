@@ -198,7 +198,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;
+            options.inSampleSize = 16;
             Bitmap bitmaporg = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             //mediaScannerManager.startScan(s);
 

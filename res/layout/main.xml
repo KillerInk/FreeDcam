@@ -1014,7 +1014,7 @@
                     android:id="@+id/button_af_assit"
                     android:layout_below="@+id/linearLayout"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    />
             </LinearLayout>
 
             <LinearLayout

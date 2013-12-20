@@ -75,9 +75,6 @@ public class SavePictureRunnable implements  Runnable
         }*/
 
         data = null;
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
         Running = false;
     }
 

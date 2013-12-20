@@ -20,7 +20,6 @@ public class BitmapUtils
         JniBitmapHolder holder = new JniBitmapHolder();
         holder.storeBitmap(originalBmp);
         originalBmp.recycle();
-        System.gc();
         holder.rotateBitmap180();
         originalBmp = holder.getBitmapAndFree();
         holder =null;
@@ -60,6 +59,20 @@ public class BitmapUtils
 
     }
 
+    public static void saveBitmapNativeToFile(File file, JniBitmapHolder jniBitmapHolder)
+    {
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            jniBitmapHolder.Save(fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            jniBitmapHolder.freeBitmap();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void saveBytesToFile(File file, byte[] bytes)
     {
         FileOutputStream outStream = null;
@@ -82,8 +95,8 @@ public class BitmapUtils
         opts.inPurgeable = true; // Tell to gc that whether it needs free
         // memory, the Bitmap can be cleared
         opts.inInputShareable = true;
-        opts.inDither = true;
-        opts.inPreferQualityOverSpeed = true;
+        //opts.inDither = true;
+        //opts.inPreferQualityOverSpeed = true;
         Bitmap originalBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
         return  originalBmp;
     }

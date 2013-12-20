@@ -28,10 +28,6 @@ public class TwoDBitmapHandler extends BaseBitmapHandler
 
     public String render2d(String end, File sdcardpath)
     {
-        System.gc();
-        Runtime.getRuntime().gc();
-        System.gc();
-
         baseJni.ToneMapImages(highJni, lowJni);
         highJni.freeBitmap();
         lowJni.freeBitmap();

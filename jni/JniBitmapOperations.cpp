@@ -434,7 +434,6 @@ JNIEXPORT void JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniSave(J
 	jobject bitmapToSave = createjBitmap(env, bitmap);
 	compress(env, fileoutputstream, bitmapToSave);
 	recyleJavaBitmap(env,bitmapToSave);
-	delete bitmapToSave;
 }
 
 JNIEXPORT jobject JNICALL Java_com_jni_bitmap_1operations_JniBitmapHolder_jniLoadFromPath(JNIEnv * env, jobject obj, jstring path)

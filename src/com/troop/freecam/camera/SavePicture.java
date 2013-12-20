@@ -59,15 +59,19 @@ public class SavePicture
         if (is3d)
         {
             BitmapUtils.saveBytesToFile(file, bytes);
-            bytes = new byte[0];
-            System.gc();
-            Runtime.getRuntime().gc();
-            System.gc();
+            //bytes = null;
             if (preferences.getBoolean("upsidedown", false) == true || crop)
             {
                 ExifManager manager = new ExifManager();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPurgeable = true;
+                options.inInputShareable = true;
+                options.inDither = false;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+
                 manager.LoadExifFrom(file.getAbsolutePath());
-                JniBitmapHolder orgiHolder = new JniBitmapHolder(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                JniBitmapHolder orgiHolder = new JniBitmapHolder(bitmap);
+                bitmap.recycle();
                 if (preferences.getBoolean("upsidedown", false) == true)
                 {
                     orgiHolder.rotateBitmap180();
@@ -81,7 +85,6 @@ public class SavePicture
 
                 //BitmapUtils.saveBitmapToFile(file, orgiHolder.getBitmapAndFree());
                 BitmapUtils.saveBitmapNativeToFile(file, orgiHolder);
-
                 manager.SaveExifTo(file.getAbsolutePath());
             }
         }
