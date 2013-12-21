@@ -273,22 +273,22 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 if (hideManualMenu == false)
                 {
                     hideManualMenu = true;
-                    baseMenuLayout.removeView(manualMenuLayout);
+                    manualMenuLayout.setVisibility(View.GONE);
                 }
                 else
                 {
                     hideManualMenu = false;
-                    if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
-                        baseMenuLayout.addView(manualMenuLayout);
+                    //if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
+                        manualMenuLayout.setVisibility(View.VISIBLE);
                     if (hideAutoMenu == false)
                     {
                         hideAutoMenu = true;
-                        baseMenuLayout.removeView(autoMenuLayout);
+                        autoMenuLayout.setVisibility(View.GONE);
                     }
                     if (hideSettingsMenu == false)
                     {
                         hideSettingsMenu = true;
-                        baseMenuLayout.removeView(settingsMenuLayout);
+                        settingsMenuLayout.setVisibility(View.GONE);
                     }
                 }
 
@@ -304,23 +304,23 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 {
                     hideAutoMenu = true;
 
-                    baseMenuLayout.removeView(autoMenuLayout);
+                    autoMenuLayout.setVisibility(View.GONE);
                 }
                 else
                 {
                     hideAutoMenu = false;
-                    if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
-                        baseMenuLayout.addView(autoMenuLayout);
+                    //if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
+                        autoMenuLayout.setVisibility(View.VISIBLE);
 
                     if (hideSettingsMenu == false)
                     {
                         hideSettingsMenu = true;
-                        baseMenuLayout.removeView(settingsMenuLayout);
+                        settingsMenuLayout.setVisibility(View.GONE);
                     }
                     if (hideManualMenu == false)
                     {
                         hideManualMenu = true;
-                        baseMenuLayout.removeView(manualMenuLayout);
+                        manualMenuLayout.setVisibility(View.GONE);
                     }
 
                 }
@@ -335,22 +335,22 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 if (hideSettingsMenu == false)
                 {
                     hideSettingsMenu = true;
-                    baseMenuLayout.removeView(settingsMenuLayout);
+                    settingsMenuLayout.setVisibility(View.GONE);
                 }
                 else
                 {
                     hideSettingsMenu = false;
-                    if (baseMenuLayout.findViewById(R.id.LayoutSettings) == null)
-                        baseMenuLayout.addView(settingsMenuLayout);
+                    //if (baseMenuLayout.findViewById(R.id.LayoutSettings) == null)
+                        settingsMenuLayout.setVisibility(View.VISIBLE);
                     if (hideAutoMenu == false)
                     {
                         hideAutoMenu = true;
-                        baseMenuLayout.removeView(autoMenuLayout);
+                        autoMenuLayout.setVisibility(View.GONE);
                     }
                     if (hideManualMenu == false)
                     {
                         hideManualMenu = true;
-                        baseMenuLayout.removeView(manualMenuLayout);
+                        manualMenuLayout.setVisibility(View.GONE);
                     }
 
                 }
@@ -358,13 +358,13 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             }
         });
 
-        baseMenuLayout.removeView(autoMenuLayout);
-        baseMenuLayout.removeView(manualMenuLayout);
-        baseMenuLayout.removeView(settingsMenuLayout);
+        autoMenuLayout.setVisibility(View.GONE);
+        manualMenuLayout.setVisibility(View.GONE);
+        settingsMenuLayout.setVisibility(View.GONE);
 
-        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
-            settingsMenuLayout.removeView(crop_box);
+            crop_box.setVisibility(View.GONE);
         }
         else
         {
@@ -379,8 +379,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         flashButton.setOnClickListener(new FlashMenu(camMan, this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
         shotButton.setOnClickListener(shotListner);
-        AfAssitButton = (Button)findViewById(R.id.button_af_assit);
-        AfAssitButton.setOnClickListener(AFSListner);
+
         focusButton = (Button) findViewById(R.id.button_focus);
         focusButton.setOnClickListener(new FocusMenu(camMan, this));
         sceneButton = (Button) findViewById(R.id.buttonScene);
@@ -467,7 +466,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         exposureSeekbar.setProgress(30);
         exposureSeekbar.setOnSeekBarChangeListener(camMan.manualExposureManager);
         exposureRow = (TableRow) findViewById(R.id.tableRowExposure);
-        tableLayout.removeView(exposureRow);
+        exposureRow.setVisibility(View.GONE);
         manualExposure = (CheckBox)findViewById(R.id.checkBox_exposureManual);
         manualExposure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -475,11 +474,11 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 if (manualExposure.isChecked())
                 {
-                    tableLayout.addView(exposureRow);
+                    exposureRow.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    tableLayout.removeView(exposureRow);
+                    exposureRow.setVisibility(View.GONE);
                 }
             }
         });
@@ -490,21 +489,19 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         sharpnessSeekBar.setProgress(100);
         sharpnessSeekBar.setOnSeekBarChangeListener(camMan.manualSharpnessManager);
         sharpnessRow = (TableRow) findViewById(R.id.tableRowSharpness);
-        tableLayout.removeView(sharpnessRow);
+        sharpnessRow.setVisibility(View.GONE);
+
         manualShaprness = (CheckBox) findViewById(R.id.checkBox_sharpness);
         manualShaprness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (manualShaprness.isChecked())
                 {
-                    tableLayout.addView(sharpnessRow);
-                    //manualShaprness.setVisibility(View.VISIBLE);
-
-                    //sharpnessRow.bringToFront();
+                    sharpnessRow.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    tableLayout.removeView(sharpnessRow);
+                    sharpnessRow.setVisibility(View.GONE);
                 }
                 //sharpnessRow.invalidate();
             }
@@ -523,14 +520,14 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             public void onClick(View v) {
                 if (manualFocus.isChecked())
 
-                    tableLayout.addView(focusRow);
+                    focusRow.setVisibility(View.VISIBLE);
 
                 else
-                    tableLayout.removeView(focusRow);
+                    focusRow.setVisibility(View.GONE);
                 focusButton.setEnabled(true);
             }
         });
-        tableLayout.removeView(focusRow);
+        focusRow.setVisibility(View.GONE);
 
         //*****************************************End********************************************
 
@@ -546,12 +543,12 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             @Override
             public void onClick(View v) {
                 if (contrastcheckBox.isChecked())
-                    tableLayout.addView(contrastRow);
+                    contrastRow.setVisibility(View.VISIBLE);
                 else
-                    tableLayout.removeView(contrastRow);
+                    contrastRow.setVisibility(View.GONE);
             }
         });
-        tableLayout.removeView(contrastRow);
+        contrastRow.setVisibility(View.GONE);
 
 
         brightnessRow = (TableRow)findViewById(R.id.tableRowBrightness);
@@ -1033,6 +1030,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 contrastSeekBar.setMax(180);
                 camMan.manualContrastManager.ExternalSet = true;
                 contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
+
             }
             if (camMan.parametersManager.getSupportBrightness())
             {
@@ -1046,6 +1044,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             crop_box.setChecked(preferences.getBoolean("crop", false));
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
+            else
+                flashButton.setText(camMan.parametersManager.getParameters().getFlashMode());
             showtext();
 
             if (!camMan.parametersManager.getSupportAfpPriority())
