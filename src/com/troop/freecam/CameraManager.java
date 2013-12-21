@@ -384,11 +384,11 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public  void SetTouchFocus(RectF rectangle)
     {
         //Attempt at af Assit light
-        if (mainActivity.AFS_enable == true)
+        /*if (mainActivity.AFS_enable == true)
         {
             AutoFocusAssit();
 
-        }
+        }*/
 
         if (touchtofocus == false && !autoFocusManager.focusing)
         {
