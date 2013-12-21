@@ -854,6 +854,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         else
         {
             switchVideoPicture.setBackgroundResource(R.drawable.icon_picture_mode);
+            shotButton.setBackgroundResource(R.drawable.icon_shutter_thanos_blast);
         }
     }
 
