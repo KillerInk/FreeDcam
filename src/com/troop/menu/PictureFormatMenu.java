@@ -26,6 +26,7 @@ public class PictureFormatMenu extends BaseMenu  {
         {
             try
             {
+                //TODO get the values from the camera parameters
                 String Values = "JPEG,WEBMP,PNG,RAW";
                 picf = Values.split(",");
 
@@ -50,12 +51,12 @@ public class PictureFormatMenu extends BaseMenu  {
                     String tmp = item.toString();
                     //camMan.parametersManager.getParameters().set("iso", tmp);
                     activity.buttonPictureFormat.setText(tmp);
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+
+                    if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);

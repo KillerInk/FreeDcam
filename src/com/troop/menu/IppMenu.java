@@ -26,7 +26,7 @@ public class IppMenu extends  BaseMenu
         if(camMan.Running)
             try{
 
-            ipp = camMan.parametersManager.getParameters().get("ipp-values").split(",");
+                ipp = camMan.parametersManager.getParameters().get("ipp-values").split(",");
             }
             catch (NullPointerException ex)
             {
@@ -47,11 +47,11 @@ public class IppMenu extends  BaseMenu
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().set("ipp", tmp);
                     String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_IPP3D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_IPP2D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_IPPFront, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);

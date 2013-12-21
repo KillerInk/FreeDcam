@@ -43,14 +43,12 @@ public class WhiteBalanceMenu extends BaseMenu {
                     String tmp = item.toString();
                     //camMan.parameters.setAutoWhiteBalanceLock(true);
                     Log.d(TAG, "setWhiteBalance to " + tmp);
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_WhiteBalance3D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_WhiteBalance2D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_WhiteBalanceFront, tmp).commit();
-                    //preferences.edit().putString("whitebalance", tmp).commit();
                     camMan.parametersManager.getParameters().setWhiteBalance(tmp);
                     Log.d(TAG, "whitebalance is " + camMan.parametersManager.getParameters().getWhiteBalance());
                     camMan.Restart(false);

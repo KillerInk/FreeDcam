@@ -54,10 +54,10 @@ public class FlashMenu extends BaseMenu
                     if(activity.recordVideo == true)
                        camMan.parametersManager.getParameters().setFlashMode(tmpp);
 
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+
+                    if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_Flash3D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_Flash2D, tmp).commit();
                     //if (camvalue == CameraManager.SwitchCamera_MODE_Front)
                     //preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();

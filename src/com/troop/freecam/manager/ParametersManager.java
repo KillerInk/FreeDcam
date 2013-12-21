@@ -371,4 +371,42 @@ public class ParametersManager
     {
         cameraManager.mCamera.setParameters(parameters);
     }
+
+    public boolean doCropping()
+    {
+       return preferences.getBoolean("crop", false);
+    }
+
+    public boolean is3DMode()
+    {
+        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean is2DMode()
+    {
+        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean isFrontMode()
+    {
+        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 }

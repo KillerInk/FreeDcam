@@ -996,9 +996,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public void parametersHasChanged(boolean restarted)
     {
         try{
-
-
-
            if (camMan.parametersManager.getSupportSharpness())
                 sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
             //if (!parameters.get("exposure").equals("manual"))
@@ -1009,11 +1006,16 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
             saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
             brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
-
-
+            buttonPreviewFormat.setText(camMan.parametersManager.getParameters().get("preview-format"));
+            sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.setText(size1);
+
+            if(CameraManager.isQualcomm())
+                button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
+            if(CameraManager.isOmap())
+                button_zsl.setText(camMan.parametersManager.getParameters().get("mode"));
 
 
             ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
@@ -1042,7 +1044,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 saturationSeekBar.setMax(180);
             }
-            crop_box.setChecked(preferences.getBoolean("crop", false));
+            crop_box.setChecked(camMan.parametersManager.doCropping());
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
             else

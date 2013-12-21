@@ -50,19 +50,10 @@ public class ZslMenu extends BaseMenu  {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     if(CameraManager.isQualcomm())
-                    camMan.parametersManager.getParameters().set("zsl", tmp);
-
+                        camMan.parametersManager.getParameters().set("zsl", tmp);
                     if(CameraManager.isOmap())
                         camMan.parametersManager.getParameters().set("mode", tmp);
-                    activity.button_zsl.setText(tmp);
-
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
-                        preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
-                        preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
-                        preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
+                    preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);
 

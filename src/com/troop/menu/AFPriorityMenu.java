@@ -30,7 +30,7 @@ public class AFPriorityMenu extends BaseMenu  {
 
         if(camMan.Running && camMan.parametersManager.getSupportAfpPriority())
             if (CameraManager.isQualcomm())
-            modes = camMan.parametersManager.getParameters().get("selectable-zone-af-values").split(",");
+                modes = camMan.parametersManager.getParameters().get("selectable-zone-af-values").split(",");
 
             if (CameraManager.isOmap())
                 modes = camMan.parametersManager.getParameters().get("auto-convergence-mode-values").split(",");
@@ -55,10 +55,9 @@ public class AFPriorityMenu extends BaseMenu  {
                     activity.OnScreenFocusValue.setText("AFP:"+ tmp);
                     activity.buttonAfPriority.setText(tmp);
 
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
                     //preferences.edit().putString("focus", tmp).commit();
 

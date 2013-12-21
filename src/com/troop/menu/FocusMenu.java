@@ -46,12 +46,11 @@ public class FocusMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+                    if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_Focus3D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_Focus2D, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_FocusFront, tmp).commit();
                     //preferences.edit().putString("focus", tmp).commit();
                     camMan.autoFocusManager.SetFocus(tmp);

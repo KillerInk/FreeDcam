@@ -65,18 +65,8 @@ public class DenoiseMenu extends BaseMenu {
                     if(CameraManager.isQualcomm())
                         camMan.parametersManager.getParameters().set("denoise", tmp);
                     activity.button_denoise.setText(tmp);
-
-
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
-                        preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
-                        preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
-                        preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
-                    //preferences.edit().putString("color", tmp).commit();
+                    preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
                     camMan.Restart(false);
-
                     return true;
                 }
             });

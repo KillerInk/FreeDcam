@@ -50,10 +50,10 @@ public class MeteringMenu extends BaseMenu   {
                     activity.OnScreeMeterValue.setText(tmp);
                     activity.buttonMetering.setText(tmp);
 
-                    String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+
+                    if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_MTRValue, tmp).commit();
-                    if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+                    if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_MTRValue, tmp).commit();
                     //preferences.edit().putString("focus", tmp).commit();
 
