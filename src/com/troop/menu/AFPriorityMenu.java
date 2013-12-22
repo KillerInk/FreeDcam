@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by George on 12/6/13.
@@ -29,10 +30,10 @@ public class AFPriorityMenu extends BaseMenu  {
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
         if(camMan.Running && camMan.parametersManager.getSupportAfpPriority())
-            if (CameraManager.isQualcomm())
+            if (DeviceUtils.isQualcomm())
                 modes = camMan.parametersManager.getParameters().get("selectable-zone-af-values").split(",");
 
-            if (CameraManager.isOmap())
+            if (DeviceUtils.isOmap())
                 modes = camMan.parametersManager.getParameters().get("auto-convergence-mode-values").split(",");
         if (modes != null)
         {
@@ -47,9 +48,9 @@ public class AFPriorityMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (CameraManager.isQualcomm())
+                    if (DeviceUtils.isQualcomm())
                         camMan.parametersManager.getParameters().set("selectable-zone-af", tmp);
-                    if (CameraManager.isOmap())
+                    if (DeviceUtils.isOmap())
                         camMan.parametersManager.getParameters().set("auto-convergence-mode", tmp);
 
                     activity.OnScreenFocusValue.setText("AFP:"+ tmp);

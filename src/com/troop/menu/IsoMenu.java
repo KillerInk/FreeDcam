@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.utils.DeviceUtils;
 
 
 /**
@@ -26,9 +27,9 @@ public class IsoMenu extends BaseMenu {
         {
             try
             {
-                if(CameraManager.isOmap())
+                if(DeviceUtils.isOmap())
                     isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
-                if(CameraManager.isQualcomm())
+                if(DeviceUtils.isQualcomm())
                     isos = camMan.parametersManager.getParameters().get("iso-values").split(",");
 
             }

@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 03.09.13.
@@ -26,9 +27,9 @@ public class ExposureMenu extends BaseMenu {
         {
             try {
 
-                if(CameraManager.isOmap())
+                if(DeviceUtils.isOmap())
                 exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
-                if(CameraManager.isQualcomm() || CameraManager.isExynos() || CameraManager.isTegra())
+                if(DeviceUtils.isQualcomm() || DeviceUtils.isExynos() || DeviceUtils.isTegra())
                     exposures = null;
             }
             catch (Exception ex)

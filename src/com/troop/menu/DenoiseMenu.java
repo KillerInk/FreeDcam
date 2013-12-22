@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by George on 12/7/13.
@@ -26,7 +27,7 @@ public class DenoiseMenu extends BaseMenu {
         {
             try
             {
-                if(CameraManager.isOmap())
+                if(DeviceUtils.isOmap())
                 {
                     noise = camMan.parametersManager.getParameters().get("vnf-supported").split(",");
                     if (noise.length == 1)
@@ -37,7 +38,7 @@ public class DenoiseMenu extends BaseMenu {
                         noise = tmp;
                     }
                 }
-                if(CameraManager.isQualcomm())
+                if(DeviceUtils.isQualcomm())
                     noise = camMan.parametersManager.getParameters().get("denoise-values").split(",");
 
             }
@@ -58,11 +59,11 @@ public class DenoiseMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (CameraManager.isOmap())
+                    if (DeviceUtils.isOmap())
                     {
                         camMan.parametersManager.getParameters().set("vnf", tmp);
                     }
-                    if(CameraManager.isQualcomm())
+                    if(DeviceUtils.isQualcomm())
                         camMan.parametersManager.getParameters().set("denoise", tmp);
                     activity.button_denoise.setText(tmp);
                     preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();

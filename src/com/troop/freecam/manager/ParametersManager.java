@@ -7,6 +7,7 @@ import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 16.10.13.
@@ -172,10 +173,10 @@ public class ParametersManager
         }
 
         try {
-            if (CameraManager.isQualcomm())
+            if (DeviceUtils.isQualcomm())
                 if(!parameters.get("selectable-zone-af-values").equals(""))
                     supportAfpPriority = true;
-            if (CameraManager.isOmap())
+            if (DeviceUtils.isOmap())
                 if(!parameters.get("auto-convergence-mode-values").equals(""))
                     supportAfpPriority = true;
         }
@@ -222,7 +223,7 @@ public class ParametersManager
 
             parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
 
-            if(CameraManager.isQualcomm())
+            if(DeviceUtils.isQualcomm())
             {
                 parameters.set("denoise","denoise-off");
                 parameters.set("power-mode","Normal_Power");

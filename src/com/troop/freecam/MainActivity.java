@@ -38,6 +38,7 @@ import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
+import com.troop.freecam.utils.DeviceUtils;
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.DenoiseMenu;
@@ -744,17 +745,17 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         try {
             String s = Build.MODEL;
 
-            if(!CameraManager.isG2())
+            if(!DeviceUtils.isG2())
                 manualFocus.setVisibility(View.GONE);
 
-            if (!CameraManager.isQualcomm())
+            if (!DeviceUtils.isQualcomm())
                 checkBoxZSL.setEnabled(false);
                 buttonMetering.setEnabled(false);
 
             if(!s.equals("LG-P720") || !s.equals("LG-P725"))
                 upsidedown.setVisibility(View.GONE);
 
-            if (!CameraManager.isOmap())
+            if (!DeviceUtils.isOmap())
                 ippButton.setEnabled(false);
                 exposureButton.setEnabled(false);
         }
@@ -1012,9 +1013,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.setText(size1);
 
-            if(CameraManager.isQualcomm())
+            if(DeviceUtils.isQualcomm())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
-            if(CameraManager.isOmap())
+            if(DeviceUtils.isOmap())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("mode"));
 
 
@@ -1085,7 +1086,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             OnScreenPictureValue.setText(size1);
             OnScreeSceneValue.setText(camMan.parametersManager.getParameters().get("scene-mode"));
             OnScreenWBValue.setText(camMan.parametersManager.getParameters().get("whitebalance"));
-            if (CameraManager.isOmap())
+            if (DeviceUtils.isOmap())
                 OnScreeMeterValue.setText(camMan.parametersManager.getParameters().get("auto-exposure"));
         }
         catch (Exception ex)
