@@ -74,14 +74,14 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public Button exposureButton;
     public ExtendedButton switch3dButton;
     public ExtendedButton pictureSizeButton;
-    public Button previewSizeButton;
+    public ExtendedButton previewSizeButton;
     public ExtendedButton ippButton;
 
     //06-12-13***********
     public Button buttonAfPriority;
     public Button buttonMetering;
     public Button buttonPictureFormat;
-    public Button buttonPreviewFormat;
+    public ExtendedButton buttonPreviewFormat;
     public CheckBox checkBoxOnScreen;
     public CheckBox checkBoxZSL;
     //*******************
@@ -185,7 +185,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     boolean HDRMode = false;
 
     public Button button_zsl;
-    public Button button_denoise;
+    public ExtendedButton button_denoise;
     public Button button_stab;
     View view;
 
@@ -395,7 +395,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         exposureButton.setOnClickListener(new ExposureMenu(camMan, this));
         pictureSizeButton = (ExtendedButton) findViewById(R.id.button_pictureSize);
         pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, this));
-        previewSizeButton = (Button)findViewById(R.id.button_previewsize);
+        previewSizeButton = (ExtendedButton)findViewById(R.id.button_previewsize);
         previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
 
         //06-12-13*************************************************************
@@ -410,7 +410,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
         buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,this));
 
-        buttonPreviewFormat = (Button)findViewById(R.id.buttonPreviewFormat);
+        buttonPreviewFormat = (ExtendedButton)findViewById(R.id.buttonPreviewFormat);
         buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,this));
         //**********************************************************************
 
@@ -669,7 +669,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
        // button_stab = (Button)findViewById(R.id.button_ipp);
        // button_stab.setOnClickListener(new IppMenu(camMan, this));
 
-        button_denoise = (Button)findViewById(R.id.button_denoise);
+        button_denoise = (ExtendedButton)findViewById(R.id.button_denoise);
         button_denoise.setOnClickListener(new DenoiseMenu(camMan, this));
 
         button_zsl = (Button)findViewById(R.id.buttonZsl);
@@ -993,9 +993,10 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
             saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
             brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
-            buttonPreviewFormat.setText(camMan.parametersManager.getParameters().get("preview-format"));
+            buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
-            previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+            previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+            button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.SetValue(size1);
 

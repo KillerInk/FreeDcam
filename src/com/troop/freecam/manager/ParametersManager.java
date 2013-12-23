@@ -434,4 +434,28 @@ public class ParametersManager
     {
         preferences.edit().putBoolean("upsidedown", value).commit();
     }
+
+    public String[] getDenoiseValues()
+    {
+        String[] noise =  new String[0];
+        if(DeviceUtils.isOmap())
+        {
+            noise = parameters.get("vnf-supported").split(",");
+            if (noise.length == 1)
+            {
+                String[] tmp = new String[2];
+                tmp[0] = noise[0];
+                tmp[1] = "false";
+                noise = tmp;
+            }
+        }
+        if(DeviceUtils.isQualcomm())
+            noise = parameters.get("denoise-values").split(",");
+        return noise;
+    }
+
+    public String getDenoiseValue()
+    {
+        return preferences.getString(Preferences_Denoise, "false");
+    }
 }

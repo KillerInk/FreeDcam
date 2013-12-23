@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="fill_horizontal"
@@ -61,8 +62,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/textView_timerRecording"
-            android:layout_marginRight="66dp"
-            android:id="@+id/linearLayout">
+            android:id="@+id/linearLayout"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="80dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -825,7 +828,7 @@
                 android:layout_height="@android:dimen/app_icon_size"
                 android:id="@+id/LayoutAuto"
                 android:background="@drawable/camera_frame_box_ver_bg"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="52dp">
 
                 <Button
                     android:layout_width="@android:dimen/app_icon_size"
@@ -930,24 +933,21 @@
                 android:background="@drawable/camera_frame_box_ver_bg"
                 android:longClickable="false"
                 android:measureWithLargestChild="true"
-                android:layout_marginTop="98dp">
+                android:layout_marginTop="100dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_switch3d"
-                        android:background="@drawable/icon_settings_cam_select"
-                        android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:singleLine="true"
-                        android:typeface="serif" />
+                        android:background="@drawable/button"
+                        custom:StringTop="Select"
+                        custom:StringBot= "Camera" />
+
 
                     <CheckBox
                         android:layout_width="@android:dimen/app_icon_size"
@@ -963,27 +963,23 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                             android:layout_width="@android:dimen/app_icon_size"
                             android:layout_height="@android:dimen/app_icon_size"
                             android:id="@+id/button_flash"
-                            android:background="@drawable/icon_settings_flash_mode"
-                        android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:singleLine="true"
+                            android:background="@drawable/button"
+                        custom:StringTop="Flash"
+                        custom:StringBot="Mode"
                         android:typeface="serif" />
 
-                    <Button
-                            android:layout_width="@android:dimen/app_icon_size"
-                            android:layout_height="@android:dimen/app_icon_size"
-                            android:id="@+id/button_focus"
-                            android:background="@drawable/icon_auto_focus"
+                    <com.troop.freecam.controls.ExtendedButton
+                        android:layout_width="@android:dimen/app_icon_size"
+                        android:layout_height="@android:dimen/app_icon_size"
+                        android:id="@+id/button_focus"
+                        android:background="@drawable/button"
                         android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/TextSizeSmall"
+                        custom:StringTop="Focus"
+                        custom:StringBot="Mode"
                         android:typeface="serif" />
 
                 </LinearLayout>
@@ -1004,18 +1000,13 @@
                         android:textStyle="bold"
                         android:typeface="serif" />
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_pictureSize"
-                        android:background="@drawable/icon_settings_picture_size"
-                        android:textColor="#ff1100"
-
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                        android:background="@drawable/button"
+                        custom:StringTop="Picture"
+                        custom:StringBot="Size"/>
 
                 </LinearLayout>
 
@@ -1024,28 +1015,21 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/buttonPreviewFormat"
-                        android:background="@drawable/icon_settings_preview_format"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                        android:background="@drawable/button"
+                        custom:StringTop="Preview"
+                        custom:StringBot="Format"/>
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_previewsize"
-                        android:background="@drawable/icon_settings_preview_size"
-                        android:textColor="#ff1100"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                        android:background="@drawable/button"
+                        custom:StringBot="Size"
+                        custom:StringTop="Preview"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -1053,28 +1037,21 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_ipp"
-                        android:background="@drawable/icon_settings_ipp"
-                        android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
+                        android:background="@drawable/button"
+                        custom:StringBot="Processing"
+                        custom:StringTop="Image Post"/>
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_denoise"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:background="@drawable/icon_settings_denoise"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#ff1100"
-                        android:textAppearance="@android:style/TextAppearance.Holo.Small" />
+                        custom:StringTop="Denoise"
+                        android:background="@drawable/button"
+                         />
 
                 </LinearLayout>
 
