@@ -1004,9 +1004,15 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
             if(DeviceUtils.isOmap())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("mode"));
+            if (camMan.parametersManager.getSupportIPP())
+            {
+                if (ippButton.getVisibility() == View.GONE)
+                    ippButton.setVisibility(View.VISIBLE);
+                ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
+            }
+            else
+                ippButton.setVisibility(View.GONE);
 
-
-            ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
 
             camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
             camMan.manualExposureManager.ExternalSet = true;
@@ -1042,7 +1048,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             else
                 flashButton.setText(camMan.parametersManager.getParameters().getFlashMode());
             showtext();
-
+            focusButton.setText(camMan.parametersManager.getParameters().getFocusMode());
             if (!camMan.parametersManager.getSupportAfpPriority())
                 buttonAfPriority.setVisibility(View.GONE);
             if (!camMan.parametersManager.getSupportAutoExposure())
