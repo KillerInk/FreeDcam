@@ -410,4 +410,17 @@ public class ParametersManager
         else
             return false;
     }
+
+    public boolean isOrientationFIX()
+    {
+        if(preferences.getBoolean("upsidedown", false))
+            return true;
+        else
+            return false;
+    }
+
+    public void setOrientationFix(boolean value)
+    {
+        preferences.edit().putBoolean("upsidedown", value).commit();
+    }
 }

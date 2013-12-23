@@ -32,7 +32,6 @@ import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
@@ -259,7 +258,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     public void initMenu()
     {
-
         baseMenuLayout = (LinearLayout)findViewById(R.id.baseMenuLayout);
         autoMenuLayout = (LinearLayout)findViewById(R.id.LayoutAuto);
         manualMenuLayout = (LinearLayout)findViewById(R.id.Layout_Manual);
@@ -587,8 +585,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         tableLayout.removeView(saturationRow);
 
         upsidedown = (CheckBox) findViewById(R.id.button_fixupsidedown);
-        boolean upsidedownfix = preferences.getBoolean("upsidedown", false);
-        if (upsidedownfix == true)
+
+        if (camMan.parametersManager.isOrientationFIX())
             upsidedown.setChecked(true);
         upsidedown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -596,7 +594,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 if (upsidedown.isChecked())
                 {
-                    preferences.edit().putBoolean("upsidedown", true).commit();
+                    camMan.parametersManager.setOrientationFix(true);
                     camMan.Stop();
                     camMan.Start();
 
@@ -604,7 +602,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 }
                 else
                 {
-                    preferences.edit().putBoolean("upsidedown", false).commit();
+                    camMan.parametersManager.setOrientationFix(false);
                     camMan.Stop();
                     camMan.Start();
                     camMan.Restart(true);
@@ -685,8 +683,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
 
-
-
         //*****************************
 
 
@@ -695,8 +691,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public void onScreenText()
     {
         try {
-
-
             OnScreenBrightnessText = (TextView) findViewById(R.id.textViewBrightnessText);
             OnScreenBrightnessValue = (TextView) findViewById(R.id.textViewBrightnessValue);
             OnScreenContrastText = (TextView) findViewById(R.id.textViewContrastText);
@@ -723,13 +717,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             OnScreenSharpnessValue = (TextView) findViewById(R.id.textViewSharpValue);
             OnScreenWBText = (TextView) findViewById(R.id.textViewWBText);
             OnScreenWBValue = (TextView) findViewById(R.id.textViewWBValue);
-
-
         }
         catch (NullPointerException ex)
         {
-
-
         }
     }
 
@@ -777,8 +767,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         {
 
         }
-
-
     }
 
     public void hideCurrentConfig ()
@@ -809,7 +797,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         OnScreenSharpnessValue.setVisibility(View.INVISIBLE);
         OnScreenWBText.setVisibility(View.INVISIBLE);
         OnScreenWBValue.setVisibility(View.INVISIBLE);
-
     }
 
 
@@ -1067,14 +1054,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         {
 
         }
-
-
-
-
     }
     public void showtext()
     {
-
         try
         {
             OnScreenBrightnessValue.setText(camMan.parametersManager.getParameters().get("brightness"));
@@ -1097,7 +1079,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         {
 
         }
-
     }
 }
 	
