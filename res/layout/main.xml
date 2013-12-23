@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="0:00:0"
             android:id="@+id/textView_timerRecording"
             android:background="#010101"
             android:textColor="#ffffff"
@@ -989,16 +989,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <Button
+                    <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
                         android:layout_height="@android:dimen/app_icon_size"
                         android:id="@+id/button_pictureFormat"
-                        android:background="@drawable/icon_settings_picture_format"
-                        android:singleLine="true"
-                        android:textSize="@dimen/TextSizeSmall"
-                        android:textColor="#ff1100"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
+                        android:background="@drawable/button"
+                        custom:StringTop="Picture"
+                        custom:StringBot="Format"
+                        android:visibility="gone" />
 
                     <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"
