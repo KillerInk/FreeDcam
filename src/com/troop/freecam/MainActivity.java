@@ -1045,6 +1045,10 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 saturationSeekBar.setMax(180);
             }
+            if (camMan.parametersManager.is3DMode())
+                crop_box.setVisibility(View.VISIBLE);
+            else
+                crop_box.setVisibility(View.GONE);
             crop_box.setChecked(camMan.parametersManager.doCropping());
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
