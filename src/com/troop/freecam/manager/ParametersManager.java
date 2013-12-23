@@ -79,6 +79,8 @@ public class ParametersManager
     public boolean getSupportAutoExposure() { return supportAutoExposure;}
     boolean supportAfpPriority = false;
     public boolean getSupportAfpPriority() { return supportAfpPriority;}
+    boolean supportIPP = false;
+    public boolean getSupportIPP() { return supportIPP;}
     private ParametersChangedInterface parametersChanged;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
@@ -183,6 +185,15 @@ public class ParametersManager
         catch (Exception ex)
         {
             supportAfpPriority = false;
+        }
+        try {
+            String ipps = parameters.get("ipp-values");
+            if (!ipps.isEmpty())
+                supportIPP = true;
+         }
+        catch (Exception ex)
+        {
+            supportIPP = false;
         }
 
     }
