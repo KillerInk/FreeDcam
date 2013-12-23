@@ -229,21 +229,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             mCamera.stopPreview();
             parametersManager.SetJpegQuality(100);
             parametersManager.SetContrast(100);
-            //parameters.setExposureCompensation(0);
-
-            /*if (preferences.getBoolean("upsidedown", false) == true)
-                fixParametersOrientation();*/
-
-            String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-            activity.switch3dButton.setText(tmp);
-            if (parametersManager.getParameters().getFocusMode().equals("auto"))
-            {
-                activity.drawSurface.drawingRectHelper.Enabled = true;
-            }
-            else
-            {
-                activity.drawSurface.drawingRectHelper.Enabled = false;
-            }
             mCamera.startPreview();
 
         }

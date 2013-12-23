@@ -32,6 +32,8 @@ import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.troop.freecam.controls.ExtendedButton;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
@@ -63,17 +65,17 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 	public CamPreview mPreview;
     public DrawingOverlaySurface drawSurface;
 	public ImageButton shotButton;
-	public Button flashButton;
-    public Button focusButton;
+	public ExtendedButton flashButton;
+    public ExtendedButton focusButton;
     public Button sceneButton;
     public Button whitebalanceButton;
     public Button colorButton;
     public Button isoButton;
     public Button exposureButton;
-    public Button switch3dButton;
-    public Button pictureSizeButton;
+    public ExtendedButton switch3dButton;
+    public ExtendedButton pictureSizeButton;
     public Button previewSizeButton;
-    public Button ippButton;
+    public ExtendedButton ippButton;
 
     //06-12-13***********
     public Button buttonAfPriority;
@@ -374,12 +376,12 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
     public void initButtons()
     {
-        flashButton = (Button) findViewById(R.id.button_flash);
+        flashButton = (ExtendedButton) findViewById(R.id.button_flash);
         flashButton.setOnClickListener(new FlashMenu(camMan, this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
         shotButton.setOnClickListener(shotListner);
 
-        focusButton = (Button) findViewById(R.id.button_focus);
+        focusButton = (ExtendedButton) findViewById(R.id.button_focus);
         focusButton.setOnClickListener(new FocusMenu(camMan, this));
         sceneButton = (Button) findViewById(R.id.buttonScene);
         sceneButton.setOnClickListener(new SceneMenu(camMan, this));
@@ -391,7 +393,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         isoButton.setOnClickListener(new IsoMenu(camMan, this));
         exposureButton = (Button) findViewById(R.id.button_exposure);
         exposureButton.setOnClickListener(new ExposureMenu(camMan, this));
-        pictureSizeButton = (Button) findViewById(R.id.button_pictureSize);
+        pictureSizeButton = (ExtendedButton) findViewById(R.id.button_pictureSize);
         pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, this));
         previewSizeButton = (Button)findViewById(R.id.button_previewsize);
         previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
@@ -414,7 +416,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
 
-        ippButton = (Button)findViewById(R.id.button_ipp);
+        ippButton = (ExtendedButton)findViewById(R.id.button_ipp);
         ippButton.setOnClickListener(new IppMenu(camMan, this));
 
         crop_box = (CheckBox)findViewById(R.id.checkBox_crop);
@@ -437,7 +439,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
         //exposureSeekbar.setVisibility(View.INVISIBLE);
-        switch3dButton = (Button) findViewById(R.id.button_switch3d);
+        switch3dButton = (ExtendedButton) findViewById(R.id.button_switch3d);
         switch3dButton.setOnClickListener(new switchcameramenu(camMan, this));
         thumbButton = (ImageButton)findViewById(R.id.imageButton_thumb);
         thumbButton.setOnClickListener(new View.OnClickListener() {
@@ -616,14 +618,11 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         switchVideoPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (recordVideo)
-                {
+                if (recordVideo) {
                     recordVideo = false;
 
                     preferences.edit().putBoolean("recordVideo", false).commit();
-                }
-                else
-                {
+                } else {
                     recordVideo = true;
 
                     preferences.edit().putBoolean("recordVideo", true).commit();
@@ -998,7 +997,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             previewSizeButton.setText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-            pictureSizeButton.setText(size1);
+            pictureSizeButton.SetValue(size1);
 
             if(DeviceUtils.isQualcomm())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
@@ -1008,7 +1007,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             {
                 if (ippButton.getVisibility() == View.GONE)
                     ippButton.setVisibility(View.VISIBLE);
-                ippButton.setText(camMan.parametersManager.getParameters().get("ipp"));
+                ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
             }
             else
                 ippButton.setVisibility(View.GONE);
@@ -1046,15 +1045,26 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
             else
-                flashButton.setText(camMan.parametersManager.getParameters().getFlashMode());
+                flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
             showtext();
-            focusButton.setText(camMan.parametersManager.getParameters().getFocusMode());
+            focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
             if (!camMan.parametersManager.getSupportAfpPriority())
                 buttonAfPriority.setVisibility(View.GONE);
             if (!camMan.parametersManager.getSupportAutoExposure())
             {
                 buttonMetering.setVisibility(View.GONE);
             }
+            String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+            switch3dButton.SetValue(tmp);
+            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
+            {
+                drawSurface.drawingRectHelper.Enabled = true;
+            }
+            else
+            {
+                drawSurface.drawingRectHelper.Enabled = false;
+            }
+
         }
         catch (NullPointerException ex)
         {

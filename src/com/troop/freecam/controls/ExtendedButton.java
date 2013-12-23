@@ -53,13 +53,14 @@ public class ExtendedButton extends View
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
 
-        draw(canvas, topString, height, paint, 1);
-        midString = "4096x1536";
+        if (topString != null)
+            draw(canvas, topString, height, paint, 1);
         if (midString != null)
         {
             drawMidString(canvas, midString, height, paint, 2);
         }
-        draw(canvas, botString, height, paint, 3);
+        if (botString != null)
+            draw(canvas, botString, height, paint, 3);
     }
 
     private int getMatchingTextSize(Paint paint, int height, String _string)
