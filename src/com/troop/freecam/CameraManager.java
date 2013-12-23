@@ -218,21 +218,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
-    /*private void fixParametersOrientation()
-    {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
 
-        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
-        {
-           // mCamera.setDisplayOrientation(0);
-            parametersManager.getParameters().setRotation(0);
-        }
-        else
-        {
-            //mCamera.setDisplayOrientation(180);
-            parametersManager.getParameters().setRotation(180);
-        }
-    }*/
 
     //if restarted true cam preview will be stopped and restartet
     public  void Restart(boolean restarted)

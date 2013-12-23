@@ -33,6 +33,9 @@ public class VideoCam extends PictureCam
     {
         try
         {
+
+            if (parametersManager.isOrientationFIX())
+                fixParametersOrientation();
         mCamera.unlock();
         File sdcardpath = Environment.getExternalStorageDirectory();
 
@@ -134,5 +137,21 @@ public class VideoCam extends PictureCam
     protected void OpenCamera() {
         super.OpenCamera();
         recorder = new MediaRecorder();
+    }
+
+    private void fixParametersOrientation()
+    {
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+
+        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
+        {
+            // mCamera.setDisplayOrientation(0);
+            parametersManager.getParameters().setRotation(0);
+        }
+        else
+        {
+            //mCamera.setDisplayOrientation(180);
+            parametersManager.getParameters().setRotation(180);
+        }
     }
 }
