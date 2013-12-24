@@ -1,6 +1,7 @@
 package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
+import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecam.CameraManager;
@@ -82,11 +83,13 @@ public class ParametersManager
     boolean supportIPP = false;
     public boolean getSupportIPP() { return supportIPP;}
     private ParametersChangedInterface parametersChanged;
+    public BrightnessManager Brightness;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
         this.cameraManager = cameraManager;
         this.preferences = preferences;
+
     }
 
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
@@ -95,6 +98,7 @@ public class ParametersManager
         Log.d("CameraParameters", parameters.flatten());
         checkParametersSupport();
         loadDefaultOrLastSavedSettings();
+        Brightness = new BrightnessManager();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -133,15 +137,7 @@ public class ParametersManager
         {
             supportContrast = false;
         }
-        try
-        {
-            int i = parameters.getInt("brightness");
-            supportBrightness = true;
-        }
-        catch (Exception ex)
-        {
-            supportBrightness = false;
-        }
+
         try
         {
             int i = parameters.getInt("saturation");
@@ -336,22 +332,7 @@ public class ParametersManager
 
     }
 
-    public void SetBrightness(int bright)
-    {
-        parameters.set("brightness", bright);
-        onParametersCHanged();
-        try
-        {
-            setToPreferencesToCamera();
-            Log.d("ParametersMAnager", "brightness:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
-        }
-        catch (Exception ex)
-        {
-            Log.e("brightness Set Fail", ex.getMessage());
-        }
-        cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
 
-    }
 
     public void SetMFocus(int focus)
     {
@@ -458,5 +439,58 @@ public class ParametersManager
     public String getDenoiseValue()
     {
         return preferences.getString(Preferences_Denoise, "false");
+    }
+
+    public class BrightnessManager
+    {
+        String brightnessValue;
+        public BrightnessManager()
+        {
+            try
+            {
+                int i = parameters.getInt("brightness");
+                supportBrightness = true;
+                brightnessValue = "brightness";
+            }
+            catch (Exception ex)
+            {
+                supportBrightness = false;
+            }
+            if (!supportBrightness)
+            {
+                try
+                {
+                    int i = parameters.getInt("luma-adaptation");
+                    supportBrightness = true;
+                    brightnessValue = "luma-adaptation";
+                }
+                catch (Exception ex)
+                {
+                    supportBrightness = false;
+                }
+            }
+        }
+
+        public void Set(int bright)
+        {
+            parameters.set(brightnessValue, bright);
+            onParametersCHanged();
+            try
+            {
+                setToPreferencesToCamera();
+            }
+            catch (Exception ex)
+            {
+                Log.e("brightness Set Fail", ex.getMessage());
+            }
+            cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
+
+        }
+
+        public int Get()
+        {
+            return parameters.getInt(brightnessValue);
+        }
+
     }
 }

@@ -1034,7 +1034,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             if (camMan.parametersManager.getSupportBrightness())
             {
                 brightnessSeekBar.setMax(100);
-                brightnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("brightness"));
+                brightnessSeekBar.setProgress(camMan.parametersManager.Brightness.Get());
             }
             if (camMan.parametersManager.getSupportSaturation())
             {
