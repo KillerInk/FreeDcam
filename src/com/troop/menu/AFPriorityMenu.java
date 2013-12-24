@@ -30,11 +30,7 @@ public class AFPriorityMenu extends BaseMenu  {
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
         if(camMan.Running && camMan.parametersManager.getSupportAfpPriority())
-            if (DeviceUtils.isQualcomm())
-                modes = camMan.parametersManager.getParameters().get("selectable-zone-af-values").split(",");
-
-            if (DeviceUtils.isOmap())
-                modes = camMan.parametersManager.getParameters().get("auto-convergence-mode-values").split(",");
+            modes = camMan.parametersManager.AfPriority.getValues();
         if (modes != null)
         {
             //PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
@@ -48,14 +44,7 @@ public class AFPriorityMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (DeviceUtils.isQualcomm())
-                        camMan.parametersManager.getParameters().set("selectable-zone-af", tmp);
-                    if (DeviceUtils.isOmap())
-                        camMan.parametersManager.getParameters().set("auto-convergence-mode", tmp);
-
-                    activity.OnScreenFocusValue.setText("AFP:"+ tmp);
-                    activity.buttonAfPriority.setText(tmp);
-
+                    camMan.parametersManager.AfPriority.Set(tmp);
                     if (camMan.parametersManager.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
                     if (camMan.parametersManager.isFrontMode())

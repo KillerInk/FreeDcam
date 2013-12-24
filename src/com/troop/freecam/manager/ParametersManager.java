@@ -84,6 +84,7 @@ public class ParametersManager
     public boolean getSupportIPP() { return supportIPP;}
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
+    public AFPriorityManager AfPriority;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -99,6 +100,7 @@ public class ParametersManager
         checkParametersSupport();
         loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();
+        AfPriority = new AFPriorityManager();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -171,18 +173,7 @@ public class ParametersManager
             supportAutoExposure = false;
         }
 
-        try {
-            if (DeviceUtils.isQualcomm())
-                if(!parameters.get("selectable-zone-af-values").equals(""))
-                    supportAfpPriority = true;
-            if (DeviceUtils.isOmap())
-                if(!parameters.get("auto-convergence-mode-values").equals(""))
-                    supportAfpPriority = true;
-        }
-        catch (Exception ex)
-        {
-            supportAfpPriority = false;
-        }
+
         try {
             String ipps = parameters.get("ipp-values");
             if (!ipps.isEmpty())
@@ -483,7 +474,7 @@ public class ParametersManager
             {
                 Log.e("brightness Set Fail", ex.getMessage());
             }
-            cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
+            //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
 
         }
 
@@ -492,5 +483,62 @@ public class ParametersManager
             return parameters.getInt(brightnessValue);
         }
 
+    }
+
+    public class AFPriorityManager
+    {
+        String afpValue;
+        String AfpValues;
+
+        public AFPriorityManager()
+        {
+            try {
+                if (DeviceUtils.isQualcomm())
+                    if(!parameters.get("selectable-zone-af-values").isEmpty())
+                    {
+                        supportAfpPriority = true;
+                        afpValue = "selectable-zone-af";
+                        AfpValues = "selectable-zone-af-values";
+                        if (getValues().length == 0)
+                            supportAfpPriority = false;
+                    }
+                if (DeviceUtils.isOmap())
+                    if(!parameters.get("auto-convergence-mode-values").isEmpty())
+                    {
+                        supportAfpPriority = true;
+                        afpValue = "auto-convergence-mode";
+                        AfpValues= "auto-convergence-mode-values";
+                        if (getValues().length == 0)
+                            supportAfpPriority = false;
+                    }
+            }
+            catch (Exception ex)
+            {
+                supportAfpPriority = false;
+            }
+        }
+
+        public void Set(String value)
+        {
+            parameters.set(afpValue, value);
+            onParametersCHanged();
+            try
+            {
+                setToPreferencesToCamera();
+            }
+            catch (Exception ex)
+            {
+                Log.e("brightness Set Fail", ex.getMessage());
+            }
+        }
+        public String Get()
+        {
+            return parameters.get(afpValue);
+        }
+
+        public String[] getValues()
+        {
+            return parameters.get(AfpValues).split(",");
+        }
     }
 }

@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public ExtendedButton ippButton;
 
     //06-12-13***********
-    public Button buttonAfPriority;
+    public ExtendedButton buttonAfPriority;
     public Button buttonMetering;
     public ExtendedButton buttonPictureFormat;
     public ExtendedButton buttonPreviewFormat;
@@ -399,7 +399,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,this));
 
         //06-12-13*************************************************************
-        buttonAfPriority = (Button)findViewById(R.id.buttonAFPriority);
+        buttonAfPriority = (ExtendedButton)findViewById(R.id.buttonAFPriority);
         buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,this));
 
 
@@ -984,16 +984,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public void parametersHasChanged(boolean restarted)
     {
         try{
-           if (camMan.parametersManager.getSupportSharpness())
-                sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
-            //if (!parameters.get("exposure").equals("manual"))
-            exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
-            //else
-            //activity.exposureTextView.setText("Exposure: " + parameters.getInt("manual-exposure"));
-
-            contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
-            saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
-            brightnessTextView.setText("Brightness: " + camMan.parametersManager.getParameters().get("brightness"));
             buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
@@ -1001,10 +991,13 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.SetValue(size1);
 
+            //ZeroShutterLag
             if(DeviceUtils.isQualcomm())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
             if(DeviceUtils.isOmap())
                 button_zsl.setText(camMan.parametersManager.getParameters().get("mode"));
+
+            //ImagePostProcessing
             if (camMan.parametersManager.getSupportIPP())
             {
                 if (ippButton.getVisibility() == View.GONE)
@@ -1014,51 +1007,74 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             else
                 ippButton.setVisibility(View.GONE);
 
-
-                camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
-                camMan.manualExposureManager.ExternalSet = true;
-                camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
-
+            //ManualExposure
+            camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
+            camMan.manualExposureManager.ExternalSet = true;
+            camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
+            exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
+            //Sharpness
             if (camMan.parametersManager.getSupportSharpness())
             {
                 sharpnessSeekBar.setMax(180);
                 sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
+                sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
             }
+            //Contrast
             if (camMan.parametersManager.getSupportContrast())
             {
                 contrastSeekBar.setMax(180);
                 camMan.manualContrastManager.ExternalSet = true;
                 contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
-
+                contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
             }
+            //Brightness
             if (camMan.parametersManager.getSupportBrightness())
             {
                 brightnessSeekBar.setMax(100);
                 brightnessSeekBar.setProgress(camMan.parametersManager.Brightness.Get());
+                brightnessTextView.setText("Brightness: " + camMan.parametersManager.Brightness.Get());
             }
+            //Saturation
             if (camMan.parametersManager.getSupportSaturation())
             {
                 saturationSeekBar.setMax(180);
+                saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
             }
+            //Cropping
             if (camMan.parametersManager.is3DMode())
+            {
                 crop_box.setVisibility(View.VISIBLE);
+                crop_box.setChecked(camMan.parametersManager.doCropping());
+            }
             else
                 crop_box.setVisibility(View.GONE);
-            crop_box.setChecked(camMan.parametersManager.doCropping());
+            //FLASH
             if (!camMan.parametersManager.getSupportFlash())
                 settingsMenuLayout.removeView(flashButton);
             else
                 flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
+            //info Screen
             showtext();
             focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
+            //AF Priority
             if (!camMan.parametersManager.getSupportAfpPriority())
                 buttonAfPriority.setVisibility(View.GONE);
+            else
+            {
+                if (buttonAfPriority.getVisibility() == View.GONE)
+                    buttonAfPriority.setVisibility(View.VISIBLE);
+                OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
+                buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
+            }
+            //AutoExposure
             if (!camMan.parametersManager.getSupportAutoExposure())
             {
                 buttonMetering.setVisibility(View.GONE);
             }
+            //Select Camera
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             switch3dButton.SetValue(tmp);
+            //FocusMode
             if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {
                 drawSurface.drawingRectHelper.Enabled = true;
@@ -1069,16 +1085,16 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             }
 
         }
-        catch (NullPointerException ex)
+        catch (Exception ex)
         {
-
+            ex.printStackTrace();
         }
     }
     public void showtext()
     {
         try
         {
-            OnScreenBrightnessValue.setText(camMan.parametersManager.getParameters().get("brightness"));
+            OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get());
             OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast"));
             OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("saturation"));
             OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("sharpness"));

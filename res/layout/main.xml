@@ -830,16 +830,13 @@
                 android:background="@drawable/camera_frame_box_ver_bg"
                 android:layout_marginTop="52dp">
 
-                <Button
+                <com.troop.freecam.controls.ExtendedButton
                     android:layout_width="@android:dimen/app_icon_size"
                     android:layout_height="@android:dimen/app_icon_size"
                     android:id="@+id/buttonAFPriority"
-                    android:background="@drawable/icon_auto_af_priority"
-                    android:singleLine="true"
-                    android:textColor="#ff1100"
-                    android:textStyle="bold"
-                    android:typeface="serif"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                    android:background="@drawable/button"
+                    custom:StringTop="AF Priority"
+                    custom:StringBot="Mode"
                     android:layout_gravity="center_vertical" />
 
                 <Button
