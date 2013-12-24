@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     //06-12-13***********
     public Button buttonAfPriority;
     public Button buttonMetering;
-    public Button buttonPictureFormat;
+    public ExtendedButton buttonPictureFormat;
     public ExtendedButton buttonPreviewFormat;
     public CheckBox checkBoxOnScreen;
     public CheckBox checkBoxZSL;
@@ -407,8 +407,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,this));
 
 
-        buttonPictureFormat = (Button)findViewById(R.id.button_pictureFormat);
+        buttonPictureFormat = (ExtendedButton)findViewById(R.id.button_pictureFormat);
         buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,this));
+        buttonPictureFormat.setVisibility(View.GONE);
 
         buttonPreviewFormat = (ExtendedButton)findViewById(R.id.buttonPreviewFormat);
         buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,this));
@@ -1014,9 +1015,10 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 ippButton.setVisibility(View.GONE);
 
 
-            camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
-            camMan.manualExposureManager.ExternalSet = true;
-            camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
+                camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
+                camMan.manualExposureManager.ExternalSet = true;
+                camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
+
             if (camMan.parametersManager.getSupportSharpness())
             {
                 sharpnessSeekBar.setMax(180);

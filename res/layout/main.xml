@@ -995,8 +995,7 @@
                         android:id="@+id/button_pictureFormat"
                         android:background="@drawable/button"
                         custom:StringTop="Picture"
-                        custom:StringBot="Format"
-                        android:visibility="gone" />
+                        custom:StringBot="Format"/>
 
                     <com.troop.freecam.controls.ExtendedButton
                         android:layout_width="@android:dimen/app_icon_size"

@@ -92,6 +92,7 @@ public class ParametersManager
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
     {
         this.parameters = parameters;
+        Log.d("CameraParameters", parameters.flatten());
         checkParametersSupport();
         loadDefaultOrLastSavedSettings();
     }
