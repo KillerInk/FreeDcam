@@ -22,10 +22,10 @@ public class VideoSizesMenu extends BaseMenu
     public void onClick(View v)
     {
         PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
-        for (int i = 0; i < camMan.parametersManager.videoModes.GetStringValues().length; i++)
+        for (int i = 0; i < camMan.parametersManager.videoModes.getStringValues().length; i++)
         {
             //if (sizes.get(i).height != 576)
-            popupMenu.getMenu().add((CharSequence) camMan.parametersManager.videoModes.GetStringValues()[i]);
+            popupMenu.getMenu().add((CharSequence) camMan.parametersManager.videoModes.getStringValues()[i]);
         }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 

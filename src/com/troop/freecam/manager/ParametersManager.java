@@ -12,6 +12,7 @@ import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -549,66 +550,36 @@ public class ParametersManager
 
     public class VideoModes
     {
-        Map<String, CamcorderProfile> videoModes;
-        CamcorderProfile currentProfile;
-        String current;
+        List<Camera.Size> sizes;
+        public int Width;
+        public int Height;
 
         public VideoModes()
         {
-            videoModes = new HashMap<String, CamcorderProfile>();
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P))
-                videoModes.put("1080p", CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P))
-                videoModes.put("720p", CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P))
-                videoModes.put("480p", CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QCIF))
-                videoModes.put("qcif", CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QCIF))
-                videoModes.put("cif", CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH))
-                videoModes.put("high", CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_LOW))
-                videoModes.put("low", CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QVGA))
-                videoModes.put("qvga", CamcorderProfile.get(CamcorderProfile.QUALITY_QVGA));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_VGA))
-                videoModes.put("vga", CamcorderProfile.get(CamcorderProfile.QUALITY_VGA));
-            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_WVGA))
-                videoModes.put("wvga", CamcorderProfile.get(CamcorderProfile.QUALITY_WVGA));
-
-            SetProfile(preferences.getString("videosizes", "high"));
+            sizes = parameters.getSupportedVideoSizes();
+            if (sizes == null || sizes.size() == 0)
+                sizes = parameters.getSupportedPreviewSizes();
+            SetProfile(preferences.getString("videosizes", "320x240"));
 
         }
 
-        public Map<String, CamcorderProfile> GetValues()
+        public String[] getStringValues()
         {
-            return videoModes;
+            String[] ar = new String[sizes.size()];
+            for (int i = 0; i< sizes.size(); i++)
+            {
+                ar[i] = (sizes.get(i).width + "x" + sizes.get(i).height);
+            }
+            return ar;
         }
 
-        public String[] GetStringValues()
+        public void SetProfile(String tmp)
         {
-            return (String[]) videoModes.keySet().toArray(new String[videoModes.size()]);
+            String[] widthHeight = tmp.split("x");
+            Width = Integer.parseInt(widthHeight[0]);
+            Height = Integer.parseInt(widthHeight[1]);
         }
 
-        public CamcorderProfile getCameraProfile(String camProf)
-        {
-            return videoModes.get(camProf);
-        }
 
-        public void SetProfile(String profile)
-        {
-            currentProfile = videoModes.get(profile);
-            current = profile;
-        }
-
-        public CamcorderProfile GetProfile()
-        {
-            return currentProfile;
-        }
-         public String GetStringProfile()
-        {
-            return current;
-        }
     }
 }

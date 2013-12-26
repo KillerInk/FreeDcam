@@ -34,43 +34,46 @@ public class VideoCam extends PictureCam
         try
         {
 
-        if (parametersManager.isOrientationFIX())
-            fixParametersOrientation();
-        mCamera.unlock();
-        File sdcardpath = Environment.getExternalStorageDirectory();
+            if (parametersManager.isOrientationFIX())
+                fixParametersOrientation();
+            mCamera.unlock();
+            File sdcardpath = Environment.getExternalStorageDirectory();
 
-        recorder.setCamera(mCamera);
-        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        recorder.setProfile(parametersManager.videoModes.GetProfile());
+            recorder.setCamera(mCamera);
+            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
 
-        if (preferences.getBoolean("upsidedown", false) == true)
-        {
-            String rota = parametersManager.getParameters().get("rotation");
+            if (preferences.getBoolean("upsidedown", false) == true)
+            {
+                String rota = parametersManager.getParameters().get("rotation");
 
-            if (rota != null && rota.equals("180"))
-                recorder.setOrientationHint(180);
-            if (rota == null)
-                recorder.setOrientationHint(0);
-        }
-        //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        mediaSavePath = SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath();
-        recorder.setOutputFile(mediaSavePath);
-        recorder.setPreviewDisplay(context.getHolder().getSurface());
-        try {
-            recorder.prepare();
-            recorder.start();
-            IsRecording = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                if (rota != null && rota.equals("180"))
+                    recorder.setOrientationHint(180);
+                if (rota == null)
+                    recorder.setOrientationHint(0);
+            }
+            //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            //recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+            mediaSavePath = SavePictureTask.getFilePath("mp4", sdcardpath).getAbsolutePath();
+            recorder.setOutputFile(mediaSavePath);
+            recorder.setPreviewDisplay(context.getHolder().getSurface());
+            try {
+                recorder.prepare();
+                recorder.start();
+                IsRecording = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
-            mCamera.lock();
+            //mCamera.lock();
         }
 
     }
@@ -78,6 +81,7 @@ public class VideoCam extends PictureCam
     public  void StopRecording()
     {
         IsRecording = false;
+        recorder.pause();
         recorder.stop();
         scanManager.startScan(mediaSavePath);
         lastPicturePath = mediaSavePath;

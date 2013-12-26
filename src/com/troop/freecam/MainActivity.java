@@ -992,7 +992,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.SetValue(size1);
-            videoSizeButton.SetValue(camMan.parametersManager.videoModes.GetStringProfile());
+            //videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
 
             //ZeroShutterLag
             if(DeviceUtils.isQualcomm())
