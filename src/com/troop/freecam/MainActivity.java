@@ -922,7 +922,6 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 }
                 else
                 {
-
                     camMan.StopRecording();
                     recordTimer.Stop();
                     shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
@@ -1050,9 +1049,15 @@ public class MainActivity extends Activity implements ParametersChangedInterface
                 crop_box.setVisibility(View.GONE);
             //FLASH
             if (!camMan.parametersManager.getSupportFlash())
-                settingsMenuLayout.removeView(flashButton);
+                flashButton.setVisibility(View.GONE);
             else
+            {
+                if (flashButton.getVisibility() == View.GONE)
+                    flashButton.setVisibility(View.VISIBLE);
                 flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
+            }
+
+
             //info Screen
             showtext();
             focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
