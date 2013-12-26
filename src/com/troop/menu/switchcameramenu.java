@@ -34,7 +34,7 @@ public class switchcameramenu extends  BaseMenu
             popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_2D);
             popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
         }
-        if (Camera.getNumberOfCameras() == 3)
+        if (Camera.getNumberOfCameras() == 1)
         {
             popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
         }

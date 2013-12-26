@@ -34,52 +34,15 @@ public class VideoCam extends PictureCam
         try
         {
 
-            if (parametersManager.isOrientationFIX())
-                fixParametersOrientation();
+        if (parametersManager.isOrientationFIX())
+            fixParametersOrientation();
         mCamera.unlock();
         File sdcardpath = Environment.getExternalStorageDirectory();
 
         recorder.setCamera(mCamera);
         recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        if (parametersManager.getParameters().getPreviewSize().height == 1080)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
-        if (parametersManager.getParameters().getPreviewSize().height == 720)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            if (parametersManager.getParameters().getPreviewSize().width == 960)
-                recorder.setVideoSize(960, 720);
-            else
-                recorder.setVideoSize(1280,720);
-        }
-        if (parametersManager.getParameters().getPreviewSize().height == 480)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
-            if (parametersManager.getParameters().getPreviewSize().height == 800)
-                recorder.setVideoSize(800, 480);
-            if (parametersManager.getParameters().getPreviewSize().height == 640)
-                recorder.setVideoSize(640,480);
-
-        }
-        /*if (parameters.getPreviewSize().height == 576)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            recorder.setVideoSize(720,576);
-        }*/
-        if (parametersManager.getParameters().getPreviewSize().height == 240)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-            recorder.setVideoSize(320,240);
-        }
-        if (parametersManager.getParameters().getPreviewSize().height == 288)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-        if (parametersManager.getParameters().getPreviewSize().height == 160)
-        {
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
-            recorder.setVideoSize(240,160);
-        }
-        if (parametersManager.getParameters().getPreviewSize().height == 144)
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
+        recorder.setProfile(parametersManager.videoModes.GetProfile());
 
         if (preferences.getBoolean("upsidedown", false) == true)
         {
@@ -106,7 +69,8 @@ public class VideoCam extends PictureCam
         }
         catch (NullPointerException ex)
         {
-
+            ex.printStackTrace();
+            mCamera.lock();
         }
 
     }
@@ -127,7 +91,6 @@ public class VideoCam extends PictureCam
     {
         if (IsRecording)
             StopRecording();
-        recorder.reset();
         recorder.release();
         recorder = null;
         super.CloseCamera();

@@ -21,7 +21,7 @@ public class BaseCamera
 
     protected void OpenCamera()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_Front);
         //mCamera.unlock();
         if (Camera.getNumberOfCameras() == 3)
         {

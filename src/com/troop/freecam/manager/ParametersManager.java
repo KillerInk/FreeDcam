@@ -2,6 +2,7 @@ package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
 import android.util.Log;
 
 import com.troop.freecam.CameraManager;
@@ -9,6 +10,9 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by troop on 16.10.13.
@@ -85,6 +89,7 @@ public class ParametersManager
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
+    public VideoModes videoModes;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -101,6 +106,7 @@ public class ParametersManager
         loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
+        videoModes = new VideoModes();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -252,6 +258,7 @@ public class ParametersManager
             if (preferences.getString(Preferences_IPPFront, null) != null)
                 parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
+
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
 
@@ -319,8 +326,6 @@ public class ParametersManager
         {
             Log.e("Contrast Set Fail", ex.getMessage());
         }
-        cameraManager.activity.contrastTextView.setText(String.valueOf(parameters.get("contrast")));
-
     }
 
 
@@ -335,7 +340,7 @@ public class ParametersManager
         try
         {
             setToPreferencesToCamera();
-            Log.d("ParametersMAnager", "brightness:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
+
         }
         catch (Exception ex)
         {
@@ -539,6 +544,71 @@ public class ParametersManager
         public String[] getValues()
         {
             return parameters.get(AfpValues).split(",");
+        }
+    }
+
+    public class VideoModes
+    {
+        Map<String, CamcorderProfile> videoModes;
+        CamcorderProfile currentProfile;
+        String current;
+
+        public VideoModes()
+        {
+            videoModes = new HashMap<String, CamcorderProfile>();
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P))
+                videoModes.put("1080p", CamcorderProfile.get(CamcorderProfile.QUALITY_1080P));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P))
+                videoModes.put("720p", CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P))
+                videoModes.put("480p", CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QCIF))
+                videoModes.put("qcif", CamcorderProfile.get(CamcorderProfile.QUALITY_QCIF));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QCIF))
+                videoModes.put("cif", CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH))
+                videoModes.put("high", CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_LOW))
+                videoModes.put("low", CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_QVGA))
+                videoModes.put("qvga", CamcorderProfile.get(CamcorderProfile.QUALITY_QVGA));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_VGA))
+                videoModes.put("vga", CamcorderProfile.get(CamcorderProfile.QUALITY_VGA));
+            if(CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_WVGA))
+                videoModes.put("wvga", CamcorderProfile.get(CamcorderProfile.QUALITY_WVGA));
+
+            SetProfile(preferences.getString("videosizes", "high"));
+
+        }
+
+        public Map<String, CamcorderProfile> GetValues()
+        {
+            return videoModes;
+        }
+
+        public String[] GetStringValues()
+        {
+            return (String[]) videoModes.keySet().toArray(new String[videoModes.size()]);
+        }
+
+        public CamcorderProfile getCameraProfile(String camProf)
+        {
+            return videoModes.get(camProf);
+        }
+
+        public void SetProfile(String profile)
+        {
+            currentProfile = videoModes.get(profile);
+            current = profile;
+        }
+
+        public CamcorderProfile GetProfile()
+        {
+            return currentProfile;
+        }
+         public String GetStringProfile()
+        {
+            return current;
         }
     }
 }

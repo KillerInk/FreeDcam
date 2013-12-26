@@ -1099,6 +1099,20 @@
                         android:textAppearance="@android:style/TextAppearance.Holo.Small" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <com.troop.freecam.controls.ExtendedButton
+                        android:layout_width="@android:dimen/app_icon_size"
+                        android:layout_height="@android:dimen/app_icon_size"
+                        custom:StringTop="Video"
+                        custom:StringBot="Size"
+                        android:id="@+id/button_videoSize"
+                        android:background="@drawable/button" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

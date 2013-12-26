@@ -54,6 +54,7 @@ import com.troop.menu.PictureSizeMenu;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.SceneMenu;
+import com.troop.menu.VideoSizesMenu;
 import com.troop.menu.WhiteBalanceMenu;
 import com.troop.menu.ZslMenu;
 import com.troop.menu.switchcameramenu;
@@ -76,6 +77,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     public ExtendedButton pictureSizeButton;
     public ExtendedButton previewSizeButton;
     public ExtendedButton ippButton;
+    ExtendedButton videoSizeButton;
 
     //06-12-13***********
     public ExtendedButton buttonAfPriority;
@@ -684,7 +686,8 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
 
         //*****************************
-
+        videoSizeButton = (ExtendedButton)findViewById(R.id.button_videoSize);
+        videoSizeButton.setOnClickListener(new VideoSizesMenu(camMan,this));
 
     }
 
@@ -989,6 +992,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             pictureSizeButton.SetValue(size1);
+            videoSizeButton.SetValue(camMan.parametersManager.videoModes.GetStringProfile());
 
             //ZeroShutterLag
             if(DeviceUtils.isQualcomm())
@@ -1079,7 +1083,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             //Select Camera
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             switch3dButton.SetValue(tmp);
-            //FocusMode
+            //Crosshair appairing
             if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {
                 drawSurface.drawingRectHelper.Enabled = true;
