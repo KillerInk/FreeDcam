@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.util.Log;
 
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.SavePictureTask;
@@ -39,13 +40,22 @@ public class VideoCam extends PictureCam
             mCamera.unlock();
             File sdcardpath = Environment.getExternalStorageDirectory();
 
+            recorder.reset();
             recorder.setCamera(mCamera);
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+            recorder.setVideoEncodingBitRate(20000000);
+            recorder.setVideoFrameRate(30);
+            recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
+                @Override
+                public void onError(MediaRecorder mr, int what, int extra) {
+                    Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                }
+            });
 
             if (preferences.getBoolean("upsidedown", false) == true)
             {
@@ -73,7 +83,9 @@ public class VideoCam extends PictureCam
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
-            //mCamera.lock();
+            mCamera.lock();
+            recorder.reset();
+            recorder.release();
         }
 
     }
@@ -81,7 +93,6 @@ public class VideoCam extends PictureCam
     public  void StopRecording()
     {
         IsRecording = false;
-        recorder.pause();
         recorder.stop();
         scanManager.startScan(mediaSavePath);
         lastPicturePath = mediaSavePath;
