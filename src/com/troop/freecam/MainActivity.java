@@ -186,7 +186,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
     CheckBox checkboxHDR;
     boolean HDRMode = false;
 
-    public Button button_zsl;
+    public ExtendedButton button_zsl;
     public ExtendedButton button_denoise;
     public Button button_stab;
     View view;
@@ -675,7 +675,7 @@ public class MainActivity extends Activity implements ParametersChangedInterface
         button_denoise = (ExtendedButton)findViewById(R.id.button_denoise);
         button_denoise.setOnClickListener(new DenoiseMenu(camMan, this));
 
-        button_zsl = (Button)findViewById(R.id.buttonZsl);
+        button_zsl = (ExtendedButton)findViewById(R.id.buttonZsl);
         button_zsl.setOnClickListener(new ZslMenu(camMan, this));
 
         /*Hfr Menu****
@@ -996,9 +996,9 @@ public class MainActivity extends Activity implements ParametersChangedInterface
 
             //ZeroShutterLag
             if(DeviceUtils.isQualcomm())
-                button_zsl.setText(camMan.parametersManager.getParameters().get("zsl"));
+                button_zsl.SetValue(camMan.parametersManager.getParameters().get("zsl"));
             if(DeviceUtils.isOmap())
-                button_zsl.setText(camMan.parametersManager.getParameters().get("mode"));
+                button_zsl.SetValue(camMan.parametersManager.getParameters().get("mode"));
 
             //ImagePostProcessing
             if (camMan.parametersManager.getSupportIPP())
