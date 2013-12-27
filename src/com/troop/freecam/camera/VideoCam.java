@@ -39,7 +39,6 @@ public class VideoCam extends PictureCam
                 fixParametersOrientation();
             mCamera.unlock();
             File sdcardpath = Environment.getExternalStorageDirectory();
-
             recorder.reset();
             recorder.setCamera(mCamera);
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
