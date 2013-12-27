@@ -53,6 +53,7 @@ public class ExtendedButton extends View
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
         if (!drawLong)
         {
             int height = getHeight()/3;

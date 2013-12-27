@@ -528,21 +528,13 @@
 
     <ImageButton
         android:id="@+id/imageButton1"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/icon_shutter_thanos_blast">
     </ImageButton>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewWeight"
-        android:background="@drawable/icon_meter_spot"
-        android:layout_marginLeft="550dp"
-        android:layout_marginTop="180dp" />
 
     <ImageButton
         android:layout_width="@dimen/app_icon_size"
@@ -828,7 +820,7 @@
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/LayoutAuto"
                 android:background="@drawable/camera_frame_box_ver_bg"
-                android:layout_marginTop="52dip">
+                android:layout_marginTop="@dimen/autolayout_margineTop">
 
                 <com.troop.freecam.controls.ExtendedButton
                     android:layout_width="@dimen/app_icon_size"
