@@ -69,10 +69,13 @@ public class ExtendedButton extends View
         else
         {
             int height = getHeight() - 4;
-            String draw = topString + " " + botString + ": " + midString;
+            String draw = topString + " " + botString + ": ";
             paint.setTextSize(height);
             int length = (int) paint.measureText(draw);
-            canvas.drawText(draw, 2, height + 2, paint);
+            canvas.drawText(draw, 2, height, paint);
+            paint.setColor(Color.RED);
+            if (midString != null)
+                canvas.drawText(midString, 2 + length, height,paint);
         }
     }
 
