@@ -9,5 +9,6 @@
     <declare-styleable name="ExtendedButton">
         <attr name="StringTop" format="string" />
         <attr name="StringBot" format="string" />
+        <attr name="drawLong" format="boolean" />
     </declare-styleable>
 </resources>

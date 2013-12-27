@@ -196,7 +196,7 @@ public class ParametersManager
     private void loadDefaultOrLastSavedSettings()
     {
         String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_Front);
-        parameters.set("preview-format", "yuv420p");
+        //parameters.set("preview-format", "yuv420p");
         if (tmp.equals("3D"))
         {
             parameters.setFlashMode(preferences.getString(Preferences_Flash3D, "auto"));

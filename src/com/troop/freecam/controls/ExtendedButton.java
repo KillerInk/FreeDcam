@@ -18,6 +18,7 @@ public class ExtendedButton extends View
     String topString;
     String midString;
     String botString;
+    boolean drawLong = false;
 
     public ExtendedButton(Context context) {
         super(context);
@@ -41,6 +42,7 @@ public class ExtendedButton extends View
                 0, 0);
         topString = a.getString(R.styleable.ExtendedButton_StringTop);
         botString = a.getString(R.styleable.ExtendedButton_StringBot);
+        drawLong = a.getBoolean(R.styleable.ExtendedButton_drawLong, false);
         a.recycle();
     }
 
@@ -48,19 +50,30 @@ public class ExtendedButton extends View
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
         //getBackground().draw(canvas);
-        int height = getHeight()/3;
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
-
-        if (topString != null)
-            draw(canvas, topString, height, paint, 1);
-        if (midString != null)
+        if (!drawLong)
         {
-            drawMidString(canvas, midString, height, paint, 2);
+            int height = getHeight()/3;
+
+            if (topString != null)
+                draw(canvas, topString, height, paint, 1);
+            if (midString != null)
+            {
+                drawMidString(canvas, midString, height, paint, 2);
+            }
+            if (botString != null)
+                draw(canvas, botString, height, paint, 3);
         }
-        if (botString != null)
-            draw(canvas, botString, height, paint, 3);
+        else
+        {
+            int height = getHeight() - 4;
+            String draw = topString + " " + botString + ": " + midString;
+            paint.setTextSize(height);
+            int length = (int) paint.measureText(draw);
+            canvas.drawText(draw, 2, height + 2, paint);
+        }
     }
 
     private int getMatchingTextSize(Paint paint, int height, String _string)
