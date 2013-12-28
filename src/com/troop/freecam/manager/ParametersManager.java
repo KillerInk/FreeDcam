@@ -87,10 +87,13 @@ public class ParametersManager
     public boolean getSupportAfpPriority() { return supportAfpPriority;}
     boolean supportIPP = false;
     public boolean getSupportIPP() { return supportIPP;}
+    boolean supportZSL = false;
+    public boolean getSupportZSL() { return supportZSL;}
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
+    public ZeroShutterLagClass ZSLModes;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -108,6 +111,7 @@ public class ParametersManager
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
+        ZSLModes = new ZeroShutterLagClass();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -500,6 +504,7 @@ public class ParametersManager
         {
             try {
                 if (DeviceUtils.isQualcomm())
+                {
                     if(!parameters.get("selectable-zone-af-values").isEmpty())
                     {
                         supportAfpPriority = true;
@@ -508,7 +513,11 @@ public class ParametersManager
                         if (getValues().length == 0)
                             supportAfpPriority = false;
                     }
+                    else
+                        supportAfpPriority = false;
+                }
                 if (DeviceUtils.isOmap())
+                {
                     if(!parameters.get("auto-convergence-mode-values").isEmpty())
                     {
                         supportAfpPriority = true;
@@ -517,6 +526,10 @@ public class ParametersManager
                         if (getValues().length == 0)
                             supportAfpPriority = false;
                     }
+                    else
+                        supportAfpPriority = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -581,5 +594,52 @@ public class ParametersManager
         }
 
 
+    }
+
+    public class ZeroShutterLagClass
+    {
+        String value;
+        String[] values;
+
+        public ZeroShutterLagClass()
+        {
+            try
+            {
+                if(DeviceUtils.isQualcomm())
+                {
+                    value = "zsl";
+                    values = parameters.get("zsl-values").split(",");
+                }
+                if(DeviceUtils.isOmap())
+                {
+                    value = "mode";
+                    values = parameters.get("mode-values").split(",");
+                }
+                if (values.length > 0)
+                {
+                    supportZSL = true;
+                    parameters.set(value, values[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                supportZSL = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void setValue(String toapplie)
+        {
+            parameters.set(value, toapplie);
+        }
+
+        public String getValue()
+        {
+            return parameters.get(value);
+        }
     }
 }

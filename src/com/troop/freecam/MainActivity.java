@@ -995,10 +995,15 @@ public class MainActivity extends Activity implements ParametersChangedInterface
             videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
 
             //ZeroShutterLag
-            if(DeviceUtils.isQualcomm())
-                button_zsl.SetValue(camMan.parametersManager.getParameters().get("zsl"));
-            if(DeviceUtils.isOmap())
-                button_zsl.SetValue(camMan.parametersManager.getParameters().get("mode"));
+            if (camMan.parametersManager.getSupportZSL())
+            {
+                if (button_zsl.getVisibility() == View.GONE)
+                    button_zsl.setVisibility(View.VISIBLE);
+                button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
+            }
+            else
+                if (button_zsl.getVisibility() == View.VISIBLE)
+                    button_zsl.setVisibility(View.GONE);
 
             //ImagePostProcessing
             if (camMan.parametersManager.getSupportIPP())
