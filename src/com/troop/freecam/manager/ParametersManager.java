@@ -105,7 +105,9 @@ public class ParametersManager
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
     {
         this.parameters = parameters;
-        Log.d("CameraParameters", parameters.flatten());
+        String[] paras =  parameters.flatten().split(";");
+        for(int i = 0; i < paras.length; i++)
+            Log.d("CameraParameters", paras[i]);
         checkParametersSupport();
         loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();

@@ -22,10 +22,6 @@ public class MeteringMenu extends BaseMenu   {
     @Override
     public void onClick(View v)
     {
-
-
-
-
         View canvasView = super.GetPlaceHolder();
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
@@ -64,7 +60,6 @@ public class MeteringMenu extends BaseMenu   {
             });
 
             popupMenu.show();
-            activity.appViewGroup.removeView(canvasView);
         }
     }
 

@@ -27,11 +27,7 @@ public class ZslMenu extends BaseMenu  {
         {
             try
             {
-                if(DeviceUtils.isOmap())
-                    zslv = camMan.parametersManager.getParameters().get("mode-values").split(",");
-                if(DeviceUtils.isQualcomm())
-                    zslv = camMan.parametersManager.getParameters().get("zsl-values").split(",");
-
+                zslv = camMan.parametersManager.ZSLModes.getValues();
             }
             catch (Exception ex)
             {
@@ -50,10 +46,7 @@ public class ZslMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if(DeviceUtils.isQualcomm())
-                        camMan.parametersManager.getParameters().set("zsl", tmp);
-                    if(DeviceUtils.isOmap())
-                        camMan.parametersManager.getParameters().set("mode", tmp);
+                    camMan.parametersManager.ZSLModes.setValue(tmp);
                     preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);
