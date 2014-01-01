@@ -94,6 +94,7 @@ public class ParametersManager
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
     public ZeroShutterLagClass ZSLModes;
+    public DenoiseClass Denoise;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -114,6 +115,7 @@ public class ParametersManager
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
         ZSLModes = new ZeroShutterLagClass();
+        Denoise = new DenoiseClass();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -420,28 +422,32 @@ public class ParametersManager
         preferences.edit().putBoolean("upsidedown", value).commit();
     }
 
-    public String[] getDenoiseValues()
+    public class DenoiseClass
     {
-        String[] noise =  new String[0];
-        if(DeviceUtils.isOmap())
-        {
-            noise = parameters.get("vnf-supported").split(",");
-            if (noise.length == 1)
-            {
-                String[] tmp = new String[2];
-                tmp[0] = noise[0];
-                tmp[1] = "false";
-                noise = tmp;
-            }
-        }
-        if(DeviceUtils.isQualcomm())
-            noise = parameters.get("denoise-values").split(",");
-        return noise;
-    }
+        public String[] getDenoiseValues()
 
-    public String getDenoiseValue()
-    {
-        return preferences.getString(Preferences_Denoise, "false");
+        {
+            String[] noise =  new String[0];
+            if(DeviceUtils.isOmap())
+            {
+                noise = parameters.get("vnf-supported").split(",");
+                if (noise.length == 1)
+                {
+                    String[] tmp = new String[2];
+                    tmp[0] = noise[0];
+                    tmp[1] = "false";
+                    noise = tmp;
+                }
+            }
+            if(DeviceUtils.isQualcomm())
+                noise = parameters.get("denoise-values").split(",");
+            return noise;
+        }
+
+        public String getDenoiseValue()
+        {
+            return preferences.getString(Preferences_Denoise, "false");
+        }
     }
 
     public class BrightnessManager

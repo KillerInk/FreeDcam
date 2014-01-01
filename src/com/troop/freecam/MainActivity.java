@@ -274,7 +274,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         }
     }
 
-    ///this updates the complete ui. its called everytime the camera parameters are changed
+    //TODO throw event with a value wich parameter has changed
+    //TODO update fragment stuff in fragmentclass
+    ///this updates the complete ui. its called everytime the camera parameters has changed
     @Override
     public void parametersHasChanged(boolean restarted)
     {
@@ -282,7 +284,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
-            settingsFragment.button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
+            settingsFragment.button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             settingsFragment.pictureSizeButton.SetValue(size1);
             settingsFragment.videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
