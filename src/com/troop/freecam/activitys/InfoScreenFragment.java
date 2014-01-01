@@ -3,6 +3,7 @@ package com.troop.freecam.activitys;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,32 +76,32 @@ public class InfoScreenFragment extends Fragment
     private void onScreenText()
     {
         try {
-            OnScreenBrightnessText = (TextView)getView().findViewById(R.id.textViewBrightnessText);
-            OnScreenBrightnessValue = (TextView) getView().findViewById(R.id.textViewBrightnessValue);
-            OnScreenContrastText = (TextView) getView().findViewById(R.id.textViewContrastText);
-            OnScreenContrastValue = (TextView) getView().findViewById(R.id.textViewContrastValue);
-            OnScreenEVText = (TextView) getView().findViewById(R.id.textViewEVText);
-            OnScreenEVValue = (TextView) getView().findViewById(R.id.textViewEvValue);
-            OnScreenFlashText = (TextView) getView().findViewById(R.id.textViewFlashtext);
-            OnScreenFlashValue = (TextView) getView().findViewById(R.id.textViewFlashValue);
-            OnScreenEffectText = (TextView) getView().findViewById(R.id.textViewEffetText);
-            OnScreenEffectValue = (TextView) getView().findViewById(R.id.textViewEffectValue);
-            OnScreenFocusText = (TextView) getView().findViewById(R.id.textViewFocusText);
-            OnScreenFocusValue = (TextView) getView().findViewById(R.id.textViewFocusValue);
-            OnScreeISOText = (TextView) getView().findViewById(R.id.textViewISOText);
-            OnScreeISOValue = (TextView) getView().findViewById(R.id.textViewISOValue);
-            OnScreeMeterText = (TextView) getView().findViewById(R.id.textViewMeterText);
-            OnScreeMeterValue = (TextView) getView().findViewById(R.id.textViewMeterValue);
-            OnScreenSaturationText = (TextView) getView().findViewById(R.id.textViewSatuText);
-            OnScreeSaturationValue = (TextView) getView().findViewById(R.id.textViewSatuValue);
-            OnScreeSceneText = (TextView) getView().findViewById(R.id.textViewSceneText);
-            OnScreeSceneValue = (TextView) getView().findViewById(R.id.textViewSceneValue);
-            OnScreenPictureText = (TextView) getView().findViewById(R.id.textViewPictureText);
-            OnScreenPictureValue = (TextView) getView().findViewById(R.id.textViewPictureValue);
-            OnScreeSharpnessText = (TextView) getView().findViewById(R.id.textViewSharpText);
-            OnScreenSharpnessValue = (TextView) getView().findViewById(R.id.textViewSharpValue);
-            OnScreenWBText = (TextView) getView().findViewById(R.id.textViewWBText);
-            OnScreenWBValue = (TextView) getView().findViewById(R.id.textViewWBValue);
+            OnScreenBrightnessText = (TextView)view.findViewById(R.id.textViewBrightnessText);
+            OnScreenBrightnessValue = (TextView) view.findViewById(R.id.textViewBrightnessValue);
+            OnScreenContrastText = (TextView) view.findViewById(R.id.textViewContrastText);
+            OnScreenContrastValue = (TextView) view.findViewById(R.id.textViewContrastValue);
+            OnScreenEVText = (TextView) view.findViewById(R.id.textViewEVText);
+            OnScreenEVValue = (TextView) view.findViewById(R.id.textViewEvValue);
+            OnScreenFlashText = (TextView) view.findViewById(R.id.textViewFlashtext);
+            OnScreenFlashValue = (TextView) view.findViewById(R.id.textViewFlashValue);
+            OnScreenEffectText = (TextView) view.findViewById(R.id.textViewEffetText);
+            OnScreenEffectValue = (TextView) view.findViewById(R.id.textViewEffectValue);
+            OnScreenFocusText = (TextView) view.findViewById(R.id.textViewFocusText);
+            OnScreenFocusValue = (TextView) view.findViewById(R.id.textViewFocusValue);
+            OnScreeISOText = (TextView) view.findViewById(R.id.textViewISOText);
+            OnScreeISOValue = (TextView) view.findViewById(R.id.textViewISOValue);
+            OnScreeMeterText = (TextView) view.findViewById(R.id.textViewMeterText);
+            OnScreeMeterValue = (TextView) view.findViewById(R.id.textViewMeterValue);
+            OnScreenSaturationText = (TextView) view.findViewById(R.id.textViewSatuText);
+            OnScreeSaturationValue = (TextView) view.findViewById(R.id.textViewSatuValue);
+            OnScreeSceneText = (TextView) view.findViewById(R.id.textViewSceneText);
+            OnScreeSceneValue = (TextView) view.findViewById(R.id.textViewSceneValue);
+            OnScreenPictureText = (TextView) view.findViewById(R.id.textViewPictureText);
+            OnScreenPictureValue = (TextView) view.findViewById(R.id.textViewPictureValue);
+            OnScreeSharpnessText = (TextView) view.findViewById(R.id.textViewSharpText);
+            OnScreenSharpnessValue = (TextView) view.findViewById(R.id.textViewSharpValue);
+            OnScreenWBText = (TextView) view.findViewById(R.id.textViewWBText);
+            OnScreenWBValue = (TextView) view.findViewById(R.id.textViewWBValue);
         }
         catch (NullPointerException ex)
         {
@@ -173,13 +174,13 @@ public class InfoScreenFragment extends Fragment
     {
         try
         {
-            OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get());
-            OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast"));
-            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("saturation"));
-            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("sharpness"));
-            OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation"));
-            OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect"));
-            OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso"));
+            OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get() + "");
+            OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast") + "");
+            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
+            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
+            OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation") +"");
+            OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect") +"");
+            OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso") +"");
             OnScreenFlashValue.setText(camMan.parametersManager.getParameters().get("flash-mode"));
             OnScreenFocusValue.setText(camMan.parametersManager.getParameters().get("focus-mode"));
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
@@ -191,7 +192,7 @@ public class InfoScreenFragment extends Fragment
         }
         catch (Exception ex)
         {
-
+            ex.printStackTrace();
         }
     }
 

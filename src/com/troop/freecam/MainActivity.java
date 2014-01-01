@@ -96,6 +96,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         infoScreenFragment = new InfoScreenFragment(camMan);
         getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
 
+
         settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
 
@@ -251,7 +252,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(camMan, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
+        infoScreenFragment.hideCurrentConfig();
     }
 
     @Override
@@ -392,6 +393,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             {
                 drawSurface.drawingRectHelper.Enabled = false;
             }
+            infoScreenFragment.showtext();
 
         }
         catch (Exception ex)

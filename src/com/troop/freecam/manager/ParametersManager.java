@@ -96,6 +96,8 @@ public class ParametersManager
     public ZeroShutterLagClass ZSLModes;
     public DenoiseClass Denoise;
 
+    private boolean loadingParametersFinish = false;
+
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
         this.cameraManager = cameraManager;
@@ -105,6 +107,7 @@ public class ParametersManager
 
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
     {
+        loadingParametersFinish = false;
         this.parameters = parameters;
         String[] paras =  parameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
@@ -116,6 +119,8 @@ public class ParametersManager
         videoModes = new VideoModes();
         ZSLModes = new ZeroShutterLagClass();
         Denoise = new DenoiseClass();
+        loadingParametersFinish = true;
+        onParametersCHanged();
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -130,7 +135,7 @@ public class ParametersManager
 
     private void onParametersCHanged()
     {
-        if (parametersChanged != null)
+        if (parametersChanged != null && loadingParametersFinish)
             parametersChanged.parametersHasChanged(false);
     }
 
