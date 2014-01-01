@@ -169,5 +169,15 @@ public class SettingsMenuFagment extends Fragment
                 }
             }
         });
+
+    }
+    public void Hide()
+    {
+        view.setVisibility(View.GONE);
+    }
+
+    public void Show()
+    {
+        view.setVisibility(View.VISIBLE);
     }
 }

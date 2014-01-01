@@ -40,6 +40,7 @@ import com.troop.freecam.activitys.BaseActivity;
 import com.troop.freecam.activitys.ButtonsActivity;
 
 import com.troop.freecam.activitys.InfoScreenFragment;
+import com.troop.freecam.activitys.LayoutActivity;
 import com.troop.freecam.activitys.SettingsMenuFagment;
 import com.troop.freecam.controls.ExtendedButton;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
@@ -69,7 +70,7 @@ import com.troop.menu.switchcameramenu;
 
 import java.io.File;
 
-public class MainActivity extends ButtonsActivity implements ParametersChangedInterface
+public class MainActivity extends LayoutActivity implements ParametersChangedInterface
 {
 
 
@@ -103,6 +104,7 @@ public class MainActivity extends ButtonsActivity implements ParametersChangedIn
         getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
         settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
+
 
 
         mPreview.SetCameraManager(camMan);

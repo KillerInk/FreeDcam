@@ -49,6 +49,7 @@ public class InfoScreenFragment extends Fragment
     protected TextView OnScreenWBValue;
 
     CameraManager camMan;
+    View view;
 
     //******************************************************
 
@@ -60,7 +61,7 @@ public class InfoScreenFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.infoscreenfragment,
+        view = inflater.inflate(R.layout.infoscreenfragment,
                 container, false);
         onScreenText();
         return view;
@@ -192,5 +193,15 @@ public class InfoScreenFragment extends Fragment
         {
 
         }
+    }
+
+    public void Hide()
+    {
+        view.setVisibility(View.GONE);
+    }
+
+    public void Show()
+    {
+        view.setVisibility(View.VISIBLE);
     }
 }
