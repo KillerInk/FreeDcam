@@ -176,8 +176,8 @@ public class InfoScreenFragment extends Fragment
         {
             OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get() + "");
             OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast") + "");
-            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
-            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
+            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
+            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
             OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation") +"");
             OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect") +"");
             OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso") +"");
