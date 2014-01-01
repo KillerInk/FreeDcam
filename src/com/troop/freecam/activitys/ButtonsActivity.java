@@ -119,8 +119,8 @@ public class ButtonsActivity extends BaseActivity
         buttonMetering = (Button)findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,(MainActivity)this));
 
-        buttonPreviewFormat = (ExtendedButton)findViewById(R.id.buttonPreviewFormat);
-        buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,(MainActivity)this));
+        //buttonPreviewFormat = (ExtendedButton)findViewById(R.id.buttonPreviewFormat);
+        //buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,(MainActivity)this));
         //**********************************************************************
 
         thumbButton = (ImageButton)findViewById(R.id.imageButton_thumb);

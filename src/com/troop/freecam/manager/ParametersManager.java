@@ -339,7 +339,7 @@ public class ParametersManager
 
     public void SetMFocus(int focus)
     {
-        mainActivity.focusButton.setEnabled(false);
+        //mainActivity.focusButton.setEnabled(false);
         parameters.set("manual-focus", 0);
         parameters.setFocusMode("normal");
         parameters.set("manualfocus_step", focus);

@@ -50,7 +50,7 @@ public class PictureFormatMenu extends BaseMenu  {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     //camMan.parametersManager.getParameters().set("iso", tmp);
-                    activity.buttonPictureFormat.SetValue(tmp);
+                    //activity.buttonPictureFormat.SetValue(tmp);
 
                     if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();

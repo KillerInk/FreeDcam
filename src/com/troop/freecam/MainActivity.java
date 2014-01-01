@@ -1,6 +1,7 @@
 package com.troop.freecam;
 
 import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,7 +38,9 @@ import android.widget.TextView;
 
 import com.troop.freecam.activitys.BaseActivity;
 import com.troop.freecam.activitys.ButtonsActivity;
-import com.troop.freecam.activitys.InfoScreenActivity;
+
+import com.troop.freecam.activitys.InfoScreenFragment;
+import com.troop.freecam.activitys.SettingsMenuFagment;
 import com.troop.freecam.controls.ExtendedButton;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
@@ -64,18 +69,19 @@ import com.troop.menu.switchcameramenu;
 
 import java.io.File;
 
-public class MainActivity extends InfoScreenActivity implements ParametersChangedInterface
+public class MainActivity extends ButtonsActivity implements ParametersChangedInterface
 {
-	public CamPreview mPreview;
-    public DrawingOverlaySurface drawSurface;
+
+
     public CheckBox checkBoxZSL;
     //*******************
 	Camera.Parameters paras;
-    SurfaceHolder holder;
+
     public Boolean AFS_enable;
     Button AfAssitButton;
 
-
+    SettingsMenuFagment settingsFragment;
+    InfoScreenFragment infoScreenFragment;
 
     int currentZoom = 0;
     SensorManager sensorManager;
@@ -91,12 +97,13 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
-		mPreview = (CamPreview) findViewById(R.id.camPreview1);
-        mPreview.setKeepScreenOn(true);
-        holder = mPreview.getHolder();
-        camMan = new CameraManager(mPreview, this, preferences);
+
         camMan.parametersManager.setParametersChanged(this);
+        infoScreenFragment = new InfoScreenFragment(camMan);
+        getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
+        settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
+        getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
+
 
         mPreview.SetCameraManager(camMan);
         drawSurface.SetCameraManager(camMan);
@@ -108,14 +115,10 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
-        initMenu();
+
         recordTimer = new MyTimer(recordingTimerTextView);
         chipsetProp();
-
-        showtext();
         hidenavkeys();
-
-        hideCurrentConfig();
 
 	}
 
@@ -166,10 +169,10 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
                 buttonMetering.setEnabled(false);
 
             if(!s.equals("LG-P720") || !s.equals("LG-P725"))
-                upsidedown.setVisibility(View.GONE);
+                settingsFragment.upsidedown.setVisibility(View.GONE);
 
             if (!DeviceUtils.isOmap())
-                ippButton.setEnabled(false);
+                settingsFragment.ippButton.setEnabled(false);
                 exposureButton.setEnabled(false);
         }
         catch (NullPointerException ex)
@@ -251,13 +254,13 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
     {
         if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
-            crop_box.setVisibility(View.GONE);
+            settingsFragment.crop_box.setVisibility(View.GONE);
         }
         else
         {
             try
             {
-                crop_box.setVisibility(View.VISIBLE);
+                settingsFragment.crop_box.setVisibility(View.VISIBLE);
             }
             catch (Exception ex)
             {
@@ -300,32 +303,32 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
         try{
             buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
-            previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
-            button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
+            settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+            settingsFragment.button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-            pictureSizeButton.SetValue(size1);
-            videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
+            settingsFragment.pictureSizeButton.SetValue(size1);
+            settingsFragment.videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
 
             //ZeroShutterLag
             if (camMan.parametersManager.getSupportZSL())
             {
-                if (button_zsl.getVisibility() == View.GONE)
-                    button_zsl.setVisibility(View.VISIBLE);
-                button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
+                if (settingsFragment.button_zsl.getVisibility() == View.GONE)
+                    settingsFragment.button_zsl.setVisibility(View.VISIBLE);
+                settingsFragment.button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
             }
             else
-                if (button_zsl.getVisibility() == View.VISIBLE)
-                    button_zsl.setVisibility(View.GONE);
+                if (settingsFragment.button_zsl.getVisibility() == View.VISIBLE)
+                    settingsFragment.button_zsl.setVisibility(View.GONE);
 
             //ImagePostProcessing
             if (camMan.parametersManager.getSupportIPP())
             {
-                if (ippButton.getVisibility() == View.GONE)
-                    ippButton.setVisibility(View.VISIBLE);
-                ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
+                if (settingsFragment.ippButton.getVisibility() == View.GONE)
+                    settingsFragment.ippButton.setVisibility(View.VISIBLE);
+                settingsFragment.ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
             }
             else
-                ippButton.setVisibility(View.GONE);
+                settingsFragment.ippButton.setVisibility(View.GONE);
 
             //ManualExposure
             camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
@@ -363,25 +366,25 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
             //Cropping
             if (camMan.parametersManager.is3DMode())
             {
-                crop_box.setVisibility(View.VISIBLE);
-                crop_box.setChecked(camMan.parametersManager.doCropping());
+                settingsFragment.crop_box.setVisibility(View.VISIBLE);
+                settingsFragment.crop_box.setChecked(camMan.parametersManager.doCropping());
             }
             else
-                crop_box.setVisibility(View.GONE);
+                settingsFragment.crop_box.setVisibility(View.GONE);
             //FLASH
             if (!camMan.parametersManager.getSupportFlash())
-                flashButton.setVisibility(View.GONE);
+                settingsFragment.flashButton.setVisibility(View.GONE);
             else
             {
-                if (flashButton.getVisibility() == View.GONE)
-                    flashButton.setVisibility(View.VISIBLE);
-                flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
+                if (settingsFragment.flashButton.getVisibility() == View.GONE)
+                    settingsFragment.flashButton.setVisibility(View.VISIBLE);
+                settingsFragment.flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
             }
 
 
             //info Screen
-            showtext();
-            focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
+
+            settingsFragment.focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
             //AF Priority
             if (!camMan.parametersManager.getSupportAfpPriority())
                 buttonAfPriority.setVisibility(View.GONE);
@@ -389,7 +392,7 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
             {
                 if (buttonAfPriority.getVisibility() == View.GONE)
                     buttonAfPriority.setVisibility(View.VISIBLE);
-                OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
+                //OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
                 buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
             }
             //AutoExposure
@@ -399,7 +402,7 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
             }
             //Select Camera
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-            switch3dButton.SetValue(tmp);
+            settingsFragment.switch3dButton.SetValue(tmp);
             //Crosshair appairing
             if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {

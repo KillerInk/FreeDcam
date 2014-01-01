@@ -1,19 +1,24 @@
 package com.troop.freecam.activitys;
 
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.troop.freecam.CameraManager;
 import com.troop.freecam.R;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 30.12.13.
  */
-public class InfoScreenActivity extends LayoutActivity
+public class InfoScreenFragment extends Fragment
 {
-    public CheckBox checkBoxOnScreen;
+
 
     //************************Text Views Add****************05-12-13
     protected TextView OnScreenBrightnessText;
@@ -43,65 +48,58 @@ public class InfoScreenActivity extends LayoutActivity
     protected TextView OnScreenWBText;
     protected TextView OnScreenWBValue;
 
+    CameraManager camMan;
+
     //******************************************************
 
 
+    public InfoScreenFragment(CameraManager camMan) {
+        this.camMan = camMan;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View view = inflater.inflate(R.layout.infoscreenfragment,
+                container, false);
         onScreenText();
+        return view;
     }
 
     private void init()
     {
-        checkBoxOnScreen = (CheckBox)findViewById(R.id.checkBoxOnscreen);
-        checkBoxOnScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (checkBoxOnScreen.isChecked())
-                {
-                    showCurrentConfig();
-                }
-                else
-                {
-                    hideCurrentConfig();
-                }
-            }
-        });
         onScreenText();
     }
 
     private void onScreenText()
     {
         try {
-            OnScreenBrightnessText = (TextView) findViewById(R.id.textViewBrightnessText);
-            OnScreenBrightnessValue = (TextView) findViewById(R.id.textViewBrightnessValue);
-            OnScreenContrastText = (TextView) findViewById(R.id.textViewContrastText);
-            OnScreenContrastValue = (TextView) findViewById(R.id.textViewContrastValue);
-            OnScreenEVText = (TextView) findViewById(R.id.textViewEVText);
-            OnScreenEVValue = (TextView) findViewById(R.id.textViewEvValue);
-            OnScreenFlashText = (TextView) findViewById(R.id.textViewFlashtext);
-            OnScreenFlashValue = (TextView) findViewById(R.id.textViewFlashValue);
-            OnScreenEffectText = (TextView) findViewById(R.id.textViewEffetText);
-            OnScreenEffectValue = (TextView) findViewById(R.id.textViewEffectValue);
-            OnScreenFocusText = (TextView) findViewById(R.id.textViewFocusText);
-            OnScreenFocusValue = (TextView) findViewById(R.id.textViewFocusValue);
-            OnScreeISOText = (TextView) findViewById(R.id.textViewISOText);
-            OnScreeISOValue = (TextView) findViewById(R.id.textViewISOValue);
-            OnScreeMeterText = (TextView) findViewById(R.id.textViewMeterText);
-            OnScreeMeterValue = (TextView) findViewById(R.id.textViewMeterValue);
-            OnScreenSaturationText = (TextView) findViewById(R.id.textViewSatuText);
-            OnScreeSaturationValue = (TextView) findViewById(R.id.textViewSatuValue);
-            OnScreeSceneText = (TextView) findViewById(R.id.textViewSceneText);
-            OnScreeSceneValue = (TextView) findViewById(R.id.textViewSceneValue);
-            OnScreenPictureText = (TextView) findViewById(R.id.textViewPictureText);
-            OnScreenPictureValue = (TextView) findViewById(R.id.textViewPictureValue);
-            OnScreeSharpnessText = (TextView) findViewById(R.id.textViewSharpText);
-            OnScreenSharpnessValue = (TextView) findViewById(R.id.textViewSharpValue);
-            OnScreenWBText = (TextView) findViewById(R.id.textViewWBText);
-            OnScreenWBValue = (TextView) findViewById(R.id.textViewWBValue);
+            OnScreenBrightnessText = (TextView)getView().findViewById(R.id.textViewBrightnessText);
+            OnScreenBrightnessValue = (TextView) getView().findViewById(R.id.textViewBrightnessValue);
+            OnScreenContrastText = (TextView) getView().findViewById(R.id.textViewContrastText);
+            OnScreenContrastValue = (TextView) getView().findViewById(R.id.textViewContrastValue);
+            OnScreenEVText = (TextView) getView().findViewById(R.id.textViewEVText);
+            OnScreenEVValue = (TextView) getView().findViewById(R.id.textViewEvValue);
+            OnScreenFlashText = (TextView) getView().findViewById(R.id.textViewFlashtext);
+            OnScreenFlashValue = (TextView) getView().findViewById(R.id.textViewFlashValue);
+            OnScreenEffectText = (TextView) getView().findViewById(R.id.textViewEffetText);
+            OnScreenEffectValue = (TextView) getView().findViewById(R.id.textViewEffectValue);
+            OnScreenFocusText = (TextView) getView().findViewById(R.id.textViewFocusText);
+            OnScreenFocusValue = (TextView) getView().findViewById(R.id.textViewFocusValue);
+            OnScreeISOText = (TextView) getView().findViewById(R.id.textViewISOText);
+            OnScreeISOValue = (TextView) getView().findViewById(R.id.textViewISOValue);
+            OnScreeMeterText = (TextView) getView().findViewById(R.id.textViewMeterText);
+            OnScreeMeterValue = (TextView) getView().findViewById(R.id.textViewMeterValue);
+            OnScreenSaturationText = (TextView) getView().findViewById(R.id.textViewSatuText);
+            OnScreeSaturationValue = (TextView) getView().findViewById(R.id.textViewSatuValue);
+            OnScreeSceneText = (TextView) getView().findViewById(R.id.textViewSceneText);
+            OnScreeSceneValue = (TextView) getView().findViewById(R.id.textViewSceneValue);
+            OnScreenPictureText = (TextView) getView().findViewById(R.id.textViewPictureText);
+            OnScreenPictureValue = (TextView) getView().findViewById(R.id.textViewPictureValue);
+            OnScreeSharpnessText = (TextView) getView().findViewById(R.id.textViewSharpText);
+            OnScreenSharpnessValue = (TextView) getView().findViewById(R.id.textViewSharpValue);
+            OnScreenWBText = (TextView) getView().findViewById(R.id.textViewWBText);
+            OnScreenWBValue = (TextView) getView().findViewById(R.id.textViewWBValue);
         }
         catch (NullPointerException ex)
         {

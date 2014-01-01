@@ -10,7 +10,7 @@ import com.troop.freecam.R;
 /**
  * Created by troop on 01.01.14.
  */
-public class LayoutActivity extends SettingsMenuActivity
+public class LayoutActivity extends ButtonsActivity
 {
     LinearLayout baseMenuLayout;
     LinearLayout manualMenuLayout;

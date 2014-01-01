@@ -65,7 +65,7 @@ public class DenoiseMenu extends BaseMenu {
                     }
                     if(DeviceUtils.isQualcomm())
                         camMan.parametersManager.getParameters().set("denoise", tmp);
-                    activity.button_denoise.SetValue(tmp);
+                    //activity.button_denoise.SetValue(tmp);
                     preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
                     camMan.Restart(false);
                     return true;
