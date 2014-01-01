@@ -11,7 +11,7 @@ import com.troop.freecam.utils.DeviceUtils;
 /**
  * Created by troop on 30.12.13.
  */
-public class InfoScreenActivity extends ButtonsActivity
+public class InfoScreenActivity extends LayoutActivity
 {
     public CheckBox checkBoxOnScreen;
 

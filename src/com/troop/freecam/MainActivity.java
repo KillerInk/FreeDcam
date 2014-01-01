@@ -74,16 +74,9 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
     SurfaceHolder holder;
     public Boolean AFS_enable;
     Button AfAssitButton;
-    Button manualLayoutButton;
-    Button autoLayoutButton;
-    Button settingLayoutButton;
-    LinearLayout baseMenuLayout;
-    LinearLayout manualMenuLayout;
-    LinearLayout autoMenuLayout;
-    LinearLayout settingsMenuLayout;
-    public boolean hideManualMenu = true;
-    public boolean hideSettingsMenu = true;
-    public boolean hideAutoMenu = true;
+
+
+
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -146,113 +139,7 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
 
     }
 
-    public void initMenu()
-    {
-        baseMenuLayout = (LinearLayout)findViewById(R.id.baseMenuLayout);
-        autoMenuLayout = (LinearLayout)findViewById(R.id.LayoutAuto);
-        manualMenuLayout = (LinearLayout)findViewById(R.id.Layout_Manual);
-        settingsMenuLayout = (LinearLayout)findViewById(R.id.LayoutSettings);
 
-
-        manualLayoutButton = (Button)findViewById(R.id.buttonManualMode);
-        manualLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideManualMenu == false)
-                {
-                    hideManualMenu = true;
-                    manualMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideManualMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
-                        manualMenuLayout.setVisibility(View.VISIBLE);
-                    if (hideAutoMenu == false)
-                    {
-                        hideAutoMenu = true;
-                        autoMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideSettingsMenu == false)
-                    {
-                        hideSettingsMenu = true;
-                        settingsMenuLayout.setVisibility(View.GONE);
-                    }
-                }
-
-            }
-        });
-
-        autoLayoutButton = (Button)findViewById(R.id.buttonAutoMode);
-        autoLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideAutoMenu == false)
-                {
-                    hideAutoMenu = true;
-
-                    autoMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideAutoMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
-                        autoMenuLayout.setVisibility(View.VISIBLE);
-
-                    if (hideSettingsMenu == false)
-                    {
-                        hideSettingsMenu = true;
-                        settingsMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideManualMenu == false)
-                    {
-                        hideManualMenu = true;
-                        manualMenuLayout.setVisibility(View.GONE);
-                    }
-
-                }
-
-            }
-        });
-        settingLayoutButton = (Button)findViewById(R.id.buttonSettingsMode);
-        settingLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideSettingsMenu == false)
-                {
-                    hideSettingsMenu = true;
-                    settingsMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideSettingsMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.LayoutSettings) == null)
-                        settingsMenuLayout.setVisibility(View.VISIBLE);
-                    if (hideAutoMenu == false)
-                    {
-                        hideAutoMenu = true;
-                        autoMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideManualMenu == false)
-                    {
-                        hideManualMenu = true;
-                        manualMenuLayout.setVisibility(View.GONE);
-                    }
-
-                }
-
-            }
-        });
-
-        autoMenuLayout.setVisibility(View.GONE);
-        manualMenuLayout.setVisibility(View.GONE);
-        settingsMenuLayout.setVisibility(View.GONE);
-
-
-    }
 
 
 
@@ -364,13 +251,13 @@ public class MainActivity extends InfoScreenActivity implements ParametersChange
     {
         if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
         {
-            settingsMenuLayout.removeView(crop_box);
+            crop_box.setVisibility(View.GONE);
         }
         else
         {
             try
             {
-            settingsMenuLayout.addView(crop_box);
+                crop_box.setVisibility(View.VISIBLE);
             }
             catch (Exception ex)
             {

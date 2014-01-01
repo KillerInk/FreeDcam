@@ -45,74 +45,46 @@ import com.troop.menu.switchcameramenu;
  */
 public class ButtonsActivity extends BaseActivity
 {
-    public ExtendedButton flashButton;
-    public ExtendedButton focusButton;
     public Button sceneButton;
     public Button whitebalanceButton;
     public Button colorButton;
     public Button isoButton;
     public Button exposureButton;
-    public ExtendedButton switch3dButton;
-    public ExtendedButton pictureSizeButton;
-    public ExtendedButton previewSizeButton;
-    public ExtendedButton ippButton;
-    protected ExtendedButton videoSizeButton;
     public ExtendedButton buttonAfPriority;
     public Button buttonMetering;
-    public ExtendedButton buttonPictureFormat;
     public ExtendedButton buttonPreviewFormat;
     public ImageButton shotButton;
     public ImageButton thumbButton;
     Button switchVideoPicture;
-
-    protected CheckBox upsidedown;
-    protected CheckBox crop_box;
     CheckBox checkboxHDR;
     boolean HDRMode = false;
-
     TableLayout tableLayout;
     RelativeLayout mainlayout;
-
     public CheckBox manualExposure;
     TableRow exposureRow;
     public SeekBar exposureSeekbar;
-
     public CheckBox manualShaprness;
     public CheckBox manualFocus;
-
     TableRow sharpnessRow;
     public SeekBar sharpnessSeekBar;
-
     public TextView sharpnessTextView;
     public TextView exposureTextView;
-
     public  TextView contrastTextView;
     TableRow contrastRow;
     public CheckBox contrastcheckBox;
     public SeekBar contrastSeekBar;
-
     public TextView brightnessTextView;
     public SeekBar brightnessSeekBar;
     public SeekBar focusSeekBar;
     TableRow brightnessRow;
     TableRow focusRow;
     CheckBox brightnessCheckBox;
-
     public TextView saturationTextView;
     public SeekBar saturationSeekBar;
     public CheckBox saturationCheckBox;
     TableRow saturationRow;
-
     protected TextView recordingTimerTextView;
-
     protected MyTimer recordTimer;
-
-
-
-    public ExtendedButton button_zsl;
-    public ExtendedButton button_denoise;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,81 +94,35 @@ public class ButtonsActivity extends BaseActivity
 
     private void initButtons()
     {
-
-        flashButton = (ExtendedButton) findViewById(R.id.button_flash);
-        flashButton.setOnClickListener(new FlashMenu(camMan, (MainActivity)this));
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
         shotButton.setOnClickListener(shotListner);
 
-        focusButton = (ExtendedButton) findViewById(R.id.button_focus);
-        focusButton.setOnClickListener(new FocusMenu(camMan, (MainActivity)this));
         sceneButton = (Button) findViewById(R.id.buttonScene);
         sceneButton.setOnClickListener(new SceneMenu(camMan, (MainActivity)this));
+
         whitebalanceButton = (Button) findViewById(R.id.buttonwhiteBalance);
         whitebalanceButton.setOnClickListener(new WhiteBalanceMenu(camMan, (MainActivity)this));
+
         colorButton = (Button) findViewById(R.id.buttoncolor);
         colorButton.setOnClickListener(new ColorMenu(camMan, (MainActivity)this));
+
         isoButton = (Button) findViewById(R.id.buttoniso);
         isoButton.setOnClickListener(new IsoMenu(camMan, (MainActivity)this));
+
         exposureButton = (Button) findViewById(R.id.button_exposure);
         exposureButton.setOnClickListener(new ExposureMenu(camMan, (MainActivity)this));
-        pictureSizeButton = (ExtendedButton) findViewById(R.id.button_pictureSize);
-        pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, (MainActivity)this));
-        previewSizeButton = (ExtendedButton)findViewById(R.id.button_previewsize);
-        previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,(MainActivity)this));
 
         //06-12-13*************************************************************
         buttonAfPriority = (ExtendedButton)findViewById(R.id.buttonAFPriority);
         buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,(MainActivity)this));
 
-
         buttonMetering = (Button)findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,(MainActivity)this));
-
-
-        buttonPictureFormat = (ExtendedButton)findViewById(R.id.button_pictureFormat);
-        buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,(MainActivity)this));
-        buttonPictureFormat.setVisibility(View.GONE);
 
         buttonPreviewFormat = (ExtendedButton)findViewById(R.id.buttonPreviewFormat);
         buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,(MainActivity)this));
         //**********************************************************************
 
-
-
-        ippButton = (ExtendedButton)findViewById(R.id.button_ipp);
-        ippButton.setOnClickListener(new IppMenu(camMan, (MainActivity)this));
-
-        crop_box = (CheckBox)findViewById(R.id.checkBox_crop);
-        crop_box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (crop_box.isChecked())
-                {
-                    camMan.crop = true;
-                    preferences.edit().putBoolean("crop", true).commit();
-                }
-                else
-                {
-                    camMan.crop = false;
-                    preferences.edit().putBoolean("crop", false).commit();
-                }
-            }
-        });
-        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
-        {
-            crop_box.setVisibility(View.GONE);
-        }
-        else
-        {
-            crop_box.setChecked(true);
-        }
-
-
-        //exposureSeekbar.setVisibility(View.INVISIBLE);
-        switch3dButton = (ExtendedButton) findViewById(R.id.button_switch3d);
-        switch3dButton.setOnClickListener(new switchcameramenu(camMan, (MainActivity)this));
         thumbButton = (ImageButton)findViewById(R.id.imageButton_thumb);
         thumbButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,7 +207,7 @@ public class ButtonsActivity extends BaseActivity
 
                 else
                     focusRow.setVisibility(View.GONE);
-                focusButton.setEnabled(true);
+                //focusButton.setEnabled(true);
             }
         });
         focusRow.setVisibility(View.GONE);
@@ -342,32 +268,7 @@ public class ButtonsActivity extends BaseActivity
         });
         tableLayout.removeView(saturationRow);
 
-        upsidedown = (CheckBox) findViewById(R.id.button_fixupsidedown);
 
-        if (camMan.parametersManager.isOrientationFIX())
-            upsidedown.setChecked(true);
-        upsidedown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (upsidedown.isChecked())
-                {
-                    camMan.parametersManager.setOrientationFix(true);
-                    camMan.Stop();
-                    camMan.Start();
-
-                    camMan.Restart(true);
-                }
-                else
-                {
-                    camMan.parametersManager.setOrientationFix(false);
-                    camMan.Stop();
-                    camMan.Start();
-                    camMan.Restart(true);
-                }
-
-            }
-        });
 
         switchVideoPicture = (Button)findViewById(R.id.button_switchVideoPicture);
         setSwitchVideoPictureBackground();
@@ -407,15 +308,11 @@ public class ButtonsActivity extends BaseActivity
 
 
 
-        //07-12-13
-        // button_stab = (Button)findViewById(R.id.button_ipp);
-        // button_stab.setOnClickListener(new IppMenu(camMan, this));
 
-        button_denoise = (ExtendedButton)findViewById(R.id.button_denoise);
-        button_denoise.setOnClickListener(new DenoiseMenu(camMan, (MainActivity)this));
 
-        button_zsl = (ExtendedButton)findViewById(R.id.buttonZsl);
-        button_zsl.setOnClickListener(new ZslMenu(camMan, (MainActivity)this));
+
+
+
 
         /*Hfr Menu****
         ippButton = (Button)findViewById(R.id.button_ipp);
@@ -425,8 +322,7 @@ public class ButtonsActivity extends BaseActivity
 
 
         //*****************************
-        videoSizeButton = (ExtendedButton)findViewById(R.id.button_videoSize);
-        videoSizeButton.setOnClickListener(new VideoSizesMenu(camMan,(MainActivity)this));
+
 
     }
 
