@@ -19,6 +19,7 @@ import com.troop.menu.FocusMenu;
 import com.troop.menu.IppMenu;
 import com.troop.menu.PictureFormatMenu;
 import com.troop.menu.PictureSizeMenu;
+import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.VideoSizesMenu;
 import com.troop.menu.ZslMenu;
@@ -35,6 +36,7 @@ public class SettingsMenuFagment extends Fragment
     public ExtendedButton buttonPictureFormat;
     public ExtendedButton pictureSizeButton;
     public ExtendedButton previewSizeButton;
+    public ExtendedButton buttonPreviewFormat;
     public ExtendedButton videoSizeButton;
     public ExtendedButton ippButton;
     public ExtendedButton button_denoise;
@@ -80,6 +82,9 @@ public class SettingsMenuFagment extends Fragment
         buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,activity));
         //is hidden because the values are not from the cameraParameters
         buttonPictureFormat.setVisibility(View.GONE);
+
+        buttonPreviewFormat = (ExtendedButton)view.findViewById(R.id.buttonPreviewFormat);
+        buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,activity));
 
         pictureSizeButton = (ExtendedButton) view.findViewById(R.id.button_pictureSize);
         pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, activity));

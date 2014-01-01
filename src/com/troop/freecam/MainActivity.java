@@ -72,18 +72,12 @@ import java.io.File;
 
 public class MainActivity extends LayoutActivity implements ParametersChangedInterface
 {
-
-
     public CheckBox checkBoxZSL;
     //*******************
-	Camera.Parameters paras;
-
     public Boolean AFS_enable;
     Button AfAssitButton;
-
     SettingsMenuFagment settingsFragment;
     InfoScreenFragment infoScreenFragment;
-
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -97,15 +91,13 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
         camMan.parametersManager.setParametersChanged(this);
+
         infoScreenFragment = new InfoScreenFragment(camMan);
         getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
+
         settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
-
-
 
         mPreview.SetCameraManager(camMan);
         drawSurface.SetCameraManager(camMan);
@@ -116,7 +108,6 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-
 
         recordTimer = new MyTimer(recordingTimerTextView);
         chipsetProp();
@@ -144,19 +135,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     }
 
-
-
-
-
-
-
-
-
     public void tabletScaling()
     {
         //Will Scale Entire UI For Tablet Mode Current Tabs Nexus 7 / Nexus 10
     }
-
 
     public void chipsetProp()
     {
@@ -182,9 +164,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 
         }
-
-
     }
+
     public void hidenavkeys()
     {
         try {
@@ -196,11 +177,6 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         }
     }
-
-
-
-
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -303,7 +279,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public void parametersHasChanged(boolean restarted)
     {
         try{
-            buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
+            settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
             settingsFragment.button_denoise.SetValue(camMan.parametersManager.getDenoiseValue());

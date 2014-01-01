@@ -53,7 +53,5 @@ public class BaseActivity extends FragmentActivity
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
         camMan = new CameraManager(mPreview, (MainActivity)this, preferences);
-
-
     }
 }
