@@ -122,7 +122,7 @@ public class AutoMenuFragment extends BaseFragment
         sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
         colorButton.SetValue(camMan.parametersManager.getParameters().getColorEffect());
         if (camMan.parametersManager.getSupportExposureMode())
-            exposureButton.SetValue(camMan.parametersManager.getParameters().getExposureCompensation() + "");
+            exposureButton.SetValue(camMan.parametersManager.ExposureMode.get());
         if (camMan.parametersManager.getSupportIso())
             isoButton.SetValue(camMan.parametersManager.Iso.get());
         //AF Priority
