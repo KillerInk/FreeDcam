@@ -228,14 +228,6 @@ public class SettingsMenuFagment extends BaseFragment
                 flashButton.setVisibility(View.VISIBLE);
             flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
         }
-
-
-        //info Screen
-
         focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
-
-
-        //Select Camera
-
     }
 }

@@ -89,12 +89,15 @@ public class ParametersManager
     public boolean getSupportIPP() { return supportIPP;}
     boolean supportZSL = false;
     public boolean getSupportZSL() { return supportZSL;}
+    boolean supportWhiteBalance = false;
+    public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
     public ZeroShutterLagClass ZSLModes;
     public DenoiseClass Denoise;
+    public WhiteBalanceClass WhiteBalance;
 
     private boolean loadingParametersFinish = false;
 
@@ -119,6 +122,7 @@ public class ParametersManager
         videoModes = new VideoModes();
         ZSLModes = new ZeroShutterLagClass();
         Denoise = new DenoiseClass();
+        WhiteBalance = new WhiteBalanceClass();
         loadingParametersFinish = true;
         onParametersCHanged(true);
     }
@@ -659,6 +663,38 @@ public class ParametersManager
         public String getValue()
         {
             return parameters.get(value);
+        }
+    }
+
+    public class WhiteBalanceClass
+    {
+        String[] values;
+        public WhiteBalanceClass()
+        {
+            try {
+                values = getParameters().getSupportedWhiteBalance().toArray(new String[getParameters().getSupportedWhiteBalance().size()]);
+                if (values.length>0)
+                    supportWhiteBalance = true;
+            }
+            catch (Exception ex)
+            {
+                supportWhiteBalance = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void set(String value)
+        {
+            getParameters().setWhiteBalance(value);
+        }
+
+        public String get()
+        {
+            return getParameters().getWhiteBalance();
         }
     }
 }

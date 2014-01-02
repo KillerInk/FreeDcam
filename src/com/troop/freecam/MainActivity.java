@@ -529,7 +529,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         try{
             seekbarViewFragment.UpdateValues(restarted);
             autoMenuFragment.UpdateUI(restarted);
-            seekbarViewFragment.UpdateValues(restarted);
+            settingsFragment.UpdateUI(restarted);
 
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             settingsFragment.switch3dButton.SetValue(tmp);

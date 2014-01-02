@@ -82,22 +82,50 @@ public class AutoMenuFragment extends BaseFragment
 
     public void UpdateUI(boolean settingsReloaded)
     {
-        sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
-        //AF Priority
+        if (settingsReloaded)
+            checkVisibility();
+        updateValues();
+    }
+
+    private void checkVisibility()
+    {
         if (!camMan.parametersManager.getSupportAfpPriority())
             buttonAfPriority.setVisibility(View.GONE);
         else
         {
             if (buttonAfPriority.getVisibility() == View.GONE)
                 buttonAfPriority.setVisibility(View.VISIBLE);
-            //OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
+        }
+        if (!camMan.parametersManager.getSupportAutoExposure())
+        {
+            buttonMetering.setVisibility(View.GONE);
+        }
+        else
+            buttonMetering.setVisibility(View.VISIBLE);
+        if (!camMan.parametersManager.getSupportWhiteBalance())
+        {
+            whitebalanceButton.setVisibility(View.GONE);
+        }
+        else
+            whitebalanceButton.setVisibility(View.VISIBLE);
+    }
+
+    private void updateValues() {
+        sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
+        //AF Priority
+        if (camMan.parametersManager.getSupportAfpPriority())
+        {
             buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
         }
 
         //AutoExposure
-        if (!camMan.parametersManager.getSupportAutoExposure())
+        if (camMan.parametersManager.getSupportAutoExposure())
         {
-            buttonMetering.setVisibility(View.GONE);
+            buttonMetering.SetValue(camMan.parametersManager.getParameters().get("auto-exposure"));
+        }
+        if (camMan.parametersManager.getSupportWhiteBalance())
+        {
+            whitebalanceButton.SetValue(camMan.parametersManager.WhiteBalance.get());
         }
     }
 }
