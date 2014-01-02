@@ -45,19 +45,15 @@ import com.troop.menu.switchcameramenu;
  */
 public class ButtonsActivity extends BaseActivity
 {
-    public Button sceneButton;
-    public Button whitebalanceButton;
-    public Button colorButton;
-    public Button isoButton;
-    public Button exposureButton;
-    public ExtendedButton buttonAfPriority;
-    public Button buttonMetering;
+
+
+
 
     public ImageButton shotButton;
     public ImageButton thumbButton;
     Button switchVideoPicture;
-    CheckBox checkboxHDR;
-    boolean HDRMode = false;
+
+    public boolean HDRMode = false;
     TableLayout tableLayout;
     RelativeLayout mainlayout;
     public CheckBox manualExposure;
@@ -97,30 +93,9 @@ public class ButtonsActivity extends BaseActivity
         shotButton = (ImageButton) findViewById(R.id.imageButton1);
         shotButton.setOnClickListener(shotListner);
 
-        sceneButton = (Button) findViewById(R.id.buttonScene);
-        sceneButton.setOnClickListener(new SceneMenu(camMan, (MainActivity)this));
-
-        whitebalanceButton = (Button) findViewById(R.id.buttonwhiteBalance);
-        whitebalanceButton.setOnClickListener(new WhiteBalanceMenu(camMan, (MainActivity)this));
-
-        colorButton = (Button) findViewById(R.id.buttoncolor);
-        colorButton.setOnClickListener(new ColorMenu(camMan, (MainActivity)this));
-
-        isoButton = (Button) findViewById(R.id.buttoniso);
-        isoButton.setOnClickListener(new IsoMenu(camMan, (MainActivity)this));
-
-        exposureButton = (Button) findViewById(R.id.button_exposure);
-        exposureButton.setOnClickListener(new ExposureMenu(camMan, (MainActivity)this));
-
-        //06-12-13*************************************************************
-        buttonAfPriority = (ExtendedButton)findViewById(R.id.buttonAFPriority);
-        buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,(MainActivity)this));
-
-        buttonMetering = (Button)findViewById(R.id.buttonMetering);
-        buttonMetering.setOnClickListener(new MeteringMenu(camMan,(MainActivity)this));
 
 
-        //**********************************************************************
+
 
         thumbButton = (ImageButton)findViewById(R.id.imageButton_thumb);
         thumbButton.setOnClickListener(new View.OnClickListener() {
@@ -291,13 +266,7 @@ public class ButtonsActivity extends BaseActivity
         mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
         mainlayout.removeView(recordingTimerTextView);
 
-        checkboxHDR = (CheckBox)findViewById(R.id.checkBox_hdr);
-        checkboxHDR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HDRMode = checkboxHDR.isChecked();
-            }
-        });
+
 
 
 

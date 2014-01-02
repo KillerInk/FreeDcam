@@ -36,6 +36,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.troop.freecam.activitys.AutoMenuFragment;
 import com.troop.freecam.activitys.BaseActivity;
 import com.troop.freecam.activitys.ButtonsActivity;
 
@@ -78,6 +79,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     Button AfAssitButton;
     SettingsMenuFagment settingsFragment;
     InfoScreenFragment infoScreenFragment;
+    AutoMenuFragment autoMenuFragment;
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -99,6 +101,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
+
+        autoMenuFragment = new AutoMenuFragment(camMan, this);
+        getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
 
         mPreview.SetCameraManager(camMan);
         drawSurface.SetCameraManager(camMan);
@@ -150,15 +155,19 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                 manualFocus.setVisibility(View.GONE);
 
             if (!DeviceUtils.isQualcomm())
+            {
                 checkBoxZSL.setEnabled(false);
-                buttonMetering.setEnabled(false);
+                autoMenuFragment.buttonMetering.setEnabled(false);
+            }
 
             if(!s.equals("LG-P720") || !s.equals("LG-P725"))
                 settingsFragment.upsidedown.setVisibility(View.GONE);
 
             if (!DeviceUtils.isOmap())
+            {
                 settingsFragment.ippButton.setEnabled(false);
-                exposureButton.setEnabled(false);
+                autoMenuFragment.exposureButton.setEnabled(false);
+            }
         }
         catch (NullPointerException ex)
         {
@@ -283,7 +292,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     {
         try{
             settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
-            sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
+            autoMenuFragment.sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
             settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
             settingsFragment.button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
@@ -368,18 +377,18 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             settingsFragment.focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
             //AF Priority
             if (!camMan.parametersManager.getSupportAfpPriority())
-                buttonAfPriority.setVisibility(View.GONE);
+                autoMenuFragment.buttonAfPriority.setVisibility(View.GONE);
             else
             {
-                if (buttonAfPriority.getVisibility() == View.GONE)
-                    buttonAfPriority.setVisibility(View.VISIBLE);
+                if (autoMenuFragment.buttonAfPriority.getVisibility() == View.GONE)
+                    autoMenuFragment.buttonAfPriority.setVisibility(View.VISIBLE);
                 //OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
-                buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
+                autoMenuFragment.buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
             }
             //AutoExposure
             if (!camMan.parametersManager.getSupportAutoExposure())
             {
-                buttonMetering.setVisibility(View.GONE);
+                autoMenuFragment.buttonMetering.setVisibility(View.GONE);
             }
             //Select Camera
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);

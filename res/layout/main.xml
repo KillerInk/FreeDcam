@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0:00:0"
+            android:text="0:00:00"
             android:id="@+id/textView_timerRecording"
             android:background="#010101"
             android:textColor="#ffffff"
@@ -91,19 +91,21 @@
         android:layout_alignParentTop="true" />
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:measureWithLargestChild="false"
         android:id="@+id/tableVIEW"
         android:longClickable="false"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/imageButton_thumb">
+        android:layout_toLeftOf="@+id/imageButton_thumb"
+        android:layout_alignParentRight="false">
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/tableRowFocus">
+            android:id="@+id/tableRowFocus"
+            android:layout_gravity="left|right">
 
             <TextView
                 android:layout_width="100dp"
@@ -123,6 +125,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/seekBarFocus"
                 android:layout_column="1"
+                android:layout_gravity="left|right"
+                android:layout_weight="1"
                 android:minWidth="330dp" />
         </TableRow>
 
@@ -154,7 +158,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toLeftOf="@+id/imageButton_thumb"
                 android:layout_gravity="center_vertical"
-                android:minWidth="330dp" />
+                android:minWidth="330dp"
+                android:layout_weight="1" />
 
         </TableRow>
 
@@ -181,7 +186,8 @@
                 android:id="@+id/seekBar_brightness"
                 android:minWidth="330dp"
                 android:layout_gravity="center_vertical"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
@@ -209,7 +215,8 @@
                 android:id="@+id/seekBar_contrast"
                 android:layout_gravity="center_vertical"
                 android:layout_column="1"
-                android:minWidth="330dp" />
+                android:minWidth="330dp"
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
@@ -236,7 +243,8 @@
                 android:id="@+id/seekBarSaturation"
                 android:minWidth="300dp"
                 android:layout_gravity="center_vertical"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
@@ -261,7 +269,8 @@
                 android:id="@+id/seekBar_sharpness"
                 android:minWidth="330dp"
                 android:layout_gravity="center_vertical"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:layout_weight="1" />
         </TableRow>
 
     </TableLayout>
@@ -368,97 +377,7 @@
                 android:background="@drawable/camera_frame_box_ver_bg"
                 android:layout_marginTop="@dimen/autolayout_margineTop">
 
-                <com.troop.freecam.controls.ExtendedButton
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/buttonAFPriority"
-                    android:background="@drawable/button"
-                    custom:StringTop="AF Priority"
-                    custom:StringBot="Mode"
-                    android:layout_gravity="center_vertical" />
 
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/buttoncolor"
-                    android:background="@drawable/icon_auto_effect"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:textColor="#ff1100"
-                    android:textStyle="bold"
-                    android:typeface="serif"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/button_exposure"
-                    android:background="@drawable/icon_auto_exposure"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:textColor="#ff1100"
-                    android:textStyle="bold"
-                    android:singleLine="true"
-                    android:typeface="serif"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/buttoniso"
-                    android:background="@drawable/icon_auto_iso"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:textColor="#ff1100"
-                    android:textStyle="bold"
-                    android:typeface="serif"
-                    android:singleLine="true"
-                    android:textSize="@dimen/TextSizeSmall"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/buttonMetering"
-                    android:background="@drawable/icon_auto_metering"
-                    android:textSize="@dimen/TextSizeSmall"
-                    android:singleLine="true"
-                    android:textColor="#ff1100"
-                    android:textStyle="bold"
-                    android:typeface="serif"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                        android:id="@+id/buttonScene"
-                        android:background="@drawable/icon_auto_scene"
-                        android:clickable="true"
-                    android:textColor="#ff1100"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:textStyle="bold"
-                    android:singleLine="true"
-                    android:typeface="serif"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                        android:id="@+id/buttonwhiteBalance"
-                        android:background="@drawable/icon_auto_wb"
-                    android:textColor="#ff1100"
-                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                    android:textStyle="bold"
-                    android:singleLine="true"
-                    android:typeface="serif"
-                    android:layout_gravity="center_vertical" />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_hdr"
-                    android:background="@drawable/icon_hdr"
-                    android:singleLine="true"
-                    android:textColor="#ff2141"
-                    android:layout_gravity="center_vertical" />
             </LinearLayout>
 
             <LinearLayout
