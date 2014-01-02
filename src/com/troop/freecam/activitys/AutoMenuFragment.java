@@ -79,4 +79,25 @@ public class AutoMenuFragment extends BaseFragment
             }
         });
     }
+
+    public void UpdateUI(boolean settingsReloaded)
+    {
+        sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
+        //AF Priority
+        if (!camMan.parametersManager.getSupportAfpPriority())
+            buttonAfPriority.setVisibility(View.GONE);
+        else
+        {
+            if (buttonAfPriority.getVisibility() == View.GONE)
+                buttonAfPriority.setVisibility(View.VISIBLE);
+            //OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
+            buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
+        }
+
+        //AutoExposure
+        if (!camMan.parametersManager.getSupportAutoExposure())
+        {
+            buttonMetering.setVisibility(View.GONE);
+        }
+    }
 }

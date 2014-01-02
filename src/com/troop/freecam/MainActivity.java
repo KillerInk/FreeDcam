@@ -522,79 +522,15 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     }
 
     //TODO throw event with a value wich parameter has changed
-    //TODO update fragment stuff in fragmentclass
     ///this updates the complete ui. its called everytime the camera parameters has changed
     @Override
     public void parametersHasChanged(boolean restarted)
     {
         try{
             seekbarViewFragment.UpdateValues(restarted);
+            autoMenuFragment.UpdateUI(restarted);
+            seekbarViewFragment.UpdateValues(restarted);
 
-            settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
-            autoMenuFragment.sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
-            settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
-            settingsFragment.button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
-            String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-            settingsFragment.pictureSizeButton.SetValue(size1);
-            settingsFragment.videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
-
-            //ZeroShutterLag
-            if (camMan.parametersManager.getSupportZSL())
-            {
-                if (settingsFragment.button_zsl.getVisibility() == View.GONE)
-                    settingsFragment.button_zsl.setVisibility(View.VISIBLE);
-                settingsFragment.button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
-            }
-            else
-                if (settingsFragment.button_zsl.getVisibility() == View.VISIBLE)
-                    settingsFragment.button_zsl.setVisibility(View.GONE);
-
-            //ImagePostProcessing
-            if (camMan.parametersManager.getSupportIPP())
-            {
-                if (settingsFragment.ippButton.getVisibility() == View.GONE)
-                    settingsFragment.ippButton.setVisibility(View.VISIBLE);
-                settingsFragment.ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
-            }
-            else
-                settingsFragment.ippButton.setVisibility(View.GONE);
-            if (camMan.parametersManager.is3DMode())
-            {
-                settingsFragment.crop_box.setVisibility(View.VISIBLE);
-                settingsFragment.crop_box.setChecked(camMan.parametersManager.doCropping());
-            }
-            else
-                settingsFragment.crop_box.setVisibility(View.GONE);
-            //FLASH
-            if (!camMan.parametersManager.getSupportFlash())
-                settingsFragment.flashButton.setVisibility(View.GONE);
-            else
-            {
-                if (settingsFragment.flashButton.getVisibility() == View.GONE)
-                    settingsFragment.flashButton.setVisibility(View.VISIBLE);
-                settingsFragment.flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
-            }
-
-
-            //info Screen
-
-            settingsFragment.focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
-            //AF Priority
-            if (!camMan.parametersManager.getSupportAfpPriority())
-                autoMenuFragment.buttonAfPriority.setVisibility(View.GONE);
-            else
-            {
-                if (autoMenuFragment.buttonAfPriority.getVisibility() == View.GONE)
-                    autoMenuFragment.buttonAfPriority.setVisibility(View.VISIBLE);
-                //OnScreenFocusValue.setText("AFP:"+ camMan.parametersManager.AfPriority.Get());
-                autoMenuFragment.buttonAfPriority.SetValue(camMan.parametersManager.AfPriority.Get());
-            }
-            //AutoExposure
-            if (!camMan.parametersManager.getSupportAutoExposure())
-            {
-                autoMenuFragment.buttonMetering.setVisibility(View.GONE);
-            }
-            //Select Camera
             String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
             settingsFragment.switch3dButton.SetValue(tmp);
             //Crosshair appairing

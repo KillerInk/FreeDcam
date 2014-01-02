@@ -181,4 +181,61 @@ public class SettingsMenuFagment extends BaseFragment
     {
         view.setVisibility(View.VISIBLE);
     }
+
+    public void UpdateUI(boolean parametersReseted)
+    {
+        buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
+
+        previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+        button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
+        String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
+        pictureSizeButton.SetValue(size1);
+        videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
+
+        //ZeroShutterLag
+        if (camMan.parametersManager.getSupportZSL())
+        {
+            if (button_zsl.getVisibility() == View.GONE)
+                button_zsl.setVisibility(View.VISIBLE);
+            button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
+        }
+        else
+        if (button_zsl.getVisibility() == View.VISIBLE)
+            button_zsl.setVisibility(View.GONE);
+
+        //ImagePostProcessing
+        if (camMan.parametersManager.getSupportIPP())
+        {
+            if (ippButton.getVisibility() == View.GONE)
+                ippButton.setVisibility(View.VISIBLE);
+            ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
+        }
+        else
+            ippButton.setVisibility(View.GONE);
+        if (camMan.parametersManager.is3DMode())
+        {
+            crop_box.setVisibility(View.VISIBLE);
+            crop_box.setChecked(camMan.parametersManager.doCropping());
+        }
+        else
+            crop_box.setVisibility(View.GONE);
+        //FLASH
+        if (!camMan.parametersManager.getSupportFlash())
+            flashButton.setVisibility(View.GONE);
+        else
+        {
+            if (flashButton.getVisibility() == View.GONE)
+                flashButton.setVisibility(View.VISIBLE);
+            flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
+        }
+
+
+        //info Screen
+
+        focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
+
+
+        //Select Camera
+
+    }
 }
