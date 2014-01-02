@@ -109,6 +109,7 @@ public class SeekbarViewFragment extends  BaseFragment
     private void updateValues()
     {
         exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
+
         if (camMan.parametersManager.getSupportSharpness())
         {
             sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
@@ -135,6 +136,7 @@ public class SeekbarViewFragment extends  BaseFragment
             min *= -1;
         int max = camMan.parametersManager.getParameters().getMaxExposureCompensation() + min;
         exposureSeekbar.setMax(max);
+        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getExposureCompensation() + camMan.parametersManager.getParameters().getMaxExposureCompensation());
         camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
         //camMan.manualExposureManager.ExternalSet = true;
         //camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
