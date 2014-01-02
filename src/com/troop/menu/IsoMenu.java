@@ -27,10 +27,7 @@ public class IsoMenu extends BaseMenu {
         {
             try
             {
-                if(DeviceUtils.isOmap())
-                    isos = camMan.parametersManager.getParameters().get("iso-mode-values").split(",");
-                if(DeviceUtils.isQualcomm())
-                    isos = camMan.parametersManager.getParameters().get("iso-values").split(",");
+                isos = camMan.parametersManager.Iso.getValues();
 
             }
             catch (Exception ex)
@@ -38,7 +35,7 @@ public class IsoMenu extends BaseMenu {
 
             }
         }
-        if (isos != null && !isos.equals(""))
+        if (isos != null && isos.length > 0)
         {
             PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
@@ -50,7 +47,7 @@ public class IsoMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.getParameters().set("iso", tmp);
+                    camMan.parametersManager.Iso.set(tmp);
                     if (camMan.parametersManager.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_Iso3D, tmp).commit();
                     if (camMan.parametersManager.is2DMode())

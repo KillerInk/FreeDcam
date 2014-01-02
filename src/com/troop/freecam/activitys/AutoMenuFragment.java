@@ -108,10 +108,23 @@ public class AutoMenuFragment extends BaseFragment
         }
         else
             whitebalanceButton.setVisibility(View.VISIBLE);
+        if (camMan.parametersManager.getSupportIso())
+            isoButton.setVisibility(View.VISIBLE);
+        else
+            isoButton.setVisibility(View.GONE);
+        if (camMan.parametersManager.getSupportExposureMode())
+            exposureButton.setVisibility(View.VISIBLE);
+        else
+            exposureButton.setVisibility(View.GONE);
     }
 
     private void updateValues() {
         sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
+        colorButton.SetValue(camMan.parametersManager.getParameters().getColorEffect());
+        if (camMan.parametersManager.getSupportExposureMode())
+            exposureButton.SetValue(camMan.parametersManager.getParameters().getExposureCompensation() + "");
+        if (camMan.parametersManager.getSupportIso())
+            isoButton.SetValue(camMan.parametersManager.Iso.get());
         //AF Priority
         if (camMan.parametersManager.getSupportAfpPriority())
         {

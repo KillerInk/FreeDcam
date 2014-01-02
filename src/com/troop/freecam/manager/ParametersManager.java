@@ -91,6 +91,10 @@ public class ParametersManager
     public boolean getSupportZSL() { return supportZSL;}
     boolean supportWhiteBalance = false;
     public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
+    boolean supportIso = false;
+    public boolean getSupportIso() { return  supportIso; }
+    boolean supportExposureMode = false;
+    public boolean getSupportExposureMode() { return supportExposureMode; }
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
@@ -98,6 +102,8 @@ public class ParametersManager
     public ZeroShutterLagClass ZSLModes;
     public DenoiseClass Denoise;
     public WhiteBalanceClass WhiteBalance;
+    public IsoClass Iso;
+    public ExposureModeClass ExposureMode;
 
     private boolean loadingParametersFinish = false;
 
@@ -123,6 +129,8 @@ public class ParametersManager
         ZSLModes = new ZeroShutterLagClass();
         Denoise = new DenoiseClass();
         WhiteBalance = new WhiteBalanceClass();
+        Iso = new IsoClass();
+        ExposureMode = new ExposureModeClass();
         loadingParametersFinish = true;
         onParametersCHanged(true);
     }
@@ -695,6 +703,80 @@ public class ParametersManager
         public String get()
         {
             return getParameters().getWhiteBalance();
+        }
+    }
+
+    public class IsoClass
+    {
+        String[] values;
+        String s_isoValues;
+
+        public IsoClass()
+        {
+            try
+            {
+                if(DeviceUtils.isOmap())
+                    s_isoValues = "iso-mode-values";
+                if(DeviceUtils.isQualcomm())
+                    s_isoValues = "iso-values";
+                values = getParameters().get(s_isoValues).split(",");
+                if (values != null && values.length > 0)
+                    supportIso = true;
+            }
+            catch (Exception ex)
+            {
+                supportIso = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void set(String value)
+        {
+            parameters.set("iso", value);
+        }
+
+        public String get()
+        {
+            return parameters.get("iso");
+        }
+    }
+
+    public class ExposureModeClass
+    {
+        String[] exposureValues;
+        public ExposureModeClass()
+        {
+            try
+            {
+                if(DeviceUtils.isOmap())
+                    exposureValues = getParameters().get("exposure-mode-values").split(",");
+                if (exposureValues != null && exposureValues.length > 0)
+                    supportExposureMode = true;
+
+            }
+            catch (Exception ex)
+            {
+                supportExposureMode = false;
+            }
+        }
+
+        public String get()
+        {
+            return getParameters().get("exposure");
+        }
+
+        public String[] getExposureValues()
+        {
+            return exposureValues;
+        }
+
+        public void set(String value)
+        {
+            getParameters().set("exposure", value);
         }
     }
 }
