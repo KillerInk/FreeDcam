@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.media.Metadata;
+
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;

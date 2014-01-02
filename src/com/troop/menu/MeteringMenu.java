@@ -22,10 +22,6 @@ public class MeteringMenu extends BaseMenu   {
     @Override
     public void onClick(View v)
     {
-
-
-
-
         View canvasView = super.GetPlaceHolder();
         PopupMenu popupMenu = new PopupMenu(activity, canvasView);
 
@@ -47,8 +43,8 @@ public class MeteringMenu extends BaseMenu   {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().set("auto-exposure", tmp);
-                    activity.OnScreeMeterValue.setText(tmp);
-                    activity.buttonMetering.setText(tmp);
+                    //activity.OnScreeMeterValue.setText(tmp);
+
 
 
                     if (camMan.parametersManager.is2DMode())
@@ -64,7 +60,6 @@ public class MeteringMenu extends BaseMenu   {
             });
 
             popupMenu.show();
-            activity.appViewGroup.removeView(canvasView);
         }
     }
 

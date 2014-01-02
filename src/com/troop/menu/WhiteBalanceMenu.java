@@ -18,7 +18,7 @@ public class WhiteBalanceMenu extends BaseMenu {
 
     static String TAG = "WhitebalanceMEnu";
 
-    List<String> whitebalance;
+    String[] whitebalance;
 
     public WhiteBalanceMenu(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
@@ -28,13 +28,13 @@ public class WhiteBalanceMenu extends BaseMenu {
     public void onClick(View v)
     {
         if(camMan.Running)
-            whitebalance = camMan.parametersManager.getParameters().getSupportedWhiteBalance();
+            whitebalance = camMan.parametersManager.WhiteBalance.getValues();
         if (whitebalance != null)
         {
             PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
-            for (int i = 0; i < whitebalance.size(); i++) {
-                popupMenu.getMenu().add((CharSequence) whitebalance.get(i));
+            for (int i = 0; i < whitebalance.length; i++) {
+                popupMenu.getMenu().add((CharSequence) whitebalance[i]);
             }
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 

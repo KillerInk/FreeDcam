@@ -27,10 +27,7 @@ public class ExposureMenu extends BaseMenu {
         {
             try {
 
-                if(DeviceUtils.isOmap())
-                exposures = camMan.parametersManager.getParameters().get("exposure-mode-values").split(",");
-                if(DeviceUtils.isQualcomm() || DeviceUtils.isExynos() || DeviceUtils.isTegra())
-                    exposures = null;
+                exposures = camMan.parametersManager.ExposureMode.getExposureValues();
             }
             catch (Exception ex)
             {}
@@ -56,7 +53,7 @@ public class ExposureMenu extends BaseMenu {
                         preferences.edit().putString(ParametersManager.Preferences_Exposure2D, tmp).commit();
                     if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_ExposureFront, tmp).commit();
-                    camMan.parametersManager.getParameters().set("exposure", tmp);
+                    camMan.parametersManager.ExposureMode.set(tmp);
                     //if (tmp.equals("manual"))
                     //activity.exposureSeekbar.setVisibility(View.VISIBLE);
                     //else

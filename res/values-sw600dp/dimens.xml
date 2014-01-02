@@ -2,7 +2,13 @@
 
     <!--
          Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen><dimen name="TextSizeSmall">10dp</dimen>
+    <dimen name="appiconsizedouble">96dp</dimen>
+    <dimen name="appiconsizethree">144dp</dimen><dimen name="TextSizeSmallPlus">40dip</dimen>
+    <dimen name="app_icon_size">70dp</dimen>
+    <dimen name="autolayout_margineTop">72dp</dimen>
 
 </resources>

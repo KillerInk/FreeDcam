@@ -87,10 +87,25 @@ public class ParametersManager
     public boolean getSupportAfpPriority() { return supportAfpPriority;}
     boolean supportIPP = false;
     public boolean getSupportIPP() { return supportIPP;}
+    boolean supportZSL = false;
+    public boolean getSupportZSL() { return supportZSL;}
+    boolean supportWhiteBalance = false;
+    public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
+    boolean supportIso = false;
+    public boolean getSupportIso() { return  supportIso; }
+    boolean supportExposureMode = false;
+    public boolean getSupportExposureMode() { return supportExposureMode; }
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
+    public ZeroShutterLagClass ZSLModes;
+    public DenoiseClass Denoise;
+    public WhiteBalanceClass WhiteBalance;
+    public IsoClass Iso;
+    public ExposureModeClass ExposureMode;
+
+    private boolean loadingParametersFinish = false;
 
     public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
     {
@@ -101,13 +116,23 @@ public class ParametersManager
 
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
     {
+        loadingParametersFinish = false;
         this.parameters = parameters;
-        Log.d("CameraParameters", parameters.flatten());
+        String[] paras =  parameters.flatten().split(";");
+        for(int i = 0; i < paras.length; i++)
+            Log.d("CameraParameters", paras[i]);
         checkParametersSupport();
         loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
+        ZSLModes = new ZeroShutterLagClass();
+        Denoise = new DenoiseClass();
+        WhiteBalance = new WhiteBalanceClass();
+        Iso = new IsoClass();
+        ExposureMode = new ExposureModeClass();
+        loadingParametersFinish = true;
+        onParametersCHanged(true);
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -122,8 +147,14 @@ public class ParametersManager
 
     private void onParametersCHanged()
     {
-        if (parametersChanged != null)
+        if (parametersChanged != null && loadingParametersFinish)
             parametersChanged.parametersHasChanged(false);
+    }
+
+    private void onParametersCHanged(boolean reloadGui)
+    {
+        if (parametersChanged != null && loadingParametersFinish)
+            parametersChanged.parametersHasChanged(reloadGui);
     }
 
     private void checkParametersSupport()
@@ -305,7 +336,7 @@ public class ParametersManager
         try
         {
             setToPreferencesToCamera();
-            cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
+            //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -333,7 +364,7 @@ public class ParametersManager
 
     public void SetMFocus(int focus)
     {
-        mainActivity.focusButton.setEnabled(false);
+        //mainActivity.focusButton.setEnabled(false);
         parameters.set("manual-focus", 0);
         parameters.setFocusMode("normal");
         parameters.set("manualfocus_step", focus);
@@ -347,7 +378,7 @@ public class ParametersManager
         {
             Log.e("brightness Set Fail", ex.getMessage());
         }
-        cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
+        //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
 
     }
 
@@ -414,28 +445,32 @@ public class ParametersManager
         preferences.edit().putBoolean("upsidedown", value).commit();
     }
 
-    public String[] getDenoiseValues()
+    public class DenoiseClass
     {
-        String[] noise =  new String[0];
-        if(DeviceUtils.isOmap())
-        {
-            noise = parameters.get("vnf-supported").split(",");
-            if (noise.length == 1)
-            {
-                String[] tmp = new String[2];
-                tmp[0] = noise[0];
-                tmp[1] = "false";
-                noise = tmp;
-            }
-        }
-        if(DeviceUtils.isQualcomm())
-            noise = parameters.get("denoise-values").split(",");
-        return noise;
-    }
+        public String[] getDenoiseValues()
 
-    public String getDenoiseValue()
-    {
-        return preferences.getString(Preferences_Denoise, "false");
+        {
+            String[] noise =  new String[0];
+            if(DeviceUtils.isOmap())
+            {
+                noise = parameters.get("vnf-supported").split(",");
+                if (noise.length == 1)
+                {
+                    String[] tmp = new String[2];
+                    tmp[0] = noise[0];
+                    tmp[1] = "false";
+                    noise = tmp;
+                }
+            }
+            if(DeviceUtils.isQualcomm())
+                noise = parameters.get("denoise-values").split(",");
+            return noise;
+        }
+
+        public String getDenoiseValue()
+        {
+            return preferences.getString(Preferences_Denoise, "false");
+        }
     }
 
     public class BrightnessManager
@@ -500,6 +535,7 @@ public class ParametersManager
         {
             try {
                 if (DeviceUtils.isQualcomm())
+                {
                     if(!parameters.get("selectable-zone-af-values").isEmpty())
                     {
                         supportAfpPriority = true;
@@ -508,7 +544,11 @@ public class ParametersManager
                         if (getValues().length == 0)
                             supportAfpPriority = false;
                     }
+                    else
+                        supportAfpPriority = false;
+                }
                 if (DeviceUtils.isOmap())
+                {
                     if(!parameters.get("auto-convergence-mode-values").isEmpty())
                     {
                         supportAfpPriority = true;
@@ -517,6 +557,10 @@ public class ParametersManager
                         if (getValues().length == 0)
                             supportAfpPriority = false;
                     }
+                    else
+                        supportAfpPriority = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -581,5 +625,158 @@ public class ParametersManager
         }
 
 
+    }
+
+    public class ZeroShutterLagClass
+    {
+        String value;
+        String[] values;
+
+        public ZeroShutterLagClass()
+        {
+            try
+            {
+                if(DeviceUtils.isQualcomm())
+                {
+                    value = "zsl";
+                    values = parameters.get("zsl-values").split(",");
+                }
+                if(DeviceUtils.isOmap())
+                {
+                    value = "mode";
+                    values = parameters.get("mode-values").split(",");
+                }
+                if (values.length > 0)
+                {
+                    supportZSL = true;
+                    parameters.set(value, values[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                supportZSL = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void setValue(String toapplie)
+        {
+            parameters.set(value, toapplie);
+        }
+
+        public String getValue()
+        {
+            return parameters.get(value);
+        }
+    }
+
+    public class WhiteBalanceClass
+    {
+        String[] values;
+        public WhiteBalanceClass()
+        {
+            try {
+                values = getParameters().getSupportedWhiteBalance().toArray(new String[getParameters().getSupportedWhiteBalance().size()]);
+                if (values.length>0)
+                    supportWhiteBalance = true;
+            }
+            catch (Exception ex)
+            {
+                supportWhiteBalance = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void set(String value)
+        {
+            getParameters().setWhiteBalance(value);
+        }
+
+        public String get()
+        {
+            return getParameters().getWhiteBalance();
+        }
+    }
+
+    public class IsoClass
+    {
+        String[] values;
+        String s_isoValues;
+
+        public IsoClass()
+        {
+            try
+            {
+                if(DeviceUtils.isOmap())
+                    s_isoValues = "iso-mode-values";
+                if(DeviceUtils.isQualcomm())
+                    s_isoValues = "iso-values";
+                values = getParameters().get(s_isoValues).split(",");
+                if (values != null && values.length > 0)
+                    supportIso = true;
+            }
+            catch (Exception ex)
+            {
+                supportIso = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public void set(String value)
+        {
+            parameters.set("iso", value);
+        }
+
+        public String get()
+        {
+            return parameters.get("iso");
+        }
+    }
+
+    public class ExposureModeClass
+    {
+        String[] exposureValues;
+        public ExposureModeClass()
+        {
+            try
+            {
+                if(DeviceUtils.isOmap())
+                    exposureValues = getParameters().get("exposure-mode-values").split(",");
+                if (exposureValues != null && exposureValues.length > 0)
+                    supportExposureMode = true;
+
+            }
+            catch (Exception ex)
+            {
+                supportExposureMode = false;
+            }
+        }
+
+        public String get()
+        {
+            return getParameters().get("exposure");
+        }
+
+        public String[] getExposureValues()
+        {
+            return exposureValues;
+        }
+
+        public void set(String value)
+        {
+            getParameters().set("exposure", value);
+        }
     }
 }
