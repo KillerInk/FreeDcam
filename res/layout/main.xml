@@ -372,7 +372,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/app_icon_size"
+                android:layout_height="wrap_content"
                 android:id="@+id/LayoutAuto"
                 android:background="@drawable/camera_frame_box_ver_bg"
                 android:layout_marginTop="@dimen/autolayout_margineTop">
