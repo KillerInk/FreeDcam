@@ -29,13 +29,13 @@ public class AutoMenuFragment extends Fragment
     CameraManager camMan;
     MainActivity activity;
     public ExtendedButton buttonAfPriority;
-    public Button sceneButton;
-    public Button whitebalanceButton;
-    public Button colorButton;
-    public Button isoButton;
-    public Button exposureButton;
+    public ExtendedButton sceneButton;
+    public ExtendedButton whitebalanceButton;
+    public ExtendedButton colorButton;
+    public ExtendedButton isoButton;
+    public ExtendedButton exposureButton;
     CheckBox checkboxHDR;
-    public Button buttonMetering;
+    public ExtendedButton buttonMetering;
 
     public AutoMenuFragment(CameraManager camMan, MainActivity activity) {
         this.camMan = camMan;
@@ -54,23 +54,23 @@ public class AutoMenuFragment extends Fragment
         buttonAfPriority = (ExtendedButton)view.findViewById(R.id.buttonAFPriority);
         buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,activity));
 
-        sceneButton = (Button) view.findViewById(R.id.buttonScene);
+        sceneButton = (ExtendedButton) view.findViewById(R.id.buttonScene);
         sceneButton.setOnClickListener(new SceneMenu(camMan, activity));
 
-        whitebalanceButton = (Button) view.findViewById(R.id.buttonwhiteBalance);
+        whitebalanceButton = (ExtendedButton) view.findViewById(R.id.buttonwhiteBalance);
         whitebalanceButton.setOnClickListener(new WhiteBalanceMenu(camMan, activity));
 
-        colorButton = (Button) view.findViewById(R.id.buttoncolor);
+        colorButton = (ExtendedButton) view.findViewById(R.id.buttoncolor);
         colorButton.setOnClickListener(new ColorMenu(camMan, activity));
 
-        isoButton = (Button) view.findViewById(R.id.buttoniso);
+        isoButton = (ExtendedButton) view.findViewById(R.id.buttoniso);
         isoButton.setOnClickListener(new IsoMenu(camMan, activity));
 
-        exposureButton = (Button) view.findViewById(R.id.button_exposure);
+        exposureButton = (ExtendedButton) view.findViewById(R.id.button_exposure);
         exposureButton.setOnClickListener(new ExposureMenu(camMan, activity));
 
         //06-12-13*************************************************************
-        buttonMetering = (Button)view.findViewById(R.id.buttonMetering);
+        buttonMetering = (ExtendedButton)view.findViewById(R.id.buttonMetering);
         buttonMetering.setOnClickListener(new MeteringMenu(camMan,activity));
         //**********************************************************************
 

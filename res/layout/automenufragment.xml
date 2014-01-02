@@ -2,99 +2,85 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttonAFPriority"
         android:background="@drawable/button"
         custom:StringTop="AF Priority"
         custom:StringBot="Mode"
+        custom:drawLong="true"
         android:layout_gravity="center_vertical" />
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttoncolor"
-        android:background="@drawable/icon_auto_effect"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textColor="#ff1100"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:layout_gravity="center_vertical" />
+        android:background="@drawable/button"
+        android:layout_gravity="center_vertical"
+        custom:StringBot="Mode"
+        custom:StringTop="Effect"
+        custom:drawLong="true"/>
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/button_exposure"
-        android:background="@drawable/icon_auto_exposure"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textColor="#ff1100"
-        android:textStyle="bold"
-        android:singleLine="true"
-        android:typeface="serif"
+        android:background="@drawable/button"
+        custom:StringTop="Exposure"
+        custom:StringBot="Mode"
+        custom:drawLong="true"
         android:layout_gravity="center_vertical" />
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttoniso"
-        android:background="@drawable/icon_auto_iso"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textColor="#ff1100"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:singleLine="true"
-        android:textSize="@dimen/TextSizeSmall"
+        android:background="@drawable/button"
+        custom:StringTop="ISO"
+        custom:StringBot="Mode"
+        custom:drawLong="true"
         android:layout_gravity="center_vertical" />
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttonMetering"
-        android:background="@drawable/icon_auto_metering"
-        android:textSize="@dimen/TextSizeSmall"
-        android:singleLine="true"
-        android:textColor="#ff1100"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:layout_gravity="center_vertical" />
+        android:background="@drawable/button"
+        custom:StringBot="Metering"
+        custom:StringTop="Mode"
+        custom:drawLong="true"/>
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttonScene"
-        android:background="@drawable/icon_auto_scene"
-        android:clickable="true"
-        android:textColor="#ff1100"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textStyle="bold"
-        android:singleLine="true"
-        android:typeface="serif"
-        android:layout_gravity="center_vertical" />
+        android:background="@drawable/button"
+        custom:StringTop="Scene"
+        custom:StringBot="Mode"
+        custom:drawLong="true"/>
 
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+    <com.troop.freecam.controls.ExtendedButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/buttonwhiteBalance"
-        android:background="@drawable/icon_auto_wb"
-        android:textColor="#ff1100"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textStyle="bold"
-        android:singleLine="true"
-        android:typeface="serif"
-        android:layout_gravity="center_vertical" />
+        android:background="@drawable/button"
+        custom:StringTop="WhiteBalance"
+        custom:StringBot="Mode"
+        custom:drawLong="true"/>
 
     <CheckBox
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/TextSizeSmallPlus"
         android:id="@+id/checkBox_hdr"
-        android:background="@drawable/icon_hdr"
+        android:background="@drawable/button"
         android:singleLine="true"
-        android:textColor="#ff2141"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:text="HDR Mode"
+        android:paddingLeft="30dp"
+        android:textSize="21dp" />
 
 </LinearLayout>

@@ -292,7 +292,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     {
         try{
             settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
-            autoMenuFragment.sceneButton.setText(camMan.parametersManager.getParameters().getSceneMode());
+            autoMenuFragment.sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
             settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
             settingsFragment.button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);

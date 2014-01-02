@@ -44,7 +44,7 @@ public class MeteringMenu extends BaseMenu   {
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().set("auto-exposure", tmp);
                     //activity.OnScreeMeterValue.setText(tmp);
-                    
+
 
 
                     if (camMan.parametersManager.is2DMode())
