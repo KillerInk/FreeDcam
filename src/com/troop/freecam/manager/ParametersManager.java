@@ -120,7 +120,7 @@ public class ParametersManager
         ZSLModes = new ZeroShutterLagClass();
         Denoise = new DenoiseClass();
         loadingParametersFinish = true;
-        onParametersCHanged();
+        onParametersCHanged(true);
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -137,6 +137,12 @@ public class ParametersManager
     {
         if (parametersChanged != null && loadingParametersFinish)
             parametersChanged.parametersHasChanged(false);
+    }
+
+    private void onParametersCHanged(boolean reloadGui)
+    {
+        if (parametersChanged != null && loadingParametersFinish)
+            parametersChanged.parametersHasChanged(reloadGui);
     }
 
     private void checkParametersSupport()
@@ -318,7 +324,7 @@ public class ParametersManager
         try
         {
             setToPreferencesToCamera();
-            cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
+            //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -360,7 +366,7 @@ public class ParametersManager
         {
             Log.e("brightness Set Fail", ex.getMessage());
         }
-        cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
+        //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
 
     }
 

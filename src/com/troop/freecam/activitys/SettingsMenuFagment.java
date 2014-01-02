@@ -28,7 +28,7 @@ import com.troop.menu.switchcameramenu;
 /**
  * Created by troop on 01.01.14.
  */
-public class SettingsMenuFagment extends Fragment
+public class SettingsMenuFagment extends BaseFragment
 {
     public ExtendedButton switch3dButton;
     public ExtendedButton flashButton;
@@ -45,16 +45,12 @@ public class SettingsMenuFagment extends Fragment
 
     public CheckBox upsidedown;
     public CheckBox crop_box;
-    CameraManager camMan;
-    MainActivity activity;
     InfoScreenFragment infoScreenFragment;
     public CheckBox checkBoxOnScreen;
-    View view;
 
     public SettingsMenuFagment(CameraManager camMan, MainActivity activity, InfoScreenFragment infoScreenFragment)
     {
-        this.camMan = camMan;
-        this.activity = activity;
+        super(camMan, activity);
         this.infoScreenFragment = infoScreenFragment;
     }
 

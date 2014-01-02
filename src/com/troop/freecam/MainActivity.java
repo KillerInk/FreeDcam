@@ -37,11 +37,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.troop.freecam.activitys.AutoMenuFragment;
-import com.troop.freecam.activitys.BaseActivity;
-import com.troop.freecam.activitys.ButtonsActivity;
 
 import com.troop.freecam.activitys.InfoScreenFragment;
 import com.troop.freecam.activitys.LayoutActivity;
+import com.troop.freecam.activitys.SeekbarViewFragment;
 import com.troop.freecam.activitys.SettingsMenuFagment;
 import com.troop.freecam.controls.ExtendedButton;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
@@ -73,6 +72,22 @@ import java.io.File;
 
 public class MainActivity extends LayoutActivity implements ParametersChangedInterface
 {
+
+
+    public ImageButton shotButton;
+    public ImageButton thumbButton;
+    Button switchVideoPicture;
+    public boolean HDRMode = false;
+
+    RelativeLayout mainlayout;
+    public CheckBox manualExposure;
+    public CheckBox manualShaprness;
+    public CheckBox manualFocus;
+    public CheckBox contrastcheckBox;
+    CheckBox brightnessCheckBox;
+    public CheckBox saturationCheckBox;
+    protected TextView recordingTimerTextView;
+    protected MyTimer recordTimer;
     public CheckBox checkBoxZSL;
     //*******************
     public Boolean AFS_enable;
@@ -80,11 +95,20 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     SettingsMenuFagment settingsFragment;
     InfoScreenFragment infoScreenFragment;
     AutoMenuFragment autoMenuFragment;
+    SeekbarViewFragment seekbarViewFragment;
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
     public Button button_stab;
     View view;
+
+
+    public SharedPreferences preferences;
+    public boolean recordVideo = false;
+    protected CameraManager camMan;
+    public CamPreview mPreview;
+    public DrawingOverlaySurface drawSurface;
+    SurfaceHolder holder;
 
     //private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
@@ -93,17 +117,29 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        recordVideo = preferences.getBoolean("recordVideo", false);
+        drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
+        mPreview = (CamPreview) findViewById(R.id.camPreview1);
+        mPreview.setKeepScreenOn(true);
+        holder = mPreview.getHolder();
+        camMan = new CameraManager(mPreview, this, preferences);
         camMan.parametersManager.setParametersChanged(this);
+
+        initButtons();
 
         infoScreenFragment = new InfoScreenFragment(camMan);
         getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
-
 
         settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
 
         autoMenuFragment = new AutoMenuFragment(camMan, this);
         getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
+        seekbarViewFragment = new SeekbarViewFragment(camMan, this);
+        getSupportFragmentManager().beginTransaction().add(R.id.tableVIEW, seekbarViewFragment).commit();
+
 
         mPreview.SetCameraManager(camMan);
         drawSurface.SetCameraManager(camMan);
@@ -120,6 +156,207 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         hidenavkeys();
 
 	}
+
+
+
+    private void initButtons()
+    {
+        shotButton = (ImageButton) findViewById(R.id.imageButton1);
+        shotButton.setOnClickListener(shotListner);
+
+        thumbButton = (ImageButton)findViewById(R.id.imageButton_thumb);
+        thumbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if  (camMan.lastPicturePath != null)
+                {
+                    Uri uri = Uri.parse("file:/" + camMan.lastPicturePath);
+
+                    Intent i=new Intent(Intent.ACTION_VIEW);
+                    if (camMan.lastPicturePath.endsWith("mp4"))
+                        i.setDataAndType(uri, "video/*");
+                    else
+                        i.setDataAndType(uri, "image/*");
+                    startActivity(i);
+                }
+            }
+        });
+
+
+
+
+        manualExposure = (CheckBox)findViewById(R.id.checkBox_exposureManual);
+        manualExposure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (manualExposure.isChecked())
+                {
+                    seekbarViewFragment.exposureRow.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    seekbarViewFragment.exposureRow.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        manualShaprness = (CheckBox) findViewById(R.id.checkBox_sharpness);
+        manualShaprness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (manualShaprness.isChecked())
+                {
+                    seekbarViewFragment.sharpnessRow.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    seekbarViewFragment.sharpnessRow.setVisibility(View.GONE);
+                }
+                //sharpnessRow.invalidate();
+            }
+        });
+
+        //********************ManualFocus******************************************
+
+
+        manualFocus = (CheckBox)findViewById(R.id.checkBox_focus);
+        manualFocus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (manualFocus.isChecked())
+
+                    seekbarViewFragment.focusRow.setVisibility(View.VISIBLE);
+
+                else
+                    seekbarViewFragment.focusRow.setVisibility(View.GONE);
+                //focusButton.setEnabled(true);
+            }
+        });
+
+
+        //*****************************************End********************************************
+
+
+        contrastcheckBox = (CheckBox)findViewById(R.id.checkBox_contrast);
+        contrastcheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contrastcheckBox.isChecked())
+                    seekbarViewFragment.contrastRow.setVisibility(View.VISIBLE);
+                else
+                    seekbarViewFragment.contrastRow.setVisibility(View.GONE);
+            }
+        });
+
+
+
+
+
+        brightnessCheckBox = (CheckBox)findViewById(R.id.checkBox_brightness);
+        brightnessCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (brightnessCheckBox.isChecked())
+                    seekbarViewFragment.brightnessRow.setVisibility(View.VISIBLE);
+                else
+                    seekbarViewFragment.brightnessRow.setVisibility(View.GONE);
+            }
+        });
+
+
+        saturationCheckBox = (CheckBox) findViewById(R.id.checkBox_saturation);
+        saturationCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (saturationCheckBox.isChecked())
+                    seekbarViewFragment.saturationRow.setVisibility(View.VISIBLE);
+                else
+                    seekbarViewFragment.saturationRow.setVisibility(View.GONE);
+            }
+        });
+
+        switchVideoPicture = (Button)findViewById(R.id.button_switchVideoPicture);
+        setSwitchVideoPictureBackground();
+        switchVideoPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recordVideo) {
+                    recordVideo = false;
+
+                    preferences.edit().putBoolean("recordVideo", false).commit();
+                } else {
+                    recordVideo = true;
+
+                    preferences.edit().putBoolean("recordVideo", true).commit();
+                }
+                setSwitchVideoPictureBackground();
+            }
+        });
+
+        recordingTimerTextView = (TextView)findViewById(R.id.textView_timerRecording);
+        mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
+        mainlayout.removeView(recordingTimerTextView);
+
+        //06-12-13********************
+        /*Hfr Menu****
+        ippButton = (Button)findViewById(R.id.button_ipp);
+        ippButton.setOnClickListener(new IppMenu(camMan, this));
+        */
+        //*****************************
+    }
+
+    View.OnClickListener shotListner = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            thumbButton.setImageBitmap(null);
+            if(recordVideo == false)
+            {
+                if (HDRMode == false)
+                    camMan.StartTakePicture();
+                else
+                    camMan.HdrRender.TakeHDRPictures(true);
+
+
+            }
+            else
+            {
+                if (camMan.IsRecording == false)
+                {
+                    camMan.StartRecording();
+                    recordTimer.Start();
+                    shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
+                    mainlayout.addView(recordingTimerTextView);
+                    //OnScreenPictureText.setText("Video Size:");
+                    //OnScreenPictureValue.setText(camMan.parametersManager.getParameters().get("video-size"));
+                }
+                else
+                {
+                    camMan.StopRecording();
+                    recordTimer.Stop();
+                    shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
+                    thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath, MediaStore.Images.Thumbnails.MINI_KIND));
+                    mainlayout.removeView(recordingTimerTextView);
+                }
+            }
+        }
+    };
+
+    public void setSwitchVideoPictureBackground()
+    {
+        if (recordVideo)
+        {
+            switchVideoPicture.setBackgroundResource(R.drawable.icon_video_mode);
+            shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
+        }
+        else
+        {
+            switchVideoPicture.setBackgroundResource(R.drawable.icon_picture_mode);
+            shotButton.setBackgroundResource(R.drawable.icon_shutter_thanos_blast);
+        }
+    }
 
    /* @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -291,6 +528,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public void parametersHasChanged(boolean restarted)
     {
         try{
+            seekbarViewFragment.UpdateValues(restarted);
+
             settingsFragment.buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
             autoMenuFragment.sceneButton.SetValue(camMan.parametersManager.getParameters().getSceneMode());
             settingsFragment.previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
@@ -319,41 +558,6 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             }
             else
                 settingsFragment.ippButton.setVisibility(View.GONE);
-
-            //ManualExposure
-            camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
-            camMan.manualExposureManager.ExternalSet = true;
-            camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
-            exposureTextView.setText("Exposure: " + camMan.parametersManager.getParameters().getExposureCompensation());
-            //Sharpness
-            if (camMan.parametersManager.getSupportSharpness())
-            {
-                sharpnessSeekBar.setMax(180);
-                sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
-                sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
-            }
-            //Contrast
-            if (camMan.parametersManager.getSupportContrast())
-            {
-                contrastSeekBar.setMax(180);
-                camMan.manualContrastManager.ExternalSet = true;
-                contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
-                contrastTextView.setText("Contrast: " + camMan.parametersManager.getParameters().get("contrast"));
-            }
-            //Brightness
-            if (camMan.parametersManager.getSupportBrightness())
-            {
-                brightnessSeekBar.setMax(100);
-                brightnessSeekBar.setProgress(camMan.parametersManager.Brightness.Get());
-                brightnessTextView.setText("Brightness: " + camMan.parametersManager.Brightness.Get());
-            }
-            //Saturation
-            if (camMan.parametersManager.getSupportSaturation())
-            {
-                saturationSeekBar.setMax(180);
-                saturationTextView.setText("Saturation: " + camMan.parametersManager.getParameters().get("saturation"));
-            }
-            //Cropping
             if (camMan.parametersManager.is3DMode())
             {
                 settingsFragment.crop_box.setVisibility(View.VISIBLE);

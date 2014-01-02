@@ -1,7 +1,14 @@
 package com.troop.freecam.activitys;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -10,7 +17,7 @@ import com.troop.freecam.R;
 /**
  * Created by troop on 01.01.14.
  */
-public class LayoutActivity extends ButtonsActivity
+public class LayoutActivity extends FragmentActivity
 {
     LinearLayout baseMenuLayout;
     LinearLayout manualMenuLayout;
@@ -22,11 +29,26 @@ public class LayoutActivity extends ButtonsActivity
     public boolean hideManualMenu = true;
     public boolean hideSettingsMenu = true;
     public boolean hideAutoMenu = true;
+    public  ViewGroup appViewGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initUI();
         initMenu();
+    }
+
+    private void initUI() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        //setContentView(R.layout.activity_main);
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        appViewGroup = (ViewGroup) inflater.inflate(R.layout.main, null);
+        setContentView(R.layout.main);
     }
 
     public void initMenu()

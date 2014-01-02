@@ -51,10 +51,10 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
     {
         minValue = min;
         maxValue = max;
-        cameramanager.activity.exposureSeekbar.setMax(max + min * -1);
+        //cameramanager.activity.exposureSeekbar.setMax(max + min * -1);
     }
 
-    public int GetCurrentValue()
+    /*public int GetCurrentValue()
     {
         int val = cameramanager.activity.exposureSeekbar.getProgress() + minValue;
         return val;
@@ -64,7 +64,7 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
     {
         int val = progress + maxValue;
         cameramanager.activity.exposureSeekbar.setProgress(val);
-    }
+    }*/
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar)

@@ -23,11 +23,8 @@ import com.troop.menu.WhiteBalanceMenu;
 /**
  * Created by troop on 02.01.14.
  */
-public class AutoMenuFragment extends Fragment
+public class AutoMenuFragment extends BaseFragment
 {
-    View view;
-    CameraManager camMan;
-    MainActivity activity;
     public ExtendedButton buttonAfPriority;
     public ExtendedButton sceneButton;
     public ExtendedButton whitebalanceButton;
@@ -37,9 +34,9 @@ public class AutoMenuFragment extends Fragment
     CheckBox checkboxHDR;
     public ExtendedButton buttonMetering;
 
-    public AutoMenuFragment(CameraManager camMan, MainActivity activity) {
-        this.camMan = camMan;
-        this.activity = activity;
+    public AutoMenuFragment(CameraManager camMan, MainActivity activity)
+    {
+        super(camMan,activity);
     }
 
     @Override
