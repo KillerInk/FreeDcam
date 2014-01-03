@@ -30,7 +30,7 @@
             android:singleLine="true"
             android:text="HDR Mode"
             android:paddingLeft="4dp"
-            android:textSize="21dp" />
+            android:textSize="@dimen/TextSizeSmallPlus" />
         </LinearLayout>
     </ScrollView>
 

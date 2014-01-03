@@ -14,12 +14,14 @@
         android:layout_gravity="left|top"
         android:layout_weight="1"
         android:singleLine="true"
-        android:paddingLeft="4dp" />
+        android:paddingLeft="4dp"
+        android:textSize="@dimen/TextSizeSmallPlus" />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:text="New Button"
         android:id="@+id/buttonMenu"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textSize="@dimen/TextSizeSmallPlus" />
 </LinearLayout>

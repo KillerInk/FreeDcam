@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBoxOnscreen"
-                    android:textSize="21dp"
+                    android:textSize="@dimen/TextSizeSmallPlus"
                     android:singleLine="true"
                     android:text="Screen Info"
                     android:paddingLeft="4dp" />
@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/button_fixupsidedown"
-                    android:textSize="21dp"
+                    android:textSize="@dimen/TextSizeSmallPlus"
                     android:text="Orientation Fix"
                     android:singleLine="true"
                     android:paddingLeft="4dp" />
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBox_crop"
-                    android:textSize="21dp"
+                    android:textSize="@dimen/TextSizeSmallPlus"
                     android:singleLine="true"
                     android:text="Crop 16/9"
                     android:paddingLeft="4dp" />
