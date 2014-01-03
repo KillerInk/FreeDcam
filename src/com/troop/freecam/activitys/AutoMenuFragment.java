@@ -157,10 +157,15 @@ public class AutoMenuFragment extends BaseFragment
             switchExposure.view.setVisibility(View.VISIBLE);
         else
             switchExposure.view.setVisibility(View.GONE);
+        if (camMan.parametersManager.getSupportScene())
+            switchScene.view.setVisibility(View.VISIBLE);
+        else
+            switchScene.view.setVisibility(View.GONE);
     }
 
     private void updateValues() {
-        switchScene.SetButtonText(camMan.parametersManager.getParameters().getSceneMode());
+        if (camMan.parametersManager.getSupportScene())
+            switchScene.SetButtonText(camMan.parametersManager.getParameters().getSceneMode());
         switchColor.SetButtonText(camMan.parametersManager.getParameters().getColorEffect());
         if (camMan.parametersManager.getSupportExposureMode())
             switchExposure.SetButtonText(camMan.parametersManager.ExposureMode.get());

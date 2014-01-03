@@ -95,6 +95,8 @@ public class ParametersManager
     public boolean getSupportIso() { return  supportIso; }
     boolean supportExposureMode = false;
     public boolean getSupportExposureMode() { return supportExposureMode; }
+    boolean supportScene = false;
+    public boolean getSupportScene() { return supportScene;}
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
@@ -104,6 +106,7 @@ public class ParametersManager
     public WhiteBalanceClass WhiteBalance;
     public IsoClass Iso;
     public ExposureModeClass ExposureMode;
+    public SceneModeClass SceneMode;
 
     private boolean loadingParametersFinish = false;
 
@@ -131,6 +134,7 @@ public class ParametersManager
         WhiteBalance = new WhiteBalanceClass();
         Iso = new IsoClass();
         ExposureMode = new ExposureModeClass();
+        SceneMode = new SceneModeClass();
         loadingParametersFinish = true;
         onParametersCHanged(true);
     }
@@ -777,6 +781,39 @@ public class ParametersManager
         public void set(String value)
         {
             getParameters().set("exposure", value);
+        }
+    }
+
+    public class SceneModeClass
+    {
+        String[] values;
+
+        public SceneModeClass()
+        {
+            try {
+                values = getParameters().getSupportedSceneModes().toArray(new String[getParameters().getSupportedSceneModes().size()]);
+                if (values.length > 0)
+                    supportScene = true;
+            }
+            catch (Exception ex)
+            {
+                supportScene = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public String get()
+        {
+            return getParameters().getSceneMode();
+        }
+
+        public void set(String val)
+        {
+            getParameters().setSceneMode(val);
         }
     }
 }
