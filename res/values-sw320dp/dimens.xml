@@ -4,7 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen><dimen name="TextSizeSmall">10dp</dimen>
     <dimen name="appiconsizedouble">96dp</dimen>
-    <dimen name="appiconsizethree">144dp</dimen><dimen name="TextSizeSmallPlus">25dip</dimen>
+    <dimen name="appiconsizethree">144dp</dimen><dimen name="TextSizeSmallPlus">25dp</dimen>
     <dimen name="app_icon_size">48dp</dimen>
     <dimen name="autolayout_margineTop">50dp</dimen>
 

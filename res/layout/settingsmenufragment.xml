@@ -1,162 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="wrap_content"
     xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
-    android:layout_height="match_parent">
-    <ScrollView
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        android:id="@+id/settingsmenuFragment"
+        android:longClickable="false">
 
-            <com.troop.freecam.controls.ExtendedButton
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_switch3d"
-                android:background="@drawable/button"
-                custom:StringTop="Select"
-                custom:StringBot= "Camera"
-                custom:drawLong="true"/>
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_flash"
-                android:background="@drawable/button"
-                custom:StringTop="Flash"
-                custom:StringBot="Mode"
-                custom:drawLong="true"
-                />
+                android:layout_height="wrap_content"
+                android:id="@+id/popupLayoutSettings"
+                android:longClickable="false"
+                android:background="@drawable/camera_frame_box_ver_bg">
 
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_focus"
-                android:background="@drawable/button"
-                custom:StringTop="Focus"
-                custom:StringBot="Mode"
-                custom:drawLong="true" />
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_pictureFormat"
-                android:background="@drawable/button"
-                custom:StringTop="Picture"
-                custom:StringBot="Format"
-                custom:drawLong="true"/>
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    android:id="@+id/checkBoxOnscreen"
+                    android:textSize="21dp"
+                    android:singleLine="true"
+                    android:text="Screen Info"
+                    android:paddingLeft="4dp" />
 
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_pictureSize"
-                android:background="@drawable/button"
-                custom:StringTop="Picture"
-                custom:StringBot="Size"
-                custom:drawLong="true"/>
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/buttonPreviewFormat"
-                android:background="@drawable/button"
-                custom:StringTop="Preview"
-                custom:StringBot="Format"
-                custom:drawLong="true"/>
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    android:id="@+id/button_fixupsidedown"
+                    android:textSize="21dp"
+                    android:text="Orientation Fix"
+                    android:singleLine="true"
+                    android:paddingLeft="4dp" />
 
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_previewsize"
-                android:background="@drawable/button"
-                custom:StringBot="Size"
-                custom:StringTop="Preview"
-                custom:drawLong="true"/>
-
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                custom:StringTop="Video"
-                custom:StringBot="Size"
-                custom:drawLong="true"
-                android:id="@+id/button_videoSize"
-                android:background="@drawable/button" />
-
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_ipp"
-                android:background="@drawable/button"
-                custom:StringBot="Processing"
-                custom:StringTop="Image Post"
-                custom:drawLong="true"/>
-
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_denoise"
-                custom:StringTop="Denoise"
-                custom:StringBot=""
-                android:background="@drawable/button"
-                custom:drawLong="true"/>
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/buttonStab"
-                android:background="@drawable/button"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:typeface="serif"
-                custom:StringTop="Stablization"
-                custom:StringBot="Video"
-                custom:drawLong="true"
-                android:gravity="left" />
-
-            <com.troop.freecam.controls.ExtendedButton
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/buttonZsl"
-                android:background="@drawable/button"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:typeface="serif"
-                custom:drawLong="true"
-                custom:StringTop="Zero Shutter Lag"
-                custom:StringBot=""
-                android:gravity="left" />
-            <CheckBox
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/checkBoxOnscreen"
-                android:background="@drawable/button"
-                android:textSize="21dp"
-                android:singleLine="true"
-                android:text="Screen Info"
-                android:paddingLeft="30dp" />
-            <CheckBox
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/button_fixupsidedown"
-                android:background="@drawable/button"
-                android:textSize="21dp"
-                android:text="Orientation Fix"
-                android:paddingLeft="30dp" />
-
-            <CheckBox
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/TextSizeSmallPlus"
-                android:id="@+id/checkBox_crop"
-                android:background="@drawable/button"
-                android:textSize="21dp"
-                android:singleLine="true"
-                android:text="Crop 16/9"
-                android:paddingLeft="30dp" />
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    android:id="@+id/checkBox_crop"
+                    android:textSize="21dp"
+                    android:singleLine="true"
+                    android:text="Crop 16/9"
+                    android:paddingLeft="4dp" />
+            </LinearLayout>
+        </ScrollView>
 
 
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

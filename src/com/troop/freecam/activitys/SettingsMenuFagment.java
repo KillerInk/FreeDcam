@@ -3,10 +3,12 @@ package com.troop.freecam.activitys;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Switch;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
@@ -30,23 +32,34 @@ import com.troop.menu.switchcameramenu;
  */
 public class SettingsMenuFagment extends BaseFragment
 {
-    public ExtendedButton switch3dButton;
-    public ExtendedButton flashButton;
-    public ExtendedButton focusButton;
-    public ExtendedButton buttonPictureFormat;
-    public ExtendedButton pictureSizeButton;
-    public ExtendedButton previewSizeButton;
-    public ExtendedButton buttonPreviewFormat;
-    public ExtendedButton videoSizeButton;
-    public ExtendedButton ippButton;
-    public ExtendedButton button_denoise;
+    //public ExtendedButton switch3dButton;
+    //public ExtendedButton flashButton;
+    //public ExtendedButton focusButton;
+    //public ExtendedButton buttonPictureFormat;
+    //public ExtendedButton pictureSizeButton;
+    //public ExtendedButton previewSizeButton;
+    //public ExtendedButton buttonPreviewFormat;
+    //public ExtendedButton videoSizeButton;
+    //public ExtendedButton ippButton;
+    //public ExtendedButton button_denoise;
     //ExtendedButton button_stab;
-    public ExtendedButton button_zsl;
+    //public ExtendedButton button_zsl;
 
-    public CheckBox upsidedown;
-    public CheckBox crop_box;
+    public Switch upsidedown;
+    public Switch crop_box;
     InfoScreenFragment infoScreenFragment;
-    public CheckBox checkBoxOnScreen;
+    public Switch checkBoxOnScreen;
+    public MenuItemFragment switchCamera;
+    MenuItemFragment switchFlash;
+    MenuItemFragment switchFocus;
+    //MenuItemFragment switchPictureFormat;
+    MenuItemFragment switchPictureSize;
+    MenuItemFragment switchPreviewSize;
+    MenuItemFragment switchPreviewFormat;
+    MenuItemFragment switchVideoSize;
+    MenuItemFragment switchIPP;
+    MenuItemFragment switchDenoise;
+    MenuItemFragment switchZSL;
 
     public SettingsMenuFagment(CameraManager camMan, MainActivity activity, InfoScreenFragment infoScreenFragment)
     {
@@ -65,46 +78,46 @@ public class SettingsMenuFagment extends BaseFragment
 
     private void initSettingsMenuButtons()
     {
-        switch3dButton = (ExtendedButton) view.findViewById(R.id.button_switch3d);
-        switch3dButton.setOnClickListener(new switchcameramenu(camMan, activity));
+        //switch3dButton = (ExtendedButton) view.findViewById(R.id.button_switch3d);
+        //switch3dButton.setOnClickListener(new switchcameramenu(camMan, activity));
 
-        flashButton = (ExtendedButton) view.findViewById(R.id.button_flash);
-        flashButton.setOnClickListener(new FlashMenu(camMan, activity));
+        //flashButton = (ExtendedButton) view.findViewById(R.id.button_flash);
+        //flashButton.setOnClickListener(new FlashMenu(camMan, activity));
 
-        focusButton = (ExtendedButton) view.findViewById(R.id.button_focus);
-        focusButton.setOnClickListener(new FocusMenu(camMan, activity));
+        //focusButton = (ExtendedButton) view.findViewById(R.id.button_focus);
+        //focusButton.setOnClickListener(new FocusMenu(camMan, activity));
 
-        buttonPictureFormat = (ExtendedButton)view.findViewById(R.id.button_pictureFormat);
-        buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,activity));
+        //buttonPictureFormat = (ExtendedButton)view.findViewById(R.id.button_pictureFormat);
+        //buttonPictureFormat.setOnClickListener(new PictureFormatMenu(camMan,activity));
         //is hidden because the values are not from the cameraParameters
-        buttonPictureFormat.setVisibility(View.GONE);
+        //buttonPictureFormat.setVisibility(View.GONE);
 
-        buttonPreviewFormat = (ExtendedButton)view.findViewById(R.id.buttonPreviewFormat);
-        buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,activity));
+        //buttonPreviewFormat = (ExtendedButton)view.findViewById(R.id.buttonPreviewFormat);
+        //buttonPreviewFormat.setOnClickListener(new PreviewFormatMenu(camMan,activity));
 
-        pictureSizeButton = (ExtendedButton) view.findViewById(R.id.button_pictureSize);
-        pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, activity));
+        //pictureSizeButton = (ExtendedButton) view.findViewById(R.id.button_pictureSize);
+        //pictureSizeButton.setOnClickListener(new PictureSizeMenu(camMan, activity));
 
-        previewSizeButton = (ExtendedButton)view.findViewById(R.id.button_previewsize);
-        previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,activity));
+        //previewSizeButton = (ExtendedButton)view.findViewById(R.id.button_previewsize);
+        //previewSizeButton.setOnClickListener(new PreviewSizeMenu(camMan,activity));
 
-        videoSizeButton = (ExtendedButton)view.findViewById(R.id.button_videoSize);
-        videoSizeButton.setOnClickListener(new VideoSizesMenu(camMan,activity));
+        //videoSizeButton = (ExtendedButton)view.findViewById(R.id.button_videoSize);
+        //videoSizeButton.setOnClickListener(new VideoSizesMenu(camMan,activity));
 
-        ippButton = (ExtendedButton)view.findViewById(R.id.button_ipp);
-        ippButton.setOnClickListener(new IppMenu(camMan, activity));
+        //ippButton = (ExtendedButton)view.findViewById(R.id.button_ipp);
+        //ippButton.setOnClickListener(new IppMenu(camMan, activity));
 
-        button_denoise = (ExtendedButton)view.findViewById(R.id.button_denoise);
-        button_denoise.setOnClickListener(new DenoiseMenu(camMan, activity));
+        //button_denoise = (ExtendedButton)view.findViewById(R.id.button_denoise);
+        //button_denoise.setOnClickListener(new DenoiseMenu(camMan, activity));
 
         //07-12-13
         // button_stab = (Button)findViewById(R.id.button_ipp);
         // button_stab.setOnClickListener(new IppMenu(camMan, this));
 
-        button_zsl = (ExtendedButton)view.findViewById(R.id.buttonZsl);
-        button_zsl.setOnClickListener(new ZslMenu(camMan, activity));
+        //button_zsl = (ExtendedButton)view.findViewById(R.id.buttonZsl);
+        //button_zsl.setOnClickListener(new ZslMenu(camMan, activity));
 
-        upsidedown = (CheckBox) view.findViewById(R.id.button_fixupsidedown);
+        upsidedown = (Switch) view.findViewById(R.id.button_fixupsidedown);
 
         if (camMan.parametersManager.isOrientationFIX())
             upsidedown.setChecked(true);
@@ -130,7 +143,7 @@ public class SettingsMenuFagment extends BaseFragment
 
             }
         });
-        crop_box = (CheckBox)view.findViewById(R.id.checkBox_crop);
+        crop_box = (Switch)view.findViewById(R.id.checkBox_crop);
         crop_box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -155,7 +168,7 @@ public class SettingsMenuFagment extends BaseFragment
         {
             crop_box.setChecked(true);
         }
-        checkBoxOnScreen = (CheckBox)view.findViewById(R.id.checkBoxOnscreen);
+        checkBoxOnScreen = (Switch)view.findViewById(R.id.checkBoxOnscreen);
         checkBoxOnScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -171,6 +184,34 @@ public class SettingsMenuFagment extends BaseFragment
             }
         });
 
+        switchCamera = new MenuItemFragment(camMan, activity, "Select Camera", "Front", new switchcameramenu(camMan, activity));
+
+        switchFlash = new MenuItemFragment(camMan, activity, "Flash Mode", "", new FlashMenu(camMan, activity));
+        switchFocus = new MenuItemFragment(camMan,activity, "Focus Mode", "", new FocusMenu(camMan, activity));
+        //switchPictureFormat = new MenuItemFragment(camMan,activity, "Picture Format", "", new PictureFormatMenu(camMan,activity));
+        switchPictureSize = new MenuItemFragment(camMan,activity,"Picture Size","", new PictureSizeMenu(camMan, activity));
+        switchPreviewSize = new MenuItemFragment(camMan, activity,"Preview Size", "", new PreviewSizeMenu(camMan, activity));
+        switchPreviewFormat = new MenuItemFragment(camMan, activity, "Preview Format", "", new PreviewFormatMenu(camMan, activity));
+        switchVideoSize = new MenuItemFragment(camMan, activity, "Video Size", "", new VideoSizesMenu(camMan,activity));
+        switchIPP =new MenuItemFragment(camMan, activity, "ImagePostProcessing", "", new IppMenu(camMan,activity));
+        switchDenoise = new MenuItemFragment(camMan, activity, "Denoise", "", new DenoiseMenu(camMan,activity));
+        switchZSL = new MenuItemFragment(camMan, activity, "ZeroShutterLag", "", new ZslMenu(camMan,activity));
+
+        FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.popupLayoutSettings, switchCamera);
+        transaction.add(R.id.popupLayoutSettings, switchFlash);
+        transaction.add(R.id.popupLayoutSettings, switchFocus);
+        transaction.add(R.id.popupLayoutSettings, switchPictureSize);
+        transaction.add(R.id.popupLayoutSettings, switchPreviewSize);
+        transaction.add(R.id.popupLayoutSettings, switchPreviewFormat);
+        transaction.add(R.id.popupLayoutSettings, switchVideoSize);
+        transaction.add(R.id.popupLayoutSettings, switchIPP);
+        transaction.add(R.id.popupLayoutSettings, switchDenoise);
+        transaction.add(R.id.popupLayoutSettings, switchZSL);
+        //transaction.add(R.id.popupLayoutSettings, switchPictureFormat);
+        transaction.commit();
+        //transaction.show(switchCamera);
+
     }
     public void Hide()
     {
@@ -184,34 +225,37 @@ public class SettingsMenuFagment extends BaseFragment
 
     public void UpdateUI(boolean parametersReseted)
     {
-        buttonPreviewFormat.SetValue(camMan.parametersManager.getParameters().get("preview-format"));
+        switchPreviewFormat.SetButtonText(camMan.parametersManager.getParameters().get("preview-format"));
 
-        previewSizeButton.SetValue(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
-        button_denoise.SetValue(camMan.parametersManager.Denoise.getDenoiseValue());
+        switchPreviewSize.SetButtonText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
+        switchDenoise.SetButtonText(camMan.parametersManager.Denoise.getDenoiseValue());
         String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-        pictureSizeButton.SetValue(size1);
-        videoSizeButton.SetValue(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
+        switchPictureSize.SetButtonText(size1);
+        switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
+        String tmp = camMan.preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        //switch3dButton.SetValue(tmp);
+        switchCamera.SetButtonText(tmp);
 
         //ZeroShutterLag
         if (camMan.parametersManager.getSupportZSL())
         {
-            if (button_zsl.getVisibility() == View.GONE)
-                button_zsl.setVisibility(View.VISIBLE);
-            button_zsl.SetValue(camMan.parametersManager.ZSLModes.getValue());
+            if (switchZSL.view.getVisibility() == View.GONE)
+                switchZSL.view.setVisibility(View.VISIBLE);
+            switchZSL.SetButtonText(camMan.parametersManager.ZSLModes.getValue());
         }
         else
-        if (button_zsl.getVisibility() == View.VISIBLE)
-            button_zsl.setVisibility(View.GONE);
+        if (switchZSL.view.getVisibility() == View.VISIBLE)
+            switchZSL.view.setVisibility(View.GONE);
 
         //ImagePostProcessing
         if (camMan.parametersManager.getSupportIPP())
         {
-            if (ippButton.getVisibility() == View.GONE)
-                ippButton.setVisibility(View.VISIBLE);
-            ippButton.SetValue(camMan.parametersManager.getParameters().get("ipp"));
+            if (switchIPP.view.getVisibility() == View.GONE)
+                switchIPP.view.setVisibility(View.VISIBLE);
+            switchIPP.SetButtonText(camMan.parametersManager.getParameters().get("ipp"));
         }
         else
-            ippButton.setVisibility(View.GONE);
+            switchIPP.view.setVisibility(View.GONE);
         if (camMan.parametersManager.is3DMode())
         {
             crop_box.setVisibility(View.VISIBLE);
@@ -221,13 +265,13 @@ public class SettingsMenuFagment extends BaseFragment
             crop_box.setVisibility(View.GONE);
         //FLASH
         if (!camMan.parametersManager.getSupportFlash())
-            flashButton.setVisibility(View.GONE);
+            switchFlash.view.setVisibility(View.GONE);
         else
         {
-            if (flashButton.getVisibility() == View.GONE)
-                flashButton.setVisibility(View.VISIBLE);
-            flashButton.SetValue(camMan.parametersManager.getParameters().getFlashMode());
+            if (switchFlash.view.getVisibility() == View.GONE)
+                switchFlash.view.setVisibility(View.VISIBLE);
+            switchFlash.SetButtonText(camMan.parametersManager.getParameters().getFlashMode());
         }
-        focusButton.SetValue(camMan.parametersManager.getParameters().getFocusMode());
+        switchFocus.SetButtonText(camMan.parametersManager.getParameters().getFocusMode());
     }
 }

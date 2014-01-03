@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 
 /**
@@ -21,7 +22,7 @@ public class VideoSizesMenu extends BaseMenu
     @Override
     public void onClick(View v)
     {
-        PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
         for (int i = 0; i < camMan.parametersManager.videoModes.getStringValues().length; i++)
         {
             //if (sizes.get(i).height != 576)

@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 
 /**
@@ -34,7 +35,7 @@ public class PreviewFormatMenu extends BaseMenu  {
         }
         if (pref != null && !pref.equals(""))
         {
-            PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
             for (int i = 0; i < pref.length; i++) {
                 popupMenu.getMenu().add((CharSequence) pref[i]);

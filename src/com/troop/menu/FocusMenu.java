@@ -8,6 +8,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 
 /**
@@ -28,8 +29,8 @@ public class FocusMenu extends BaseMenu {
     {
 
 
-        View canvasView = super.GetPlaceHolder();
-        PopupMenu popupMenu = new PopupMenu(activity, canvasView);
+
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
 
         if(camMan.Running)
             modes = camMan.parametersManager.getParameters().get("focus-mode-values").split(",");
@@ -52,7 +53,6 @@ public class FocusMenu extends BaseMenu {
                         preferences.edit().putString(ParametersManager.Preferences_Focus2D, tmp).commit();
                     if (camMan.parametersManager.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_FocusFront, tmp).commit();
-                    //preferences.edit().putString("focus", tmp).commit();
                     camMan.autoFocusManager.SetFocus(tmp);
                     camMan.Restart(false);
                     return true;
@@ -60,7 +60,6 @@ public class FocusMenu extends BaseMenu {
             });
 
             popupMenu.show();
-            activity.appViewGroup.removeView(canvasView);
         }
     }
 }

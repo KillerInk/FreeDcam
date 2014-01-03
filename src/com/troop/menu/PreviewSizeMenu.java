@@ -7,6 +7,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class PreviewSizeMenu extends BaseMenu {
     {
         if(camMan.Running)
             sizes = camMan.parametersManager.getParameters().getSupportedPreviewSizes();
-        PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < sizes.size(); i++)
         {

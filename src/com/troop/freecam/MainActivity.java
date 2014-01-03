@@ -402,7 +402,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
             if (!DeviceUtils.isOmap())
             {
-                settingsFragment.ippButton.setEnabled(false);
+                //settingsFragment.ippButton.setEnabled(false);
                 autoMenuFragment.exposureButton.setEnabled(false);
             }
         }
@@ -531,8 +531,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             autoMenuFragment.UpdateUI(restarted);
             settingsFragment.UpdateUI(restarted);
 
-            String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-            settingsFragment.switch3dButton.SetValue(tmp);
+
             //Crosshair appairing
             if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {

@@ -25,15 +25,6 @@
             android:id="@+id/view"
             android:alpha="0.5" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:background="@drawable/comp_grid_4_3"
-            android:layout_toLeftOf="@+id/button_switchVideoPicture"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone" />
-
         <Button
             android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
@@ -69,6 +60,16 @@
             android:longClickable="true">
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@drawable/comp_grid_4_3"
+            android:layout_toLeftOf="@+id/button_switchVideoPicture"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_gravity="right|top" />
 
     </RelativeLayout>
 
@@ -209,16 +210,26 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LayoutSettings"
-                android:longClickable="false"
-                android:measureWithLargestChild="true"
-                android:baselineAligned="false"
-                android:background="@drawable/camera_frame_box_ver_bg">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutSettings"
+                    android:longClickable="false"
+                    android:measureWithLargestChild="false"
+                    android:baselineAligned="false"
+                    android:background="@drawable/camera_frame_box_ver_bg">
 
 
+                </LinearLayout>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placeholderPopup" />
             </LinearLayout>
 
         </LinearLayout>
