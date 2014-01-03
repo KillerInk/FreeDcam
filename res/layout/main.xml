@@ -200,13 +200,25 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LayoutAuto"
-                android:background="@drawable/camera_frame_box_ver_bg"
-                android:layout_marginTop="@dimen/autolayout_margineTop">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutAuto"
+                    android:measureWithLargestChild="false"
+                    android:baselineAligned="false"
+                    android:background="@drawable/camera_frame_box_ver_bg">
 
 
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placeholderAutoMenu" />
             </LinearLayout>
 
             <LinearLayout
@@ -221,7 +233,8 @@
                     android:longClickable="false"
                     android:measureWithLargestChild="false"
                     android:baselineAligned="false"
-                    android:background="@drawable/camera_frame_box_ver_bg">
+                    android:background="@drawable/camera_frame_box_ver_bg"
+                    android:orientation="horizontal">
 
 
                 </LinearLayout>

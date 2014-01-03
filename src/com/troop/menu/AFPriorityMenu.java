@@ -6,6 +6,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -26,8 +27,8 @@ public class AFPriorityMenu extends BaseMenu  {
 
 
 
-        View canvasView = super.GetPlaceHolder();
-        PopupMenu popupMenu = new PopupMenu(activity, canvasView);
+
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderAutoMenu));
 
         if(camMan.Running && camMan.parametersManager.getSupportAfpPriority())
             modes = camMan.parametersManager.AfPriority.getValues();
@@ -58,7 +59,7 @@ public class AFPriorityMenu extends BaseMenu  {
             });
 
             popupMenu.show();
-            activity.appViewGroup.removeView(canvasView);
+
         }
 
     }

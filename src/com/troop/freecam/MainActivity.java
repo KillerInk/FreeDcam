@@ -394,7 +394,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             if (!DeviceUtils.isQualcomm())
             {
                 checkBoxZSL.setEnabled(false);
-                autoMenuFragment.buttonMetering.setEnabled(false);
+                //autoMenuFragment.buttonMetering.setEnabled(false);
             }
 
             if(!s.equals("LG-P720") || !s.equals("LG-P725"))
@@ -403,7 +403,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             if (!DeviceUtils.isOmap())
             {
                 //settingsFragment.ippButton.setEnabled(false);
-                autoMenuFragment.exposureButton.setEnabled(false);
+                //autoMenuFragment.exposureButton.setEnabled(false);
             }
         }
         catch (NullPointerException ex)
