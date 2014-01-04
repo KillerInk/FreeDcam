@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/checkBox_hdr"
-            android:background="@drawable/button"
             android:singleLine="true"
             android:text="HDR Mode"
             android:paddingLeft="4dp"
