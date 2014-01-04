@@ -8,6 +8,7 @@ import android.util.Log;
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.interfaces.SavePictureCallback;
 
@@ -30,6 +31,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
+
     //byte[] rawbuffer = new byte[31457280];
 
 
@@ -87,7 +89,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         Log.d("PictureCallback", "DATAsize:" + data.length);
         boolean is3d = false;
-        if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if (Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
         {
             is3d = true;
         }

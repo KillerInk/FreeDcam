@@ -20,10 +20,8 @@ import java.util.Map;
  */
 public class ParametersManager
 {
-    public static final String SwitchCamera = "switchcam";
-    public static final String SwitchCamera_MODE_3D = "3D";
-    public static final String SwitchCamera_MODE_2D = "2D";
-    public static final String SwitchCamera_MODE_Front = "Front";
+
+
     public static final String Preferences_Flash3D = "3d_flash";
     public static final String Preferences_Flash2D = "2d_flash";
     public static final String Preferences_Focus2D = "2d_focus";
@@ -50,9 +48,7 @@ public class ParametersManager
     public static final String Preferences_PreviewSize2D = "2d_previewsize";
     public static final String Preferences_PreviewSize3D = "3d_previewsize";
     public static final String Preferences_PreviewSizeFront = "front_previewsize";
-    public static final String Preferences_IPP2D = "2d_ipp";
-    public static final String Preferences_IPP3D = "3d_ipp";
-    public static final String Preferences_IPPFront = "front_ipp";
+
     //New Pref 07-12-13
     public static final String Preferences_PictureFormat = "picture_format";
     public static final String Preferences_PreviewFormat = "preview_format";
@@ -107,6 +103,7 @@ public class ParametersManager
     public IsoClass Iso;
     public ExposureModeClass ExposureMode;
     public SceneModeClass SceneMode;
+    public ImagePostProcessingClass ImagePostProcessing;
 
     private boolean loadingParametersFinish = false;
 
@@ -125,7 +122,6 @@ public class ParametersManager
         for(int i = 0; i < paras.length; i++)
             Log.d("CameraParameters", paras[i]);
         checkParametersSupport();
-        loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
@@ -135,6 +131,8 @@ public class ParametersManager
         Iso = new IsoClass();
         ExposureMode = new ExposureModeClass();
         SceneMode = new SceneModeClass();
+        ImagePostProcessing = new ImagePostProcessingClass();
+        loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true);
     }
@@ -215,22 +213,11 @@ public class ParametersManager
             supportAutoExposure = false;
         }
 
-
-        try {
-            String ipps = parameters.get("ipp-values");
-            if (!ipps.isEmpty())
-                supportIPP = true;
-         }
-        catch (Exception ex)
-        {
-            supportIPP = false;
-        }
-
     }
 
     private void loadDefaultOrLastSavedSettings()
     {
-        String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_Front);
+        String tmp = cameraManager.Settings.Cameras.GetCamera();
         //parameters.set("preview-format", "yuv420p");
         if (tmp.equals("3D"))
         {
@@ -244,7 +231,7 @@ public class ParametersManager
             setPictureSize(preferences.getString(Preferences_PictureSize3D , "320x240"));
             //setPictureSize("2592x1458");
             setPreviewSize(preferences.getString(Preferences_PreviewSize3D, "320x240"));
-            parameters.set("ipp",preferences.getString(Preferences_IPP3D, "ldc-nsf"));
+            //parameters.set("ipp",preferences.getString(Preferences_IPP3D, "ldc-nsf"));
 
         }
 
@@ -262,7 +249,7 @@ public class ParametersManager
             setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
             setPreviewSize(preferences.getString(Preferences_PreviewSize2D, "320x240"));
 
-            parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
+            //parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
 
             if(DeviceUtils.isQualcomm())
             {
@@ -291,10 +278,15 @@ public class ParametersManager
                 setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
             if (preferences.getString(Preferences_PreviewSizeFront, null) != null)
                 setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
-            if (preferences.getString(Preferences_IPPFront, null) != null)
-                parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
+            //if (preferences.getString(Preferences_IPPFront, null) != null)
+                //parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
 
+        if (preferences.getString(Preferences_ZSL, null) != null)
+            ZSLModes.setValue(preferences.getString(Preferences_ZSL, null));
+
+        if (getSupportIPP())
+            ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
 
@@ -405,8 +397,8 @@ public class ParametersManager
 
     public boolean is3DMode()
     {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
+        String camvalue = cameraManager.Settings.Cameras.GetCamera();
+        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_3D))
         {
             return true;
         }
@@ -416,8 +408,8 @@ public class ParametersManager
 
     public boolean is2DMode()
     {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
+        String camvalue = cameraManager.Settings.Cameras.GetCamera();
+        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_2D))
         {
             return true;
         }
@@ -427,8 +419,8 @@ public class ParametersManager
 
     public boolean isFrontMode()
     {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
+        String camvalue = cameraManager.Settings.Cameras.GetCamera();
+        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_Front))
         {
             return true;
         }
@@ -814,6 +806,37 @@ public class ParametersManager
         public void set(String val)
         {
             getParameters().setSceneMode(val);
+        }
+    }
+
+    public class ImagePostProcessingClass
+    {
+        public ImagePostProcessingClass()
+        {
+            try {
+                String ipps = parameters.get("ipp-values");
+                if (!ipps.isEmpty())
+                    supportIPP = true;
+            }
+            catch (Exception ex)
+            {
+                supportIPP = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return getParameters().get("ipp-values").split(",");
+        }
+
+        public String Get()
+        {
+            return getParameters().get("ipp");
+        }
+
+        public void Set(String val)
+        {
+            parameters.set("ipp", val);
         }
     }
 }

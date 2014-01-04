@@ -161,6 +161,7 @@ public class AutoMenuFragment extends BaseFragment
             switchScene.view.setVisibility(View.VISIBLE);
         else
             switchScene.view.setVisibility(View.GONE);
+        view.findViewById(R.id.auto_menu_fragment_layout).requestLayout();
     }
 
     private void updateValues() {

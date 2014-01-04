@@ -9,6 +9,7 @@ import android.util.Log;
 import com.troop.freecam.CamPreview;
 import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class VideoCam extends PictureCam
     public boolean IsRecording = false;
     public ParametersManager parametersManager;
     public String lastPicturePath;
+
 
     public VideoCam(CamPreview context, SharedPreferences preferences)
     {
@@ -118,9 +120,9 @@ public class VideoCam extends PictureCam
 
     private void fixParametersOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(SettingsManager.SwitchCamera_MODE_3D) && !tmp.equals(SettingsManager.SwitchCamera_MODE_2D))
         {
             // mCamera.setDisplayOrientation(0);
             parametersManager.getParameters().setRotation(0);

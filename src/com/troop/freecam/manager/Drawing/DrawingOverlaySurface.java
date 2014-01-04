@@ -12,6 +12,7 @@ import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 25.09.13.
@@ -74,7 +75,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
 
         if (hasReal3d)
         {
-            if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+            if (preferences.getString(SettingsManager.SwitchCamera, SettingsManager.SwitchCamera_MODE_Front).equals(SettingsManager.SwitchCamera_MODE_3D))
             {
                 //mReal3D.setViewMode(1);
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

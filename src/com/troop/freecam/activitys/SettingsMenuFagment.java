@@ -15,6 +15,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.controls.ExtendedButton;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.menu.DenoiseMenu;
 import com.troop.menu.FlashMenu;
 import com.troop.menu.FocusMenu;
@@ -160,7 +161,7 @@ public class SettingsMenuFagment extends BaseFragment
                 }
             }
         });
-        if(!camMan.preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
         {
             crop_box.setVisibility(View.GONE);
         }
@@ -232,7 +233,7 @@ public class SettingsMenuFagment extends BaseFragment
         String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
         switchPictureSize.SetButtonText(size1);
         switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
-        String tmp = camMan.preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = camMan.Settings.Cameras.GetCamera();
         //switch3dButton.SetValue(tmp);
         switchCamera.SetButtonText(tmp);
 

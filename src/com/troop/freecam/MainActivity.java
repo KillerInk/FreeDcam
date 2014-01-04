@@ -47,6 +47,7 @@ import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
 import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.menu.AFPriorityMenu;
@@ -477,7 +478,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     public void SwitchCropButton()
     {
-        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
         {
             settingsFragment.crop_box.setVisibility(View.GONE);
         }

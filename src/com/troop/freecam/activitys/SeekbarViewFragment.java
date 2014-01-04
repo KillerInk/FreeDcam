@@ -57,7 +57,7 @@ public class SeekbarViewFragment extends  BaseFragment
     {
         exposureTextView = (TextView) view.findViewById(R.id.textViewexposure);
         exposureSeekbar  = (SeekBar)  view.findViewById(R.id.seekBar_exposure);
-        exposureSeekbar.setProgress(30);
+        //exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation() - camMan.parametersManager.getParameters().getMinExposureCompensation());
         exposureSeekbar.setOnSeekBarChangeListener(camMan.manualExposureManager);
         exposureRow = (TableRow)  view.findViewById(R.id.tableRowExposure);
         exposureRow.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class SeekbarViewFragment extends  BaseFragment
             min *= -1;
         int max = camMan.parametersManager.getParameters().getMaxExposureCompensation() + min;
         exposureSeekbar.setMax(max);
-        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getExposureCompensation() + camMan.parametersManager.getParameters().getMaxExposureCompensation());
+        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation());
         camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
         //camMan.manualExposureManager.ExternalSet = true;
         //camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());

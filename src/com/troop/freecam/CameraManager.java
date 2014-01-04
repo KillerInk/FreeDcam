@@ -27,6 +27,7 @@ import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.ZoomManager;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -61,6 +62,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     //public ParametersManager parametersManager;
     public boolean takePicture = false;
 
+
+
     public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
     {
         super(context, preferences);
@@ -76,7 +79,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualBrightnessManager = new ManualBrightnessManager(this);
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
+        Settings = new SettingsManager(this, preferences);
         parametersManager = new ParametersManager(this, preferences);
+
     }
 
 
@@ -204,9 +209,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixCameraDisplayOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(Settings.SwitchCamera_MODE_3D) && !tmp.equals(Settings.SwitchCamera_MODE_2D))
         {
             mCamera.setDisplayOrientation(0);
             //mParameters.setRotation(0);

@@ -9,6 +9,7 @@ import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 05.09.13.
@@ -26,18 +27,18 @@ public class switchcameramenu extends  BaseMenu
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         if (Camera.getNumberOfCameras() == 3)
         {
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_3D);
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_2D);
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_3D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_2D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
         }
         if (Camera.getNumberOfCameras() == 2)
         {
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_2D);
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_2D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
         }
         if (Camera.getNumberOfCameras() == 1)
         {
-            popupMenu.getMenu().add((CharSequence) ParametersManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
         }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -47,7 +48,7 @@ public class switchcameramenu extends  BaseMenu
                 String tmp = item.toString();
                 //camMan.parameters.setAutoWhiteBalanceLock(true);
 
-                preferences.edit().putString(ParametersManager.SwitchCamera, tmp).commit();
+                camMan.Settings.Cameras.SetCamera(tmp);
 
                 camMan.Stop();
                 activity.mPreview.SwitchViewMode();

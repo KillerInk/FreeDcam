@@ -15,6 +15,7 @@ import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 24.09.13.
@@ -75,8 +76,8 @@ public class SizeAbleRectangle
 
             if (drawRectangle == true && Enabled && canvas != null)
             {
-                String tmp = camPreview.preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                if (tmp.equals(ParametersManager.SwitchCamera_MODE_3D))
+                String tmp = cameraManager.Settings.Cameras.GetCamera();
+                if (tmp.equals(SettingsManager.SwitchCamera_MODE_3D))
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;
