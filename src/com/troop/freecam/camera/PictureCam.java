@@ -5,12 +5,11 @@ import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 
-import com.troop.freecam.CamPreview;
+import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
-import com.troop.freecam.manager.interfaces.SavePictureCallback;
+import com.troop.freecam.interfaces.SavePictureCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;

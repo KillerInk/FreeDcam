@@ -12,7 +12,7 @@
         android:id="@+id/mainRelativLayout"
         android:visibility="visible">
 
-        <com.troop.freecam.CamPreview
+        <com.troop.freecam.surfaces.CamPreview
             android:id="@+id/camPreview1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -21,7 +21,7 @@
         <view
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
+            class="com.troop.freecam.surfaces.DrawingOverlaySurface"
             android:id="@+id/view"
             android:alpha="0.5" />
 

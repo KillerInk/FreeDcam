@@ -1,11 +1,11 @@
-package com.troop.freecam.manager.Drawing;
+package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
+import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
 
 import java.util.List;
 

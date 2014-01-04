@@ -3,7 +3,7 @@ package com.troop.freecam.fragments;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
 
 /**

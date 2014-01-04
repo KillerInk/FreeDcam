@@ -22,16 +22,18 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.fragments.AutoMenuFragment;
 
 import com.troop.freecam.fragments.InfoScreenFragment;
 import com.troop.freecam.fragments.LayoutActivity;
 import com.troop.freecam.fragments.SeekbarViewFragment;
 import com.troop.freecam.fragments.SettingsMenuFagment;
-import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
+import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
+import com.troop.freecam.interfaces.ParametersChangedInterface;
+import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;

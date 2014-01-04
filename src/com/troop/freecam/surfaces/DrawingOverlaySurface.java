@@ -1,4 +1,4 @@
-package com.troop.freecam.manager.Drawing;
+package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,8 +10,8 @@ import android.view.SurfaceHolder;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freecam.CameraManager;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.SizeAbleRectangle;
 import com.troop.freecam.manager.SettingsManager;
 
 /**

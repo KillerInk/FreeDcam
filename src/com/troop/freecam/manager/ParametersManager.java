@@ -2,18 +2,15 @@ package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
 import android.hardware.Camera;
-import android.media.CamcorderProfile;
 import android.util.Log;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
-import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
+import com.troop.freecam.interfaces.ParametersChangedInterface;
+import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by troop on 16.10.13.

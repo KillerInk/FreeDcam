@@ -1,4 +1,4 @@
-package com.troop.freecam;
+package com.troop.freecam.camera;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,7 +9,6 @@ import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -17,7 +16,7 @@ import android.view.SurfaceHolder;
 import android.os.StatFs;
 
 
-import com.troop.freecam.camera.VideoCam;
+import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
@@ -29,6 +28,7 @@ import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.ZoomManager;
+import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;

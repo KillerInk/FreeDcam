@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 

@@ -13,15 +13,11 @@ import android.util.Log;
 import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.interfaces.SavePictureCallback;
+import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.utils.BitmapUtils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Created by troop on 18.10.13.

@@ -4,7 +4,7 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.util.Log;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.R;
 
 /**

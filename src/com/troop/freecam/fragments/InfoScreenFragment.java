@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.R;
 import com.troop.freecam.utils.DeviceUtils;
 

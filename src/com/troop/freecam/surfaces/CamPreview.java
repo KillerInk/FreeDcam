@@ -1,9 +1,7 @@
-package com.troop.freecam;
+package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -14,8 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freecam.manager.Drawing.BasePreview;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.SettingsManager;
 
 public class CamPreview extends BasePreview {
