@@ -18,6 +18,10 @@ public class SettingsManager
     public static final String Preferences_IPP3D = "3d_ipp";
     public static final String Preferences_IPPFront = "front_ipp";
 
+    public static final String Preferences_ZSL2D = "2d_zsl";
+    public static final String Preferences_ZSL3D = "3d_zsl";
+    public static final String Preferences_ZSLFront = "front_zsl";
+
     enum CameraValues
     {
         Front,
@@ -29,12 +33,14 @@ public class SettingsManager
     SharedPreferences preferences;
     public CamerasClass Cameras;
     public ImagePostProcessingClass ImagePostProcessing;
+    public ZeroShutterLagClass ZeroShutterLag;
 
     public SettingsManager(CameraManager cameraManager, SharedPreferences preferences) {
         this.cameraManager = cameraManager;
         this.preferences = preferences;
         Cameras = new CamerasClass();
         ImagePostProcessing = new ImagePostProcessingClass();
+        ZeroShutterLag = new ZeroShutterLagClass();
     }
 
     public class CamerasClass
@@ -70,20 +76,32 @@ public class SettingsManager
         }
     }
 
-    public class ImagePostProcessingClass
+    public class BaseClass
     {
+        public String threeD;
+        protected String twoD;
+        protected String front;
+        protected String defaultVal;
+
+        public BaseClass(String threeD, String twoD, String front, String defaultVal) {
+            this.threeD = threeD;
+            this.twoD = twoD;
+            this.front = front;
+            this.defaultVal = defaultVal;
+        }
+
         public void Set(String val)
         {
             switch (Cameras.GetCameraEnum())
             {
                 case Back3D:
-                    preferences.edit().putString(SettingsManager.Preferences_IPP3D, val).commit();
+                    preferences.edit().putString(threeD, val).commit();
                     break;
                 case Front:
-                    preferences.edit().putString(SettingsManager.Preferences_IPPFront, val).commit();
+                    preferences.edit().putString(front, val).commit();
                     break;
                 case Back2D:
-                    preferences.edit().putString(SettingsManager.Preferences_IPP2D, val).commit();
+                    preferences.edit().putString(twoD, val).commit();
                     break;
             }
         }
@@ -94,18 +112,34 @@ public class SettingsManager
             switch (Cameras.GetCameraEnum())
             {
                 case Back3D:
-                    val = preferences.getString(SettingsManager.Preferences_IPP3D, "ldc-nsf");
+                    val = preferences.getString(threeD, defaultVal);
                     break;
                 case Front:
-                    val = preferences.getString(SettingsManager.Preferences_IPPFront, "ldc-nsf");
+                    val = preferences.getString(front, defaultVal);
                     break;
                 case Back2D:
-                    val =  preferences.getString(SettingsManager.Preferences_IPP2D, "ldc-nsf");
-                break;
+                    val =  preferences.getString(twoD, defaultVal);
+                    break;
                 default:
-                    val =  preferences.getString(SettingsManager.Preferences_IPPFront, "ldc-nsf");
+                    val =  preferences.getString(SettingsManager.Preferences_IPPFront, defaultVal);
             }
             return val;
+        }
+    }
+
+    public class ImagePostProcessingClass extends BaseClass
+    {
+        public ImagePostProcessingClass()
+        {
+            super(SettingsManager.Preferences_IPP3D, SettingsManager.Preferences_IPP2D, SettingsManager.Preferences_IPPFront, "ldc-nsf");
+        }
+    }
+
+    public class ZeroShutterLagClass extends BaseClass
+    {
+        public ZeroShutterLagClass()
+        {
+            super(SettingsManager.Preferences_ZSL3D, SettingsManager.Preferences_ZSL2D, SettingsManager.Preferences_ZSLFront, "high-quality");
         }
     }
 }

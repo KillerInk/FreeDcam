@@ -31,14 +31,14 @@ public class ZslMenu extends BaseMenu  {
             }
             catch (Exception ex)
             {
-
+                ex.printStackTrace();
             }
         }
         if (zslv != null && !zslv.equals(""))
         {
             PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
-            //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
-            for (int i = 0; i < zslv.length; i++) {
+            for (int i = 0; i < zslv.length; i++)
+            {
                 popupMenu.getMenu().add((CharSequence) zslv[i]);
             }
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -47,8 +47,7 @@ public class ZslMenu extends BaseMenu  {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.ZSLModes.setValue(tmp);
-                    preferences.edit().putString(ParametersManager.Preferences_ZSL, tmp).commit();
-                    //preferences.edit().putString("color", tmp).commit();
+                    camMan.Settings.ZeroShutterLag.Set(tmp);
                     camMan.Restart(false);
 
                     return true;

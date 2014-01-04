@@ -279,8 +279,8 @@ public class ParametersManager
                 //parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
 
-        if (preferences.getString(Preferences_ZSL, null) != null)
-            ZSLModes.setValue(preferences.getString(Preferences_ZSL, null));
+        if (getSupportZSL())
+            ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get());
 
         if (getSupportIPP())
             ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
