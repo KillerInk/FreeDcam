@@ -39,12 +39,7 @@ public class PreviewSizeMenu extends BaseMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                if (camMan.parametersManager.is3DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PreviewSize3D, tmp).commit();
-                if (camMan.parametersManager.is2DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PreviewSize2D, tmp).commit();
-                if (camMan.parametersManager.isFrontMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PreviewSizeFront, tmp).commit();
+                camMan.Settings.PreviewSize.Set(tmp);
                 String[] widthHeight = tmp.split("x");
                 int w = Integer.parseInt(widthHeight[0]);
                 int h = Integer.parseInt(widthHeight[1]);

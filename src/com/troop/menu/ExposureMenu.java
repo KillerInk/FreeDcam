@@ -45,20 +45,8 @@ public class ExposureMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (camMan.parametersManager.is3DMode())
-                    {
-                        preferences.edit().putString(ParametersManager.Preferences_Exposure3D, tmp).commit();
-                    }
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Exposure2D, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_ExposureFront, tmp).commit();
+                    camMan.Settings.ExposureMode.Set(tmp);
                     camMan.parametersManager.ExposureMode.set(tmp);
-                    //if (tmp.equals("manual"))
-                    //activity.exposureSeekbar.setVisibility(View.VISIBLE);
-                    //else
-                    //activity.exposureSeekbar.setVisibility(View.INVISIBLE);
-                    //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);
 
                     return true;

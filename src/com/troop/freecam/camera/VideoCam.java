@@ -26,7 +26,7 @@ public class VideoCam extends PictureCam
     public String lastPicturePath;
 
 
-    public VideoCam(CamPreview context, SharedPreferences preferences)
+    public VideoCam(CamPreview context, SettingsManager preferences)
     {
         super(context, preferences);
     }
@@ -36,7 +36,7 @@ public class VideoCam extends PictureCam
         try
         {
 
-            if (parametersManager.isOrientationFIX())
+            if (Settings.OrientationFix.GET())
                 fixParametersOrientation();
             mCamera.unlock();
             File sdcardpath = Environment.getExternalStorageDirectory();
@@ -57,7 +57,7 @@ public class VideoCam extends PictureCam
                 }
             });
 
-            if (preferences.getBoolean("upsidedown", false) == true)
+            if (Settings.OrientationFix.GET() == true)
             {
                 String rota = parametersManager.getParameters().get("rotation");
 

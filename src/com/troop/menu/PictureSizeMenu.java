@@ -35,14 +35,7 @@ public class PictureSizeMenu extends BaseMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-
-                if (camMan.parametersManager.is3DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSize3D, tmp).commit();
-                if (camMan.parametersManager.is2DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSize2D, tmp).commit();
-                if (camMan.parametersManager.isFrontMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSizeFront, tmp).commit();
-                //preferences.edit().putString("whitebalance", tmp).commit();
+                camMan.Settings.PictureSize.Set(tmp);
                 String[] widthHeight = tmp.split("x");
                 int w = Integer.parseInt(widthHeight[0]);
                 int h = Integer.parseInt(widthHeight[1]);

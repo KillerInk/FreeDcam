@@ -26,7 +26,7 @@ public class PreviewFormatMenu extends BaseMenu  {
         {
             try
             {
-                pref = camMan.parametersManager.getParameters().get("preview-format-values").split(",");
+                pref = camMan.parametersManager.PreviewFormat.getValues();
             }
             catch (Exception ex)
             {
@@ -45,14 +45,8 @@ public class PreviewFormatMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.getParameters().set("preview-format", tmp);
-
-                    if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PreviewFormat, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PreviewFormat, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PreviewFormat, tmp).commit();
+                    camMan.parametersManager.PreviewFormat.Set(tmp);
+                    camMan.Settings.PreviewFormat.Set(tmp);
                     camMan.Restart(false);
 
                     return true;

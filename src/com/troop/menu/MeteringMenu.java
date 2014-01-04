@@ -44,17 +44,8 @@ public class MeteringMenu extends BaseMenu   {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().set("auto-exposure", tmp);
-                    //activity.OnScreeMeterValue.setText(tmp);
-
-
-
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_MTRValue, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_MTRValue, tmp).commit();
-                    //preferences.edit().putString("focus", tmp).commit();
-
-                    camMan.autoFocusManager.StartFocus();
+                    camMan.Settings.MeteringMode.Set(tmp);
+                    //camMan.autoFocusManager.StartFocus();
                     camMan.Restart(false);
                     return true;
                 }

@@ -39,18 +39,8 @@ public class ColorMenu extends BaseMenu {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().setColorEffect(tmp);
-
-                    if (camMan.parametersManager.is3DMode())
-                    {
-                        preferences.edit().putString(ParametersManager.Preferences_Color3D, tmp).commit();
-                    }
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Color2D, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_ColorFront, tmp).commit();
-                    //preferences.edit().putString("color", tmp).commit();
+                    camMan.Settings.ColorMode.Set(tmp);
                     camMan.Restart(false);
-
                     return true;
                 }
             });

@@ -62,15 +62,6 @@ public class FlashMenu extends BaseMenu
                         camMan.parametersManager.getParameters().setFlashMode(tmp);
                         camMan.Settings.FlashMode.Set(tmp);
                     }
-
-
-                    if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(SettingsManager.Preferences.Flash3D, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(SettingsManager.Preferences.Flash2D, tmp).commit();
-                    //if (camvalue == CameraManager.SwitchCamera_MODE_Front)
-                    //preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
-                    //preferences.edit().putString("flash", tmp).commit();
                     camMan.Restart(false);
                     return true;
                 }

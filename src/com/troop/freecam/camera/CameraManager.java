@@ -64,9 +64,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
 
 
-    public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
+    public CameraManager(CamPreview context, MainActivity activity, SettingsManager settingsManager)
     {
-        super(context, preferences);
+        super(context, settingsManager);
         scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
@@ -79,8 +79,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualBrightnessManager = new ManualBrightnessManager(this);
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
-        Settings = new SettingsManager(this, preferences);
-        parametersManager = new ParametersManager(this, preferences);
+        parametersManager = new ParametersManager(this, settingsManager);
 
     }
 
@@ -197,7 +196,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         try {
             mCamera.setPreviewDisplay(activity.mPreview.getHolder());
             mCamera.setZoomChangeListener(zoomManager);
-            if(preferences.getBoolean("upsidedown", false) == true)
+            if(Settings.OrientationFix.GET() == true)
                 fixCameraDisplayOrientation();
             zoomManager.ResetZoom();
         } catch (Exception exception) {

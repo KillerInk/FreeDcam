@@ -91,7 +91,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
-        camMan = new CameraManager(mPreview, this, preferences);
+        camMan = new CameraManager(mPreview, this, settingsManager);
         camMan.parametersManager.setParametersChanged(this);
 
         initButtons();

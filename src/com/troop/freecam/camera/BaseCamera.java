@@ -12,13 +12,12 @@ import com.troop.freecam.manager.SettingsManager;
 public class BaseCamera
 {
     public Camera mCamera;
-    public SharedPreferences preferences;
     public SettingsManager Settings;
     //protected byte[] rawbuffer = new byte[52428800];
 
-    public BaseCamera(SharedPreferences preferences)
+    public BaseCamera(SettingsManager Settings)
     {
-        this.preferences = preferences;
+        this.Settings = Settings;
     }
 
     protected void OpenCamera()

@@ -38,12 +38,7 @@ public class SceneMenu extends BaseMenu
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Scene3D, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Scene2D, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_SceneFront, tmp).commit();
+                    camMan.Settings.SceneMode.Set(tmp);
                     camMan.parametersManager.getParameters().setSceneMode(tmp);
 
                     camMan.Restart(false);

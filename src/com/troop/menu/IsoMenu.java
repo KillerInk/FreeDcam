@@ -38,7 +38,6 @@ public class IsoMenu extends BaseMenu {
         if (isos != null && isos.length > 0)
         {
             PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderAutoMenu));
-            //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
             for (int i = 0; i < isos.length; i++) {
                 popupMenu.getMenu().add((CharSequence) isos[i]);
             }
@@ -48,13 +47,7 @@ public class IsoMenu extends BaseMenu {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.Iso.set(tmp);
-                    if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Iso3D, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Iso2D, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_IsoFront, tmp).commit();
-                    //preferences.edit().putString("color", tmp).commit();
+                    camMan.Settings.IsoMode.Set(tmp);
                     camMan.Restart(false);
 
                     return true;

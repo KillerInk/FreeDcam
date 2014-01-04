@@ -115,7 +115,7 @@ public class SettingsMenuFagment extends BaseFragment
 
         upsidedown = (Switch) view.findViewById(R.id.button_fixupsidedown);
 
-        if (camMan.parametersManager.isOrientationFIX())
+        if (camMan.Settings.OrientationFix.GET())
             upsidedown.setChecked(true);
         upsidedown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class SettingsMenuFagment extends BaseFragment
             {
                 if (upsidedown.isChecked())
                 {
-                    camMan.parametersManager.setOrientationFix(true);
+                    camMan.Settings.OrientationFix.Set(true);
                     camMan.Stop();
                     camMan.Start();
 
@@ -131,7 +131,7 @@ public class SettingsMenuFagment extends BaseFragment
                 }
                 else
                 {
-                    camMan.parametersManager.setOrientationFix(false);
+                    camMan.Settings.OrientationFix.Set(false);
                     camMan.Stop();
                     camMan.Start();
                     camMan.Restart(true);
@@ -147,12 +147,12 @@ public class SettingsMenuFagment extends BaseFragment
                 if (crop_box.isChecked())
                 {
                     camMan.crop = true;
-                    camMan.preferences.edit().putBoolean("crop", true).commit();
+                    camMan.Settings.CropImage.Set(true);
                 }
                 else
                 {
                     camMan.crop = false;
-                    camMan.preferences.edit().putBoolean("crop", false).commit();
+                    camMan.Settings.CropImage.Set(false);
                 }
             }
         });
@@ -221,7 +221,7 @@ public class SettingsMenuFagment extends BaseFragment
 
     public void UpdateUI(boolean parametersReseted)
     {
-        switchPreviewFormat.SetButtonText(camMan.parametersManager.getParameters().get("preview-format"));
+        switchPreviewFormat.SetButtonText(camMan.parametersManager.PreviewFormat.Get());
 
         switchPreviewSize.SetButtonText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
         switchDenoise.SetButtonText(camMan.parametersManager.Denoise.getDenoiseValue());
@@ -252,7 +252,7 @@ public class SettingsMenuFagment extends BaseFragment
         }
         else
             switchIPP.view.setVisibility(View.GONE);
-        if (camMan.parametersManager.is3DMode())
+        if (camMan.Settings.Cameras.is3DMode())
         {
             crop_box.setVisibility(View.VISIBLE);
             crop_box.setChecked(camMan.parametersManager.doCropping());

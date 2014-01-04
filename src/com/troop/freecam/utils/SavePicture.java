@@ -14,6 +14,7 @@ import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.interfaces.SavePictureCallback;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
@@ -31,9 +32,9 @@ public class SavePicture
     byte[] bytes;
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
-    SharedPreferences preferences;
+    SettingsManager preferences;
 
-    public SavePicture(MediaScannerManager mediaScannerManager, SharedPreferences preferences)
+    public SavePicture(MediaScannerManager mediaScannerManager, SettingsManager preferences)
     {
         this.mediaScannerManager = mediaScannerManager;
         this.preferences = preferences;
@@ -56,7 +57,7 @@ public class SavePicture
         {
             BitmapUtils.saveBytesToFile(file, bytes);
             //bytes = null;
-            if (preferences.getBoolean("upsidedown", false) == true || crop)
+            if (preferences.OrientationFix.GET() == true || crop)
             {
                 ExifManager manager = new ExifManager();
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -68,7 +69,7 @@ public class SavePicture
                 manager.LoadExifFrom(file.getAbsolutePath());
                 JniBitmapHolder orgiHolder = new JniBitmapHolder(bitmap);
                 bitmap.recycle();
-                if (preferences.getBoolean("upsidedown", false) == true)
+                if (preferences.OrientationFix.GET() == true)
                 {
                     orgiHolder.rotateBitmap180();
                 }
@@ -86,7 +87,7 @@ public class SavePicture
         }
         else
         {
-            if (preferences.getBoolean("upsidedown", false) == true)
+            if (preferences.OrientationFix.GET() == true)
             {
                 JniBitmapHolder h = new JniBitmapHolder(BitmapUtils.loadFromBytes(bytes));
                 h.rotateBitmap180();

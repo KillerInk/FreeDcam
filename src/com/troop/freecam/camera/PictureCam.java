@@ -36,7 +36,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
 
 
-    public PictureCam(CamPreview context,SharedPreferences preferences)
+    public PictureCam(CamPreview context,SettingsManager preferences)
     {
         super(preferences);
         this.context = context;

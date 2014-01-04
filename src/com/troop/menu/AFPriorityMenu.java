@@ -45,13 +45,8 @@ public class AFPriorityMenu extends BaseMenu  {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.AfPriority.Set(tmp);
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
-                    //preferences.edit().putString("focus", tmp).commit();
-
-                    camMan.autoFocusManager.StartFocus();
+                    camMan.Settings.afPriority.Set(tmp);
+                    //camMan.autoFocusManager.StartFocus();
                     camMan.Restart(false);
                     return true;
                 }

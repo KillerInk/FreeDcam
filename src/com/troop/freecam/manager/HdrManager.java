@@ -166,7 +166,7 @@ public class HdrManager implements PictureTakeFinish
             String end;
 
 
-            if (cameraManager.preferences.getString("switchcam", "2D").equals("3D"))
+            if (cameraManager.Settings.Cameras.is3DMode())
             {
                 is3d = true;
             }
@@ -187,7 +187,7 @@ public class HdrManager implements PictureTakeFinish
                 //TODO move saving into new thread for faster picture taking not added yet because of oom
                 File file = getFilePath(end,sdcardpath);
                 uris[count] = Uri.fromFile(file);
-                boolean upsidedownfix = cameraManager.preferences.getBoolean("upsidedown", false);
+                boolean upsidedownfix = cameraManager.Settings.OrientationFix.GET();
 
                 if (count == 0)
                 {
