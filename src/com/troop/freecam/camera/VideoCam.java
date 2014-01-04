@@ -6,7 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.SavePictureTask;
+import com.troop.freecam.utils.SavePictureTask;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 

@@ -1,4 +1,4 @@
-package com.troop.freecam.camera;
+package com.troop.freecam.utils;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;

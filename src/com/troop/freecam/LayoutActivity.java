@@ -1,4 +1,4 @@
-package com.troop.freecam.fragments;
+package com.troop.freecam;
 
 import android.content.Context;
 import android.os.Bundle;

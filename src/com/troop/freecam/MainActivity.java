@@ -26,7 +26,6 @@ import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.fragments.AutoMenuFragment;
 
 import com.troop.freecam.fragments.InfoScreenFragment;
-import com.troop.freecam.fragments.LayoutActivity;
 import com.troop.freecam.fragments.SeekbarViewFragment;
 import com.troop.freecam.fragments.SettingsMenuFagment;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;

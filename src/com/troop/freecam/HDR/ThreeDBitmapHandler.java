@@ -3,20 +3,14 @@ package com.troop.freecam.HDR;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
-import android.media.Metadata;
 import android.net.Uri;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
-import com.troop.freecam.SavePictureTask;
+import com.troop.freecam.utils.SavePictureTask;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by troop on 16.11.13.

@@ -10,6 +10,7 @@ import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.interfaces.SavePictureCallback;
+import com.troop.freecam.utils.SavePicture;
 
 import java.io.File;
 import java.io.FileOutputStream;
