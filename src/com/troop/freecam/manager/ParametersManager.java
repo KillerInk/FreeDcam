@@ -338,7 +338,6 @@ public class ParametersManager
     public class DenoiseClass
     {
         public String[] getDenoiseValues()
-
         {
             String[] noise =  new String[0];
             if(DeviceUtils.isOmap())
@@ -359,7 +358,11 @@ public class ParametersManager
 
         public String getDenoiseValue()
         {
-            return parameters.get("denoise");
+            if(DeviceUtils.isOmap())
+                return parameters.get("vnf");
+            if(DeviceUtils.isQualcomm())
+                return parameters.get("denoise");
+            return "";
         }
     }
 
@@ -512,6 +515,7 @@ public class ParametersManager
             String[] widthHeight = tmp.split("x");
             Width = Integer.parseInt(widthHeight[0]);
             Height = Integer.parseInt(widthHeight[1]);
+            preferences.VideoSize.Set(Width + "x" + Height);
         }
 
 
