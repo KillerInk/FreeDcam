@@ -174,20 +174,29 @@ public class InfoScreenFragment extends Fragment
     {
         try
         {
-            OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get() + "");
-            OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast") + "");
-            OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
-            OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
-            OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation") +"");
+            if (camMan.parametersManager.getSupportBrightness())
+                OnScreenBrightnessValue.setText(camMan.parametersManager.Brightness.Get() + "");
+            if (camMan.parametersManager.getSupportContrast())
+                OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast") + "");
+            if (camMan.parametersManager.getSupportSharpness())
+                OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
+            if (camMan.parametersManager.getSupportSaturation())
+                OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
+            if (camMan.parametersManager.getSupportExposureMode())
+                OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation") +"");
             OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect") +"");
-            OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso") +"");
-            OnScreenFlashValue.setText(camMan.parametersManager.getParameters().get("flash-mode"));
+            if (camMan.parametersManager.getSupportIso())
+                OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso") +"");
+            if (camMan.parametersManager.getSupportFlash())
+                OnScreenFlashValue.setText(camMan.parametersManager.getParameters().get("flash-mode"));
             OnScreenFocusValue.setText(camMan.parametersManager.getParameters().get("focus-mode"));
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             OnScreenPictureValue.setText(size1);
-            OnScreeSceneValue.setText(camMan.parametersManager.getParameters().get("scene-mode"));
-            OnScreenWBValue.setText(camMan.parametersManager.getParameters().get("whitebalance"));
-            if (DeviceUtils.isOmap())
+            if (camMan.parametersManager.getSupportScene())
+                OnScreeSceneValue.setText(camMan.parametersManager.getParameters().get("scene-mode"));
+            if (camMan.parametersManager.getSupportWhiteBalance())
+                OnScreenWBValue.setText(camMan.parametersManager.getParameters().get("whitebalance"));
+            if (DeviceUtils.isOmap() && camMan.parametersManager.getSupportAutoExposure())
                 OnScreeMeterValue.setText(camMan.parametersManager.getParameters().get("auto-exposure"));
         }
         catch (Exception ex)
