@@ -23,15 +23,7 @@ import com.troop.menu.WhiteBalanceMenu;
  */
 public class AutoMenuFragment extends BaseFragment
 {
-    //public ExtendedButton buttonAfPriority;
-    //public ExtendedButton sceneButton;
-    //public ExtendedButton whitebalanceButton;
-    //public ExtendedButton colorButton;
-    //public ExtendedButton isoButton;
-    //public ExtendedButton exposureButton;
     Switch checkboxHDR;
-    //public ExtendedButton buttonMetering;
-
     MenuItemFragment switchAF;
     MenuItemFragment switchScene;
     MenuItemFragment switchWhiteBalance;
@@ -54,29 +46,6 @@ public class AutoMenuFragment extends BaseFragment
 
     private void init()
     {
-        //buttonAfPriority = (ExtendedButton)view.findViewById(R.id.buttonAFPriority);
-        //buttonAfPriority.setOnClickListener(new AFPriorityMenu(camMan,activity));
-
-        //sceneButton = (ExtendedButton) view.findViewById(R.id.buttonScene);
-        //sceneButton.setOnClickListener(new SceneMenu(camMan, activity));
-
-        //whitebalanceButton = (ExtendedButton) view.findViewById(R.id.buttonwhiteBalance);
-        //whitebalanceButton.setOnClickListener(new WhiteBalanceMenu(camMan, activity));
-
-        //colorButton = (ExtendedButton) view.findViewById(R.id.buttoncolor);
-        //colorButton.setOnClickListener(new ColorMenu(camMan, activity));
-
-        //isoButton = (ExtendedButton) view.findViewById(R.id.buttoniso);
-        //isoButton.setOnClickListener(new IsoMenu(camMan, activity));
-
-        //exposureButton = (ExtendedButton) view.findViewById(R.id.button_exposure);
-        //exposureButton.setOnClickListener(new ExposureMenu(camMan, activity));
-
-        //06-12-13*************************************************************
-        //buttonMetering = (ExtendedButton)view.findViewById(R.id.buttonMetering);
-        //buttonMetering.setOnClickListener(new MeteringMenu(camMan,activity));
-        //**********************************************************************
-
         checkboxHDR = (Switch)view.findViewById(R.id.checkBox_hdr);
         checkboxHDR.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,34 +56,22 @@ public class AutoMenuFragment extends BaseFragment
 
 
         FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
-        //if (camMan.parametersManager.getSupportAfpPriority())
-        //{
-            switchAF = new MenuItemFragment(camMan, activity, "AutoFocusPrioritys", "", new AFPriorityMenu(camMan,activity));
-            transaction.add(R.id.auto_menu_fragment_layout, switchAF);
-        //}
+        switchAF = new MenuItemFragment(camMan, activity, "AutoFocusPrioritys", "", new AFPriorityMenu(camMan,activity));
+        transaction.add(R.id.auto_menu_fragment_layout, switchAF);
         switchScene = new MenuItemFragment(camMan,activity,"ScenesModes", "", new SceneMenu(camMan,activity));
         transaction.add(R.id.auto_menu_fragment_layout, switchScene);
-        //if (camMan.parametersManager.getSupportBrightness())
-        //{
-            switchWhiteBalance = new MenuItemFragment(camMan,activity,"WhiteBalanceModes", "", new WhiteBalanceMenu(camMan,activity));
-            transaction.add(R.id.auto_menu_fragment_layout, switchWhiteBalance);
-        //}
+
+        switchWhiteBalance = new MenuItemFragment(camMan,activity,"WhiteBalanceModes", "", new WhiteBalanceMenu(camMan,activity));
+        transaction.add(R.id.auto_menu_fragment_layout, switchWhiteBalance);
+
         switchColor = new MenuItemFragment(camMan,activity,"ColorModes", "", new ColorMenu(camMan,activity));
         switchIso = new MenuItemFragment(camMan,activity,"IsoModes", "", new IsoMenu(camMan,activity));
         switchExposure = new MenuItemFragment(camMan,activity, "ExposureModes", "", new ExposureMenu(camMan,activity));
-        //if (camMan.parametersManager.getSupportAutoExposure())
-        //{
-            switchMetering = new MenuItemFragment(camMan,activity,"MeteringModes","", new MeteringMenu(camMan,activity));
-            transaction.add(R.id.auto_menu_fragment_layout, switchMetering);
-        //}
-
-
-
-
+        switchMetering = new MenuItemFragment(camMan,activity,"MeteringModes","", new MeteringMenu(camMan,activity));
+        transaction.add(R.id.auto_menu_fragment_layout, switchMetering);
         transaction.add(R.id.auto_menu_fragment_layout, switchColor);
         transaction.add(R.id.auto_menu_fragment_layout, switchIso);
         transaction.add(R.id.auto_menu_fragment_layout, switchExposure);
-
         transaction.commit();
     }
 

@@ -11,22 +11,22 @@ public class SettingsManager
 {
     public class Preferences
     {
-    public static final String SwitchCamera = "switchcam";
-    public static final String MODE_3D = "3D";
-    public static final String MODE_2D = "2D";
-    public static final String MODE_Front = "Front";
+        public static final String SwitchCamera = "switchcam";
+        public static final String MODE_3D = "3D";
+        public static final String MODE_2D = "2D";
+        public static final String MODE_Front = "Front";
 
-    public static final String IPP2D = "2d_ipp";
-    public static final String IPP3D = "3d_ipp";
-    public static final String IPPFront = "front_ipp";
+        public static final String IPP2D = "2d_ipp";
+        public static final String IPP3D = "3d_ipp";
+        public static final String IPPFront = "front_ipp";
 
-    public static final String ZSL2D = "2d_zsl";
-    public static final String ZSL3D = "3d_zsl";
-    public static final String ZSLFront = "front_zsl";
+        public static final String ZSL2D = "2d_zsl";
+        public static final String ZSL3D = "3d_zsl";
+        public static final String ZSLFront = "front_zsl";
 
-    public static final String Flash3D = "3d_flash";
-    public static final String Flash2D = "2d_flash";
-    public static final String FlashFront = "front_flash";
+        public static final String Flash3D = "3d_flash";
+        public static final String Flash2D = "2d_flash";
+        public static final String FlashFront = "front_flash";
 
         public static final String Focus2D = "2d_focus";
         public static final String Focus3D = "3d_focus";
