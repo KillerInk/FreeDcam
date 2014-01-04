@@ -1,13 +1,11 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam.fragments;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.troop.freecam.CameraManager;

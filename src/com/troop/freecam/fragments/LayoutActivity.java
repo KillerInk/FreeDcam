@@ -1,6 +1,5 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

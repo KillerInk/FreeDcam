@@ -1,19 +1,15 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Switch;
 
 import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.controls.ExtendedButton;
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;

@@ -1,4 +1,4 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam.fragments;
 
 import android.support.v4.app.Fragment;
 import android.view.View;

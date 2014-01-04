@@ -1,11 +1,7 @@
 package com.troop.freecam;
 
-import android.app.Activity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.ThumbnailUtils;
@@ -15,59 +11,28 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.troop.freecam.activitys.AutoMenuFragment;
+import com.troop.freecam.fragments.AutoMenuFragment;
 
-import com.troop.freecam.activitys.InfoScreenFragment;
-import com.troop.freecam.activitys.LayoutActivity;
-import com.troop.freecam.activitys.SeekbarViewFragment;
-import com.troop.freecam.activitys.SettingsMenuFagment;
-import com.troop.freecam.controls.ExtendedButton;
+import com.troop.freecam.fragments.InfoScreenFragment;
+import com.troop.freecam.fragments.LayoutActivity;
+import com.troop.freecam.fragments.SeekbarViewFragment;
+import com.troop.freecam.fragments.SettingsMenuFagment;
 import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
-import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.manager.MyTimer;
-import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
-import com.troop.menu.AFPriorityMenu;
-import com.troop.menu.ColorMenu;
-import com.troop.menu.DenoiseMenu;
-import com.troop.menu.ExposureMenu;
-import com.troop.menu.FlashMenu;
-import com.troop.menu.FocusMenu;
-import com.troop.menu.IppMenu;
-import com.troop.menu.IsoMenu;
-import com.troop.menu.MeteringMenu;
-import com.troop.menu.PictureFormatMenu;
-import com.troop.menu.PictureSizeMenu;
-import com.troop.menu.PreviewFormatMenu;
-import com.troop.menu.PreviewSizeMenu;
-import com.troop.menu.SceneMenu;
-import com.troop.menu.VideoSizesMenu;
-import com.troop.menu.WhiteBalanceMenu;
-import com.troop.menu.ZslMenu;
-import com.troop.menu.switchcameramenu;
 
 import java.io.File;
 
