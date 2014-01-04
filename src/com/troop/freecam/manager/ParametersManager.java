@@ -19,8 +19,7 @@ public class ParametersManager
 {
 
 
-    public static final String Preferences_Flash3D = "3d_flash";
-    public static final String Preferences_Flash2D = "2d_flash";
+
     public static final String Preferences_Focus2D = "2d_focus";
     public static final String Preferences_Focus3D = "3d_focus";
     public static final String Preferences_FocusFront = "front_focus";
@@ -218,7 +217,6 @@ public class ParametersManager
         //parameters.set("preview-format", "yuv420p");
         if (tmp.equals("3D"))
         {
-            parameters.setFlashMode(preferences.getString(Preferences_Flash3D, "auto"));
             parameters.setFocusMode(preferences.getString(Preferences_Focus3D, "auto"));
             parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance3D,"auto"));
             parameters.setSceneMode(preferences.getString(Preferences_Scene3D,"auto"));
@@ -234,7 +232,6 @@ public class ParametersManager
 
         if(tmp.equals("2D"))
         {
-            parameters.setFlashMode(preferences.getString(Preferences_Flash2D, "auto"));
             parameters.setFocusMode(preferences.getString(Preferences_Focus2D, "auto"));
             parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance2D,"auto"));
             parameters.setSceneMode(preferences.getString(Preferences_Scene2D,"auto"));
@@ -279,6 +276,8 @@ public class ParametersManager
                 //parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
         }
 
+        if (getSupportFlash())
+            parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
         if (getSupportZSL())
             ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get());
 
@@ -395,7 +394,7 @@ public class ParametersManager
     public boolean is3DMode()
     {
         String camvalue = cameraManager.Settings.Cameras.GetCamera();
-        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_3D))
+        if (camvalue.equals(SettingsManager.Preferences.MODE_3D))
         {
             return true;
         }
@@ -406,7 +405,7 @@ public class ParametersManager
     public boolean is2DMode()
     {
         String camvalue = cameraManager.Settings.Cameras.GetCamera();
-        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_2D))
+        if (camvalue.equals(SettingsManager.Preferences.MODE_2D))
         {
             return true;
         }
@@ -417,7 +416,7 @@ public class ParametersManager
     public boolean isFrontMode()
     {
         String camvalue = cameraManager.Settings.Cameras.GetCamera();
-        if (camvalue.equals(SettingsManager.SwitchCamera_MODE_Front))
+        if (camvalue.equals(SettingsManager.Preferences.MODE_Front))
         {
             return true;
         }

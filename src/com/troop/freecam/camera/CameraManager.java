@@ -211,7 +211,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     {
         String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(Settings.SwitchCamera_MODE_3D) && !tmp.equals(Settings.SwitchCamera_MODE_2D))
+        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
         {
             mCamera.setDisplayOrientation(0);
             //mParameters.setRotation(0);

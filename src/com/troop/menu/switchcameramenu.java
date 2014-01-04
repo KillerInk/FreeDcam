@@ -26,18 +26,18 @@ public class switchcameramenu extends  BaseMenu
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         if (Camera.getNumberOfCameras() == 3)
         {
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_3D);
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_2D);
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_3D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_2D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
         }
         if (Camera.getNumberOfCameras() == 2)
         {
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_2D);
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_2D);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
         }
         if (Camera.getNumberOfCameras() == 1)
         {
-            popupMenu.getMenu().add((CharSequence) SettingsManager.SwitchCamera_MODE_Front);
+            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
         }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

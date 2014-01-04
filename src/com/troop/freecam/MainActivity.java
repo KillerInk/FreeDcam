@@ -444,7 +444,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     public void SwitchCropButton()
     {
-        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             settingsFragment.crop_box.setVisibility(View.GONE);
         }

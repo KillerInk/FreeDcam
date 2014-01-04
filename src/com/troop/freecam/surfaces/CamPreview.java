@@ -80,7 +80,7 @@ public class CamPreview extends BasePreview {
         if (hasReal3d)
         {
             //dont get the preferences from the SettingManager, its not init at this time
-            if (preferences.getString(SettingsManager.SwitchCamera, SettingsManager.SwitchCamera_MODE_Front).equals(SettingsManager.SwitchCamera_MODE_3D))
+            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
             {
                 if(preferences.getBoolean("upsidedown", false) == false)
                     mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

@@ -9,18 +9,25 @@ import com.troop.freecam.camera.CameraManager;
  */
 public class SettingsManager
 {
+    public class Preferences
+    {
     public static final String SwitchCamera = "switchcam";
-    public static final String SwitchCamera_MODE_3D = "3D";
-    public static final String SwitchCamera_MODE_2D = "2D";
-    public static final String SwitchCamera_MODE_Front = "Front";
+    public static final String MODE_3D = "3D";
+    public static final String MODE_2D = "2D";
+    public static final String MODE_Front = "Front";
 
-    public static final String Preferences_IPP2D = "2d_ipp";
-    public static final String Preferences_IPP3D = "3d_ipp";
-    public static final String Preferences_IPPFront = "front_ipp";
+    public static final String IPP2D = "2d_ipp";
+    public static final String IPP3D = "3d_ipp";
+    public static final String IPPFront = "front_ipp";
 
-    public static final String Preferences_ZSL2D = "2d_zsl";
-    public static final String Preferences_ZSL3D = "3d_zsl";
-    public static final String Preferences_ZSLFront = "front_zsl";
+    public static final String ZSL2D = "2d_zsl";
+    public static final String ZSL3D = "3d_zsl";
+    public static final String ZSLFront = "front_zsl";
+
+    public static final String Flash3D = "3d_flash";
+    public static final String Flash2D = "2d_flash";
+    public static final String FlashFront = "front_flash";
+    }
 
     enum CameraValues
     {
@@ -34,6 +41,7 @@ public class SettingsManager
     public CamerasClass Cameras;
     public ImagePostProcessingClass ImagePostProcessing;
     public ZeroShutterLagClass ZeroShutterLag;
+    public FlashModeClass FlashMode;
 
     public SettingsManager(CameraManager cameraManager, SharedPreferences preferences) {
         this.cameraManager = cameraManager;
@@ -41,25 +49,26 @@ public class SettingsManager
         Cameras = new CamerasClass();
         ImagePostProcessing = new ImagePostProcessingClass();
         ZeroShutterLag = new ZeroShutterLagClass();
+        FlashMode = new FlashModeClass();
     }
 
     public class CamerasClass
     {
         public void SetCamera(String value)
         {
-            preferences.edit().putString(SwitchCamera, value).commit();
+            preferences.edit().putString(Preferences.SwitchCamera, value).commit();
         }
 
         public String GetCamera()
         {
-            return preferences.getString(SwitchCamera, SwitchCamera_MODE_Front);
+            return preferences.getString(Preferences.SwitchCamera, Preferences.MODE_Front);
         }
 
         public CameraValues GetCameraEnum()
         {
-            if (GetCamera() == SwitchCamera_MODE_3D)
+            if (GetCamera() == Preferences.MODE_3D)
                 return CameraValues.Back3D;
-            else if (GetCamera() == SwitchCamera_MODE_2D)
+            else if (GetCamera() == Preferences.MODE_2D)
                 return CameraValues.Back2D;
             else
                 return CameraValues.Front;
@@ -68,11 +77,11 @@ public class SettingsManager
         public void SetCameraEnum(CameraValues values)
         {
             if (values == CameraValues.Back3D)
-                SetCamera(SwitchCamera_MODE_3D);
+                SetCamera(Preferences.MODE_3D);
             if (values == CameraValues.Back2D)
-                SetCamera(SwitchCamera_MODE_2D);
+                SetCamera(Preferences.MODE_2D);
             if (values == CameraValues.Front)
-                SetCamera(SwitchCamera_MODE_Front);
+                SetCamera(Preferences.MODE_Front);
         }
     }
 
@@ -121,7 +130,7 @@ public class SettingsManager
                     val =  preferences.getString(twoD, defaultVal);
                     break;
                 default:
-                    val =  preferences.getString(SettingsManager.Preferences_IPPFront, defaultVal);
+                    val =  preferences.getString(SettingsManager.Preferences.IPPFront, defaultVal);
             }
             return val;
         }
@@ -131,7 +140,7 @@ public class SettingsManager
     {
         public ImagePostProcessingClass()
         {
-            super(SettingsManager.Preferences_IPP3D, SettingsManager.Preferences_IPP2D, SettingsManager.Preferences_IPPFront, "ldc-nsf");
+            super(SettingsManager.Preferences.IPP3D, SettingsManager.Preferences.IPP2D, SettingsManager.Preferences.IPPFront, "ldc-nsf");
         }
     }
 
@@ -139,7 +148,15 @@ public class SettingsManager
     {
         public ZeroShutterLagClass()
         {
-            super(SettingsManager.Preferences_ZSL3D, SettingsManager.Preferences_ZSL2D, SettingsManager.Preferences_ZSLFront, "high-quality");
+            super(SettingsManager.Preferences.ZSL3D, SettingsManager.Preferences.ZSL2D, SettingsManager.Preferences.ZSLFront, "high-quality");
+        }
+    }
+
+    public class FlashModeClass extends BaseClass
+    {
+        public FlashModeClass()
+        {
+            super(Preferences.Flash3D, Preferences.Flash2D, Preferences.FlashFront, "off");
         }
     }
 }

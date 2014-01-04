@@ -89,7 +89,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         Log.d("PictureCallback", "DATAsize:" + data.length);
         boolean is3d = false;
-        if (Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
+        if (Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             is3d = true;
         }

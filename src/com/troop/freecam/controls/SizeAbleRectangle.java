@@ -77,7 +77,7 @@ public class SizeAbleRectangle
             if (drawRectangle == true && Enabled && canvas != null)
             {
                 String tmp = cameraManager.Settings.Cameras.GetCamera();
-                if (tmp.equals(SettingsManager.SwitchCamera_MODE_3D))
+                if (tmp.equals(SettingsManager.Preferences.MODE_3D))
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;

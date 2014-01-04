@@ -156,7 +156,7 @@ public class SettingsMenuFagment extends BaseFragment
                 }
             }
         });
-        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.SwitchCamera_MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             crop_box.setVisibility(View.GONE);
         }

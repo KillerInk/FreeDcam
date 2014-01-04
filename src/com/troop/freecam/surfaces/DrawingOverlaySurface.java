@@ -75,7 +75,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
 
         if (hasReal3d)
         {
-            if (preferences.getString(SettingsManager.SwitchCamera, SettingsManager.SwitchCamera_MODE_Front).equals(SettingsManager.SwitchCamera_MODE_3D))
+            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
             {
                 //mReal3D.setViewMode(1);
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

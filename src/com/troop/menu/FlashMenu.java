@@ -10,6 +10,7 @@ import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 27.08.13.
@@ -49,17 +50,24 @@ public class FlashMenu extends BaseMenu
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    String tmpp = "torch";
                     if(activity.recordVideo == false)
-                    camMan.parametersManager.getParameters().setFlashMode(tmp);
+                    {
+                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.Settings.FlashMode.Set(tmp);
+                    }
                     if(activity.recordVideo == true)
-                       camMan.parametersManager.getParameters().setFlashMode(tmpp);
+                    {
+                        if (!tmp.equals("off"))
+                            tmp = "torch";
+                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.Settings.FlashMode.Set(tmp);
+                    }
 
 
                     if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Flash3D, tmp).commit();
+                        preferences.edit().putString(SettingsManager.Preferences.Flash3D, tmp).commit();
                     if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Flash2D, tmp).commit();
+                        preferences.edit().putString(SettingsManager.Preferences.Flash2D, tmp).commit();
                     //if (camvalue == CameraManager.SwitchCamera_MODE_Front)
                     //preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
                     //preferences.edit().putString("flash", tmp).commit();

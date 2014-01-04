@@ -121,7 +121,7 @@ public class VideoCam extends PictureCam
     {
         String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(SettingsManager.SwitchCamera_MODE_3D) && !tmp.equals(SettingsManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
         {
             // mCamera.setDisplayOrientation(0);
             parametersManager.getParameters().setRotation(0);
