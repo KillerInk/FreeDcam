@@ -18,11 +18,11 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true" />
 
-        <!--<com.troop.freecam.surfaces.DrawingOverlaySurface
+        <com.troop.freecam.surfaces.DrawingOverlaySurface
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/view"
-            android:alpha="0.5" />*/ -->
+            android:alpha="0.5" />
 
         <Button
             android:layout_width="@dimen/app_icon_size"
@@ -46,7 +46,7 @@
             android:layout_marginRight="@dimen/app_icon_size"
             android:layout_alignRight="@+id/button_switchVideoPicture" />
 
-        <com.troop.freecam.controls.InfoScreenControl
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,9 +56,9 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="true"
             android:layout_marginRight="80dp"
-            android:longClickable="true"/>
+            android:longClickable="true">
 
-
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -203,16 +203,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.troop.freecam.controls.AutoMenuControl
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutAuto"
                     android:measureWithLargestChild="false"
                     android:baselineAligned="false"
-                    android:background="@drawable/camera_frame_box_ver_bg"/>
+                    android:background="@drawable/camera_frame_box_ver_bg">
 
 
-
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -225,7 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.troop.freecam.controls.SettingsMenuControl
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutSettings"
@@ -233,9 +233,10 @@
                     android:measureWithLargestChild="false"
                     android:baselineAligned="false"
                     android:background="@drawable/camera_frame_box_ver_bg"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal">
 
 
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"

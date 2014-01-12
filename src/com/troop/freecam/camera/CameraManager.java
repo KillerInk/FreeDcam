@@ -194,7 +194,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     protected void OpenCamera() {
         super.OpenCamera();
         try {
-            mCamera.setPreviewDisplay(activity.mPreview.getHolder());
+            mCamera.setPreviewDisplay(activity.mPreview.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
             if(Settings.OrientationFix.GET() == true)
                 fixCameraDisplayOrientation();
@@ -230,6 +230,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         if (restarted)
         {
             parametersManager.SetCameraParameters(mCamera.getParameters());
+
             mCamera.stopPreview();
             parametersManager.SetJpegQuality(100);
             parametersManager.SetContrast(100);

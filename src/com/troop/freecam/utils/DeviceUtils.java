@@ -48,4 +48,9 @@ public class DeviceUtils
         String s = Build.MODEL;
         return s.equals("LG-D800") || s.equals("LG-D801") || s.equals("LG-D802") || s.equals("LG-D803") || s.equals("LG-D804") || s.equals("LG-D805") || s.equals("LG-D820") || s.equals("LG-F320") || s.equals("LG-F320S") || s.equals("LG-F320L") || s.equals("F320K") || s.equals("LG-VS980");
     }
+
+    public static boolean isEvo3d()
+    {
+        return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU");
+    }
 }
