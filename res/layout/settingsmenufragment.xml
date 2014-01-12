@@ -52,6 +52,67 @@
                     android:singleLine="true"
                     android:text="Crop 16/9"
                     android:paddingLeft="4dp" />
+
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText="Front"
+                    custom:TextViewText="Select Camera"
+                    android:id="@+id/switch_camera_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Flash Mode"
+                    android:id="@+id/switch_flash_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Focus Mode"
+                    android:id="@+id/switch_focus_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Picture Size"
+                    android:id="@+id/switch_picturesize_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Preview Size"
+                    android:id="@+id/switch_previewsize_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Preview Format"
+                    android:id="@+id/switch_previewformat_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Video Size"
+                    android:id="@+id/switch_videosize_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="ImagePostProcessing"
+                    android:id="@+id/switch_ipp_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="Denoise"
+                    android:id="@+id/switch_denoise_control" />
+                <com.troop.freecam.controls.MenuItemControl
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/app_icon_size"
+                    custom:ButtonText=""
+                    custom:TextViewText="ZeroShutterLag"
+                    android:id="@+id/switch_zsl_control" />
             </LinearLayout>
         </ScrollView>
 

@@ -30,6 +30,50 @@
             android:text="HDR Mode"
             android:paddingLeft="4dp"
             android:textSize="@dimen/TextSizeSmallPlus" />
+
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="AutoFocusPrioritys"
+                android:id="@+id/switch_AfPriority_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="SceneModes"
+                android:id="@+id/switch_scenemode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="WhiteBalanceModes"
+                android:id="@+id/switch_wbModes_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="ColorModes"
+                android:id="@+id/switch_colormode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="IsoModes"
+                android:id="@+id/switch_isomode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="ExposureModes"
+                android:id="@+id/switch_exposuremode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="MeteringModes"
+                android:id="@+id/switch_meteringmode_control" />
+
         </LinearLayout>
     </ScrollView>
 

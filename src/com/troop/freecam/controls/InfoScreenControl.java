@@ -1,21 +1,21 @@
-package com.troop.freecam.fragments;
+package com.troop.freecam.controls;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 30.12.13.
  */
-public class InfoScreenFragment extends Fragment
+public class InfoScreenControl extends LinearLayout
 {
 
 
@@ -48,10 +48,34 @@ public class InfoScreenFragment extends Fragment
     protected TextView OnScreenWBValue;
 
     CameraManager camMan;
-    View view;
+    Context context;
+
+    public InfoScreenControl(Context context) {
+        super(context);
+        this.context = context;
+        init(context);
+    }
+
+    public InfoScreenControl(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        init(context);
+    }
+
+    public InfoScreenControl(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        init(context);
+    }
+
+    public void SetCameraManager(CameraManager cameraManager)
+    {
+        this.camMan = cameraManager;
+
+    }
 
     //******************************************************
-    public InfoScreenFragment()
+    /*public InfoScreenFragment()
     {}
 
     public InfoScreenFragment(CameraManager camMan) {
@@ -65,42 +89,44 @@ public class InfoScreenFragment extends Fragment
                 container, false);
         onScreenText();
         return view;
-    }
+    }*/
 
-    private void init()
+    private void init(Context context)
     {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.infoscreenfragment, this);
         onScreenText();
     }
 
     private void onScreenText()
     {
         try {
-            OnScreenBrightnessText = (TextView)view.findViewById(R.id.textViewBrightnessText);
-            OnScreenBrightnessValue = (TextView) view.findViewById(R.id.textViewBrightnessValue);
-            OnScreenContrastText = (TextView) view.findViewById(R.id.textViewContrastText);
-            OnScreenContrastValue = (TextView) view.findViewById(R.id.textViewContrastValue);
-            OnScreenEVText = (TextView) view.findViewById(R.id.textViewEVText);
-            OnScreenEVValue = (TextView) view.findViewById(R.id.textViewEvValue);
-            OnScreenFlashText = (TextView) view.findViewById(R.id.textViewFlashtext);
-            OnScreenFlashValue = (TextView) view.findViewById(R.id.textViewFlashValue);
-            OnScreenEffectText = (TextView) view.findViewById(R.id.textViewEffetText);
-            OnScreenEffectValue = (TextView) view.findViewById(R.id.textViewEffectValue);
-            OnScreenFocusText = (TextView) view.findViewById(R.id.textViewFocusText);
-            OnScreenFocusValue = (TextView) view.findViewById(R.id.textViewFocusValue);
-            OnScreeISOText = (TextView) view.findViewById(R.id.textViewISOText);
-            OnScreeISOValue = (TextView) view.findViewById(R.id.textViewISOValue);
-            OnScreeMeterText = (TextView) view.findViewById(R.id.textViewMeterText);
-            OnScreeMeterValue = (TextView) view.findViewById(R.id.textViewMeterValue);
-            OnScreenSaturationText = (TextView) view.findViewById(R.id.textViewSatuText);
-            OnScreeSaturationValue = (TextView) view.findViewById(R.id.textViewSatuValue);
-            OnScreeSceneText = (TextView) view.findViewById(R.id.textViewSceneText);
-            OnScreeSceneValue = (TextView) view.findViewById(R.id.textViewSceneValue);
-            OnScreenPictureText = (TextView) view.findViewById(R.id.textViewPictureText);
-            OnScreenPictureValue = (TextView) view.findViewById(R.id.textViewPictureValue);
-            OnScreeSharpnessText = (TextView) view.findViewById(R.id.textViewSharpText);
-            OnScreenSharpnessValue = (TextView) view.findViewById(R.id.textViewSharpValue);
-            OnScreenWBText = (TextView) view.findViewById(R.id.textViewWBText);
-            OnScreenWBValue = (TextView) view.findViewById(R.id.textViewWBValue);
+            OnScreenBrightnessText = (TextView)findViewById(R.id.textViewBrightnessText);
+            OnScreenBrightnessValue = (TextView) findViewById(R.id.textViewBrightnessValue);
+            OnScreenContrastText = (TextView) findViewById(R.id.textViewContrastText);
+            OnScreenContrastValue = (TextView) findViewById(R.id.textViewContrastValue);
+            OnScreenEVText = (TextView) findViewById(R.id.textViewEVText);
+            OnScreenEVValue = (TextView) findViewById(R.id.textViewEvValue);
+            OnScreenFlashText = (TextView) findViewById(R.id.textViewFlashtext);
+            OnScreenFlashValue = (TextView) findViewById(R.id.textViewFlashValue);
+            OnScreenEffectText = (TextView) findViewById(R.id.textViewEffetText);
+            OnScreenEffectValue = (TextView) findViewById(R.id.textViewEffectValue);
+            OnScreenFocusText = (TextView) findViewById(R.id.textViewFocusText);
+            OnScreenFocusValue = (TextView) findViewById(R.id.textViewFocusValue);
+            OnScreeISOText = (TextView) findViewById(R.id.textViewISOText);
+            OnScreeISOValue = (TextView) findViewById(R.id.textViewISOValue);
+            OnScreeMeterText = (TextView) findViewById(R.id.textViewMeterText);
+            OnScreeMeterValue = (TextView) findViewById(R.id.textViewMeterValue);
+            OnScreenSaturationText = (TextView) findViewById(R.id.textViewSatuText);
+            OnScreeSaturationValue = (TextView) findViewById(R.id.textViewSatuValue);
+            OnScreeSceneText = (TextView) findViewById(R.id.textViewSceneText);
+            OnScreeSceneValue = (TextView) findViewById(R.id.textViewSceneValue);
+            OnScreenPictureText = (TextView) findViewById(R.id.textViewPictureText);
+            OnScreenPictureValue = (TextView) findViewById(R.id.textViewPictureValue);
+            OnScreeSharpnessText = (TextView) findViewById(R.id.textViewSharpText);
+            OnScreenSharpnessValue = (TextView) findViewById(R.id.textViewSharpValue);
+            OnScreenWBText = (TextView) findViewById(R.id.textViewWBText);
+            OnScreenWBValue = (TextView) findViewById(R.id.textViewWBValue);
         }
         catch (NullPointerException ex)
         {
@@ -206,11 +232,11 @@ public class InfoScreenFragment extends Fragment
 
     public void Hide()
     {
-        view.setVisibility(View.GONE);
+        setVisibility(View.GONE);
     }
 
     public void Show()
     {
-        view.setVisibility(View.VISIBLE);
+        setVisibility(View.VISIBLE);
     }
 }

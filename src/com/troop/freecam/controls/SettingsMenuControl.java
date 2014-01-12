@@ -1,17 +1,20 @@
-package com.troop.freecam.fragments;
+package com.troop.freecam.controls;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
-import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.fragments.BaseFragment;
+import com.troop.freecam.fragments.InfoScreenFragment;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.menu.DenoiseMenu;
 import com.troop.menu.FlashMenu;
@@ -27,11 +30,11 @@ import com.troop.menu.switchcameramenu;
 /**
  * Created by troop on 01.01.14.
  */
-public class SettingsMenuFagment extends BaseFragment
+public class SettingsMenuControl extends LinearLayout
 {
     public Switch upsidedown;
     public Switch crop_box;
-    InfoScreenFragment infoScreenFragment;
+    InfoScreenControl infoScreenFragment;
     public Switch checkBoxOnScreen;
     public MenuItemControl switchCamera;
     MenuItemControl switchFlash;
@@ -44,8 +47,30 @@ public class SettingsMenuFagment extends BaseFragment
     MenuItemControl switchIPP;
     MenuItemControl switchDenoise;
     MenuItemControl switchZSL;
+    CameraManager camMan;
+    MainActivity activity;
 
-    public SettingsMenuFagment(CameraManager camMan, MainActivity activity, InfoScreenFragment infoScreenFragment)
+    public SettingsMenuControl(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    public SettingsMenuControl(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SettingsMenuControl(Context context) {
+        super(context);
+    }
+
+    public void SetStuff(CameraManager cameraManager, MainActivity activity, InfoScreenControl infoScreenFragment)
+    {
+        this.camMan = cameraManager;
+        this.activity = activity;
+        this.infoScreenFragment = infoScreenFragment;
+        initSettingsMenuButtons();
+    }
+
+    /*public SettingsMenuControl(CameraManager camMan, MainActivity activity, InfoScreenFragment infoScreenFragment)
     {
         super(camMan, activity);
         this.infoScreenFragment = infoScreenFragment;
@@ -58,11 +83,16 @@ public class SettingsMenuFagment extends BaseFragment
                 container, false);
         initSettingsMenuButtons();
         return view;
-    }
+    }*/
 
     private void initSettingsMenuButtons()
     {
-        upsidedown = (Switch) view.findViewById(R.id.button_fixupsidedown);
+
+        LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.settingsmenufragment, this);
+
+
+        upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
 
         if (camMan.Settings.OrientationFix.GET())
             upsidedown.setChecked(true);
@@ -88,7 +118,7 @@ public class SettingsMenuFagment extends BaseFragment
 
             }
         });
-        crop_box = (Switch)view.findViewById(R.id.checkBox_crop);
+        crop_box = (Switch)findViewById(R.id.checkBox_crop);
         crop_box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -113,7 +143,7 @@ public class SettingsMenuFagment extends BaseFragment
         {
             crop_box.setChecked(true);
         }
-        checkBoxOnScreen = (Switch)view.findViewById(R.id.checkBoxOnscreen);
+        checkBoxOnScreen = (Switch)findViewById(R.id.checkBoxOnscreen);
         checkBoxOnScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -130,42 +160,42 @@ public class SettingsMenuFagment extends BaseFragment
         });
 
         //switchCamera = new MenuItemFragment(camMan, activity, "Select Camera", "Front", new switchcameramenu(camMan, activity));
-        switchCamera = (MenuItemControl)view.findViewById(R.id.switch_camera_control);
+        switchCamera = (MenuItemControl)findViewById(R.id.switch_camera_control);
         switchCamera.SetOnClickListner(new switchcameramenu(camMan, activity));
 
 
         //switchFlash = new MenuItemFragment(camMan, activity, "Flash Mode", "", new FlashMenu(camMan, activity));
-        switchFlash = (MenuItemControl)view.findViewById(R.id.switch_flash_control);
+        switchFlash = (MenuItemControl)findViewById(R.id.switch_flash_control);
         switchFlash.SetOnClickListner(new FlashMenu(camMan, activity));
         //switchFocus = new MenuItemFragment(camMan,activity, "Focus Mode", "", new FocusMenu(camMan, activity));
-        switchFocus = (MenuItemControl)view.findViewById(R.id.switch_focus_control);
+        switchFocus = (MenuItemControl)findViewById(R.id.switch_focus_control);
         switchFocus.SetOnClickListner(new FocusMenu(camMan, activity));
         //switchPictureFormat = new MenuItemFragment(camMan,activity, "Picture Format", "", new PictureFormatMenu(camMan,activity));
         //switchPictureSize = new MenuItemFragment(camMan,activity,"Picture Size","", new PictureSizeMenu(camMan, activity));
-        switchPictureSize = (MenuItemControl)view.findViewById(R.id.switch_picturesize_control);
+        switchPictureSize = (MenuItemControl)findViewById(R.id.switch_picturesize_control);
         switchPictureSize.SetOnClickListner(new PictureSizeMenu(camMan, activity));
 
         //switchPreviewSize = new MenuItemFragment(camMan, activity,"Preview Size", "", new PreviewSizeMenu(camMan, activity));
-        switchPreviewSize = (MenuItemControl)view.findViewById(R.id.switch_previewsize_control);
+        switchPreviewSize = (MenuItemControl)findViewById(R.id.switch_previewsize_control);
         switchPreviewSize.SetOnClickListner(new PreviewSizeMenu(camMan, activity));
 
         //switchPreviewFormat = new MenuItemFragment(camMan, activity, "Preview Format", "", new PreviewFormatMenu(camMan, activity));
-        switchPreviewFormat = (MenuItemControl)view.findViewById(R.id.switch_previewformat_control);
+        switchPreviewFormat = (MenuItemControl)findViewById(R.id.switch_previewformat_control);
         switchPreviewFormat.SetOnClickListner(new PreviewFormatMenu(camMan, activity));
 
         //switchVideoSize = new MenuItemFragment(camMan, activity, "Video Size", "", new VideoSizesMenu(camMan,activity));
-        switchVideoSize = (MenuItemControl)view.findViewById(R.id.switch_videosize_control);
+        switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
         switchVideoSize.SetOnClickListner(new VideoSizesMenu(camMan, activity));
 
         //switchIPP =new MenuItemFragment(camMan, activity, "ImagePostProcessing", "", new IppMenu(camMan,activity));
-        switchIPP = (MenuItemControl)view.findViewById(R.id.switch_ipp_control);
+        switchIPP = (MenuItemControl)findViewById(R.id.switch_ipp_control);
         switchIPP.SetOnClickListner(new IppMenu(camMan,activity));
 
         //switchDenoise = new MenuItemFragment(camMan, activity, "Denoise", "", new DenoiseMenu(camMan,activity));
-        switchDenoise = (MenuItemControl)view.findViewById(R.id.switch_denoise_control);
+        switchDenoise = (MenuItemControl)findViewById(R.id.switch_denoise_control);
         switchDenoise.SetOnClickListner(new DenoiseMenu(camMan,activity));
 
-        switchZSL = (MenuItemControl) view.findViewById(R.id.switch_zsl_control);
+        switchZSL = (MenuItemControl)findViewById(R.id.switch_zsl_control);
         switchZSL.SetOnClickListner(new ZslMenu(camMan,activity));
         //switchZSL = new MenuItemFragment(camMan, activity, "ZeroShutterLag", "", new ZslMenu(camMan,activity));
 
@@ -187,12 +217,12 @@ public class SettingsMenuFagment extends BaseFragment
     }
     public void Hide()
     {
-        view.setVisibility(View.GONE);
+        setVisibility(View.GONE);
     }
 
     public void Show()
     {
-        view.setVisibility(View.VISIBLE);
+        setVisibility(View.VISIBLE);
     }
 
     public void UpdateUI(boolean parametersReseted)

@@ -23,6 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.AutoMenuControl;
+import com.troop.freecam.controls.InfoScreenControl;
+import com.troop.freecam.controls.SettingsMenuControl;
 import com.troop.freecam.fragments.AutoMenuFragment;
 
 import com.troop.freecam.fragments.InfoScreenFragment;
@@ -59,9 +62,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     //*******************
     public Boolean AFS_enable;
     Button AfAssitButton;
-    SettingsMenuFagment settingsFragment;
-    InfoScreenFragment infoScreenFragment;
-    AutoMenuFragment autoMenuFragment;
+    SettingsMenuControl settingsFragment;
+    InfoScreenControl infoScreenFragment;
+    AutoMenuControl autoMenuFragment;
     SeekbarViewFragment seekbarViewFragment;
     int currentZoom = 0;
     SensorManager sensorManager;
@@ -74,7 +77,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public boolean recordVideo = false;
     protected CameraManager camMan;
     public CamPreview mPreview;
-    public DrawingOverlaySurface drawSurface;
+    //public DrawingOverlaySurface drawSurface;
     SurfaceHolder holder;
 
     //private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -87,7 +90,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         recordVideo = preferences.getBoolean("recordVideo", false);
-        drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
+        //drawSurface = (DrawingOverlaySurface) findViewById(R.id.view);
         mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
@@ -96,20 +99,25 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         initButtons();
 
-        infoScreenFragment = new InfoScreenFragment(camMan);
-        getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
+        infoScreenFragment = (InfoScreenControl) findViewById(R.id.infoScreenContainer);
+        infoScreenFragment.SetCameraManager(camMan);
+        //getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
 
-        settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
-        getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
+        settingsFragment = (SettingsMenuControl)findViewById(R.id.LayoutSettings);
+        settingsFragment.SetStuff(camMan, this, infoScreenFragment);
+        //settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
+        //getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
 
-        autoMenuFragment = new AutoMenuFragment(camMan, this);
-        getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
+        //autoMenuFragment = new AutoMenuFragment(camMan, this);
+        //getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
+        autoMenuFragment = (AutoMenuControl)findViewById(R.id.LayoutAuto);
+        autoMenuFragment.SetCameraManager(camMan, this);
         seekbarViewFragment = new SeekbarViewFragment(camMan, this);
         getSupportFragmentManager().beginTransaction().add(R.id.tableVIEW, seekbarViewFragment).commit();
 
 
         mPreview.SetCameraManager(camMan);
-        drawSurface.SetCameraManager(camMan);
+        //drawSurface.SetCameraManager(camMan);
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
@@ -500,14 +508,14 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 
             //Crosshair appairing
-            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
+            /*if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {
                 drawSurface.drawingRectHelper.Enabled = true;
             }
             else
             {
                 drawSurface.drawingRectHelper.Enabled = false;
-            }
+            }*/
             infoScreenFragment.showtext();
 
         }
