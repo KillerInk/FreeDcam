@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -27,11 +26,11 @@ import com.troop.freecam.controls.AutoMenuControl;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.SeekbarViewControl;
 import com.troop.freecam.controls.SettingsMenuControl;
-import com.troop.freecam.surfaces.DrawingOverlaySurface;
+import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;

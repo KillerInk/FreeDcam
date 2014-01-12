@@ -9,7 +9,6 @@ import android.os.Environment;
 import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.utils.SavePictureTask;
 
-
 import java.io.File;
 
 /**

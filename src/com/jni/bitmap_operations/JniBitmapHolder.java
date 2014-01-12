@@ -1,11 +1,10 @@
 package com.jni.bitmap_operations;
-import java.io.FileOutputStream;
-import java.nio.ByteBuffer;
 
-import android.R.integer;
-import android.R.string;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 
 public class JniBitmapHolder
   {

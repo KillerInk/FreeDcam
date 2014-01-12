@@ -1,21 +1,18 @@
 package com.troop.freecam.utils;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
+import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
 import java.io.IOException;

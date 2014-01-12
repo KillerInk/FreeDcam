@@ -2,8 +2,6 @@ package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
 
-import com.troop.freecam.camera.CameraManager;
-
 /**
  * Created by troop on 04.01.14.
  */

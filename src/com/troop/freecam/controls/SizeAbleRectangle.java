@@ -11,11 +11,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.surfaces.DrawingOverlaySurface;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.surfaces.DrawingOverlaySurface;
 
 /**
  * Created by troop on 24.09.13.

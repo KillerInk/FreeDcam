@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="fill_horizontal"

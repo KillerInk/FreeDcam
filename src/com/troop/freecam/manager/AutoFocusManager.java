@@ -4,8 +4,8 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.util.Log;
 
-import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by troop on 31.08.13.

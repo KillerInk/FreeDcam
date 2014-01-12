@@ -1,9 +1,7 @@
 package com.troop.freecam.camera;
 
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 
-import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 
 /**

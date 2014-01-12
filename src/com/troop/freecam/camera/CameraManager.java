@@ -1,6 +1,5 @@
 package com.troop.freecam.camera;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -11,10 +10,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.os.StatFs;
-
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.AutoFocusManager;

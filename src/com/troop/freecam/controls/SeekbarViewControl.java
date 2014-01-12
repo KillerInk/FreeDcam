@@ -1,11 +1,9 @@
 package com.troop.freecam.controls;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TableRow;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-
 import com.troop.freecam.manager.ManualSaturationManager;
 
 /**
