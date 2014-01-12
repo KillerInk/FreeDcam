@@ -2,6 +2,7 @@ package com.troop.freecam.manager;
 
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
@@ -209,7 +210,8 @@ public class ParametersManager
             ExposureMode.set(cameraManager.Settings.ExposureMode.Get());
 
         setPictureSize(cameraManager.Settings.PictureSize.Get());
-        setPreviewSize(cameraManager.Settings.PreviewSize.Get());
+        //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
+        setOptimalPreviewSize();
 
         parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
 
@@ -253,6 +255,12 @@ public class ParametersManager
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPreviewSize(w, h);
         onpreviewsizehasChanged(w,h);
+    }
+    private void setOptimalPreviewSize()
+    {
+        Display display = cameraManager.activity.getWindowManager().getDefaultDisplay();
+        Camera.Size optimal = getOptimalPreviewSize(parameters.getSupportedPreviewSizes(),display.getWidth() , display.getHeight());
+        parameters.setPreviewSize(optimal.width, optimal.height);
     }
 
     public void SetPreviewSizeToCameraParameters(int w, int h)
@@ -753,5 +761,40 @@ public class ParametersManager
         {
             parameters.set("preview-format", val);
         }
+    }
+
+    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.05;
+        double targetRatio = (double) w / h;
+        if (sizes == null)
+            return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+
+        int targetHeight = h;
+
+        // Try to find an size match aspect ratio and size
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
+                continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+
+        // Cannot find the one match the aspect ratio, ignore the requirement
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
     }
 }

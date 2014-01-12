@@ -82,6 +82,9 @@ public class SettingsManager
         Back3D,
     }
 
+    public int CameraCount = 0;
+    public int CurrentCamera = 0;
+
     SharedPreferences preferences;
     public CamerasClass Cameras;
     public ImagePostProcessingClass ImagePostProcessing;
