@@ -184,50 +184,55 @@ public class ParametersManager
 
     private void loadDefaultOrLastSavedSettings()
     {
-        if(DeviceUtils.isQualcomm())
+        /*if(DeviceUtils.isQualcomm())
         {
             parameters.set("denoise","denoise-off");
             parameters.set("power-mode","Normal_Power");
             parameters.set("mce","disable");
-        }
+        }*/
 
-        if (getSupportAfpPriority())
+        if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
             AfPriority.Set(preferences.afPriority.Get());
 
-        if (getSupportIso())
+        if (getSupportIso() && !preferences.IsoMode.Get().equals(""))
             Iso.set(preferences.IsoMode.Get());
 
-        if (getSupportScene())
+        if (getSupportScene() && !preferences.SceneMode.Get().equals(""))
             SceneMode.set(preferences.SceneMode.Get());
 
-        if (getSupportWhiteBalance())
+        if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
             WhiteBalance.set(preferences.WhiteBalanceMode.Get());
 
-        if (getSupportAutoExposure())
+        if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
             parameters.set("auto-exposure", preferences.MeteringMode.Get());
 
-        if (getSupportExposureMode())
+        if (getSupportExposureMode() && !cameraManager.Settings.ExposureMode.Get().equals(""))
             ExposureMode.set(cameraManager.Settings.ExposureMode.Get());
 
-        setPictureSize(cameraManager.Settings.PictureSize.Get());
-        //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
+        if (!cameraManager.Settings.PictureSize.Get().equals(""))
+            setPictureSize(cameraManager.Settings.PictureSize.Get());
+        //if (!cameraManager.Settings.PreviewSize.Get().equals(""))
+            //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
         setOptimalPreviewSize();
 
-        parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
+        if (!cameraManager.Settings.FocusMode.Get().equals(""))
+            parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
 
+        if (!preferences.ColorMode.Get().equals(""))
+            parameters.setColorEffect(preferences.ColorMode.Get());
 
-        parameters.setColorEffect(preferences.ColorMode.Get());
-
-        if (getSupportFlash())
+        if (getSupportFlash() && !cameraManager.Settings.FlashMode.Get().equals(""))
             parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
 
-        if (getSupportZSL())
+        if (getSupportZSL() && !cameraManager.Settings.ZeroShutterLag.Get().equals(""))
             ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get());
 
-        if (getSupportIPP())
+        if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
             ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
+
+        Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
 
         onParametersCHanged();
         setToPreferencesToCamera();
