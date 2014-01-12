@@ -53,25 +53,24 @@ public class InfoScreenControl extends LinearLayout
     public InfoScreenControl(Context context) {
         super(context);
         this.context = context;
-        init(context);
     }
 
     public InfoScreenControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        init(context);
+
     }
 
     public InfoScreenControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-        init(context);
+
     }
 
     public void SetCameraManager(CameraManager cameraManager)
     {
         this.camMan = cameraManager;
-
+        init(context);
     }
 
     //******************************************************

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.fragments.BaseFragment;
+
 import com.troop.freecam.manager.ManualSaturationManager;
 
 /**

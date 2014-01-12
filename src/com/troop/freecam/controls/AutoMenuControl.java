@@ -13,7 +13,7 @@ import android.widget.Switch;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.fragments.BaseFragment;
+
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;

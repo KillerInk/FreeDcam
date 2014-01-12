@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.fragments.BaseFragment;
+
 
 /**
  * Created by troop on 03.01.14.
