@@ -2,85 +2,79 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
 
-    <com.troop.freecam.controls.ExtendedButton
+    android:longClickable="false">
+
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttonAFPriority"
-        android:background="@drawable/button"
-        custom:StringTop="AF Priority"
-        custom:StringBot="Mode"
-        custom:drawLong="true"
-        android:layout_gravity="center_vertical" />
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:fillViewport="false">
 
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttoncolor"
-        android:background="@drawable/button"
-        android:layout_gravity="center_vertical"
-        custom:StringBot="Mode"
-        custom:StringTop="Effect"
-        custom:drawLong="true"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/auto_menu_fragment_layout"
+            android:measureWithLargestChild="true"
+            android:baselineAligned="false">
 
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/button_exposure"
-        android:background="@drawable/button"
-        custom:StringTop="Exposure"
-        custom:StringBot="Mode"
-        custom:drawLong="true"
-        android:layout_gravity="center_vertical" />
 
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttoniso"
-        android:background="@drawable/button"
-        custom:StringTop="ISO"
-        custom:StringBot="Mode"
-        custom:drawLong="true"
-        android:layout_gravity="center_vertical" />
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/checkBox_hdr"
+            android:singleLine="true"
+            android:text="HDR Mode"
+            android:paddingLeft="4dp"
+            android:textSize="@dimen/TextSizeSmallPlus" />
 
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttonMetering"
-        android:background="@drawable/button"
-        custom:StringBot="Metering"
-        custom:StringTop="Mode"
-        custom:drawLong="true"/>
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="AutoFocusPrioritys"
+                android:id="@+id/switch_AfPriority_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="SceneModes"
+                android:id="@+id/switch_scenemode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="WhiteBalanceModes"
+                android:id="@+id/switch_wbModes_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="ColorModes"
+                android:id="@+id/switch_colormode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="IsoModes"
+                android:id="@+id/switch_isomode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="ExposureModes"
+                android:id="@+id/switch_exposuremode_control" />
+            <com.troop.freecam.controls.MenuItemControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                custom:ButtonText=""
+                custom:TextViewText="MeteringModes"
+                android:id="@+id/switch_meteringmode_control" />
 
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttonScene"
-        android:background="@drawable/button"
-        custom:StringTop="Scene"
-        custom:StringBot="Mode"
-        custom:drawLong="true"/>
-
-    <com.troop.freecam.controls.ExtendedButton
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/buttonwhiteBalance"
-        android:background="@drawable/button"
-        custom:StringTop="WhiteBalance"
-        custom:StringBot="Mode"
-        custom:drawLong="true"/>
-
-    <CheckBox
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/TextSizeSmallPlus"
-        android:id="@+id/checkBox_hdr"
-        android:background="@drawable/button"
-        android:singleLine="true"
-        android:layout_gravity="center_vertical"
-        android:text="HDR Mode"
-        android:paddingLeft="30dp"
-        android:textSize="21dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

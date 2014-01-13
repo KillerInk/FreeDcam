@@ -1,4 +1,4 @@
-package com.troop.freecam.manager.interfaces;
+package com.troop.freecam.interfaces;
 
 /**
  * Created by troop on 23.12.13.

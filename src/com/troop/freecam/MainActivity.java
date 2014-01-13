@@ -1,11 +1,7 @@
 package com.troop.freecam;
 
-import android.app.Activity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.ThumbnailUtils;
@@ -14,59 +10,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.troop.freecam.activitys.AutoMenuFragment;
-
-import com.troop.freecam.activitys.InfoScreenFragment;
-import com.troop.freecam.activitys.LayoutActivity;
-import com.troop.freecam.activitys.SeekbarViewFragment;
-import com.troop.freecam.activitys.SettingsMenuFagment;
-import com.troop.freecam.controls.ExtendedButton;
-import com.troop.freecam.manager.Drawing.DrawingOverlaySurface;
-import com.troop.freecam.manager.ManualSaturationManager;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.AutoMenuControl;
+import com.troop.freecam.controls.InfoScreenControl;
+import com.troop.freecam.controls.SeekbarViewControl;
+import com.troop.freecam.controls.SettingsMenuControl;
+import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.MyTimer;
-import com.troop.freecam.manager.ParametersManager;
-import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
+import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;
-import com.troop.menu.AFPriorityMenu;
-import com.troop.menu.ColorMenu;
-import com.troop.menu.DenoiseMenu;
-import com.troop.menu.ExposureMenu;
-import com.troop.menu.FlashMenu;
-import com.troop.menu.FocusMenu;
-import com.troop.menu.IppMenu;
-import com.troop.menu.IsoMenu;
-import com.troop.menu.MeteringMenu;
-import com.troop.menu.PictureFormatMenu;
-import com.troop.menu.PictureSizeMenu;
-import com.troop.menu.PreviewFormatMenu;
-import com.troop.menu.PreviewSizeMenu;
-import com.troop.menu.SceneMenu;
-import com.troop.menu.VideoSizesMenu;
-import com.troop.menu.WhiteBalanceMenu;
-import com.troop.menu.ZslMenu;
-import com.troop.menu.switchcameramenu;
 
 import java.io.File;
 
@@ -92,10 +57,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     //*******************
     public Boolean AFS_enable;
     Button AfAssitButton;
-    SettingsMenuFagment settingsFragment;
-    InfoScreenFragment infoScreenFragment;
-    AutoMenuFragment autoMenuFragment;
-    SeekbarViewFragment seekbarViewFragment;
+    SettingsMenuControl settingsFragment;
+    InfoScreenControl infoScreenFragment;
+    AutoMenuControl autoMenuFragment;
+    SeekbarViewControl seekbarViewFragment;
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -124,21 +89,26 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
-        camMan = new CameraManager(mPreview, this, preferences);
+        camMan = new CameraManager(mPreview, this, settingsManager);
         camMan.parametersManager.setParametersChanged(this);
 
         initButtons();
 
-        infoScreenFragment = new InfoScreenFragment(camMan);
-        getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
+        infoScreenFragment = (InfoScreenControl) findViewById(R.id.infoScreenContainer);
+        infoScreenFragment.SetCameraManager(camMan);
+        //getSupportFragmentManager().beginTransaction().add(R.id.infoScreenContainer, infoScreenFragment).commit();
 
-        settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
-        getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
+        settingsFragment = (SettingsMenuControl)findViewById(R.id.LayoutSettings);
+        settingsFragment.SetStuff(camMan, this, infoScreenFragment);
+        //settingsFragment = new SettingsMenuFagment(camMan, this, infoScreenFragment);
+        //getSupportFragmentManager().beginTransaction().add(R.id.LayoutSettings, settingsFragment).commit();
 
-        autoMenuFragment = new AutoMenuFragment(camMan, this);
-        getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
-        seekbarViewFragment = new SeekbarViewFragment(camMan, this);
-        getSupportFragmentManager().beginTransaction().add(R.id.tableVIEW, seekbarViewFragment).commit();
+        //autoMenuFragment = new AutoMenuFragment(camMan, this);
+        //getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
+        autoMenuFragment = (AutoMenuControl)findViewById(R.id.LayoutAuto);
+        autoMenuFragment.SetCameraManager(camMan, this);
+        seekbarViewFragment = (SeekbarViewControl)findViewById(R.id.tableVIEW);
+        seekbarViewFragment.SetCameraManger(camMan, this);
 
 
         mPreview.SetCameraManager(camMan);
@@ -394,7 +364,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             if (!DeviceUtils.isQualcomm())
             {
                 checkBoxZSL.setEnabled(false);
-                autoMenuFragment.buttonMetering.setEnabled(false);
+                //autoMenuFragment.buttonMetering.setEnabled(false);
             }
 
             if(!s.equals("LG-P720") || !s.equals("LG-P725"))
@@ -402,8 +372,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
             if (!DeviceUtils.isOmap())
             {
-                settingsFragment.ippButton.setEnabled(false);
-                autoMenuFragment.exposureButton.setEnabled(false);
+                //settingsFragment.ippButton.setEnabled(false);
+                //autoMenuFragment.exposureButton.setEnabled(false);
             }
         }
         catch (NullPointerException ex)
@@ -477,7 +447,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     public void SwitchCropButton()
     {
-        if(!preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             settingsFragment.crop_box.setVisibility(View.GONE);
         }
@@ -531,8 +501,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             autoMenuFragment.UpdateUI(restarted);
             settingsFragment.UpdateUI(restarted);
 
-            String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-            settingsFragment.switch3dButton.SetValue(tmp);
+
             //Crosshair appairing
             if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
             {

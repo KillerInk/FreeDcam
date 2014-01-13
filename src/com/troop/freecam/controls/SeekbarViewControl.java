@@ -1,23 +1,23 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam.controls;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.ManualSaturationManager;
 
 /**
  * Created by troop on 02.01.14.
  */
-public class SeekbarViewFragment extends  BaseFragment
+public class SeekbarViewControl extends LinearLayout
 {
     public TableRow exposureRow;
     public SeekBar exposureSeekbar;
@@ -42,7 +42,10 @@ public class SeekbarViewFragment extends  BaseFragment
     public TableRow focusRow;
     public SeekBar focusSeekBar;
 
-    public SeekbarViewFragment(CameraManager camMan, MainActivity activity) {
+    CameraManager camMan;
+    MainActivity activity;
+
+    /*public SeekbarViewControl(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
     }
 
@@ -51,49 +54,71 @@ public class SeekbarViewFragment extends  BaseFragment
         view = inflater.inflate(R.layout.seekbarviewfragment, container, false);
         init();
         return view;
+    }*/
+
+    public SeekbarViewControl(Context context) {
+        super(context);
+    }
+
+    public SeekbarViewControl(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SeekbarViewControl(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    public void SetCameraManger(CameraManager camMan, MainActivity activity)
+    {
+        this.camMan = camMan;
+        this.activity = activity;
+        init();
     }
 
     private void init()
     {
-        exposureTextView = (TextView) view.findViewById(R.id.textViewexposure);
-        exposureSeekbar  = (SeekBar)  view.findViewById(R.id.seekBar_exposure);
-        exposureSeekbar.setProgress(30);
+        LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.seekbarviewfragment, this);
+
+        exposureTextView = (TextView) findViewById(R.id.textViewexposure);
+        exposureSeekbar  = (SeekBar)  findViewById(R.id.seekBar_exposure);
+        //exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation() - camMan.parametersManager.getParameters().getMinExposureCompensation());
         exposureSeekbar.setOnSeekBarChangeListener(camMan.manualExposureManager);
-        exposureRow = (TableRow)  view.findViewById(R.id.tableRowExposure);
+        exposureRow = (TableRow)  findViewById(R.id.tableRowExposure);
         exposureRow.setVisibility(View.GONE);
 
-        sharpnessTextView = (TextView) view.findViewById(R.id.textView_sharpness);
-        sharpnessSeekBar = (SeekBar) view.findViewById(R.id.seekBar_sharpness);
+        sharpnessTextView = (TextView) findViewById(R.id.textView_sharpness);
+        sharpnessSeekBar = (SeekBar) findViewById(R.id.seekBar_sharpness);
         sharpnessSeekBar.setProgress(100);
         sharpnessSeekBar.setOnSeekBarChangeListener(camMan.manualSharpnessManager);
-        sharpnessRow = (TableRow)  view.findViewById(R.id.tableRowSharpness);
+        sharpnessRow = (TableRow)  findViewById(R.id.tableRowSharpness);
         sharpnessRow.setVisibility(View.GONE);
 
-        focusRow = (TableRow) view.findViewById(R.id.tableRowFocus);
-        focusSeekBar = (SeekBar) view.findViewById(R.id.seekBarFocus);
+        focusRow = (TableRow) findViewById(R.id.tableRowFocus);
+        focusSeekBar = (SeekBar) findViewById(R.id.seekBarFocus);
         focusSeekBar.setMax(60);
         //TODO something wrong here?
-        brightnessTextView = (TextView)( view.findViewById(R.id.textViewFocus));
+        brightnessTextView = (TextView)( findViewById(R.id.textViewFocus));
         focusSeekBar.setOnSeekBarChangeListener(camMan.manualFocus);
         focusRow.setVisibility(View.GONE);
 
-        contrastRow = (TableRow) view.findViewById(R.id.tableRowContrast);
-        contrastSeekBar = (SeekBar)  view.findViewById(R.id.seekBar_contrast);
+        contrastRow = (TableRow) findViewById(R.id.tableRowContrast);
+        contrastSeekBar = (SeekBar)  findViewById(R.id.seekBar_contrast);
         contrastSeekBar.setProgress(100);
         contrastSeekBar.setOnSeekBarChangeListener(camMan.manualContrastManager);
-        contrastTextView = (TextView)  view.findViewById(R.id.textView_contrast);
+        contrastTextView = (TextView)  findViewById(R.id.textView_contrast);
         contrastRow.setVisibility(View.GONE);
 
         //TODO setProgress not added
-        brightnessRow = (TableRow) view.findViewById(R.id.tableRowBrightness);
-        brightnessSeekBar = (SeekBar) view.findViewById(R.id.seekBar_brightness);
-        brightnessTextView = (TextView)view.findViewById(R.id.textView_brightness);
+        brightnessRow = (TableRow) findViewById(R.id.tableRowBrightness);
+        brightnessSeekBar = (SeekBar) findViewById(R.id.seekBar_brightness);
+        brightnessTextView = (TextView)findViewById(R.id.textView_brightness);
         brightnessSeekBar.setOnSeekBarChangeListener(camMan.manualBrightnessManager);
         brightnessRow.setVisibility(View.GONE);
 
-        saturationRow = (TableRow) view.findViewById(R.id.tableRowsaturation);
-        saturationTextView = (TextView) view.findViewById(R.id.textViewSaturation);
-        saturationSeekBar = (SeekBar) view.findViewById(R.id.seekBarSaturation);
+        saturationRow = (TableRow) findViewById(R.id.tableRowsaturation);
+        saturationTextView = (TextView) findViewById(R.id.textViewSaturation);
+        saturationSeekBar = (SeekBar) findViewById(R.id.seekBarSaturation);
         saturationSeekBar.setProgress(100);
         saturationSeekBar.setOnSeekBarChangeListener(new ManualSaturationManager(camMan));
         saturationRow.setVisibility(View.GONE);
@@ -136,7 +161,8 @@ public class SeekbarViewFragment extends  BaseFragment
             min *= -1;
         int max = camMan.parametersManager.getParameters().getMaxExposureCompensation() + min;
         exposureSeekbar.setMax(max);
-        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getExposureCompensation() + camMan.parametersManager.getParameters().getMaxExposureCompensation());
+        camMan.manualExposureManager.ExternalSet = true;
+        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation());
         camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
         //camMan.manualExposureManager.ExternalSet = true;
         //camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());

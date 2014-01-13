@@ -1,27 +1,21 @@
-package com.troop.freecam.camera;
+package com.troop.freecam.utils;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
+import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.interfaces.SavePictureCallback;
-import com.troop.freecam.utils.BitmapUtils;
+import com.troop.freecam.manager.SettingsManager;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Created by troop on 18.10.13.
@@ -35,9 +29,9 @@ public class SavePicture
     byte[] bytes;
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
-    SharedPreferences preferences;
+    SettingsManager preferences;
 
-    public SavePicture(MediaScannerManager mediaScannerManager, SharedPreferences preferences)
+    public SavePicture(MediaScannerManager mediaScannerManager, SettingsManager preferences)
     {
         this.mediaScannerManager = mediaScannerManager;
         this.preferences = preferences;
@@ -60,7 +54,7 @@ public class SavePicture
         {
             BitmapUtils.saveBytesToFile(file, bytes);
             //bytes = null;
-            if (preferences.getBoolean("upsidedown", false) == true || crop)
+            if (preferences.OrientationFix.GET() == true || crop)
             {
                 ExifManager manager = new ExifManager();
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -72,7 +66,7 @@ public class SavePicture
                 manager.LoadExifFrom(file.getAbsolutePath());
                 JniBitmapHolder orgiHolder = new JniBitmapHolder(bitmap);
                 bitmap.recycle();
-                if (preferences.getBoolean("upsidedown", false) == true)
+                if (preferences.OrientationFix.GET() == true)
                 {
                     orgiHolder.rotateBitmap180();
                 }
@@ -90,7 +84,7 @@ public class SavePicture
         }
         else
         {
-            if (preferences.getBoolean("upsidedown", false) == true)
+            if (preferences.OrientationFix.GET() == true)
             {
                 JniBitmapHolder h = new JniBitmapHolder(BitmapUtils.loadFromBytes(bytes));
                 h.rotateBitmap180();

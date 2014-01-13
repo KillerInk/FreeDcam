@@ -1,63 +1,25 @@
 package com.troop.freecam.manager;
 
-import android.content.SharedPreferences;
 import android.hardware.Camera;
-import android.media.CamcorderProfile;
 import android.util.Log;
+import android.view.Display;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.interfaces.ParametersChangedInterface;
-import com.troop.freecam.manager.interfaces.PreviewSizeChangedInterface;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.ParametersChangedInterface;
+import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.utils.DeviceUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by troop on 16.10.13.
  */
 public class ParametersManager
 {
-    public static final String SwitchCamera = "switchcam";
-    public static final String SwitchCamera_MODE_3D = "3D";
-    public static final String SwitchCamera_MODE_2D = "2D";
-    public static final String SwitchCamera_MODE_Front = "Front";
-    public static final String Preferences_Flash3D = "3d_flash";
-    public static final String Preferences_Flash2D = "2d_flash";
-    public static final String Preferences_Focus2D = "2d_focus";
-    public static final String Preferences_Focus3D = "3d_focus";
-    public static final String Preferences_FocusFront = "front_focus";
-    public static final String Preferences_WhiteBalanceFront = "front_whitebalance";
-    public static final String Preferences_WhiteBalance3D = "3d_whitebalance";
-    public static final String Preferences_WhiteBalance2D = "2d_whitebalance";
-    public static final String Preferences_SceneFront = "front_scene";
-    public static final String Preferences_Scene3D = "3d_scene";
-    public static final String Preferences_Scene2D = "2d_scene";
-    public static final String Preferences_Color2D = "2d_color";
-    public static final String Preferences_Color3D = "3d_color";
-    public static final String Preferences_ColorFront = "front_color";
-    public static final String Preferences_IsoFront = "front_iso";
-    public static final String Preferences_Iso3D = "3d_iso";
-    public static final String Preferences_Iso2D = "2d_iso";
-    public static final String Preferences_Exposure2D = "2d_exposure";
-    public static final String Preferences_Exposure3D = "3d_exposure";
-    public static final String Preferences_ExposureFront = "front_exposure";
-    public static final String Preferences_PictureSize2D = "2d_picturesize";
-    public static final String Preferences_PictureSize3D = "3d_picturesize";
-    public static final String Preferences_PictureSizeFront = "front_picturesize";
-    public static final String Preferences_PreviewSize2D = "2d_previewsize";
-    public static final String Preferences_PreviewSize3D = "3d_previewsize";
-    public static final String Preferences_PreviewSizeFront = "front_previewsize";
-    public static final String Preferences_IPP2D = "2d_ipp";
-    public static final String Preferences_IPP3D = "3d_ipp";
-    public static final String Preferences_IPPFront = "front_ipp";
     //New Pref 07-12-13
     public static final String Preferences_PictureFormat = "picture_format";
-    public static final String Preferences_PreviewFormat = "preview_format";
-    public static final String Preferences_AFPValue = "focus_priority";
-    public static final String Preferences_MTRValue = "meter_priority";
+
     public static final String Preferences_Denoise = "denoise";
    // public static final String Preferences_Stab = "stablization";
     public static final String Preferences_ZSL = "zsl_value";
@@ -68,7 +30,7 @@ public class ParametersManager
     MainActivity mainActivity;
     android.hardware.Camera.Parameters parameters;
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
-    SharedPreferences preferences;
+    SettingsManager preferences;
     boolean supportSharpness = false;
     public boolean getSupportSharpness() { return supportSharpness;}
     boolean supportContrast = false;
@@ -95,6 +57,8 @@ public class ParametersManager
     public boolean getSupportIso() { return  supportIso; }
     boolean supportExposureMode = false;
     public boolean getSupportExposureMode() { return supportExposureMode; }
+    boolean supportScene = false;
+    public boolean getSupportScene() { return supportScene;}
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
@@ -104,10 +68,14 @@ public class ParametersManager
     public WhiteBalanceClass WhiteBalance;
     public IsoClass Iso;
     public ExposureModeClass ExposureMode;
+    public SceneModeClass SceneMode;
+    public ImagePostProcessingClass ImagePostProcessing;
+    public PreviewFormatClass PreviewFormat;
+    public PreviewFpsClass PreviewFps;
 
     private boolean loadingParametersFinish = false;
 
-    public ParametersManager(CameraManager cameraManager, SharedPreferences preferences)
+    public ParametersManager(CameraManager cameraManager, SettingsManager preferences)
     {
         this.cameraManager = cameraManager;
         this.preferences = preferences;
@@ -122,7 +90,6 @@ public class ParametersManager
         for(int i = 0; i < paras.length; i++)
             Log.d("CameraParameters", paras[i]);
         checkParametersSupport();
-        loadDefaultOrLastSavedSettings();
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
@@ -131,6 +98,11 @@ public class ParametersManager
         WhiteBalance = new WhiteBalanceClass();
         Iso = new IsoClass();
         ExposureMode = new ExposureModeClass();
+        SceneMode = new SceneModeClass();
+        ImagePostProcessing = new ImagePostProcessingClass();
+        PreviewFormat = new PreviewFormatClass();
+        PreviewFps = new PreviewFpsClass();
+        loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true);
     }
@@ -210,92 +182,64 @@ public class ParametersManager
         {
             supportAutoExposure = false;
         }
-
-
-        try {
-            String ipps = parameters.get("ipp-values");
-            if (!ipps.isEmpty())
-                supportIPP = true;
-         }
-        catch (Exception ex)
-        {
-            supportIPP = false;
-        }
-
     }
 
     private void loadDefaultOrLastSavedSettings()
     {
-        String tmp = preferences.getString(SwitchCamera, SwitchCamera_MODE_Front);
-        //parameters.set("preview-format", "yuv420p");
-        if (tmp.equals("3D"))
+        /*if(DeviceUtils.isQualcomm())
         {
-            parameters.setFlashMode(preferences.getString(Preferences_Flash3D, "auto"));
-            parameters.setFocusMode(preferences.getString(Preferences_Focus3D, "auto"));
-            parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance3D,"auto"));
-            parameters.setSceneMode(preferences.getString(Preferences_Scene3D,"auto"));
-            parameters.setColorEffect(preferences.getString(Preferences_Color3D,"none"));
-            parameters.set("iso", preferences.getString(Preferences_Iso3D, "auto"));
-            parameters.set("exposure", preferences.getString(Preferences_Exposure3D , "auto"));
-            setPictureSize(preferences.getString(Preferences_PictureSize3D , "320x240"));
-            //setPictureSize("2592x1458");
-            setPreviewSize(preferences.getString(Preferences_PreviewSize3D, "320x240"));
-            parameters.set("ipp",preferences.getString(Preferences_IPP3D, "ldc-nsf"));
+            parameters.set("denoise","denoise-off");
+            parameters.set("power-mode","Normal_Power");
+            parameters.set("mce","disable");
+        }*/
 
-        }
+        if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
+            AfPriority.Set(preferences.afPriority.Get());
 
-        if(tmp.equals("2D"))
-        {
-            parameters.setFlashMode(preferences.getString(Preferences_Flash2D, "auto"));
-            parameters.setFocusMode(preferences.getString(Preferences_Focus2D, "auto"));
-            parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalance2D,"auto"));
-            parameters.setSceneMode(preferences.getString(Preferences_Scene2D,"auto"));
-            parameters.setColorEffect(preferences.getString(Preferences_Color2D,"none"));
-            parameters.set("iso", preferences.getString(Preferences_Iso2D, "auto"));
+        if (getSupportIso() && !preferences.IsoMode.Get().equals(""))
+            Iso.set(preferences.IsoMode.Get());
 
-            parameters.set("exposure", preferences.getString(Preferences_Exposure2D , "auto"));
+        if (getSupportScene() && !preferences.SceneMode.Get().equals(""))
+            SceneMode.set(preferences.SceneMode.Get());
 
-            setPictureSize(preferences.getString(Preferences_PictureSize2D , "320x240"));
-            setPreviewSize(preferences.getString(Preferences_PreviewSize2D, "320x240"));
+        if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
+            WhiteBalance.set(preferences.WhiteBalanceMode.Get());
 
-            parameters.set("ipp",preferences.getString(Preferences_IPP2D, "ldc-nsf"));
+        if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
+            parameters.set("auto-exposure", preferences.MeteringMode.Get());
 
-            if(DeviceUtils.isQualcomm())
-            {
-                parameters.set("denoise","denoise-off");
-                parameters.set("power-mode","Normal_Power");
-                parameters.set("mce","disable");
-            }
-        }
-        if (tmp.equals("Front"))
-        {
-            if (preferences.getString(Preferences_FocusFront, null) != null)
-            {
-                parameters.setFocusMode(preferences.getString(Preferences_FocusFront, null));
-            }
-            if (preferences.getString(Preferences_WhiteBalanceFront, null) != null)
-                parameters.setWhiteBalance(preferences.getString(Preferences_WhiteBalanceFront, null));
-            if (preferences.getString(Preferences_SceneFront, null) != null)
-                parameters.setSceneMode(preferences.getString(Preferences_SceneFront,null));
-            if (preferences.getString(Preferences_ColorFront, null) != null)
-                parameters.setColorEffect(preferences.getString(Preferences_ColorFront,"none"));
-            if (preferences.getString(Preferences_IsoFront, null) != null)
-                parameters.set("iso", preferences.getString(Preferences_IsoFront, null));
-            if (preferences.getString(Preferences_ExposureFront , null) != null)
-                parameters.set("exposure", preferences.getString(Preferences_ExposureFront , "auto"));
-            if (preferences.getString(Preferences_PictureSizeFront , null) != null)
-                setPictureSize(preferences.getString(Preferences_PictureSizeFront , "320x240"));
-            if (preferences.getString(Preferences_PreviewSizeFront, null) != null)
-                setPreviewSize(preferences.getString(Preferences_PreviewSizeFront, "320x240"));
-            if (preferences.getString(Preferences_IPPFront, null) != null)
-                parameters.set("ipp",preferences.getString(Preferences_IPPFront, "ldc-nsf"));
-        }
+        if (getSupportExposureMode() && !cameraManager.Settings.ExposureMode.Get().equals(""))
+            ExposureMode.set(cameraManager.Settings.ExposureMode.Get());
 
+        if (!cameraManager.Settings.PictureSize.Get().equals(""))
+            setPictureSize(cameraManager.Settings.PictureSize.Get());
+        //if (!cameraManager.Settings.PreviewSize.Get().equals(""))
+            //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
+        setOptimalPreviewSize();
+
+        if (!cameraManager.Settings.FocusMode.Get().equals(""))
+            parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
+
+        if (!preferences.ColorMode.Get().equals(""))
+            parameters.setColorEffect(preferences.ColorMode.Get());
+
+        if (getSupportFlash() && !cameraManager.Settings.FlashMode.Get().equals(""))
+            parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
+
+        if (getSupportZSL() && !cameraManager.Settings.ZeroShutterLag.Get().equals(""))
+            ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get());
+
+        if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
+            ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
+        if (!cameraManager.Settings.PreviewFps.Get().equals(""))
+            PreviewFps.Set(cameraManager.Settings.PreviewFps.Get());
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
 
+        Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
+
         onParametersCHanged();
-        setToPreferencesToCamera();
+        cameraManager.Restart(false);
     }
 
     public PreviewSizeChangedInterface setPreviewSizeCHanged;
@@ -321,6 +265,12 @@ public class ParametersManager
         parameters.setPreviewSize(w, h);
         onpreviewsizehasChanged(w,h);
     }
+    private void setOptimalPreviewSize()
+    {
+        Display display = cameraManager.activity.getWindowManager().getDefaultDisplay();
+        Camera.Size optimal = getOptimalPreviewSize(parameters.getSupportedPreviewSizes(),display.getWidth() , display.getHeight());
+        parameters.setPreviewSize(optimal.width, optimal.height);
+    }
 
     public void SetPreviewSizeToCameraParameters(int w, int h)
     {
@@ -335,7 +285,7 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
             //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
@@ -351,7 +301,7 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
             Log.d("ParametersMAnager", "Contrast:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -371,84 +321,40 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
 
         }
         catch (Exception ex)
         {
             Log.e("brightness Set Fail", ex.getMessage());
         }
-        //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get("brightness")));
-
     }
 
     public void SetJpegQuality(int quality)
     {
         parameters.set("jpeg-quality", quality);
         onParametersCHanged();
-        setToPreferencesToCamera();
+        //setToPreferencesToCamera();
     }
 
-    private void setToPreferencesToCamera()
+    //preferences are set during CameraManager.Reset()
+    /*private void setToPreferencesToCamera()
     {
         cameraManager.mCamera.setParameters(parameters);
-    }
+    }*/
 
     public boolean doCropping()
     {
-       return preferences.getBoolean("crop", false);
+        return preferences.CropImage.GET();
     }
 
-    public boolean is3DMode()
-    {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_3D))
-        {
-            return true;
-        }
-        else
-            return false;
-    }
 
-    public boolean is2DMode()
-    {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_2D))
-        {
-            return true;
-        }
-        else
-            return false;
-    }
 
-    public boolean isFrontMode()
-    {
-        String camvalue = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
-        if (camvalue.equals(ParametersManager.SwitchCamera_MODE_Front))
-        {
-            return true;
-        }
-        else
-            return false;
-    }
 
-    public boolean isOrientationFIX()
-    {
-        if(preferences.getBoolean("upsidedown", false))
-            return true;
-        else
-            return false;
-    }
-
-    public void setOrientationFix(boolean value)
-    {
-        preferences.edit().putBoolean("upsidedown", value).commit();
-    }
 
     public class DenoiseClass
     {
         public String[] getDenoiseValues()
-
         {
             String[] noise =  new String[0];
             if(DeviceUtils.isOmap())
@@ -469,7 +375,11 @@ public class ParametersManager
 
         public String getDenoiseValue()
         {
-            return preferences.getString(Preferences_Denoise, "false");
+            if(DeviceUtils.isOmap())
+                return parameters.get("vnf");
+            if(DeviceUtils.isQualcomm())
+                return parameters.get("denoise");
+            return "";
         }
     }
 
@@ -509,7 +419,7 @@ public class ParametersManager
             onParametersCHanged();
             try
             {
-                setToPreferencesToCamera();
+                cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
@@ -574,7 +484,7 @@ public class ParametersManager
             onParametersCHanged();
             try
             {
-                setToPreferencesToCamera();
+                cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
@@ -603,7 +513,7 @@ public class ParametersManager
             sizes = parameters.getSupportedVideoSizes();
             if (sizes == null || sizes.size() == 0)
                 sizes = parameters.getSupportedPreviewSizes();
-            SetProfile(preferences.getString("videosizes", "320x240"));
+            SetProfile(preferences.VideoSize.Get());
 
         }
 
@@ -622,6 +532,7 @@ public class ParametersManager
             String[] widthHeight = tmp.split("x");
             Width = Integer.parseInt(widthHeight[0]);
             Height = Integer.parseInt(widthHeight[1]);
+            preferences.VideoSize.Set(Width + "x" + Height);
         }
 
 
@@ -777,6 +688,147 @@ public class ParametersManager
         public void set(String value)
         {
             getParameters().set("exposure", value);
+        }
+    }
+
+    public class SceneModeClass
+    {
+        String[] values;
+
+        public SceneModeClass()
+        {
+            try {
+                values = getParameters().getSupportedSceneModes().toArray(new String[getParameters().getSupportedSceneModes().size()]);
+                if (values.length > 0)
+                    supportScene = true;
+            }
+            catch (Exception ex)
+            {
+                supportScene = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return values;
+        }
+
+        public String get()
+        {
+            return getParameters().getSceneMode();
+        }
+
+        public void set(String val)
+        {
+            getParameters().setSceneMode(val);
+        }
+    }
+
+    public class ImagePostProcessingClass
+    {
+        public ImagePostProcessingClass()
+        {
+            try {
+                String ipps = parameters.get("ipp-values");
+                if (!ipps.isEmpty())
+                    supportIPP = true;
+            }
+            catch (Exception ex)
+            {
+                supportIPP = false;
+            }
+        }
+
+        public String[] getValues()
+        {
+            return getParameters().get("ipp-values").split(",");
+        }
+
+        public String Get()
+        {
+            return getParameters().get("ipp");
+        }
+
+        public void Set(String val)
+        {
+            parameters.set("ipp", val);
+        }
+    }
+
+    public class PreviewFormatClass
+    {
+        public String[] getValues()
+        {
+            return getParameters().get("preview-format-values").split(",");
+        }
+
+        public String Get()
+        {
+            return getParameters().get("preview-format");
+        }
+
+        public void Set(String val)
+        {
+            parameters.set("preview-format", val);
+        }
+    }
+
+    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.05;
+        double targetRatio = (double) w / h;
+        if (sizes == null)
+            return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+
+        int targetHeight = h;
+
+        // Try to find an size match aspect ratio and size
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
+                continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+
+        // Cannot find the one match the aspect ratio, ignore the requirement
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
+    }
+
+    public class PreviewFpsClass
+    {
+        public String[] GetValues()
+        {
+            String[] ret = new String[parameters.getSupportedPreviewFrameRates().size()];
+            for (int i = 0; i< ret.length; i++)
+            {
+                ret[i] = parameters.getSupportedPreviewFrameRates().get(i) + "";
+            }
+            return ret;
+        }
+
+        public int Get()
+        {
+            return parameters.getPreviewFrameRate();
+        }
+
+        public void Set(String val)
+        {
+            int i = Integer.parseInt(val);
+            parameters.setPreviewFrameRate(i);
         }
     }
 }

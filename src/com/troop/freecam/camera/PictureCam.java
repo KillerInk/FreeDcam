@@ -1,15 +1,15 @@
 package com.troop.freecam.camera;
 
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 
-import com.troop.freecam.CamPreview;
+import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
-import com.troop.freecam.manager.interfaces.SavePictureCallback;
+import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.utils.SavePicture;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,11 +30,12 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
-    //byte[] rawbuffer = new byte[31457280];
+
+    byte[] rawbuffer;
 
 
 
-    public PictureCam(CamPreview context,SharedPreferences preferences)
+    public PictureCam(CamPreview context,SettingsManager preferences)
     {
         super(preferences);
         this.context = context;
@@ -52,21 +53,9 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     {
         IsWorking = true;
         this.crop = crop;
-        //mCamera.addRawImageCallbackBuffer(rawbuffer);
-        //mCamera.addCallbackBuffer(rawbuffer);
-        //_addCallbackBuffer(rawbuffer, CAMERA_MSG_RAW_IMAGE);
+        //Camera.Size size = mCamera.getParameters().getPictureSize();
+        //rawbuffer = new byte[size.width * size.height * 8];
 
-        /*try {
-            Class c = Class.forName("android.hardware.Camera");
-            //public final void android.hardware.Camera.addRawImageCallbackBuffer([B)
-            Method m = c.getMethod("addRawImageCallbackBuffer", byte[].class);
-            //m.invoke(c, rawbuffer);
-            //int i = m.length;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }*/
         mCamera.takePicture(this, rawCallback,this);
     }
 
@@ -75,7 +64,6 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d("FreeCam", "onPictureTaken - raw");
             //if (data != null)
-
                 //saveRawData(data);
         }
     };
@@ -87,7 +75,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         Log.d("PictureCallback", "DATAsize:" + data.length);
         boolean is3d = false;
-        if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+        if (Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             is3d = true;
         }

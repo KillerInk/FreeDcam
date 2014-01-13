@@ -5,9 +5,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class PictureSizeMenu extends BaseMenu {
     {
         if(camMan.Running)
             sizes = camMan.parametersManager.getParameters().getSupportedPictureSizes();
-        PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
         //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
         for (int i = 0; i < sizes.size(); i++) {
             popupMenu.getMenu().add((CharSequence) (sizes.get(i).width + "x" + sizes.get(i).height));
@@ -34,14 +34,7 @@ public class PictureSizeMenu extends BaseMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-
-                if (camMan.parametersManager.is3DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSize3D, tmp).commit();
-                if (camMan.parametersManager.is2DMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSize2D, tmp).commit();
-                if (camMan.parametersManager.isFrontMode())
-                    preferences.edit().putString(ParametersManager.Preferences_PictureSizeFront, tmp).commit();
-                //preferences.edit().putString("whitebalance", tmp).commit();
+                camMan.Settings.PictureSize.Set(tmp);
                 String[] widthHeight = tmp.split("x");
                 int w = Integer.parseInt(widthHeight[0]);
                 int h = Integer.parseInt(widthHeight[1]);

@@ -1,9 +1,7 @@
-package com.troop.freecam;
+package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -14,8 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freecam.manager.Drawing.BasePreview;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.manager.SettingsManager;
 
 public class CamPreview extends BasePreview {
 
@@ -81,7 +79,8 @@ public class CamPreview extends BasePreview {
     {
         if (hasReal3d)
         {
-            if (preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D).equals(ParametersManager.SwitchCamera_MODE_3D))
+            //dont get the preferences from the SettingManager, its not init at this time
+            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
             {
                 if(preferences.getBoolean("upsidedown", false) == false)
                     mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

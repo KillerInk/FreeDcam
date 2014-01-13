@@ -1,6 +1,5 @@
-package com.troop.freecam;
+package com.troop.freecam.camera;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -9,15 +8,13 @@ import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.os.StatFs;
 
-
-import com.troop.freecam.camera.VideoCam;
+import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
@@ -27,7 +24,9 @@ import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.ZoomManager;
+import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;
@@ -40,7 +39,7 @@ import java.util.List;
 public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
     MainActivity mainActivity;
-
+    final String TAG = "freecam.CameraManager";
 
     CamPreview context;
     CameraManager cameraManager;
@@ -61,9 +60,12 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     //public ParametersManager parametersManager;
     public boolean takePicture = false;
 
-    public CameraManager(CamPreview context, MainActivity activity, SharedPreferences preferences)
+
+
+    public CameraManager(CamPreview context, MainActivity activity, SettingsManager settingsManager)
     {
-        super(context, preferences);
+        super(context, settingsManager);
+        Log.d(TAG, "Loading CameraManager");
         scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
@@ -76,7 +78,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualBrightnessManager = new ManualBrightnessManager(this);
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
-        parametersManager = new ParametersManager(this, preferences);
+        parametersManager = new ParametersManager(this, settingsManager);
+        Log.d(TAG, "Loading CameraManager done");
+
     }
 
 
@@ -190,9 +194,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     protected void OpenCamera() {
         super.OpenCamera();
         try {
-            mCamera.setPreviewDisplay(activity.mPreview.getHolder());
+            mCamera.setPreviewDisplay(activity.mPreview.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
-            if(preferences.getBoolean("upsidedown", false) == true)
+            if(Settings.OrientationFix.GET() == true)
                 fixCameraDisplayOrientation();
             zoomManager.ResetZoom();
         } catch (Exception exception) {
@@ -204,9 +208,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     private void fixCameraDisplayOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
         {
             mCamera.setDisplayOrientation(0);
             //mParameters.setRotation(0);
@@ -223,13 +227,24 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     //if restarted true cam preview will be stopped and restartet
     public  void Restart(boolean restarted)
     {
+        Log.d(TAG, "Set Parameters to Camera");
         if (restarted)
         {
-            parametersManager.SetCameraParameters(mCamera.getParameters());
-            mCamera.stopPreview();
-            parametersManager.SetJpegQuality(100);
-            parametersManager.SetContrast(100);
-            mCamera.startPreview();
+            Log.d(TAG, "Camera is restarted");
+            try
+            {
+                parametersManager.SetCameraParameters(mCamera.getParameters());
+                mCamera.stopPreview();
+                parametersManager.SetJpegQuality(100);
+                parametersManager.SetContrast(100);
+                mCamera.setParameters(parametersManager.getParameters());
+                mCamera.startPreview();
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Setting Parameters Faild");
+            }
+
 
         }
         else

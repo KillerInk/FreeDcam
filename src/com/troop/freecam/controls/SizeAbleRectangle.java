@@ -1,4 +1,4 @@
-package com.troop.freecam.manager.Drawing;
+package com.troop.freecam.controls;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,10 +11,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.surfaces.DrawingOverlaySurface;
 
 /**
  * Created by troop on 24.09.13.
@@ -61,8 +62,8 @@ public class SizeAbleRectangle
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
         mPaint.setFilterBitmap(true);
-        croshairLeft = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
-        croshairRight = BitmapFactory.decodeResource(camPreview.context.getResources(), R.drawable.crosshair);
+        croshairLeft = BitmapFactory.decodeResource(camPreview.getContext().getResources(), R.drawable.crosshair);
+        croshairRight = BitmapFactory.decodeResource(camPreview.getContext().getResources(), R.drawable.crosshair);
         this.cameraManager = cameraManager;
     }
 
@@ -75,8 +76,8 @@ public class SizeAbleRectangle
 
             if (drawRectangle == true && Enabled && canvas != null)
             {
-                String tmp = camPreview.preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_3D);
-                if (tmp.equals(ParametersManager.SwitchCamera_MODE_3D))
+                String tmp = cameraManager.Settings.Cameras.GetCamera();
+                if (tmp.equals(SettingsManager.Preferences.MODE_3D))
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;

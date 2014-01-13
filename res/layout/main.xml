@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="fill_horizontal"
@@ -12,27 +11,17 @@
         android:id="@+id/mainRelativLayout"
         android:visibility="visible">
 
-        <com.troop.freecam.CamPreview
+        <com.troop.freecam.surfaces.CamPreview
             android:id="@+id/camPreview1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true" />
 
-        <view
+        <com.troop.freecam.surfaces.DrawingOverlaySurface
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            class="com.troop.freecam.manager.Drawing.DrawingOverlaySurface"
             android:id="@+id/view"
             android:alpha="0.5" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:background="@drawable/comp_grid_4_3"
-            android:layout_toLeftOf="@+id/button_switchVideoPicture"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone" />
 
         <Button
             android:layout_width="@dimen/app_icon_size"
@@ -56,7 +45,7 @@
             android:layout_marginRight="@dimen/app_icon_size"
             android:layout_alignRight="@+id/button_switchVideoPicture" />
 
-        <LinearLayout
+        <com.troop.freecam.controls.InfoScreenControl
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,9 +55,19 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="true"
             android:layout_marginRight="80dp"
-            android:longClickable="true">
+            android:longClickable="true"/>
 
-        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@drawable/comp_grid_4_3"
+            android:layout_toLeftOf="@+id/button_switchVideoPicture"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_gravity="right|top" />
 
     </RelativeLayout>
 
@@ -90,7 +89,7 @@
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="true" />
 
-    <LinearLayout
+    <com.troop.freecam.controls.SeekbarViewControl
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -99,9 +98,8 @@
         android:longClickable="false"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/imageButton_thumb"
-        android:layout_alignParentRight="false">
+        android:layout_alignParentRight="false"/>
 
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -199,26 +197,48 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LayoutAuto"
-                android:background="@drawable/camera_frame_box_ver_bg"
-                android:layout_marginTop="@dimen/autolayout_margineTop">
+                android:layout_height="wrap_content">
+
+                <com.troop.freecam.controls.AutoMenuControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutAuto"
+                    android:measureWithLargestChild="false"
+                    android:baselineAligned="false"
+                    android:background="@drawable/camera_frame_box_ver_bg"/>
 
 
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placeholderAutoMenu" />
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LayoutSettings"
-                android:longClickable="false"
-                android:measureWithLargestChild="true"
-                android:baselineAligned="false"
-                android:background="@drawable/camera_frame_box_ver_bg">
+                android:layout_height="wrap_content">
+
+                <com.troop.freecam.controls.SettingsMenuControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutSettings"
+                    android:longClickable="false"
+                    android:measureWithLargestChild="false"
+                    android:baselineAligned="false"
+                    android:background="@drawable/camera_frame_box_ver_bg"
+                    android:orientation="horizontal"/>
 
 
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placeholderPopup" />
             </LinearLayout>
 
         </LinearLayout>

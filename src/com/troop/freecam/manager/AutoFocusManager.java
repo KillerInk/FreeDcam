@@ -4,8 +4,8 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.util.Log;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by troop on 31.08.13.
@@ -73,6 +73,10 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
             cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
             cameraManager.mCamera.autoFocus(this);
         }
+        if (focusmode.equals(Camera.Parameters.FOCUS_MODE_FIXED))
+        {
+            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);
+        }
 
     }
 
@@ -82,6 +86,17 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         {
             focusing = true;
             cameraManager.mCamera.autoFocus(this);
+            MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+            {
+                public void onCompletion(MediaPlayer mp)
+                {
+                    mp.release();
+                    mp = null;
+                }
+            });
+            //mediaPlayer.setVolume(1,1);
+            mediaPlayer.start();
         }
     }
 
@@ -95,17 +110,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
     public void onAutoFocus(boolean success, Camera camera)
     {
         focusing = false;
-        MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-        {
-            public void onCompletion(MediaPlayer mp)
-            {
-                mp.release();
-                mp = null;
-            }
-        });
-        //mediaPlayer.setVolume(1,1);
-        mediaPlayer.start();
+
 
         /*if(success && cameraManager.takePicture)
         {

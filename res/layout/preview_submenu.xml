@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam">
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/app_icon_size"
+        android:text="Preview Settings"
+        android:id="@+id/button_ShowHide" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Layout_Preview_subMenu"
+        android:longClickable="false">
+
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:ButtonText=""
+            custom:TextViewText="Preview Size"
+            android:id="@+id/switch_previewsize_control" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:ButtonText=""
+            custom:TextViewText="Preview Format"
+            android:id="@+id/switch_previewformat_control" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:ButtonText=""
+            custom:TextViewText="Preview Fps"
+            android:id="@+id/switch_previewfps_control" />
+        </LinearLayout>
+</LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.troop.freecam.R;
 
 import java.io.File;

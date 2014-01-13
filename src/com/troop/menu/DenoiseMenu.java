@@ -4,8 +4,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -49,7 +50,7 @@ public class DenoiseMenu extends BaseMenu {
         }
         if (noise != null && !noise.equals(""))
         {
-            PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
             for (int i = 0; i < noise.length; i++) {
                 popupMenu.getMenu().add((CharSequence) noise[i]);

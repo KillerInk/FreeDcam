@@ -4,8 +4,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.ParametersManager;
 
 /**
@@ -52,11 +52,11 @@ public class PictureFormatMenu extends BaseMenu  {
                     //camMan.parametersManager.getParameters().set("iso", tmp);
                     //activity.buttonPictureFormat.SetValue(tmp);
 
-                    if (camMan.parametersManager.is3DMode())
+                    if (camMan.Settings.Cameras.is3DMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
+                    if (camMan.Settings.Cameras.is2DMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
+                    if (camMan.Settings.Cameras.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);

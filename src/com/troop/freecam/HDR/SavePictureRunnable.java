@@ -1,10 +1,6 @@
 package com.troop.freecam.HDR;
 
-import android.graphics.Bitmap;
 import android.util.Log;
-
-import com.jni.bitmap_operations.JniBitmapHolder;
-import com.troop.freecam.utils.BitmapUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

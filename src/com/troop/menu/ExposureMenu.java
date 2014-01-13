@@ -4,10 +4,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.ParametersManager;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by troop on 03.09.13.
@@ -35,7 +34,7 @@ public class ExposureMenu extends BaseMenu {
 
         if (exposures != null)
         {
-            PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderAutoMenu));
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
             for (int i = 0; i < exposures.length; i++) {
                 popupMenu.getMenu().add((CharSequence) exposures[i]);
@@ -45,20 +44,8 @@ public class ExposureMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (camMan.parametersManager.is3DMode())
-                    {
-                        preferences.edit().putString(ParametersManager.Preferences_Exposure3D, tmp).commit();
-                    }
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Exposure2D, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_ExposureFront, tmp).commit();
+                    camMan.Settings.ExposureMode.Set(tmp);
                     camMan.parametersManager.ExposureMode.set(tmp);
-                    //if (tmp.equals("manual"))
-                    //activity.exposureSeekbar.setVisibility(View.VISIBLE);
-                    //else
-                    //activity.exposureSeekbar.setVisibility(View.INVISIBLE);
-                    //preferences.edit().putString("color", tmp).commit();
                     camMan.Restart(false);
 
                     return true;

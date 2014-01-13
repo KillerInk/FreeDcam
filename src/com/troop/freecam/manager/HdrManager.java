@@ -8,11 +8,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.HDR.HdrRenderActivity;
 import com.troop.freecam.HDR.SavePictureRunnable;
 import com.troop.freecam.R;
-import com.troop.freecam.manager.interfaces.PictureTakeFinish;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.PictureTakeFinish;
 
 import java.io.File;
 import java.io.IOException;
@@ -166,7 +166,7 @@ public class HdrManager implements PictureTakeFinish
             String end;
 
 
-            if (cameraManager.preferences.getString("switchcam", "2D").equals("3D"))
+            if (cameraManager.Settings.Cameras.is3DMode())
             {
                 is3d = true;
             }
@@ -187,7 +187,7 @@ public class HdrManager implements PictureTakeFinish
                 //TODO move saving into new thread for faster picture taking not added yet because of oom
                 File file = getFilePath(end,sdcardpath);
                 uris[count] = Uri.fromFile(file);
-                boolean upsidedownfix = cameraManager.preferences.getBoolean("upsidedown", false);
+                boolean upsidedownfix = cameraManager.Settings.OrientationFix.GET();
 
                 if (count == 0)
                 {

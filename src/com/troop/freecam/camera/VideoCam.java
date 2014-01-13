@@ -1,14 +1,13 @@
 package com.troop.freecam.camera;
 
-import android.content.SharedPreferences;
-import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.troop.freecam.CamPreview;
-import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.utils.SavePictureTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,8 @@ public class VideoCam extends PictureCam
     public ParametersManager parametersManager;
     public String lastPicturePath;
 
-    public VideoCam(CamPreview context, SharedPreferences preferences)
+
+    public VideoCam(CamPreview context, SettingsManager preferences)
     {
         super(context, preferences);
     }
@@ -35,7 +35,7 @@ public class VideoCam extends PictureCam
         try
         {
 
-            if (parametersManager.isOrientationFIX())
+            if (Settings.OrientationFix.GET())
                 fixParametersOrientation();
             mCamera.unlock();
             File sdcardpath = Environment.getExternalStorageDirectory();
@@ -56,7 +56,7 @@ public class VideoCam extends PictureCam
                 }
             });
 
-            if (preferences.getBoolean("upsidedown", false) == true)
+            if (Settings.OrientationFix.GET() == true)
             {
                 String rota = parametersManager.getParameters().get("rotation");
 
@@ -118,9 +118,9 @@ public class VideoCam extends PictureCam
 
     private void fixParametersOrientation()
     {
-        String tmp = preferences.getString(ParametersManager.SwitchCamera, ParametersManager.SwitchCamera_MODE_2D);
+        String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(ParametersManager.SwitchCamera_MODE_3D) && !tmp.equals(ParametersManager.SwitchCamera_MODE_2D))
+        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
         {
             // mCamera.setDisplayOrientation(0);
             parametersManager.getParameters().setRotation(0);

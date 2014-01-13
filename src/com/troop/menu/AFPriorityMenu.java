@@ -4,10 +4,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.ParametersManager;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by George on 12/6/13.
@@ -26,8 +25,8 @@ public class AFPriorityMenu extends BaseMenu  {
 
 
 
-        View canvasView = super.GetPlaceHolder();
-        PopupMenu popupMenu = new PopupMenu(activity, canvasView);
+
+        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderAutoMenu));
 
         if(camMan.Running && camMan.parametersManager.getSupportAfpPriority())
             modes = camMan.parametersManager.AfPriority.getValues();
@@ -45,20 +44,15 @@ public class AFPriorityMenu extends BaseMenu  {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.parametersManager.AfPriority.Set(tmp);
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
-                    if (camMan.parametersManager.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_AFPValue, tmp).commit();
-                    //preferences.edit().putString("focus", tmp).commit();
-
-                    camMan.autoFocusManager.StartFocus();
+                    camMan.Settings.afPriority.Set(tmp);
+                    //camMan.autoFocusManager.StartFocus();
                     camMan.Restart(false);
                     return true;
                 }
             });
 
             popupMenu.show();
-            activity.appViewGroup.removeView(canvasView);
+
         }
 
     }

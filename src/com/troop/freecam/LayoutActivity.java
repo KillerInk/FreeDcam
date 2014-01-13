@@ -1,9 +1,9 @@
-package com.troop.freecam.activitys;
+package com.troop.freecam;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +12,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.troop.freecam.R;
+import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 01.01.14.
  */
-public class LayoutActivity extends FragmentActivity
+public class LayoutActivity extends Activity
 {
     LinearLayout baseMenuLayout;
     LinearLayout manualMenuLayout;
@@ -30,6 +30,7 @@ public class LayoutActivity extends FragmentActivity
     public boolean hideSettingsMenu = true;
     public boolean hideAutoMenu = true;
     public  ViewGroup appViewGroup;
+    protected SettingsManager settingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class LayoutActivity extends FragmentActivity
         getWindow().getDecorView()
                 .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         //setContentView(R.layout.activity_main);
+        settingsManager = new SettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main, null);

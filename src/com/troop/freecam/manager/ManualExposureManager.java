@@ -2,7 +2,7 @@ package com.troop.freecam.manager;
 
 import android.widget.SeekBar;
 
-import com.troop.freecam.CameraManager;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by troop on 03.09.13.
@@ -31,15 +31,7 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
                 if (currentValue >= cameramanager.parametersManager.getParameters().getMinExposureCompensation() && currentValue <= cameramanager.parametersManager.getParameters().getMaxExposureCompensation())
                 {
                     cameramanager.parametersManager.SetExposureCompensation(currentValue);
-                    //cameramanager.parameters.setExposureCompensation(currentValue);
-                    //cameramanager.Restart(false);
                 }
-            /*}
-            else
-            {
-                cameramanager.parameters.set("manual-exposure", currentValue);
-                cameramanager.Restart(false);
-            }*/
         }
         else
         {

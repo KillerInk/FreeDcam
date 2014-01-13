@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.widget.Toast;
+
 import com.jni.bitmap_operations.JniBitmapHolder;
-import com.troop.freecam.SavePictureTask;
 import com.troop.freecam.utils.BitmapUtils;
+import com.troop.freecam.utils.SavePictureTask;
+
 import java.io.File;
 
 

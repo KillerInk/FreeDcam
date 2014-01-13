@@ -19,6 +19,7 @@ public class ExtendedButton extends View
     String midString;
     String botString;
     boolean drawLong = false;
+    Paint paint;
 
     public ExtendedButton(Context context) {
         super(context);
@@ -44,13 +45,17 @@ public class ExtendedButton extends View
         botString = a.getString(R.styleable.ExtendedButton_StringBot);
         drawLong = a.getBoolean(R.styleable.ExtendedButton_drawLong, false);
         a.recycle();
+        paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(getHeight() - 4);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
         //getBackground().draw(canvas);
-        Paint paint = new Paint();
+
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
@@ -72,12 +77,57 @@ public class ExtendedButton extends View
             int height = getHeight() - 4;
             String draw = topString + " " + botString + ": ";
             paint.setTextSize(height);
+            requestLayout();
             int length = (int) paint.measureText(draw);
             canvas.drawText(draw, 2, height, paint);
             paint.setColor(Color.RED);
             if (midString != null)
+            {
                 canvas.drawText(midString, 2 + length, height,paint);
+            }
+
         }
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+
+// Set the dimension to the smaller of the 2 measures
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        int size = width > height ? height : width;
+
+// Create the new specs
+        int widthSpec = MeasureSpec.makeMeasureSpec(measureWidth(widthMeasureSpec), widthMode);
+        //int heightSpec = MeasureSpec.makeMeasureSpec(size, heightMode);
+        super.onMeasure(widthSpec, heightMeasureSpec);
+        //int width = MeasureSpec.makeMeasureSpec((int)(), MeasureSpec.EXACTLY);
+        //setMeasuredDimension(measureWidth(widthMeasureSpec), heightMeasureSpec);
+    }
+
+    private int measureWidth(int measureSpec) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            // We were told how big to be
+            result = specSize;
+        } else {
+            // Measure the text
+            result = (int) paint.measureText(getStringFromAll()) + getPaddingLeft()
+                    + getPaddingRight();
+            if (specMode == MeasureSpec.AT_MOST) {
+                // Respect AT_MOST value if that was what is called for by measureSpec
+                result = Math.min(result, specSize);
+            }
+        }
+
+        return result;
     }
 
     private int getMatchingTextSize(Paint paint, int height, String _string)
@@ -123,6 +173,18 @@ public class ExtendedButton extends View
     public void SetValue(String value)
     {
         midString = value;
+
         invalidate();
+    }
+
+
+    private String getStringFromAll()
+    {
+        String draw = topString + " " + botString + ": ";
+        if (midString != null)
+        {
+            draw += midString;
+        }
+        return draw;
     }
 }

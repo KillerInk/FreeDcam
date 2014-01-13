@@ -2,20 +2,15 @@ package com.troop.freecam.controls;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.troop.freecam.HDR.BitmapHandler;
 import com.troop.freecam.R;
-import com.troop.freecam.manager.interfaces.IStyleAbleSliderValueHasChanged;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
  * Created by troop on 22.12.13.

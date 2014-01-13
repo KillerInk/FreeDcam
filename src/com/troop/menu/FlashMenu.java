@@ -6,9 +6,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.troop.freecam.CameraManager;
 import com.troop.freecam.MainActivity;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.R;
+import com.troop.freecam.camera.CameraManager;
 
 /**
  * Created by troop on 27.08.13.
@@ -36,7 +36,7 @@ public class FlashMenu extends BaseMenu
             modes = camMan.parametersManager.getParameters().get("flash-mode-values").split(",");
         if (modes != null)
         {
-            PopupMenu popupMenu = new PopupMenu(activity, super.GetPlaceHolder());
+            PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderPopup));
             for (int i = 0; i < modes.length; i++) {
                 popupMenu.getMenu().add((CharSequence) modes[i]);
             }
@@ -48,20 +48,18 @@ public class FlashMenu extends BaseMenu
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    String tmpp = "torch";
                     if(activity.recordVideo == false)
-                    camMan.parametersManager.getParameters().setFlashMode(tmp);
+                    {
+                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.Settings.FlashMode.Set(tmp);
+                    }
                     if(activity.recordVideo == true)
-                       camMan.parametersManager.getParameters().setFlashMode(tmpp);
-
-
-                    if (camMan.parametersManager.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Flash3D, tmp).commit();
-                    if (camMan.parametersManager.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_Flash2D, tmp).commit();
-                    //if (camvalue == CameraManager.SwitchCamera_MODE_Front)
-                    //preferences.edit().putString(CameraManager.Preferences_ExposureFront, tmp).commit();
-                    //preferences.edit().putString("flash", tmp).commit();
+                    {
+                        if (!tmp.equals("off"))
+                            tmp = "torch";
+                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.Settings.FlashMode.Set(tmp);
+                    }
                     camMan.Restart(false);
                     return true;
                 }
