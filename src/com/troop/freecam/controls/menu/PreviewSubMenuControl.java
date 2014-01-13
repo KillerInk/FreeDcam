@@ -1,4 +1,4 @@
-package com.troop.freecam.controls;
+package com.troop.freecam.controls.menu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.MenuItemControl;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewFpsMenu;
 import com.troop.menu.PreviewSizeMenu;
@@ -18,16 +19,11 @@ import com.troop.menu.PreviewSizeMenu;
 /**
  * Created by troop on 13.01.14.
  */
-public class PreviewSubMenuControl extends LinearLayout
+public class PreviewSubMenuControl extends BaseSubMenu
 {
-    MainActivity activity;
-    CameraManager cameraManager;
-
     MenuItemControl switchPreviewSize;
     MenuItemControl switchPreviewFormat;
     MenuItemControl switchPreviewFps;
-    Button ShowHideSettings;
-    LinearLayout controlsHolder;
 
 
     public PreviewSubMenuControl(Context context) {
@@ -46,25 +42,7 @@ public class PreviewSubMenuControl extends LinearLayout
 
     public void Init(MainActivity activity, CameraManager cameraManager)
     {
-        this.activity = activity;
-        this.cameraManager = cameraManager;
-
-
-
-        controlsHolder = (LinearLayout)findViewById(R.id.Layout_Preview_subMenu);
-        controlsHolder.setVisibility(GONE);
-
-        ShowHideSettings = (Button)findViewById(R.id.button_ShowHide);
-        ShowHideSettings.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (controlsHolder.getVisibility() == VISIBLE)
-                    controlsHolder.setVisibility(GONE);
-                else
-                    controlsHolder.setVisibility(VISIBLE);
-            }
-        });
+        super.Init(activity,cameraManager);
 
         switchPreviewSize = (MenuItemControl)findViewById(R.id.switch_previewsize_control);
         switchPreviewSize.SetOnClickListner(new PreviewSizeMenu(cameraManager, activity));
@@ -85,8 +63,4 @@ public class PreviewSubMenuControl extends LinearLayout
         switchPreviewFps.SetButtonText(cameraManager.parametersManager.PreviewFps.Get()+ "");
     }
 
-    public void Visible(boolean visible)
-    {
-
-    }
 }

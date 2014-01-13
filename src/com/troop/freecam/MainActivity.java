@@ -22,10 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.AutoMenuControl;
+import com.troop.freecam.controls.menu.AutoMenuControl;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.SeekbarViewControl;
-import com.troop.freecam.controls.SettingsMenuControl;
+import com.troop.freecam.controls.menu.SettingsMenuControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.SettingsManager;

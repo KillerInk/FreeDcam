@@ -1,4 +1,4 @@
-package com.troop.freecam.controls;
+package com.troop.freecam.controls.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,6 +10,7 @@ import android.widget.Switch;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.MenuItemControl;
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;

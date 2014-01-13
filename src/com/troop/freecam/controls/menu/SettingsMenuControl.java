@@ -1,4 +1,4 @@
-package com.troop.freecam.controls;
+package com.troop.freecam.controls.menu;
 
 
 import android.content.Context;
@@ -11,14 +11,14 @@ import android.widget.Switch;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.InfoScreenControl;
+import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.menu.DenoiseMenu;
 import com.troop.menu.FlashMenu;
 import com.troop.menu.FocusMenu;
 import com.troop.menu.IppMenu;
 import com.troop.menu.PictureSizeMenu;
-import com.troop.menu.PreviewFormatMenu;
-import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.VideoSizesMenu;
 import com.troop.menu.ZslMenu;
 import com.troop.menu.switchcameramenu;
@@ -39,12 +39,11 @@ public class SettingsMenuControl extends LinearLayout
     MenuItemControl switchPictureSize;
 
     MenuItemControl switchVideoSize;
-    MenuItemControl switchIPP;
-    MenuItemControl switchDenoise;
-    MenuItemControl switchZSL;
+
     CameraManager camMan;
     MainActivity activity;
     PreviewSubMenuControl previewSubMenu;
+    QualitySubMenuControl qualitySubMenu;
 
     public SettingsMenuControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -74,6 +73,8 @@ public class SettingsMenuControl extends LinearLayout
 
         previewSubMenu = (PreviewSubMenuControl)activity.findViewById(R.id.preview_submenu_control);
         previewSubMenu.Init(activity, camMan);
+        qualitySubMenu = (QualitySubMenuControl)activity.findViewById(R.id.quality_submenu_control);
+        qualitySubMenu.Init(activity,camMan);
         upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
 
         if (camMan.Settings.OrientationFix.GET())
@@ -156,14 +157,7 @@ public class SettingsMenuControl extends LinearLayout
         switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
         switchVideoSize.SetOnClickListner(new VideoSizesMenu(camMan, activity));
 
-        switchIPP = (MenuItemControl)findViewById(R.id.switch_ipp_control);
-        switchIPP.SetOnClickListner(new IppMenu(camMan,activity));
 
-        switchDenoise = (MenuItemControl)findViewById(R.id.switch_denoise_control);
-        switchDenoise.SetOnClickListner(new DenoiseMenu(camMan,activity));
-
-        switchZSL = (MenuItemControl)findViewById(R.id.switch_zsl_control);
-        switchZSL.SetOnClickListner(new ZslMenu(camMan,activity));
     }
     public void Hide()
     {
@@ -178,7 +172,7 @@ public class SettingsMenuControl extends LinearLayout
     public void UpdateUI(boolean parametersReseted)
     {
 
-        switchDenoise.SetButtonText(camMan.parametersManager.Denoise.getDenoiseValue());
+
         String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
         switchPictureSize.SetButtonText(size1);
         switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
@@ -186,27 +180,10 @@ public class SettingsMenuControl extends LinearLayout
         //switch3dButton.SetValue(tmp);
         switchCamera.SetButtonText(tmp);
         previewSubMenu.UpdateUI();
+        qualitySubMenu.UpdateUI();
 
         //ZeroShutterLag
-        if (camMan.parametersManager.getSupportZSL())
-        {
-            if (switchZSL.getVisibility() == View.GONE)
-                switchZSL.setVisibility(View.VISIBLE);
-            switchZSL.SetButtonText(camMan.parametersManager.ZSLModes.getValue());
-        }
-        else
-        if (switchZSL.getVisibility() == View.VISIBLE)
-            switchZSL.setVisibility(View.GONE);
 
-        //ImagePostProcessing
-        if (camMan.parametersManager.getSupportIPP())
-        {
-            if (switchIPP.getVisibility() == View.GONE)
-                switchIPP.setVisibility(View.VISIBLE);
-            switchIPP.SetButtonText(camMan.parametersManager.getParameters().get("ipp"));
-        }
-        else
-            switchIPP.setVisibility(View.GONE);
         if (camMan.Settings.Cameras.is3DMode())
         {
             crop_box.setVisibility(View.VISIBLE);
