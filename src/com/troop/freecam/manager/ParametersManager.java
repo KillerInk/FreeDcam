@@ -235,7 +235,7 @@ public class ParametersManager
         Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
 
         onParametersCHanged();
-        setToPreferencesToCamera();
+        cameraManager.Restart(false);
     }
 
     public PreviewSizeChangedInterface setPreviewSizeCHanged;
@@ -281,7 +281,7 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
             //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
             Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
@@ -297,7 +297,7 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
             Log.d("ParametersMAnager", "Contrast:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -317,7 +317,7 @@ public class ParametersManager
         onParametersCHanged();
         try
         {
-            setToPreferencesToCamera();
+            cameraManager.Restart(false);
 
         }
         catch (Exception ex)
@@ -330,13 +330,14 @@ public class ParametersManager
     {
         parameters.set("jpeg-quality", quality);
         onParametersCHanged();
-        setToPreferencesToCamera();
+        //setToPreferencesToCamera();
     }
 
-    private void setToPreferencesToCamera()
+    //preferences are set during CameraManager.Reset()
+    /*private void setToPreferencesToCamera()
     {
         cameraManager.mCamera.setParameters(parameters);
-    }
+    }*/
 
     public boolean doCropping()
     {
@@ -414,7 +415,7 @@ public class ParametersManager
             onParametersCHanged();
             try
             {
-                setToPreferencesToCamera();
+                cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
@@ -479,7 +480,7 @@ public class ParametersManager
             onParametersCHanged();
             try
             {
-                setToPreferencesToCamera();
+                cameraManager.Restart(false);
             }
             catch (Exception ex)
             {

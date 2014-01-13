@@ -246,7 +246,7 @@ public class SettingsManager
     {
         public WhiteBalanceModeClass()
         {
-            super(Preferences.WhiteBalance3D, Preferences.WhiteBalance2D, Preferences.WhiteBalanceFront, "auto");
+            super(Preferences.WhiteBalance3D, Preferences.WhiteBalance2D, Preferences.WhiteBalanceFront, "");
         }
     }
 
@@ -254,7 +254,7 @@ public class SettingsManager
     {
         public PreviewSizeClass()
         {
-            super(Preferences.PreviewSize3D, Preferences.PreviewSize2D, Preferences.PreviewSizeFront, "320x240");
+            super(Preferences.PreviewSize3D, Preferences.PreviewSize2D, Preferences.PreviewSizeFront, "");
         }
     }
 
@@ -262,7 +262,7 @@ public class SettingsManager
     {
         public AfPriorityClass()
         {
-            super(Preferences.AfPriority3D, Preferences.AfPriority2D, Preferences.AfPriorityFront, "frame");
+            super(Preferences.AfPriority3D, Preferences.AfPriority2D, Preferences.AfPriorityFront, "");
         }
     }
 
@@ -270,7 +270,7 @@ public class SettingsManager
     {
         public PreviewFormatClass()
         {
-            super(Preferences.PreviewFormat3D, Preferences.PreviewFormat2D, Preferences.PreviewFormatFront, "yuv420sp");
+            super(Preferences.PreviewFormat3D, Preferences.PreviewFormat2D, Preferences.PreviewFormatFront, "");
         }
     }
 
@@ -278,7 +278,7 @@ public class SettingsManager
     {
         public VideoSizeClass()
         {
-            super(Preferences.VideoSize3D, Preferences.VideoSize2D, Preferences.VideoSizeFront, "320x240");
+            super(Preferences.VideoSize3D, Preferences.VideoSize2D, Preferences.VideoSizeFront, "");
         }
     }
 
@@ -286,7 +286,7 @@ public class SettingsManager
     {
         public SceneModeClass()
         {
-            super(Preferences.Scene3D, Preferences.Scene2D, Preferences.SceneFront, "auto");
+            super(Preferences.Scene3D, Preferences.Scene2D, Preferences.SceneFront, "");
         }
     }
 
@@ -294,7 +294,7 @@ public class SettingsManager
     {
         public IsoModeClass()
         {
-            super(Preferences.Iso3D, Preferences.Iso2D, Preferences.IsoFront, "auto");
+            super(Preferences.Iso3D, Preferences.Iso2D, Preferences.IsoFront, "");
         }
     }
 
@@ -302,7 +302,7 @@ public class SettingsManager
     {
         public ColorModeClass()
         {
-            super(Preferences.Color3D, Preferences.Color2D, Preferences.ColorFront, "none");
+            super(Preferences.Color3D, Preferences.Color2D, Preferences.ColorFront, "");
         }
     }
 
@@ -310,7 +310,7 @@ public class SettingsManager
     {
         public MeteringModeClass()
         {
-            super(Preferences.MTRValue3D, Preferences.MTRValue2D, Preferences.MTRValueFront, "auto");
+            super(Preferences.MTRValue3D, Preferences.MTRValue2D, Preferences.MTRValueFront, "");
         }
     }
 
@@ -318,7 +318,7 @@ public class SettingsManager
     {
         public ImagePostProcessingClass()
         {
-            super(SettingsManager.Preferences.IPP3D, SettingsManager.Preferences.IPP2D, SettingsManager.Preferences.IPPFront, "ldc-nsf");
+            super(SettingsManager.Preferences.IPP3D, SettingsManager.Preferences.IPP2D, SettingsManager.Preferences.IPPFront, "");
         }
     }
 
@@ -326,7 +326,7 @@ public class SettingsManager
     {
         public ZeroShutterLagClass()
         {
-            super(SettingsManager.Preferences.ZSL3D, SettingsManager.Preferences.ZSL2D, SettingsManager.Preferences.ZSLFront, "high-quality");
+            super(SettingsManager.Preferences.ZSL3D, SettingsManager.Preferences.ZSL2D, SettingsManager.Preferences.ZSLFront, "");
         }
     }
 
@@ -334,7 +334,7 @@ public class SettingsManager
     {
         public FlashModeClass()
         {
-            super(Preferences.Flash3D, Preferences.Flash2D, Preferences.FlashFront, "off");
+            super(Preferences.Flash3D, Preferences.Flash2D, Preferences.FlashFront, "");
         }
     }
 
@@ -342,7 +342,7 @@ public class SettingsManager
     {
         public FocusModeClass()
         {
-            super(Preferences.Focus3D, Preferences.Focus2D, Preferences.FocusFront, "auto");
+            super(Preferences.Focus3D, Preferences.Focus2D, Preferences.FocusFront, "");
         }
     }
 
@@ -350,7 +350,7 @@ public class SettingsManager
     {
         public PictureSizeClass()
         {
-            super(Preferences.PictureSize3D, Preferences.PictureSize2D, Preferences.PictureSizeFront, "320x240");
+            super(Preferences.PictureSize3D, Preferences.PictureSize2D, Preferences.PictureSizeFront, "");
         }
     }
 
@@ -358,7 +358,7 @@ public class SettingsManager
     {
         public ExposureModeClass()
         {
-            super(Preferences.Exposure3D, Preferences.Exposure2D, Preferences.ExposureFront, "auto");
+            super(Preferences.Exposure3D, Preferences.Exposure2D, Preferences.ExposureFront, "");
         }
     }
 

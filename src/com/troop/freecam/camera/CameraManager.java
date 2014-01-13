@@ -39,7 +39,7 @@ import java.util.List;
 public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
     MainActivity mainActivity;
-
+    final String TAG = "freecam.CameraManager";
 
     CamPreview context;
     CameraManager cameraManager;
@@ -65,6 +65,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public CameraManager(CamPreview context, MainActivity activity, SettingsManager settingsManager)
     {
         super(context, settingsManager);
+        Log.d(TAG, "Loading CameraManager");
         scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
@@ -78,6 +79,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this, settingsManager);
+        Log.d(TAG, "Loading CameraManager done");
 
     }
 
@@ -225,14 +227,24 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     //if restarted true cam preview will be stopped and restartet
     public  void Restart(boolean restarted)
     {
+        Log.d(TAG, "Set Parameters to Camera");
         if (restarted)
         {
-            parametersManager.SetCameraParameters(mCamera.getParameters());
+            Log.d(TAG, "Camera is restarted");
+            try
+            {
+                parametersManager.SetCameraParameters(mCamera.getParameters());
+                mCamera.stopPreview();
+                parametersManager.SetJpegQuality(100);
+                parametersManager.SetContrast(100);
+                mCamera.setParameters(parametersManager.getParameters());
+                mCamera.startPreview();
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Setting Parameters Faild");
+            }
 
-            mCamera.stopPreview();
-            parametersManager.SetJpegQuality(100);
-            parametersManager.SetContrast(100);
-            mCamera.startPreview();
 
         }
         else
