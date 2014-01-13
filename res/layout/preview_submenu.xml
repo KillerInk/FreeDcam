@@ -30,5 +30,11 @@
             custom:ButtonText=""
             custom:TextViewText="Preview Format"
             android:id="@+id/switch_previewformat_control" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:ButtonText=""
+            custom:TextViewText="Preview Fps"
+            android:id="@+id/switch_previewfps_control" />
         </LinearLayout>
 </LinearLayout>

@@ -12,6 +12,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.menu.PreviewFormatMenu;
+import com.troop.menu.PreviewFpsMenu;
 import com.troop.menu.PreviewSizeMenu;
 
 /**
@@ -24,6 +25,7 @@ public class PreviewSubMenuControl extends LinearLayout
 
     MenuItemControl switchPreviewSize;
     MenuItemControl switchPreviewFormat;
+    MenuItemControl switchPreviewFps;
     Button ShowHideSettings;
     LinearLayout controlsHolder;
 
@@ -70,6 +72,9 @@ public class PreviewSubMenuControl extends LinearLayout
         //switchPreviewFormat = new MenuItemFragment(camMan, activity, "Preview Format", "", new PreviewFormatMenu(camMan, activity));
         switchPreviewFormat = (MenuItemControl)findViewById(R.id.switch_previewformat_control);
         switchPreviewFormat.SetOnClickListner(new PreviewFormatMenu(cameraManager, activity));
+
+        switchPreviewFps = (MenuItemControl)findViewById(R.id.switch_previewfps_control);
+        switchPreviewFps.SetOnClickListner(new PreviewFpsMenu(cameraManager, activity));
     }
 
     public void UpdateUI()
@@ -77,6 +82,7 @@ public class PreviewSubMenuControl extends LinearLayout
         switchPreviewFormat.SetButtonText(cameraManager.parametersManager.PreviewFormat.Get());
 
         switchPreviewSize.SetButtonText(cameraManager.parametersManager.getParameters().getPreviewSize().width + "x" + cameraManager.parametersManager.getParameters().getPreviewSize().height);
+        switchPreviewFps.SetButtonText(cameraManager.parametersManager.PreviewFps.Get()+ "");
     }
 
     public void Visible(boolean visible)

@@ -231,6 +231,8 @@ public class ParametersManager
 
         if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
             ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
+        if (!cameraManager.Settings.PreviewFps.Get().equals(""))
+            PreviewFps.Set(cameraManager.Settings.PreviewFps.Get());
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
 
