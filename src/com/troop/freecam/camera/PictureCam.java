@@ -31,7 +31,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
 
-    //byte[] rawbuffer = new byte[31457280];
+    byte[] rawbuffer;
 
 
 
@@ -53,21 +53,9 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     {
         IsWorking = true;
         this.crop = crop;
-        //mCamera.addRawImageCallbackBuffer(rawbuffer);
-        //mCamera.addCallbackBuffer(rawbuffer);
-        //_addCallbackBuffer(rawbuffer, CAMERA_MSG_RAW_IMAGE);
+        //Camera.Size size = mCamera.getParameters().getPictureSize();
+        //rawbuffer = new byte[size.width * size.height * 8];
 
-        /*try {
-            Class c = Class.forName("android.hardware.Camera");
-            //public final void android.hardware.Camera.addRawImageCallbackBuffer([B)
-            Method m = c.getMethod("addRawImageCallbackBuffer", byte[].class);
-            //m.invoke(c, rawbuffer);
-            //int i = m.length;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }*/
         mCamera.takePicture(this, rawCallback,this);
     }
 
@@ -76,7 +64,6 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d("FreeCam", "onPictureTaken - raw");
             //if (data != null)
-
                 //saveRawData(data);
         }
     };

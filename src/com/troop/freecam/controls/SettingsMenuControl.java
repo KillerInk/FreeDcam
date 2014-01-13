@@ -66,27 +66,11 @@ public class SettingsMenuControl extends LinearLayout
         initSettingsMenuButtons();
     }
 
-    /*public SettingsMenuControl(CameraManager camMan, MainActivity activity, InfoScreenFragment infoScreenFragment)
-    {
-        super(camMan, activity);
-        this.infoScreenFragment = infoScreenFragment;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        view = inflater.inflate(R.layout.settingsmenufragment,
-                container, false);
-        initSettingsMenuButtons();
-        return view;
-    }*/
-
     private void initSettingsMenuButtons()
     {
 
         LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.settingsmenufragment, this);
-
 
         previewSubMenu = (PreviewSubMenuControl)activity.findViewById(R.id.preview_submenu_control);
         previewSubMenu.Init(activity, camMan);
@@ -157,56 +141,29 @@ public class SettingsMenuControl extends LinearLayout
             }
         });
 
-        //switchCamera = new MenuItemFragment(camMan, activity, "Select Camera", "Front", new switchcameramenu(camMan, activity));
         switchCamera = (MenuItemControl)findViewById(R.id.switch_camera_control);
         switchCamera.SetOnClickListner(new switchcameramenu(camMan, activity));
 
-
-        //switchFlash = new MenuItemFragment(camMan, activity, "Flash Mode", "", new FlashMenu(camMan, activity));
         switchFlash = (MenuItemControl)findViewById(R.id.switch_flash_control);
         switchFlash.SetOnClickListner(new FlashMenu(camMan, activity));
-        //switchFocus = new MenuItemFragment(camMan,activity, "Focus Mode", "", new FocusMenu(camMan, activity));
+
         switchFocus = (MenuItemControl)findViewById(R.id.switch_focus_control);
         switchFocus.SetOnClickListner(new FocusMenu(camMan, activity));
-        //switchPictureFormat = new MenuItemFragment(camMan,activity, "Picture Format", "", new PictureFormatMenu(camMan,activity));
-        //switchPictureSize = new MenuItemFragment(camMan,activity,"Picture Size","", new PictureSizeMenu(camMan, activity));
+
         switchPictureSize = (MenuItemControl)findViewById(R.id.switch_picturesize_control);
         switchPictureSize.SetOnClickListner(new PictureSizeMenu(camMan, activity));
 
-        //switchPreviewSize = new MenuItemFragment(camMan, activity,"Preview Size", "", new PreviewSizeMenu(camMan, activity));
-
-
-        //switchVideoSize = new MenuItemFragment(camMan, activity, "Video Size", "", new VideoSizesMenu(camMan,activity));
         switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
         switchVideoSize.SetOnClickListner(new VideoSizesMenu(camMan, activity));
 
-        //switchIPP =new MenuItemFragment(camMan, activity, "ImagePostProcessing", "", new IppMenu(camMan,activity));
         switchIPP = (MenuItemControl)findViewById(R.id.switch_ipp_control);
         switchIPP.SetOnClickListner(new IppMenu(camMan,activity));
 
-        //switchDenoise = new MenuItemFragment(camMan, activity, "Denoise", "", new DenoiseMenu(camMan,activity));
         switchDenoise = (MenuItemControl)findViewById(R.id.switch_denoise_control);
         switchDenoise.SetOnClickListner(new DenoiseMenu(camMan,activity));
 
         switchZSL = (MenuItemControl)findViewById(R.id.switch_zsl_control);
         switchZSL.SetOnClickListner(new ZslMenu(camMan,activity));
-        //switchZSL = new MenuItemFragment(camMan, activity, "ZeroShutterLag", "", new ZslMenu(camMan,activity));
-
-        /*FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.popupLayoutSettings, switchCamera);
-        transaction.add(R.id.popupLayoutSettings, switchFlash);
-        transaction.add(R.id.popupLayoutSettings, switchFocus);
-        transaction.add(R.id.popupLayoutSettings, switchPictureSize);
-        transaction.add(R.id.popupLayoutSettings, switchPreviewSize);
-        transaction.add(R.id.popupLayoutSettings, switchPreviewFormat);
-        transaction.add(R.id.popupLayoutSettings, switchVideoSize);
-        transaction.add(R.id.popupLayoutSettings, switchIPP);
-        transaction.add(R.id.popupLayoutSettings, switchDenoise);
-        transaction.add(R.id.popupLayoutSettings, switchZSL);
-        //transaction.add(R.id.popupLayoutSettings, switchPictureFormat);
-        transaction.commit();
-        //transaction.show(switchCamera);*/
-
     }
     public void Hide()
     {
