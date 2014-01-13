@@ -37,14 +37,14 @@ public class SettingsMenuControl extends LinearLayout
     MenuItemControl switchFocus;
     //MenuItemFragment switchPictureFormat;
     MenuItemControl switchPictureSize;
-    MenuItemControl switchPreviewSize;
-    MenuItemControl switchPreviewFormat;
+
     MenuItemControl switchVideoSize;
     MenuItemControl switchIPP;
     MenuItemControl switchDenoise;
     MenuItemControl switchZSL;
     CameraManager camMan;
     MainActivity activity;
+    PreviewSubMenuControl previewSubMenu;
 
     public SettingsMenuControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -88,6 +88,8 @@ public class SettingsMenuControl extends LinearLayout
         inflater.inflate(R.layout.settingsmenufragment, this);
 
 
+        previewSubMenu = (PreviewSubMenuControl)activity.findViewById(R.id.preview_submenu_control);
+        previewSubMenu.Init(activity, camMan);
         upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
 
         if (camMan.Settings.OrientationFix.GET())
@@ -172,12 +174,7 @@ public class SettingsMenuControl extends LinearLayout
         switchPictureSize.SetOnClickListner(new PictureSizeMenu(camMan, activity));
 
         //switchPreviewSize = new MenuItemFragment(camMan, activity,"Preview Size", "", new PreviewSizeMenu(camMan, activity));
-        switchPreviewSize = (MenuItemControl)findViewById(R.id.switch_previewsize_control);
-        switchPreviewSize.SetOnClickListner(new PreviewSizeMenu(camMan, activity));
 
-        //switchPreviewFormat = new MenuItemFragment(camMan, activity, "Preview Format", "", new PreviewFormatMenu(camMan, activity));
-        switchPreviewFormat = (MenuItemControl)findViewById(R.id.switch_previewformat_control);
-        switchPreviewFormat.SetOnClickListner(new PreviewFormatMenu(camMan, activity));
 
         //switchVideoSize = new MenuItemFragment(camMan, activity, "Video Size", "", new VideoSizesMenu(camMan,activity));
         switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
@@ -223,9 +220,7 @@ public class SettingsMenuControl extends LinearLayout
 
     public void UpdateUI(boolean parametersReseted)
     {
-        switchPreviewFormat.SetButtonText(camMan.parametersManager.PreviewFormat.Get());
 
-        switchPreviewSize.SetButtonText(camMan.parametersManager.getParameters().getPreviewSize().width + "x" + camMan.parametersManager.getParameters().getPreviewSize().height);
         switchDenoise.SetButtonText(camMan.parametersManager.Denoise.getDenoiseValue());
         String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
         switchPictureSize.SetButtonText(size1);
@@ -233,6 +228,7 @@ public class SettingsMenuControl extends LinearLayout
         String tmp = camMan.Settings.Cameras.GetCamera();
         //switch3dButton.SetValue(tmp);
         switchCamera.SetButtonText(tmp);
+        previewSubMenu.UpdateUI();
 
         //ZeroShutterLag
         if (camMan.parametersManager.getSupportZSL())
