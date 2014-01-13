@@ -73,6 +73,10 @@ public class SettingsManager
         public static final String AfPriority2D = "2d_afpriority";
         public static final String AfPriority3D = "3d_afpriority";
         public static final String AfPriorityFront = "front_afpriority";
+
+        public static final String PreviewFps2D = "2d_previewfps";
+        public static final String PreviewFps3D = "3d_previewfps";
+        public static final String PreviewFpsFront = "front_previewfps";
     }
 
     enum CameraValues
@@ -104,6 +108,7 @@ public class SettingsManager
     public VideoSizeClass VideoSize;
     public PreviewFormatClass PreviewFormat;
     public AfPriorityClass afPriority;
+    public PreviewFpsClass PreviewFps;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -126,6 +131,7 @@ public class SettingsManager
         VideoSize = new VideoSizeClass();
         PreviewFormat = new PreviewFormatClass();
         afPriority = new AfPriorityClass();
+        PreviewFps = new PreviewFpsClass();
     }
 
     public class CamerasClass
@@ -247,6 +253,14 @@ public class SettingsManager
         public WhiteBalanceModeClass()
         {
             super(Preferences.WhiteBalance3D, Preferences.WhiteBalance2D, Preferences.WhiteBalanceFront, "");
+        }
+    }
+
+    public class PreviewFpsClass extends BaseClass
+    {
+
+        public PreviewFpsClass() {
+            super(Preferences.PreviewFps3D, Preferences.PreviewFps2D, Preferences.PreviewFpsFront, "");
         }
     }
 

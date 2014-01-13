@@ -71,6 +71,7 @@ public class ParametersManager
     public SceneModeClass SceneMode;
     public ImagePostProcessingClass ImagePostProcessing;
     public PreviewFormatClass PreviewFormat;
+    public PreviewFpsClass PreviewFps;
 
     private boolean loadingParametersFinish = false;
 
@@ -100,6 +101,7 @@ public class ParametersManager
         SceneMode = new SceneModeClass();
         ImagePostProcessing = new ImagePostProcessingClass();
         PreviewFormat = new PreviewFormatClass();
+        PreviewFps = new PreviewFpsClass();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true);
@@ -802,5 +804,29 @@ public class ParametersManager
             }
         }
         return optimalSize;
+    }
+
+    public class PreviewFpsClass
+    {
+        public String[] GetValues()
+        {
+            String[] ret = new String[parameters.getSupportedPreviewFrameRates().size()];
+            for (int i = 0; i< ret.length; i++)
+            {
+                ret[i] = parameters.getSupportedPreviewFrameRates().get(i) + "";
+            }
+            return ret;
+        }
+
+        public int Get()
+        {
+            return parameters.getPreviewFrameRate();
+        }
+
+        public void Set(String val)
+        {
+            int i = Integer.parseInt(val);
+            parameters.setPreviewFrameRate(i);
+        }
     }
 }
