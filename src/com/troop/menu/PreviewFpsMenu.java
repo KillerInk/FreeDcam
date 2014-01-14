@@ -45,8 +45,6 @@ public class PreviewFpsMenu extends BaseMenu {
                     String tmp = item.toString();
                     camMan.parametersManager.PreviewFps.Set(tmp);
                     camMan.Settings.PreviewFps.Set(tmp);
-                    camMan.Restart(false);
-
                     return true;
                 }
             });

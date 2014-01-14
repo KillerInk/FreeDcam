@@ -17,8 +17,11 @@ public class ManualSaturationManager implements  SeekBar.OnSeekBarChangeListener
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        cameraManager.parametersManager.getParameters().set("saturation", progress);
-        cameraManager.Restart(false);
+        if (fromUser)
+        {
+            cameraManager.parametersManager.getParameters().set("saturation", progress);
+            cameraManager.Restart(false);
+        }
     }
 
     @Override

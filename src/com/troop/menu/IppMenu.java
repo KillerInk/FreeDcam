@@ -47,8 +47,6 @@ public class IppMenu extends  BaseMenu
                     String tmp = item.toString();
                     camMan.parametersManager.ImagePostProcessing.Set(tmp);
                     camMan.Settings.ImagePostProcessing.Set(tmp);
-                    camMan.Restart(false);
-
                     return true;
                 }
             });

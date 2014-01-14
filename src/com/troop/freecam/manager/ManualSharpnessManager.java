@@ -19,10 +19,10 @@ public class ManualSharpnessManager implements SeekBar.OnSeekBarChangeListener
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        if (cameraManager.parametersManager.getSupportSharpness())
+        if (cameraManager.parametersManager.getSupportSharpness() && fromUser)
         {
-            cameraManager.parametersManager.getParameters().set("sharpness", progress);
-            cameraManager.Restart(false);
+            cameraManager.parametersManager.manualSharpness.set(progress);
+            //cameraManager.Restart(false);
         }
     }
 

@@ -292,7 +292,7 @@ public class SettingsManager
     {
         public VideoSizeClass()
         {
-            super(Preferences.VideoSize3D, Preferences.VideoSize2D, Preferences.VideoSizeFront, "");
+            super(Preferences.VideoSize3D, Preferences.VideoSize2D, Preferences.VideoSizeFront, "640x480");
         }
     }
 

@@ -171,8 +171,6 @@ public class SettingsMenuControl extends LinearLayout
 
     public void UpdateUI(boolean parametersReseted)
     {
-
-
         String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
         switchPictureSize.SetButtonText(size1);
         switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);

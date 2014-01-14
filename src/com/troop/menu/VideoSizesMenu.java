@@ -35,8 +35,6 @@ public class VideoSizesMenu extends BaseMenu
                 preferences.edit().putString("videosizes", tmp).commit();
                 camMan.parametersManager.videoModes.SetProfile(tmp);
 
-                camMan.Restart(false);
-
                 return true;
             }
         });

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class SceneMenu extends BaseMenu
 {
-    List<String> sceneModes;
+    String[] sceneModes;
     public SceneMenu(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
     }
@@ -24,13 +24,13 @@ public class SceneMenu extends BaseMenu
     public void onClick(View v)
     {
         if(camMan.Running)
-            sceneModes = camMan.parametersManager.getParameters().getSupportedSceneModes();
+            sceneModes = camMan.parametersManager.SceneMode.getValues();
         if (sceneModes != null)
         {
             PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.placeholderAutoMenu));
             //popupMenu.getMenuInflater().inflate(R.menu.menu_popup_flash, popupMenu.getMenu().);
-            for (int i = 0; i < sceneModes.size(); i++) {
-                popupMenu.getMenu().add((CharSequence) sceneModes.get(i));
+            for (int i = 0; i < sceneModes.length; i++) {
+                popupMenu.getMenu().add((CharSequence) sceneModes[i]);
             }
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
@@ -38,10 +38,7 @@ public class SceneMenu extends BaseMenu
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.Settings.SceneMode.Set(tmp);
-                    camMan.parametersManager.getParameters().setSceneMode(tmp);
-
-                    camMan.Restart(false);
-
+                    camMan.parametersManager.SceneMode.set(tmp);
                     return true;
                 }
             });

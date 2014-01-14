@@ -203,21 +203,21 @@ public class InfoScreenControl extends LinearLayout
             if (camMan.parametersManager.getSupportContrast())
                 OnScreenContrastValue.setText(camMan.parametersManager.getParameters().get("contrast") + "");
             if (camMan.parametersManager.getSupportSharpness())
-                OnScreenSharpnessValue.setText(camMan.parametersManager.getParameters().get("sharpness") +"");
+                OnScreenSharpnessValue.setText(camMan.parametersManager.manualSharpness.getValue() +"");
             if (camMan.parametersManager.getSupportSaturation())
                 OnScreeSaturationValue.setText(camMan.parametersManager.getParameters().get("saturation") +"");
             if (camMan.parametersManager.getSupportExposureMode())
-                OnScreenEVValue.setText(camMan.parametersManager.getParameters().get("exposure-compensation") +"");
+                OnScreenEVValue.setText(camMan.parametersManager.manualExposure.getValue() +"");
             OnScreenEffectValue.setText(camMan.parametersManager.getParameters().get("effect") +"");
             if (camMan.parametersManager.getSupportIso())
-                OnScreeISOValue.setText(camMan.parametersManager.getParameters().get("iso") +"");
+                OnScreeISOValue.setText(camMan.parametersManager.Iso.get());
             if (camMan.parametersManager.getSupportFlash())
                 OnScreenFlashValue.setText(camMan.parametersManager.getParameters().get("flash-mode"));
             OnScreenFocusValue.setText(camMan.parametersManager.getParameters().get("focus-mode"));
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             OnScreenPictureValue.setText(size1);
             if (camMan.parametersManager.getSupportScene())
-                OnScreeSceneValue.setText(camMan.parametersManager.getParameters().get("scene-mode"));
+                OnScreeSceneValue.setText(camMan.parametersManager.SceneMode.get());
             if (camMan.parametersManager.getSupportWhiteBalance())
                 OnScreenWBValue.setText(camMan.parametersManager.getParameters().get("whitebalance"));
             if (DeviceUtils.isOmap() && camMan.parametersManager.getSupportAutoExposure())

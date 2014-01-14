@@ -47,8 +47,6 @@ public class ZslMenu extends BaseMenu  {
                     String tmp = item.toString();
                     camMan.parametersManager.ZSLModes.setValue(tmp);
                     camMan.Settings.ZeroShutterLag.Set(tmp);
-                    camMan.Restart(false);
-
                     return true;
                 }
             });

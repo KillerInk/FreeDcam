@@ -46,7 +46,6 @@ public class PreviewFormatMenu extends BaseMenu  {
                     String tmp = item.toString();
                     camMan.parametersManager.PreviewFormat.Set(tmp);
                     camMan.Settings.PreviewFormat.Set(tmp);
-                    camMan.Restart(false);
 
                     return true;
                 }

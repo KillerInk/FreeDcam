@@ -25,6 +25,7 @@ public class ParametersManager
     public static final String Preferences_ZSL = "zsl_value";
     //public static final String Preferences_Composition = "front_ipp";
     //public static final String Preferences_HFR = "hfr_video";
+    final static String TAG = "freecam.ParametersManager";
 
     CameraManager cameraManager;
     MainActivity mainActivity;
@@ -72,6 +73,8 @@ public class ParametersManager
     public ImagePostProcessingClass ImagePostProcessing;
     public PreviewFormatClass PreviewFormat;
     public PreviewFpsClass PreviewFps;
+    public ManualSharpnessClass manualSharpness;
+    public ManualExposureClass manualExposure;
 
     private boolean loadingParametersFinish = false;
 
@@ -102,6 +105,8 @@ public class ParametersManager
         ImagePostProcessing = new ImagePostProcessingClass();
         PreviewFormat = new PreviewFormatClass();
         PreviewFps = new PreviewFpsClass();
+        manualSharpness = new ManualSharpnessClass();
+        manualExposure = new ManualExposureClass();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true);
@@ -278,7 +283,7 @@ public class ParametersManager
         onpreviewsizehasChanged(w,h);
     }
 
-    public void SetExposureCompensation(int exp)
+    /*public void SetExposureCompensation(int exp)
     {
         //cameraManager.parameters.setExposureCompensation(exp);
         parameters.set("exposure-compensation", exp);
@@ -287,13 +292,14 @@ public class ParametersManager
         {
             cameraManager.Restart(false);
             //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
-            Log.d("ParametersMAnager", "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
+            Log.d(TAG, "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
         {
-            Log.e("Exposure Set Fail", ex.getMessage());
+            Log.e(TAG, "Exposure set failed");
+            ex.printStackTrace();
         }
-    }
+    }*/
 
     public void SetContrast(int contrast)
     {
@@ -302,11 +308,12 @@ public class ParametersManager
         try
         {
             cameraManager.Restart(false);
-            Log.d("ParametersMAnager", "Contrast:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
+
         }
         catch (Exception ex)
         {
-            Log.e("Contrast Set Fail", ex.getMessage());
+            Log.e(TAG,"Contrast Set Fail");
+            ex.printStackTrace();
         }
     }
 
@@ -326,7 +333,7 @@ public class ParametersManager
         }
         catch (Exception ex)
         {
-            Log.e("brightness Set Fail", ex.getMessage());
+            Log.e(TAG, "ManualFocus Failed");
         }
     }
 
@@ -347,10 +354,6 @@ public class ParametersManager
     {
         return preferences.CropImage.GET();
     }
-
-
-
-
 
     public class DenoiseClass
     {
@@ -488,7 +491,7 @@ public class ParametersManager
             }
             catch (Exception ex)
             {
-                Log.e("brightness Set Fail", ex.getMessage());
+                Log.e("Afp Set Fail", ex.getMessage());
             }
         }
         public String Get()
@@ -576,7 +579,19 @@ public class ParametersManager
 
         public void setValue(String toapplie)
         {
-            parameters.set(value, toapplie);
+            String def = getValue();
+            try {
+                Log.d(TAG, "Try to set Zeroshutterlag to:"+ toapplie);
+                parameters.set(value, toapplie);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "ZSL set failed set to " + def);
+                parameters.set(def, toapplie);
+                cameraManager.Restart(false);
+            }
+
         }
 
         public String getValue()
@@ -608,7 +623,15 @@ public class ParametersManager
 
         public void set(String value)
         {
-            getParameters().setWhiteBalance(value);
+            try {
+                getParameters().setWhiteBalance(value);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Whitebalance set failed");
+            }
+
         }
 
         public String get()
@@ -647,7 +670,15 @@ public class ParametersManager
 
         public void set(String value)
         {
-            parameters.set("iso", value);
+            try {
+                parameters.set("iso", value);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Iso set failed");
+            }
+
         }
 
         public String get()
@@ -687,7 +718,19 @@ public class ParametersManager
 
         public void set(String value)
         {
-            getParameters().set("exposure", value);
+            String def = get();
+            try {
+                Log.d(TAG, "Try set ExposureMode to " +value);
+                getParameters().set("exposure", value);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"Exposure set failed, set back to"+def);
+                getParameters().set("exposure",def);
+                cameraManager.Restart(false);
+            }
+
         }
     }
 
@@ -720,7 +763,19 @@ public class ParametersManager
 
         public void set(String val)
         {
-            getParameters().setSceneMode(val);
+            String dev = get();
+            try {
+                Log.d(TAG,"Try set Scene to:" + val);
+                getParameters().setSceneMode(val);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"Scene set failed set back to" + dev);
+                getParameters().setSceneMode(dev);
+                cameraManager.Restart(false);
+            }
+
         }
     }
 
@@ -751,7 +806,19 @@ public class ParametersManager
 
         public void Set(String val)
         {
-            parameters.set("ipp", val);
+            String dev = Get();
+            try {
+                Log.d(TAG, "try set ipp to:" + val);
+                parameters.set("ipp", val);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"ipp set failed, set back to:" + dev);
+                parameters.set("ipp", dev);
+                cameraManager.Restart(false);
+            }
+
         }
     }
 
@@ -769,7 +836,20 @@ public class ParametersManager
 
         public void Set(String val)
         {
-            parameters.set("preview-format", val);
+            String dev = Get();
+            try
+            {
+                Log.d(TAG, "try set previewformat to:" + val);
+                parameters.set("preview-format", val);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"preview format set failed, set back to:" + dev);
+                parameters.set("preview-format", dev);
+                cameraManager.Restart(false);
+            }
+
         }
     }
 
@@ -813,9 +893,11 @@ public class ParametersManager
         public String[] GetValues()
         {
             String[] ret = new String[parameters.getSupportedPreviewFrameRates().size()];
+            Log.d(TAG,"Listing supported Preview FPS");
             for (int i = 0; i< ret.length; i++)
             {
                 ret[i] = parameters.getSupportedPreviewFrameRates().get(i) + "";
+                Log.d(TAG, ret[i]);
             }
             return ret;
         }
@@ -828,7 +910,86 @@ public class ParametersManager
         public void Set(String val)
         {
             int i = Integer.parseInt(val);
-            parameters.setPreviewFrameRate(i);
+            int dev = parameters.getPreviewFrameRate();
+            try {
+                Log.d(TAG, "try set preview fps  to:" + i + " from " + dev);
+                parameters.setPreviewFrameRate(i);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"preview fps set failed set:" + dev);
+                parameters.setPreviewFrameRate(dev);
+                cameraManager.Restart(false);
+            }
+
+        }
+    }
+
+    public class ManualSharpnessClass
+    {
+        public int getMax()
+        {
+            int max = 0;
+            try {
+                max = Integer.parseInt(parameters.get("sharpness-max"));
+            }
+            catch (Exception ex)
+            {
+                max = 180;
+            }
+            return max;
+        }
+
+        public int getValue()
+        {
+            return Integer.parseInt(parameters.get("sharpness"));
+        }
+
+        public void set(int toset)
+        {
+            try
+            {
+                parameters.set("sharpness", toset);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Manual Sharpness set failed");
+            }
+
+        }
+    }
+
+    public class ManualExposureClass
+    {
+        public int getMin()
+        {
+            return parameters.getMinExposureCompensation();
+        }
+
+        public int getMax()
+        {
+            return parameters.getMaxExposureCompensation();
+        }
+
+        public int getValue()
+        {
+            return parameters.getExposureCompensation();
+        }
+
+        public void set(int toset)
+        {
+            try
+            {
+                parameters.setExposureCompensation(toset);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

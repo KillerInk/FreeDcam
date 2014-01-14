@@ -46,8 +46,6 @@ public class ExposureMenu extends BaseMenu {
                     String tmp = item.toString();
                     camMan.Settings.ExposureMode.Set(tmp);
                     camMan.parametersManager.ExposureMode.set(tmp);
-                    camMan.Restart(false);
-
                     return true;
                 }
             });

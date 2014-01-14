@@ -137,7 +137,7 @@ public class SeekbarViewControl extends LinearLayout
 
         if (camMan.parametersManager.getSupportSharpness())
         {
-            sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.getParameters().getInt("sharpness"));
+            sharpnessTextView.setText("Sharpness: " + camMan.parametersManager.manualSharpness.getValue());
         }
         if (camMan.parametersManager.getSupportContrast())
         {
@@ -156,21 +156,21 @@ public class SeekbarViewControl extends LinearLayout
 
     private void setBaseValues()
     {
-        int min = camMan.parametersManager.getParameters().getMinExposureCompensation();
+        int min = camMan.parametersManager.manualExposure.getMin();
         if (min < 0)
             min *= -1;
-        int max = camMan.parametersManager.getParameters().getMaxExposureCompensation() + min;
+        int max = camMan.parametersManager.manualExposure.getMax() + min;
         exposureSeekbar.setMax(max);
         camMan.manualExposureManager.ExternalSet = true;
-        exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation());
-        camMan.manualExposureManager.SetMinMax(camMan.parametersManager.getParameters().getMinExposureCompensation(), camMan.parametersManager.getParameters().getMaxExposureCompensation());
+        exposureSeekbar.setProgress(camMan.parametersManager.manualExposure.getMax());
+        camMan.manualExposureManager.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
         //camMan.manualExposureManager.ExternalSet = true;
         //camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
 
         if (camMan.parametersManager.getSupportSharpness())
         {
-            sharpnessSeekBar.setMax(180);
-            sharpnessSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("sharpness"));
+            sharpnessSeekBar.setMax(camMan.parametersManager.manualSharpness.getMax());
+            sharpnessSeekBar.setProgress(camMan.parametersManager.manualSharpness.getValue());
         }
 
         //Contrast

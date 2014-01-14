@@ -19,7 +19,8 @@ public class ManualBrightnessManager implements SeekBar.OnSeekBarChangeListener
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
         //cameraManager.parametersManager.SetBrightness(progress);
-        cameraManager.parametersManager.Brightness.Set(progress);
+        if (cameraManager.parametersManager.getSupportWhiteBalance() && fromUser)
+            cameraManager.parametersManager.Brightness.Set(progress);
     }
 
     @Override

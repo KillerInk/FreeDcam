@@ -137,19 +137,19 @@ public class HdrManager implements PictureTakeFinish
 
         if (count == 0)
         {
-            cameraManager.parametersManager.SetExposureCompensation(30);
+            cameraManager.parametersManager.manualExposure.set(10);
             //cameraManager.parametersManager.SetBrightness(60);
             //cameraManager.parametersManager.SetContrast(120);
         }
         else if (count == 1)
         {
-            cameraManager.parametersManager.SetExposureCompensation(0);
+            cameraManager.parametersManager.manualExposure.set(0);
             //cameraManager.parametersManager.SetBrightness(50);
             //cameraManager.parametersManager.SetContrast(100);
         }
         else if (count == 2)
         {
-            cameraManager.parametersManager.SetExposureCompensation(conv - 30);
+            cameraManager.parametersManager.manualExposure.set(-10);
             //cameraManager.parametersManager.SetBrightness(40);
             //cameraManager.parametersManager.SetContrast(80);
         }
