@@ -23,6 +23,7 @@ public class VideoCam extends PictureCam
     public boolean IsRecording = false;
     public ParametersManager parametersManager;
     public String lastPicturePath;
+    final String TAG = "freecam.VideoCam";
 
 
     public VideoCam(CamPreview context, SettingsManager preferences)
@@ -34,7 +35,8 @@ public class VideoCam extends PictureCam
     {
         try
         {
-
+            Log.d(TAG, "InitMediaRecorder");
+            recorder = new MediaRecorder();
             if (Settings.OrientationFix.GET())
                 fixParametersOrientation();
             mCamera.unlock();
@@ -96,6 +98,7 @@ public class VideoCam extends PictureCam
         scanManager.startScan(mediaSavePath);
         lastPicturePath = mediaSavePath;
         recorder.reset();
+        recorder.release();
         mCamera.lock();
     }
 
@@ -105,15 +108,13 @@ public class VideoCam extends PictureCam
     {
         if (IsRecording)
             StopRecording();
-        recorder.release();
-        recorder = null;
         super.CloseCamera();
     }
 
     @Override
     protected void OpenCamera() {
         super.OpenCamera();
-        recorder = new MediaRecorder();
+
     }
 
     private void fixParametersOrientation()

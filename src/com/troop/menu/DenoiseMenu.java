@@ -30,14 +30,10 @@ public class DenoiseMenu extends BaseMenu {
             {
                 if(DeviceUtils.isOmap())
                 {
-                    noise = camMan.parametersManager.getParameters().get("vnf-supported").split(",");
-                    if (noise.length == 1)
-                    {
-                        String[] tmp = new String[2];
-                        tmp[0] = noise[0];
-                        tmp[1] = "false";
-                        noise = tmp;
-                    }
+                    noise = new String[2];
+                    noise[0] = "true";
+                    noise[1] = "false";
+
                 }
                 if(DeviceUtils.isQualcomm())
                     noise = camMan.parametersManager.getParameters().get("denoise-values").split(",");

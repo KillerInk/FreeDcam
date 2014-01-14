@@ -171,8 +171,10 @@ public class ParametersManager
             supportFlash = false;
         try
         {
-            if (!parameters.get("vnf-supported").equals(""))
+            if (!parameters.get("vnf-supported").equals("") &&  !parameters.get("vnf-supported").equals(false))
+            {
                 supportVNF = true;
+            }
         }
         catch (Exception ex)
         {
@@ -304,7 +306,7 @@ public class ParametersManager
     public void SetContrast(int contrast)
     {
         parameters.set("contrast", contrast);
-        onParametersCHanged();
+
         try
         {
             cameraManager.Restart(false);
@@ -315,6 +317,7 @@ public class ParametersManager
             Log.e(TAG,"Contrast Set Fail");
             ex.printStackTrace();
         }
+        onParametersCHanged();
     }
 
 
@@ -364,14 +367,8 @@ public class ParametersManager
             String[] noise =  new String[0];
             if(DeviceUtils.isOmap())
             {
-                noise = parameters.get("vnf-supported").split(",");
-                if (noise.length == 1)
-                {
-                    String[] tmp = new String[2];
-                    tmp[0] = noise[0];
-                    tmp[1] = "false";
-                    noise = tmp;
-                }
+                noise = parameters.get("vnf").split(",");
+
             }
             if(DeviceUtils.isQualcomm())
                 noise = parameters.get("denoise-values").split(",");
@@ -431,6 +428,7 @@ public class ParametersManager
             {
                 Log.e("brightness Set Fail", ex.getMessage());
             }
+            onParametersCHanged();
             //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
 
         }
@@ -500,6 +498,7 @@ public class ParametersManager
                 parameters.set(afpValue, def);
                 cameraManager.Restart(false);
             }
+            onParametersCHanged();
         }
         public String Get()
         {
@@ -543,6 +542,7 @@ public class ParametersManager
             Width = Integer.parseInt(widthHeight[0]);
             Height = Integer.parseInt(widthHeight[1]);
             preferences.VideoSize.Set(Width + "x" + Height);
+            onParametersCHanged();
         }
 
 
@@ -598,7 +598,7 @@ public class ParametersManager
                 parameters.set(def, toapplie);
                 cameraManager.Restart(false);
             }
-
+            onParametersCHanged();
         }
 
         public String getValue()
@@ -638,6 +638,7 @@ public class ParametersManager
             {
                 Log.e(TAG, "Whitebalance set failed");
             }
+            onParametersCHanged();
 
         }
 
@@ -685,6 +686,7 @@ public class ParametersManager
             {
                 Log.e(TAG, "Iso set failed");
             }
+            onParametersCHanged();
 
         }
 
@@ -737,6 +739,7 @@ public class ParametersManager
                 getParameters().set("exposure",def);
                 cameraManager.Restart(false);
             }
+            onParametersCHanged();
 
         }
     }
@@ -782,7 +785,7 @@ public class ParametersManager
                 getParameters().setSceneMode(dev);
                 cameraManager.Restart(false);
             }
-
+            onParametersCHanged();
         }
     }
 
@@ -825,7 +828,7 @@ public class ParametersManager
                 parameters.set("ipp", dev);
                 cameraManager.Restart(false);
             }
-
+            onParametersCHanged();
         }
     }
 
@@ -856,7 +859,7 @@ public class ParametersManager
                 parameters.set("preview-format", dev);
                 cameraManager.Restart(false);
             }
-
+            onParametersCHanged();
         }
     }
 
@@ -921,7 +924,9 @@ public class ParametersManager
             try {
                 Log.d(TAG, "try set preview fps  to:" + i + " from " + dev);
                 parameters.setPreviewFrameRate(i);
+                cameraManager.mCamera.stopPreview();
                 cameraManager.Restart(false);
+                cameraManager.mCamera.startPreview();
             }
             catch (Exception ex)
             {
@@ -929,6 +934,7 @@ public class ParametersManager
                 parameters.setPreviewFrameRate(dev);
                 cameraManager.Restart(false);
             }
+            onParametersCHanged();
 
         }
     }
@@ -1000,7 +1006,7 @@ public class ParametersManager
                 parameters.setExposureCompensation(def);
                 cameraManager.Restart(false);
             }
-
+            onParametersCHanged();
         }
     }
 }
