@@ -355,6 +355,8 @@ public class ParametersManager
         return preferences.CropImage.GET();
     }
 
+    //TODO this is a wrong implementation, vnf-supported is used false;
+    //TODO if it returns false its not supported set and get with vnf=enable,disable
     public class DenoiseClass
     {
         public String[] getDenoiseValues()
@@ -418,10 +420,11 @@ public class ParametersManager
 
         public void Set(int bright)
         {
-            parameters.set(brightnessValue, bright);
-            onParametersCHanged();
+
+
             try
             {
+                parameters.set(brightnessValue, bright);
                 cameraManager.Restart(false);
             }
             catch (Exception ex)
@@ -483,15 +486,19 @@ public class ParametersManager
 
         public void Set(String value)
         {
-            parameters.set(afpValue, value);
-            onParametersCHanged();
+            String def = Get();
+
+            Log.e(TAG, "Try to set Afp from" + def + " to " + value);
             try
             {
+                parameters.set(afpValue, value);
                 cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
-                Log.e("Afp Set Fail", ex.getMessage());
+                Log.e(TAG, "Set afp failed back to def");
+                parameters.set(afpValue, def);
+                cameraManager.Restart(false);
             }
         }
         public String Get()
@@ -980,6 +987,8 @@ public class ParametersManager
 
         public void set(int toset)
         {
+            int def = parameters.getExposureCompensation();
+            Log.d(TAG, "Try to set exposure from: "+ def+ " to "+ toset);
             try
             {
                 parameters.setExposureCompensation(toset);
@@ -987,7 +996,9 @@ public class ParametersManager
             }
             catch (Exception ex)
             {
-
+                Log.e(TAG, "Set Exposure failed set back to last");
+                parameters.setExposureCompensation(def);
+                cameraManager.Restart(false);
             }
 
         }
