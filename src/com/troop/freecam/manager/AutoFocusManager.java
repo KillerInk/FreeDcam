@@ -86,7 +86,8 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         {
             focusing = true;
             cameraManager.mCamera.autoFocus(this);
-            MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
+            cameraManager.soundPlayer.PlayFocus();
+            /*MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
             {
                 public void onCompletion(MediaPlayer mp)
@@ -96,7 +97,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
                 }
             });
             //mediaPlayer.setVolume(1,1);
-            mediaPlayer.start();
+            mediaPlayer.start();*/
         }
     }
 

@@ -1,9 +1,11 @@
 package com.troop.freecam.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * Created by troop on 29.08.13.
@@ -26,16 +29,17 @@ import java.io.IOException;
 
 public class SavePictureTask extends AsyncTask<byte[], Void, String>
 {
-    MediaScannerManager mediaScannerManager;
+    //MediaScannerManager mediaScannerManager;
     boolean is3d = false;
     CameraManager cameraManager;
     SharedPreferences preferences;
+    Context context;
 
     final String TAG = "FreeDCam.PictureTask";
 
-    public  SavePictureTask (MediaScannerManager mediaScannerManager, boolean is3d, CameraManager cameraManager)
+    public  SavePictureTask (Context context, boolean is3d, CameraManager cameraManager)
     {
-        this.mediaScannerManager = mediaScannerManager;
+        this.context = context;
         this.is3d = is3d;
         this.cameraManager = cameraManager;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(cameraManager.activity);
@@ -191,7 +195,8 @@ public class SavePictureTask extends AsyncTask<byte[], Void, String>
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 4;
                 Bitmap bitmaporg = BitmapFactory.decodeFile(s, options);
-                mediaScannerManager.startScan(s);
+                //mediaScannerManager.startScan(s);
+                MediaScannerManager.ScanMedia(context, new File(s));
 
                 int w = cameraManager.activity.thumbButton.getWidth();
                 int h = cameraManager.activity.thumbButton.getHeight();

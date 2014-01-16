@@ -1,5 +1,6 @@
 package com.troop.freecam.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -22,7 +23,8 @@ import java.io.IOException;
  */
 public class SavePicture
 {
-    MediaScannerManager mediaScannerManager;
+    //MediaScannerManager mediaScannerManager;
+    Context context;
     boolean crop = false;
     Camera.Size size;
     boolean is3d = false;
@@ -31,9 +33,10 @@ public class SavePicture
     public boolean IsWorking = false;
     SettingsManager preferences;
 
-    public SavePicture(MediaScannerManager mediaScannerManager, SettingsManager preferences)
+    public SavePicture(Context context, SettingsManager preferences)
     {
-        this.mediaScannerManager = mediaScannerManager;
+        //this.mediaScannerManager = mediaScannerManager;
+        this.context = context;
         this.preferences = preferences;
     }
 
@@ -151,7 +154,8 @@ public class SavePicture
                     writePictureToSD(bytes, file, crop);
                     if (onSavePicture != null)
                         onSavePicture.onPictureSaved(file);
-                    mediaScannerManager.startScan(Uri.fromFile(file).getPath());
+                    //mediaScannerManager.startScan(Uri.fromFile(file).getPath());
+                    MediaScannerManager.ScanMedia(context, file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

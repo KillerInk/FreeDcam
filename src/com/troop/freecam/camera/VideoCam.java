@@ -4,6 +4,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
@@ -29,6 +30,7 @@ public class VideoCam extends PictureCam
     public VideoCam(CamPreview context, SettingsManager preferences)
     {
         super(context, preferences);
+
     }
 
     public void StartRecording()
@@ -36,7 +38,7 @@ public class VideoCam extends PictureCam
         try
         {
             Log.d(TAG, "InitMediaRecorder");
-            recorder = new MediaRecorder();
+
             if (Settings.OrientationFix.GET())
                 fixParametersOrientation();
             mCamera.unlock();
@@ -84,9 +86,10 @@ public class VideoCam extends PictureCam
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
-            mCamera.lock();
+
             recorder.reset();
             recorder.release();
+            mCamera.lock();
         }
 
     }
@@ -95,10 +98,11 @@ public class VideoCam extends PictureCam
     {
         IsRecording = false;
         recorder.stop();
-        scanManager.startScan(mediaSavePath);
+        MediaScannerManager.ScanMedia(context.getContext(), new File(mediaSavePath));
+        //scanManager.startScan(mediaSavePath);
         lastPicturePath = mediaSavePath;
         recorder.reset();
-        recorder.release();
+
         mCamera.lock();
     }
 
@@ -108,13 +112,14 @@ public class VideoCam extends PictureCam
     {
         if (IsRecording)
             StopRecording();
+        recorder.release();
         super.CloseCamera();
     }
 
     @Override
     protected void OpenCamera() {
         super.OpenCamera();
-
+        recorder = new MediaRecorder();
     }
 
     private void fixParametersOrientation()

@@ -1,49 +1,62 @@
 package com.troop.freecam.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.File;
+
 /**
  * Created by troop on 25.08.13.
  */
-public class MediaScannerManager implements MediaScannerConnectionClient
+public class MediaScannerManager
 {
 
-    MediaScannerConnection scanner;
+   /* MediaScannerConnection scanner;
     Context context;
     String imgpath;
 
-    public MediaScannerManager(Context context)
+    boolean connected = false;*/
+
+    /*public MediaScannerManager(Context context)
     {
         this.context = context;
+        scanner = new MediaScannerConnection(context.getApplicationContext(),this);
+        scanner.connect();
     }
 
     public void startScan(String imgpath)
     {
         this.imgpath = imgpath;
-        if(scanner!=null) scanner.disconnect();
-        scanner = new MediaScannerConnection(context.getApplicationContext(),this);
-        scanner.connect();
+        scanner.scanFile(imgpath, null);
+
     }
 
     @Override
     public void onMediaScannerConnected() {
-        try{
-            //set sec param to null cause jps is a not recognized mimetype or file will not added
-            scanner.scanFile(imgpath, null);
-        }
-        catch (java.lang.IllegalStateException e)
-        {
-            Log.e("MediaSCanner ERROR", e.getMessage());
-            scanner.disconnect();
-        }
+        connected = true;
     }
 
     @Override
     public void onScanCompleted(String path, Uri uri) {
-        scanner.disconnect();
+        //scanner.disconnect();
+
+    }
+
+    public void close()
+    {
+        if (scanner != null && scanner.isConnected())
+            scanner.disconnect();
+    }*/
+
+    public static void ScanMedia(Context context, File file)
+    {
+        Intent intent =
+                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        context.sendBroadcast(intent);
     }
 }

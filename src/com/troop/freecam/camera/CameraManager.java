@@ -45,7 +45,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     CameraManager cameraManager;
     public ZoomManager zoomManager;
     public boolean Running = false;
-    public MediaScannerManager scanManager;
+    //public MediaScannerManager scanManager;
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
@@ -66,7 +66,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     {
         super(context, settingsManager);
         Log.d(TAG, "Loading CameraManager");
-        scanManager = new MediaScannerManager(context.getContext());
+        //scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
         autoFocusManager = new AutoFocusManager(this);
@@ -174,7 +174,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             bitmascale = Bitmap.createScaledBitmap(bitmaporg,w,h,true);
             cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
             cameraManager.lastPicturePath =file.getAbsolutePath();
-            scanManager.startScan(lastPicturePath);
+            MediaScannerManager.ScanMedia(activity,file);
+            //scanManager.startScan(lastPicturePath);
             bitmaporg.recycle();
             
             //bitmascale.recycle();
@@ -317,7 +318,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public void StartFocus()
     {
         SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
-        mCamera.autoFocus(autoFocusManager);
+        autoFocusManager.StartFocus();
     }
 
     public void AutoFocusAssit()

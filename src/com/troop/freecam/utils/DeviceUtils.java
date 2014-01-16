@@ -51,6 +51,6 @@ public class DeviceUtils
 
     public static boolean isEvo3d()
     {
-        return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU");
+        return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU")|| Build.MODEL.equals("HTC Shooter");
     }
 }
