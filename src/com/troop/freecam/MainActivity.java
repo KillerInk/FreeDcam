@@ -512,6 +512,18 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                 drawSurface.drawingRectHelper.Enabled = false;
             }
             infoScreenFragment.showtext();
+            if (!camMan.parametersManager.getSupportBrightness())
+                brightnessCheckBox.setVisibility(View.GONE);
+            else
+                brightnessCheckBox.setVisibility(View.VISIBLE);
+            if (!camMan.parametersManager.getSupportSharpness())
+                manualShaprness.setVisibility(View.GONE);
+            else
+                manualShaprness.setVisibility(View.VISIBLE);
+            if (!camMan.parametersManager.getSupportSaturation())
+                saturationCheckBox.setVisibility(View.GONE);
+            else
+                saturationCheckBox.setVisibility(View.VISIBLE);
 
         }
         catch (Exception ex)
