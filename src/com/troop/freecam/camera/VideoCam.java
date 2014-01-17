@@ -38,7 +38,7 @@ public class VideoCam extends PictureCam
         try
         {
             Log.d(TAG, "InitMediaRecorder");
-
+            recorder = new MediaRecorder();
             if (Settings.OrientationFix.GET())
                 fixParametersOrientation();
             mCamera.unlock();
@@ -88,8 +88,9 @@ public class VideoCam extends PictureCam
             ex.printStackTrace();
 
             recorder.reset();
-            recorder.release();
+
             mCamera.lock();
+            recorder.release();
         }
 
     }
@@ -98,12 +99,13 @@ public class VideoCam extends PictureCam
     {
         IsRecording = false;
         recorder.stop();
-        MediaScannerManager.ScanMedia(context.getContext(), new File(mediaSavePath));
+
         //scanManager.startScan(mediaSavePath);
         lastPicturePath = mediaSavePath;
         recorder.reset();
-
         mCamera.lock();
+        recorder.release();
+        MediaScannerManager.ScanMedia(context.getContext(), new File(mediaSavePath));
     }
 
 
@@ -112,14 +114,14 @@ public class VideoCam extends PictureCam
     {
         if (IsRecording)
             StopRecording();
-        recorder.release();
+
         super.CloseCamera();
     }
 
     @Override
     protected void OpenCamera() {
         super.OpenCamera();
-        recorder = new MediaRecorder();
+
     }
 
     private void fixParametersOrientation()
