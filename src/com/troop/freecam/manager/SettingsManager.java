@@ -242,7 +242,7 @@ public class SettingsManager
                     val =  preferences.getString(twoD, defaultVal);
                     break;
                 default:
-                    val =  preferences.getString(SettingsManager.Preferences.IPPFront, defaultVal);
+                    val =  preferences.getString(front, defaultVal);
             }
             return val;
         }
