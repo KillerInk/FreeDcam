@@ -145,6 +145,7 @@ public class ParametersManager
         {
             supportSharpness = false;
         }
+        Log.d(TAG, "supportSharpness:" + supportSharpness);
         try
         {
             int i = parameters.getInt("contrast");
@@ -164,11 +165,12 @@ public class ParametersManager
         {
             supportSaturation = false;
         }
-
+        Log.d(TAG, "support Saturation:" + supportSaturation);
         if (parameters.getFlashMode() != null)
             supportFlash = true;
         else
             supportFlash = false;
+        Log.d(TAG, "support Flash:" + supportFlash);
         try
         {
             if (!parameters.get("vnf-supported").equals("") &&  !parameters.get("vnf-supported").equals(false))
@@ -180,6 +182,7 @@ public class ParametersManager
         {
             supportVNF = false;
         }
+        Log.d(TAG,"supportVNF = Videostab:" + supportVNF);
         try
         {
             if (!parameters.get("auto-exposure-values").equals(""))
@@ -189,6 +192,7 @@ public class ParametersManager
         {
             supportAutoExposure = false;
         }
+        Log.d(TAG,"support autoexposure" + supportAutoExposure);
     }
 
     private void loadDefaultOrLastSavedSettings()
@@ -263,6 +267,7 @@ public class ParametersManager
         int w = Integer.parseInt(widthHeight[0]);
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPictureSize(w,h);
+        Log.d(TAG, "set picture size to " + s);
     }
     private void setPreviewSize(String s)
     {
@@ -277,11 +282,13 @@ public class ParametersManager
         Display display = cameraManager.activity.getWindowManager().getDefaultDisplay();
         Camera.Size optimal = getOptimalPreviewSize(parameters.getSupportedPreviewSizes(),display.getWidth() , display.getHeight());
         parameters.setPreviewSize(optimal.width, optimal.height);
+        Log.d(TAG, "set optimal previewsize to " + optimal.width + "x" + optimal.height);
     }
 
     public void SetPreviewSizeToCameraParameters(int w, int h)
     {
         parameters.setPreviewSize(w,h);
+        Log.d(TAG, "set previewsize to " + w + "x" + h);
         onpreviewsizehasChanged(w,h);
     }
 
@@ -306,7 +313,7 @@ public class ParametersManager
     public void SetContrast(int contrast)
     {
         parameters.set("contrast", contrast);
-
+        Log.d(TAG,"Set contrast to " + contrast);
         try
         {
             cameraManager.Restart(false);
@@ -413,6 +420,7 @@ public class ParametersManager
                     supportBrightness = false;
                 }
             }
+            Log.d(TAG, "support brightness:"+ supportBrightness);
         }
 
         public void Set(int bright)
@@ -480,6 +488,7 @@ public class ParametersManager
             {
                 supportAfpPriority = false;
             }
+            Log.d(TAG, "support afp:" + supportAfpPriority);
         }
 
         public void Set(String value)
@@ -487,16 +496,19 @@ public class ParametersManager
             String def = Get();
 
             Log.e(TAG, "Try to set Afp from" + def + " to " + value);
-            try
+            if (!def.equals(value))
             {
-                parameters.set(afpValue, value);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
-            {
-                Log.e(TAG, "Set afp failed back to def");
-                parameters.set(afpValue, def);
-                cameraManager.Restart(false);
+                try
+                {
+                    parameters.set(afpValue, value);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG, "Set afp failed back to def");
+                    parameters.set(afpValue, def);
+                    cameraManager.Restart(false);
+                }
             }
             onParametersCHanged();
         }
@@ -577,6 +589,7 @@ public class ParametersManager
             {
                 supportZSL = false;
             }
+            Log.d(TAG, "zsl support:" + supportZSL);
         }
 
         public String[] getValues()
@@ -587,18 +600,22 @@ public class ParametersManager
         public void setValue(String toapplie)
         {
             String def = getValue();
-            try {
-                Log.d(TAG, "Try to set Zeroshutterlag to:"+ toapplie);
-                parameters.set(value, toapplie);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
+            if (!def.equals(toapplie))
             {
-                Log.e(TAG, "ZSL set failed set to " + def);
-                parameters.set(def, toapplie);
-                cameraManager.Restart(false);
+                try {
+                    Log.d(TAG, "Try to set Zeroshutterlag to:"+ toapplie);
+                    parameters.set(value, toapplie);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG, "ZSL set failed set to " + def);
+                    parameters.set(def, toapplie);
+                    cameraManager.Restart(false);
+                }
+                onParametersCHanged();
             }
-            onParametersCHanged();
+
         }
 
         public String getValue()
@@ -621,6 +638,7 @@ public class ParametersManager
             {
                 supportWhiteBalance = false;
             }
+            Log.d(TAG,"support Whitebalance:" + supportWhiteBalance);
         }
 
         public String[] getValues()
@@ -669,6 +687,7 @@ public class ParametersManager
             {
                 supportIso = false;
             }
+            Log.d(TAG,"support IsoModes:" + supportIso);
         }
 
         public String[] getValues()
@@ -713,6 +732,7 @@ public class ParametersManager
             {
                 supportExposureMode = false;
             }
+            Log.d(TAG, "support ExposureModes:" + supportExposureMode);
         }
 
         public String get()
@@ -728,16 +748,19 @@ public class ParametersManager
         public void set(String value)
         {
             String def = get();
-            try {
-                Log.d(TAG, "Try set ExposureMode to " +value);
-                getParameters().set("exposure", value);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
+            if (!def.equals(value))
             {
-                Log.e(TAG,"Exposure set failed, set back to"+def);
-                getParameters().set("exposure",def);
-                cameraManager.Restart(false);
+                try {
+                    Log.d(TAG, "Try set ExposureMode to " +value);
+                    getParameters().set("exposure", value);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG,"Exposure set failed, set back to"+def);
+                    getParameters().set("exposure",def);
+                    cameraManager.Restart(false);
+                }
             }
             onParametersCHanged();
 
@@ -759,6 +782,7 @@ public class ParametersManager
             {
                 supportScene = false;
             }
+            Log.d(TAG,"support SceneModes:" + supportScene);
         }
 
         public String[] getValues()
@@ -774,18 +798,21 @@ public class ParametersManager
         public void set(String val)
         {
             String dev = get();
-            try {
-                Log.d(TAG,"Try set Scene to:" + val);
-                getParameters().setSceneMode(val);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
+            if (!dev.equals(val))
             {
-                Log.e(TAG,"Scene set failed set back to" + dev);
-                getParameters().setSceneMode(dev);
-                cameraManager.Restart(false);
+                try {
+                    Log.d(TAG,"Try set Scene to:" + val);
+                    getParameters().setSceneMode(val);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG,"Scene set failed set back to" + dev);
+                    getParameters().setSceneMode(dev);
+                    cameraManager.Restart(false);
+                }
+                onParametersCHanged();
             }
-            onParametersCHanged();
         }
     }
 
@@ -802,6 +829,7 @@ public class ParametersManager
             {
                 supportIPP = false;
             }
+            Log.d(TAG, "support Ipp:" + supportIPP);
         }
 
         public String[] getValues()
@@ -817,16 +845,19 @@ public class ParametersManager
         public void Set(String val)
         {
             String dev = Get();
-            try {
-                Log.d(TAG, "try set ipp to:" + val);
-                parameters.set("ipp", val);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
+            if (!dev.equals(val))
             {
-                Log.e(TAG,"ipp set failed, set back to:" + dev);
-                parameters.set("ipp", dev);
-                cameraManager.Restart(false);
+                try {
+                    Log.d(TAG, "try set ipp to:" + val);
+                    parameters.set("ipp", val);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG,"ipp set failed, set back to:" + dev);
+                    parameters.set("ipp", dev);
+                    cameraManager.Restart(false);
+                }
             }
             onParametersCHanged();
         }
@@ -847,17 +878,20 @@ public class ParametersManager
         public void Set(String val)
         {
             String dev = Get();
-            try
+            if (!dev.equals(val))
             {
-                Log.d(TAG, "try set previewformat to:" + val);
-                parameters.set("preview-format", val);
-                cameraManager.Restart(false);
-            }
-            catch (Exception ex)
-            {
-                Log.e(TAG,"preview format set failed, set back to:" + dev);
-                parameters.set("preview-format", dev);
-                cameraManager.Restart(false);
+                try
+                {
+                    Log.d(TAG, "try set previewformat to:" + val);
+                    parameters.set("preview-format", val);
+                    cameraManager.Restart(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG,"preview format set failed, set back to:" + dev);
+                    parameters.set("preview-format", dev);
+                    cameraManager.Restart(false);
+                }
             }
             onParametersCHanged();
         }
@@ -921,18 +955,21 @@ public class ParametersManager
         {
             int i = Integer.parseInt(val);
             int dev = parameters.getPreviewFrameRate();
-            try {
-                Log.d(TAG, "try set preview fps  to:" + i + " from " + dev);
-                parameters.setPreviewFrameRate(i);
-                cameraManager.mCamera.stopPreview();
-                cameraManager.Restart(false);
-                cameraManager.mCamera.startPreview();
-            }
-            catch (Exception ex)
+            if (i != dev)
             {
-                Log.e(TAG,"preview fps set failed set:" + dev);
-                parameters.setPreviewFrameRate(dev);
-                cameraManager.Restart(false);
+                try {
+                    Log.d(TAG, "try set preview fps  to:" + i + " from " + dev);
+                    parameters.setPreviewFrameRate(i);
+                    cameraManager.mCamera.stopPreview();
+                    cameraManager.Restart(false);
+                    cameraManager.mCamera.startPreview();
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG,"preview fps set failed set:" + dev);
+                    parameters.setPreviewFrameRate(dev);
+                    cameraManager.Restart(false);
+                }
             }
             onParametersCHanged();
 
