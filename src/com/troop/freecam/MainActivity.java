@@ -25,6 +25,7 @@ import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.menu.AutoMenuControl;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.SeekbarViewControl;
+import com.troop.freecam.controls.menu.ManualMenuControl;
 import com.troop.freecam.controls.menu.SettingsMenuControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.MyTimer;
@@ -45,12 +46,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public boolean HDRMode = false;
 
     RelativeLayout mainlayout;
-    public CheckBox manualExposure;
-    public CheckBox manualShaprness;
-    public CheckBox manualFocus;
-    public CheckBox contrastcheckBox;
-    CheckBox brightnessCheckBox;
-    public CheckBox saturationCheckBox;
+
+
     protected TextView recordingTimerTextView;
     protected MyTimer recordTimer;
     public CheckBox checkBoxZSL;
@@ -60,7 +57,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     SettingsMenuControl settingsFragment;
     InfoScreenControl infoScreenFragment;
     AutoMenuControl autoMenuFragment;
-    SeekbarViewControl seekbarViewFragment;
+    ManualMenuControl manualMenuControl;
+    //SeekbarViewControl seekbarViewFragment;
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -107,8 +105,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         //getSupportFragmentManager().beginTransaction().add(R.id.LayoutAuto, autoMenuFragment).commit();
         autoMenuFragment = (AutoMenuControl)findViewById(R.id.LayoutAuto);
         autoMenuFragment.SetCameraManager(camMan, this);
-        seekbarViewFragment = (SeekbarViewControl)findViewById(R.id.tableVIEW);
-        seekbarViewFragment.SetCameraManger(camMan, this);
+        //seekbarViewFragment = (SeekbarViewControl)findViewById(R.id.tableVIEW);
+        //seekbarViewFragment.SetCameraManger(camMan, this);
+        manualMenuControl = (ManualMenuControl)findViewById(R.id.Layout_Manual);
+        manualMenuControl.SetStuff(camMan, this);
 
 
         mPreview.SetCameraManager(camMan);
@@ -155,96 +155,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 
 
-        manualExposure = (CheckBox)findViewById(R.id.checkBox_exposureManual);
-        manualExposure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (manualExposure.isChecked())
-                {
-                    seekbarViewFragment.exposureRow.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    seekbarViewFragment.exposureRow.setVisibility(View.GONE);
-                }
-            }
-        });
 
-        manualShaprness = (CheckBox) findViewById(R.id.checkBox_sharpness);
-        manualShaprness.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (manualShaprness.isChecked())
-                {
-                    seekbarViewFragment.sharpnessRow.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    seekbarViewFragment.sharpnessRow.setVisibility(View.GONE);
-                }
-                //sharpnessRow.invalidate();
-            }
-        });
-
-        //********************ManualFocus******************************************
-
-
-        manualFocus = (CheckBox)findViewById(R.id.checkBox_focus);
-        manualFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (manualFocus.isChecked())
-
-                    seekbarViewFragment.focusRow.setVisibility(View.VISIBLE);
-
-                else
-                    seekbarViewFragment.focusRow.setVisibility(View.GONE);
-                //focusButton.setEnabled(true);
-            }
-        });
-
-
-        //*****************************************End********************************************
-
-
-        contrastcheckBox = (CheckBox)findViewById(R.id.checkBox_contrast);
-        contrastcheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (contrastcheckBox.isChecked())
-                    seekbarViewFragment.contrastRow.setVisibility(View.VISIBLE);
-                else
-                    seekbarViewFragment.contrastRow.setVisibility(View.GONE);
-            }
-        });
-
-
-
-
-
-        brightnessCheckBox = (CheckBox)findViewById(R.id.checkBox_brightness);
-        brightnessCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (brightnessCheckBox.isChecked())
-                    seekbarViewFragment.brightnessRow.setVisibility(View.VISIBLE);
-                else
-                    seekbarViewFragment.brightnessRow.setVisibility(View.GONE);
-            }
-        });
-
-
-        saturationCheckBox = (CheckBox) findViewById(R.id.checkBox_saturation);
-        saturationCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (saturationCheckBox.isChecked())
-                    seekbarViewFragment.saturationRow.setVisibility(View.VISIBLE);
-                else
-                    seekbarViewFragment.saturationRow.setVisibility(View.GONE);
-            }
-        });
 
         switchVideoPicture = (Button)findViewById(R.id.button_switchVideoPicture);
         setSwitchVideoPictureBackground();
@@ -358,8 +269,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         try {
             String s = Build.MODEL;
 
-            if(!DeviceUtils.isG2())
-                manualFocus.setVisibility(View.GONE);
+            //if(!DeviceUtils.isG2())
+                //manualFocus.setVisibility(View.GONE);
 
             if (!DeviceUtils.isQualcomm())
             {
@@ -497,9 +408,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public void parametersHasChanged(boolean restarted)
     {
         try{
-            seekbarViewFragment.UpdateValues(restarted);
+            //seekbarViewFragment.UpdateValues(restarted);
             autoMenuFragment.UpdateUI(restarted);
             settingsFragment.UpdateUI(restarted);
+            manualMenuControl.UpdateUI(restarted);
 
 
             //Crosshair appairing
@@ -512,18 +424,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                 drawSurface.drawingRectHelper.Enabled = false;
             }
             infoScreenFragment.showtext();
-            if (!camMan.parametersManager.getSupportBrightness())
-                brightnessCheckBox.setVisibility(View.GONE);
-            else
-                brightnessCheckBox.setVisibility(View.VISIBLE);
-            if (!camMan.parametersManager.getSupportSharpness())
-                manualShaprness.setVisibility(View.GONE);
-            else
-                manualShaprness.setVisibility(View.VISIBLE);
-            if (!camMan.parametersManager.getSupportSaturation())
-                saturationCheckBox.setVisibility(View.GONE);
-            else
-                saturationCheckBox.setVisibility(View.VISIBLE);
+
 
         }
         catch (Exception ex)

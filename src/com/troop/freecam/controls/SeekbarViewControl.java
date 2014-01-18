@@ -83,14 +83,14 @@ public class SeekbarViewControl extends LinearLayout
         exposureTextView = (TextView) findViewById(R.id.textViewexposure);
         exposureSeekbar  = (SeekBar)  findViewById(R.id.seekBar_exposure);
         //exposureSeekbar.setProgress(camMan.parametersManager.getParameters().getMaxExposureCompensation() - camMan.parametersManager.getParameters().getMinExposureCompensation());
-        exposureSeekbar.setOnSeekBarChangeListener(camMan.manualExposureManager);
+        //exposureSeekbar.setOnSeekBarChangeListener(camMan.manualExposureManager);
         exposureRow = (TableRow)  findViewById(R.id.tableRowExposure);
         exposureRow.setVisibility(View.GONE);
 
         sharpnessTextView = (TextView) findViewById(R.id.textView_sharpness);
         sharpnessSeekBar = (SeekBar) findViewById(R.id.seekBar_sharpness);
         sharpnessSeekBar.setProgress(100);
-        sharpnessSeekBar.setOnSeekBarChangeListener(camMan.manualSharpnessManager);
+        //sharpnessSeekBar.setOnSeekBarChangeListener(camMan.manualSharpnessManager);
         sharpnessRow = (TableRow)  findViewById(R.id.tableRowSharpness);
         sharpnessRow.setVisibility(View.GONE);
 
@@ -99,13 +99,13 @@ public class SeekbarViewControl extends LinearLayout
         focusSeekBar.setMax(60);
         //TODO something wrong here?
         brightnessTextView = (TextView)( findViewById(R.id.textViewFocus));
-        focusSeekBar.setOnSeekBarChangeListener(camMan.manualFocus);
+        //focusSeekBar.setOnSeekBarChangeListener(camMan.manualFocus);
         focusRow.setVisibility(View.GONE);
 
         contrastRow = (TableRow) findViewById(R.id.tableRowContrast);
         contrastSeekBar = (SeekBar)  findViewById(R.id.seekBar_contrast);
         contrastSeekBar.setProgress(100);
-        contrastSeekBar.setOnSeekBarChangeListener(camMan.manualContrastManager);
+        //contrastSeekBar.setOnSeekBarChangeListener(camMan.manualContrastManager);
         contrastTextView = (TextView)  findViewById(R.id.textView_contrast);
         contrastRow.setVisibility(View.GONE);
 
@@ -113,14 +113,14 @@ public class SeekbarViewControl extends LinearLayout
         brightnessRow = (TableRow) findViewById(R.id.tableRowBrightness);
         brightnessSeekBar = (SeekBar) findViewById(R.id.seekBar_brightness);
         brightnessTextView = (TextView)findViewById(R.id.textView_brightness);
-        brightnessSeekBar.setOnSeekBarChangeListener(camMan.manualBrightnessManager);
+        //brightnessSeekBar.setOnSeekBarChangeListener(camMan.manualBrightnessManager);
         brightnessRow.setVisibility(View.GONE);
 
         saturationRow = (TableRow) findViewById(R.id.tableRowsaturation);
         saturationTextView = (TextView) findViewById(R.id.textViewSaturation);
         saturationSeekBar = (SeekBar) findViewById(R.id.seekBarSaturation);
         saturationSeekBar.setProgress(100);
-        saturationSeekBar.setOnSeekBarChangeListener(new ManualSaturationManager(camMan));
+        //saturationSeekBar.setOnSeekBarChangeListener(new ManualSaturationManager(camMan));
         saturationRow.setVisibility(View.GONE);
     }
 

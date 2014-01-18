@@ -59,6 +59,8 @@ public class ParametersManager
     boolean supportExposureMode = false;
     public boolean getSupportExposureMode() { return supportExposureMode; }
     boolean supportScene = false;
+    boolean supportManualFocus = false;
+    public boolean getSupportManualFocus(){ return  supportManualFocus;}
     public boolean getSupportScene() { return supportScene;}
     private ParametersChangedInterface parametersChanged;
     public BrightnessManager Brightness;
@@ -136,6 +138,15 @@ public class ParametersManager
 
     private void checkParametersSupport()
     {
+        try {
+            int i = parameters.getInt("manual-focus");
+            supportManualFocus = true;
+        }
+        catch (Exception ex)
+        {
+            supportManualFocus = false;
+        }
+        Log.d(TAG, "support manualFocus:" + supportManualFocus);
         try
         {
             int i = parameters.getInt("sharpness");
@@ -289,7 +300,7 @@ public class ParametersManager
     {
         parameters.setPreviewSize(w,h);
         Log.d(TAG, "set previewsize to " + w + "x" + h);
-        onpreviewsizehasChanged(w,h);
+        onpreviewsizehasChanged(w, h);
     }
 
     /*public void SetExposureCompensation(int exp)
@@ -329,6 +340,7 @@ public class ParametersManager
 
 
 
+    //TODO FINDout min max value
     public void SetMFocus(int focus)
     {
         //mainActivity.focusButton.setEnabled(false);
@@ -986,7 +998,7 @@ public class ParametersManager
             }
             catch (Exception ex)
             {
-                max = 180;
+                max = 100;
             }
             return max;
         }

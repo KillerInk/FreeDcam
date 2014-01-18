@@ -3,6 +3,7 @@ package com.troop.freecam.surfaces;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
@@ -17,6 +18,8 @@ public class BasePreview extends SurfaceView implements PreviewSizeChangedInterf
 
     protected boolean hasReal3d = false;
     protected Context context;
+    protected boolean hasOpenSense = false;
+    final String TAG = "freecam.BasePreview";
 
     public BasePreview(Context context)
     {
@@ -50,6 +53,21 @@ public class BasePreview extends SurfaceView implements PreviewSizeChangedInterf
 
             hasReal3d = false;
 
+        }
+
+    }
+
+    protected void isopensense()
+    {
+        try {
+            Class c = Class.forName("com.htc.view.DisplaySetting");
+            Log.d(TAG, "Found class com.htc.view.DisplaySetting");
+            hasOpenSense = true;
+
+        } catch (ClassNotFoundException e) {
+
+            hasOpenSense = false;
+            Log.e(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
     }

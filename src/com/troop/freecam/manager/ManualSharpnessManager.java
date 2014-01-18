@@ -3,11 +3,12 @@ package com.troop.freecam.manager;
 import android.widget.SeekBar;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
  * Created by troop on 07.09.13.
  */
-public class ManualSharpnessManager implements SeekBar.OnSeekBarChangeListener
+public class ManualSharpnessManager implements IStyleAbleSliderValueHasChanged
 {
 
     CameraManager cameraManager;
@@ -17,22 +18,12 @@ public class ManualSharpnessManager implements SeekBar.OnSeekBarChangeListener
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    public void ValueHasChanged(int value)
     {
-        if (cameraManager.parametersManager.getSupportSharpness() && fromUser)
+        if (cameraManager.parametersManager.getSupportSharpness())
         {
-            cameraManager.parametersManager.manualSharpness.set(progress);
+            cameraManager.parametersManager.manualSharpness.set(value);
             //cameraManager.Restart(false);
         }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 }

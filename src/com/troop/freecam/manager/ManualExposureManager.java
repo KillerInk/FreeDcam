@@ -3,11 +3,12 @@ package com.troop.freecam.manager;
 import android.widget.SeekBar;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
  * Created by troop on 03.09.13.
  */
-public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
+public class ManualExposureManager implements IStyleAbleSliderValueHasChanged {
 
     private CameraManager cameramanager;
     public boolean ExternalSet =false;
@@ -20,24 +21,18 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
         this.cameramanager = cameraManager;
 
     }
-    @Override
+    /*@Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
         if (ExternalSet == false && fromUser)
         {
-            currentValue = progress + minValue;
-            //if (maxValue < 61)
-            //{
-                if (currentValue >= cameramanager.parametersManager.manualExposure.getMin() && currentValue <= cameramanager.parametersManager.manualExposure.getMax())
-                {
-                    cameramanager.parametersManager.manualExposure.set(currentValue);
-                }
+
         }
         else
         {
             ExternalSet = false;
         }
-    }
+    }*/
 
     public  void SetMinMax(int min, int max)
     {
@@ -58,7 +53,7 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
         cameramanager.activity.exposureSeekbar.setProgress(val);
     }*/
 
-    @Override
+/*    @Override
     public void onStartTrackingTouch(SeekBar seekBar)
     {
 
@@ -68,5 +63,17 @@ public class ManualExposureManager implements  SeekBar.OnSeekBarChangeListener {
     public void onStopTrackingTouch(SeekBar seekBar)
     {
 
+    }*/
+
+    @Override
+    public void ValueHasChanged(int value)
+    {
+        currentValue = value + minValue;
+        //if (maxValue < 61)
+        //{
+        if (currentValue >= cameramanager.parametersManager.manualExposure.getMin() && currentValue <= cameramanager.parametersManager.manualExposure.getMax())
+        {
+            cameramanager.parametersManager.manualExposure.set(currentValue);
+        }
     }
 }

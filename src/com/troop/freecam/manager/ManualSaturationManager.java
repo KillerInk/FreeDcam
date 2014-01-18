@@ -3,11 +3,12 @@ package com.troop.freecam.manager;
 import android.widget.SeekBar;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
  * Created by troop on 08.09.13.
  */
-public class ManualSaturationManager implements  SeekBar.OnSeekBarChangeListener{
+public class ManualSaturationManager implements IStyleAbleSliderValueHasChanged{
     public ManualSaturationManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
     }
@@ -15,22 +16,9 @@ public class ManualSaturationManager implements  SeekBar.OnSeekBarChangeListener
     CameraManager cameraManager;
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    public void ValueHasChanged(int value)
     {
-        if (fromUser)
-        {
-            cameraManager.parametersManager.getParameters().set("saturation", progress);
-            cameraManager.Restart(false);
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
+        cameraManager.parametersManager.getParameters().set("saturation", value);
+        cameraManager.Restart(false);
     }
 }

@@ -141,60 +141,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/Layout_Manual"
-                android:focusableInTouchMode="false"
+            <com.troop.freecam.controls.menu.ManualMenuControl
                 android:orientation="horizontal"
-                android:background="@drawable/camera_frame_box_ver_bg">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_brightness"
-                    android:background="@drawable/icon_manual_brightnes"
-                    android:textColor="#ff0000"
-                    android:singleLine="false" />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_contrast"
-                    android:background="@drawable/icon_manual_contrast" />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_exposureManual"
-                    android:background="@drawable/icon_manual_exposure"
-                    android:textColor="#ff0000"
-                     />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_focus"
-                    android:background="@drawable/icon_manual_focus" />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_saturation"
-                    android:background="@drawable/icon_manual_saturation"
-                    android:checked="false"
-                    android:textColor="#ff0000"
-                     />
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_sharpness"
-                    android:background="@drawable/icon_manual_sharpness"
-                    android:textColor="#ff0000"
-                     />
-
-            </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Layout_Manual"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -242,6 +193,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 

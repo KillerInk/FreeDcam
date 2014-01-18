@@ -3,11 +3,12 @@ package com.troop.freecam.manager;
 import android.widget.SeekBar;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
  * Created by troop on 07.09.13.
  */
-public class ManualContrastManager implements SeekBar.OnSeekBarChangeListener
+public class ManualContrastManager implements IStyleAbleSliderValueHasChanged
 {
     public ManualContrastManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
@@ -17,24 +18,14 @@ public class ManualContrastManager implements SeekBar.OnSeekBarChangeListener
 
     CameraManager cameraManager;
 
+
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    public void ValueHasChanged(int value)
     {
-        if (ExternalSet == false && cameraManager.parametersManager.getSupportContrast() && fromUser)
+
+        if (cameraManager.parametersManager.getSupportContrast())
         {
-            cameraManager.parametersManager.SetContrast(progress);
+            cameraManager.parametersManager.SetContrast(value);
         }
-        else
-            ExternalSet = false;
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 }

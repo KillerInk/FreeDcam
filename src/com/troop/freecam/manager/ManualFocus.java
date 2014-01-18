@@ -6,27 +6,18 @@ package com.troop.freecam.manager;
 import android.widget.SeekBar;
 
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
-public class ManualFocus implements SeekBar.OnSeekBarChangeListener {
+public class ManualFocus implements IStyleAbleSliderValueHasChanged {
     CameraManager cameraManager;
 
     public ManualFocus(CameraManager cameraManager){
         this.cameraManager = cameraManager;
     }
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-    {
-        cameraManager.parametersManager.SetMFocus(progress);
-    }
+
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
+    public void ValueHasChanged(int value) {
+        cameraManager.parametersManager.SetMFocus(value);
     }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
-    }
-
 }

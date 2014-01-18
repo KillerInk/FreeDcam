@@ -5,6 +5,8 @@
         <attr name="SliderHeight" format="integer" />
         <attr name="SliderWidth" format="integer" />
         <attr name="horizontal" format="boolean" />
+        <attr name="textview" format="string"/>
+        <attr name="valuevied" format="string"/>
     </declare-styleable>
     <declare-styleable name="ExtendedButton">
         <attr name="StringTop" format="string" />

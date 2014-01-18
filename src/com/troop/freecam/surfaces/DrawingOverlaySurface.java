@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
@@ -27,6 +30,8 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     public SizeAbleRectangle drawingRectHelper;
     public boolean RDY = false;
     private CameraManager camMan;
+    final String TAG = "freecam.DrawingOverlaySurface";
+    boolean is3Denabled = false;
 
     long lastclick;
 
@@ -53,6 +58,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     {
         this.isInEditMode();
         isReald3d();
+        isopensense();
         this.setZOrderOnTop(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
@@ -87,6 +93,19 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
             }
         }
+        if (hasOpenSense)
+        {
+            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
+            {
+                enableS3D(true, mHolder.getSurface());
+            }
+            else
+            {
+                //mReal3D = null;
+                //mReal3D.setViewMode(2);
+                enableS3D(false, mHolder.getSurface());
+            }
+        }
     }
 
 
@@ -118,5 +137,29 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     {
         this.camMan = cameraManager;
         drawingRectHelper.cameraManager = cameraManager;
+    }
+
+    private void enableS3D(boolean enable, Surface surface) {
+        Log.i(TAG, "enableS3D(" + enable + ")");
+        int mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_SIDE_BY_SIDE;
+        if (!enable) {
+            mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_OFF;
+        } else {
+            is3Denabled = true;
+        }
+        boolean formatResult = true;
+        try {
+            formatResult = DisplaySetting
+                    .setStereoscopic3DFormat(surface, mode);
+        } catch (NoClassDefFoundError e) {
+            android.util.Log.i(TAG,
+                    "class not found - S3D display not available");
+            is3Denabled = false;
+        }
+        Log.i(TAG, "return value:" + formatResult);
+        if (!formatResult) {
+            android.util.Log.i(TAG, "S3D format not supported");
+            is3Denabled = false;
+        }
     }
 }

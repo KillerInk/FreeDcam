@@ -40,6 +40,7 @@ public class CamPreview extends BasePreview {
         isReald3d();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mHolder = getHolder();
+            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         if (hasReal3d)
         {
             mReal3D = new Real3D(mHolder);
