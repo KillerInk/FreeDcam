@@ -31,6 +31,12 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
 
+    final String TAG = "freecam.PictureCam";
+    private void writeDebug(String s)
+    {
+        Log.d(TAG, s);
+    }
+
     byte[] rawbuffer;
 
 
@@ -62,7 +68,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     /** Handles data for raw picture */
     public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
-            Log.d("FreeCam", "onPictureTaken - raw");
+            writeDebug("onPictureTaken - raw");
             //if (data != null)
                 //saveRawData(data);
         }
@@ -73,16 +79,33 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public void onPictureTaken(byte[] data, Camera camera)
     {
 
-        Log.d("PictureCallback", "DATAsize:" + data.length);
+        writeDebug("OnPictureTaken callback recieved");
         boolean is3d = false;
         if (Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             is3d = true;
         }
+        writeDebug("start saving to sd");
+        try {
+            savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d);
+            writeDebug("save successed");
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, "saving to sd failed");
+            ex.printStackTrace();
+        }
 
-        savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d);
+        try {
+            writeDebug("try to start preview");
+            mCamera.startPreview();
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, "preview start failed");
+            ex.printStackTrace();
+        }
 
-        mCamera.startPreview();
         IsWorking = false;
         data = null;
         //takePicture = false;

@@ -234,7 +234,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             Log.d(TAG, "Camera is restarted");
             //try
             //{
-                mCamera.stopPreview();
+
                 parametersManager.SetCameraParameters(mCamera.getParameters());
 
                 parametersManager.SetJpegQuality(100);
