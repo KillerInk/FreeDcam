@@ -130,8 +130,11 @@ public class StyleAbelSlider extends View
         }
         else
         {
-            int pos = getHeight() /max *current;
+
             int half = getWidth() / 2;
+            int pos = getHeight() /max *current;
+            if (pos + getWidth() - half > getHeight())
+                pos =getHeight()-half;
             ret = new Rect(0, pos - half , getWidth(), getWidth() + pos - half);
         }
         drawPosition = ret;
@@ -149,7 +152,7 @@ public class StyleAbelSlider extends View
         }
         else
         {
-            int i = getHeight()/max;
+            int i = (getHeight() - getWidth() / 2)/max;
             val = (posi-getWidth()/2)/i;
         }
         return val;
