@@ -93,7 +93,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
             }
         }
-        if (hasOpenSense)
+        /*if (hasOpenSense)
         {
             if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
             {
@@ -105,7 +105,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
                 //mReal3D.setViewMode(2);
                 enableS3D(false, mHolder.getSurface());
             }
-        }
+        }*/
     }
 
 
