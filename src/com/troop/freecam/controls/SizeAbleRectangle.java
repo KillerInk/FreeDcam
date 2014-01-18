@@ -16,6 +16,7 @@ import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 24.09.13.
@@ -77,7 +78,7 @@ public class SizeAbleRectangle
             if (drawRectangle == true && Enabled && canvas != null)
             {
                 String tmp = cameraManager.Settings.Cameras.GetCamera();
-                if (tmp.equals(SettingsManager.Preferences.MODE_3D))
+                if (tmp.equals(SettingsManager.Preferences.MODE_3D) && !DeviceUtils.isEvo3d())
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;
