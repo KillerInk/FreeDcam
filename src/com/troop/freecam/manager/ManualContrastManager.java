@@ -25,7 +25,7 @@ public class ManualContrastManager implements IStyleAbleSliderValueHasChanged
 
         if (cameraManager.parametersManager.getSupportContrast())
         {
-            cameraManager.parametersManager.SetContrast(value);
+            cameraManager.parametersManager.manualContrast.set(value);
         }
     }
 }

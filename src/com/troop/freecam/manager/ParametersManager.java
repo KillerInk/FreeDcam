@@ -77,6 +77,7 @@ public class ParametersManager
     public PreviewFpsClass PreviewFps;
     public ManualSharpnessClass manualSharpness;
     public ManualExposureClass manualExposure;
+    public ManualContrastClass manualContrast;
 
     private boolean loadingParametersFinish = false;
 
@@ -109,6 +110,7 @@ public class ParametersManager
         PreviewFps = new PreviewFpsClass();
         manualSharpness = new ManualSharpnessClass();
         manualExposure = new ManualExposureClass();
+        manualContrast = new ManualContrastClass();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true);
@@ -321,22 +323,7 @@ public class ParametersManager
         }
     }*/
 
-    public void SetContrast(int contrast)
-    {
-        parameters.set("contrast", contrast);
-        Log.d(TAG,"Set contrast to " + contrast);
-        try
-        {
-            cameraManager.Restart(false);
 
-        }
-        catch (Exception ex)
-        {
-            Log.e(TAG,"Contrast Set Fail");
-            ex.printStackTrace();
-        }
-        onParametersCHanged();
-    }
 
 
 
@@ -1054,6 +1041,44 @@ public class ParametersManager
                 Log.e(TAG, "Set Exposure failed set back to last");
                 parameters.setExposureCompensation(def);
                 cameraManager.Restart(false);
+            }
+            onParametersCHanged();
+        }
+    }
+
+    public class ManualContrastClass
+    {
+        public int getMax()
+        {
+            int max = 0;
+            try {
+                max = Integer.parseInt(parameters.get("contrast-max"));
+            }
+            catch (Exception ex)
+            {
+                max = 100;
+            }
+            return max;
+        }
+
+        public int getValue()
+        {
+            return Integer.parseInt(parameters.get("contrast"));
+        }
+
+        public void set(int contrast)
+        {
+            parameters.set("contrast", contrast);
+            Log.d(TAG,"Set contrast to " + contrast);
+            try
+            {
+                cameraManager.Restart(false);
+
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG,"Contrast Set Fail");
+                ex.printStackTrace();
             }
             onParametersCHanged();
         }

@@ -220,6 +220,14 @@ public class ManualMenuControl extends LinearLayout
                 manualFocus.setVisibility(GONE);
             else
                 manualFocus.setVisibility(VISIBLE);
+            if (!camMan.parametersManager.getSupportContrast())
+                contrastcheckBox.setVisibility(GONE);
+            else
+            {
+                contrastcheckBox.setVisibility(VISIBLE);
+                manualContrastSlider.SetMaxValue(camMan.parametersManager.manualContrast.getMax());
+                manualContrastSlider.SetCurrentValue(camMan.parametersManager.manualContrast.getValue());
+            }
 
         }
     }
