@@ -10,12 +10,13 @@ import android.widget.TextView;
 
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 30.12.13.
  */
-public class InfoScreenControl extends LinearLayout
+public class InfoScreenControl extends LinearLayout implements IShutterSpeedCallback
 {
 
 
@@ -46,6 +47,8 @@ public class InfoScreenControl extends LinearLayout
     protected TextView OnScreenSharpnessValue;
     protected TextView OnScreenWBText;
     protected TextView OnScreenWBValue;
+    TextView OnScreenShutterSpeed;
+    LinearLayout shutterlayout;
 
     CameraManager camMan;
     Context context;
@@ -70,7 +73,9 @@ public class InfoScreenControl extends LinearLayout
     public void SetCameraManager(CameraManager cameraManager)
     {
         this.camMan = cameraManager;
+        camMan.setOnShutterSpeed(this);
         init(context);
+
     }
 
     //******************************************************
@@ -126,6 +131,8 @@ public class InfoScreenControl extends LinearLayout
             OnScreenSharpnessValue = (TextView) findViewById(R.id.textViewSharpValue);
             OnScreenWBText = (TextView) findViewById(R.id.textViewWBText);
             OnScreenWBValue = (TextView) findViewById(R.id.textViewWBValue);
+            OnScreenShutterSpeed = (TextView) findViewById(R.id.textView_shutterspeed);
+            shutterlayout = (LinearLayout)findViewById(R.id.layout_shutterspeed);
         }
         catch (NullPointerException ex)
         {
@@ -160,6 +167,7 @@ public class InfoScreenControl extends LinearLayout
         OnScreenSharpnessValue.setVisibility(View.INVISIBLE);
         OnScreenWBText.setVisibility(View.INVISIBLE);
         OnScreenWBValue.setVisibility(View.INVISIBLE);
+        shutterlayout.setVisibility(GONE);
     }
 
 
@@ -191,6 +199,7 @@ public class InfoScreenControl extends LinearLayout
         OnScreenSharpnessValue.setVisibility(View.VISIBLE);
         OnScreenWBText.setVisibility(View.VISIBLE);
         OnScreenWBValue.setVisibility(View.VISIBLE);
+        shutterlayout.setVisibility(VISIBLE);
 
     }
 
@@ -237,5 +246,10 @@ public class InfoScreenControl extends LinearLayout
     public void Show()
     {
         setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void ShutterSpeedRecieved(String shutterSpeed) {
+        OnScreenShutterSpeed.setText(shutterSpeed);
     }
 }

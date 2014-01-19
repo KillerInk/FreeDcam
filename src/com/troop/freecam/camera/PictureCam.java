@@ -4,7 +4,9 @@ import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.interfaces.SavePictureCallback;
+import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
@@ -30,6 +32,8 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
+    protected IShutterSpeedCallback shutterSpeedCallback;
+    public void setOnShutterSpeed(IShutterSpeedCallback shutterSpeedCallback){this.shutterSpeedCallback = shutterSpeedCallback; }
 
     final String TAG = "freecam.PictureCam";
     private void writeDebug(String s)
@@ -120,7 +124,13 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     @Override
     public void onPictureSaved(File file)
     {
-
+        ExifManager m = new ExifManager();
+        try {
+            m.LoadExifFrom(file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        onShutterSpeed(m.getExposureTime());
     }
 
     private void saveRawData(byte[] data)
@@ -136,5 +146,11 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected void onShutterSpeed(String speed)
+    {
+        if (shutterSpeedCallback != null)
+            shutterSpeedCallback.ShutterSpeedRecieved(speed);
     }
 }

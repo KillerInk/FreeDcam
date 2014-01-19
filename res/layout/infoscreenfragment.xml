@@ -460,5 +460,32 @@
                 android:layout_alignBottom="@+id/textView_timerRecording"
                 android:layout_toLeftOf="@+id/textView_timerRecording" />
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bg_7n"
+            android:layout_marginTop="2dp"
+            android:id="@+id/layout_shutterspeed">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="ShutterSpeed:"
+                android:id="@+id/textView"
+                android:textSize="@dimen/TextSizeSmall"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="*"
+                android:id="@+id/textView_shutterspeed"
+                android:textSize="@dimen/TextSizeSmall"
+                android:textColor="#ffffff" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

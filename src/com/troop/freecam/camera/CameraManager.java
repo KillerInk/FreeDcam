@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.manager.AutoFocusManager;
+import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
 import com.troop.freecam.manager.ManualContrastManager;
@@ -30,6 +31,7 @@ import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,6 +186,13 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         {
             ex.printStackTrace();
         }
+        ExifManager m = new ExifManager();
+        try {
+            m.LoadExifFrom(file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        onShutterSpeed(m.getExposureTime());
     }
 
     public  void Start()

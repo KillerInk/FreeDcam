@@ -25,6 +25,8 @@ public class ExifManager
     String Make;
     String Model;
 
+    public String getExposureTime(){ return ExposureTime;}
+
     public void LoadExifFrom(String path) throws IOException {
         ExifInterface loader = new ExifInterface(path);
 
