@@ -21,7 +21,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Brightness:"
                 android:id="@+id/textViewBrightnessText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -34,7 +34,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewBrightnessValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -55,7 +55,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Contrast:"
                 android:id="@+id/textViewContrastText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -69,7 +69,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewContrastValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_below="@+id/textViewBrightnessValue"
                 android:layout_alignLeft="@+id/textViewBrightnessValue"
                 android:background="@drawable/icon_bg_7n"
@@ -89,7 +89,7 @@
                 android:textAppearance="@android:style/TextAppearance.Holo"
                 android:text="EV:"
                 android:id="@+id/textViewEVText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_below="@+id/textViewEffetText"
                 android:layout_alignLeft="@+id/textViewContrastText"
                 android:background="@drawable/icon_bg_7n"
@@ -102,7 +102,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewEvValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_below="@+id/textViewEffectValue"
                 android:layout_alignLeft="@+id/textViewEffectValue"
                 android:background="@drawable/icon_bg_7n"
@@ -120,28 +120,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Effect:"
-                android:id="@+id/textViewEffetText"
-                android:textSize="8dp"
-                android:layout_below="@+id/textViewContrastText"
-                android:layout_alignLeft="@+id/textViewEVText"
+                android:text="White Balance:"
+                android:id="@+id/textViewWBText"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:layout_below="@+id/textViewWBValue"
+                android:layout_alignLeft="@+id/textViewSharpText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
-                android:id="@+id/textViewEffectValue"
-                android:textSize="8dp"
+                android:id="@+id/textViewWBValue"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
-                android:layout_alignBaseline="@+id/textViewSatuValue"
-                android:layout_alignBottom="@+id/textViewSatuValue"
-                android:layout_alignLeft="@+id/textViewBrightnessText" />
+                android:layout_below="@+id/textViewSharpValue"
+                android:layout_alignLeft="@+id/textViewSharpValue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Sharpness:"
+                android:id="@+id/textViewSharpText"
+                android:textSize="@dimen/TextSizeSmall"
+                android:background="@drawable/icon_bg_7n"
+                android:textColor="#ffffff"
+                android:typeface="monospace"
+                android:layout_below="@+id/textViewMeterValue"
+                android:layout_alignLeft="@+id/textViewSceneText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="*"
+                android:id="@+id/textViewSharpValue"
+                android:textSize="@dimen/TextSizeSmall"
+                android:background="@drawable/icon_bg_7n"
+                android:textColor="#ffffff"
+                android:typeface="monospace"
+                android:layout_below="@+id/textViewSceneValue"
+                android:layout_alignLeft="@+id/textViewSceneValue" />
         </LinearLayout>
     </LinearLayout>
 
@@ -163,7 +195,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Focus:"
                 android:id="@+id/textViewFocusText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_alignTop="@+id/textViewBrightnessValue"
                 android:layout_toRightOf="@+id/textViewEffectValue"
                 android:background="@drawable/icon_bg_7n"
@@ -176,7 +208,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewFocusValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -197,7 +229,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Flash:"
                 android:id="@+id/textViewFlashtext"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_alignBaseline="@+id/textViewContrastValue"
                 android:layout_alignBottom="@+id/textViewContrastValue"
                 android:layout_alignLeft="@+id/textViewFocusText"
@@ -211,7 +243,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewFlashValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_alignBaseline="@+id/textViewFlashtext"
                 android:layout_alignBottom="@+id/textViewFlashtext"
                 android:layout_alignLeft="@+id/textViewFocusValue"
@@ -232,7 +264,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="ISO:"
                 android:id="@+id/textViewISOText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -245,7 +277,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewISOValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_below="@+id/textViewFlashValue"
                 android:layout_alignLeft="@+id/textViewFlashValue"
                 android:background="@drawable/icon_bg_7n"
@@ -267,7 +299,7 @@
                 android:id="@+id/textViewMeterText"
                 android:layout_alignTop="@+id/textViewEvValue"
                 android:layout_alignLeft="@+id/textViewISOText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace" />
@@ -278,13 +310,47 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewMeterValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:layout_alignBaseline="@+id/textViewMeterText"
                 android:layout_alignBottom="@+id/textViewMeterText"
                 android:layout_alignLeft="@+id/textViewISOValue"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Effect:"
+                android:id="@+id/textViewEffetText"
+                android:textSize="@dimen/TextSizeSmall"
+                android:layout_below="@+id/textViewContrastText"
+                android:layout_alignLeft="@+id/textViewEVText"
+                android:background="@drawable/icon_bg_7n"
+                android:textColor="#ffffff"
+                android:typeface="monospace" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="*"
+                android:id="@+id/textViewEffectValue"
+                android:textSize="@dimen/TextSizeSmall"
+                android:background="@drawable/icon_bg_7n"
+                android:textColor="#ffffff"
+                android:typeface="monospace"
+                android:layout_alignBaseline="@+id/textViewSatuValue"
+                android:layout_alignBottom="@+id/textViewSatuValue"
+                android:layout_alignLeft="@+id/textViewBrightnessText" />
         </LinearLayout>
     </LinearLayout>
 
@@ -307,7 +373,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Saturation:"
                 android:id="@+id/textViewSatuText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -320,7 +386,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewSatuValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -340,7 +406,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Scene:"
                 android:id="@+id/textViewSceneText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -353,78 +419,12 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewSceneValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
                 android:layout_below="@+id/textViewSatuValue"
                 android:layout_alignLeft="@+id/textViewSatuValue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="2dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Sharpness:"
-                android:id="@+id/textViewSharpText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewMeterValue"
-                android:layout_alignLeft="@+id/textViewSceneText" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewSharpValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewSceneValue"
-                android:layout_alignLeft="@+id/textViewSceneValue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="White Balance:"
-                android:id="@+id/textViewWBText"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewWBValue"
-                android:layout_alignLeft="@+id/textViewSharpText" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="*"
-                android:id="@+id/textViewWBValue"
-                android:textSize="8dp"
-                android:background="@drawable/icon_bg_7n"
-                android:textColor="#ffffff"
-                android:typeface="monospace"
-                android:layout_below="@+id/textViewSharpValue"
-                android:layout_alignLeft="@+id/textViewSharpValue" />
         </LinearLayout>
 
         <LinearLayout
@@ -439,7 +439,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Picture Size:"
                 android:id="@+id/textViewPictureText"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
@@ -453,7 +453,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="*"
                 android:id="@+id/textViewPictureValue"
-                android:textSize="8dp"
+                android:textSize="@dimen/TextSizeSmall"
                 android:background="@drawable/icon_bg_7n"
                 android:textColor="#ffffff"
                 android:typeface="monospace"
