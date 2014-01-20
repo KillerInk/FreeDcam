@@ -39,9 +39,9 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
     {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_MUSIC);
+                .getStreamVolume(AudioManager.STREAM_RING);
         float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                .getStreamMaxVolume(AudioManager.STREAM_RING);
         float volume = actualVolume / maxVolume;
         // Is the sound loaded already?
         if (loaded)
@@ -58,10 +58,11 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
         player.start();*/
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_MUSIC);
+                .getStreamVolume(AudioManager.STREAM_RING);
         float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                .getStreamMaxVolume(AudioManager.STREAM_RING);
         float volume = actualVolume / maxVolume;
+        //soundPool.setVolume(focusID,1,1);
         // Is the sound loaded already?
         if (loaded)
             soundPool.play(focusID, volume, volume, 1, 0, 1f);
