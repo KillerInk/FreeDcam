@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam">
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/app_icon_size"
+        android:text="HDR Settings"
+        android:id="@+id/button_ShowHide" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Layout_Preview_subMenu"
+        android:longClickable="false">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="High"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
+
+        <com.troop.freecam.controls.NumericUpDownControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/numericUpDown_HighExposure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Normal"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal" />
+        <com.troop.freecam.controls.NumericUpDownControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/numericUpDown_NormalExposure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Low"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal" />
+        <com.troop.freecam.controls.NumericUpDownControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/numericUpDown_LowExposure" />
+
+    </LinearLayout>
+</LinearLayout>

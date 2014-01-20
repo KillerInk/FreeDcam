@@ -44,6 +44,7 @@ public class SettingsMenuControl extends LinearLayout
     MainActivity activity;
     PreviewSubMenuControl previewSubMenu;
     QualitySubMenuControl qualitySubMenu;
+    HdrSubMenuControl hdrSubMenu;
 
     public SettingsMenuControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -75,6 +76,8 @@ public class SettingsMenuControl extends LinearLayout
         previewSubMenu.Init(activity, camMan);
         qualitySubMenu = (QualitySubMenuControl)activity.findViewById(R.id.quality_submenu_control);
         qualitySubMenu.Init(activity,camMan);
+        hdrSubMenu = (HdrSubMenuControl)activity.findViewById(R.id.hdr_submenu_control);
+        hdrSubMenu.Init(activity, camMan);
         upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
 
         if (camMan.Settings.OrientationFix.GET())
@@ -179,6 +182,7 @@ public class SettingsMenuControl extends LinearLayout
         switchCamera.SetButtonText(tmp);
         previewSubMenu.UpdateUI();
         qualitySubMenu.UpdateUI();
+        hdrSubMenu.UpdateUI();
 
         //ZeroShutterLag
 

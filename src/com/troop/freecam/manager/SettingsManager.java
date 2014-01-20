@@ -109,6 +109,7 @@ public class SettingsManager
     public PreviewFormatClass PreviewFormat;
     public AfPriorityClass afPriority;
     public PreviewFpsClass PreviewFps;
+    public HDRSettingsClass HDRSettings;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -132,6 +133,7 @@ public class SettingsManager
         PreviewFormat = new PreviewFormatClass();
         afPriority = new AfPriorityClass();
         PreviewFps = new PreviewFpsClass();
+        HDRSettings = new HDRSettingsClass();
     }
 
     public class CamerasClass
@@ -406,5 +408,36 @@ public class SettingsManager
         {
             preferences.edit().putBoolean("crop", value).commit();
         }
+    }
+
+    public class HDRSettingsClass
+    {
+        public void setHighExposure(int highExposure)
+        {
+            preferences.edit().putInt("highexposure", highExposure).commit();
+        }
+        public int getHighExposure()
+        {
+            return preferences.getInt("highexposure", 10);
+        }
+
+        public void setNormalExposure(int highExposure)
+        {
+            preferences.edit().putInt("normalexposure", highExposure).commit();
+        }
+        public int getNormalExposure()
+        {
+            return preferences.getInt("normalexposure", 0);
+        }
+
+        public void setLowExposure(int highExposure)
+        {
+            preferences.edit().putInt("lowexposure", highExposure).commit();
+        }
+        public int getLowExposure()
+        {
+            return preferences.getInt("lowexposure", -10);
+        }
+
     }
 }

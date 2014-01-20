@@ -94,6 +94,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/preview_submenu_control"
                     android:focusableInTouchMode="false" />
+                <com.troop.freecam.controls.menu.HdrSubMenuControl
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hdr_submenu_control"
+                    android:focusableInTouchMode="false" />
                 <com.troop.freecam.controls.menu.QualitySubMenuControl
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
