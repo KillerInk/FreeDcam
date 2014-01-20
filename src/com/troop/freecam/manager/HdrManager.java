@@ -121,13 +121,14 @@ public class HdrManager implements PictureTakeFinish
         setParameters();
         Log.d(TAG, "Set Parameters to Cam finish");
         setParameters = false;
+
+
+        takepicture = true;
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        takepicture = true;
         Log.d(TAG, "Start Taking Picture");
         cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
     }
