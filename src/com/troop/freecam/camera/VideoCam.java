@@ -76,11 +76,20 @@ public class VideoCam extends PictureCam
             recorder.setOutputFile(mediaSavePath);
             recorder.setPreviewDisplay(context.getHolder().getSurface());
             try {
+                Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
+                Log.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
+                Log.d(TAG, "Recording started");
                 IsRecording = true;
-            } catch (IOException e) {
+            } catch (Exception e)
+            {
+                Log.e(TAG,"Recording failed");
                 e.printStackTrace();
+                recorder.reset();
+
+                mCamera.lock();
+                recorder.release();
             }
         }
         catch (NullPointerException ex)
@@ -98,13 +107,22 @@ public class VideoCam extends PictureCam
     public  void StopRecording()
     {
         IsRecording = false;
-        recorder.stop();
+        try {
+            recorder.stop();
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, "Stop Recording failed, was called bevor start");
+            ex.printStackTrace();
 
-        //scanManager.startScan(mediaSavePath);
+        }
+        finally
+        {
+            recorder.reset();
+            mCamera.lock();
+            recorder.release();
+        }
         lastPicturePath = mediaSavePath;
-        recorder.reset();
-        mCamera.lock();
-        recorder.release();
         MediaScannerManager.ScanMedia(context.getContext(), new File(mediaSavePath));
     }
 
