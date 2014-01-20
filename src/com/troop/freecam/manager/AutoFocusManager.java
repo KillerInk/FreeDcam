@@ -82,11 +82,18 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
 
     public void StartFocus()
     {
-        if (!focusing)
+        if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive)
         {
             focusing = true;
-            cameraManager.mCamera.autoFocus(this);
-            cameraManager.soundPlayer.PlayFocus();
+            try {
+                cameraManager.mCamera.autoFocus(this);
+                cameraManager.soundPlayer.PlayFocus();
+            }
+            catch (Exception ex)
+            {
+                focusing = false;
+            }
+
             /*MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerafocus);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
             {
@@ -110,7 +117,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
     @Override
     public void onAutoFocus(boolean success, Camera camera)
     {
-        focusing = false;
+
 
 
         /*if(success && cameraManager.takePicture)
@@ -140,6 +147,7 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
             cameraManager.touchtofocus = false;
             cameraManager.takePicture = false;
         }
+        focusing = false;
     }
 
 }

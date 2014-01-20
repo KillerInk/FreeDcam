@@ -193,7 +193,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         public void onClick(View v) {
             // TODO Auto-generated method stub
             thumbButton.setImageBitmap(null);
-            if(recordVideo == false)
+            if(recordVideo == false && !camMan.IsWorking)
             {
                 if (HDRMode == false)
                     camMan.StartTakePicture();

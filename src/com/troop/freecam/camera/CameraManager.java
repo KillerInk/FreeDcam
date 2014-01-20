@@ -299,7 +299,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             Log.d("StartTakingPicture", "takepicture:" + takePicture);
             Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
             takePicture = true;
-            if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO))
+            if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) && !IsWorking && !autoFocusManager.focusing)
             {
 
                 if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
@@ -326,8 +326,11 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     public void StartFocus()
     {
-        SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
-        autoFocusManager.StartFocus();
+        if (!HdrRender.IsActive && !autoFocusManager.focusing && !IsWorking)
+        {
+            SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+            autoFocusManager.StartFocus();
+        }
     }
 
     public void AutoFocusAssit()
