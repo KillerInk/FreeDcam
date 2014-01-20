@@ -23,7 +23,7 @@ import java.io.IOException;
 public class HdrManager implements PictureTakeFinish
 {
 
-    private final String TAG = "HdrManager";
+    private final String TAG = "freecam.HdrManager";
 
     public boolean IsActive = false;
 
@@ -35,6 +35,7 @@ public class HdrManager implements PictureTakeFinish
     int interval = 500;
     boolean takepicture = false;
     boolean working = false;
+    boolean setParameters = false;
     PictureTakeFinish pictureTakeFinish;
     SavePictureRunnable saveFirstPic;
     SavePictureRunnable saveSecondPic;
@@ -55,13 +56,17 @@ public class HdrManager implements PictureTakeFinish
     private void doAction() {
         if (count < 3)
         {
-            if (!takepicture)
+            if (!takepicture && !setParameters)
             {
-
+                Log.d(TAG,"Rdy for Taking Pic:" + count);
                 starttakePicture();
             }
-            else if(takepicture)
-                handler.postDelayed(runnable, interval);
+            else if(takepicture || setParameters)
+            {
+                Log.d(TAG,"Not Rdy for Taking Pic:" + count);
+                doAction();
+                //handler.postDelayed(runnable, interval);
+            }
         }
         else
         {
@@ -111,23 +116,27 @@ public class HdrManager implements PictureTakeFinish
 
     private void starttakePicture()
     {
-
+        setParameters = true;
+        Log.d(TAG, "Set Parameters to Cam");
         setParameters();
-        /*try {
+        Log.d(TAG, "Set Parameters to Cam finish");
+        setParameters = false;
+        try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
 
         takepicture = true;
+        Log.d(TAG, "Start Taking Picture");
         cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
     }
 
     private void setParameters()
     {
-        if (cameraManager.parametersManager.getParameters().getAutoWhiteBalanceLock() == false)
+        if (cameraManager.parametersManager.getParameters().isAutoWhiteBalanceLockSupported() && cameraManager.parametersManager.getParameters().getAutoWhiteBalanceLock() == false)
             cameraManager.parametersManager.getParameters().setAutoWhiteBalanceLock(true);
-        if (cameraManager.parametersManager.getParameters().getAutoExposureLock() == false)
+        if (cameraManager.parametersManager.getParameters().isAutoExposureLockSupported()&& cameraManager.parametersManager.getParameters().getAutoExposureLock() == false)
             cameraManager.parametersManager.getParameters().setAutoExposureLock(true);
         //disable, frame, center, fft and manual.
         cameraManager.parametersManager.getParameters().set("auto-convergence-mode", "disable");
@@ -135,24 +144,26 @@ public class HdrManager implements PictureTakeFinish
 
         int conv  = cameraManager.parametersManager.getParameters().getExposureCompensation();
 
+        //cameraManager.mCamera.stopPreview();
         if (count == 0)
         {
-            cameraManager.parametersManager.manualExposure.set(10);
+            cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getHighExposure());
             //cameraManager.parametersManager.SetBrightness(60);
             //cameraManager.parametersManager.SetContrast(120);
         }
         else if (count == 1)
         {
-            cameraManager.parametersManager.manualExposure.set(0);
+            cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getNormalExposure());
             //cameraManager.parametersManager.SetBrightness(50);
             //cameraManager.parametersManager.SetContrast(100);
         }
         else if (count == 2)
         {
-            cameraManager.parametersManager.manualExposure.set(-10);
+            cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getLowExposure());
             //cameraManager.parametersManager.SetBrightness(40);
             //cameraManager.parametersManager.SetContrast(80);
         }
+        //cameraManager.mCamera.startPreview();
 
     }
 
@@ -208,6 +219,8 @@ public class HdrManager implements PictureTakeFinish
             }
             count++;
             takepicture = false;
+            Log.d(TAG,"Picture Taking Finished");
+
             cameraManager.mCamera.startPreview();
             pictureTakeFinish.PictureTakingFinish();
         }
@@ -246,16 +259,7 @@ public class HdrManager implements PictureTakeFinish
     public Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
         public void onShutter() {
 
-            MediaPlayer mediaPlayer = MediaPlayer.create(cameraManager.activity.getApplicationContext(), R.raw.camerashutter);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-            {
-                public void onCompletion(MediaPlayer mp)
-                {
-                    mp.release();
-                }
-            });
-            //mediaPlayer.setVolume(1,1);
-            mediaPlayer.start(); // no need to call prepare(); create() does that for you
+            cameraManager.soundPlayer.PlayShutter();
             Log.d("FreeCam", "onShutter'd");
         }
     };
