@@ -79,6 +79,30 @@ public class ParametersManager
     public ManualExposureClass manualExposure;
     public ManualContrastClass manualContrast;
 
+    public enum enumParameters
+    {
+        All,
+        Denoise,
+        ManualBrightness,
+        AfPriority,
+        VideoModes,
+        ZeroShutterLag,
+        ManualWhiteBalance,
+        Iso,
+        ExposureMode,
+        Scene,
+        Ipp,
+        PreviewFormat,
+        PreviewSize,
+        PreviewFps,
+        ManualSharpness,
+        ManualExposure,
+        ManualContrast,
+        ManualFocus,
+        WhiteBalanceMode,
+        FlashMode,
+    }
+
     private boolean loadingParametersFinish = false;
 
     public ParametersManager(CameraManager cameraManager, SettingsManager preferences)
@@ -113,7 +137,7 @@ public class ParametersManager
         manualContrast = new ManualContrastClass();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
-        onParametersCHanged(true);
+        onParametersCHanged(true, enumParameters.All);
     }
 
     public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
@@ -121,21 +145,21 @@ public class ParametersManager
         this.parametersChanged = parametersChangedInterface;
     }
 
-    public void UpdateUI()
+    /*public void UpdateUI()
     {
         onParametersCHanged();
-    }
+    }*/
 
-    private void onParametersCHanged()
+    private void onParametersCHanged(enumParameters paras)
     {
         if (parametersChanged != null && loadingParametersFinish)
-            parametersChanged.parametersHasChanged(false);
+            parametersChanged.parametersHasChanged(false, paras);
     }
 
-    private void onParametersCHanged(boolean reloadGui)
+    private void onParametersCHanged(boolean reloadGui, enumParameters paras)
     {
         if (parametersChanged != null && loadingParametersFinish)
-            parametersChanged.parametersHasChanged(reloadGui);
+            parametersChanged.parametersHasChanged(reloadGui, paras);
     }
 
     private void checkParametersSupport()
@@ -262,7 +286,6 @@ public class ParametersManager
 
         Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
 
-        onParametersCHanged();
         cameraManager.Restart(false);
     }
 
@@ -280,6 +303,7 @@ public class ParametersManager
         int w = Integer.parseInt(widthHeight[0]);
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPictureSize(w,h);
+
         Log.d(TAG, "set picture size to " + s);
     }
     private void setPreviewSize(String s)
@@ -334,7 +358,7 @@ public class ParametersManager
         parameters.set("manual-focus", 0);
         parameters.setFocusMode("normal");
         parameters.set("manualfocus_step", focus);
-        onParametersCHanged();
+        onParametersCHanged(enumParameters.ManualFocus);
         try
         {
             cameraManager.Restart(false);
@@ -349,7 +373,7 @@ public class ParametersManager
     public void SetJpegQuality(int quality)
     {
         parameters.set("jpeg-quality", quality);
-        onParametersCHanged();
+        onParametersCHanged(enumParameters.All);
         //setToPreferencesToCamera();
     }
 
@@ -435,7 +459,7 @@ public class ParametersManager
             {
                 Log.e("brightness Set Fail", ex.getMessage());
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.ManualBrightness);
             //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
 
         }
@@ -509,7 +533,7 @@ public class ParametersManager
                     cameraManager.Restart(false);
                 }
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.AfPriority);
         }
         public String Get()
         {
@@ -553,7 +577,7 @@ public class ParametersManager
             Width = Integer.parseInt(widthHeight[0]);
             Height = Integer.parseInt(widthHeight[1]);
             preferences.VideoSize.Set(Width + "x" + Height);
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.VideoModes);
         }
 
 
@@ -612,7 +636,7 @@ public class ParametersManager
                     parameters.set(def, toapplie);
                     cameraManager.Restart(false);
                 }
-                onParametersCHanged();
+                onParametersCHanged(enumParameters.ZeroShutterLag);
             }
 
         }
@@ -655,7 +679,7 @@ public class ParametersManager
             {
                 Log.e(TAG, "Whitebalance set failed");
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.WhiteBalanceMode);
 
         }
 
@@ -704,7 +728,7 @@ public class ParametersManager
             {
                 Log.e(TAG, "Iso set failed");
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.Iso);
 
         }
 
@@ -761,7 +785,7 @@ public class ParametersManager
                     cameraManager.Restart(false);
                 }
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.ExposureMode);
 
         }
     }
@@ -810,7 +834,7 @@ public class ParametersManager
                     getParameters().setSceneMode(dev);
                     cameraManager.Restart(false);
                 }
-                onParametersCHanged();
+                onParametersCHanged(enumParameters.Scene);
             }
         }
     }
@@ -858,7 +882,7 @@ public class ParametersManager
                     cameraManager.Restart(false);
                 }
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.Ipp);
         }
     }
 
@@ -892,7 +916,7 @@ public class ParametersManager
                     cameraManager.Restart(false);
                 }
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.PreviewFormat);
         }
     }
 
@@ -970,7 +994,7 @@ public class ParametersManager
                     cameraManager.Restart(false);
                 }
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.PreviewFps);
 
         }
     }
@@ -1006,6 +1030,7 @@ public class ParametersManager
             {
                 Log.e(TAG, "Manual Sharpness set failed");
             }
+            onParametersCHanged(enumParameters.ManualSharpness);
 
         }
     }
@@ -1042,7 +1067,7 @@ public class ParametersManager
                 parameters.setExposureCompensation(def);
                 cameraManager.Restart(false);
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.ManualExposure);
         }
     }
 
@@ -1080,7 +1105,7 @@ public class ParametersManager
                 Log.e(TAG,"Contrast Set Fail");
                 ex.printStackTrace();
             }
-            onParametersCHanged();
+            onParametersCHanged(enumParameters.ManualContrast);
         }
     }
 }

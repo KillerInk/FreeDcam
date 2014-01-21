@@ -30,6 +30,7 @@ import com.troop.freecam.controls.menu.ManualMenuControl;
 import com.troop.freecam.controls.menu.SettingsMenuControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.MyTimer;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;
@@ -406,11 +407,11 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     //TODO throw event with a value wich parameter has changed
     ///this updates the complete ui. its called everytime the camera parameters has changed
     @Override
-    public void parametersHasChanged(boolean restarted)
+    public void parametersHasChanged(boolean restarted, ParametersManager.enumParameters paras)
     {
         try{
             //seekbarViewFragment.UpdateValues(restarted);
-            autoMenuFragment.UpdateUI(restarted);
+            autoMenuFragment.UpdateUI(restarted, paras);
             settingsFragment.UpdateUI(restarted);
             manualMenuControl.UpdateUI(restarted);
 
