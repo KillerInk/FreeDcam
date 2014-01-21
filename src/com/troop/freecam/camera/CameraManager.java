@@ -299,34 +299,39 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             Log.d("StartTakingPicture", "takepicture:" + takePicture);
             Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
             takePicture = true;
-            if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) && !IsWorking && !autoFocusManager.focusing)
+            if (!IsWorking && !autoFocusManager.focusing)
             {
+                if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
+                {
 
-                if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
-                {
-                    SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
-                    //autoFocusManager.focusing = true;
-                    if (autoFocusManager.hasFocus)
-                        TakePicture(crop);
-                    else
+                    if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
+                    {
+                        SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+                        //autoFocusManager.focusing = true;
+                        if (autoFocusManager.hasFocus)
+                            TakePicture(crop);
+                        else
+                            autoFocusManager.StartFocus();
+                    }
+                    else if (touchtofocus == false)
+                    {
+                        touchtofocus = false;
                         autoFocusManager.StartFocus();
+                    }
+
                 }
-                else if (touchtofocus == false)
+                else
                 {
-                    touchtofocus = false;
-                    autoFocusManager.StartFocus();
+                    TakePicture(crop);
                 }
             }
-            else
-            {
-                TakePicture(crop);
-            }
+
         }
     }
 
     public void StartFocus()
     {
-        if (!HdrRender.IsActive && !autoFocusManager.focusing && !IsWorking)
+        if (true)
         {
             SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
             autoFocusManager.StartFocus();

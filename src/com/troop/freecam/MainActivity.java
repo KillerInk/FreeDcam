@@ -2,6 +2,7 @@ package com.troop.freecam;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.ThumbnailUtils;
@@ -415,7 +416,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 
             //Crosshair appairing
-            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto"))
+            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto") || camMan.parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
             {
                 drawSurface.drawingRectHelper.Enabled = true;
             }
