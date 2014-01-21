@@ -382,7 +382,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             meteringList.add(bottomArea);
             meteringList.add(leftArea);
             meteringList.add(rightArea);
-            if (parametersManager.getParameters().getMaxNumFocusAreas() > 0 && parametersManager.getParameters().getMaxNumMeteringAreas() > 0)
+            if (parametersManager.getParameters().getMaxNumFocusAreas() > 4 && parametersManager.getParameters().getMaxNumMeteringAreas() > 4)
             {
                 parametersManager.getParameters().setFocusAreas(meteringList);
                 try
