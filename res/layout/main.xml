@@ -153,12 +153,13 @@
                 android:layout_height="wrap_content">
 
                 <com.troop.freecam.controls.menu.AutoMenuControl
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutAuto"
                     android:measureWithLargestChild="false"
                     android:baselineAligned="false"
-                    android:background="@drawable/camera_frame_box_ver_bg"/>
+                    android:background="@drawable/camera_frame_box_ver_bg"
+                    android:minWidth="@dimen/menuwidth" />
 
 
 
@@ -175,14 +176,15 @@
                 android:layout_height="wrap_content">
 
                 <com.troop.freecam.controls.menu.SettingsMenuControl
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutSettings"
                     android:longClickable="false"
                     android:measureWithLargestChild="false"
                     android:baselineAligned="false"
                     android:background="@drawable/camera_frame_box_ver_bg"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal"
+                    android:minWidth="@dimen/menuwidth" />
 
 
 

@@ -9,6 +9,6 @@
     <dimen name="appiconsizedouble">96dp</dimen>
     <dimen name="appiconsizethree">144dp</dimen><dimen name="TextSizeSmallPlus">40dp</dimen>
     <dimen name="app_icon_size">70dp</dimen>
-    <dimen name="autolayout_margineTop">72dp</dimen>
+    <dimen name="autolayout_margineTop">72dp</dimen><dimen name="menuwidth">500dp</dimen>
 
 </resources>
