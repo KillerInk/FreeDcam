@@ -31,7 +31,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
     public boolean RDY = false;
     private CameraManager camMan;
     final String TAG = "freecam.DrawingOverlaySurface";
-    boolean is3Denabled = false;
+
 
     long lastclick;
 
@@ -139,27 +139,5 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
         drawingRectHelper.cameraManager = cameraManager;
     }
 
-    private void enableS3D(boolean enable, Surface surface) {
-        Log.i(TAG, "enableS3D(" + enable + ")");
-        int mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_SIDE_BY_SIDE;
-        if (!enable) {
-            mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_OFF;
-        } else {
-            is3Denabled = true;
-        }
-        boolean formatResult = true;
-        try {
-            formatResult = DisplaySetting
-                    .setStereoscopic3DFormat(surface, mode);
-        } catch (NoClassDefFoundError e) {
-            android.util.Log.i(TAG,
-                    "class not found - S3D display not available");
-            is3Denabled = false;
-        }
-        Log.i(TAG, "return value:" + formatResult);
-        if (!formatResult) {
-            android.util.Log.i(TAG, "S3D format not supported");
-            is3Denabled = false;
-        }
-    }
+
 }

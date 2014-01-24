@@ -7,15 +7,17 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.RelativeLayout;
 
+import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.SettingsManager;
 
-public class CamPreview extends BasePreview {
+public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
 
 	public SurfaceHolder mHolder;
     SurfaceHolder canvasHolder;
@@ -25,7 +27,7 @@ public class CamPreview extends BasePreview {
     public SharedPreferences preferences;
     boolean is3d = false;
 
-
+    boolean is3Denabled = false;
     public int canvasWidth;
     public int canvasHeight;
 
@@ -136,6 +138,7 @@ public class CamPreview extends BasePreview {
             layoutParams.leftMargin = 50;
             this.setLayoutParams(layoutParams);
         }
+    }
 
 
         //1920x1080 = 1280x720 = 1.7777777777777777
@@ -144,5 +147,48 @@ public class CamPreview extends BasePreview {
         //720x576 = 1.25
         //720x480 = 1.5
 
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
     }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    public void surfaceDestroyed(SurfaceHolder surfaceholder)
+    {
+        if (hasOpenSense)
+        {
+            camMan.Stop();
+            //holder = surfaceholder;
+            enableS3D(false, surfaceholder.getSurface()); // to make sure it's off
+        }
+    }
+
+    private void enableS3D(boolean enable, Surface surface) {
+        Log.i(TAG, "enableS3D(" + enable + ")");
+        int mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_SIDE_BY_SIDE;
+        if (!enable) {
+            mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_OFF;
+        } else {
+            is3Denabled = true;
+        }
+        boolean formatResult = true;
+        try {
+            formatResult = DisplaySetting
+                    .setStereoscopic3DFormat(surface, mode);
+        } catch (NoClassDefFoundError e) {
+            android.util.Log.i(TAG,
+                    "class not found - S3D display not available");
+            is3Denabled = false;
+        }
+        Log.i(TAG, "return value:" + formatResult);
+        if (!formatResult) {
+            android.util.Log.i(TAG, "S3D format not supported");
+            is3Denabled = false;
+        }
+    }
+
 }
