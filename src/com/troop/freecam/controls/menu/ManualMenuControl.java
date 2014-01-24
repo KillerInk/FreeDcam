@@ -12,6 +12,7 @@ import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.StyleAbelSlider;
+import com.troop.freecam.manager.ManualConvergenceManager;
 import com.troop.freecam.manager.ManualSaturationManager;
 
 /**
@@ -34,6 +35,8 @@ public class ManualMenuControl extends LinearLayout
     StyleAbelSlider manualBrightnesSlider;
     StyleAbelSlider manualFocusSlider;
     StyleAbelSlider manualContrastSlider;
+    StyleAbelSlider manaualConvergenceSlider;
+    CheckBox checkbox_convergence;
 
     public ManualMenuControl(Context context) {
         super(context);
@@ -175,6 +178,21 @@ public class ManualMenuControl extends LinearLayout
         manualContrastSlider.OnValueCHanged(camMan.manualContrastManager);
         manualContrastSlider.setVisibility(GONE);
 
+        manaualConvergenceSlider = (StyleAbelSlider)findViewById(R.id.slider_Convergence);
+        manaualConvergenceSlider.setVisibility(GONE);
+        manaualConvergenceSlider.OnValueCHanged(camMan.manualConvergenceManager);
+
+        checkbox_convergence = (CheckBox)findViewById(R.id.checkBox_manualConvergence);
+        checkbox_convergence.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkbox_convergence.isChecked())
+                    manaualConvergenceSlider.setVisibility(VISIBLE);
+                else
+                    manaualConvergenceSlider.setVisibility(GONE);
+            }
+        });
+
 
 
 
@@ -214,7 +232,7 @@ public class ManualMenuControl extends LinearLayout
             {
                 saturationCheckBox.setVisibility(View.VISIBLE);
                 manualSaturationSlider.SetMaxValue(100);
-                manualSaturationSlider.SetMaxValue(camMan.parametersManager.getParameters().getInt("saturation"));
+                manualSaturationSlider.SetCurrentValue(camMan.parametersManager.getParameters().getInt("saturation"));
             }
             if (!camMan.parametersManager.getSupportManualFocus())
                 manualFocus.setVisibility(GONE);
@@ -227,6 +245,20 @@ public class ManualMenuControl extends LinearLayout
                 contrastcheckBox.setVisibility(VISIBLE);
                 manualContrastSlider.SetMaxValue(camMan.parametersManager.manualContrast.getMax());
                 manualContrastSlider.SetCurrentValue(camMan.parametersManager.manualContrast.getValue());
+            }
+            if (camMan.parametersManager.getSupportManualConvergence())
+            {
+                checkbox_convergence.setVisibility(VISIBLE);
+                min = camMan.parametersManager.manualConvergence.getMin();
+                if (min < 0)
+                    min *= -1;
+                manaualConvergenceSlider.SetMaxValue(camMan.parametersManager.manualConvergence.getMax() + min);
+                camMan.manualConvergenceManager.SetMinMax(camMan.parametersManager.manualConvergence.getMin(), camMan.parametersManager.manualConvergence.getMax());
+                manaualConvergenceSlider.SetCurrentValue(camMan.parametersManager.manualConvergence.get());
+            }
+            else
+            {
+                checkbox_convergence.setVisibility(GONE);
             }
 
         }

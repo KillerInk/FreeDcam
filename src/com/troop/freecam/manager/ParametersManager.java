@@ -60,6 +60,8 @@ public class ParametersManager
     public boolean getSupportExposureMode() { return supportExposureMode; }
     boolean supportScene = false;
     boolean supportManualFocus = false;
+    boolean supportManualConvergence = false;
+    public boolean getSupportManualConvergence() { return supportManualConvergence;}
     public boolean getSupportManualFocus(){ return  supportManualFocus;}
     public boolean getSupportScene() { return supportScene;}
     private ParametersChangedInterface parametersChanged;
@@ -78,6 +80,7 @@ public class ParametersManager
     public ManualSharpnessClass manualSharpness;
     public ManualExposureClass manualExposure;
     public ManualContrastClass manualContrast;
+    public ManualConvergenceClass manualConvergence;
 
     public enum enumParameters
     {
@@ -137,6 +140,7 @@ public class ParametersManager
         manualSharpness = new ManualSharpnessClass();
         manualExposure = new ManualExposureClass();
         manualContrast = new ManualContrastClass();
+        manualConvergence = new ManualConvergenceClass();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true, enumParameters.All);
@@ -1124,6 +1128,55 @@ public class ParametersManager
                 ex.printStackTrace();
             }
             onParametersCHanged(enumParameters.ManualContrast);
+        }
+    }
+
+    public class ManualConvergenceClass
+    {
+        int min = 0;
+        int max = 0;
+        public ManualConvergenceClass()
+        {
+
+            try
+            {
+                max = Integer.parseInt(parameters.get("supported-manual-convergence-max"));
+                min = Integer.parseInt(parameters.get("supported-manual-convergence-min"));
+
+                supportManualConvergence = true;
+            }
+            catch (Exception ex)
+            {
+                supportManualConvergence = false;
+            }
+        }
+
+        public int get()
+        {
+            return Integer.parseInt(parameters.get("manual-convergence"));
+        }
+
+        public void set(int val)
+        {
+            try
+            {
+                Log.d(TAG, "Try to set manual convergence to " + val);
+                parameters.set("manual-convergence", val);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "manualconvergence set failed");
+            }
+        }
+
+        public int getMin()
+        {
+            return min;
+        }
+        public int getMax()
+        {
+            return max;
         }
     }
 }

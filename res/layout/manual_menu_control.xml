@@ -140,4 +140,25 @@
             android:id="@+id/slider_Contrast" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/checkBox_manualConvergence"
+            android:background="@drawable/icon_manual_convergence" />
+        <com.troop.freecam.controls.StyleAbelSlider
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="fill_parent"
+            android:background="@drawable/btn_default_focused_holo_light"
+            custom:horizontal="false"
+            custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+            custom:textview=""
+            custom:valuevied="0"
+            android:id="@+id/slider_Convergence" />
+    </LinearLayout>
+
 </LinearLayout>

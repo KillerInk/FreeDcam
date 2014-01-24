@@ -20,6 +20,7 @@ import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualBrightnessManager;
 import com.troop.freecam.manager.ManualContrastManager;
+import com.troop.freecam.manager.ManualConvergenceManager;
 import com.troop.freecam.manager.ManualExposureManager;
 import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.ManualSharpnessManager;
@@ -59,6 +60,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualBrightnessManager manualBrightnessManager;
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
+    public ManualConvergenceManager manualConvergenceManager;
     //public ParametersManager parametersManager;
     public boolean takePicture = false;
 
@@ -81,6 +83,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this, settingsManager);
+        manualConvergenceManager = new ManualConvergenceManager(cameraManager);
         Log.d(TAG, "Loading CameraManager done");
 
     }
