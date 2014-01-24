@@ -51,8 +51,8 @@ public class VideoCam extends PictureCam
             recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-            recorder.setVideoEncodingBitRate(20000000);
-            recorder.setVideoFrameRate(30);
+            /*recorder.setVideoEncodingBitRate(20000000);
+            recorder.setVideoFrameRate(30);*/
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {

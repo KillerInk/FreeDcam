@@ -142,7 +142,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             public void onClick(View v) {
                 if  (camMan.lastPicturePath != null)
                 {
-                    Uri uri = Uri.parse("file:/" + camMan.lastPicturePath);
+                    Uri uri = Uri.fromFile(new File(camMan.lastPicturePath));
 
                     Intent i=new Intent(Intent.ACTION_VIEW);
                     if (camMan.lastPicturePath.endsWith("mp4"))
@@ -380,14 +380,14 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(camMan, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //sensorManager.registerListener(camMan, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         infoScreenFragment.hideCurrentConfig();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(camMan);
+        //sensorManager.unregisterListener(camMan);
     }
 
     @Override
