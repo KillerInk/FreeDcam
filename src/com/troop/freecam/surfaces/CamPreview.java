@@ -35,20 +35,20 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
 
     private void init(Context context)
     {
-        try {
-
-
-
-        isReald3d();
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mHolder = getHolder();
-            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        if (hasReal3d)
+        try
         {
-            mReal3D = new Real3D(mHolder);
-            mReal3D.setMinimumNegative(-1);
-            SwitchViewMode();
-        }
+            isopensense();
+            isReald3d();
+            preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            mHolder = getHolder();
+            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            mHolder.addCallback(this);
+            if (hasReal3d)
+            {
+                mReal3D = new Real3D(mHolder);
+                mReal3D.setMinimumNegative(-1);
+                SwitchViewMode();
+            }
         }
         catch (NoSuchMethodError noSuchMethodError)
         {
@@ -94,6 +94,16 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
             else
             {
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+            }
+        }
+        if (hasOpenSense)
+        {
+            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_2D )
+                    ||preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_Front))
+            {
+                camMan.mCamera.stopPreview();
+                //holder = surfaceholder;
+                enableS3D(false, mHolder.getSurface());
             }
         }
     }
@@ -157,11 +167,13 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
 
     }
 
+
+
     public void surfaceDestroyed(SurfaceHolder surfaceholder)
     {
         if (hasOpenSense)
         {
-            camMan.Stop();
+            camMan.mCamera.stopPreview();
             //holder = surfaceholder;
             enableS3D(false, surfaceholder.getSurface()); // to make sure it's off
         }
