@@ -189,6 +189,7 @@ public class SettingsMenuControl extends LinearLayout
             String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
             switchPictureSize.SetButtonText(size1);
         }
+        if (paras == ParametersManager.enumParameters.VideoModes || paras == ParametersManager.enumParameters.All)
             switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
 
         //switch3dButton.SetValue(tmp);
@@ -199,7 +200,8 @@ public class SettingsMenuControl extends LinearLayout
 
         //ZeroShutterLag
 
-        switchFocus.SetButtonText(camMan.parametersManager.getParameters().getFocusMode());
+        if (paras == ParametersManager.enumParameters.FocusMode || paras == ParametersManager.enumParameters.All)
+            switchFocus.SetButtonText(camMan.parametersManager.getParameters().getFocusMode());
         //ToDo add FlashToParamertersMAnager
         if (camMan.parametersManager.getSupportFlash() && (paras == ParametersManager.enumParameters.FlashMode || paras == ParametersManager.enumParameters.All))
             switchFlash.SetButtonText(camMan.parametersManager.getParameters().getFlashMode());

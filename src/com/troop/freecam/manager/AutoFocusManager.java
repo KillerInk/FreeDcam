@@ -22,54 +22,6 @@ public class AutoFocusManager implements Camera.AutoFocusCallback
         this.cameraManager = cameraManager;
     }
 
-    public  void  SetFocus(String focusmode)
-    {
-        if (Camera.Parameters.FOCUS_MODE_AUTO.equals(focusmode))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-
-        }
-        if ("infinity".equals(focusmode))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode("infinity");
-            //cameraManager.mCamera.cancelAutoFocus();
-            //cameraManager.mCamera.autoFocus(null);
-        }
-        if (focusmode.equals("off"))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode("off");
-            //cameraManager.mCamera.cancelAutoFocus();
-            //cameraManager.mCamera.autoFocus(null);
-        }
-        if (focusmode.equals("portrait"))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode("portrait");
-            //cameraManager.mCamera.cancelAutoFocus();
-            //cameraManager.mCamera.autoFocus(this);
-        }
-        if (focusmode.equals("extended"))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode("extended");
-            //cameraManager.mCamera.cancelAutoFocus();
-            //cameraManager.mCamera.autoFocus(null);
-        }
-        if (focusmode.equals(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            //cameraManager.mCamera.cancelAutoFocus();
-            //cameraManager.mCamera.autoFocus(null);
-        }
-        if (focusmode.equals(Camera.Parameters.FOCUS_MODE_MACRO))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
-        }
-        if (focusmode.equals(Camera.Parameters.FOCUS_MODE_FIXED))
-        {
-            cameraManager.parametersManager.getParameters().setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);
-        }
-
-    }
-
     public void StartFocus()
     {
         if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive)

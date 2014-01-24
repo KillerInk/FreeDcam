@@ -49,17 +49,16 @@ public class FlashMenu extends BaseMenu
                     String tmp = item.toString();
                     if(activity.recordVideo == false)
                     {
-                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.parametersManager.setFlashMode(tmp);
                         camMan.Settings.FlashMode.Set(tmp);
                     }
                     if(activity.recordVideo == true)
                     {
                         if (!tmp.equals("off"))
                             tmp = "torch";
-                        camMan.parametersManager.getParameters().setFlashMode(tmp);
+                        camMan.parametersManager.setFlashMode(tmp);
                         camMan.Settings.FlashMode.Set(tmp);
                     }
-                    camMan.Restart(false);
                     return true;
                 }
             });

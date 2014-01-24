@@ -22,7 +22,6 @@ public class FocusMenu extends BaseMenu {
         super(camMan, activity);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onClick(View v)
     {
@@ -47,8 +46,8 @@ public class FocusMenu extends BaseMenu {
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.Settings.FocusMode.Set(tmp);
-                    camMan.autoFocusManager.SetFocus(tmp);
-                    camMan.Restart(false);
+                    camMan.parametersManager.setFocusMode(tmp);
+
                     return true;
                 }
             });

@@ -102,6 +102,7 @@ public class ParametersManager
         WhiteBalanceMode,
         FlashMode,
         PictureSize,
+        FocusMode,
     }
 
     private boolean loadingParametersFinish = false;
@@ -330,6 +331,20 @@ public class ParametersManager
         Log.d(TAG, "set previewsize to " + w + "x" + h);
         onpreviewsizehasChanged(w, h);
         onParametersCHanged(enumParameters.PreviewSize);
+    }
+
+    public void setFlashMode(String flash)
+    {
+        parameters.setFlashMode(flash);
+        cameraManager.Restart(false);
+        onParametersCHanged(enumParameters.FlashMode);
+    }
+
+    public void setFocusMode(String focusMode)
+    {
+        parameters.setFocusMode(focusMode);
+        onParametersCHanged(enumParameters.FocusMode);
+        cameraManager.Restart(false);
     }
 
     /*public void SetExposureCompensation(int exp)
