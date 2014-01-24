@@ -412,8 +412,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         try{
             //seekbarViewFragment.UpdateValues(restarted);
             autoMenuFragment.UpdateUI(restarted, paras);
-            settingsFragment.UpdateUI(restarted);
+            settingsFragment.UpdateUI(restarted, paras);
             manualMenuControl.UpdateUI(restarted);
+
 
 
             //Crosshair appairing

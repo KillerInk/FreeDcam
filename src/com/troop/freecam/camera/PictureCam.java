@@ -66,7 +66,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         //Camera.Size size = mCamera.getParameters().getPictureSize();
         //rawbuffer = new byte[size.width * size.height * 8];
 
-        mCamera.takePicture(this, rawCallback,this);
+        mCamera.takePicture(this, null,this);
     }
 
     /** Handles data for raw picture */

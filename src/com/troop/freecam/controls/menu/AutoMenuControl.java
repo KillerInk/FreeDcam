@@ -11,6 +11,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;
 import com.troop.menu.ExposureMenu;
@@ -112,11 +113,11 @@ public class AutoMenuControl extends LinearLayout
         transaction.commit();*/
     }
 
-    public void UpdateUI(boolean settingsReloaded)
+    public void UpdateUI(boolean settingsReloaded, ParametersManager.enumParameters paras)
     {
         if (settingsReloaded)
             checkVisibility();
-        updateValues();
+        updateValues(paras);
     }
 
     private void checkVisibility()
@@ -154,26 +155,27 @@ public class AutoMenuControl extends LinearLayout
         //findViewById(R.id.auto_menu_fragment_layout).requestLayout();
     }
 
-    private void updateValues() {
-        if (camMan.parametersManager.getSupportScene())
+    private void updateValues(ParametersManager.enumParameters paras) {
+        if (camMan.parametersManager.getSupportScene() && (paras == ParametersManager.enumParameters.Scene) || paras == ParametersManager.enumParameters.All)
             switchScene.SetButtonText(camMan.parametersManager.getParameters().getSceneMode());
+        //TODO add ColoreMOdes To parametersMAnager
         switchColor.SetButtonText(camMan.parametersManager.getParameters().getColorEffect());
-        if (camMan.parametersManager.getSupportExposureMode())
+        if (camMan.parametersManager.getSupportExposureMode() && (paras == ParametersManager.enumParameters.ExposureMode) || paras == ParametersManager.enumParameters.All)
             switchExposure.SetButtonText(camMan.parametersManager.ExposureMode.get());
-        if (camMan.parametersManager.getSupportIso())
+        if (camMan.parametersManager.getSupportIso()&& (paras == ParametersManager.enumParameters.Iso || paras == ParametersManager.enumParameters.All))
             switchIso.SetButtonText(camMan.parametersManager.Iso.get());
         //AF Priority
-        if (camMan.parametersManager.getSupportAfpPriority())
+        if (camMan.parametersManager.getSupportAfpPriority()&& (paras == ParametersManager.enumParameters.AfPriority || paras == ParametersManager.enumParameters.All))
         {
             switchAF.SetButtonText(camMan.parametersManager.AfPriority.Get());
         }
 
         //AutoExposure
-        if (camMan.parametersManager.getSupportAutoExposure())
+        if (camMan.parametersManager.getSupportAutoExposure()&& (paras == ParametersManager.enumParameters.ExposureMode || paras == ParametersManager.enumParameters.All))
         {
             switchMetering.SetButtonText(camMan.parametersManager.getParameters().get("auto-exposure"));
         }
-        if (camMan.parametersManager.getSupportWhiteBalance())
+        if (camMan.parametersManager.getSupportWhiteBalance()&& (paras == ParametersManager.enumParameters.WhiteBalanceMode || paras == ParametersManager.enumParameters.All))
         {
             switchWhiteBalance.SetButtonText(camMan.parametersManager.WhiteBalance.get());
         }

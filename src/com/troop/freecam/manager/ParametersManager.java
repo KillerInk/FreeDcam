@@ -152,13 +152,13 @@ public class ParametersManager
 
     private void onParametersCHanged(enumParameters paras)
     {
-        if (parametersChanged != null && loadingParametersFinish)
+        if (parametersChanged != null && loadingParametersFinish && parameters != null)
             parametersChanged.parametersHasChanged(false, paras);
     }
 
     private void onParametersCHanged(boolean reloadGui, enumParameters paras)
     {
-        if (parametersChanged != null && loadingParametersFinish)
+        if (parametersChanged != null && loadingParametersFinish && parameters != null)
             parametersChanged.parametersHasChanged(reloadGui, paras);
     }
 
@@ -373,7 +373,7 @@ public class ParametersManager
     public void SetJpegQuality(int quality)
     {
         parameters.set("jpeg-quality", quality);
-        onParametersCHanged(enumParameters.All);
+        //onParametersCHanged(enumParameters.All);
         //setToPreferencesToCamera();
     }
 

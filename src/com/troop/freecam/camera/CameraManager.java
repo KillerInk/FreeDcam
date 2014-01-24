@@ -244,17 +244,18 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             //try
             //{
 
-                parametersManager.SetCameraParameters(mCamera.getParameters());
+            //TODO its crashing for mahg
+            parametersManager.SetCameraParameters(mCamera.getParameters());
 
-                parametersManager.SetJpegQuality(100);
-                //parametersManager.SetContrast(100);
-                //mCamera.setParameters(parametersManager.getParameters());
-                mCamera.startPreview();
+            parametersManager.SetJpegQuality(100);
+            //parametersManager.SetContrast(100);
+            //mCamera.setParameters(parametersManager.getParameters());
+            mCamera.startPreview();
             //}
             //catch (Exception ex)
             //{
-                //Log.e(TAG, "Setting Parameters Faild");
-                //ex.printStackTrace();
+            //Log.e(TAG, "Setting Parameters Faild");
+            //ex.printStackTrace();
             //}
 
 
@@ -263,12 +264,12 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         {
 //            try
 //            {
-                //set parameters
+            //set parameters
             //Log.d(TAG, "Set Parameters to Camera");
-                mCamera.setParameters(parametersManager.getParameters());
-                //parametersManager.UpdateUI();
-                //get parameters to see if changed
-                //parameters = mCamera.getParameters();
+            mCamera.setParameters(parametersManager.getParameters());
+            //parametersManager.UpdateUI();
+            //get parameters to see if changed
+            //parameters = mCamera.getParameters();
 //            }
 //            catch (Exception ex)
 //            {
