@@ -103,7 +103,9 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
             {
                 camMan.mCamera.stopPreview();
                 //holder = surfaceholder;
+                Log.d(TAG, "Disable 3d barrier for evo3d");
                 enableS3D(false, mHolder.getSurface());
+                Log.d(TAG, "Disable 3d barrier for evo3d done");
             }
         }
     }

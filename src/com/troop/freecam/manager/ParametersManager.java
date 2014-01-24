@@ -101,6 +101,7 @@ public class ParametersManager
         ManualFocus,
         WhiteBalanceMode,
         FlashMode,
+        PictureSize,
     }
 
     private boolean loadingParametersFinish = false;
@@ -297,13 +298,14 @@ public class ParametersManager
             setPreviewSizeCHanged.onPreviewsizeHasChanged(w, h);
     }
 
-    private void setPictureSize(String s)
+    public void setPictureSize(String s)
     {
         String[] widthHeight = s.split("x");
         int w = Integer.parseInt(widthHeight[0]);
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPictureSize(w,h);
-
+        onParametersCHanged(enumParameters.PictureSize);
+        cameraManager.Restart(false);
         Log.d(TAG, "set picture size to " + s);
     }
     private void setPreviewSize(String s)
@@ -327,6 +329,7 @@ public class ParametersManager
         parameters.setPreviewSize(w,h);
         Log.d(TAG, "set previewsize to " + w + "x" + h);
         onpreviewsizehasChanged(w, h);
+        onParametersCHanged(enumParameters.PreviewSize);
     }
 
     /*public void SetExposureCompensation(int exp)

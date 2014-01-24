@@ -28,7 +28,6 @@ public class FlashMenu extends BaseMenu
         this.activity = activity;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onClick(View v)
     {

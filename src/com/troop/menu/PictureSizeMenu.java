@@ -35,14 +35,7 @@ public class PictureSizeMenu extends BaseMenu {
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
                 camMan.Settings.PictureSize.Set(tmp);
-                String[] widthHeight = tmp.split("x");
-                int w = Integer.parseInt(widthHeight[0]);
-                int h = Integer.parseInt(widthHeight[1]);
-
-                camMan.parametersManager.getParameters().setPictureSize(w, h);
-
-                camMan.Restart(false);
-
+                camMan.parametersManager.setPictureSize(tmp);
                 return true;
             }
         });

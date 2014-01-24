@@ -12,6 +12,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.manager.ParametersManager;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewFpsMenu;
 import com.troop.menu.PreviewSizeMenu;
@@ -55,12 +56,14 @@ public class PreviewSubMenuControl extends BaseSubMenu
         switchPreviewFps.SetOnClickListner(new PreviewFpsMenu(cameraManager, activity));
     }
 
-    public void UpdateUI()
+    public void UpdateUI(ParametersManager.enumParameters paras)
     {
-        switchPreviewFormat.SetButtonText(cameraManager.parametersManager.PreviewFormat.Get());
-
-        switchPreviewSize.SetButtonText(cameraManager.parametersManager.getParameters().getPreviewSize().width + "x" + cameraManager.parametersManager.getParameters().getPreviewSize().height);
-        switchPreviewFps.SetButtonText(cameraManager.parametersManager.PreviewFps.Get()+ "");
+        if (paras == ParametersManager.enumParameters.All || paras == ParametersManager.enumParameters.PreviewFormat)
+            switchPreviewFormat.SetButtonText(cameraManager.parametersManager.PreviewFormat.Get());
+        if (paras == ParametersManager.enumParameters.All || paras == ParametersManager.enumParameters.PreviewSize)
+            switchPreviewSize.SetButtonText(cameraManager.parametersManager.getParameters().getPreviewSize().width + "x" + cameraManager.parametersManager.getParameters().getPreviewSize().height);
+        if (paras == ParametersManager.enumParameters.All || paras == ParametersManager.enumParameters.PreviewFps)
+            switchPreviewFps.SetButtonText(cameraManager.parametersManager.PreviewFps.Get()+ "");
     }
 
 }
