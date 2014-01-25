@@ -38,6 +38,11 @@ public class StyleAbelSlider extends View
     Paint paint;
     int picID;
 
+    int currentpixel = 50;
+    int pixelProValue = 10;
+    int minpixel = 0;
+    int maxpixel = 100;
+
 
     private IStyleAbleSliderValueHasChanged valueHasChanged;
 
@@ -89,6 +94,9 @@ public class StyleAbelSlider extends View
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        maxpixel = getHeight();
+        pixelProValue = maxpixel / max;
+        currentpixel = current * pixelProValue;
         if (sliderImage == null)
         {
             sliderImage = getResources().getDrawable(picID);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
@@ -121,40 +129,22 @@ public class StyleAbelSlider extends View
 
     private Rect getPosToDraw()
     {
-        Rect ret;
-        if (horizontal)
-        {
-            int pos = getWidth() / max * current;
-            int half = getHeight() / 2;
-            ret = new Rect(pos - half, 0, getHeight() + pos - half, getHeight());
-        }
-        else
-        {
 
-            int half = getWidth() / 2;
-            int pos = getHeight() /max *current;
-            if (pos + getWidth() - half > getHeight())
-                pos =getHeight()-half;
-            ret = new Rect(0, pos - half , getWidth(), getWidth() + pos - half);
-        }
-        drawPosition = ret;
-        return ret;
+        int half = getWidth() / 2;
+        Rect tmp = new Rect(0, currentpixel , getWidth(), getWidth() +currentpixel);
+
+        drawPosition = tmp;
+        return tmp;
     }
 
     private int getValueFromDrawingPos(int posi)
     {
         int val;
         value = posi +"";
-        if (horizontal)
-        {
-            int i = getWidth()/max;
-            val = posi/i;
-        }
-        else
-        {
-            int i = (getHeight() - getWidth() / 2)/max;
-            val = (posi-getWidth()/2)/i;
-        }
+
+        int i = (getHeight()- (getWidth()/2))/max;
+        val = (posi)/i;
+
         return val;
     }
 
@@ -179,35 +169,26 @@ public class StyleAbelSlider extends View
         this.max = max;
         if (current > max)
             current = max;
+
+
         getPosToDraw();
         invalidate();
     }
 
+
     private void setNewDrawingPos(int val)
     {
         requestLayout();
-        if (getValueFromDrawingPos(val) >= min && getValueFromDrawingPos(val) <= max)
+        if (val >= 0 && val <= maxpixel - getWidth() )
         {
-            if (horizontal)
-            {
-                int half = getHeight() / 2;
-                Rect tmp = new Rect(val - half, 0 , getHeight() + val - half, getHeight());
-                if (tmp.left >= 0 && tmp.right <= getWidth())
-                    drawPosition = tmp;
-            }
-            else
-            {
-                int half = getWidth() / 2;
-                Rect tmp = new Rect(0, val - half , getWidth(), getWidth() + val - half);
-                if (tmp.top >= 0 && tmp.bottom <= getHeight())
-                    drawPosition = tmp;
-            }
-            if (current != getValueFromDrawingPos(val))
-            {
-                current = getValueFromDrawingPos(val);
-                value = current +"";
-                throwvalueHasChanged(current);
-            }
+            currentpixel = val;
+            Rect tmp = new Rect(0, currentpixel , getWidth(), getWidth() +currentpixel);
+
+            drawPosition = tmp;
+            current = currentpixel / pixelProValue;
+            value = current +"";
+            throwvalueHasChanged(current);
+
         }
     }
 
