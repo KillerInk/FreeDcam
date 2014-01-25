@@ -65,8 +65,17 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         this.crop = crop;
         //Camera.Size size = mCamera.getParameters().getPictureSize();
         //rawbuffer = new byte[size.width * size.height * 8];
-
-        mCamera.takePicture(this, null,this);
+        Log.d(TAG, "Start Taking Picture");
+        try
+        {
+            mCamera.takePicture(this, null,this);
+            Log.d(TAG, "Picture Taking is Started");
+        }
+        catch (Exception ex)
+        {
+            writeDebug("Take Picture Failed");
+            ex.printStackTrace();
+        }
     }
 
     /** Handles data for raw picture */

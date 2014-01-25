@@ -247,8 +247,21 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             //try
             //{
 
+            if (mCamera == null)
+            {
+                Log.e(TAG, "Camera was released");
+                return;
+            }
             //TODO its crashing for mahg
-            parametersManager.SetCameraParameters(mCamera.getParameters());
+            try
+            {
+                parametersManager.SetCameraParameters(mCamera.getParameters());
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Error loading parameters from camera");
+                ex.printStackTrace();
+            }
 
             parametersManager.SetJpegQuality(100);
             //parametersManager.SetContrast(100);

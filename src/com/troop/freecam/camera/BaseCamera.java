@@ -37,6 +37,7 @@ public class BaseCamera
                     try
                     {
                         mCamera = Camera.open(100);
+                        mCamera.setErrorCallback(errorCallback);
                         Settings.CurrentCamera = 100;
                         Log.d(TAG, "sense 3D camera open");
                     }
@@ -50,18 +51,41 @@ public class BaseCamera
                 else
                 {
                     mCamera = Camera.open(2);
+                    mCamera.setErrorCallback(errorCallback);
                     Settings.CurrentCamera = 2;
                 }
             }
             else if(tmp.equals(SettingsManager.Preferences.MODE_2D))
             {
-                mCamera = Camera.open(0);
-                Settings.CurrentCamera = 0;
+                Log.d(TAG, "try open 2D camera");
+                try
+                {
+                    mCamera = Camera.open(0);
+                    mCamera.setErrorCallback(errorCallback);
+                    Settings.CurrentCamera = 0;
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG, "Set Camera to 2D failed");
+                    ex.printStackTrace();
+                    mCamera.release();
+                }
             }
             else if (tmp.equals(SettingsManager.Preferences.MODE_Front))
             {
-                mCamera = Camera.open(1);
-                Settings.CurrentCamera = 1;
+                try
+                {
+                    Log.d(TAG, "try open Front camera");
+                    mCamera = Camera.open(1);
+                    mCamera.setErrorCallback(errorCallback);
+                    Settings.CurrentCamera = 1;
+                }
+                catch (Exception ex)
+                {
+                    Log.e(TAG, "Set Camera to Front failed");
+                    ex.printStackTrace();
+                    mCamera.release();
+                }
             }
         }
         else if (Camera.getNumberOfCameras() == 2)
@@ -89,4 +113,16 @@ public class BaseCamera
         mCamera.release();
         mCamera = null;
     }
+
+    Camera.ErrorCallback errorCallback = new Camera.ErrorCallback()
+    {
+        @Override
+        public void onError(int error, Camera camera) {
+            Log.e(TAG, "Camera Error happend");
+            if (error == 100)
+                Log.e(TAG, "Camera Server died!");
+            if (error == 1)
+                Log.e(TAG, "Unknown Camera error");
+        }
+    };
 }
