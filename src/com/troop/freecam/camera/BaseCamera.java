@@ -45,7 +45,7 @@ public class BaseCamera
                     {
                         ex.printStackTrace();
                         Log.e(TAG, "error open sense 3D Camera");
-                        mCamera.release();
+                        CloseCamera();
                     }
                 }
                 else
@@ -68,7 +68,7 @@ public class BaseCamera
                 {
                     Log.e(TAG, "Set Camera to 2D failed");
                     ex.printStackTrace();
-                    mCamera.release();
+                    CloseCamera();
                 }
             }
             else if (tmp.equals(SettingsManager.Preferences.MODE_Front))
@@ -84,7 +84,7 @@ public class BaseCamera
                 {
                     Log.e(TAG, "Set Camera to Front failed");
                     ex.printStackTrace();
-                    mCamera.release();
+                    CloseCamera();
                 }
             }
         }
