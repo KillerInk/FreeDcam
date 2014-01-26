@@ -149,18 +149,21 @@ public class HdrManager implements PictureTakeFinish
         if (count == 0)
         {
             cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getHighExposure());
+            cameraManager.parametersManager.Iso.set(cameraManager.Settings.HDRSettings.getHighIso());
             //cameraManager.parametersManager.SetBrightness(60);
             //cameraManager.parametersManager.SetContrast(120);
         }
         else if (count == 1)
         {
             cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getNormalExposure());
+            cameraManager.parametersManager.Iso.set(cameraManager.Settings.HDRSettings.getNormalIso());
             //cameraManager.parametersManager.SetBrightness(50);
             //cameraManager.parametersManager.SetContrast(100);
         }
         else if (count == 2)
         {
             cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getLowExposure());
+            cameraManager.parametersManager.Iso.set(cameraManager.Settings.HDRSettings.getLowIso());
             //cameraManager.parametersManager.SetBrightness(40);
             //cameraManager.parametersManager.SetContrast(80);
         }

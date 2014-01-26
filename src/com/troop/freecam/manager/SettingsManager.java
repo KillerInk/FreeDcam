@@ -439,5 +439,30 @@ public class SettingsManager
             return preferences.getInt("lowexposure", -10);
         }
 
+        public String getHighIso()
+        {
+            return preferences.getString("highiso", "auto");
+        }
+        public void setHighIso(String iso)
+        {
+            preferences.edit().putString("highiso", iso).commit();
+        }
+        public String getNormalIso()
+        {
+            return preferences.getString("normaliso", "auto");
+        }
+        public void setNormalIso(String iso)
+        {
+            preferences.edit().putString("normaliso", iso).commit();
+        }
+        public String getLowIso()
+        {
+            return preferences.getString("lowiso", "auto");
+        }
+        public void setLowIso(String iso)
+        {
+            preferences.edit().putString("lowiso", iso).commit();
+        }
+
     }
 }

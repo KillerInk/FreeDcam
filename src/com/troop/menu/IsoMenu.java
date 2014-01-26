@@ -40,17 +40,21 @@ public class IsoMenu extends BaseMenu {
             for (int i = 0; i < isos.length; i++) {
                 popupMenu.getMenu().add((CharSequence) isos[i]);
             }
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    String tmp = item.toString();
-                    camMan.parametersManager.Iso.set(tmp);
-                    camMan.Settings.IsoMode.Set(tmp);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                    return true;
-                }
-            });
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+
+                        String tmp = item.toString();
+                        camMan.parametersManager.Iso.set(tmp);
+                        camMan.Settings.IsoMode.Set(tmp);
+
+                        return true;
+                    }
+                });
+
 
             popupMenu.show();
         }

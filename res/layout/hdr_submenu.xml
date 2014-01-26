@@ -31,6 +31,11 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_HighExposure" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:TextViewText="Iso High"
+            android:id="@+id/IsoHigh"></com.troop.freecam.controls.MenuItemControl>
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,6 +48,11 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_NormalExposure" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:TextViewText="Iso Normal"
+            android:id="@+id/IsoNormal"></com.troop.freecam.controls.MenuItemControl>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,6 +65,11 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_LowExposure" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:TextViewText="Iso Low"
+            android:id="@+id/IsoLow"></com.troop.freecam.controls.MenuItemControl>
 
     </LinearLayout>
 </LinearLayout>
