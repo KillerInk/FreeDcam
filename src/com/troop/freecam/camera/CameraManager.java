@@ -25,7 +25,7 @@ import com.troop.freecam.manager.ManualExposureManager;
 import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.ZoomManager;
 import com.troop.freecam.surfaces.CamPreview;

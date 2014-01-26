@@ -13,15 +13,12 @@ import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.MenuItemControl;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
-import com.troop.menu.DenoiseMenu;
 import com.troop.menu.FlashMenu;
 import com.troop.menu.FocusMenu;
-import com.troop.menu.IppMenu;
 import com.troop.menu.PictureSizeMenu;
 import com.troop.menu.VideoSizesMenu;
-import com.troop.menu.ZslMenu;
 import com.troop.menu.switchcameramenu;
 
 /**

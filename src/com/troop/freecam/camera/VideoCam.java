@@ -5,13 +5,12 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.SavePictureTask;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by troop on 18.10.13.

@@ -1,18 +1,14 @@
 package com.troop.freecam.controls.menu;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
-import com.troop.freecam.manager.ParametersManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewFpsMenu;
 import com.troop.menu.PreviewSizeMenu;

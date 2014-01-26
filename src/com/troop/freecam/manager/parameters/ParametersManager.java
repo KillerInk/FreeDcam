@@ -1,4 +1,4 @@
-package com.troop.freecam.manager;
+package com.troop.freecam.manager.parameters;
 
 import android.hardware.Camera;
 import android.util.Log;
@@ -8,6 +8,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
+import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by troop on 16.10.13.
  */
-public class ParametersManager
+public class ParametersManager extends MeteringModeManager
 {
     //New Pref 07-12-13
     public static final String Preferences_PictureFormat = "picture_format";
@@ -25,11 +26,11 @@ public class ParametersManager
     public static final String Preferences_ZSL = "zsl_value";
     //public static final String Preferences_Composition = "front_ipp";
     //public static final String Preferences_HFR = "hfr_video";
-    final static String TAG = "freecam.ParametersManager";
 
-    CameraManager cameraManager;
+
+
     MainActivity mainActivity;
-    android.hardware.Camera.Parameters parameters;
+
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
     SettingsManager preferences;
     boolean supportSharpness = false;
@@ -56,15 +57,14 @@ public class ParametersManager
     public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
     boolean supportIso = false;
     public boolean getSupportIso() { return  supportIso; }
-    boolean supportExposureMode = false;
-    public boolean getSupportExposureMode() { return supportExposureMode; }
+
     boolean supportScene = false;
     boolean supportManualFocus = false;
     boolean supportManualConvergence = false;
     public boolean getSupportManualConvergence() { return supportManualConvergence;}
     public boolean getSupportManualFocus(){ return  supportManualFocus;}
     public boolean getSupportScene() { return supportScene;}
-    private ParametersChangedInterface parametersChanged;
+
     public BrightnessManager Brightness;
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
@@ -72,7 +72,7 @@ public class ParametersManager
     public DenoiseClass Denoise;
     public WhiteBalanceClass WhiteBalance;
     public IsoClass Iso;
-    public ExposureModeClass ExposureMode;
+
     public SceneModeClass SceneMode;
     public ImagePostProcessingClass ImagePostProcessing;
     public PreviewFormatClass PreviewFormat;
@@ -82,45 +82,19 @@ public class ParametersManager
     public ManualContrastClass manualContrast;
     public ManualConvergenceClass manualConvergence;
 
-    public enum enumParameters
-    {
-        All,
-        Denoise,
-        ManualBrightness,
-        AfPriority,
-        VideoModes,
-        ZeroShutterLag,
-        ManualWhiteBalance,
-        Iso,
-        ExposureMode,
-        Scene,
-        Ipp,
-        PreviewFormat,
-        PreviewSize,
-        PreviewFps,
-        ManualSharpness,
-        ManualExposure,
-        ManualContrast,
-        ManualFocus,
-        WhiteBalanceMode,
-        FlashMode,
-        PictureSize,
-        FocusMode,
-    }
 
-    private boolean loadingParametersFinish = false;
+
+
 
     public ParametersManager(CameraManager cameraManager, SettingsManager preferences)
     {
-        this.cameraManager = cameraManager;
-        this.preferences = preferences;
-
+        super(cameraManager, preferences);
     }
 
     public void SetCameraParameters(android.hardware.Camera.Parameters parameters)
     {
         loadingParametersFinish = false;
-        this.parameters = parameters;
+        super.SetCameraParameters(parameters);
         String[] paras =  parameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
             Log.d("CameraParameters", paras[i]);
@@ -132,7 +106,7 @@ public class ParametersManager
         Denoise = new DenoiseClass();
         WhiteBalance = new WhiteBalanceClass();
         Iso = new IsoClass();
-        ExposureMode = new ExposureModeClass();
+
         SceneMode = new SceneModeClass();
         ImagePostProcessing = new ImagePostProcessingClass();
         PreviewFormat = new PreviewFormatClass();
@@ -146,27 +120,14 @@ public class ParametersManager
         onParametersCHanged(true, enumParameters.All);
     }
 
-    public void setParametersChanged(ParametersChangedInterface parametersChangedInterface)
-    {
-        this.parametersChanged = parametersChangedInterface;
-    }
+
 
     /*public void UpdateUI()
     {
         onParametersCHanged();
     }*/
 
-    private void onParametersCHanged(enumParameters paras)
-    {
-        if (parametersChanged != null && loadingParametersFinish && parameters != null)
-            parametersChanged.parametersHasChanged(false, paras);
-    }
 
-    private void onParametersCHanged(boolean reloadGui, enumParameters paras)
-    {
-        if (parametersChanged != null && loadingParametersFinish && parameters != null)
-            parametersChanged.parametersHasChanged(reloadGui, paras);
-    }
 
     private void checkParametersSupport()
     {
@@ -226,19 +187,10 @@ public class ParametersManager
             supportVNF = false;
         }
         Log.d(TAG,"supportVNF = Videostab:" + supportVNF);
-        try
-        {
-            if (!parameters.get("auto-exposure-values").equals(""))
-                supportAutoExposure= true;
-        }
-        catch (Exception ex)
-        {
-            supportAutoExposure = false;
-        }
-        Log.d(TAG,"support autoexposure" + supportAutoExposure);
+
     }
 
-    private void loadDefaultOrLastSavedSettings()
+    protected void loadDefaultOrLastSavedSettings()
     {
         /*if(DeviceUtils.isQualcomm())
         {
@@ -246,7 +198,7 @@ public class ParametersManager
             parameters.set("power-mode","Normal_Power");
             parameters.set("mce","disable");
         }*/
-
+        super.loadDefaultOrLastSavedSettings();
         if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
             AfPriority.Set(preferences.afPriority.Get());
 
@@ -259,11 +211,10 @@ public class ParametersManager
         if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
             WhiteBalance.set(preferences.WhiteBalanceMode.Get());
 
-        if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
-            parameters.set("auto-exposure", preferences.MeteringMode.Get());
+        /*if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
+            parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
 
-        if (getSupportExposureMode() && !cameraManager.Settings.ExposureMode.Get().equals(""))
-            ExposureMode.set(cameraManager.Settings.ExposureMode.Get());
+
 
         if (!cameraManager.Settings.PictureSize.Get().equals(""))
             setPictureSize(cameraManager.Settings.PictureSize.Get());
@@ -760,57 +711,7 @@ public class ParametersManager
         }
     }
 
-    public class ExposureModeClass
-    {
-        String[] exposureValues;
-        public ExposureModeClass()
-        {
-            try
-            {
-                if(DeviceUtils.isOmap())
-                    exposureValues = getParameters().get("exposure-mode-values").split(",");
-                if (exposureValues != null && exposureValues.length > 0)
-                    supportExposureMode = true;
 
-            }
-            catch (Exception ex)
-            {
-                supportExposureMode = false;
-            }
-            Log.d(TAG, "support ExposureModes:" + supportExposureMode);
-        }
-
-        public String get()
-        {
-            return getParameters().get("exposure");
-        }
-
-        public String[] getExposureValues()
-        {
-            return exposureValues;
-        }
-
-        public void set(String value)
-        {
-            String def = get();
-            if (!def.equals(value))
-            {
-                try {
-                    Log.d(TAG, "Try set ExposureMode to " +value);
-                    getParameters().set("exposure", value);
-                    cameraManager.Restart(false);
-                }
-                catch (Exception ex)
-                {
-                    Log.e(TAG,"Exposure set failed, set back to"+def);
-                    getParameters().set("exposure",def);
-                    cameraManager.Restart(false);
-                }
-            }
-            onParametersCHanged(enumParameters.ExposureMode);
-
-        }
-    }
 
     public class SceneModeClass
     {
