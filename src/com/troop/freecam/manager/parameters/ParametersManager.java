@@ -32,7 +32,7 @@ public class ParametersManager extends MeteringModeManager
     MainActivity mainActivity;
 
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
-    SettingsManager preferences;
+
     boolean supportSharpness = false;
     public boolean getSupportSharpness() { return supportSharpness;}
     boolean supportContrast = false;
@@ -530,7 +530,8 @@ public class ParametersManager extends MeteringModeManager
             sizes = parameters.getSupportedVideoSizes();
             if (sizes == null || sizes.size() == 0)
                 sizes = parameters.getSupportedPreviewSizes();
-            SetProfile(preferences.VideoSize.Get());
+            if (preferences != null)
+                SetProfile(preferences.VideoSize.Get());
 
         }
 
