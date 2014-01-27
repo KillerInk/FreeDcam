@@ -204,6 +204,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
             }
             else
+            if (recordVideo == true)
             {
                 if (camMan.IsRecording == false)
                 {
