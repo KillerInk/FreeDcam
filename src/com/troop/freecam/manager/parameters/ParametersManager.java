@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by troop on 16.10.13.
  */
-public class ParametersManager extends MeteringModeManager
+public class ParametersManager extends AntibandingModeManager
 {
     //New Pref 07-12-13
     public static final String Preferences_PictureFormat = "picture_format";
@@ -695,6 +695,7 @@ public class ParametersManager extends MeteringModeManager
         public void set(String value)
         {
             try {
+                Log.d(TAG, "set iso to:" + value);
                 parameters.set("iso", value);
                 cameraManager.Restart(false);
             }

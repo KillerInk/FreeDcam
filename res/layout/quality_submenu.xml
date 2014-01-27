@@ -35,6 +35,12 @@
             custom:ButtonText=""
             custom:TextViewText="ZeroShutterLag"
             android:id="@+id/switch_zsl_control" />
+        <com.troop.freecam.controls.MenuItemControl
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            custom:ButtonText=""
+            custom:TextViewText="Antibanding"
+            android:id="@+id/switch_antibanding" />
 
     </LinearLayout>
 </LinearLayout>

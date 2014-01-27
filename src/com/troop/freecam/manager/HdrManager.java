@@ -125,7 +125,7 @@ public class HdrManager implements PictureTakeFinish
 
         takepicture = true;
         try {
-            Thread.sleep(700);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -138,8 +138,8 @@ public class HdrManager implements PictureTakeFinish
         /*if (cameraManager.parametersManager.getParameters().isAutoWhiteBalanceLockSupported() && cameraManager.parametersManager.getParameters().getAutoWhiteBalanceLock() == false)
             cameraManager.parametersManager.getParameters().setAutoWhiteBalanceLock(true);
         if (cameraManager.parametersManager.getParameters().isAutoExposureLockSupported()&& cameraManager.parametersManager.getParameters().getAutoExposureLock() == false)
-            cameraManager.parametersManager.getParameters().setAutoExposureLock(true);
-        //disable, frame, center, fft and manual.*/
+            cameraManager.parametersManager.getParameters().setAutoExposureLock(true);*/
+        //disable, frame, center, fft and manual.
         //cameraManager.parametersManager.getParameters().set("auto-convergence-mode", "disable");
 
 

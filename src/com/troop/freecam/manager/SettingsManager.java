@@ -77,6 +77,10 @@ public class SettingsManager
         public static final String PreviewFps2D = "2d_previewfps";
         public static final String PreviewFps3D = "3d_previewfps";
         public static final String PreviewFpsFront = "front_previewfps";
+
+        public static final String Antibanding2D = "2d_antibanding";
+        public static final String Antibanding3D = "3d_antibanding";
+        public static final String AntibandingFront = "front_antibanding";
     }
 
     enum CameraValues
@@ -110,6 +114,7 @@ public class SettingsManager
     public AfPriorityClass afPriority;
     public PreviewFpsClass PreviewFps;
     public HDRSettingsClass HDRSettings;
+    public AntiBandingClass Antibanding;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -134,6 +139,7 @@ public class SettingsManager
         afPriority = new AfPriorityClass();
         PreviewFps = new PreviewFpsClass();
         HDRSettings = new HDRSettingsClass();
+        Antibanding = new AntiBandingClass();
     }
 
     public class CamerasClass
@@ -255,6 +261,14 @@ public class SettingsManager
         public WhiteBalanceModeClass()
         {
             super(Preferences.WhiteBalance3D, Preferences.WhiteBalance2D, Preferences.WhiteBalanceFront, "");
+        }
+    }
+
+    public class AntiBandingClass extends BaseClass
+    {
+        public AntiBandingClass()
+        {
+            super(Preferences.Antibanding3D, Preferences.Antibanding2D, Preferences.AntibandingFront, "");
         }
     }
 

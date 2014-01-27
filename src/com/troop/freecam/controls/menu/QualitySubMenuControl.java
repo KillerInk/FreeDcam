@@ -11,6 +11,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
+import com.troop.menu.AntibandingMenu;
 import com.troop.menu.DenoiseMenu;
 import com.troop.menu.IppMenu;
 import com.troop.menu.PreviewFormatMenu;
@@ -26,6 +27,7 @@ public class QualitySubMenuControl extends BaseSubMenu
     MenuItemControl switchIPP;
     MenuItemControl switchDenoise;
     MenuItemControl switchZSL;
+    MenuItemControl switchAntibanding;
 
     public QualitySubMenuControl(Context context) {
         super(context);
@@ -53,6 +55,9 @@ public class QualitySubMenuControl extends BaseSubMenu
 
         switchZSL = (MenuItemControl)findViewById(R.id.switch_zsl_control);
         switchZSL.SetOnClickListner(new ZslMenu(cameraManager,activity));
+
+        switchAntibanding = (MenuItemControl)findViewById(R.id.switch_antibanding);
+        switchAntibanding.SetOnClickListner(new AntibandingMenu(cameraManager, activity));
     }
 
     public void UpdateUI()
@@ -73,9 +78,17 @@ public class QualitySubMenuControl extends BaseSubMenu
         {
             if (switchIPP.getVisibility() == View.GONE)
                 switchIPP.setVisibility(View.VISIBLE);
-            switchIPP.SetButtonText(cameraManager.parametersManager.getParameters().get("ipp"));
+            switchIPP.SetButtonText(cameraManager.parametersManager.ImagePostProcessing.Get());
         }
         else
             switchIPP.setVisibility(View.GONE);
+        if (cameraManager.parametersManager.getSupportAntibanding())
+        {
+            if (switchAntibanding.getVisibility() == View.GONE)
+                switchAntibanding.setVisibility(VISIBLE);
+            switchAntibanding.SetButtonText(cameraManager.parametersManager.Antibanding.Get());
+        }
+        else
+            switchAntibanding.setVisibility(GONE);
     }
 }

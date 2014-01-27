@@ -35,6 +35,7 @@ public class BaseParametersManager implements IParametersManager
         FlashMode,
         PictureSize,
         FocusMode,
+        AntiBanding,
     }
 
     protected CameraManager cameraManager;
