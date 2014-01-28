@@ -42,5 +42,13 @@
             custom:TextViewText="Antibanding"
             android:id="@+id/switch_antibanding" />
 
+        <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="Lens Shade"
+            android:id="@+id/switch_lensShade"
+            android:textSize="@dimen/TextSizeSmallPlus"
+            android:layout_marginLeft="4dp" />
+
     </LinearLayout>
 </LinearLayout>

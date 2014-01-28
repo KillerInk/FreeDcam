@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by troop on 16.10.13.
  */
-public class ParametersManager extends AntibandingModeManager
+public class ParametersManager extends LensShadeManager
 {
     //New Pref 07-12-13
     public static final String Preferences_PictureFormat = "picture_format";
@@ -175,18 +175,7 @@ public class ParametersManager extends AntibandingModeManager
         else
             supportFlash = false;
         Log.d(TAG, "support Flash:" + supportFlash);
-        try
-        {
-            if (!parameters.get("vnf-supported").equals("") &&  !parameters.get("vnf-supported").equals(false))
-            {
-                supportVNF = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            supportVNF = false;
-        }
-        Log.d(TAG,"supportVNF = Videostab:" + supportVNF);
+
 
     }
 
@@ -199,6 +188,7 @@ public class ParametersManager extends AntibandingModeManager
             parameters.set("mce","disable");
         }*/
         super.loadDefaultOrLastSavedSettings();
+
         if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
             AfPriority.Set(preferences.afPriority.Get());
 
@@ -243,7 +233,7 @@ public class ParametersManager extends AntibandingModeManager
 
         Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
 
-        cameraManager.Restart(false);
+        //cameraManager.Restart(false);
     }
 
     public PreviewSizeChangedInterface setPreviewSizeCHanged;
@@ -331,7 +321,7 @@ public class ParametersManager extends AntibandingModeManager
         parameters.set("manual-focus", 0);
         parameters.setFocusMode("normal");
         parameters.set("manualfocus_step", focus);
-        onParametersCHanged(enumParameters.ManualFocus);
+
         try
         {
             cameraManager.Restart(false);
@@ -341,6 +331,7 @@ public class ParametersManager extends AntibandingModeManager
         {
             Log.e(TAG, "ManualFocus Failed");
         }
+        onParametersCHanged(enumParameters.ManualFocus);
     }
 
     public void SetJpegQuality(int quality)
@@ -365,26 +356,63 @@ public class ParametersManager extends AntibandingModeManager
     //TODO if it returns false its not supported set and get with vnf=enable,disable
     public class DenoiseClass
     {
+        String value;
+        String values;
+        public DenoiseClass()
+        {
+            try
+            {
+                String d = parameters.get("vnf-supported");
+                if (d.equals("true"))
+                {
+                    supportVNF = true;
+                    value = "vnf";
+                    values = "vnf-values";
+                }
+                else
+                    supportVNF = false;
+            }
+            catch (Exception ex)
+            {
+                supportVNF = false;
+            }
+            if (supportVNF == false)
+            {
+                try
+                {
+                    String d = parameters.get("denoise-supported");
+                    if (d.equals("true"))
+                    {
+                        supportVNF = true;
+                        value = "denoise";
+                        values = "denoise-values";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    supportVNF = false;
+                }
+            }
+            Log.d(TAG,"supportVNF = Denoise:" + supportVNF);
+        }
         public String[] getDenoiseValues()
         {
             String[] noise =  new String[0];
-            if(DeviceUtils.isOmap())
-            {
-                noise = parameters.get("vnf").split(",");
 
-            }
-            if(DeviceUtils.isQualcomm())
-                noise = parameters.get("denoise-values").split(",");
+            noise = parameters.get(values).split(",");
             return noise;
         }
 
         public String getDenoiseValue()
         {
-            if(DeviceUtils.isOmap())
-                return parameters.get("vnf");
-            if(DeviceUtils.isQualcomm())
-                return parameters.get("denoise");
-            return "";
+            return parameters.get(value);
+        }
+
+        public void Set(String toset)
+        {
+            Log.d(TAG,"set Denoise to:" + toset);
+            parameters.set(value, toset);
+            cameraManager.Restart(false);
         }
     }
 
@@ -596,9 +624,9 @@ public class ParametersManager extends AntibandingModeManager
 
         public void setValue(String toapplie)
         {
-            String def = getValue();
-            if (!def.equals(toapplie))
-            {
+            //String def = getValue();
+            //if (!def.equals(toapplie))
+            //{
                 try {
                     Log.d(TAG, "Try to set Zeroshutterlag to:"+ toapplie);
                     parameters.set(value, toapplie);
@@ -606,12 +634,12 @@ public class ParametersManager extends AntibandingModeManager
                 }
                 catch (Exception ex)
                 {
-                    Log.e(TAG, "ZSL set failed set to " + def);
-                    parameters.set(def, toapplie);
-                    cameraManager.Restart(false);
+                    Log.e(TAG, "ZSL set failed set to " + toapplie);
+                    //parameters.set(def, toapplie);
+                    //cameraManager.Restart(false);
                 }
                 onParametersCHanged(enumParameters.ZeroShutterLag);
-            }
+            //}
 
         }
 
@@ -803,8 +831,8 @@ public class ParametersManager extends AntibandingModeManager
                 catch (Exception ex)
                 {
                     Log.e(TAG,"ipp set failed, set back to:" + dev);
-                    parameters.set("ipp", dev);
-                    cameraManager.Restart(false);
+                    //parameters.set("ipp", dev);
+                    //cameraManager.Restart(false);
                 }
             }
             onParametersCHanged(enumParameters.Ipp);

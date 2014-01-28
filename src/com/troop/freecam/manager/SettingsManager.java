@@ -2,6 +2,8 @@ package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
 
+import com.troop.freecam.manager.parameters.LensShadeManager;
+
 /**
  * Created by troop on 04.01.14.
  */
@@ -115,6 +117,7 @@ public class SettingsManager
     public PreviewFpsClass PreviewFps;
     public HDRSettingsClass HDRSettings;
     public AntiBandingClass Antibanding;
+    public LensShadeClass LensShade;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -140,6 +143,7 @@ public class SettingsManager
         PreviewFps = new PreviewFpsClass();
         HDRSettings = new HDRSettingsClass();
         Antibanding = new AntiBandingClass();
+        LensShade = new LensShadeClass();
     }
 
     public class CamerasClass
@@ -478,5 +482,19 @@ public class SettingsManager
             preferences.edit().putString("lowiso", iso).commit();
         }
 
+
+
+    }
+    public class LensShadeClass
+    {
+        public void set(boolean value)
+        {
+            preferences.edit().putBoolean("lensshade", value).commit();
+        }
+
+        public boolean get()
+        {
+            return preferences.getBoolean("lensshade", true);
+        }
     }
 }

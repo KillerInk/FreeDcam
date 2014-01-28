@@ -5,7 +5,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
@@ -28,6 +30,7 @@ public class QualitySubMenuControl extends BaseSubMenu
     MenuItemControl switchDenoise;
     MenuItemControl switchZSL;
     MenuItemControl switchAntibanding;
+    Switch switchLensShade;
 
     public QualitySubMenuControl(Context context) {
         super(context);
@@ -58,11 +61,32 @@ public class QualitySubMenuControl extends BaseSubMenu
 
         switchAntibanding = (MenuItemControl)findViewById(R.id.switch_antibanding);
         switchAntibanding.SetOnClickListner(new AntibandingMenu(cameraManager, activity));
+
+        switchLensShade = (Switch) findViewById(R.id.switch_lensShade);
+        switchLensShade.setOnCheckedChangeListener(lensSwitch);
     }
+
+    CompoundButton.OnCheckedChangeListener lensSwitch = new CompoundButton.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            cameraManager.parametersManager.LensShade.set(isChecked);
+        }
+    };
 
     public void UpdateUI()
     {
-        switchDenoise.SetButtonText(cameraManager.parametersManager.Denoise.getDenoiseValue());
+        if (cameraManager.parametersManager.getSupportVNF())
+        {
+            switchDenoise.SetButtonText(cameraManager.parametersManager.Denoise.getDenoiseValue());
+            if (switchDenoise.getVisibility() != VISIBLE)
+                switchDenoise.setVisibility(VISIBLE);
+        }
+        else
+        {
+            if (switchDenoise.getVisibility() != GONE)
+                switchDenoise.setVisibility(GONE);
+        }
         if (cameraManager.parametersManager.getSupportZSL())
         {
             if (switchZSL.getVisibility() == View.GONE)
@@ -70,8 +94,8 @@ public class QualitySubMenuControl extends BaseSubMenu
             switchZSL.SetButtonText(cameraManager.parametersManager.ZSLModes.getValue());
         }
         else
-        if (switchZSL.getVisibility() == View.VISIBLE)
-            switchZSL.setVisibility(View.GONE);
+            if (switchZSL.getVisibility() == View.VISIBLE)
+                switchZSL.setVisibility(View.GONE);
 
         //ImagePostProcessing
         if (cameraManager.parametersManager.getSupportIPP())
@@ -82,6 +106,7 @@ public class QualitySubMenuControl extends BaseSubMenu
         }
         else
             switchIPP.setVisibility(View.GONE);
+
         if (cameraManager.parametersManager.getSupportAntibanding())
         {
             if (switchAntibanding.getVisibility() == View.GONE)
@@ -90,5 +115,13 @@ public class QualitySubMenuControl extends BaseSubMenu
         }
         else
             switchAntibanding.setVisibility(GONE);
+
+        if (cameraManager.parametersManager.getSupportLensShade())
+        {
+            switchLensShade.setVisibility(VISIBLE);
+            switchLensShade.setChecked(cameraManager.Settings.LensShade.get());
+        }
+        else
+            switchLensShade.setVisibility(GONE);
     }
 }
