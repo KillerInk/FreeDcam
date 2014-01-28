@@ -1,6 +1,7 @@
 package com.troop.freecam.manager;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import com.troop.freecam.camera.CameraManager;
 
@@ -12,6 +13,7 @@ public class ZoomManager implements Camera.OnZoomChangeListener
     CameraManager cameraManager;
     boolean zoomaktiv = false;
     int currentzoom = 0;
+    String TAG = "freecam.ZoomManager";
 
     public ZoomManager(CameraManager cameraManager)
     {
@@ -26,9 +28,20 @@ public class ZoomManager implements Camera.OnZoomChangeListener
             if ( temp >= 0 && temp <= cameraManager.parametersManager.getParameters().getMaxZoom() )
             {
                 currentzoom = temp;
+                Log.d(TAG, "SmoothZoomSupported:" + cameraManager.parametersManager.getParameters().isSmoothZoomSupported());
                 cameraManager.parametersManager.getParameters().setZoom(currentzoom);
-                cameraManager.mCamera.startSmoothZoom(currentzoom);
-                zoomaktiv = true;
+                if (cameraManager.parametersManager.getParameters().isSmoothZoomSupported())
+                {
+                    cameraManager.mCamera.startSmoothZoom(currentzoom);
+                    zoomaktiv = true;
+                }
+                else
+                {
+                    cameraManager.Restart(false);
+                    zoomaktiv = false;
+                }
+
+
             }
         }
     }
