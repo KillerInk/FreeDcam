@@ -28,15 +28,7 @@ public class DenoiseMenu extends BaseMenu {
         {
             try
             {
-                if(DeviceUtils.isOmap())
-                {
-                    noise = new String[2];
-                    noise[0] = "true";
-                    noise[1] = "false";
-
-                }
-                if(DeviceUtils.isQualcomm())
-                    noise = camMan.parametersManager.getParameters().get("denoise-values").split(",");
+                noise = camMan.parametersManager.Denoise.getDenoiseValues();
 
             }
             catch (Exception ex)
@@ -56,15 +48,10 @@ public class DenoiseMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    if (DeviceUtils.isOmap())
-                    {
-                        camMan.parametersManager.getParameters().set("vnf", tmp);
-                    }
-                    if(DeviceUtils.isQualcomm())
-                        camMan.parametersManager.getParameters().set("denoise", tmp);
+                    camMan.parametersManager.Denoise.Set(tmp);
+
                     //activity.button_denoise.SetValue(tmp);
                     preferences.edit().putString(ParametersManager.Preferences_Denoise, tmp).commit();
-                    camMan.Restart(false);
                     return true;
                 }
             });

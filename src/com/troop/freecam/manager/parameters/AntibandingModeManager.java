@@ -21,6 +21,10 @@ public class AntibandingModeManager extends MeteringModeManager
     @Override
     protected void loadDefaultOrLastSavedSettings() {
         super.loadDefaultOrLastSavedSettings();
+        if (getSupportAntibanding() && !cameraManager.Settings.Antibanding.Get().equals(""))
+        {
+            parameters.set("antibanding", cameraManager.Settings.Antibanding.Get());
+        }
     }
 
     @Override
