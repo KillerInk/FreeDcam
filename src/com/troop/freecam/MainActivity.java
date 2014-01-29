@@ -418,13 +418,16 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 
             //Crosshair appairing
-            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto") || camMan.parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
+            if (camMan.parametersManager.getParameters().getFocusMode().equals("auto") || camMan.parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO)
+                    || camMan.parametersManager.getParameters().getFocusMode().equals("extended"))
             {
                 drawSurface.drawingRectHelper.Enabled = true;
             }
             else
             {
                 drawSurface.drawingRectHelper.Enabled = false;
+                drawSurface.drawingRectHelper.drawRectangle = false;
+                drawSurface.drawingRectHelper.Draw();
             }
             infoScreenFragment.showtext();
 
