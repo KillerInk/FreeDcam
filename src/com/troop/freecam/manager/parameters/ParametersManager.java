@@ -106,7 +106,6 @@ public class ParametersManager extends LensShadeManager
         Denoise = new DenoiseClass();
         WhiteBalance = new WhiteBalanceClass();
         Iso = new IsoClass();
-
         SceneMode = new SceneModeClass();
         ImagePostProcessing = new ImagePostProcessingClass();
         PreviewFormat = new PreviewFormatClass();
@@ -530,8 +529,8 @@ public class ParametersManager extends LensShadeManager
                 catch (Exception ex)
                 {
                     Log.e(TAG, "Set afp failed back to def");
-                    parameters.set(afpValue, def);
-                    cameraManager.Restart(false);
+                    //parameters.set(afpValue, def);
+                    //cameraManager.Restart(false);
                 }
             }
             onParametersCHanged(enumParameters.AfPriority);

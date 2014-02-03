@@ -46,7 +46,7 @@ public class QualitySubMenuControl extends BaseSubMenu
         super(context, attrs, defStyle);
     }
 
-    public void Init(MainActivity activity, CameraManager cameraManager)
+    public void Init(MainActivity activity, final CameraManager cameraManager)
     {
         super.Init(activity, cameraManager);
 
@@ -63,14 +63,25 @@ public class QualitySubMenuControl extends BaseSubMenu
         switchAntibanding.SetOnClickListner(new AntibandingMenu(cameraManager, activity));
 
         switchLensShade = (Switch) findViewById(R.id.switch_lensShade);
-        switchLensShade.setOnCheckedChangeListener(lensSwitch);
+        switchLensShade.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cameraManager.parametersManager.LensShade.set(switchLensShade.isChecked());
+                cameraManager.Settings.LensShade.set(switchLensShade.isChecked());
+            }
+        });
     }
 
     CompoundButton.OnCheckedChangeListener lensSwitch = new CompoundButton.OnCheckedChangeListener()
     {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked)
+                isChecked = false;
+            else
+                isChecked = true;
             cameraManager.parametersManager.LensShade.set(isChecked);
+            cameraManager.Settings.LensShade.set(isChecked);
         }
     };
 

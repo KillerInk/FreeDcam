@@ -110,7 +110,9 @@ public class BaseCamera
     }
     protected  void CloseCamera()
     {
+        Log.d(TAG, "Try to close Camera");
         mCamera.release();
+
         mCamera = null;
     }
 

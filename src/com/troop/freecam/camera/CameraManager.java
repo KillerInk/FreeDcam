@@ -253,15 +253,15 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 return;
             }
             //TODO its crashing for mahg
-            try
-            {
+            //try
+            //{
                 parametersManager.SetCameraParameters(mCamera.getParameters());
-            }
-            catch (Exception ex)
-            {
-                Log.e(TAG, "Error loading parameters from camera");
-                ex.printStackTrace();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.e(TAG, "Error loading parameters from camera");
+            //    ex.printStackTrace();
+            //}
 
             parametersManager.SetJpegQuality(100);
             //parametersManager.SetContrast(100);
@@ -282,6 +282,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 //            {
             //set parameters
             //Log.d(TAG, "Set Parameters to Camera");
+            //parametersManager.getParameters().set("cam-mode", 1);
             mCamera.setParameters(parametersManager.getParameters());
             //parametersManager.UpdateUI();
             //get parameters to see if changed
@@ -304,6 +305,11 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         // important to release it when the activity is paused.
 
         mCamera.stopPreview();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         CloseCamera();
     }
 
