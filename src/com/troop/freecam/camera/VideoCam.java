@@ -21,7 +21,7 @@ public class VideoCam extends PictureCam
     protected MediaRecorder recorder;
     String mediaSavePath;
     public boolean IsRecording = false;
-    public ParametersManager parametersManager;
+
     public String lastPicturePath;
     final String TAG = "freecam.VideoCam";
 

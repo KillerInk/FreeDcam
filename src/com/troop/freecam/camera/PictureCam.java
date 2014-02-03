@@ -10,7 +10,9 @@ import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
+import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecam.utils.SavePicture;
 
 import java.io.File;
@@ -29,7 +31,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     protected CamPreview context;
     protected SavePicture savePicture;
     public boolean crop = false;
-
+    public ParametersManager parametersManager;
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
     protected IShutterSpeedCallback shutterSpeedCallback;
@@ -68,7 +70,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         Log.d(TAG, "Start Taking Picture");
         try
         {
-            mCamera.takePicture(this, null,this);
+            mCamera.takePicture(this, rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
         }
         catch (Exception ex)
@@ -111,7 +113,10 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
         try {
             writeDebug("try to start preview");
+
             mCamera.startPreview();
+            if (DeviceUtils.isEvo3d())
+                parametersManager.LensShade.set(Settings.LensShade.get());
         }
         catch (Exception ex)
         {

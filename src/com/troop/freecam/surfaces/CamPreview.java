@@ -173,12 +173,7 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
 
     public void surfaceDestroyed(SurfaceHolder surfaceholder)
     {
-        if (hasOpenSense)
-        {
-            camMan.mCamera.stopPreview();
-            //holder = surfaceholder;
-            enableS3D(false, surfaceholder.getSurface()); // to make sure it's off
-        }
+
     }
 
     private void enableS3D(boolean enable, Surface surface) {

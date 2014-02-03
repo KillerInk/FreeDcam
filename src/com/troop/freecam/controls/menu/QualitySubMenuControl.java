@@ -130,7 +130,7 @@ public class QualitySubMenuControl extends BaseSubMenu
         if (cameraManager.parametersManager.getSupportLensShade())
         {
             switchLensShade.setVisibility(VISIBLE);
-            switchLensShade.setChecked(cameraManager.Settings.LensShade.get());
+            //switchLensShade.setChecked(cameraManager.Settings.LensShade.get());
         }
         else
             switchLensShade.setVisibility(GONE);
