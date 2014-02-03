@@ -45,7 +45,7 @@ public class IppMenu extends  BaseMenu
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.ImagePostProcessing.Set(tmp);
+                    camMan.parametersManager.ImagePostProcessing.Set(tmp, true);
                     camMan.Settings.ImagePostProcessing.Set(tmp);
                     return true;
                 }

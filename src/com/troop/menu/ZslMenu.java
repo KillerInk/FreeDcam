@@ -45,7 +45,7 @@ public class ZslMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.ZSLModes.setValue(tmp);
+                    camMan.parametersManager.ZSLModes.setValue(tmp, true);
                     camMan.Settings.ZeroShutterLag.Set(tmp);
                     return true;
                 }

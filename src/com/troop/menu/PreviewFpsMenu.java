@@ -43,7 +43,7 @@ public class PreviewFpsMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.PreviewFps.Set(tmp);
+                    camMan.parametersManager.PreviewFps.Set(tmp, true);
                     camMan.Settings.PreviewFps.Set(tmp);
                     return true;
                 }

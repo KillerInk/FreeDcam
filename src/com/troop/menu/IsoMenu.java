@@ -48,7 +48,7 @@ public class IsoMenu extends BaseMenu {
                     {
 
                         String tmp = item.toString();
-                        camMan.parametersManager.Iso.set(tmp);
+                        camMan.parametersManager.Iso.set(tmp, true);
                         camMan.Settings.IsoMode.Set(tmp);
 
                         return true;

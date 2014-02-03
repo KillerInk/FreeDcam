@@ -38,7 +38,7 @@ public class SceneMenu extends BaseMenu
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
                     camMan.Settings.SceneMode.Set(tmp);
-                    camMan.parametersManager.SceneMode.set(tmp);
+                    camMan.parametersManager.SceneMode.set(tmp, true);
                     return true;
                 }
             });

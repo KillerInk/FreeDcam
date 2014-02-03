@@ -43,7 +43,7 @@ public class AFPriorityMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.AfPriority.Set(tmp);
+                    camMan.parametersManager.AfPriority.Set(tmp, true);
                     camMan.Settings.afPriority.Set(tmp);
                     //camMan.autoFocusManager.StartFocus();
                     camMan.Restart(false);

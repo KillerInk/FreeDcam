@@ -189,16 +189,16 @@ public class ParametersManager extends LensShadeManager
         super.loadDefaultOrLastSavedSettings();
 
         if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
-            AfPriority.Set(preferences.afPriority.Get());
+            AfPriority.Set(preferences.afPriority.Get(), false);
 
         if (getSupportIso() && !preferences.IsoMode.Get().equals(""))
-            Iso.set(preferences.IsoMode.Get());
+            Iso.set(preferences.IsoMode.Get(), false);
 
         if (getSupportScene() && !preferences.SceneMode.Get().equals(""))
-            SceneMode.set(preferences.SceneMode.Get());
+            SceneMode.set(preferences.SceneMode.Get(), false);
 
         if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
-            WhiteBalance.set(preferences.WhiteBalanceMode.Get());
+            WhiteBalance.set(preferences.WhiteBalanceMode.Get(), false);
 
         /*if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
             parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
@@ -221,15 +221,15 @@ public class ParametersManager extends LensShadeManager
             parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
 
         if (getSupportZSL() && !cameraManager.Settings.ZeroShutterLag.Get().equals(""))
-            ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get());
+            ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get(), false);
 
         if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
-            ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get());
+            ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get(), false);
         if (!cameraManager.Settings.PreviewFps.Get().equals(""))
-            PreviewFps.Set(cameraManager.Settings.PreviewFps.Get());
+            PreviewFps.Set(cameraManager.Settings.PreviewFps.Get(), false);
         //parameters.set("rawsave-mode", "1");
         //parameters.set("rawfname", "/mnt/sdcard/test.raw");
-
+        cameraManager.Restart(false);
         Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
 
         //cameraManager.Restart(false);
@@ -514,7 +514,7 @@ public class ParametersManager extends LensShadeManager
             Log.d(TAG, "support afp:" + supportAfpPriority);
         }
 
-        public void Set(String value)
+        public void Set(String value, boolean setToCamera)
         {
             String def = Get();
 
@@ -524,7 +524,8 @@ public class ParametersManager extends LensShadeManager
                 try
                 {
                     parameters.set(afpValue, value);
-                    cameraManager.Restart(false);
+                    if (setToCamera)
+                        cameraManager.Restart(false);
                 }
                 catch (Exception ex)
                 {
@@ -621,7 +622,7 @@ public class ParametersManager extends LensShadeManager
             return values;
         }
 
-        public void setValue(String toapplie)
+        public void setValue(String toapplie, boolean settocamrera)
         {
             //String def = getValue();
             //if (!def.equals(toapplie))
@@ -629,7 +630,8 @@ public class ParametersManager extends LensShadeManager
                 try {
                     Log.d(TAG, "Try to set Zeroshutterlag to:"+ toapplie);
                     parameters.set(value, toapplie);
-                    cameraManager.Restart(false);
+                    if  (settocamrera)
+                        cameraManager.Restart(false);
                 }
                 catch (Exception ex)
                 {
@@ -670,11 +672,12 @@ public class ParametersManager extends LensShadeManager
             return values;
         }
 
-        public void set(String value)
+        public void set(String value , boolean setToCamera)
         {
             try {
                 getParameters().setWhiteBalance(value);
-                cameraManager.Restart(false);
+                if (setToCamera)
+                    cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
@@ -719,12 +722,13 @@ public class ParametersManager extends LensShadeManager
             return values;
         }
 
-        public void set(String value)
+        public void set(String value, boolean setToCamera)
         {
             try {
                 Log.d(TAG, "set iso to:" + value);
                 parameters.set("iso", value);
-                cameraManager.Restart(false);
+                if (setToCamera)
+                    cameraManager.Restart(false);
             }
             catch (Exception ex)
             {
@@ -770,7 +774,7 @@ public class ParametersManager extends LensShadeManager
             return getParameters().getSceneMode();
         }
 
-        public void set(String val)
+        public void set(String val, boolean setTocamera)
         {
             String dev = get();
             if (!dev.equals(val))
@@ -778,7 +782,8 @@ public class ParametersManager extends LensShadeManager
                 try {
                     Log.d(TAG,"Try set Scene to:" + val);
                     getParameters().setSceneMode(val);
-                    cameraManager.Restart(false);
+                    if(setTocamera)
+                        cameraManager.Restart(false);
                 }
                 catch (Exception ex)
                 {
@@ -817,7 +822,7 @@ public class ParametersManager extends LensShadeManager
             return getParameters().get("ipp");
         }
 
-        public void Set(String val)
+        public void Set(String val, boolean settocam)
         {
             String dev = Get();
             if (!dev.equals(val))
@@ -825,6 +830,7 @@ public class ParametersManager extends LensShadeManager
                 try {
                     Log.d(TAG, "try set ipp to:" + val);
                     parameters.set("ipp", val);
+                    if (settocam)
                     cameraManager.Restart(false);
                 }
                 catch (Exception ex)
@@ -850,7 +856,7 @@ public class ParametersManager extends LensShadeManager
             return getParameters().get("preview-format");
         }
 
-        public void Set(String val)
+        public void Set(String val ,boolean settocam)
         {
             String dev = Get();
             if (!dev.equals(val))
@@ -859,7 +865,8 @@ public class ParametersManager extends LensShadeManager
                 {
                     Log.d(TAG, "try set previewformat to:" + val);
                     parameters.set("preview-format", val);
-                    cameraManager.Restart(false);
+                    if (settocam)
+                        cameraManager.Restart(false);
                 }
                 catch (Exception ex)
                 {
@@ -926,7 +933,7 @@ public class ParametersManager extends LensShadeManager
             return parameters.getPreviewFrameRate();
         }
 
-        public void Set(String val)
+        public void Set(String val, boolean settocam)
         {
             int i = Integer.parseInt(val);
             int dev = parameters.getPreviewFrameRate();
@@ -936,7 +943,8 @@ public class ParametersManager extends LensShadeManager
                     Log.d(TAG, "try set preview fps  to:" + i + " from " + dev);
                     parameters.setPreviewFrameRate(i);
                     cameraManager.mCamera.stopPreview();
-                    cameraManager.Restart(false);
+                    if (settocam)
+                        cameraManager.Restart(false);
                     cameraManager.mCamera.startPreview();
                 }
                 catch (Exception ex)
