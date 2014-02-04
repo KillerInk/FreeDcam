@@ -267,6 +267,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             //parametersManager.SetContrast(100);
             //mCamera.setParameters(parametersManager.getParameters());
             mCamera.startPreview();
+            if (DeviceUtils.isEvo3d())
+                mCamera.setParameters(parametersManager.getParameters());
             //}
             //catch (Exception ex)
             //{

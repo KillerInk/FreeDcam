@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 import com.troop.freecam.R;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 18.10.13.
@@ -37,15 +38,18 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
 
     public void PlayShutter()
     {
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_RING);
-        float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_RING);
-        float volume = actualVolume / maxVolume;
-        // Is the sound loaded already?
-        if (loaded)
-            soundPool.play(shutterID, volume, volume, 1, 0, 1f);
+        if (!DeviceUtils.isEvo3d())
+        {
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            float actualVolume = (float) audioManager
+                    .getStreamVolume(AudioManager.STREAM_RING);
+            float maxVolume = (float) audioManager
+                    .getStreamMaxVolume(AudioManager.STREAM_RING);
+            float volume = actualVolume / maxVolume;
+            // Is the sound loaded already?
+            if (loaded)
+                soundPool.play(shutterID, volume, volume, 1, 0, 1f);
+        }
         /*player = MediaPlayer.create(context, R.raw.camerashutter);
         player.setOnCompletionListener(this);
         player.start();*/
@@ -56,6 +60,8 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
         /*player = MediaPlayer.create(context, R.raw.camerafocus);
         player.setOnCompletionListener(this);
         player.start();*/
+        if (!DeviceUtils.isEvo3d())
+        {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float actualVolume = (float) audioManager
                 .getStreamVolume(AudioManager.STREAM_RING);
@@ -66,6 +72,7 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
         // Is the sound loaded already?
         if (loaded)
             soundPool.play(focusID, volume, volume, 1, 0, 1f);
+        }
     }
 
     @Override
