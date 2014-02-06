@@ -38,7 +38,7 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
 
     public void PlayShutter()
     {
-        if (!DeviceUtils.isEvo3d())
+        if (true /*!DeviceUtils.isEvo3d()*/)
         {
             AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             float actualVolume = (float) audioManager
@@ -60,7 +60,7 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
         /*player = MediaPlayer.create(context, R.raw.camerafocus);
         player.setOnCompletionListener(this);
         player.start();*/
-        if (!DeviceUtils.isEvo3d())
+        if (true /*!DeviceUtils.isEvo3d()*/)
         {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float actualVolume = (float) audioManager

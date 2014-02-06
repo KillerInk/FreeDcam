@@ -328,6 +328,12 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             {
                 super.dispatchKeyEvent(event);
             }
+        if(DeviceUtils.isEvo3d())
+        {
+            if (key == 27)
+                camMan.StartTakePicture();
+
+        }
 
         return true;
     }

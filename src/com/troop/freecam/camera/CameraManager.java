@@ -338,6 +338,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                         else
                             autoFocusManager.StartFocus();
                     }
+                    else if (touchtofocus)
+                        touchtofocus= false;
                     else if (touchtofocus == false)
                     {
                         touchtofocus = false;

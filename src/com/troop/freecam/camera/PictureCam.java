@@ -70,7 +70,8 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         Log.d(TAG, "Start Taking Picture");
         try
         {
-            mCamera.takePicture(this, rawCallback,this);
+            mCamera.takePicture(null,null,this);
+            soundPlayer.PlayShutter();
             Log.d(TAG, "Picture Taking is Started");
         }
         catch (Exception ex)
