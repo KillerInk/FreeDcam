@@ -28,6 +28,7 @@ import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.menu.ManualMenuControl;
 import com.troop.freecam.controls.menu.SettingsMenuControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
+import com.troop.freecam.manager.CheckEvo3DSwitchModeManager;
 import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
@@ -74,6 +75,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public DrawingOverlaySurface drawSurface;
     SurfaceHolder holder;
 
+    CheckEvo3DSwitchModeManager checkEvo3DSwitchModeManager;
+
     //private final int DEFAULT_SYSTEM_UI_VISIBILITY = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
@@ -90,6 +93,11 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         holder = mPreview.getHolder();
         camMan = new CameraManager(mPreview, this, settingsManager);
         camMan.parametersManager.setParametersChanged(this);
+        if (DeviceUtils.isEvo3d())
+        {
+            checkEvo3DSwitchModeManager = new CheckEvo3DSwitchModeManager(camMan);
+            checkEvo3DSwitchModeManager.Start();
+        }
 
         initButtons();
 
@@ -193,6 +201,12 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
+            doaction();
+        }
+    };
+
+        private void doaction()
+        {
             thumbButton.setImageBitmap(null);
             if(recordVideo == false && !camMan.IsWorking)
             {
@@ -225,7 +239,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                 }
             }
         }
-    };
+
 
     public void setSwitchVideoPictureBackground()
     {
@@ -322,7 +336,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             }
             else if(key == KeyEvent.KEYCODE_3D_MODE ||key == KeyEvent.KEYCODE_POWER )
             {
-                camMan.StartTakePicture();
+                doaction();
             }
             else
             {
@@ -331,7 +345,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         if(DeviceUtils.isEvo3d())
         {
             if (key == 27)
-                camMan.StartTakePicture();
+                doaction();
 
         }
 

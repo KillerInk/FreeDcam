@@ -63,6 +63,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualConvergenceManager manualConvergenceManager;
     //public ParametersManager parametersManager;
     public boolean takePicture = false;
+    public boolean isRdy = false;
 
 
 
@@ -206,6 +207,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     @Override
     protected void OpenCamera() {
         super.OpenCamera();
+        isRdy = false;
         try {
             mCamera.setPreviewDisplay(activity.mPreview.mHolder);
             mCamera.setZoomChangeListener(zoomManager);
@@ -217,6 +219,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
             // TODO: add more exception handling logic here
         }
+        isRdy = true;
     }
 
     private void fixCameraDisplayOrientation()
@@ -240,7 +243,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     //if restarted true cam preview will be stopped and restartet
     public  void Restart(boolean restarted)
     {
-
+        isRdy = false;
         if (restarted)
         {
             Log.d(TAG, "Camera is restarted");
@@ -296,6 +299,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 //                parametersManager.SetCameraParameters(mCamera.getParameters());
 //            }
         }
+        isRdy = true;
     }
 
 
@@ -306,6 +310,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
 
+        isRdy = false;
         mCamera.stopPreview();
         try {
             Thread.sleep(1000);
