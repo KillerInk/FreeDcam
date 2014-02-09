@@ -130,7 +130,8 @@ public class HdrManager implements PictureTakeFinish
             e.printStackTrace();
         }
         Log.d(TAG, "Start Taking Picture");
-        cameraManager.mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
+        cameraManager.mCamera.takePicture(null, null, jpegCallback);
+        cameraManager.soundPlayer.PlayShutter();
     }
 
     private void setParameters()
