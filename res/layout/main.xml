@@ -17,12 +17,6 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true" />
 
-        <com.troop.freecam.surfaces.DrawingOverlaySurface
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/view"
-            android:alpha="0.5" />
-
         <Button
             android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
@@ -68,6 +62,13 @@
             android:layout_alignParentBottom="true"
             android:visibility="gone"
             android:layout_gravity="right|top" />
+
+        <ImageView
+            android:layout_width="@dimen/appiconsizethree"
+            android:layout_height="@dimen/appiconsizethree"
+            android:id="@+id/imageView_crosshair"
+            android:background="@drawable/crosshair"
+            android:longClickable="false" />
 
     </RelativeLayout>
 

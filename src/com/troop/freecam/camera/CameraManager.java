@@ -70,12 +70,13 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public CameraManager(CamPreview context, MainActivity activity, SettingsManager settingsManager)
     {
         super(context, settingsManager);
+        this.activity = activity;
         Log.d(TAG, "Loading CameraManager");
         //scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
         zoomManager = new ZoomManager(this);
-        autoFocusManager = new AutoFocusManager(this);
-        this.activity = activity;
+        autoFocusManager = new AutoFocusManager(this, activity);
+
         manualExposureManager = new ManualExposureManager(this);
         cameraManager = this;
         manualSharpnessManager = new ManualSharpnessManager(this);
@@ -255,49 +256,16 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 Log.e(TAG, "Camera was released");
                 return;
             }
-            //TODO its crashing for mahg
-            //try
-            //{
-                parametersManager.SetCameraParameters(mCamera.getParameters());
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.e(TAG, "Error loading parameters from camera");
-            //    ex.printStackTrace();
-            //}
+            parametersManager.SetCameraParameters(mCamera.getParameters());
 
             parametersManager.SetJpegQuality(100);
-            //parametersManager.SetContrast(100);
-            //mCamera.setParameters(parametersManager.getParameters());
             mCamera.startPreview();
             if (DeviceUtils.isEvo3d())
                 mCamera.setParameters(parametersManager.getParameters());
-            //}
-            //catch (Exception ex)
-            //{
-            //Log.e(TAG, "Setting Parameters Faild");
-            //ex.printStackTrace();
-            //}
-
-
         }
         else
         {
-//            try
-//            {
-            //set parameters
-            //Log.d(TAG, "Set Parameters to Camera");
-            //parametersManager.getParameters().set("cam-mode", 1);
             mCamera.setParameters(parametersManager.getParameters());
-            //parametersManager.UpdateUI();
-            //get parameters to see if changed
-            //parameters = mCamera.getParameters();
-//            }
-//            catch (Exception ex)
-//            {
-//                Log.e("Parameters Set Fail: ", ex.getMessage());
-//                parametersManager.SetCameraParameters(mCamera.getParameters());
-//            }
         }
         isRdy = true;
     }
@@ -309,7 +277,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         // Surface will be destroyed when we return, so stop the preview.
         // Because the CameraDevice object is not a shared resource, it's very
         // important to release it when the activity is paused.
-
         isRdy = false;
         mCamera.stopPreview();
         try {
@@ -333,8 +300,19 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             {
                 if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
                 {
-
-                    if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
+                    if (!cameraManager.autoFocusManager.focusing)
+                    {
+                        if (!autoFocusManager.hasFocus)
+                        {
+                            autoFocusManager.StartFocus();
+                            autoFocusManager.takePicture = true;
+                        }
+                        else
+                        {
+                            TakePicture(crop);
+                        }
+                    }
+                    /*if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
                     {
                         SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
                         //autoFocusManager.focusing = true;
@@ -349,7 +327,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                     {
                         touchtofocus = false;
                         autoFocusManager.StartFocus();
-                    }
+                    }*/
 
                 }
                 else
@@ -365,7 +343,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     {
         if (true)
         {
-            SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
+            //SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
             autoFocusManager.StartFocus();
         }
     }
@@ -392,7 +370,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
         }*/
 
-        if (touchtofocus == false && !autoFocusManager.focusing)
+        /*if (touchtofocus == false && !autoFocusManager.focusing)
         {
             touchtofocus = true;
         //Convert from View's width and height to +/- 1000
@@ -401,9 +379,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                     (int)rectangle.left * 2000/activity.drawSurface.getWidth() - 1000,
                     (int)rectangle.top * 2000/activity.drawSurface.getHeight() - 1000,
                     (int)rectangle.right * 2000/activity.drawSurface.getWidth() - 1000,
-                    (int)rectangle.bottom * 2000/activity.drawSurface.getHeight() - 1000);
+                    (int)rectangle.bottom * 2000/activity.drawSurface.getHeight() - 1000);*/
 
-            Rect top = new Rect(-999, -999, 999, targetFocusRect.top);
+            /*Rect top = new Rect(-999, -999, 999, targetFocusRect.top);
             Rect bottom = new Rect(-999, targetFocusRect.bottom, 999, 999);
             Rect left = new Rect(-999, targetFocusRect.top, targetFocusRect.left, targetFocusRect.bottom);
             Rect right = new Rect(targetFocusRect.right, targetFocusRect.top, 999, targetFocusRect.bottom);
@@ -447,7 +425,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         {
             autoFocusManager.CancelFocus();
             touchtofocus = false;
-        }
+        }*/
     }
 
     @Override

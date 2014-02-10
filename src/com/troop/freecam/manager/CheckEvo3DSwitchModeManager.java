@@ -43,11 +43,11 @@ public class CheckEvo3DSwitchModeManager
                     }
                     cameraManager.Stop();
                     cameraManager.activity.mPreview.SwitchViewMode();
-                    cameraManager.activity.drawSurface.SwitchViewMode();
+                    //cameraManager.activity.drawSurface.SwitchViewMode();
 
                     cameraManager.Start();
                     cameraManager.Restart(true);
-                    cameraManager.activity.drawSurface.drawingRectHelper.Draw();
+                    //cameraManager.activity.drawSurface.drawingRectHelper.Draw();
                     cameraManager.activity.SwitchCropButton();
                 }
 

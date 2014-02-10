@@ -2,6 +2,8 @@ package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -110,10 +112,22 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
         }
     }
 
+    long lastclick;
+    int waitTime = 300;
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         //drawingRectHelper.OnTouch(event);
+        long timeelapsed = event.getEventTime() - lastclick;
+        if (timeelapsed > waitTime)
+        {
+            lastclick = event.getEventTime();
+            camMan.autoFocusManager.StartTouchToFocus((int)event.getX(), (int)event.getY());
+
+
+        }
+
         return true;
     }
 
@@ -199,5 +213,7 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
             is3Denabled = false;
         }
     }
+
+
 
 }

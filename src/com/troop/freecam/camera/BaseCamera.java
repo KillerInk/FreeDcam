@@ -106,6 +106,7 @@ public class BaseCamera
             mCamera = Camera.open(0);
             Settings.CurrentCamera = 0;
         }
+
         //mCamera.addCallbackBuffer(rawbuffer);
     }
     protected  void CloseCamera()
