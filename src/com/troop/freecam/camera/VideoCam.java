@@ -1,5 +1,6 @@
 package com.troop.freecam.camera;
 
+import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
@@ -46,10 +47,12 @@ public class VideoCam extends PictureCam
             recorder.setCamera(mCamera);
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+            //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            //recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
+            /*recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);*/
+
             /*recorder.setVideoEncodingBitRate(20000000);
             recorder.setVideoFrameRate(30);*/
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {

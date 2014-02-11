@@ -18,6 +18,7 @@ import com.troop.freecam.utils.SavePicture;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Handler;
 
 /**
  * Created by troop on 18.10.13.
@@ -139,13 +140,13 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     @Override
     public void onPictureSaved(File file)
     {
-        ExifManager m = new ExifManager();
+       /* ExifManager m = new ExifManager();
         try {
             m.LoadExifFrom(file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        onShutterSpeed(m.getExposureTime());
+        onShutterSpeed(m.getExposureTime());*/
     }
 
     private void saveRawData(byte[] data)

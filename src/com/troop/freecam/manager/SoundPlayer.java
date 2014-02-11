@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.os.Handler;
 
 import com.troop.freecam.R;
 import com.troop.freecam.utils.DeviceUtils;
@@ -20,6 +21,8 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
     boolean loaded = false;
     int shutterID;
     int focusID;
+
+    private Handler handler = new Handler();
 
     public SoundPlayer(Context context)
     {
@@ -38,42 +41,57 @@ public class SoundPlayer implements  MediaPlayer.OnCompletionListener
 
     public void PlayShutter()
     {
-        if (true /*!DeviceUtils.isEvo3d()*/)
-        {
-            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            float actualVolume = (float) audioManager
-                    .getStreamVolume(AudioManager.STREAM_RING);
-            float maxVolume = (float) audioManager
-                    .getStreamMaxVolume(AudioManager.STREAM_RING);
-            float volume = actualVolume / maxVolume;
-            // Is the sound loaded already?
-            if (loaded)
-                soundPool.play(shutterID, volume, volume, 1, 0, 1f);
-        }
+        handler.post(playShutter);
         /*player = MediaPlayer.create(context, R.raw.camerashutter);
         player.setOnCompletionListener(this);
         player.start();*/
     }
+
+    Runnable playShutter = new Runnable() {
+        @Override
+        public void run() {
+            if (true /*!DeviceUtils.isEvo3d()*/)
+            {
+                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                float actualVolume = (float) audioManager
+                        .getStreamVolume(AudioManager.STREAM_RING);
+                float maxVolume = (float) audioManager
+                        .getStreamMaxVolume(AudioManager.STREAM_RING);
+                float volume = actualVolume / maxVolume;
+                // Is the sound loaded already?
+                if (loaded)
+                    soundPool.play(shutterID, volume, volume, 1, 0, 1f);
+            }
+        }
+    };
 
     public void PlayFocus()
     {
         /*player = MediaPlayer.create(context, R.raw.camerafocus);
         player.setOnCompletionListener(this);
         player.start();*/
-        if (true /*!DeviceUtils.isEvo3d()*/)
-        {
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_RING);
-        float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_RING);
-        float volume = actualVolume / maxVolume;
-        //soundPool.setVolume(focusID,1,1);
-        // Is the sound loaded already?
-        if (loaded)
-            soundPool.play(focusID, volume, volume, 1, 0, 1f);
-        }
+        handler.post(playFocus);
+
     }
+
+    Runnable playFocus = new Runnable() {
+        @Override
+        public void run() {
+            if (true /*!DeviceUtils.isEvo3d()*/)
+            {
+                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                float actualVolume = (float) audioManager
+                        .getStreamVolume(AudioManager.STREAM_RING);
+                float maxVolume = (float) audioManager
+                        .getStreamMaxVolume(AudioManager.STREAM_RING);
+                float volume = actualVolume / maxVolume;
+                //soundPool.setVolume(focusID,1,1);
+                // Is the sound loaded already?
+                if (loaded)
+                    soundPool.play(focusID, volume, volume, 1, 0, 1f);
+            }
+        }
+    };
 
     @Override
     public void onCompletion(MediaPlayer mp)

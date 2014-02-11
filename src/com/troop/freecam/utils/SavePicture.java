@@ -152,14 +152,19 @@ public class SavePicture
                 File file = getFilePath(end, sdcardpath);
                 try {
                     writePictureToSD(bytes, file, crop);
-                    if (onSavePicture != null)
-                        onSavePicture.onPictureSaved(file);
-                    //mediaScannerManager.startScan(Uri.fromFile(file).getPath());
-                    MediaScannerManager.ScanMedia(context, file);
+                    picsaved(file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
     };
+
+    private synchronized void picsaved(File file)
+    {
+        if (onSavePicture != null)
+            onSavePicture.onPictureSaved(file);
+        //mediaScannerManager.startScan(Uri.fromFile(file).getPath());
+        //MediaScannerManager.ScanMedia(context, file);
+    }
 }

@@ -2,7 +2,6 @@ package com.troop.freecam.camera;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -33,8 +32,6 @@ import com.troop.freecam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 25.08.13.
@@ -198,6 +195,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             e.printStackTrace();
         }
         onShutterSpeed(m.getExposureTime());
+
     }
 
     public  void Start()

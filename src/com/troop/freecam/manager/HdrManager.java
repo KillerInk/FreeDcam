@@ -40,6 +40,7 @@ public class HdrManager implements PictureTakeFinish
     SavePictureRunnable saveFirstPic;
     SavePictureRunnable saveSecondPic;
     SavePictureRunnable saveThirdPic;
+    boolean finish = false;
 
 
 
@@ -56,7 +57,7 @@ public class HdrManager implements PictureTakeFinish
     private void doAction() {
         if (count < 3)
         {
-            if (!takepicture && !setParameters)
+            if (!takepicture && !setParameters && !finish)
             {
                 Log.d(TAG,"Rdy for Taking Pic:" + count);
                 starttakePicture();
@@ -107,7 +108,7 @@ public class HdrManager implements PictureTakeFinish
 
     public void TakeHDRPictures(boolean reset)
     {
-        
+        finish = false;
         //cameraManager.parametersManager.getParameters().set("video-stabilization", "true");
         //cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
         count = 0;
@@ -130,8 +131,9 @@ public class HdrManager implements PictureTakeFinish
             e.printStackTrace();
         }
         Log.d(TAG, "Start Taking Picture");
-        cameraManager.mCamera.takePicture(null, null, jpegCallback);
         cameraManager.soundPlayer.PlayShutter();
+        cameraManager.mCamera.takePicture(null, null, jpegCallback);
+
     }
 
     private void setParameters()
@@ -208,17 +210,21 @@ public class HdrManager implements PictureTakeFinish
                 if (count == 0)
                 {
                     saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    handler.post(saveFirstPic);
+                    //handler.post(saveFirstPic);
+                    new Thread(saveFirstPic);
                 }
                 else if (count == 1)
                 {
                     saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    handler.post(saveSecondPic);
+                    //handler.post(saveSecondPic);
+                    new Thread(saveSecondPic);
                 }
                 else if (count == 2)
                 {
                     saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    handler.post(saveThirdPic);
+                    //handler.post(saveThirdPic);
+                    new Thread(saveThirdPic);
+                    finish = true;
                 }
                 //savePic(data, end, sdcardpath);
             }
@@ -227,6 +233,11 @@ public class HdrManager implements PictureTakeFinish
             Log.d(TAG,"Picture Taking Finished");
 
             cameraManager.mCamera.startPreview();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             pictureTakeFinish.PictureTakingFinish();
         }
     };

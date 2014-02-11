@@ -54,7 +54,7 @@ public class AutoFocusManager
             int half = crosshair.getWidth()/2;
             int halflength = activity.mPreview.getWidth()/2;
             int halfheight = activity.mPreview.getHeight()/2;
-            
+
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) crosshair.getLayoutParams();
             mParams.leftMargin = halflength - half;
             //mParams.rightMargin = x +half;
@@ -65,9 +65,9 @@ public class AutoFocusManager
             crosshair.bringToFront();
 
             if (cameraManager.parametersManager.getParameters().getMaxNumFocusAreas() >= 1 )
-                cameraManager.parametersManager.getParameters().setFocusAreas(cameraManager.mCamera.getParameters().getFocusAreas());
+                cameraManager.parametersManager.getParameters().setFocusAreas(null);
             if(cameraManager.parametersManager.getParameters().getMaxNumMeteringAreas() >= 1)
-                cameraManager.parametersManager.getParameters().setMeteringAreas(cameraManager.mCamera.getParameters().getMeteringAreas());
+                cameraManager.parametersManager.getParameters().setMeteringAreas(null);
 
             doFocus();
         }

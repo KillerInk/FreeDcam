@@ -212,7 +212,12 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             if(recordVideo == false && !camMan.IsWorking)
             {
                 if (HDRMode == false)
-                    camMan.StartTakePicture();
+                {
+                    if(!camMan.autoFocusManager.focusing)
+                        camMan.StartTakePicture();
+                    else
+                        camMan.autoFocusManager.takePicture = true;
+                }
                 else
                     camMan.HdrRender.TakeHDRPictures(true);
 
