@@ -62,12 +62,12 @@ public class HdrManager implements PictureTakeFinish
                 Log.d(TAG,"Rdy for Taking Pic:" + count);
                 starttakePicture();
             }
-            else if(takepicture || setParameters)
+            /*else if(takepicture || setParameters)
             {
                 Log.d(TAG,"Not Rdy for Taking Pic:" + count);
                 doAction();
                 //handler.postDelayed(runnable, interval);
-            }
+            }*/
         }
         else
         {
@@ -112,7 +112,7 @@ public class HdrManager implements PictureTakeFinish
         //cameraManager.parametersManager.getParameters().set("video-stabilization", "true");
         //cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
         count = 0;
-        starttakePicture();
+        doAction();
     }
 
     private void starttakePicture()
@@ -126,7 +126,7 @@ public class HdrManager implements PictureTakeFinish
 
         takepicture = true;
         try {
-            Thread.sleep(1000);
+            Thread.sleep(700);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -148,7 +148,9 @@ public class HdrManager implements PictureTakeFinish
 
         int conv  = cameraManager.parametersManager.getParameters().getExposureCompensation();
 
+        //cameraManager.parametersManager.setPictureSize(cameraManager.Settings.PictureSize.Get());
         //cameraManager.mCamera.stopPreview();
+        Log.d(TAG, "PictureSize:" + cameraManager.parametersManager.getParameters().getPictureSize().width + "x" + cameraManager.parametersManager.getParameters().getPictureSize().height);
         if (count == 0)
         {
             cameraManager.parametersManager.manualExposure.set(cameraManager.Settings.HDRSettings.getHighExposure());
@@ -210,20 +212,21 @@ public class HdrManager implements PictureTakeFinish
                 if (count == 0)
                 {
                     saveFirstPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    //handler.post(saveFirstPic);
-                    new Thread(saveFirstPic);
+                    handler.post(saveFirstPic);
+                    //new Thread(saveFirstPic);
+
                 }
                 else if (count == 1)
                 {
                     saveSecondPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    //handler.post(saveSecondPic);
-                    new Thread(saveSecondPic);
+                    handler.post(saveSecondPic);
+                    //new Thread(saveSecondPic);
                 }
                 else if (count == 2)
                 {
                     saveThirdPic = new SavePictureRunnable(data, file.getAbsolutePath(), count, upsidedownfix);
-                    //handler.post(saveThirdPic);
-                    new Thread(saveThirdPic);
+                    handler.post(saveThirdPic);
+                    //new Thread(saveThirdPic);
                     finish = true;
                 }
                 //savePic(data, end, sdcardpath);
@@ -238,7 +241,8 @@ public class HdrManager implements PictureTakeFinish
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            pictureTakeFinish.PictureTakingFinish();
+            doAction();
+            //pictureTakeFinish.PictureTakingFinish();
         }
     };
 
