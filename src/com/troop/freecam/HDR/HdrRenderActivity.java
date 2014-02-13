@@ -214,6 +214,9 @@ public class HdrRenderActivity extends Activity
     protected void onPause()
     {
         overlayView.Destroy();
+        System.gc();
+        Runtime.getRuntime().gc();
+        System.gc();
         super.onPause();
 
     }
