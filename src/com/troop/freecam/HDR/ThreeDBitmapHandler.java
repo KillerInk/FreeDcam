@@ -42,7 +42,8 @@ public class ThreeDBitmapHandler extends BaseBitmapHandler
 
         for(int i=0; i < uris.length; i++ )
         {
-            JniBitmapHolder orgi = new JniBitmapHolder(BitmapFactory.decodeFile(uris[i].getPath()));
+            JniBitmapHolder orgi = new JniBitmapHolder();
+            orgi.loadFromPath(uris[i].getPath());
             int newheigt = orgi.getWidth() /32 * 9;
             int tocrop = orgi.getHeight() - newheigt ;
             if (activity.preferences.getBoolean("upsidedown", false))
