@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/popupLayoutSettings"
             android:longClickable="false"
-            android:minWidth="@dimen/menuwidth">
+            android:minWidth="@dimen/menuwidth"
+            android:minHeight="500dp">
 
             <Switch
                 android:layout_width="fill_parent"
@@ -34,6 +35,24 @@
                 android:id="@+id/button_fixupsidedown"
                 android:textSize="@dimen/TextSizeSmallPlus"
                 android:text="Orientation Fix"
+                android:singleLine="true"
+                android:paddingLeft="4dp" />
+
+            <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/button_tripod"
+                android:textSize="@dimen/TextSizeSmallPlus"
+                android:text="Night Mode Tripod"
+                android:singleLine="true"
+                android:paddingLeft="4dp" />
+
+            <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/button_rawsave"
+                android:textSize="@dimen/TextSizeSmallPlus"
+                android:text="Exynos Raw Save"
                 android:singleLine="true"
                 android:paddingLeft="4dp" />
 

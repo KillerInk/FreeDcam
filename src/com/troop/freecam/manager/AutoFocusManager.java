@@ -13,6 +13,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

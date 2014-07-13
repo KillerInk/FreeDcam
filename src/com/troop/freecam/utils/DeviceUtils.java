@@ -2,6 +2,7 @@ package com.troop.freecam.utils;
 
 import android.os.Build;
 
+
 /**
  * Created by troop on 22.12.13.
  */
@@ -16,7 +17,7 @@ public class DeviceUtils
     public static boolean isQualcomm()
     {
         String s = Build.MODEL;
-        return s.equals("LG-D800") || isEvo3d() || s.equals("LG-D802") || s.equals("LG-D803") || s.equals("LG-D820") || s.equals("LG-D821") || s.equals("LG-D801") || s.equals("C6902") || s.equals("C6903") || s.equals("C833") || s.equals("LG803") || s.equals("C6602") || s.equals("C6603") || s.equals("Nexus 4") || s.equals("Nexus 5") || s.equals("SM-N9005") || s.equals("GT-I9505") || s.equals("GT-I9506") || s.equals("LG803") || s.equals("HTC One") || s.equals("LG-F320") || s.equals("LG-F320S") || s.equals("LG-F320K") || s.equals("LG-F320L") || s.equals("LG-VS980") || s.equals("LG-D805");
+        return s.equals("LG-D800") || isEvo3d() || s.equals("LG-D802") || s.equals("LG-D803") || s.equals("LG-D820") || s.equals("LG-D821") || s.equals("LG-D801") || s.equals("C6902") || s.equals("C6903") || s.equals("C833") || s.equals("LG803") || s.equals("C6602") || s.equals("C6603") || s.equals("Nexus 4") || s.equals("Nexus 5") || s.equals("SM-N9005") || s.equals("GT-I9505") || s.equals("GT-I9506") || s.equals("LG803") || s.equals("HTC One") || s.equals("LG-F320") || s.equals("LG-F320S") || s.equals("LG-F320K") || s.equals("LG-F320L") || s.equals("LG-VS980") || s.equals("HTC One_M8") || s.equals("NX503A")|| s.equals("Z5S");
     }
 
     public static boolean isTegra()
@@ -28,7 +29,7 @@ public class DeviceUtils
     public static boolean isExynos()
     {
         String s = Build.MODEL;
-        return s.equals("GT-I9000") || s.equals("GT-I9100") || s.equals("GT-I9300") || s.equals("GT-I9500") || s.equals("SM-905") || s.equals("GT-N7000") || s.equals("GT-N7100");
+        return s.equals("GT-I9000") || s.equals("GT-I9100") || s.equals("GT-I9300") || s.equals("GT-I9500") || s.equals("SM-905") || s.equals("GT-N7000") || s.equals("GT-N7100")|| s.equals("SM-G900H");
     }
 
     public static boolean is3d()
@@ -53,4 +54,41 @@ public class DeviceUtils
     {
         return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU")|| Build.MODEL.equals("HTC Shooter");
     }
+
+    public static boolean isHTCADV()
+    {
+        String s = Build.MODEL;
+        return s.equals("HTC One_M8") || s.equals("HTC One_M7");
+    }
+
+    public static boolean isLGADV()
+    {
+        String s = Build.MODEL;
+        return s.equals("LG-D800") || s.equals("LG-D802");
+    }
+
+    public static boolean isZTEADV()
+    {
+        String s = Build.MODEL;
+        return s.equals("NX503A") || s.equals("Z5S") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5");
+    }
+
+    public static boolean isXiaomiADV()
+    {
+        String s = Build.MODEL;
+        return s.equals("Aries") || s.equals("cNexus 10");
+    }
+
+    public static boolean isSamsungADV()
+    {
+        String s = Build.MODEL;
+        return s.equals("SM-G900") || s.equals("SM-G900H");
+    }
+
+    public static boolean isForcedDragon()
+    {
+        String s = Build.MODEL;
+        return s.equals("C6603") || s.equals("C6902") || s.equals("C6602") || s.equals("C6903") || s.equals("HTC One");
+    }
+
 }

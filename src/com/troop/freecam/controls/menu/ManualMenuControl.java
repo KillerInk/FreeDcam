@@ -26,6 +26,7 @@ public class ManualMenuControl extends LinearLayout
     public CheckBox manualExposure;
     public CheckBox manualShaprness;
     public CheckBox manualFocus;
+    public CheckBox manualShutter;
     public CheckBox contrastcheckBox;
     CheckBox brightnessCheckBox;
     public CheckBox saturationCheckBox;
@@ -34,6 +35,7 @@ public class ManualMenuControl extends LinearLayout
     StyleAbelSlider manualSaturationSlider;
     StyleAbelSlider manualBrightnesSlider;
     StyleAbelSlider manualFocusSlider;
+    StyleAbelSlider manualShutterSlider;
     StyleAbelSlider manualContrastSlider;
     StyleAbelSlider manaualConvergenceSlider;
     CheckBox checkbox_convergence;
@@ -110,9 +112,34 @@ public class ManualMenuControl extends LinearLayout
                 //focusButton.setEnabled(true);
             }
         });
+        manualFocusSlider = (StyleAbelSlider)findViewById(R.id.slider_Focus);
+        manualFocusSlider.OnValueCHanged(camMan.manualFocusManager);
+        manualFocusSlider.setVisibility(GONE);
 
 
         //*****************************************End********************************************
+
+        //******************************SHUTTER sPEED******************************************
+
+        manualShutter = (CheckBox)findViewById(R.id.checkBox_manualShutter);
+        manualShutter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (manualShutter.isChecked())
+
+                    manualShutterSlider.setVisibility(View.VISIBLE);
+
+                else
+                    manualShutterSlider.setVisibility(View.GONE);
+                //focusButton.setEnabled(true);
+            }
+        });
+
+        manualShutterSlider = (StyleAbelSlider)findViewById(R.id.slider_Shutter);
+        manualShutterSlider.OnValueCHanged(camMan.manualShutterManager);
+        manualShutterSlider.setVisibility(GONE);
+
+        //*************************************************************************************
 
 
         contrastcheckBox = (CheckBox)findViewById(R.id.checkBox_contrast);
@@ -234,10 +261,6 @@ public class ManualMenuControl extends LinearLayout
                 manualSaturationSlider.SetMaxValue(100);
                 manualSaturationSlider.SetCurrentValue(camMan.parametersManager.getParameters().getInt("saturation"));
             }
-            if (!camMan.parametersManager.getSupportManualFocus())
-                manualFocus.setVisibility(GONE);
-            else
-                manualFocus.setVisibility(VISIBLE);
             if (!camMan.parametersManager.getSupportContrast())
                 contrastcheckBox.setVisibility(GONE);
             else
@@ -259,6 +282,22 @@ public class ManualMenuControl extends LinearLayout
             else
             {
                 checkbox_convergence.setVisibility(GONE);
+            }
+            if (!camMan.parametersManager.getSupportManualFocus())
+                manualFocus.setVisibility(View.GONE);
+            else
+            {
+                manualFocus.setVisibility(View.VISIBLE);
+                manualFocusSlider.SetMaxValue(camMan.parametersManager.manualFocus.getMax());
+                manualFocusSlider.SetCurrentValue(camMan.parametersManager.manualFocus.getValue());
+            }
+            if (!camMan.parametersManager.getSupportManualShutter())
+                manualShutter.setVisibility(View.GONE);
+            else
+            {
+                manualShutter.setVisibility(View.VISIBLE);
+                manualShutterSlider.SetMaxValue(camMan.parametersManager.manualShutter.getMax());
+                manualShutterSlider.SetCurrentValue(camMan.parametersManager.manualShutter.getValue());
             }
 
         }

@@ -3,6 +3,7 @@ package com.troop.freecam.manager.parameters;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Display;
+import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
@@ -19,7 +20,8 @@ import java.util.List;
 public class ParametersManager extends LensShadeManager
 {
     //New Pref 07-12-13
-    public static final String Preferences_PictureFormat = "picture_format";
+    public static final String  Preferences_PictureFormat = "picture_format";
+    public static String Preferences_PictureFormatx = "jpeg";
 
     public static final String Preferences_Denoise = "denoise";
    // public static final String Preferences_Stab = "stablization";
@@ -57,12 +59,15 @@ public class ParametersManager extends LensShadeManager
     public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
     boolean supportIso = false;
     public boolean getSupportIso() { return  supportIso; }
+    boolean val;
 
     boolean supportScene = false;
     boolean supportManualFocus = false;
+    boolean supportManualShutter = false;
     boolean supportManualConvergence = false;
     public boolean getSupportManualConvergence() { return supportManualConvergence;}
     public boolean getSupportManualFocus(){ return  supportManualFocus;}
+    public boolean getSupportManualShutter(){ return  supportManualShutter;}
     public boolean getSupportScene() { return supportScene;}
 
     public BrightnessManager Brightness;
@@ -77,10 +82,14 @@ public class ParametersManager extends LensShadeManager
     public ImagePostProcessingClass ImagePostProcessing;
     public PreviewFormatClass PreviewFormat;
     public PreviewFpsClass PreviewFps;
+    public ManualSaturationClass manualSaturation;
     public ManualSharpnessClass manualSharpness;
     public ManualExposureClass manualExposure;
     public ManualContrastClass manualContrast;
     public ManualConvergenceClass manualConvergence;
+    public ManualShutterClass manualShutter;
+    public ManualFocusClass manualFocus;
+    Camera camera;
 
 
 
@@ -110,14 +119,53 @@ public class ParametersManager extends LensShadeManager
         ImagePostProcessing = new ImagePostProcessingClass();
         PreviewFormat = new PreviewFormatClass();
         PreviewFps = new PreviewFpsClass();
+        manualSaturation = new ManualSaturationClass();
         manualSharpness = new ManualSharpnessClass();
         manualExposure = new ManualExposureClass();
         manualContrast = new ManualContrastClass();
         manualConvergence = new ManualConvergenceClass();
+        manualFocus = new ManualFocusClass();
+        manualShutter = new ManualShutterClass();
+
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true, enumParameters.All);
+        
     }
+
+    public void GetCamP (String value )
+    {
+       if (value != "jpeg")
+       {
+           val = true;
+       }
+
+    }
+
+    public boolean isRaw()
+    {
+        return val;
+    }
+
+
+    public void setCamP (String value,String v2 )
+    {
+        parameters.set(value, v2);
+
+    }
+
+    public String getCamP (String value )
+    {
+       String o = parameters.get(value);
+        return o;
+
+    }
+    
+    public void string_set(String S)
+    {
+    	Preferences_PictureFormatx = S;
+    }
+
 
 
 
@@ -131,14 +179,29 @@ public class ParametersManager extends LensShadeManager
     private void checkParametersSupport()
     {
         try {
-            int i = parameters.getInt("manual-focus");
+            if(DeviceUtils.isHTCADV() || DeviceUtils.isLGADV())
+            {
             supportManualFocus = true;
+            }
         }
         catch (Exception ex)
         {
             supportManualFocus = false;
         }
         Log.d(TAG, "support manualFocus:" + supportManualFocus);
+        try {
+            if(DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV())
+            {
+                supportManualShutter = true;
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            supportManualShutter = false;
+        }
+        Log.d(TAG, "support Shutter:" + supportManualShutter);
         try
         {
             int i = parameters.getInt("sharpness");
@@ -202,7 +265,10 @@ public class ParametersManager extends LensShadeManager
 
         /*if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
             parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
-
+        if (DeviceUtils.isZTEADV())
+        {
+            parameters.set("ois_key","on");
+        }
 
 
         if (!cameraManager.Settings.PictureSize.Get().equals(""))
@@ -284,6 +350,13 @@ public class ParametersManager extends LensShadeManager
         onParametersCHanged(enumParameters.FlashMode);
     }
 
+    public void setPictureFormat()
+    {
+        parameters.set("picture-format","jpeg");
+        cameraManager.Restart(false);
+        onParametersCHanged(enumParameters.PictureFormat);
+    }
+
     public void setFocusMode(String focusMode)
     {
         parameters.setFocusMode(focusMode);
@@ -308,6 +381,23 @@ public class ParametersManager extends LensShadeManager
             ex.printStackTrace();
         }
     }*/
+
+    public void setNightEnable(String val)
+    {
+        parameters.set("night_key",val);
+        super.SetCameraParameters(parameters);
+        //camera.setParameters(parameters);
+        onParametersCHanged(enumParameters.Tripod);
+        cameraManager.Restart(false);
+    }
+
+    public void setExynosRaw(String val)
+    {
+        parameters.set("capture-mode",val);
+        super.SetCameraParameters(parameters);
+        onParametersCHanged(enumParameters.ExynosRaw);
+        cameraManager.Restart(false);
+    }
 
 
 
@@ -536,6 +626,10 @@ public class ParametersManager extends LensShadeManager
             }
             onParametersCHanged(enumParameters.AfPriority);
         }
+		public String LazyHijack()
+        {
+            return parameters.get("picture-format");
+        }
         public String Get()
         {
             return parameters.get(afpValue);
@@ -584,6 +678,7 @@ public class ParametersManager extends LensShadeManager
 
 
     }
+
 
     public class ZeroShutterLagClass
     {
@@ -914,6 +1009,8 @@ public class ParametersManager extends LensShadeManager
         return optimalSize;
     }
 
+
+
     public class PreviewFpsClass
     {
         public String[] GetValues()
@@ -959,6 +1056,50 @@ public class ParametersManager extends LensShadeManager
         }
     }
 
+    public class ManualSaturationClass
+    {
+        public int getMax()
+        {
+            int max = 0;
+            try {
+                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    max = Integer.parseInt(parameters.get("max-saturation"));
+                }
+                else
+                {
+                    max = Integer.parseInt(parameters.get("saturation-max"));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                max = 100;
+            }
+            return max;
+        }
+
+        public int getValue()
+        {
+            return Integer.parseInt(parameters.get("saturation"));
+        }
+
+        public void set(int toset)
+        {
+            try
+            {
+                parameters.set("saturation", toset);
+                cameraManager.Restart(false);
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Manual saturation set failed");
+            }
+            onParametersCHanged(enumParameters.ManualSaturation);
+
+        }
+    }
+
     public class ManualSharpnessClass
     {
         public int getMax()
@@ -991,6 +1132,357 @@ public class ParametersManager extends LensShadeManager
                 Log.e(TAG, "Manual Sharpness set failed");
             }
             onParametersCHanged(enumParameters.ManualSharpness);
+
+        }
+    }
+
+    public class ManualShutterClass
+    {
+        public int getMax()
+        {
+            int max = 0;
+            try {
+
+                if(DeviceUtils.isZTEADV())
+                {
+                    max = 19;
+                }
+                if (DeviceUtils.isHTCADV())
+                {
+                    max = 47;
+                }
+            }
+            catch (Exception ex)
+            {
+                if(DeviceUtils.isZTEADV())
+                {
+                    max = 16;
+                }
+                if (DeviceUtils.isHTCADV())
+                {
+                    max = 47;
+                }
+            }
+            return max;
+        }
+
+        public int getValue()
+        { int cv = 0;
+            if(DeviceUtils.isZTEADV())
+            {
+                cv = 2;
+            }
+            if (DeviceUtils.isHTCADV())
+            {
+                cv = 10;
+            }
+            return cv;
+        }
+
+        public void set(int toset)
+        {
+            try
+            {
+                if(DeviceUtils.isHTCADV())
+                {
+                    switch (toset)
+                    {
+                        case 1 :
+                            parameters.set("shutter", "4.0");
+                            break;
+
+                        case 2 :
+                            parameters.set("shutter", "3.2");
+                            break;
+
+                        case 3 :
+                            parameters.set("shutter", "2.5");
+                            break;
+
+                        case 4 :
+                            parameters.set("shutter", "1.6");
+                            break;
+
+                        case 5 :
+                            parameters.set("shutter", "1.3");
+                            break;
+
+                        case 6 :
+                            parameters.set("shutter", "1.0");
+                            break;
+
+                        case 7 :
+                            parameters.set("shutter", "0.8");
+                            break;
+
+                        case 8 :
+                            parameters.set("shutter", "0.6");
+                            break;
+
+                        case 9 :
+                            parameters.set("shutter", "0.5");
+                            break;
+
+                        case 10 :
+                            parameters.set("shutter", "0.4");
+                            break;
+
+                        case 11 :
+                            parameters.set("shutter", "0.3");
+                            break;
+
+                        case 12 :
+                            parameters.set("shutter", "0.25");
+                            break;
+
+                        case 13 :
+                            parameters.set("shutter", "0.2");
+                            break;
+
+                        case 14 :
+                            parameters.set("shutter", "0.125");
+                            break;
+
+                        case 15 :
+                            parameters.set("shutter", "0.1");
+                            break;
+
+                        case 16 :
+                            parameters.set("shutter", "0.07");
+                            break;
+
+                        case 17 :
+                            parameters.set("shutter", "0.06");
+                            break;
+
+                        case 18 :
+                            parameters.set("shutter", "0.05");
+                            break;
+
+                        case 19 :
+                            parameters.set("shutter", "0.04");
+                            break;
+
+                        case 20 :
+                            parameters.set("shutter", "0.03");
+                            break;
+
+                        case 21 :
+                            parameters.set("shutter", "0.025");
+                            break;
+
+                        case 22 :
+                            parameters.set("shutter", "0.02");
+                            break;
+
+                        case 23 :
+                            parameters.set("shutter", "0.01");
+                            break;
+
+                        case 24 :
+                            parameters.set("shutter", "0.0125");
+                            break;
+
+                        case 25 :
+                            parameters.set("shutter", "0.01");
+                            break;
+
+                        case 26 :
+                            float a = 1 / 125;
+                            String b = String.valueOf(a);
+                            parameters.set("shutter", b);
+                            break;
+
+                        case 27 :
+                            float a27 = 1 / 200;
+                            String b27 = String.valueOf(a27);
+                            parameters.set("shutter", b27);
+                            break;
+
+                        case 28 :
+                            float a28 = 1 / 250;
+                            String b28 = String.valueOf(a28);
+                            parameters.set("shutter", b28);
+                            break;
+
+                        case 29 :
+                            float a29 = 1 / 300;
+                            String b29 = String.valueOf(a29);
+                            parameters.set("shutter", b29);
+                            break;
+
+                        case 30 :
+                            float a30 = 1 / 400;
+                            String b30 = String.valueOf(a30);
+                            parameters.set("shutter", b30);
+                            break;
+
+                        case 31 :
+                            float a31 = 1 / 500;
+                            String b31 = String.valueOf(a31);
+                            parameters.set("shutter", b31);
+                            break;
+
+                        case 32 :
+                            float a32 = 1 / 640;
+                            String b32 = String.valueOf(a32);
+                            parameters.set("shutter", b32);
+                            break;
+
+                        case 33 :
+                            float a33 = 1 / 800;
+                            String b33 = String.valueOf(a33);
+                            parameters.set("shutter", b33);
+                            break;
+
+                        case 34 :
+                            float a34 = 1 / 1000;
+                            String b34 = String.valueOf(a34);
+                            parameters.set("shutter", b34);
+                            break;
+
+                        case 35 :
+                            float a35 = 1 / 1250;
+                            String b35 = String.valueOf(a35);
+                            parameters.set("shutter", b35);
+                            break;
+
+                        case 36 :
+                            float a36 = 1 / 1600;
+                            String b36 = String.valueOf(a36);
+                            parameters.set("shutter", b36);
+                            break;
+
+                        case 37 :
+                            float a37 = 1 / 2000;
+                            String b37 = String.valueOf(a37);
+                            parameters.set("shutter", b37);
+                            break;
+
+                        case 38 :
+                            float a38 = 1 / 2500;
+                            String b38 = String.valueOf(a38);
+                            parameters.set("shutter", b38);
+                            break;
+
+                        case 39 :
+                            float a39 = 1 / 3200;
+                            String b39 = String.valueOf(a39);
+                            parameters.set("shutter", b39);
+                            break;
+
+                        case 40 :
+                            float a40 = 1 / 4000;
+                            String b40 = String.valueOf(a40);
+                            parameters.set("shutter", "4.0");
+                            break;
+
+                        case 41 :
+                            float a41 = 1 / 5000;
+                            String b41 = String.valueOf(a41);
+                            parameters.set("shutter", b41);
+                            break;
+
+                        case 42 :
+                            float a42 = 1 / 6400;
+                            String b42 = String.valueOf(a42);
+                            parameters.set("shutter", b42);
+                            break;
+
+                        case 43 :
+                            float a43 = 1 / 8000;
+                            String b43 = String.valueOf(a43);
+                            parameters.set("shutter", b43);
+                            break;
+
+                    }
+
+                    cameraManager.Restart(false);
+                }
+                if (DeviceUtils.isZTEADV())
+                {
+                    parameters.set("adjust_exposure_time", toset);
+                    cameraManager.Restart(false);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Manual Exposure set failed");
+            }
+            onParametersCHanged(enumParameters.ManualShutter);
+
+        }
+    }
+
+    public class ManualFocusClass
+    {
+        public int getMax()
+        {
+            int max = 0;
+            try {
+                if(DeviceUtils.isHTCADV())
+                {
+                    max = Integer.parseInt(parameters.get("max-focus"));
+                }
+                if (DeviceUtils.isLGADV())
+                {
+                    max = Integer.parseInt(parameters.get("shutter"));
+                }
+                if(DeviceUtils.isZTEADV())
+                {
+                    max = Integer.parseInt(parameters.get("shutter"));
+                }
+            }
+            catch (Exception ex)
+            {
+                max = 100;
+            }
+            return max;
+        }
+
+        public int getValue()
+        {
+            int val = 0;
+            if(DeviceUtils.isHTCADV())
+            {
+                val = Integer.parseInt(parameters.get("current-focus-step"));
+            }
+            if(DeviceUtils.isLGADV())
+            {
+                val = Integer.parseInt(parameters.get("manualfocus_step"));
+
+            }
+            return val;
+        }
+
+        public void set(int toset)
+        {
+            try
+            {
+                if(DeviceUtils.isHTCADV())
+                {
+                    parameters.set("focus", toset);
+                    cameraManager.Restart(false);
+                }
+                if(DeviceUtils.isLGADV())
+                {
+                    parameters.setFocusMode("normal");
+                    parameters.set("manual-focus", toset);
+                    cameraManager.Restart(false);
+                }
+                if(DeviceUtils.isZTEADV())
+                {
+                    parameters.set("maf_key", toset);
+                    cameraManager.Restart(false);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.e(TAG, "Manual Focus set failed");
+            }
+            onParametersCHanged(enumParameters.ManualFocus);
 
         }
     }
@@ -1037,7 +1529,15 @@ public class ParametersManager extends LensShadeManager
         {
             int max = 0;
             try {
-                max = Integer.parseInt(parameters.get("contrast-max"));
+                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    max = Integer.parseInt(parameters.get("max-contrast"));
+
+                }
+                else
+                {
+                    max = Integer.parseInt(parameters.get("contrast-max"));
+                }
             }
             catch (Exception ex)
             {

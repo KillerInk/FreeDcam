@@ -31,6 +31,10 @@ public class SettingsManager
         public static final String Focus2D = "2d_focus";
         public static final String Focus3D = "3d_focus";
         public static final String FocusFront = "front_focus";
+        
+       // public static final String PictureFormat2D = "2d_pictureformat";
+       // public static final String PictureFormat3D = "3d_pictureformat";
+       // public static final String PictureFormatFront = "front_pictureformat";
 
         public static final String PictureSize2D = "2d_picturesize";
         public static final String PictureSize3D = "3d_picturesize";
@@ -104,6 +108,7 @@ public class SettingsManager
     public CropImageClass CropImage;
     public FocusModeClass FocusMode;
     public PictureSizeClass PictureSize;
+    
     public ExposureModeClass ExposureMode;
     public MeteringModeClass MeteringMode;
     public WhiteBalanceModeClass WhiteBalanceMode;
@@ -130,6 +135,7 @@ public class SettingsManager
         CropImage = new CropImageClass();
         FocusMode = new FocusModeClass();
         PictureSize = new PictureSizeClass();
+      
         ExposureMode = new ExposureModeClass();
         MeteringMode = new MeteringModeClass();
         WhiteBalanceMode = new WhiteBalanceModeClass();
@@ -387,6 +393,7 @@ public class SettingsManager
             super(Preferences.PictureSize3D, Preferences.PictureSize2D, Preferences.PictureSizeFront, "");
         }
     }
+    
 
     public class ExposureModeClass extends BaseClass
     {

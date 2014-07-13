@@ -1,5 +1,6 @@
 package com.troop.menu;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -7,6 +8,9 @@ import android.widget.PopupMenu;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.utils.DeviceUtils;
+
+import java.security.PublicKey;
 
 /**
  * Created by George on 12/6/13.
@@ -15,8 +19,12 @@ public class PictureFormatMenu extends BaseMenu  {
     public PictureFormatMenu(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
     }
+    MainActivity mainActivity;
+
+    private String Pict;
 
     String[] picf;
+    String xxx;
 
     @Override
     public void onClick(View v)
@@ -27,8 +35,16 @@ public class PictureFormatMenu extends BaseMenu  {
             try
             {
                 //TODO get the values from the camera parameters
-                String Values = "JPEG,WEBMP,PNG,RAW";
-                picf = Values.split(",");
+                String Values = "jpeg,raw,bayer-mipi-10bggr,bayer-mipi-10rggb,bayer-mipi-10grgb,bayer-mipi-10gbrg,bayer-qcom-10bggr,bayer-qcom-10rggb,bayer-qcom-10grgb,bayer-qcom-10gbrg";
+
+                if(DeviceUtils.isForcedDragon())
+                {
+                    picf = Values.split(",");
+                }
+                else
+                {
+                    picf = camMan.parametersManager.getParameters().get("picture-format-values").split(",");
+                }
 
 
             }
@@ -49,7 +65,24 @@ public class PictureFormatMenu extends BaseMenu  {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    //camMan.parametersManager.getParameters().set("iso", tmp);
+                    try
+                    {
+                    camMan.parametersManager.getParameters().set("picture-format", tmp);
+                    camMan.parametersManager.string_set(tmp);
+                        //camMan.parametersManager.getParameters().set("raw-size","4208x3120");
+                        camMan.Restart(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    //camMan.parametersManager.GetCamP(tmp);
+                    
+
+                    Log.d("CurrentP", tmp);
+                    xxx = tmp;
+                    
+
                     //activity.buttonPictureFormat.SetValue(tmp);
 
                     if (camMan.Settings.Cameras.is3DMode())
@@ -59,7 +92,7 @@ public class PictureFormatMenu extends BaseMenu  {
                     if (camMan.Settings.Cameras.isFrontMode())
                         preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
                     //preferences.edit().putString("color", tmp).commit();
-                    camMan.Restart(false);
+
 
                     return true;
                 }
@@ -69,4 +102,11 @@ public class PictureFormatMenu extends BaseMenu  {
         }
 
     }
+
+    public String PictureString()
+    {
+        return xxx;
+    }
+
+
 }

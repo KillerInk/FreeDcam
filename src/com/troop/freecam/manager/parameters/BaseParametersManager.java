@@ -28,15 +28,20 @@ public class BaseParametersManager implements IParametersManager
         PreviewSize,
         PreviewFps,
         ManualSharpness,
+        ManualSaturation,
         ManualExposure,
         ManualContrast,
         ManualFocus,
+        ManualShutter,
         WhiteBalanceMode,
         FlashMode,
         PictureSize,
         FocusMode,
         AntiBanding,
         LensShade,
+        PictureFormat,
+        ExynosRaw,
+        Tripod,
     }
 
     protected CameraManager cameraManager;

@@ -18,12 +18,12 @@ public class ManualSharpnessManager implements IStyleAbleSliderValueHasChanged
     }
 
     @Override
-    public void ValueHasChanged(int value)
+ public void ValueHasChanged(int value)
+{
+    if (cameraManager.parametersManager.getSupportSharpness())
     {
-        if (cameraManager.parametersManager.getSupportSharpness())
-        {
-            cameraManager.parametersManager.manualSharpness.set(value);
-            //cameraManager.Restart(false);
-        }
+        cameraManager.parametersManager.manualSharpness.set(value);
+        //cameraManager.Restart(false);
     }
+}
 }

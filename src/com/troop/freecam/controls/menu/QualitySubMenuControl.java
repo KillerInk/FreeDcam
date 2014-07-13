@@ -19,6 +19,7 @@ import com.troop.menu.IppMenu;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewFpsMenu;
 import com.troop.menu.PreviewSizeMenu;
+import com.troop.menu.PictureFormatMenu;
 import com.troop.menu.ZslMenu;
 
 /**
@@ -30,6 +31,7 @@ public class QualitySubMenuControl extends BaseSubMenu
     MenuItemControl switchDenoise;
     MenuItemControl switchZSL;
     MenuItemControl switchAntibanding;
+    MenuItemControl switchPictureFormat;
     Switch switchLensShade;
 
     public QualitySubMenuControl(Context context) {
@@ -58,6 +60,9 @@ public class QualitySubMenuControl extends BaseSubMenu
 
         switchZSL = (MenuItemControl)findViewById(R.id.switch_zsl_control);
         switchZSL.SetOnClickListner(new ZslMenu(cameraManager,activity));
+
+        switchPictureFormat = (MenuItemControl)findViewById(R.id.switch_pictureFormat);
+        switchPictureFormat.SetOnClickListner(new PictureFormatMenu(cameraManager, activity));
 
         switchAntibanding = (MenuItemControl)findViewById(R.id.switch_antibanding);
         switchAntibanding.SetOnClickListner(new AntibandingMenu(cameraManager, activity));

@@ -13,7 +13,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.RelativeLayout;
 
-import com.htc.view.DisplaySetting;
+//import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
@@ -189,7 +189,7 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
     {
 
     }
-
+/*
     private void enableS3D(boolean enable, Surface surface) {
         Log.i(TAG, "enableS3D(" + enable + ")");
         int mode = DisplaySetting.STEREOSCOPIC_3D_FORMAT_SIDE_BY_SIDE;
@@ -213,7 +213,7 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
             is3Denabled = false;
         }
     }
-
+*/
 
 
 }

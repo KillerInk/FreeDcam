@@ -27,6 +27,8 @@ import com.troop.menu.switchcameramenu;
 public class SettingsMenuControl extends LinearLayout
 {
     public Switch upsidedown;
+    public Switch tripod;
+    public Switch ExynosRaw;
     public Switch crop_box;
     InfoScreenControl infoScreenFragment;
     public Switch checkBoxOnScreen;
@@ -103,6 +105,45 @@ public class SettingsMenuControl extends LinearLayout
 
             }
         });
+
+        //tripod = (Switch)findViewById(R.id.button_tripod);
+
+        tripod = (Switch)findViewById(R.id.button_tripod);
+        tripod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (tripod.isChecked())
+                {
+                    camMan.parametersManager.setNightEnable("tripod");
+
+                }
+                else
+                {
+                    camMan.parametersManager.setNightEnable("off");
+
+                }
+            }
+        });
+
+        ExynosRaw = (Switch)findViewById(R.id.button_rawsave);
+        ExynosRaw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (ExynosRaw.isChecked())
+                {
+                    camMan.parametersManager.setExynosRaw("raw-save");
+
+                }
+                else
+                {
+                    camMan.parametersManager.setExynosRaw("single");
+
+                }
+            }
+        });
+
         crop_box = (Switch)findViewById(R.id.checkBox_crop);
         crop_box.setOnClickListener(new View.OnClickListener() {
             @Override
