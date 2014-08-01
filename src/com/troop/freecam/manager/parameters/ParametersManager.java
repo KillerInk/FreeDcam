@@ -12,6 +12,7 @@ import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by troop on 16.10.13.
@@ -186,51 +187,56 @@ public class ParametersManager extends LensShadeManager
             parameters.set("power-mode","Normal_Power");
             parameters.set("mce","disable");
         }*/
-        super.loadDefaultOrLastSavedSettings();
+        try {
+            super.loadDefaultOrLastSavedSettings();
 
-        if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
-            AfPriority.Set(preferences.afPriority.Get(), false);
+            if (getSupportAfpPriority() && !preferences.afPriority.Get().equals(""))
+                AfPriority.Set(preferences.afPriority.Get(), false);
 
-        if (getSupportIso() && !preferences.IsoMode.Get().equals(""))
-            Iso.set(preferences.IsoMode.Get(), false);
+            if (getSupportIso() && !preferences.IsoMode.Get().equals(""))
+                Iso.set(preferences.IsoMode.Get(), false);
 
-        if (getSupportScene() && !preferences.SceneMode.Get().equals(""))
-            SceneMode.set(preferences.SceneMode.Get(), false);
+            if (getSupportScene() && !preferences.SceneMode.Get().equals(""))
+                SceneMode.set(preferences.SceneMode.Get(), false);
 
-        if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
-            WhiteBalance.set(preferences.WhiteBalanceMode.Get(), false);
+            if (getSupportWhiteBalance() && !preferences.WhiteBalanceMode.Get().equals(""))
+                WhiteBalance.set(preferences.WhiteBalanceMode.Get(), false);
 
         /*if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
             parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
 
 
-
-        if (!cameraManager.Settings.PictureSize.Get().equals(""))
-            setPictureSize(cameraManager.Settings.PictureSize.Get());
-        //if (!cameraManager.Settings.PreviewSize.Get().equals(""))
+            if (!cameraManager.Settings.PictureSize.Get().equals(""))
+                setPictureSize(cameraManager.Settings.PictureSize.Get());
+            //if (!cameraManager.Settings.PreviewSize.Get().equals(""))
             //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
-        setOptimalPreviewSize();
+            setOptimalPreviewSize();
 
-        if (!cameraManager.Settings.FocusMode.Get().equals(""))
-            parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
+            if (!cameraManager.Settings.FocusMode.Get().equals(""))
+                parameters.setFocusMode(cameraManager.Settings.FocusMode.Get());
 
-        if (!preferences.ColorMode.Get().equals(""))
-            parameters.setColorEffect(preferences.ColorMode.Get());
+            if (!preferences.ColorMode.Get().equals(""))
+                parameters.setColorEffect(preferences.ColorMode.Get());
 
-        if (getSupportFlash() && !cameraManager.Settings.FlashMode.Get().equals(""))
-            parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
+            if (getSupportFlash() && !cameraManager.Settings.FlashMode.Get().equals(""))
+                parameters.setFlashMode(cameraManager.Settings.FlashMode.Get());
 
-        if (getSupportZSL() && !cameraManager.Settings.ZeroShutterLag.Get().equals(""))
-            ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get(), false);
+            if (getSupportZSL() && !cameraManager.Settings.ZeroShutterLag.Get().equals(""))
+                ZSLModes.setValue(cameraManager.Settings.ZeroShutterLag.Get(), false);
 
-        if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
-            ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get(), false);
-        if (!cameraManager.Settings.PreviewFps.Get().equals(""))
-            PreviewFps.Set(cameraManager.Settings.PreviewFps.Get(), false);
-        //parameters.set("rawsave-mode", "1");
-        //parameters.set("rawfname", "/mnt/sdcard/test.raw");
-        cameraManager.Restart(false);
-        Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
+            if (getSupportIPP() && !cameraManager.Settings.ImagePostProcessing.Get().equals(""))
+                ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get(), false);
+            if (!cameraManager.Settings.PreviewFps.Get().equals(""))
+                PreviewFps.Set(cameraManager.Settings.PreviewFps.Get(), false);
+            //parameters.set("rawsave-mode", "1");
+            //parameters.set("rawfname", "/mnt/sdcard/test.raw");
+            cameraManager.Restart(false);
+            Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
         //cameraManager.Restart(false);
     }
