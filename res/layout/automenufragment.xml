@@ -23,15 +23,6 @@
             android:minWidth="@dimen/menuwidth">
 
 
-        <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/checkBox_hdr"
-            android:singleLine="true"
-            android:text="HDR Mode"
-            android:paddingLeft="4dp"
-            android:textSize="@dimen/TextSizeSmallPlus" />
-
             <com.troop.freecam.controls.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"

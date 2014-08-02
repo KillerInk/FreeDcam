@@ -83,9 +83,13 @@ public class SettingsManager
         public static final String Antibanding2D = "2d_antibanding";
         public static final String Antibanding3D = "3d_antibanding";
         public static final String AntibandingFront = "front_antibanding";
+
+        public static final String MODE_VIDEO = "video";
+        public static final String MODE_PIC = "pic";
+        public static final String MODE_HDR = "hdr";
     }
 
-    enum CameraValues
+    public enum CameraValues
     {
         Front,
         Back2D,
@@ -118,6 +122,7 @@ public class SettingsManager
     public HDRSettingsClass HDRSettings;
     public AntiBandingClass Antibanding;
     public LensShadeClass LensShade;
+    public CameraModes CameraMode;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -144,6 +149,7 @@ public class SettingsManager
         HDRSettings = new HDRSettingsClass();
         Antibanding = new AntiBandingClass();
         LensShade = new LensShadeClass();
+        CameraMode = new CameraModes();
     }
 
     public class CamerasClass
@@ -496,5 +502,23 @@ public class SettingsManager
         {
             return preferences.getBoolean("lensshade", true);
         }
+    }
+
+    public class CameraModes
+    {
+        String value;
+
+        public CameraModes()
+        {
+            value = preferences.getString("mode", Preferences.MODE_PIC);
+        }
+
+        public void set(String value)
+        {
+            preferences.edit().putString("mode", value);
+            this.value = value;
+        }
+
+        public String get() { return value;}
     }
 }

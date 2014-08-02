@@ -77,6 +77,7 @@ public class SettingsMenuControl extends LinearLayout
         hdrSubMenu = (HdrSubMenuControl)activity.findViewById(R.id.hdr_submenu_control);
         hdrSubMenu.Init(activity, camMan);
 
+
         upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
 
         if (camMan.Settings.OrientationFix.GET())
@@ -161,6 +162,7 @@ public class SettingsMenuControl extends LinearLayout
 
 
 
+
     }
     public void Hide()
     {
@@ -202,6 +204,27 @@ public class SettingsMenuControl extends LinearLayout
         //ToDo add FlashToParamertersMAnager
         if (camMan.parametersManager.getSupportFlash() && (paras == ParametersManager.enumParameters.FlashMode || paras == ParametersManager.enumParameters.All))
             switchFlash.SetButtonText(camMan.parametersManager.getParameters().getFlashMode());
+
+        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
+        {
+            switchVideoSize.setVisibility(VISIBLE);
+        }
+        else
+            switchVideoSize.setVisibility(GONE);
+
+        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        {
+            hdrSubMenu.setVisibility(VISIBLE);
+        }
+        else
+            hdrSubMenu.setVisibility(GONE);
+
+        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC || camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        {
+            switchPictureSize.setVisibility(VISIBLE);
+        }
+        else
+            switchPictureSize.setVisibility(GONE);
     }
 
     private void checkVisibility()

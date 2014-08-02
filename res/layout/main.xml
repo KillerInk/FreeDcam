@@ -17,27 +17,6 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true" />
 
-        <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/button_switchVideoPicture"
-            android:background="@drawable/icon_video_mode"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0:00:00"
-            android:id="@+id/textView_timerRecording"
-            android:background="#010101"
-            android:textColor="#ffffff"
-            android:alpha="0.5"
-            android:textSize="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/app_icon_size"
-            android:layout_alignRight="@+id/button_switchVideoPicture" />
 
         <com.troop.freecam.controls.InfoScreenControl
             android:orientation="horizontal"
@@ -69,6 +48,14 @@
             android:id="@+id/imageView_crosshair"
             android:background="@drawable/crosshair"
             android:longClickable="false" />
+
+        <com.troop.freecam.controls.menu.ModeMenuControl
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            layout="@layout/select_mode_layout"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ModesConrolContainer"/>
 
     </RelativeLayout>
 
@@ -198,6 +185,20 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0:00:00"
+        android:id="@+id/textView_timerRecording"
+        android:background="#010101"
+        android:textColor="#ffffff"
+        android:alpha="0.5"
+        android:textSize="10dp"
+
+        android:layout_marginRight="@dimen/app_icon_size"
+        android:layout_alignRight="@+id/imageButton_thumb" />
 
 
 </RelativeLayout>

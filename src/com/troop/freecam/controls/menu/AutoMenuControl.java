@@ -25,7 +25,6 @@ import com.troop.menu.WhiteBalanceMenu;
  */
 public class AutoMenuControl extends LinearLayout
 {
-    Switch checkboxHDR;
     MenuItemControl switchAF;
     MenuItemControl switchScene;
     MenuItemControl switchWhiteBalance;
@@ -72,13 +71,6 @@ public class AutoMenuControl extends LinearLayout
         LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.automenufragment, this);
 
-        checkboxHDR = (Switch)findViewById(R.id.checkBox_hdr);
-        checkboxHDR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.HDRMode = checkboxHDR.isChecked();
-            }
-        });
 
 
         //FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();

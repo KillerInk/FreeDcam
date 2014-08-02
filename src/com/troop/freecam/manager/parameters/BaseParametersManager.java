@@ -78,4 +78,9 @@ public class BaseParametersManager implements IParametersManager
         if (parametersChanged != null && loadingParametersFinish && parameters != null)
             parametersChanged.parametersHasChanged(reloadGui, paras);
     }
+
+    public void UpdateGui(boolean reloadGui, enumParameters paras)
+    {
+         parametersChanged.parametersHasChanged(reloadGui, paras);
+    }
 }
