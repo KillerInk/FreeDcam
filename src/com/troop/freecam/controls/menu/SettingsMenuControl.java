@@ -13,6 +13,8 @@ import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.controls.NumericUpDownControl;
+import com.troop.freecam.interfaces.INumericUpDownValueCHanged;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.menu.FlashMenu;
@@ -37,6 +39,7 @@ public class SettingsMenuControl extends LinearLayout
     MenuItemControl switchPictureSize;
 
     MenuItemControl switchVideoSize;
+    NumericUpDownControl captureFrames;
 
     CameraManager camMan;
     MainActivity activity;
@@ -160,6 +163,16 @@ public class SettingsMenuControl extends LinearLayout
         switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
         switchVideoSize.SetOnClickListner(new VideoSizesMenu(camMan, activity));
 
+        captureFrames = (NumericUpDownControl) findViewById(R.id.numericUpDown_CaptureFrames);
+        captureFrames.setMinMax(0, 30);
+        captureFrames.setCurrent(30);
+        captureFrames.setOnValueCHanged(new INumericUpDownValueCHanged() {
+            @Override
+            public void ValueHasCHanged(int value) {
+                camMan.Settings.captureFrameRate.set( value);
+            }
+        });
+
 
 
 
@@ -189,7 +202,7 @@ public class SettingsMenuControl extends LinearLayout
             switchPictureSize.SetButtonText(size1);
         }
         if (paras == ParametersManager.enumParameters.VideoModes || paras == ParametersManager.enumParameters.All)
-            switchVideoSize.SetButtonText(camMan.parametersManager.videoModes.Width + "x" + camMan.parametersManager.videoModes.Height);
+            switchVideoSize.SetButtonText(camMan.parametersManager.VideoProfileClass.getProfileString());
 
         //switch3dButton.SetValue(tmp);
 
@@ -208,9 +221,17 @@ public class SettingsMenuControl extends LinearLayout
         if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
         {
             switchVideoSize.setVisibility(VISIBLE);
+            if (camMan.Settings.VideoProfileSETTINGS.get().contains("Timelapse"))
+            {
+                captureFrames.setVisibility(VISIBLE);
+            }
+            else
+                captureFrames.setVisibility(GONE);
         }
-        else
+        else {
             switchVideoSize.setVisibility(GONE);
+            captureFrames.setVisibility(GONE);
+        }
 
         if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
         {

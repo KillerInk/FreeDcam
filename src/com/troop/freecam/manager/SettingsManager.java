@@ -3,6 +3,7 @@ package com.troop.freecam.manager;
 import android.content.SharedPreferences;
 
 import com.troop.freecam.manager.parameters.LensShadeManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 
 /**
  * Created by troop on 04.01.14.
@@ -123,6 +124,8 @@ public class SettingsManager
     public AntiBandingClass Antibanding;
     public LensShadeClass LensShade;
     public CameraModes CameraMode;
+    public VideoProfiles VideoProfileSETTINGS;
+    public CaptureFrameRate captureFrameRate;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -150,6 +153,9 @@ public class SettingsManager
         Antibanding = new AntiBandingClass();
         LensShade = new LensShadeClass();
         CameraMode = new CameraModes();
+        VideoProfileSETTINGS =  new VideoProfiles();
+        captureFrameRate = new CaptureFrameRate();
+
     }
 
     public class CamerasClass
@@ -515,10 +521,36 @@ public class SettingsManager
 
         public void set(String value)
         {
-            preferences.edit().putString("mode", value);
+            preferences.edit().putString("mode", value).commit();
             this.value = value;
         }
 
         public String get() { return value;}
+    }
+
+    public class VideoProfiles
+    {
+        public void set(String value)
+        {
+            preferences.edit().putString("videoprofile", value).commit();
+        }
+
+        public String get()
+        {
+            return preferences.getString("videoprofile", "LOW");
+        }
+    }
+
+    public class CaptureFrameRate
+    {
+        public void set(float value)
+        {
+            preferences.edit().putFloat("captureFrame", value).commit();
+        }
+
+        public float get()
+        {
+            return preferences.getFloat("captureFrame", 30);
+        }
     }
 }

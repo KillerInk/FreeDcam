@@ -203,7 +203,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                     camMan.StartRecording();
                     recordTimer.Start();
                     shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
-                    mainlayout.addView(recordingTimerTextView);
+                    recordingTimerTextView.setVisibility(View.VISIBLE);
                 }
                 else
                 {
@@ -211,7 +211,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                     recordTimer.Stop();
                     shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
                     thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath, MediaStore.Images.Thumbnails.MINI_KIND));
-                    mainlayout.removeView(recordingTimerTextView);
+                    recordingTimerTextView.setVisibility(View.GONE);
                 }
             }
         }

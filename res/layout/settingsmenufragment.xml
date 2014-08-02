@@ -77,10 +77,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
-                custom:TextViewText="Video Size"
+                custom:TextViewText="Video Profile"
                 android:id="@+id/switch_videosize_control" />
 
-
+            <com.troop.freecam.controls.NumericUpDownControl
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/numericUpDown_CaptureFrames" />
 
             <com.troop.freecam.controls.menu.PreviewSubMenuControl
                 android:layout_width="fill_parent"

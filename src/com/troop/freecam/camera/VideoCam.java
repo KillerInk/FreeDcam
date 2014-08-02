@@ -45,9 +45,14 @@ public class VideoCam extends PictureCam
             File sdcardpath = Environment.getExternalStorageDirectory();
             recorder.reset();
             recorder.setCamera(mCamera);
-            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+            if (!parametersManager.VideoProfileClass.getProfileString().contains("Timelapse"))
+                recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+            else
+                recorder.setCaptureRate(Settings.captureFrameRate.get());
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+            CamcorderProfile prof = parametersManager.VideoProfileClass.getProfile();
+            recorder.setProfile(prof);
+
             //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             //recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
             /*recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);

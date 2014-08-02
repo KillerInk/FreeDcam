@@ -1,6 +1,7 @@
 package com.troop.freecam.manager.parameters;
 
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
 import android.util.Log;
 import android.view.Display;
 
@@ -11,6 +12,7 @@ import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -82,6 +84,7 @@ public class ParametersManager extends LensShadeManager
     public ManualExposureClass manualExposure;
     public ManualContrastClass manualContrast;
     public ManualConvergenceClass manualConvergence;
+    public VideoProfiles VideoProfileClass;
 
 
 
@@ -115,6 +118,7 @@ public class ParametersManager extends LensShadeManager
         manualExposure = new ManualExposureClass();
         manualContrast = new ManualContrastClass();
         manualConvergence = new ManualConvergenceClass();
+        VideoProfileClass = new VideoProfiles();
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
         onParametersCHanged(true, enumParameters.All);
@@ -589,6 +593,137 @@ public class ParametersManager extends LensShadeManager
         }
 
 
+    }
+
+    public class VideoProfiles
+    {
+        HashMap<String, CamcorderProfile> supportedProfiles;
+        String current;
+
+        public VideoProfiles()
+        {
+            supportedProfiles = new HashMap<String, CamcorderProfile>();
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CamcorderProfile.QUALITY_LOW))
+                    supportedProfiles.put("LOW", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_LOW));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_HIGH))
+                    supportedProfiles.put("HIGH", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_HIGH));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QCIF))
+                    supportedProfiles.put("QCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QCIF));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_CIF))
+                    supportedProfiles.put("CIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_CIF));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_480P))
+                    supportedProfiles.put("480p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_480P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_720P))
+                    supportedProfiles.put("720p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_720P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_1080P))
+                    supportedProfiles.put("1080p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_1080P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QVGA))
+                    supportedProfiles.put("QVGA", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QVGA));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_LOW))
+                    supportedProfiles.put("TimelapseLOW", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_LOW));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_HIGH))
+                    supportedProfiles.put("TimelapseHIGH", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_HIGH));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QCIF))
+                    supportedProfiles.put("TimelapseQCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QCIF));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_CIF))
+                    supportedProfiles.put("TimelapseCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_CIF));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_480P))
+                    supportedProfiles.put("Timelapse480p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_480P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_720P))
+                    supportedProfiles.put("Timelapse720p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_720P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_1080P))
+                    supportedProfiles.put("Timelapse1080p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_1080P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QVGA))
+                    supportedProfiles.put("TimelapseQVGA", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QVGA));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            current = cameraManager.Settings.VideoProfileSETTINGS.get();
+        }
+
+        public String[] getProfiles()
+        {
+            return supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
+        }
+
+        public CamcorderProfile getProfile()
+        {
+            return supportedProfiles.get(current);
+        }
+
+        public String getProfileString()
+        {
+            return current;
+        }
+
+        public void SetProfile(String value)
+        {
+            current = value;
+            cameraManager.Settings.VideoProfileSETTINGS.set(value);
+        }
     }
 
     public class ZeroShutterLagClass
