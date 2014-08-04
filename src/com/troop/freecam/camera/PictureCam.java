@@ -1,9 +1,16 @@
 package com.troop.freecam.camera;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
+import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
@@ -12,12 +19,21 @@ import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
+import com.troop.freecam.utils.Demosaic;
 import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecam.utils.EncodeTiff;
 import com.troop.freecam.utils.SavePicture;
+import com.troop.freecam.camera.CameraManager;
+import com.troop.menu.PictureFormatMenu;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Handler;
 
 /**
@@ -28,6 +44,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
 
     //protected MediaScannerManager scanManager;
+	
     public SoundPlayer soundPlayer;
     protected CamPreview context;
     protected SavePicture savePicture;
@@ -35,8 +52,17 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     public ParametersManager parametersManager;
     public SavePictureCallback onsavePicture;
     public boolean IsWorking = false;
+    //CameraManager cameraManager = new CameraManager(context, null, Settings);
     protected IShutterSpeedCallback shutterSpeedCallback;
+    private byte[] rawByteStream;
+   // ByteBuffer imx_135 = ByteBuffer.allocate(16424960);
     public void setOnShutterSpeed(IShutterSpeedCallback shutterSpeedCallback){this.shutterSpeedCallback = shutterSpeedCallback; }
+
+	private String sdcardFilepath = Environment.getExternalStorageDirectory().getPath() + "/";
+    private String outputDirectoryPath = sdcardFilepath + "raw_output/";
+    private String tiffFilePath = outputDirectoryPath + "raw.tiff";
+    private String xtiffFilePath = outputDirectoryPath + "raxw.tiff";
+
 
     final String TAG = "freecam.PictureCam";
     private void writeDebug(String s)
@@ -45,6 +71,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     }
 
     byte[] rawbuffer;
+
 
 
 
@@ -74,6 +101,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
             soundPlayer.PlayShutter();
             mCamera.takePicture(null,null,this);
             Log.d(TAG, "Picture Taking is Started");
+
         }
         catch (Exception ex)
         {
@@ -81,6 +109,31 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
             ex.printStackTrace();
         }
     }
+    
+
+    
+    @SuppressLint("SimpleDateFormat")
+	public static File getOutputMediaFile(int i)
+    {
+        Log.d("Generating", "Filename");
+       File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+        Date date = new Date();
+        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+
+        if (i == 3)
+            return new File((new StringBuilder(String.valueOf(s1))).append(".tiff").toString());
+        if (i == 2)
+        	return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+        if (i == 1)
+        	return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
+        if (i == 4)
+        	return new File((new StringBuilder(String.valueOf(s1))).append(".raw").toString());
+        else
+        	return null;
+    }
+
+
 
     /** Handles data for raw picture */
     public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
@@ -91,21 +144,127 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         }
     };
 
+    public byte[] RawStream()
+    {
+        return rawByteStream;
+    }
+    
+    private class RawDecodeX extends AsyncTask<Void, Void, Void>
+    {
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			// TODO Auto-generated method stub
+			int black = 0;
+    		if(DeviceUtils.isZTEADV()||DeviceUtils.isLGADV())
+    			black = 43;   
+			File tiff = getOutputMediaFile(3);
+			
+			RawUtils.unpackRawByte(String.valueOf(tiff), rawByteStream,black,2.0f,3.83f,0.10f,100.00f);
+			
+			
+			return null;
+		}
+    	
+    }
+
 
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        
+    	rawByteStream = data;
+    	
+        //Log.d(" Format String Test 2",ParametersManager.Preferences_PictureFormatx);
+    	
+    	
+    	
+    	//File tiff = getOutputMediaFile(3);
+    	File jpeg = getOutputMediaFile(2);
+    	File jpps = getOutputMediaFile(1);
+    	File raw = getOutputMediaFile(4);
+    	//imx_135.put(data);
+    	
+       // parametersManager = new ParametersManager(null,null);
+
+
+        
+      
+            //Log.d(" Format String Test",ParametersManager.Preferences_PictureFormat);
+            //Log.d(" Format String Test 2",ParametersManager.Preferences_PictureFormatx);
+            
+            //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+            
+
+
+
+
+
 
         writeDebug("OnPictureTaken callback recieved");
         boolean is3d = false;
+        
         if (Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
         {
             is3d = true;
         }
         writeDebug("start saving to sd");
         try {
-            savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d);
-            writeDebug("save successed");
+        	
+        	
+        	if (ParametersManager.Preferences_PictureFormatx == "jpeg")
+        	{
+        		savePicture.SaveToSD(rawByteStream, crop, mCamera.getParameters().getPictureSize(), is3d, jpeg);
+                writeDebug("save successed");
+                
+        	}
+        	else
+        	{
+        	//	HashMap<String, String> exif = new HashMap<String, String>();
+        	//	exif.put("Orientation", "100");
+        	//	exif.put("DateTime", "100");
+        	//	exif.put("Make", "100");
+        	//	exif.put("Model", "100");
+        	//	exif.put("Flash", "100");
+        	//	exif.put("ExposureTime", "100");
+        	//	exif.put("FNumber", "100");
+        	//	exif.put("ISOSpeedRatings", "100");
+        	//	exif.put("WhiteBalance", "100");
+        	//	exif.put("FocalLength", "100");
+
+        		
+        		int black = 0;
+        		if(DeviceUtils.isZTEADV()||DeviceUtils.isLGADV())
+        			black = 43;       			
+        	      //:::::::::::::::::::::::--RAW Block --::::::::::::::::::::::::::::::::::
+                //rawByteStream = Demosaic.dragonRaw(data);unpackRawByte
+            	long aa = System.currentTimeMillis();
+            	
+            	RawDecodeX RDCD = new RawDecodeX();
+            	Void params = null;
+				RDCD.execute(params);
+                //RawUtils.unpackRawByte(String.valueOf(tiff), rawByteStream,black,2.0f,3.83f,0.10f,100.00f);
+             
+                
+                //*****************************************
+               // encodeTiff.byt(rawByteStream);
+               // encodeTiff.Encode();
+               //****************************************** 
+                
+                
+                //LOggin USE Time and Data INTg
+                //Log.d("Raw Data Is",String.valueOf(data.length));
+                
+        		savePicture.SaveToSD(rawByteStream, crop, mCamera.getParameters().getPictureSize(), is3d, raw);
+                //writeDebug("save successed");
+                
+                long ab = System.currentTimeMillis();            
+                long contime = ab - aa;
+                
+                Log.d(" Raw Save Time",String.valueOf(contime));
+        	}
+            
+
         }
         catch (Exception ex)
         {
@@ -127,6 +286,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         }
 
         IsWorking = false;
+        //TakeForceJpegPicture(false);
         data = null;
         //takePicture = false;
     }
@@ -170,3 +330,4 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
             shutterSpeedCallback.ShutterSpeedRecieved(speed);
     }
 }
+

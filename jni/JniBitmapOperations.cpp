@@ -4,6 +4,8 @@
 #include <android/bitmap.h>
 #include <cstring>
 #include <unistd.h>
+#include <fstream>
+#include <sstream>
 
 #define  LOG_TAG    "DEBUG"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)

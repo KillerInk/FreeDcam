@@ -10,13 +10,16 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
+import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Created by troop on 18.10.13.
@@ -29,9 +32,13 @@ public class SavePicture
     Camera.Size size;
     boolean is3d = false;
     byte[] bytes;
+    File jaypeg;
+    
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
     SettingsManager preferences;
+    CameraManager cameraManager;
+    ParametersManager parametersManager;
 
     public SavePicture(Context context, SettingsManager preferences)
     {
@@ -40,8 +47,9 @@ public class SavePicture
         this.preferences = preferences;
     }
 
-    public void SaveToSD(byte[] bytes, boolean crop, Camera.Size size, boolean is3d)
+    public void SaveToSD(byte[] bytes, boolean crop, Camera.Size size, boolean is3d, File jaypeg)
     {
+    	this.jaypeg = jaypeg;
         this.crop = crop;
         this.size = size;
         this.is3d = is3d;
@@ -136,12 +144,15 @@ public class SavePicture
     {
         public void run()
         {
+
             String end;
             if (is3d)
                 end = "jps";
             else
                 end = "jpg";
             File sdcardpath = Environment.getExternalStorageDirectory();
+            
+            
             if (!sdcardpath.exists())
             {
                 Log.e("SavePicture", "sdcard ist not connected");
@@ -149,10 +160,10 @@ public class SavePicture
             }
             else
             {
-                File file = getFilePath(end, sdcardpath);
+                //File file = getFilePath(end, sdcardpath);
                 try {
-                    writePictureToSD(bytes, file, crop);
-                    picsaved(file);
+                    writePictureToSD(bytes, jaypeg, crop);
+                    picsaved(jaypeg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import com.htc.view.DisplaySetting;
+//import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;

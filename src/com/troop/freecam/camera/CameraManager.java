@@ -22,7 +22,9 @@ import com.troop.freecam.manager.ManualContrastManager;
 import com.troop.freecam.manager.ManualConvergenceManager;
 import com.troop.freecam.manager.ManualExposureManager;
 import com.troop.freecam.manager.ManualFocus;
+import com.troop.freecam.manager.ManualFocusManager;
 import com.troop.freecam.manager.ManualSharpnessManager;
+import com.troop.freecam.manager.ManualShutterManager;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
@@ -55,6 +57,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualSharpnessManager manualSharpnessManager;
     public ManualContrastManager manualContrastManager;
     public ManualBrightnessManager manualBrightnessManager;
+    public ManualFocusManager manualFocusManager;
+    public ManualShutterManager manualShutterManager;
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
     public ManualConvergenceManager manualConvergenceManager;
@@ -79,6 +83,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         manualSharpnessManager = new ManualSharpnessManager(this);
         manualContrastManager = new ManualContrastManager(this);
         manualBrightnessManager = new ManualBrightnessManager(this);
+        manualFocusManager = new ManualFocusManager(this);
+        manualShutterManager = new ManualShutterManager(this);
+
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this, settingsManager);
@@ -264,6 +271,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         else
         {
             mCamera.setParameters(parametersManager.getParameters());
+            Log.d(TAG, "Params Updated");
         }
         isRdy = true;
     }
@@ -335,6 +343,23 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             }
 
         }
+    }
+
+    public void StartRawTakePicture(String Raw)
+    {
+
+            takePicture = true;
+
+                cameraManager.parametersManager.getParameters().set("picture-format","jpeg");
+
+              TakePicture(crop);
+
+
+
+        takePicture = false;
+
+
+
     }
 
     public void StartFocus()

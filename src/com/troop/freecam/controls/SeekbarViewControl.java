@@ -13,6 +13,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.ManualSaturationManager;
+import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 02.01.14.
@@ -191,6 +192,11 @@ public class SeekbarViewControl extends LinearLayout
         {
             saturationSeekBar.setMax(180);
             saturationSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("saturation"));
+        }
+
+        if (DeviceUtils.isZTEADV())
+        {
+
         }
     }
 }

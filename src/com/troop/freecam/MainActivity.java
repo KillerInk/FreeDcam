@@ -37,11 +37,14 @@ import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecam.utils.EncodeTiff;
+import com.troop.menu.PictureFormatMenu;
 
 import java.io.File;
 
 public class MainActivity extends LayoutActivity implements ParametersChangedInterface
 {
+    PictureFormatMenu pictureFormatMenu;
     public ImageButton shotButton;
     public ImageButton thumbButton;
     RelativeLayout mainlayout;
@@ -114,6 +117,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         recordTimer = new MyTimer(recordingTimerTextView);
         chipsetProp();
         hidenavkeys();
+        EncodeTiff.setContext(getApplicationContext());
 
 	}
 
@@ -179,16 +183,30 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         }
     };
 
+    public void doRJ()
+    {
+
+    }
+
         private void doaction()
         {
+
             thumbButton.setImageBitmap(null);
             //Picture Mode
             if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC && !camMan.IsWorking)
             {
                 if(!camMan.autoFocusManager.focusing)
+                    {
+                        //camMan.StartRawTakePicture("jpeg");
                     camMan.StartTakePicture();
+
+                    }
                 else
+                    {
+                       // camMan.StartRawTakePicture("jpeg");
                     camMan.autoFocusManager.takePicture = true;
+
+                    }
             }
             //HDR Mode
             else if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
@@ -318,7 +336,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         {
             super.dispatchKeyEvent(event);
         }
-        if(DeviceUtils.isEvo3d())
+        if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
         {
             if (key == 27)
                 doaction();
