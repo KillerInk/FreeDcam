@@ -134,12 +134,12 @@ public class AutoFocusManager
         focusing = false;
     }
 
+    //get called when a focus event has finished and
     AutoFocusCallback autofocus = new AutoFocusCallback()
     {
         @Override
         public void onAutoFocus(boolean success, Camera camera)
         {
-
             if (success)
                 hasFocus = true;
             else
@@ -155,6 +155,8 @@ public class AutoFocusManager
     };
 
     private Handler handler = new Handler();
+    //this gets called when the touch to focus time has passed crosshairshowTime
+    //hides the crosshair and set the focus to false
     private Runnable runnable = new Runnable()
     {
         public void run()
