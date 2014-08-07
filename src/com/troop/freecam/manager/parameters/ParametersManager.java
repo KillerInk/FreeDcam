@@ -92,6 +92,7 @@ public class ParametersManager extends LensShadeManager
     public ManualConvergenceClass manualConvergence;
     public VideoProfiles VideoProfileClass;
     public ManualFocusClass manualFocus;
+    public ManualShutterClass manualShutter;
     Camera camera;
 
 
