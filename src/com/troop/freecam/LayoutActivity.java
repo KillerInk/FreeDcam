@@ -16,6 +16,7 @@ import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 01.01.14.
+ * Handels how the menu is Shown and wich items are shown
  */
 public class LayoutActivity extends Activity
 {
@@ -39,6 +40,9 @@ public class LayoutActivity extends Activity
         initMenu();
     }
 
+    /**
+     * inflates the main.xml and inits the settingsmanager
+     */
     private void initUI() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -53,6 +57,9 @@ public class LayoutActivity extends Activity
         setContentView(R.layout.main);
     }
 
+    /**
+     * inits the menu and handel the click events
+     */
     public void initMenu()
     {
         baseMenuLayout = (LinearLayout)findViewById(R.id.baseMenuLayout);
@@ -62,97 +69,13 @@ public class LayoutActivity extends Activity
 
 
         manualLayoutButton = (Button)findViewById(R.id.buttonManualMode);
-        manualLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideManualMenu == false)
-                {
-                    hideManualMenu = true;
-                    manualMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideManualMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
-                    manualMenuLayout.setVisibility(View.VISIBLE);
-                    if (hideAutoMenu == false)
-                    {
-                        hideAutoMenu = true;
-                        autoMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideSettingsMenu == false)
-                    {
-                        hideSettingsMenu = true;
-                        settingsMenuLayout.setVisibility(View.GONE);
-                    }
-                }
-
-            }
-        });
+        manualLayoutButton.setOnClickListener(onManualLayoutButtonClick);
 
         autoLayoutButton = (Button)findViewById(R.id.buttonAutoMode);
-        autoLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideAutoMenu == false)
-                {
-                    hideAutoMenu = true;
+        autoLayoutButton.setOnClickListener(onAutoLayoutButtonClick);
 
-                    autoMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideAutoMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.LayoutAuto) == null)
-                    autoMenuLayout.setVisibility(View.VISIBLE);
-
-                    if (hideSettingsMenu == false)
-                    {
-                        hideSettingsMenu = true;
-                        settingsMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideManualMenu == false)
-                    {
-                        hideManualMenu = true;
-                        manualMenuLayout.setVisibility(View.GONE);
-                    }
-
-                }
-
-            }
-        });
         settingLayoutButton = (Button)findViewById(R.id.buttonSettingsMode);
-        settingLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (hideSettingsMenu == false)
-                {
-                    hideSettingsMenu = true;
-                    settingsMenuLayout.setVisibility(View.GONE);
-                }
-                else
-                {
-                    hideSettingsMenu = false;
-                    //if (baseMenuLayout.findViewById(R.id.LayoutSettings) == null)
-                    settingsMenuLayout.setVisibility(View.VISIBLE);
-                    if (hideAutoMenu == false)
-                    {
-                        hideAutoMenu = true;
-                        autoMenuLayout.setVisibility(View.GONE);
-                    }
-                    if (hideManualMenu == false)
-                    {
-                        hideManualMenu = true;
-                        manualMenuLayout.setVisibility(View.GONE);
-                    }
-
-                }
-
-            }
-        });
+        settingLayoutButton.setOnClickListener(onSettingLayoutButtonClick);
 
         autoMenuLayout.setVisibility(View.GONE);
         manualMenuLayout.setVisibility(View.GONE);
@@ -160,4 +83,88 @@ public class LayoutActivity extends Activity
 
 
     }
+
+    private View.OnClickListener onManualLayoutButtonClick = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            if (hideManualMenu == false)
+            {
+                hideManualMenu = true;
+                manualMenuLayout.setVisibility(View.GONE);
+            }
+            else
+            {
+                hideManualMenu = false;
+                //if (baseMenuLayout.findViewById(R.id.Layout_Manual) == null)
+                manualMenuLayout.setVisibility(View.VISIBLE);
+                if (hideAutoMenu == false)
+                {
+                    hideAutoMenu = true;
+                    autoMenuLayout.setVisibility(View.GONE);
+                }
+                if (hideSettingsMenu == false)
+                {
+                    hideSettingsMenu = true;
+                    settingsMenuLayout.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
+    private View.OnClickListener onAutoLayoutButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            if (hideAutoMenu == false)
+            {
+                hideAutoMenu = true;
+                autoMenuLayout.setVisibility(View.GONE);
+            }
+            else
+            {
+                hideAutoMenu = false;
+                autoMenuLayout.setVisibility(View.VISIBLE);
+                if (hideSettingsMenu == false)
+                {
+                    hideSettingsMenu = true;
+                    settingsMenuLayout.setVisibility(View.GONE);
+                }
+                if (hideManualMenu == false)
+                {
+                    hideManualMenu = true;
+                    manualMenuLayout.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
+    private View.OnClickListener onSettingLayoutButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            if (hideSettingsMenu == false)
+            {
+                hideSettingsMenu = true;
+                settingsMenuLayout.setVisibility(View.GONE);
+            }
+            else
+            {
+                hideSettingsMenu = false;
+                settingsMenuLayout.setVisibility(View.VISIBLE);
+                if (hideAutoMenu == false)
+                {
+                    hideAutoMenu = true;
+                    autoMenuLayout.setVisibility(View.GONE);
+                }
+                if (hideManualMenu == false)
+                {
+                    hideManualMenu = true;
+                    manualMenuLayout.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
 }
