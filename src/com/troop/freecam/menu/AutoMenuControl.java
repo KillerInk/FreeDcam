@@ -10,6 +10,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.manager.parameters.BaseParametersManager;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.menu.popupmenu.AFPriorityMenu;
 import com.troop.freecam.menu.popupmenu.ColorMenu;
@@ -158,5 +159,7 @@ public class AutoMenuControl extends LinearLayout
         {
             switchWhiteBalance.SetButtonText(camMan.parametersManager.WhiteBalance.get());
         }
+        if (paras == ParametersManager.enumParameters.Color || paras == ParametersManager.enumParameters.All)
+            switchColor.SetButtonText(camMan.parametersManager.getParameters().getColorEffect());
     }
 }

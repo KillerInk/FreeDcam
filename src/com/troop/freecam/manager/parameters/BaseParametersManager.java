@@ -42,6 +42,7 @@ public class BaseParametersManager implements IParametersManager
         PictureFormat,
         ExynosRaw,
         Tripod,
+        Color,
     }
 
     protected CameraManager cameraManager;

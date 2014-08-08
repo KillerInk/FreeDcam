@@ -37,7 +37,7 @@ public class ColorMenu extends BaseMenu {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     String tmp = item.toString();
-                    camMan.parametersManager.getParameters().setColorEffect(tmp);
+                    camMan.parametersManager.SetColor(tmp);
                     camMan.Settings.ColorMode.Set(tmp);
                     camMan.ReloadCameraParameters(false);
                     return true;

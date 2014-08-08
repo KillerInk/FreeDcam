@@ -177,6 +177,11 @@ public class ParametersManager extends LensShadeManager
     }*/
 
 
+    public void SetColor(String color)
+    {
+        parameters.setColorEffect(color);
+        onParametersCHanged(false, enumParameters.Color);
+    }
 
     private void checkParametersSupport()
     {
