@@ -803,19 +803,19 @@ public class ParametersManager extends LensShadeManager
             }
             try {
                 if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
-                    supportedProfiles.put("4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_4kUHD));
+                    supportedProfiles.put("4kUHD", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_4kUHD));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI))
-                    supportedProfiles.put("4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kDCI));
+                    supportedProfiles.put("Timelapse4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kDCI));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD))
-                    supportedProfiles.put("4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kUHD));
+                    supportedProfiles.put("Timelapse4kUHD", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kUHD));
             } catch (Exception e) {
                 e.printStackTrace();
             }
