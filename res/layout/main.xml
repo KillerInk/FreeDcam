@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true" />
 
 
-        <com.troop.freecam.controls.base.InfoScreenControl
+        <com.troop.freecam.controls.InfoScreenControl
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:background="@drawable/crosshair"
             android:longClickable="false" />
 
-        <com.troop.freecam.controls.menu.ModeMenuControl
+        <com.troop.freecam.menu.ModeMenuControl
             android:layout_width="wrap_content"
             android:layout_height="@dimen/app_icon_size"
             layout="@layout/select_mode_layout"
@@ -77,7 +77,7 @@
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="true" />
 
-    <com.troop.freecam.controls.base.SeekbarViewControl
+    <com.troop.freecam.controls.SeekbarViewControl
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.troop.freecam.controls.menu.ManualMenuControl
+            <com.troop.freecam.menu.ManualMenuControl
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.troop.freecam.controls.menu.AutoMenuControl
+                <com.troop.freecam.menu.AutoMenuControl
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutAuto"
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.troop.freecam.controls.menu.SettingsMenuControl
+                <com.troop.freecam.menu.SettingsMenuControl
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutSettings"

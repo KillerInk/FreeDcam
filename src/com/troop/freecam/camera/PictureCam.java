@@ -1,10 +1,6 @@
 package com.troop.freecam.camera;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -13,28 +9,18 @@ import android.util.Log;
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.interfaces.SavePictureCallback;
-import com.troop.freecam.manager.ExifManager;
-import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.utils.Demosaic;
 import com.troop.freecam.utils.DeviceUtils;
-import com.troop.freecam.utils.EncodeTiff;
 import com.troop.freecam.utils.SavePicture;
-import com.troop.freecam.camera.CameraManager;
-import com.troop.menu.PictureFormatMenu;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.logging.Handler;
 
 /**
  * Created by troop on 18.10.13.

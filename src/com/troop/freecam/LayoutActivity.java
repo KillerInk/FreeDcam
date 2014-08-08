@@ -16,7 +16,7 @@ import com.troop.freecam.manager.SettingsManager;
 
 /**
  * Created by troop on 01.01.14.
- * Handels how the menu is Shown and wich items are shown
+ * Handels how the popupmenu is Shown and wich items are shown
  */
 public class LayoutActivity extends Activity
 {
@@ -58,7 +58,7 @@ public class LayoutActivity extends Activity
     }
 
     /**
-     * inits the menu and handel the click events
+     * inits the popupmenu and handel the click events
      */
     public void initMenu()
     {

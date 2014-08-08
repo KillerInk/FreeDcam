@@ -22,20 +22,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.menu.AutoMenuControl;
-import com.troop.freecam.controls.base.InfoScreenControl;
-import com.troop.freecam.controls.menu.ManualMenuControl;
-import com.troop.freecam.controls.menu.ModeMenuControl;
-import com.troop.freecam.controls.menu.SettingsMenuControl;
+import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.CheckEvo3DSwitchModeManager;
 import com.troop.freecam.manager.MyTimer;
-import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.menu.AutoMenuControl;
+import com.troop.freecam.menu.ManualMenuControl;
+import com.troop.freecam.menu.ModeMenuControl;
+import com.troop.freecam.menu.SettingsMenuControl;
+import com.troop.freecam.menu.popupmenu.PictureFormatMenu;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecam.utils.EncodeTiff;
-import com.troop.menu.PictureFormatMenu;
 
 import java.io.File;
 
@@ -330,7 +330,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the popupmenu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}

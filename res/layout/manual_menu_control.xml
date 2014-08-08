@@ -28,7 +28,7 @@
                     android:id="@+id/checkBox_exposureManual"
                     android:background="@drawable/icon_manual_exposure"
                     android:textColor="#ff0000" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -51,7 +51,7 @@
                     android:background="@drawable/icon_manual_sharpness"
                     android:textColor="#ff0000" />
 
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -74,7 +74,7 @@
                     android:background="@drawable/icon_manual_saturation"
                     android:checked="false"
                     android:textColor="#ff0000" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -97,7 +97,7 @@
                     android:background="@drawable/icon_manual_brightnes"
                     android:textColor="#ff0000"
                     android:singleLine="false" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -118,7 +118,7 @@
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBox_contrast"
                     android:background="@drawable/icon_manual_contrast" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -139,7 +139,7 @@
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBox_manualConvergence"
                     android:background="@drawable/icon_manual_convergence" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -160,7 +160,7 @@
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBox_focus"
                     android:background="@drawable/icon_manual_focus" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"
@@ -181,7 +181,7 @@
                     android:layout_height="@dimen/app_icon_size"
                     android:id="@+id/checkBox_manualShutter"
                     android:background="@drawable/icon_manual_exposure" />
-                <com.troop.freecam.controls.base.StyleAbelSlider
+                <com.troop.freecam.controls.StyleAbelSlider
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="fill_parent"
                     android:background="@drawable/btn_default_focused_holo_light"

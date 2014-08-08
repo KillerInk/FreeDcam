@@ -53,8 +53,8 @@ public class AutoFocusManager
         if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive)
         {
             int half = crosshair.getWidth()/2;
-            int halflength = activity.mPreview.getWidth()/2;
-            int halfheight = activity.mPreview.getHeight()/2;
+            int halflength = activity.mPreview.getWidth();
+            int halfheight = activity.mPreview.getHeight();
 
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) crosshair.getLayoutParams();
             mParams.leftMargin = halflength - half;
