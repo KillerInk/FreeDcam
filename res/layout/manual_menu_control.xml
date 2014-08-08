@@ -7,191 +7,185 @@
     android:id="@+id/manualControl_Layout"
     android:longClickable="false">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="359dp">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_exposureManual"
-                    android:background="@drawable/icon_manual_exposure"
-                    android:textColor="#ff0000" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Exposure" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_sharpness"
-                    android:background="@drawable/icon_manual_sharpness"
-                    android:textColor="#ff0000" />
-
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Sharpness" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_saturation"
-                    android:background="@drawable/icon_manual_saturation"
-                    android:checked="false"
-                    android:textColor="#ff0000" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Saturation" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_brightness"
-                    android:background="@drawable/icon_manual_brightnes"
-                    android:textColor="#ff0000"
-                    android:singleLine="false" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Brightness" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_contrast"
-                    android:background="@drawable/icon_manual_contrast" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Contrast" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_manualConvergence"
-                    android:background="@drawable/icon_manual_convergence" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Convergence" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_focus"
-                    android:background="@drawable/icon_manual_focus" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Focus" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
-                    android:id="@+id/checkBox_manualShutter"
-                    android:background="@drawable/icon_manual_exposure" />
-                <com.troop.freecam.controls.StyleAbelSlider
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/btn_default_focused_holo_light"
-                    custom:horizontal="false"
-                    custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                    custom:textview=""
-                    custom:valuevied="0"
-                    android:id="@+id/slider_Shutter" />
-            </LinearLayout>
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_exposureManual"
+                android:background="@drawable/icon_manual_exposure"
+                android:textColor="#ff0000" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Exposure" />
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_sharpness"
+                android:background="@drawable/icon_manual_sharpness"
+                android:textColor="#ff0000" />
+
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Sharpness" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_saturation"
+                android:background="@drawable/icon_manual_saturation"
+                android:checked="false"
+                android:textColor="#ff0000" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Saturation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_brightness"
+                android:background="@drawable/icon_manual_brightnes"
+                android:textColor="#ff0000"
+                android:singleLine="false" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Brightness" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_contrast"
+                android:background="@drawable/icon_manual_contrast" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Contrast" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_manualConvergence"
+                android:background="@drawable/icon_manual_convergence" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Convergence" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_focus"
+                android:background="@drawable/icon_manual_focus" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Focus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/checkBox_manualShutter"
+                android:background="@drawable/icon_manual_exposure" />
+            <com.troop.freecam.controls.StyleAbelSlider
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="fill_parent"
+                android:background="@drawable/btn_default_focused_holo_light"
+                custom:horizontal="false"
+                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
+                custom:textview=""
+                custom:valuevied="0"
+                android:id="@+id/slider_Shutter" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
