@@ -27,15 +27,15 @@
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal" />
 
-        <com.troop.freecam.controls.NumericUpDownControl
+        <com.troop.freecam.controls.base.NumericUpDownControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_HighExposure" />
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:TextViewText="Iso High"
-            android:id="@+id/IsoHigh"></com.troop.freecam.controls.MenuItemControl>
+            android:id="@+id/IsoHigh"></com.troop.freecam.controls.base.MenuItemControl>
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,15 +44,15 @@
             android:text="Normal"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal" />
-        <com.troop.freecam.controls.NumericUpDownControl
+        <com.troop.freecam.controls.base.NumericUpDownControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_NormalExposure" />
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:TextViewText="Iso Normal"
-            android:id="@+id/IsoNormal"></com.troop.freecam.controls.MenuItemControl>
+            android:id="@+id/IsoNormal"></com.troop.freecam.controls.base.MenuItemControl>
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,15 +61,15 @@
             android:text="Low"
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal" />
-        <com.troop.freecam.controls.NumericUpDownControl
+        <com.troop.freecam.controls.base.NumericUpDownControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/numericUpDown_LowExposure" />
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:TextViewText="Iso Low"
-            android:id="@+id/IsoLow"></com.troop.freecam.controls.MenuItemControl>
+            android:id="@+id/IsoLow"></com.troop.freecam.controls.base.MenuItemControl>
 
     </LinearLayout>
 </LinearLayout>

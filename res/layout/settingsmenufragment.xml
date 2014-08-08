@@ -65,26 +65,26 @@
                 android:text="Crop 16/9"
                 android:paddingLeft="4dp" />
 
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText="Front"
                 custom:TextViewText="Select Camera"
                 android:id="@+id/switch_camera_control" />
 
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="Flash Mode"
                 android:id="@+id/switch_flash_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="Focus Mode"
                 android:id="@+id/switch_focus_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
@@ -92,14 +92,14 @@
                 android:id="@+id/switch_picturesize_control" />
 
 
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="Video Profile"
                 android:id="@+id/switch_videosize_control" />
 
-            <com.troop.freecam.controls.NumericUpDownControl
+            <com.troop.freecam.controls.base.NumericUpDownControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/numericUpDown_CaptureFrames" />

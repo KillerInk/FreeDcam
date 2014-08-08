@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true" />
 
 
-        <com.troop.freecam.controls.InfoScreenControl
+        <com.troop.freecam.controls.base.InfoScreenControl
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="true" />
 
-    <com.troop.freecam.controls.SeekbarViewControl
+    <com.troop.freecam.controls.base.SeekbarViewControl
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

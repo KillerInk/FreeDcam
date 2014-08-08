@@ -23,43 +23,43 @@
             android:minWidth="@dimen/menuwidth">
 
 
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="AutoFocusPrioritys"
                 android:id="@+id/switch_AfPriority_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="SceneModes"
                 android:id="@+id/switch_scenemode_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="WhiteBalanceModes"
                 android:id="@+id/switch_wbModes_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="ColorModes"
                 android:id="@+id/switch_colormode_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="IsoModes"
                 android:id="@+id/switch_isomode_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""
                 custom:TextViewText="ExposureModes"
                 android:id="@+id/switch_exposuremode_control" />
-            <com.troop.freecam.controls.MenuItemControl
+            <com.troop.freecam.controls.base.MenuItemControl
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 custom:ButtonText=""

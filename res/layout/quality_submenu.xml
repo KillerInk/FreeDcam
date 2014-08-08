@@ -18,21 +18,21 @@
         android:id="@+id/Layout_Preview_subMenu"
         android:longClickable="false">
 
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
             custom:TextViewText="Antibanding"
             android:id="@+id/switch_antibanding" />
 
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
             custom:TextViewText="Denoise"
             android:id="@+id/switch_denoise_control" />
 
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
@@ -47,14 +47,14 @@
             android:textSize="@dimen/TextSizeSmallPlus"
             android:layout_marginLeft="4dp" />
 
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
             custom:TextViewText="Picture Format"
             android:id="@+id/switch_pictureFormat" />
 
-        <com.troop.freecam.controls.MenuItemControl
+        <com.troop.freecam.controls.base.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""

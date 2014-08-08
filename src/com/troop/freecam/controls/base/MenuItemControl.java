@@ -1,4 +1,4 @@
-package com.troop.freecam.controls;
+package com.troop.freecam.controls.base;
 
 import android.content.Context;
 import android.content.res.TypedArray;

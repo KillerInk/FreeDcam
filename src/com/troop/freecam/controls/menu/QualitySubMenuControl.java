@@ -4,21 +4,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.controls.base.MenuItemControl;
 import com.troop.menu.AntibandingMenu;
 import com.troop.menu.DenoiseMenu;
 import com.troop.menu.IppMenu;
-import com.troop.menu.PreviewFormatMenu;
-import com.troop.menu.PreviewFpsMenu;
-import com.troop.menu.PreviewSizeMenu;
 import com.troop.menu.PictureFormatMenu;
 import com.troop.menu.ZslMenu;
 

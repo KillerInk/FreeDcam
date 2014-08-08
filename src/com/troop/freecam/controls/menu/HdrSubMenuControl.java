@@ -1,6 +1,5 @@
 package com.troop.freecam.controls.menu;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,10 +10,9 @@ import android.widget.PopupMenu;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.MenuItemControl;
-import com.troop.freecam.controls.NumericUpDownControl;
+import com.troop.freecam.controls.base.MenuItemControl;
+import com.troop.freecam.controls.base.NumericUpDownControl;
 import com.troop.freecam.interfaces.INumericUpDownValueCHanged;
-import com.troop.menu.IsoMenu;
 
 /**
  * Created by troop on 20.01.14.

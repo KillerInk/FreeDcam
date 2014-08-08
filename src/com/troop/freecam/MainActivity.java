@@ -2,7 +2,6 @@ package com.troop.freecam;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.ThumbnailUtils;
@@ -19,13 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.menu.AutoMenuControl;
-import com.troop.freecam.controls.InfoScreenControl;
+import com.troop.freecam.controls.base.InfoScreenControl;
 import com.troop.freecam.controls.menu.ManualMenuControl;
 import com.troop.freecam.controls.menu.ModeMenuControl;
 import com.troop.freecam.controls.menu.SettingsMenuControl;
@@ -35,7 +33,6 @@ import com.troop.freecam.manager.MyTimer;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecam.utils.EncodeTiff;
 import com.troop.menu.PictureFormatMenu;
@@ -217,7 +214,6 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             if (camMan.IsRecording == false)
             {
                 camMan.StartRecording();
-                recordingTimerTextView.setVisibility(View.VISIBLE);
                 recordTimer.Start();
                 shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
                 recordingTimerTextView.setVisibility(View.VISIBLE);
@@ -226,53 +222,17 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             {
                 camMan.StopRecording();
                 recordTimer.Stop();
-                recordingTimerTextView.setVisibility(View.GONE);
                 shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
                 thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath, MediaStore.Images.Thumbnails.MINI_KIND));
                 recordingTimerTextView.setVisibility(View.GONE);
             }
         }
-    }
-
-
-    /*public void setSwitchVideoPictureBackground()
-    {
-        if (recordVideo)
+        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR || camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC)
         {
-            switchVideoPicture.setBackgroundResource(R.drawable.icon_video_mode);
-            shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
+            if (recordingTimerTextView.getVisibility() == View.VISIBLE)
+                recordingTimerTextView.setVisibility(View.GONE);
         }
-        else
-        {
-            switchVideoPicture.setBackgroundResource(R.drawable.icon_picture_mode);
-            shotButton.setBackgroundResource(R.drawable.icon_shutter_thanos_blast);
-        }
-    }*/
-
-   /* @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        getWindow().getDecorView()
-                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //Check the event and do magic here, such as...
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-
-        }
-
-        //Be careful not to override the return unless necessary
-        return super.dispatchTouchEvent(event);
-    } */
-
-    /*public void videoui()
-    {
-
-
     }
-
-    public void tabletScaling()
-    {
-        //Will Scale Entire UI For Tablet Mode Current Tabs Nexus 7 / Nexus 10
-    }*/
 
     public void chipsetProp()
     {
@@ -316,30 +276,37 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         }
     }
 
+    //handel the hardwarekey events
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int key = event.getKeyCode();
-
+        //zoom in
         if(key == KeyEvent.KEYCODE_VOLUME_UP)
         {
             camMan.zoomManager.setZoom(1);
         }
+        //zoom out
         else if(key == KeyEvent.KEYCODE_VOLUME_DOWN)
         {
             camMan.zoomManager.setZoom(-1);
         }
+        //o3d 3d key take picture
         else if(key == KeyEvent.KEYCODE_3D_MODE ||key == KeyEvent.KEYCODE_POWER )
         {
             doaction();
         }
+        //handel key events in baseclass
         else
         {
             super.dispatchKeyEvent(event);
         }
+        //handel external shutter button
         if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
         {
+            //shutterbutton full pressed
             if (key == 27)
                 doaction();
+            // shutterbutton half pressed
             if (key == 80 && !camMan.autoFocusManager.focusing && !camMan.autoFocusManager.hasFocus )
                 camMan.autoFocusManager.StartFocus();
 

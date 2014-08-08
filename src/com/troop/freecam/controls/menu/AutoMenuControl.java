@@ -5,12 +5,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.controls.base.MenuItemControl;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.menu.AFPriorityMenu;
 import com.troop.menu.ColorMenu;

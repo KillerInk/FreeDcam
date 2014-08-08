@@ -5,16 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 
 //import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.SizeAbleRectangle;
+import com.troop.freecam.controls.base.SizeAbleRectangle;
 import com.troop.freecam.manager.SettingsManager;
 
 /**

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.MenuItemControl;
+import com.troop.freecam.controls.base.MenuItemControl;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.menu.PreviewFormatMenu;
 import com.troop.menu.PreviewFpsMenu;
