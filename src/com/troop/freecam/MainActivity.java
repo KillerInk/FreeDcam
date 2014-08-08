@@ -163,8 +163,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         });*/
 
         recordingTimerTextView = (TextView)findViewById(R.id.textView_timerRecording);
-        mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
-        mainlayout.removeView(recordingTimerTextView);
+        recordingTimerTextView.setVisibility(View.GONE);
+        //mainlayout = (RelativeLayout)findViewById(R.id.mainRelativLayout);
+        //mainlayout.removeView(recordingTimerTextView);
 
         //06-12-13********************
         /*Hfr Menu****
@@ -183,56 +184,55 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         }
     };
 
-    public void doRJ()
+
+    //this start all camera Actions like recording, picture taking and hdr
+    private void doaction()
     {
 
-    }
-
-        private void doaction()
+        thumbButton.setImageBitmap(null);
+        //Picture Mode
+        if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC && !camMan.IsWorking)
         {
-
-            thumbButton.setImageBitmap(null);
-            //Picture Mode
-            if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC && !camMan.IsWorking)
+            if(!camMan.autoFocusManager.focusing)
             {
-                if(!camMan.autoFocusManager.focusing)
-                    {
-                        //camMan.StartRawTakePicture("jpeg");
-                    camMan.StartTakePicture();
+                //camMan.StartRawTakePicture("jpeg");
+                camMan.StartTakePicture();
 
-                    }
-                else
-                    {
-                       // camMan.StartRawTakePicture("jpeg");
-                    camMan.autoFocusManager.takePicture = true;
-
-                    }
             }
-            //HDR Mode
-            else if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+            else
             {
-                camMan.HdrRender.TakeHDRPictures(true);
-            }
-            //VideoMode
-            else if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
-            {
-                if (camMan.IsRecording == false)
-                {
-                    camMan.StartRecording();
-                    recordTimer.Start();
-                    shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
-                    recordingTimerTextView.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    camMan.StopRecording();
-                    recordTimer.Stop();
-                    shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
-                    thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath, MediaStore.Images.Thumbnails.MINI_KIND));
-                    recordingTimerTextView.setVisibility(View.GONE);
-                }
+                // camMan.StartRawTakePicture("jpeg");
+                camMan.autoFocusManager.takePicture = true;
+
             }
         }
+        //HDR Mode
+        else if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        {
+            camMan.HdrRender.TakeHDRPictures(true);
+        }
+        //VideoMode
+        else if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
+        {
+            if (camMan.IsRecording == false)
+            {
+                camMan.StartRecording();
+                recordingTimerTextView.setVisibility(View.VISIBLE);
+                recordTimer.Start();
+                shotButton.setBackgroundResource(R.drawable.icon_stop_thanos_blast);
+                recordingTimerTextView.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                camMan.StopRecording();
+                recordTimer.Stop();
+                recordingTimerTextView.setVisibility(View.GONE);
+                shotButton.setBackgroundResource(R.drawable.icon_record_thanos_blast);
+                thumbButton.setImageBitmap(ThumbnailUtils.createVideoThumbnail(camMan.lastPicturePath, MediaStore.Images.Thumbnails.MINI_KIND));
+                recordingTimerTextView.setVisibility(View.GONE);
+            }
+        }
+    }
 
 
     /*public void setSwitchVideoPictureBackground()
