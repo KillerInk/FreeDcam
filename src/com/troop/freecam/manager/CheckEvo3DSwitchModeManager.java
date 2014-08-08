@@ -3,7 +3,6 @@ package com.troop.freecam.manager;
 import android.os.Handler;
 import android.provider.Settings;
 
-import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -46,7 +45,7 @@ public class CheckEvo3DSwitchModeManager
                     //cameraManager.activity.drawSurface.SwitchViewMode();
 
                     cameraManager.Start();
-                    cameraManager.Restart(true);
+                    cameraManager.ReloadCameraParameters(true);
                     //cameraManager.activity.drawSurface.drawingRectHelper.Draw();
                     cameraManager.activity.SwitchCropButton();
                 }

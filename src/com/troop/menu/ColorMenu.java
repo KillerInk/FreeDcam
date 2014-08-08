@@ -39,7 +39,7 @@ public class ColorMenu extends BaseMenu {
                     String tmp = item.toString();
                     camMan.parametersManager.getParameters().setColorEffect(tmp);
                     camMan.Settings.ColorMode.Set(tmp);
-                    camMan.Restart(false);
+                    camMan.ReloadCameraParameters(false);
                     return true;
                 }
             });

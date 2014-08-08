@@ -23,7 +23,7 @@ public class ManualSharpnessManager implements IStyleAbleSliderValueHasChanged
     if (cameraManager.parametersManager.getSupportSharpness())
     {
         cameraManager.parametersManager.manualSharpness.set(value);
-        //cameraManager.Restart(false);
+        //cameraManager.ReloadCameraParameters(false);
     }
 }
 }

@@ -57,7 +57,7 @@ public class MeteringModeManager extends ExposureModeManager
         {
             try {
                 parameters.set("meter-mode", mode);
-                cameraManager.Restart(false);
+                cameraManager.ReloadCameraParameters(false);
             }
             catch (Exception ex)
             {

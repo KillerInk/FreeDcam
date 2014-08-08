@@ -97,14 +97,14 @@ public class SettingsMenuControl extends LinearLayout
                     camMan.Stop();
                     camMan.Start();
 
-                    camMan.Restart(true);
+                    camMan.ReloadCameraParameters(true);
                 }
                 else
                 {
                     camMan.Settings.OrientationFix.Set(false);
                     camMan.Stop();
                     camMan.Start();
-                    camMan.Restart(true);
+                    camMan.ReloadCameraParameters(true);
                 }
 
             }

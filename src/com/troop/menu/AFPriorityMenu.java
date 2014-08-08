@@ -46,7 +46,7 @@ public class AFPriorityMenu extends BaseMenu  {
                     camMan.parametersManager.AfPriority.Set(tmp, true);
                     camMan.Settings.afPriority.Set(tmp);
                     //camMan.autoFocusManager.StartFocus();
-                    camMan.Restart(false);
+                    camMan.ReloadCameraParameters(false);
                     return true;
                 }
             });

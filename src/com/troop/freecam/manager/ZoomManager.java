@@ -37,7 +37,7 @@ public class ZoomManager implements Camera.OnZoomChangeListener
                 }
                 else
                 {
-                    cameraManager.Restart(false);
+                    cameraManager.ReloadCameraParameters(false);
                     zoomaktiv = false;
                 }
 

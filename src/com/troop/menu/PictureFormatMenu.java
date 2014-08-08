@@ -10,8 +10,6 @@ import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.parameters.ParametersManager;
 import com.troop.freecam.utils.DeviceUtils;
 
-import java.security.PublicKey;
-
 /**
  * Created by George on 12/6/13.
  */
@@ -70,7 +68,7 @@ public class PictureFormatMenu extends BaseMenu  {
                     camMan.parametersManager.getParameters().set("picture-format", tmp);
                     camMan.parametersManager.string_set(tmp);
                         //camMan.parametersManager.getParameters().set("raw-size","4208x3120");
-                        camMan.Restart(false);
+                        camMan.ReloadCameraParameters(false);
                     }
                     catch (Exception ex)
                     {

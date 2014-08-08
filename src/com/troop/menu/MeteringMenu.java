@@ -45,7 +45,7 @@ public class MeteringMenu extends BaseMenu   {
                     camMan.parametersManager.getParameters().set("auto-exposure", tmp);
                     camMan.Settings.MeteringMode.Set(tmp);
                     //camMan.autoFocusManager.StartFocus();
-                    camMan.Restart(false);
+                    camMan.ReloadCameraParameters(false);
                     return true;
                 }
             });

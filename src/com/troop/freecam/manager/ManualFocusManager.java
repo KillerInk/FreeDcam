@@ -23,7 +23,7 @@ public class ManualFocusManager implements IStyleAbleSliderValueHasChanged
         if (cameraManager.parametersManager.getSupportManualFocus())
         {
             cameraManager.parametersManager.manualFocus.set(value);
-            //cameraManager.Restart(false);
+            //cameraManager.ReloadCameraParameters(false);
         }
     }
 }

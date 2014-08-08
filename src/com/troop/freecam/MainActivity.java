@@ -39,6 +39,9 @@ import com.troop.menu.PictureFormatMenu;
 
 import java.io.File;
 
+/**
+ * This is true Shown ACTIVITY wich you see
+ */
 public class MainActivity extends LayoutActivity implements ParametersChangedInterface
 {
     PictureFormatMenu pictureFormatMenu;
@@ -51,10 +54,16 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     //*******************
     public Boolean AFS_enable;
     Button AfAssitButton;
-    SettingsMenuControl settingsFragment;
+
     InfoScreenControl infoScreenFragment;
+    /**
+     * Holds the AutoMenu
+     */
     AutoMenuControl autoMenuFragment;
+    //Holds the ManualMenu
     ManualMenuControl manualMenuControl;
+    //Holds the SettingsMenu
+    SettingsMenuControl settingsFragment;
     ModeMenuControl cameraModesControl;
     int currentZoom = 0;
     SensorManager sensorManager;
@@ -118,6 +127,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
 	}
 
+    /**
+     * init the UI Buttons
+     */
     private void initButtons()
     {
         shotButton = (ImageButton) findViewById(R.id.imageButton1);

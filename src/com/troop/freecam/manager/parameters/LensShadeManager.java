@@ -59,7 +59,7 @@ public class LensShadeManager extends AntibandingModeManager
                 parameters.set("lensshade", "enable");
             else
                 parameters.set("lensshade", "disable");
-            cameraManager.Restart(false);
+            cameraManager.ReloadCameraParameters(false);
             Log.d(TAG, "Set LensShade TO:" + parameters.get("lensshade"));
             onParametersCHanged(enumParameters.LensShade);
         }

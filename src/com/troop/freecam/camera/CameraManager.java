@@ -247,10 +247,10 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
 
     //if restarted true cam preview will be stopped and restartet
-    public  void Restart(boolean restarted)
+    public  void ReloadCameraParameters(boolean restartPreview)
     {
         isRdy = false;
-        if (restarted)
+        if (restartPreview)
         {
             Log.d(TAG, "Camera is restarted");
             //try
@@ -455,7 +455,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
     {
        //parameters = mCamera.getParameters();
-       Restart(true);
+       ReloadCameraParameters(true);
 
     }
 

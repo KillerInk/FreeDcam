@@ -66,7 +66,7 @@ public class AntibandingModeManager extends MeteringModeManager
             Log.d(TAG,"try to set antibanding to:" + value);
             try {
                 parameters.set("antibanding", value);
-                cameraManager.Restart(false);
+                cameraManager.ReloadCameraParameters(false);
                 onParametersCHanged(enumParameters.AntiBanding);
                 Log.d(TAG, "antibanding set");
             }

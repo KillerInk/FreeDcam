@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 26.01.14.
@@ -87,13 +86,13 @@ public class ExposureModeManager extends BaseParametersManager
                 try {
                     Log.d(TAG, "Try set ExposureMode to " +value);
                     parameters.set(valueforExpo, value);
-                    cameraManager.Restart(false);
+                    cameraManager.ReloadCameraParameters(false);
                 }
                 catch (Exception ex)
                 {
                     Log.e(TAG,"Exposure set failed, set back to"+def);
                     parameters.set(valueforExpo, def);
-                    cameraManager.Restart(false);
+                    cameraManager.ReloadCameraParameters(false);
                 }
             }
             onParametersCHanged(enumParameters.ExposureMode);

@@ -21,7 +21,7 @@ public class ManualSaturationManager implements IStyleAbleSliderValueHasChanged{
         if (cameraManager.parametersManager.getSupportSaturation())
         {
             cameraManager.parametersManager.manualSaturation.set(value);
-            //cameraManager.Restart(false);
+            //cameraManager.ReloadCameraParameters(false);
         }
     }
 }

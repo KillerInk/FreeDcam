@@ -45,7 +45,7 @@ public class PreviewSizeMenu extends BaseMenu {
 
                 camMan.parametersManager.SetPreviewSizeToCameraParameters(w, h);
                 camMan.mCamera.stopPreview();
-                camMan.Restart(false);
+                camMan.ReloadCameraParameters(false);
                 camMan.mCamera.startPreview();
 
                 return true;

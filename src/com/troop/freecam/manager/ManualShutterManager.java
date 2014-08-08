@@ -23,7 +23,7 @@ public class ManualShutterManager implements IStyleAbleSliderValueHasChanged
         if (cameraManager.parametersManager.getSupportManualShutter())
         {
             cameraManager.parametersManager.manualShutter.set(value);
-            //cameraManager.Restart(false);
+            //cameraManager.ReloadCameraParameters(false);
         }
     }
 }

@@ -54,11 +54,11 @@ public class switchcameramenu extends  BaseMenu
                 //activity.drawSurface.SwitchViewMode();
 
                 camMan.Start();
-                camMan.Restart(true);
+                camMan.ReloadCameraParameters(true);
                 //activity.drawSurface.drawingRectHelper.Draw();
                 activity.SwitchCropButton();
 
-                //camMan.Restart(false);
+                //camMan.ReloadCameraParameters(false);
 
                 return true;
             }

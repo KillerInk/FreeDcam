@@ -40,7 +40,7 @@ public class AntibandingMenu extends BaseMenu {
                     camMan.parametersManager.Antibanding.Set(tmp);
                     camMan.Settings.Antibanding.Set(tmp);
                     //camMan.autoFocusManager.StartFocus();
-                    //camMan.Restart(false);
+                    //camMan.ReloadCameraParameters(false);
                     return true;
                 }
             });

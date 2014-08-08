@@ -43,7 +43,7 @@ public class WhiteBalanceMenu extends BaseMenu {
                     camMan.Settings.WhiteBalanceMode.Set(tmp);
                     camMan.parametersManager.getParameters().setWhiteBalance(tmp);
                     Log.d(TAG, "whitebalance is " + camMan.parametersManager.getParameters().getWhiteBalance());
-                    camMan.Restart(false);
+                    camMan.ReloadCameraParameters(false);
                     return true;
                 }
             });
