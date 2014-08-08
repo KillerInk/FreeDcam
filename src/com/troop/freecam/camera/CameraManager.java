@@ -40,14 +40,10 @@ import java.io.IOException;
  */
 public class CameraManager extends VideoCam implements SurfaceHolder.Callback , SensorEventListener
 {
-    MainActivity mainActivity;
     final String TAG = "freecam.CameraManager";
-
-    CamPreview context;
     CameraManager cameraManager;
     public ZoomManager zoomManager;
     public boolean Running = false;
-    //public MediaScannerManager scanManager;
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
@@ -62,7 +58,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
     public ManualConvergenceManager manualConvergenceManager;
-    //public ParametersManager parametersManager;
     public boolean takePicture = false;
     public boolean isRdy = false;
 
@@ -94,8 +89,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     }
 
-
-    
     //Remaining Pictures Ca;cu;ation
     public int RemainingPics ()
     {
@@ -163,8 +156,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     }
 
-
-
     Bitmap bitmascale;
     @Override
     public void onPictureSaved(File file)
@@ -174,7 +165,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             bitmascale.recycle();
         try
         {
-
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 16;
             Bitmap bitmaporg = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
@@ -186,10 +176,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             cameraManager.activity.thumbButton.setImageBitmap(bitmascale);
             cameraManager.lastPicturePath =file.getAbsolutePath();
             MediaScannerManager.ScanMedia(activity,file);
-            //scanManager.startScan(lastPicturePath);
             bitmaporg.recycle();
-            
-            //bitmascale.recycle();
         }
         catch (Exception ex)
         {
@@ -245,17 +232,18 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     }
 
 
-
-    //if restarted true cam preview will be stopped and restartet
+    /**
+     * set the Camera.Parameters to the ParametersManager
+     * @param restartPreview
+     * if true preview is started
+     */
+    //
     public  void ReloadCameraParameters(boolean restartPreview)
     {
         isRdy = false;
         if (restartPreview)
         {
             Log.d(TAG, "Camera is restarted");
-            //try
-            //{
-
             if (mCamera == null)
             {
                 Log.e(TAG, "Camera was released");
@@ -265,6 +253,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
             parametersManager.SetJpegQuality(100);
             mCamera.startPreview();
+            //set parameters again for the evo because the preview can be laggy if its not done...
             if (DeviceUtils.isEvo3d())
                 mCamera.setParameters(parametersManager.getParameters());
         }
@@ -293,8 +282,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         CloseCamera();
     }
 
-
-
     public void StartTakePicture()
     {
         if (IsWorking == false)
@@ -304,7 +291,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             takePicture = true;
             if (!IsWorking && !autoFocusManager.focusing)
             {
-                if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
+                if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||
+                    parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
                 {
                     if (!cameraManager.autoFocusManager.focusing)
                     {
@@ -318,23 +306,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                             TakePicture(crop);
                         }
                     }
-                    /*if (activity.drawSurface.drawingRectHelper.drawRectangle == true)
-                    {
-                        SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
-                        //autoFocusManager.focusing = true;
-                        if (autoFocusManager.hasFocus)
-                            TakePicture(crop);
-                        else
-                            autoFocusManager.StartFocus();
-                    }
-                    else if (touchtofocus)
-                        touchtofocus= false;
-                    else if (touchtofocus == false)
-                    {
-                        touchtofocus = false;
-                        autoFocusManager.StartFocus();
-                    }*/
-
                 }
                 else
                 {
@@ -345,125 +316,24 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         }
     }
 
-    public void StartRawTakePicture(String Raw)
-    {
-
-            takePicture = true;
-
-                cameraManager.parametersManager.getParameters().set("picture-format","jpeg");
-
-              TakePicture(crop);
-
-
-
-        takePicture = false;
-
-
-
-    }
-
     public void StartFocus()
     {
         if (true)
         {
-            //SetTouchFocus(activity.drawSurface.drawingRectHelper.mainRect);
             autoFocusManager.StartFocus();
         }
-    }
-
-    public void AutoFocusAssit()
-    {
-        String atr = "torch";
-        parametersManager.getParameters().setFlashMode(atr);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-               // parametersManager.setFlashMode(preferences.getString(Preferences_Flash2D, "auto"));
-            }
-        }, 2000); //time in millis
-    }
-
-    public  void SetTouchFocus(RectF rectangle)
-    {
-        //Attempt at af Assit light
-        /*if (mainActivity.AFS_enable == true)
-        {
-            AutoFocusAssit();
-
-        }*/
-
-        /*if (touchtofocus == false && !autoFocusManager.focusing)
-        {
-            touchtofocus = true;
-        //Convert from View's width and height to +/- 1000
-
-            final Rect targetFocusRect = new Rect(
-                    (int)rectangle.left * 2000/activity.drawSurface.getWidth() - 1000,
-                    (int)rectangle.top * 2000/activity.drawSurface.getHeight() - 1000,
-                    (int)rectangle.right * 2000/activity.drawSurface.getWidth() - 1000,
-                    (int)rectangle.bottom * 2000/activity.drawSurface.getHeight() - 1000);*/
-
-            /*Rect top = new Rect(-999, -999, 999, targetFocusRect.top);
-            Rect bottom = new Rect(-999, targetFocusRect.bottom, 999, 999);
-            Rect left = new Rect(-999, targetFocusRect.top, targetFocusRect.left, targetFocusRect.bottom);
-            Rect right = new Rect(targetFocusRect.right, targetFocusRect.top, 999, targetFocusRect.bottom);
-
-            final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
-            Camera.Area focusArea = new Camera.Area(targetFocusRect, 1000);
-            Camera.Area topArea = new Camera.Area(top,1);
-            Camera.Area bottomArea = new Camera.Area(bottom,1);
-            Camera.Area leftArea = new Camera.Area(left,1);
-            Camera.Area rightArea = new Camera.Area(right,1);
-            meteringList.add(focusArea);
-            meteringList.add(topArea);
-            meteringList.add(bottomArea);
-            meteringList.add(leftArea);
-            meteringList.add(rightArea);
-            if (parametersManager.getParameters().getMaxNumFocusAreas() > 4 && parametersManager.getParameters().getMaxNumMeteringAreas() > 4)
-            {
-                parametersManager.getParameters().setFocusAreas(meteringList);
-                try
-                {
-                    mCamera.setParameters(parametersManager.getParameters());
-                    //mCamera.autoFocus(autoFocusManager);
-                }
-                catch (Exception ex)
-                {
-                    Log.d("TouchToFocus", "failed to set focusareas");
-                }
-
-                parametersManager.getParameters().setMeteringAreas(meteringList);
-                try
-                {
-                    mCamera.setParameters(parametersManager.getParameters());
-                }
-                catch (Exception ex)
-                {
-                    Log.d("TouchToFocus", "failed to set meteringareas");
-                }
-            }
-        }
-        else
-        {
-            autoFocusManager.CancelFocus();
-            touchtofocus = false;
-        }*/
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
     {
-       //parameters = mCamera.getParameters();
        ReloadCameraParameters(true);
-
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
-
         Start();
         Running = true;
 
@@ -502,10 +372,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                 }
             }
         }*/
-
-
-
-
     }
 
     @Override
