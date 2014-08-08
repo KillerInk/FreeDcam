@@ -41,7 +41,7 @@ public class WhiteBalanceMenu extends BaseMenu {
                     String tmp = item.toString();
                     Log.d(TAG, "setWhiteBalance to " + tmp);
                     camMan.Settings.WhiteBalanceMode.Set(tmp);
-                    camMan.parametersManager.getParameters().setWhiteBalance(tmp);
+                    camMan.parametersManager.WhiteBalance.set(tmp, false);
                     Log.d(TAG, "whitebalance is " + camMan.parametersManager.getParameters().getWhiteBalance());
                     camMan.ReloadCameraParameters(false);
                     return true;
