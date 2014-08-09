@@ -32,7 +32,9 @@ public class AutoFocusManager
     public boolean takePicture = false;
     ImageView crosshair;
     MainActivity activity;
-    final int crosshairshowTime = 5000;
+    final int crosshairshowTime = 3000;
+
+    String supportedFocusModes = "auto, extended, manual, macro";
 
     final String TAG = "freecam.AutoFocusManager";
 
@@ -44,6 +46,14 @@ public class AutoFocusManager
         crosshair.setVisibility(View.GONE);
     }
 
+    public boolean CanFocus()
+    {
+        if (supportedFocusModes.contains(cameraManager.parametersManager.getParameters().getFocusMode()))
+            return true;
+        else
+            return false;
+    }
+
     public void StartFocus()
     {
 
@@ -53,8 +63,8 @@ public class AutoFocusManager
         if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive)
         {
             int half = crosshair.getWidth()/2;
-            int halflength = activity.mPreview.getWidth();
-            int halfheight = activity.mPreview.getHeight();
+            int halflength = activity.mPreview.getWidth()/2;
+            int halfheight = activity.mPreview.getHeight()/2;
 
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) crosshair.getLayoutParams();
             mParams.leftMargin = halflength - half;

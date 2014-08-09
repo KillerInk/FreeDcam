@@ -289,7 +289,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
             Log.d("StartTakingPicture", "takepicture:" + takePicture);
             Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
             takePicture = true;
-            if (!IsWorking && !autoFocusManager.focusing)
+            if (!IsWorking && !autoFocusManager.focusing && autoFocusManager.CanFocus())
             {
                 if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||
                     parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
@@ -312,6 +312,8 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
                     TakePicture(crop);
                 }
             }
+            else
+                TakePicture(crop);
 
         }
     }
