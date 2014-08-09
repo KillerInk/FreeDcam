@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import com.troop.freecam.manager.parameters.LensShadeManager;
 import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.parameters.PictureParameters;
 
 /**
  * Created by troop on 04.01.14.
@@ -131,6 +132,7 @@ public class SettingsManager
     public CameraModes CameraMode;
     public VideoProfiles VideoProfileSETTINGS;
     public CaptureFrameRate captureFrameRate;
+    public PictureFormatClass pictureFormat;
 
 
     public SettingsManager(SharedPreferences preferences) {
@@ -161,6 +163,7 @@ public class SettingsManager
         CameraMode = new CameraModes();
         VideoProfileSETTINGS =  new VideoProfiles();
         captureFrameRate = new CaptureFrameRate();
+        pictureFormat = new PictureFormatClass();
 
     }
 
@@ -331,6 +334,14 @@ public class SettingsManager
         public VideoSizeClass()
         {
             super(Preferences.VideoSize3D, Preferences.VideoSize2D, Preferences.VideoSizeFront, "640x480");
+        }
+    }
+
+    public class PictureFormatClass extends BaseClass
+    {
+        public PictureFormatClass()
+        {
+            super(PictureParameters.Preferences_PictureFormat3D, PictureParameters.Preferences_PictureFormat2D, PictureParameters.Preferences_PictureFormatFront, "jpeg");
         }
     }
 

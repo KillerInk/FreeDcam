@@ -14,7 +14,9 @@ public class PictureParameters extends LensShadeManager
         super(cameraManager, preferences);
     }
 
-    public static final String  Preferences_PictureFormat = "picture_format";
+    public static final String  Preferences_PictureFormat3D = "picture_format_3d";
+    public static final String  Preferences_PictureFormat2D = "picture_format_2d";
+    public static final String  Preferences_PictureFormatFront = "picture_format_front";
     public static String Preferences_PictureFormatx = "jpeg";
     boolean val;
 
@@ -23,6 +25,8 @@ public class PictureParameters extends LensShadeManager
         super.loadDefaultOrLastSavedSettings();
         if (!cameraManager.Settings.PictureSize.Get().equals(""))
             setPictureSize(cameraManager.Settings.PictureSize.Get());
+        if (!cameraManager.Settings.pictureFormat.Get().equals(""))
+            setPictureFormat(cameraManager.Settings.pictureFormat.Get());
     }
 
     public void GetCamP (String value )

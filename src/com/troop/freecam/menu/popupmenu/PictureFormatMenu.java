@@ -51,10 +51,8 @@ public class PictureFormatMenu extends BaseMenu
                     String tmp = item.toString();
                     try
                     {
-                        //camMan.parametersManager.getParameters().set("picture-format", tmp);
-                        //camMan.parametersManager.string_set(tmp);
-                        //camMan.parametersManager.getParameters().set("raw-size","4208x3120");
                         camMan.parametersManager.setPictureFormat(tmp);
+                        camMan.Settings.pictureFormat.Set(tmp);
                         camMan.ReloadCameraParameters(false);
                     }
                     catch (Exception ex)
@@ -66,17 +64,6 @@ public class PictureFormatMenu extends BaseMenu
 
                     Log.d("CurrentP", tmp);
                     xxx = tmp;
-                    
-
-                    //activity.buttonPictureFormat.SetValue(tmp);
-
-                    if (camMan.Settings.Cameras.is3DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camMan.Settings.Cameras.is2DMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    if (camMan.Settings.Cameras.isFrontMode())
-                        preferences.edit().putString(ParametersManager.Preferences_PictureFormat, tmp).commit();
-                    //preferences.edit().putString("color", tmp).commit();
 
 
                     return true;

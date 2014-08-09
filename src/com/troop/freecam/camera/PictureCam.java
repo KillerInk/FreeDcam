@@ -158,34 +158,19 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
-        
-    	rawByteStream = data;
-    	
-        //Log.d(" Format String Test 2",ParametersManager.Preferences_PictureFormatx);
-    	
-    	
-    	
     	//File tiff = getOutputMediaFile(3);
-    	File jpeg = getOutputMediaFile(2);
-    	File jpps = getOutputMediaFile(1);
-    	File raw = getOutputMediaFile(4);
-    	//imx_135.put(data);
-    	
-       // parametersManager = new ParametersManager(null,null);
+        File file;
+        boolean isRaw = false;
 
-
-        
-      
-            //Log.d(" Format String Test",ParametersManager.Preferences_PictureFormat);
-            //Log.d(" Format String Test 2",ParametersManager.Preferences_PictureFormatx);
-            
-            //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-            
-
-
-
-
-
+        String tmp = Settings.pictureFormat.Get();
+        if (tmp.equals("jps"))
+    	    file = getOutputMediaFile(1);
+        else if (tmp.equals("raw")) {
+            file = getOutputMediaFile(4);
+            isRaw = true;
+        }
+        else
+            file = getOutputMediaFile(2);
 
         writeDebug("OnPictureTaken callback recieved");
         boolean is3d = false;
@@ -198,51 +183,23 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         try {
         	
         	
-        	if (ParametersManager.Preferences_PictureFormatx == "jpeg")
+        	if (!isRaw)
         	{
-        		savePicture.SaveToSD(rawByteStream, crop, mCamera.getParameters().getPictureSize(), is3d, jpeg);
+        		savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d, file);
                 writeDebug("save successed");
                 
         	}
         	else
         	{
-        	//	HashMap<String, String> exif = new HashMap<String, String>();
-        	//	exif.put("Orientation", "100");
-        	//	exif.put("DateTime", "100");
-        	//	exif.put("Make", "100");
-        	//	exif.put("Model", "100");
-        	//	exif.put("Flash", "100");
-        	//	exif.put("ExposureTime", "100");
-        	//	exif.put("FNumber", "100");
-        	//	exif.put("ISOSpeedRatings", "100");
-        	//	exif.put("WhiteBalance", "100");
-        	//	exif.put("FocalLength", "100");
-
-        		
         		int black = 0;
         		if(DeviceUtils.isZTEADV()||DeviceUtils.isLGADV())
-        			black = 43;       			
-        	      //:::::::::::::::::::::::--RAW Block --::::::::::::::::::::::::::::::::::
-                //rawByteStream = Demosaic.dragonRaw(data);unpackRawByte
+        			black = 43;
             	long aa = System.currentTimeMillis();
             	
             	RawDecodeX RDCD = new RawDecodeX();
             	Void params = null;
 				RDCD.execute(params);
-                //RawUtils.unpackRawByte(String.valueOf(tiff), rawByteStream,black,2.0f,3.83f,0.10f,100.00f);
-             
-                
-                //*****************************************
-               // encodeTiff.byt(rawByteStream);
-               // encodeTiff.Encode();
-               //****************************************** 
-                
-                
-                //LOggin USE Time and Data INTg
-                //Log.d("Raw Data Is",String.valueOf(data.length));
-                
-        		savePicture.SaveToSD(rawByteStream, crop, mCamera.getParameters().getPictureSize(), is3d, raw);
-                //writeDebug("save successed");
+        		savePicture.SaveToSD(data, crop, mCamera.getParameters().getPictureSize(), is3d, file);
                 
                 long ab = System.currentTimeMillis();            
                 long contime = ab - aa;
@@ -272,9 +229,8 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         }
 
         IsWorking = false;
-        //TakeForceJpegPicture(false);
         data = null;
-        //takePicture = false;
+
     }
 
     @Override
