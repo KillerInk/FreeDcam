@@ -87,6 +87,8 @@ public class QualitySubMenuControl extends BaseSubMenu
 
     public void UpdateUI()
     {
+        switchPictureFormat.SetButtonText(cameraManager.parametersManager.getPictureFormat());
+
         if (cameraManager.parametersManager.getSupportVNF())
         {
             switchDenoise.SetButtonText(cameraManager.parametersManager.Denoise.getDenoiseValue());

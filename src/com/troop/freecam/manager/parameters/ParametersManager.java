@@ -17,21 +17,16 @@ import java.util.List;
 /**
  * Created by troop on 16.10.13.
  */
-public class ParametersManager extends LensShadeManager
+public class ParametersManager extends PictureParameters
 {
     //New Pref 07-12-13
-    public static final String  Preferences_PictureFormat = "picture_format";
-    public static String Preferences_PictureFormatx = "jpeg";
+
 
     public static final String Preferences_Denoise = "denoise";
    // public static final String Preferences_Stab = "stablization";
     public static final String Preferences_ZSL = "zsl_value";
     //public static final String Preferences_Composition = "front_ipp";
     //public static final String Preferences_HFR = "hfr_video";
-
-
-
-    MainActivity mainActivity;
 
     public android.hardware.Camera.Parameters getParameters(){return parameters;}
 
@@ -59,7 +54,7 @@ public class ParametersManager extends LensShadeManager
     public boolean getSupportWhiteBalance() { return supportWhiteBalance; }
     boolean supportIso = false;
     public boolean getSupportIso() { return  supportIso; }
-    boolean val;
+
 
     boolean supportScene = false;
     boolean supportManualFocus = false;
@@ -90,11 +85,6 @@ public class ParametersManager extends LensShadeManager
     public VideoProfiles VideoProfileClass;
     public ManualFocusClass manualFocus;
     public ManualShutterClass manualShutter;
-    Camera camera;
-
-
-
-
 
     public ParametersManager(CameraManager cameraManager, SettingsManager preferences)
     {
@@ -107,7 +97,7 @@ public class ParametersManager extends LensShadeManager
         super.SetCameraParameters(parameters);
         String[] paras =  parameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
-            Log.d("CameraParameters", paras[i]);
+            Log.d("freecam.CameraParameters", paras[i]);
         checkParametersSupport();
         Brightness = new BrightnessManager();
         AfPriority = new AFPriorityManager();
@@ -135,38 +125,7 @@ public class ParametersManager extends LensShadeManager
         
     }
 
-    public void GetCamP (String value )
-    {
-       if (value != "jpeg")
-       {
-           val = true;
-       }
 
-    }
-
-    public boolean isRaw()
-    {
-        return val;
-    }
-
-
-    public void setCamP (String value,String v2 )
-    {
-        parameters.set(value, v2);
-
-    }
-
-    public String getCamP (String value )
-    {
-       String o = parameters.get(value);
-        return o;
-
-    }
-    
-    public void string_set(String S)
-    {
-    	Preferences_PictureFormatx = S;
-    }
 
 
 
@@ -278,8 +237,7 @@ public class ParametersManager extends LensShadeManager
             parameters.set("ois_key","on");
         }
 
-            if (!cameraManager.Settings.PictureSize.Get().equals(""))
-                setPictureSize(cameraManager.Settings.PictureSize.Get());
+
             //if (!cameraManager.Settings.PreviewSize.Get().equals(""))
             //setPreviewSize(cameraManager.Settings.PreviewSize.Get());
             setOptimalPreviewSize();
@@ -321,16 +279,7 @@ public class ParametersManager extends LensShadeManager
             setPreviewSizeCHanged.onPreviewsizeHasChanged(w, h);
     }
 
-    public void setPictureSize(String s)
-    {
-        String[] widthHeight = s.split("x");
-        int w = Integer.parseInt(widthHeight[0]);
-        int h = Integer.parseInt(widthHeight[1]);
-        parameters.setPictureSize(w,h);
-        onParametersCHanged(enumParameters.PictureSize);
-        cameraManager.ReloadCameraParameters(false);
-        Log.d(TAG, "set picture size to " + s);
-    }
+
     private void setPreviewSize(String s)
     {
         String[] widthHeight = s.split("x");
@@ -362,12 +311,7 @@ public class ParametersManager extends LensShadeManager
         onParametersCHanged(enumParameters.FlashMode);
     }
 
-    public void setPictureFormat()
-    {
-        parameters.set("picture-format","jpeg");
-        cameraManager.ReloadCameraParameters(false);
-        onParametersCHanged(enumParameters.PictureFormat);
-    }
+
 
     public void setFocusMode(String focusMode)
     {
@@ -403,13 +347,7 @@ public class ParametersManager extends LensShadeManager
         cameraManager.ReloadCameraParameters(false);
     }
 
-    public void setExynosRaw(String val)
-    {
-        parameters.set("capture-mode",val);
-        super.SetCameraParameters(parameters);
-        onParametersCHanged(enumParameters.ExynosRaw);
-        cameraManager.ReloadCameraParameters(false);
-    }
+
 
 
 
@@ -435,12 +373,7 @@ public class ParametersManager extends LensShadeManager
         onParametersCHanged(enumParameters.ManualFocus);
     }
 
-    public void SetJpegQuality(int quality)
-    {
-        parameters.set("jpeg-quality", quality);
-        //onParametersCHanged(enumParameters.All);
-        //setToPreferencesToCamera();
-    }
+
 
     //preferences are set during CameraManager.Reset()
     /*private void setToPreferencesToCamera()

@@ -13,13 +13,11 @@ import com.troop.freecam.utils.DeviceUtils;
 /**
  * Created by George on 12/6/13.
  */
-public class PictureFormatMenu extends BaseMenu  {
+public class PictureFormatMenu extends BaseMenu
+{
     public PictureFormatMenu(CameraManager camMan, MainActivity activity) {
         super(camMan, activity);
     }
-    MainActivity mainActivity;
-
-    private String Pict;
 
     String[] picf;
     String xxx;
@@ -27,28 +25,16 @@ public class PictureFormatMenu extends BaseMenu  {
     @Override
     public void onClick(View v)
     {
-
         if(camMan.Running)
         {
             try
             {
-                //TODO get the values from the camera parameters
-                String Values = "jpeg,raw,bayer-mipi-10bggr,bayer-mipi-10rggb,bayer-mipi-10grgb,bayer-mipi-10gbrg,bayer-qcom-10bggr,bayer-qcom-10rggb,bayer-qcom-10grgb,bayer-qcom-10gbrg";
-
-                if(DeviceUtils.isForcedDragon())
-                {
-                    picf = Values.split(",");
-                }
-                else
-                {
-                    picf = camMan.parametersManager.getParameters().get("picture-format-values").split(",");
-                }
-
-
+                //String Values = "jpeg,raw,bayer-mipi-10bggr,bayer-mipi-10rggb,bayer-mipi-10grgb,bayer-mipi-10gbrg,bayer-qcom-10bggr,bayer-qcom-10rggb,bayer-qcom-10grgb,bayer-qcom-10gbrg";
+                picf = camMan.parametersManager.getPictureFormatValues();
             }
             catch (Exception ex)
             {
-
+                ex.printStackTrace();
             }
         }
         if (picf != null && !picf.equals(""))
@@ -65,9 +51,10 @@ public class PictureFormatMenu extends BaseMenu  {
                     String tmp = item.toString();
                     try
                     {
-                    camMan.parametersManager.getParameters().set("picture-format", tmp);
-                    camMan.parametersManager.string_set(tmp);
+                        //camMan.parametersManager.getParameters().set("picture-format", tmp);
+                        //camMan.parametersManager.string_set(tmp);
                         //camMan.parametersManager.getParameters().set("raw-size","4208x3120");
+                        camMan.parametersManager.setPictureFormat(tmp);
                         camMan.ReloadCameraParameters(false);
                     }
                     catch (Exception ex)
