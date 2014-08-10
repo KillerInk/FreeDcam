@@ -1,6 +1,7 @@
 package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.troop.freecam.manager.camera_parameters.PictureParameters;
 
@@ -11,6 +12,8 @@ public class AppSettingsManager
 {
     public class Preferences
     {
+
+
         public static final String SwitchCamera = "switchcam";
         public static final String MODE_3D = "3D";
         public static final String MODE_2D = "2D";
@@ -234,6 +237,7 @@ public class AppSettingsManager
         protected String twoD;
         protected String front;
         protected String defaultVal;
+        public static final String TAG = "freecam.AppSettingsManager";
 
         public BaseClass(String threeD, String twoD, String front, String defaultVal) {
             this.threeD = threeD;
@@ -265,15 +269,19 @@ public class AppSettingsManager
             {
                 case Back3D:
                     val = preferences.getString(threeD, defaultVal);
+                    Log.d(TAG, "Get 3D Setting " + threeD + " " + val);
                     break;
                 case Front:
                     val = preferences.getString(front, defaultVal);
+                    Log.d(TAG, "Get Front Setting " + front + " " + val);
                     break;
                 case Back2D:
                     val =  preferences.getString(twoD, defaultVal);
+                    Log.d(TAG, "Get 2D Setting " + twoD + " " + val);
                     break;
                 default:
                     val =  preferences.getString(front, defaultVal);
+                    Log.d(TAG, "No Default Settings load Front Settings");
             }
             return val;
         }
