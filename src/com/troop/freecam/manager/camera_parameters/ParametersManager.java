@@ -1504,7 +1504,7 @@ public class ParametersManager extends PictureParameters
                 }
                 if (DeviceUtils.isZTEADV())
                 {
-                    parameters.set("adjust_exposure_time", toset);
+                    parameters.set("exposure-time", toset);
                     cameraManager.ReloadCameraParameters(false);
                 }
 
