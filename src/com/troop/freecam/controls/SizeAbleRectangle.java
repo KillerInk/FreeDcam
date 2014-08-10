@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -78,7 +78,7 @@ public class SizeAbleRectangle
             if (drawRectangle == true && Enabled && canvas != null)
             {
                 String tmp = cameraManager.Settings.Cameras.GetCamera();
-                if (tmp.equals(SettingsManager.Preferences.MODE_3D) && !DeviceUtils.isEvo3d())
+                if (tmp.equals(AppSettingsManager.Preferences.MODE_3D) && !DeviceUtils.isEvo3d())
                 {
                     //draw mainRectangle
                     int pos_x = (int)beginCoordinate.x;

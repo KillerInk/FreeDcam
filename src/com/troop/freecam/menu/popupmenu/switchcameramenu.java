@@ -8,7 +8,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
@@ -31,12 +31,12 @@ public class switchcameramenu extends  BaseMenu
         }
         else if (Camera.getNumberOfCameras() == 2)
         {
-            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_2D);
-            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
+            popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_2D);
+            popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_Front);
         }
         else if (Camera.getNumberOfCameras() == 1)
         {
-            popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
+            popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_Front);
         }
 
 
@@ -45,7 +45,7 @@ public class switchcameramenu extends  BaseMenu
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String tmp = item.toString();
-                //camMan.parameters.setAutoWhiteBalanceLock(true);
+                //camMan.camera_parameters.setAutoWhiteBalanceLock(true);
 
                 camMan.Settings.Cameras.SetCamera(tmp);
 
@@ -68,8 +68,8 @@ public class switchcameramenu extends  BaseMenu
     }
 
     private void set3DMenu(PopupMenu popupMenu) {
-        popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_3D);
-        popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_2D);
-        popupMenu.getMenu().add((CharSequence) SettingsManager.Preferences.MODE_Front);
+        popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_3D);
+        popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_2D);
+        popupMenu.getMenu().add((CharSequence) AppSettingsManager.Preferences.MODE_Front);
     }
 }

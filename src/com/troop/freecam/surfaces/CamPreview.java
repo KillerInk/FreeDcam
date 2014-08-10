@@ -2,14 +2,11 @@ package com.troop.freecam.surfaces;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.RelativeLayout;
 
@@ -17,7 +14,7 @@ import android.widget.RelativeLayout;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
 
@@ -85,7 +82,7 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
         if (hasReal3d)
         {
             //dont get the preferences from the SettingManager, its not init at this time
-            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
+            if (preferences.getString(AppSettingsManager.Preferences.SwitchCamera, AppSettingsManager.Preferences.MODE_Front).equals(AppSettingsManager.Preferences.MODE_3D))
             {
                 if(preferences.getBoolean("upsidedown", false) == false)
                     mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
@@ -100,8 +97,8 @@ public class CamPreview extends BasePreview implements SurfaceHolder.Callback {
         }
         if (hasOpenSense)
         {
-            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_2D )
-                    ||preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_Front))
+            if (preferences.getString(AppSettingsManager.Preferences.SwitchCamera, AppSettingsManager.Preferences.MODE_Front).equals(AppSettingsManager.Preferences.MODE_2D )
+                    ||preferences.getString(AppSettingsManager.Preferences.SwitchCamera, AppSettingsManager.Preferences.MODE_Front).equals(AppSettingsManager.Preferences.MODE_Front))
             {
                 //camMan.mCamera.stopPreview();
                 //holder = surfaceholder;

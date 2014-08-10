@@ -10,8 +10,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
-import com.troop.freecam.manager.parameters.BaseParametersManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.menu.popupmenu.AFPriorityMenu;
 import com.troop.freecam.menu.popupmenu.ColorMenu;
 import com.troop.freecam.menu.popupmenu.ExposureMenu;
@@ -102,7 +101,6 @@ public class AutoMenuControl extends LinearLayout
 
     private void checkVisibility()
     {
-
         if (camMan.parametersManager.getSupportAfpPriority())
             switchAF.setVisibility(View.VISIBLE);
         else

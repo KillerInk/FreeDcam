@@ -1,10 +1,10 @@
-package com.troop.freecam.manager.parameters;
+package com.troop.freecam.manager.camera_parameters;
 
 import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 27.01.14.
@@ -14,7 +14,7 @@ public class AntibandingModeManager extends MeteringModeManager
     boolean supportAntibanding = false;
     public boolean getSupportAntibanding(){return  supportAntibanding;}
     public AntibandingClass Antibanding;
-    public AntibandingModeManager(CameraManager cameraManager, SettingsManager preferences) {
+    public AntibandingModeManager(CameraManager cameraManager, AppSettingsManager preferences) {
         super(cameraManager, preferences);
     }
 

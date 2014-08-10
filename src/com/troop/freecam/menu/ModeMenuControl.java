@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.manager.parameters.BaseParametersManager;
+import com.troop.freecam.manager.AppSettingsManager;
+import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 
 /**
  * Created by troop on 02.08.2014.
@@ -53,8 +53,7 @@ public class ModeMenuControl extends LinearLayout
         picButton = (Button)activity.findViewById(R.id.button_mode_Picture);
         hdrButton = (Button)activity.findViewById(R.id.button_mode_HDR);
         menuOpen = false;
-        //check default mode and set this visible
-        switchVisibility();
+
 
         videoButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -67,7 +66,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(SettingsManager.Preferences.MODE_VIDEO);
+                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_VIDEO);
                     camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
                     switchVisibility();
                     menuOpen= false;
@@ -86,7 +85,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(SettingsManager.Preferences.MODE_PIC);
+                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_PIC);
                     camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
                     switchVisibility();
                     menuOpen= false;
@@ -105,7 +104,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(SettingsManager.Preferences.MODE_HDR);
+                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_HDR);
                     camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
                     switchVisibility();
                     menuOpen= false;
@@ -113,24 +112,27 @@ public class ModeMenuControl extends LinearLayout
             }
         });
 
+        //check default mode and set this visible
+        switchVisibility();
+
     }
 
     //change the visibility of the controls depending wich mode is set
     private void switchVisibility()
     {
-        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
+        if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_VIDEO))
         {
             videoButton.setVisibility(VISIBLE);
             picButton.setVisibility(GONE);
             hdrButton.setVisibility(GONE);
         }
-        else if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC)
+        else if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_PIC))
         {
             videoButton.setVisibility(GONE);
             picButton.setVisibility(VISIBLE);
             hdrButton.setVisibility(GONE);
         }
-        else if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        else if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_HDR))
         {
             videoButton.setVisibility(GONE);
             picButton.setVisibility(GONE);

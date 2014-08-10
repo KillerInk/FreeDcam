@@ -8,7 +8,7 @@ import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.menu.popupmenu.PreviewFormatMenu;
 import com.troop.freecam.menu.popupmenu.PreviewFpsMenu;
 import com.troop.freecam.menu.popupmenu.PreviewSizeMenu;

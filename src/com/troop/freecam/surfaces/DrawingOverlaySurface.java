@@ -13,7 +13,7 @@ import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.SizeAbleRectangle;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 25.09.13.
@@ -79,7 +79,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
 
         if (hasReal3d)
         {
-            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
+            if (preferences.getString(AppSettingsManager.Preferences.SwitchCamera, AppSettingsManager.Preferences.MODE_Front).equals(AppSettingsManager.Preferences.MODE_3D))
             {
                 //mReal3D.setViewMode(1);
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
@@ -93,7 +93,7 @@ public class DrawingOverlaySurface extends BasePreview implements SurfaceHolder.
         }
         /*if (hasOpenSense)
         {
-            if (preferences.getString(SettingsManager.Preferences.SwitchCamera, SettingsManager.Preferences.MODE_Front).equals(SettingsManager.Preferences.MODE_3D))
+            if (preferences.getString(AppSettingsManager.Preferences.SwitchCamera, AppSettingsManager.Preferences.MODE_Front).equals(AppSettingsManager.Preferences.MODE_3D))
             {
                 enableS3D(true, mHolder.getSurface());
             }

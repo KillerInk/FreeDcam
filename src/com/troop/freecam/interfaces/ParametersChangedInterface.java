@@ -1,6 +1,6 @@
 package com.troop.freecam.interfaces;
 
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 
 /**
  * Created by troop on 01.12.13.

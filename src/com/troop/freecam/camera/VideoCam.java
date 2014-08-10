@@ -5,9 +5,8 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
-import com.troop.freecam.manager.SettingsManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.SavePictureTask;
 
@@ -27,7 +26,7 @@ public class VideoCam extends PictureCam
     final String TAG = "freecam.VideoCam";
 
 
-    public VideoCam(CamPreview context, SettingsManager preferences)
+    public VideoCam(CamPreview context, AppSettingsManager preferences)
     {
         super(context, preferences);
 
@@ -153,7 +152,7 @@ public class VideoCam extends PictureCam
     {
         String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
+        if(!tmp.equals(AppSettingsManager.Preferences.MODE_3D) && !tmp.equals(AppSettingsManager.Preferences.MODE_2D))
         {
             // mCamera.setDisplayOrientation(0);
             parametersManager.getParameters().setRotation(0);

@@ -24,10 +24,10 @@ import android.widget.TextView;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.CheckEvo3DSwitchModeManager;
 import com.troop.freecam.manager.MyTimer;
-import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.menu.AutoMenuControl;
 import com.troop.freecam.menu.ManualMenuControl;
 import com.troop.freecam.menu.ModeMenuControl;
@@ -87,7 +87,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         mPreview = (CamPreview) findViewById(R.id.camPreview1);
         mPreview.setKeepScreenOn(true);
         holder = mPreview.getHolder();
-        camMan = new CameraManager(mPreview, this, settingsManager);
+        camMan = new CameraManager(mPreview, this, appSettingsManager);
         camMan.parametersManager.setParametersChanged(this);
         if (DeviceUtils.isEvo3d())
         {
@@ -200,7 +200,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         thumbButton.setImageBitmap(null);
         //Picture Mode
-        if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC && !camMan.IsWorking)
+        if(camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_PIC && !camMan.IsWorking)
         {
             if(!camMan.autoFocusManager.focusing)
             {
@@ -216,12 +216,12 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
             }
         }
         //HDR Mode
-        else if(camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        else if(camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR)
         {
             camMan.HdrRender.TakeHDRPictures(true);
         }
         //VideoMode
-        else if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
+        else if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_VIDEO)
         {
             if (camMan.IsRecording == false)
             {
@@ -239,7 +239,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
                 recordingTimerTextView.setVisibility(View.GONE);
             }
         }
-        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR || camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC)
+        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR || camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_PIC)
         {
             if (recordingTimerTextView.getVisibility() == View.VISIBLE)
                 recordingTimerTextView.setVisibility(View.GONE);
@@ -355,7 +355,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
     public void SwitchCropButton()
     {
-        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_3D))
         {
             settingsFragment.crop_box.setVisibility(View.GONE);
         }
@@ -400,7 +400,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     }
 
     //TODO throw event with a value wich parameter has changed
-    ///this updates the complete ui. its called everytime the camera parameters has changed
+    ///this updates the complete ui. its called everytime the camera camera_parameters has changed
     @Override
     public void parametersHasChanged(boolean restarted, ParametersManager.enumParameters paras)
     {

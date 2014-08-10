@@ -1,16 +1,16 @@
-package com.troop.freecam.manager.parameters;
+package com.troop.freecam.manager.camera_parameters;
 
 import android.util.Log;
 
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 09.08.2014.
  */
 public class PictureParameters extends LensShadeManager
 {
-    public PictureParameters(CameraManager cameraManager, SettingsManager preferences) {
+    public PictureParameters(CameraManager cameraManager, AppSettingsManager preferences) {
         super(cameraManager, preferences);
     }
 

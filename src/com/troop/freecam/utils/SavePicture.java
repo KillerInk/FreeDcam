@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -13,13 +12,11 @@ import com.jni.bitmap_operations.JniBitmapHolder;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
-import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.SettingsManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.AppSettingsManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 /**
  * Created by troop on 18.10.13.
@@ -36,11 +33,11 @@ public class SavePicture
     
     public SavePictureCallback onSavePicture;
     public boolean IsWorking = false;
-    SettingsManager preferences;
+    AppSettingsManager preferences;
     CameraManager cameraManager;
     ParametersManager parametersManager;
 
-    public SavePicture(Context context, SettingsManager preferences)
+    public SavePicture(Context context, AppSettingsManager preferences)
     {
         //this.mediaScannerManager = mediaScannerManager;
         this.context = context;

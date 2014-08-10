@@ -1,10 +1,8 @@
-package com.troop.freecam.manager.parameters;
-
-import android.hardware.Camera;
+package com.troop.freecam.manager.camera_parameters;
 
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 26.01.14.
@@ -47,13 +45,13 @@ public class BaseParametersManager implements IParametersManager
 
     protected CameraManager cameraManager;
     protected android.hardware.Camera.Parameters parameters;
-    protected SettingsManager preferences;
+    protected AppSettingsManager preferences;
     private ParametersChangedInterface parametersChanged;
     protected boolean loadingParametersFinish = false;
 
     final static String TAG = "freecam.ParametersManager";
 
-    public BaseParametersManager(CameraManager cameraManager, SettingsManager preferences) {
+    public BaseParametersManager(CameraManager cameraManager, AppSettingsManager preferences) {
         this.cameraManager = cameraManager;
         this.preferences = preferences;
     }

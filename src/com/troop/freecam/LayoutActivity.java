@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 01.01.14.
@@ -31,7 +31,7 @@ public class LayoutActivity extends Activity
     public boolean hideSettingsMenu = true;
     public boolean hideAutoMenu = true;
     public  ViewGroup appViewGroup;
-    protected SettingsManager settingsManager;
+    protected AppSettingsManager appSettingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class LayoutActivity extends Activity
         getWindow().getDecorView()
                 .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         //setContentView(R.layout.activity_main);
-        settingsManager = new SettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main, null);

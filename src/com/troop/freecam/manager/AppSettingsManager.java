@@ -2,14 +2,12 @@ package com.troop.freecam.manager;
 
 import android.content.SharedPreferences;
 
-import com.troop.freecam.manager.parameters.LensShadeManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
-import com.troop.freecam.manager.parameters.PictureParameters;
+import com.troop.freecam.manager.camera_parameters.PictureParameters;
 
 /**
  * Created by troop on 04.01.14.
  */
-public class SettingsManager
+public class AppSettingsManager
 {
     public class Preferences
     {
@@ -135,7 +133,7 @@ public class SettingsManager
     public PictureFormatClass pictureFormat;
 
 
-    public SettingsManager(SharedPreferences preferences) {
+    public AppSettingsManager(SharedPreferences preferences) {
         this.preferences = preferences;
         Cameras = new CamerasClass();
         ImagePostProcessing = new ImagePostProcessingClass();
@@ -201,7 +199,7 @@ public class SettingsManager
 
         public boolean is3DMode()
         {
-            if (GetCamera().equals(SettingsManager.Preferences.MODE_3D))
+            if (GetCamera().equals(AppSettingsManager.Preferences.MODE_3D))
             {
                 return true;
             }
@@ -211,7 +209,7 @@ public class SettingsManager
 
         public boolean is2DMode()
         {
-            if (GetCamera().equals(SettingsManager.Preferences.MODE_2D))
+            if (GetCamera().equals(AppSettingsManager.Preferences.MODE_2D))
             {
                 return true;
             }
@@ -221,7 +219,7 @@ public class SettingsManager
 
         public boolean isFrontMode()
         {
-            if (GetCamera().equals(SettingsManager.Preferences.MODE_Front))
+            if (GetCamera().equals(AppSettingsManager.Preferences.MODE_Front))
             {
                 return true;
             }
@@ -381,7 +379,7 @@ public class SettingsManager
     {
         public ImagePostProcessingClass()
         {
-            super(SettingsManager.Preferences.IPP3D, SettingsManager.Preferences.IPP2D, SettingsManager.Preferences.IPPFront, "");
+            super(AppSettingsManager.Preferences.IPP3D, AppSettingsManager.Preferences.IPP2D, AppSettingsManager.Preferences.IPPFront, "");
         }
     }
 
@@ -389,7 +387,7 @@ public class SettingsManager
     {
         public ZeroShutterLagClass()
         {
-            super(SettingsManager.Preferences.ZSL3D, SettingsManager.Preferences.ZSL2D, SettingsManager.Preferences.ZSLFront, "");
+            super(AppSettingsManager.Preferences.ZSL3D, AppSettingsManager.Preferences.ZSL2D, AppSettingsManager.Preferences.ZSLFront, "");
         }
     }
 

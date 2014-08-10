@@ -1,4 +1,4 @@
-package com.troop.freecam.manager.parameters;
+package com.troop.freecam.manager.camera_parameters;
 
 /**
  * Created by troop on 26.01.14.

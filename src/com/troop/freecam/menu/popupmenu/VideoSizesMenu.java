@@ -7,7 +7,7 @@ import android.widget.PopupMenu;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.parameters.BaseParametersManager;
+import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 
 /**
  * Created by troop on 26.12.13.

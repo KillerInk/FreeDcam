@@ -2,18 +2,17 @@ package com.troop.freecam.camera;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.StatFs;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.troop.freecam.MainActivity;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
@@ -26,8 +25,7 @@ import com.troop.freecam.manager.ManualFocusManager;
 import com.troop.freecam.manager.ManualSharpnessManager;
 import com.troop.freecam.manager.ManualShutterManager;
 import com.troop.freecam.manager.MediaScannerManager;
-import com.troop.freecam.manager.parameters.ParametersManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.manager.ZoomManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
@@ -63,9 +61,9 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
 
 
-    public CameraManager(CamPreview context, MainActivity activity, SettingsManager settingsManager)
+    public CameraManager(CamPreview context, MainActivity activity, AppSettingsManager appSettingsManager)
     {
-        super(context, settingsManager);
+        super(context, appSettingsManager);
         this.activity = activity;
         Log.d(TAG, "Loading CameraManager");
         //scanManager = new MediaScannerManager(context.getContext());
@@ -83,7 +81,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
-        parametersManager = new ParametersManager(this, settingsManager);
+        parametersManager = new ParametersManager(this, appSettingsManager);
         manualConvergenceManager = new ManualConvergenceManager(cameraManager);
         Log.d(TAG, "Loading CameraManager done");
 
@@ -219,7 +217,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     {
         String tmp = Settings.Cameras.GetCamera();
 
-        if(!tmp.equals(SettingsManager.Preferences.MODE_3D) && !tmp.equals(SettingsManager.Preferences.MODE_2D))
+        if(!tmp.equals(AppSettingsManager.Preferences.MODE_3D) && !tmp.equals(AppSettingsManager.Preferences.MODE_2D))
         {
             mCamera.setDisplayOrientation(0);
             //mParameters.setRotation(0);
@@ -253,7 +251,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
             parametersManager.SetJpegQuality(100);
             mCamera.startPreview();
-            //set parameters again for the evo because the preview can be laggy if its not done...
+            //set camera_parameters again for the evo because the preview can be laggy if its not done...
             if (DeviceUtils.isEvo3d())
                 mCamera.setParameters(parametersManager.getParameters());
         }
@@ -353,7 +351,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        /*if (parameters != null && parameters.getFocusMode().equals("auto"))
+        /*if (camera_parameters != null && camera_parameters.getFocusMode().equals("auto"))
         {
             if (takePicture == false)
             {

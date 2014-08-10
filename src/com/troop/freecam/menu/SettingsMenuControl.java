@@ -18,8 +18,8 @@ import com.troop.freecam.menu.submenu.HdrSubMenuControl;
 import com.troop.freecam.menu.submenu.PreviewSubMenuControl;
 import com.troop.freecam.menu.submenu.QualitySubMenuControl;
 import com.troop.freecam.interfaces.INumericUpDownValueCHanged;
-import com.troop.freecam.manager.parameters.ParametersManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.menu.popupmenu.FlashMenu;
 import com.troop.freecam.menu.popupmenu.FocusMenu;
 import com.troop.freecam.menu.popupmenu.PictureSizeMenu;
@@ -168,7 +168,7 @@ public class SettingsMenuControl extends LinearLayout
                 }
             }
         });
-        if(!camMan.Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
+        if(!camMan.Settings.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_3D))
         {
             crop_box.setVisibility(View.GONE);
         }
@@ -262,7 +262,7 @@ public class SettingsMenuControl extends LinearLayout
         if (camMan.parametersManager.getSupportFlash() && (paras == ParametersManager.enumParameters.FlashMode || paras == ParametersManager.enumParameters.All))
             switchFlash.SetButtonText(camMan.parametersManager.getParameters().getFlashMode());
 
-        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_VIDEO)
+        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_VIDEO)
         {
             switchVideoSize.setVisibility(VISIBLE);
             if (camMan.Settings.VideoProfileSETTINGS.get().contains("Timelapse"))
@@ -277,14 +277,14 @@ public class SettingsMenuControl extends LinearLayout
             captureFrames.setVisibility(GONE);
         }
 
-        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR)
         {
             hdrSubMenu.setVisibility(VISIBLE);
         }
         else
             hdrSubMenu.setVisibility(GONE);
 
-        if (camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_PIC || camMan.Settings.CameraMode.get() == SettingsManager.Preferences.MODE_HDR)
+        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_PIC || camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR)
         {
             switchPictureSize.setVisibility(VISIBLE);
         }

@@ -34,11 +34,11 @@ public class CheckEvo3DSwitchModeManager
                 {
                     if (is3d)
                     {
-                        cameraManager.Settings.Cameras.SetCameraEnum(SettingsManager.CameraValues.Back3D);
+                        cameraManager.Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back3D);
                     }
                     else
                     {
-                        cameraManager.Settings.Cameras.SetCameraEnum(SettingsManager.CameraValues.Back2D);
+                        cameraManager.Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back2D);
                     }
                     cameraManager.Stop();
                     cameraManager.activity.mPreview.SwitchViewMode();

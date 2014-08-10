@@ -4,7 +4,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
@@ -13,11 +13,11 @@ import com.troop.freecam.utils.DeviceUtils;
 public class BaseCamera
 {
     public Camera mCamera;
-    public SettingsManager Settings;
+    public AppSettingsManager Settings;
     final  String TAG = "freecam.BaseCamera";
     //protected byte[] rawbuffer = new byte[52428800];
 
-    public BaseCamera(SettingsManager Settings)
+    public BaseCamera(AppSettingsManager Settings)
     {
         this.Settings = Settings;
     }
@@ -29,7 +29,7 @@ public class BaseCamera
         if (Camera.getNumberOfCameras() == 3 || DeviceUtils.isEvo3d())
         {
             Log.d(TAG, "Device Model: " + Build.MODEL);
-            if (tmp.equals(SettingsManager.Preferences.MODE_3D))
+            if (tmp.equals(AppSettingsManager.Preferences.MODE_3D))
             {
                 if (DeviceUtils.isEvo3d())
                 {
@@ -55,7 +55,7 @@ public class BaseCamera
                     Settings.CurrentCamera = 2;
                 }
             }
-            else if(tmp.equals(SettingsManager.Preferences.MODE_2D))
+            else if(tmp.equals(AppSettingsManager.Preferences.MODE_2D))
             {
                 Log.d(TAG, "try open 2D camera");
                 try
@@ -71,7 +71,7 @@ public class BaseCamera
                     CloseCamera();
                 }
             }
-            else if (tmp.equals(SettingsManager.Preferences.MODE_Front))
+            else if (tmp.equals(AppSettingsManager.Preferences.MODE_Front))
             {
                 try
                 {
@@ -90,12 +90,12 @@ public class BaseCamera
         }
         else if (Camera.getNumberOfCameras() == 2)
         {
-            if(tmp.equals(SettingsManager.Preferences.MODE_2D))
+            if(tmp.equals(AppSettingsManager.Preferences.MODE_2D))
             {
                 mCamera = Camera.open(0);
                 Settings.CurrentCamera = 0;
             }
-            if (tmp.equals(SettingsManager.Preferences.MODE_Front))
+            if (tmp.equals(AppSettingsManager.Preferences.MODE_Front))
             {
                 mCamera = Camera.open(1);
                 Settings.CurrentCamera = 1;

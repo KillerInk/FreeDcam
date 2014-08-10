@@ -88,10 +88,10 @@ public class HdrManager implements PictureTakeFinish
             ar[2] = uris[2].getPath();
             hdractiv.putExtra("uris", ar);
             cameraManager.activity.startActivityForResult(hdractiv, 1);
-            //cameraManager.parameters.set("video-stabilization", "false");
+            //cameraManager.camera_parameters.set("video-stabilization", "false");
             //cameraManager.parametersManager.SetExposureCompensation(0);
-            //cameraManager.parameters.setAutoExposureLock(false);
-            //cameraManager.parameters.setAutoWhiteBalanceLock(false);
+            //cameraManager.camera_parameters.setAutoExposureLock(false);
+            //cameraManager.camera_parameters.setAutoWhiteBalanceLock(false);
 
             //cameraManager.parametersManager.SetBrightness(100);
             //cameraManager.parametersManager.SetContrast(50);

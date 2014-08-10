@@ -9,9 +9,9 @@ import android.util.Log;
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.interfaces.SavePictureCallback;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
-import com.troop.freecam.manager.parameters.ParametersManager;
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecam.utils.SavePicture;
@@ -61,7 +61,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
 
 
 
-    public PictureCam(CamPreview context,SettingsManager preferences)
+    public PictureCam(CamPreview context,AppSettingsManager preferences)
     {
         super(preferences);
         this.context = context;
@@ -175,7 +175,7 @@ public class PictureCam extends BaseCamera implements Camera.ShutterCallback, Ca
         writeDebug("OnPictureTaken callback recieved");
         boolean is3d = false;
         
-        if (Settings.Cameras.GetCamera().equals(SettingsManager.Preferences.MODE_3D))
+        if (Settings.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_3D))
         {
             is3d = true;
         }

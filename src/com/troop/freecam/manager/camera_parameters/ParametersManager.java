@@ -1,14 +1,13 @@
-package com.troop.freecam.manager.parameters;
+package com.troop.freecam.manager.camera_parameters;
 
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.util.Log;
 import android.view.Display;
 
-import com.troop.freecam.MainActivity;
 import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -86,7 +85,7 @@ public class ParametersManager extends PictureParameters
     public ManualFocusClass manualFocus;
     public ManualShutterClass manualShutter;
 
-    public ParametersManager(CameraManager cameraManager, SettingsManager preferences)
+    public ParametersManager(CameraManager cameraManager, AppSettingsManager preferences)
     {
         super(cameraManager, preferences);
     }
@@ -211,9 +210,9 @@ public class ParametersManager extends PictureParameters
     {
         /*if(DeviceUtils.isQualcomm())
         {
-            parameters.set("denoise","denoise-off");
-            parameters.set("power-mode","Normal_Power");
-            parameters.set("mce","disable");
+            camera_parameters.set("denoise","denoise-off");
+            camera_parameters.set("power-mode","Normal_Power");
+            camera_parameters.set("mce","disable");
         }*/
         try {
             super.loadDefaultOrLastSavedSettings();
@@ -231,7 +230,7 @@ public class ParametersManager extends PictureParameters
                 WhiteBalance.set(preferences.WhiteBalanceMode.Get(), false);
 
         /*if (getSupportAutoExposure() && !preferences.MeteringMode.Get().equals(""))
-            parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
+            camera_parameters.set("auto-exposure", preferences.MeteringMode.Get());*/
         if (DeviceUtils.isZTEADV())
         {
             parameters.set("ois_key","on");
@@ -258,8 +257,8 @@ public class ParametersManager extends PictureParameters
                 ImagePostProcessing.Set(cameraManager.Settings.ImagePostProcessing.Get(), false);
             if (!cameraManager.Settings.PreviewFps.Get().equals(""))
                 PreviewFps.Set(cameraManager.Settings.PreviewFps.Get(), false);
-            //parameters.set("rawsave-mode", "1");
-            //parameters.set("rawfname", "/mnt/sdcard/test.raw");
+            //camera_parameters.set("rawsave-mode", "1");
+            //camera_parameters.set("rawfname", "/mnt/sdcard/test.raw");
             cameraManager.ReloadCameraParameters(false);
             Log.d("freecam.ParametersManager", "Finished Loading Default Or Last Saved Settings");
         }
@@ -322,13 +321,13 @@ public class ParametersManager extends PictureParameters
 
     /*public void SetExposureCompensation(int exp)
     {
-        //cameraManager.parameters.setExposureCompensation(exp);
-        parameters.set("exposure-compensation", exp);
+        //cameraManager.camera_parameters.setExposureCompensation(exp);
+        camera_parameters.set("exposure-compensation", exp);
         onParametersCHanged();
         try
         {
             cameraManager.ReloadCameraParameters(false);
-            //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(parameters.getExposureCompensation()));
+            //cameraManager.activity.exposureTextView.setText("Exposure: " + String.valueOf(camera_parameters.getExposureCompensation()));
             Log.d(TAG, "Exposure:"+String.valueOf(cameraManager.mCamera.getParameters().getExposureCompensation()));
         }
         catch (Exception ex)
@@ -342,7 +341,7 @@ public class ParametersManager extends PictureParameters
     {
         parameters.set("night_key",val);
         super.SetCameraParameters(parameters);
-        //camera.setParameters(parameters);
+        //camera.setParameters(camera_parameters);
         onParametersCHanged(enumParameters.Tripod);
         cameraManager.ReloadCameraParameters(false);
     }
@@ -378,7 +377,7 @@ public class ParametersManager extends PictureParameters
     //preferences are set during CameraManager.Reset()
     /*private void setToPreferencesToCamera()
     {
-        cameraManager.mCamera.setParameters(parameters);
+        cameraManager.mCamera.setParameters(camera_parameters);
     }*/
 
     public boolean doCropping()
@@ -495,7 +494,7 @@ public class ParametersManager extends PictureParameters
                 Log.e("brightness Set Fail", ex.getMessage());
             }
             onParametersCHanged(enumParameters.ManualBrightness);
-            //cameraManager.activity.brightnessTextView.setText(String.valueOf(parameters.get(brightnessValue)));
+            //cameraManager.activity.brightnessTextView.setText(String.valueOf(camera_parameters.get(brightnessValue)));
 
         }
 
@@ -565,7 +564,7 @@ public class ParametersManager extends PictureParameters
                 catch (Exception ex)
                 {
                     Log.e(TAG, "Set afp failed back to def");
-                    //parameters.set(afpValue, def);
+                    //camera_parameters.set(afpValue, def);
                     //cameraManager.ReloadCameraParameters(false);
                 }
             }
@@ -835,7 +834,7 @@ public class ParametersManager extends PictureParameters
                 catch (Exception ex)
                 {
                     Log.e(TAG, "ZSL set failed set to " + toapplie);
-                    //parameters.set(def, toapplie);
+                    //camera_parameters.set(def, toapplie);
                     //cameraManager.ReloadCameraParameters(false);
                 }
                 onParametersCHanged(enumParameters.ZeroShutterLag);
@@ -1035,7 +1034,7 @@ public class ParametersManager extends PictureParameters
                 catch (Exception ex)
                 {
                     Log.e(TAG,"ipp set failed, set back to:" + dev);
-                    //parameters.set("ipp", dev);
+                    //camera_parameters.set("ipp", dev);
                     //cameraManager.ReloadCameraParameters(false);
                 }
             }

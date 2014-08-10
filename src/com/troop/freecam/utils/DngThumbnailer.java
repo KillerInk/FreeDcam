@@ -21,10 +21,10 @@ public class DngThumbnailer {
     /* @Override
     public void onPreviewFrame(byte[] data, Camera camera){
 
-        Camera.Parameters parameters = camera.getParameters();
-       final int width = parameters.getPreviewSize().width;
-       final int height = parameters.getPreviewSize().height;
-        YuvImage yuvImage = new YuvImage(data,parameters.getPreviewFormat(),width,height,null);
+        Camera.Parameters camera_parameters = camera.getParameters();
+       final int width = camera_parameters.getPreviewSize().width;
+       final int height = camera_parameters.getPreviewSize().height;
+        YuvImage yuvImage = new YuvImage(data,camera_parameters.getPreviewFormat(),width,height,null);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         yuvImage.compressToJpeg(new Rect(0,0,width,height),50,out);

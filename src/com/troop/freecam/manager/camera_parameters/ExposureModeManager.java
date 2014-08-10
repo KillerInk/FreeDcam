@@ -1,10 +1,10 @@
-package com.troop.freecam.manager.parameters;
+package com.troop.freecam.manager.camera_parameters;
 
 import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.SettingsManager;
+import com.troop.freecam.manager.AppSettingsManager;
 
 /**
  * Created by troop on 26.01.14.
@@ -15,7 +15,7 @@ public class ExposureModeManager extends BaseParametersManager
     boolean supportExposureMode = false;
     public boolean getSupportExposureMode() { return supportExposureMode; }
 
-    public ExposureModeManager(CameraManager cameraManager, SettingsManager preferences) {
+    public ExposureModeManager(CameraManager cameraManager, AppSettingsManager preferences) {
         super(cameraManager, preferences);
     }
 
