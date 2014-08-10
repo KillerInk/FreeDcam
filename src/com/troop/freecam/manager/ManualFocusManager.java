@@ -22,7 +22,8 @@ public class ManualFocusManager implements IStyleAbleSliderValueHasChanged
     {
         if (cameraManager.parametersManager.getSupportManualFocus())
         {
-            cameraManager.parametersManager.manualFocus.set(value);
+            if (value >= cameraManager.parametersManager.manualFocus.getMin() && value <= cameraManager.parametersManager.manualFocus.getMax())
+                cameraManager.parametersManager.manualFocus.set(value);
             //cameraManager.ReloadCameraParameters(false);
         }
     }

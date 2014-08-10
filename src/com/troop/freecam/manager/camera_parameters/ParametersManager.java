@@ -1534,7 +1534,7 @@ public class ParametersManager extends PictureParameters
                 }
                 if(DeviceUtils.isZTEADV())
                 {
-                    max = Integer.parseInt(parameters.get("shutter"));
+                    max = Integer.parseInt(parameters.get("max-focus-pos-index"));
                 }
             }
             catch (Exception ex)
@@ -1542,6 +1542,14 @@ public class ParametersManager extends PictureParameters
                 max = 100;
             }
             return max;
+        }
+
+        public int getMin()
+        {
+            int min = 0;
+            if (DeviceUtils.isZTEADV())
+                min = parameters.getInt("min-focus-pos-index");
+            return min;
         }
 
         public int getValue()
@@ -1556,6 +1564,9 @@ public class ParametersManager extends PictureParameters
                 val = Integer.parseInt(parameters.get("manualfocus_step"));
 
             }
+            if (DeviceUtils.isZTEADV())
+                val = parameters.getInt("focus-pos-index");
+
             return val;
         }
 
@@ -1576,7 +1587,7 @@ public class ParametersManager extends PictureParameters
                 }
                 if(DeviceUtils.isZTEADV())
                 {
-                    parameters.set("maf_key", toset);
+                    parameters.set("focus-pos-index", toset);
                     cameraManager.ReloadCameraParameters(false);
                 }
 
