@@ -16,6 +16,7 @@ import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.controls.NumericUpDownControl;
 import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 import com.troop.freecam.menu.submenu.HdrSubMenuControl;
+import com.troop.freecam.menu.submenu.PictureSettingsSubMenuControl;
 import com.troop.freecam.menu.submenu.PreviewSubMenuControl;
 import com.troop.freecam.menu.submenu.QualitySubMenuControl;
 import com.troop.freecam.interfaces.INumericUpDownValueCHanged;
@@ -33,8 +34,8 @@ import com.troop.freecam.menu.popupmenu.switchcameramenu;
 public class SettingsMenuControl extends LinearLayout
 {
     public Switch upsidedown;
-    public Switch tripod;
-    public Switch ExynosRaw;
+
+
     public Switch crop_box;
     InfoScreenControl infoScreenFragment;
     public Switch checkBoxOnScreen;
@@ -42,7 +43,7 @@ public class SettingsMenuControl extends LinearLayout
     MenuItemControl switchFlash;
     MenuItemControl switchFocus;
     //MenuItemFragment switchPictureFormat;
-    MenuItemControl switchPictureSize;
+
 
     MenuItemControl switchVideoSize;
     NumericUpDownControl captureFrames;
@@ -52,6 +53,7 @@ public class SettingsMenuControl extends LinearLayout
     PreviewSubMenuControl previewSubMenu;
     QualitySubMenuControl qualitySubMenu;
     HdrSubMenuControl hdrSubMenu;
+    PictureSettingsSubMenuControl pictureSettingsSubMenuControl;
 
     public SettingsMenuControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -85,6 +87,8 @@ public class SettingsMenuControl extends LinearLayout
         qualitySubMenu.Init(activity,camMan);
         hdrSubMenu = (HdrSubMenuControl)activity.findViewById(R.id.hdr_submenu_control);
         hdrSubMenu.Init(activity, camMan);
+        pictureSettingsSubMenuControl = (PictureSettingsSubMenuControl)activity.findViewById(R.id.picturesettings_submenu_control);
+        pictureSettingsSubMenuControl.Init(activity, camMan);
 
 
         upsidedown = (Switch)findViewById(R.id.button_fixupsidedown);
@@ -116,41 +120,9 @@ public class SettingsMenuControl extends LinearLayout
 
         //tripod = (Switch)findViewById(R.id.button_tripod);
 
-        tripod = (Switch)findViewById(R.id.button_tripod);
-        tripod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (tripod.isChecked())
-                {
-                    camMan.parametersManager.setNightEnable("tripod");
 
-                }
-                else
-                {
-                    camMan.parametersManager.setNightEnable("off");
 
-                }
-            }
-        });
 
-        ExynosRaw = (Switch)findViewById(R.id.button_rawsave);
-        ExynosRaw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (ExynosRaw.isChecked())
-                {
-                    camMan.parametersManager.setExynosRaw("raw-save");
-
-                }
-                else
-                {
-                    camMan.parametersManager.setExynosRaw("single");
-
-                }
-            }
-        });
 
         crop_box = (Switch)findViewById(R.id.checkBox_crop);
         crop_box.setOnClickListener(new View.OnClickListener() {
@@ -202,8 +174,7 @@ public class SettingsMenuControl extends LinearLayout
         switchFocus = (MenuItemControl)findViewById(R.id.switch_focus_control);
         switchFocus.SetOnClickListner(new FocusMenu(camMan, activity));
 
-        switchPictureSize = (MenuItemControl)findViewById(R.id.switch_picturesize_control);
-        switchPictureSize.SetOnClickListner(new PictureSizeMenu(camMan, activity));
+
 
         switchVideoSize = (MenuItemControl)findViewById(R.id.switch_videosize_control);
         switchVideoSize.SetOnClickListner(new VideoSizesMenu(camMan, activity));
@@ -241,11 +212,7 @@ public class SettingsMenuControl extends LinearLayout
             String tmp = camMan.Settings.Cameras.GetCamera();
             switchCamera.SetButtonText(tmp);
         }
-        if (paras == ParametersManager.enumParameters.PictureSize || paras == ParametersManager.enumParameters.All)
-        {
-            String size1 = String.valueOf(camMan.parametersManager.getParameters().getPictureSize().width) + "x" + String.valueOf(camMan.parametersManager.getParameters().getPictureSize().height);
-            switchPictureSize.SetButtonText(size1);
-        }
+
         if (paras == ParametersManager.enumParameters.VideoModes || paras == ParametersManager.enumParameters.All)
             switchVideoSize.SetButtonText(camMan.parametersManager.VideoProfileClass.getProfileString());
 
@@ -253,6 +220,7 @@ public class SettingsMenuControl extends LinearLayout
 
         previewSubMenu.UpdateUI(paras);
         qualitySubMenu.UpdateUI();
+        pictureSettingsSubMenuControl.UpdateUI(paras);
 
 
         //ZeroShutterLag
@@ -287,10 +255,12 @@ public class SettingsMenuControl extends LinearLayout
 
         if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_PIC) || camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_HDR))
         {
-            switchPictureSize.setVisibility(VISIBLE);
+            pictureSettingsSubMenuControl.setVisibility(VISIBLE);
         }
         else
-            switchPictureSize.setVisibility(GONE);
+            pictureSettingsSubMenuControl.setVisibility(GONE);
+
+
     }
 
     private void checkVisibility()

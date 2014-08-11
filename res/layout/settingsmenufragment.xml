@@ -38,23 +38,9 @@
                 android:singleLine="true"
                 android:paddingLeft="4dp" />
 
-            <Switch
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/button_tripod"
-                android:textSize="@dimen/TextSizeSmallPlus"
-                android:text="Night Mode Tripod"
-                android:singleLine="true"
-                android:paddingLeft="4dp" />
 
-            <Switch
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/button_rawsave"
-                android:textSize="@dimen/TextSizeSmallPlus"
-                android:text="Exynos Raw Save"
-                android:singleLine="true"
-                android:paddingLeft="4dp" />
+
+
 
             <Switch
                 android:layout_width="fill_parent"
@@ -84,12 +70,7 @@
                 custom:ButtonText=""
                 custom:TextViewText="Focus Mode"
                 android:id="@+id/switch_focus_control" />
-            <com.troop.freecam.controls.MenuItemControl
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/app_icon_size"
-                custom:ButtonText=""
-                custom:TextViewText="Picture Size"
-                android:id="@+id/switch_picturesize_control" />
+
 
 
             <com.troop.freecam.controls.MenuItemControl
@@ -103,6 +84,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/numericUpDown_CaptureFrames" />
+
+            <com.troop.freecam.menu.submenu.PictureSettingsSubMenuControl
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/picturesettings_submenu_control"
+                android:focusableInTouchMode="false" />
 
             <com.troop.freecam.menu.submenu.PreviewSubMenuControl
                 android:layout_width="fill_parent"

@@ -82,7 +82,10 @@ public class PictureParameters extends LensShadeManager
 
     public String getPictureFormat()
     {
-        return parameters.get("picture-format");
+        if (parameters != null)
+            return parameters.get("picture-format");
+        else
+            return "";
     }
 
     public String[] getPictureFormatValues()

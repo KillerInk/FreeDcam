@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res/com.troop.freecam">
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="@dimen/app_icon_size"
-        android:text="Quality Settings"
+        android:text="Picture Settings"
         android:id="@+id/button_ShowHide" />
 
     <LinearLayout
@@ -22,39 +22,33 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
-            custom:TextViewText="Antibanding"
-            android:id="@+id/switch_antibanding" />
+            custom:TextViewText="Picture Size"
+            android:id="@+id/switch_picturesize_control" />
 
         <com.troop.freecam.controls.MenuItemControl
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
             custom:ButtonText=""
-            custom:TextViewText="Denoise"
-            android:id="@+id/switch_denoise_control" />
-
-        <com.troop.freecam.controls.MenuItemControl
+            custom:TextViewText="Picture Format"
+            android:id="@+id/switch_pictureFormat" />
+        <Switch
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
-            custom:ButtonText=""
-            custom:TextViewText="ImagePostProcessing"
-            android:id="@+id/switch_ipp_control" />
+            android:id="@+id/button_rawsave"
+            android:textSize="@dimen/TextSizeSmallPlus"
+            android:text="Exynos Raw Save"
+            android:singleLine="true"
+            android:paddingLeft="4dp" />
 
         <Switch
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"
-            android:text="Lens Shade"
-            android:id="@+id/switch_lensShade"
+            android:id="@+id/button_tripod"
             android:textSize="@dimen/TextSizeSmallPlus"
-            android:layout_marginLeft="4dp" />
-
-
-
-        <com.troop.freecam.controls.MenuItemControl
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/app_icon_size"
-            custom:ButtonText=""
-            custom:TextViewText="ZeroShutterLag"
-            android:id="@+id/switch_zsl_control" />
+            android:text="Night Mode Tripod"
+            android:singleLine="true"
+            android:paddingLeft="4dp" />
 
     </LinearLayout>
+
 </LinearLayout>
