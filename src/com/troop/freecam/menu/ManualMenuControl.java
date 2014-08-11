@@ -35,7 +35,7 @@ public class ManualMenuControl extends LinearLayout
     StyleAbelSlider manualFocusSlider;
     StyleAbelSlider manualShutterSlider;
     StyleAbelSlider manualContrastSlider;
-    StyleAbelSlider manaualConvergenceSlider;
+    StyleAbelSlider manualConvergenceSlider;
     CheckBox checkbox_convergence;
 
     public ManualMenuControl(Context context) {
@@ -203,24 +203,20 @@ public class ManualMenuControl extends LinearLayout
         manualContrastSlider.OnValueCHanged(camMan.manualContrastManager);
         manualContrastSlider.setVisibility(GONE);
 
-        manaualConvergenceSlider = (StyleAbelSlider)findViewById(R.id.slider_Convergence);
-        manaualConvergenceSlider.setVisibility(GONE);
-        manaualConvergenceSlider.OnValueCHanged(camMan.manualConvergenceManager);
+        manualConvergenceSlider = (StyleAbelSlider)findViewById(R.id.slider_Convergence);
+        manualConvergenceSlider.setVisibility(GONE);
+        manualConvergenceSlider.OnValueCHanged(camMan.manualConvergenceManager);
 
         checkbox_convergence = (CheckBox)findViewById(R.id.checkBox_manualConvergence);
         checkbox_convergence.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkbox_convergence.isChecked())
-                    manaualConvergenceSlider.setVisibility(VISIBLE);
+                    manualConvergenceSlider.setVisibility(VISIBLE);
                 else
-                    manaualConvergenceSlider.setVisibility(GONE);
+                    manualConvergenceSlider.setVisibility(GONE);
             }
         });
-
-
-
-
     }
 
     public void UpdateUI(boolean restarted)
@@ -273,9 +269,9 @@ public class ManualMenuControl extends LinearLayout
                 min = camMan.parametersManager.manualConvergence.getMin();
                 if (min < 0)
                     min *= -1;
-                manaualConvergenceSlider.SetMaxValue(camMan.parametersManager.manualConvergence.getMax() + min);
+                manualConvergenceSlider.SetMaxValue(camMan.parametersManager.manualConvergence.getMax() + min);
                 camMan.manualConvergenceManager.SetMinMax(camMan.parametersManager.manualConvergence.getMin(), camMan.parametersManager.manualConvergence.getMax());
-                manaualConvergenceSlider.SetCurrentValue(camMan.parametersManager.manualConvergence.get());
+                manualConvergenceSlider.SetCurrentValue(camMan.parametersManager.manualConvergence.get());
             }
             else
             {
