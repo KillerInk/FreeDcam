@@ -28,14 +28,14 @@ public class ManualMenuControl extends LinearLayout
     public CheckBox contrastcheckBox;
     CheckBox brightnessCheckBox;
     public CheckBox saturationCheckBox;
-    StyleAbelSlider manualExposureSlider;
+    /*StyleAbelSlider manualExposureSlider;
     StyleAbelSlider manualShaprnessSlider;
     StyleAbelSlider manualSaturationSlider;
     StyleAbelSlider manualBrightnesSlider;
     StyleAbelSlider manualFocusSlider;
     StyleAbelSlider manualShutterSlider;
     StyleAbelSlider manualContrastSlider;
-    StyleAbelSlider manualConvergenceSlider;
+    StyleAbelSlider manualConvergenceSlider;*/
     CheckBox checkbox_convergence;
 
     public ManualMenuControl(Context context) {
@@ -69,11 +69,11 @@ public class ManualMenuControl extends LinearLayout
             {
                 if (manualExposure.isChecked())
                 {
-                    manualExposureSlider.setVisibility(View.VISIBLE);
+                    //manualExposureSlider.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    manualExposureSlider.setVisibility(View.GONE);
+                    //manualExposureSlider.setVisibility(View.GONE);
                 }
             }
         });
@@ -84,11 +84,11 @@ public class ManualMenuControl extends LinearLayout
             public void onClick(View v) {
                 if (manualShaprness.isChecked())
                 {
-                    manualShaprnessSlider.setVisibility(View.VISIBLE);
+                    //manualShaprnessSlider.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    manualShaprnessSlider.setVisibility(View.GONE);
+                    //manualShaprnessSlider.setVisibility(View.GONE);
                 }
                 //sharpnessRow.invalidate();
             }
@@ -101,18 +101,20 @@ public class ManualMenuControl extends LinearLayout
         manualFocus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (manualFocus.isChecked())
+                if (manualFocus.isChecked()) {
 
-                    manualFocusSlider.setVisibility(View.VISIBLE);
-
+                    //manualFocusSlider.setVisibility(View.VISIBLE);
+                }
                 else
-                    manualFocusSlider.setVisibility(View.GONE);
-                //focusButton.setEnabled(true);
+                {
+                    //manualFocusSlider.setVisibility(View.GONE);
+                    //focusButton.setEnabled(true);
+                }
             }
         });
-        manualFocusSlider = (StyleAbelSlider)findViewById(R.id.slider_Focus);
-        manualFocusSlider.OnValueCHanged(camMan.manualFocusManager);
-        manualFocusSlider.setVisibility(GONE);
+        //manualFocusSlider = (StyleAbelSlider)findViewById(R.id.slider_Focus);
+        //manualFocusSlider.OnValueCHanged(camMan.manualFocusManager);
+        //manualFocusSlider.setVisibility(GONE);
 
 
         //*****************************************End********************************************
@@ -123,19 +125,20 @@ public class ManualMenuControl extends LinearLayout
         manualShutter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (manualShutter.isChecked())
-
-                    manualShutterSlider.setVisibility(View.VISIBLE);
-
+                if (manualShutter.isChecked()) {
+                    //manualShutterSlider.setVisibility(View.VISIBLE);
+                }
                 else
-                    manualShutterSlider.setVisibility(View.GONE);
-                //focusButton.setEnabled(true);
+                {
+                    //manualShutterSlider.setVisibility(View.GONE);
+                    //focusButton.setEnabled(true);
+                }
             }
         });
 
-        manualShutterSlider = (StyleAbelSlider)findViewById(R.id.slider_Shutter);
+        /*manualShutterSlider = (StyleAbelSlider)findViewById(R.id.slider_Shutter);
         manualShutterSlider.OnValueCHanged(camMan.manualShutterManager);
-        manualShutterSlider.setVisibility(GONE);
+        manualShutterSlider.setVisibility(GONE);*/
 
         //*************************************************************************************
 
@@ -144,10 +147,12 @@ public class ManualMenuControl extends LinearLayout
         contrastcheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contrastcheckBox.isChecked())
-                    manualContrastSlider.setVisibility(View.VISIBLE);
-                else
-                    manualContrastSlider.setVisibility(View.GONE);
+                if (contrastcheckBox.isChecked()) {
+                        //manualContrastSlider.setVisibility(View.VISIBLE);
+                }
+                else {
+                    //manualContrastSlider.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -159,10 +164,12 @@ public class ManualMenuControl extends LinearLayout
         brightnessCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (brightnessCheckBox.isChecked())
-                    manualBrightnesSlider.setVisibility(View.VISIBLE);
-                else
-                    manualBrightnesSlider.setVisibility(View.GONE);
+                if (brightnessCheckBox.isChecked()) {
+                    //manualBrightnesSlider.setVisibility(View.VISIBLE);
+                }
+                else {
+                    //manualBrightnesSlider.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -171,14 +178,16 @@ public class ManualMenuControl extends LinearLayout
         saturationCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (saturationCheckBox.isChecked())
-                    manualSaturationSlider.setVisibility(View.VISIBLE);
-                else
-                    manualSaturationSlider.setVisibility(View.GONE);
+                if (saturationCheckBox.isChecked()) {
+                    //manualSaturationSlider.setVisibility(View.VISIBLE);
+                }
+                else {
+                    //manualSaturationSlider.setVisibility(View.GONE);
+                }
             }
         });
 
-        manualExposureSlider = (StyleAbelSlider)findViewById(R.id.slider_Exposure);
+        /*manualExposureSlider = (StyleAbelSlider)findViewById(R.id.slider_Exposure);
         manualExposureSlider.OnValueCHanged(camMan.manualExposureManager);
         manualExposureSlider.setVisibility(GONE);
 
@@ -205,16 +214,18 @@ public class ManualMenuControl extends LinearLayout
 
         manualConvergenceSlider = (StyleAbelSlider)findViewById(R.id.slider_Convergence);
         manualConvergenceSlider.setVisibility(GONE);
-        manualConvergenceSlider.OnValueCHanged(camMan.manualConvergenceManager);
+        manualConvergenceSlider.OnValueCHanged(camMan.manualConvergenceManager);*/
 
         checkbox_convergence = (CheckBox)findViewById(R.id.checkBox_manualConvergence);
         checkbox_convergence.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkbox_convergence.isChecked())
-                    manualConvergenceSlider.setVisibility(VISIBLE);
-                else
-                    manualConvergenceSlider.setVisibility(GONE);
+                if (checkbox_convergence.isChecked()) {
+                    //manualConvergenceSlider.setVisibility(VISIBLE);
+                }
+                else {
+                    //manualConvergenceSlider.setVisibility(GONE);
+                }
             }
         });
     }
@@ -228,40 +239,40 @@ public class ManualMenuControl extends LinearLayout
                 min *= -1;
             int max = camMan.parametersManager.manualExposure.getMax() + min;
             camMan.manualExposureManager.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
-            manualExposureSlider.SetCurrentValue(camMan.parametersManager.manualExposure.getMax());
-            manualExposureSlider.SetMaxValue(max);
+            /*manualExposureSlider.SetCurrentValue(camMan.parametersManager.manualExposure.getMax());
+            manualExposureSlider.SetMaxValue(max);*/
 
             if (!camMan.parametersManager.getSupportBrightness())
                 brightnessCheckBox.setVisibility(View.GONE);
             else
             {
                 brightnessCheckBox.setVisibility(View.VISIBLE);
-                manualBrightnesSlider.SetMaxValue(100);
-                manualBrightnesSlider.SetCurrentValue(camMan.parametersManager.Brightness.Get());
+                /*manualBrightnesSlider.SetMaxValue(100);
+                manualBrightnesSlider.SetCurrentValue(camMan.parametersManager.Brightness.Get());*/
             }
             if (!camMan.parametersManager.getSupportSharpness())
                 manualShaprness.setVisibility(View.GONE);
             else
             {
                 manualShaprness.setVisibility(View.VISIBLE);
-                manualShaprnessSlider.SetMaxValue(camMan.parametersManager.manualSharpness.getMax());
-                manualShaprnessSlider.SetCurrentValue(camMan.parametersManager.manualSharpness.getValue());
+                /*manualShaprnessSlider.SetMaxValue(camMan.parametersManager.manualSharpness.getMax());
+                manualShaprnessSlider.SetCurrentValue(camMan.parametersManager.manualSharpness.getValue());*/
             }
             if (!camMan.parametersManager.getSupportSaturation())
                 saturationCheckBox.setVisibility(View.GONE);
             else
             {
                 saturationCheckBox.setVisibility(View.VISIBLE);
-                manualSaturationSlider.SetMaxValue(100);
-                manualSaturationSlider.SetCurrentValue(camMan.parametersManager.getParameters().getInt("saturation"));
+                /*manualSaturationSlider.SetMaxValue(100);
+                manualSaturationSlider.SetCurrentValue(camMan.parametersManager.getParameters().getInt("saturation"));*/
             }
             if (!camMan.parametersManager.getSupportContrast())
                 contrastcheckBox.setVisibility(GONE);
             else
             {
                 contrastcheckBox.setVisibility(VISIBLE);
-                manualContrastSlider.SetMaxValue(camMan.parametersManager.manualContrast.getMax());
-                manualContrastSlider.SetCurrentValue(camMan.parametersManager.manualContrast.getValue());
+                /*manualContrastSlider.SetMaxValue(camMan.parametersManager.manualContrast.getMax());
+                manualContrastSlider.SetCurrentValue(camMan.parametersManager.manualContrast.getValue());*/
             }
             if (camMan.parametersManager.getSupportManualConvergence())
             {
@@ -269,9 +280,9 @@ public class ManualMenuControl extends LinearLayout
                 min = camMan.parametersManager.manualConvergence.getMin();
                 if (min < 0)
                     min *= -1;
-                manualConvergenceSlider.SetMaxValue(camMan.parametersManager.manualConvergence.getMax() + min);
+                /*manualConvergenceSlider.SetMaxValue(camMan.parametersManager.manualConvergence.getMax() + min);*/
                 camMan.manualConvergenceManager.SetMinMax(camMan.parametersManager.manualConvergence.getMin(), camMan.parametersManager.manualConvergence.getMax());
-                manualConvergenceSlider.SetCurrentValue(camMan.parametersManager.manualConvergence.get());
+//                manualConvergenceSlider.SetCurrentValue(camMan.parametersManager.manualConvergence.get());
             }
             else
             {
@@ -282,16 +293,16 @@ public class ManualMenuControl extends LinearLayout
             else
             {
                 manualFocus.setVisibility(View.VISIBLE);
-                manualFocusSlider.SetMaxValue(camMan.parametersManager.manualFocus.getMax());
-                manualFocusSlider.SetCurrentValue(camMan.parametersManager.manualFocus.getValue());
+                /*manualFocusSlider.SetMaxValue(camMan.parametersManager.manualFocus.getMax());
+                manualFocusSlider.SetCurrentValue(camMan.parametersManager.manualFocus.getValue());*/
             }
             if (!camMan.parametersManager.getSupportManualShutter())
                 manualShutter.setVisibility(View.GONE);
             else
             {
                 manualShutter.setVisibility(View.VISIBLE);
-                manualShutterSlider.SetMaxValue(camMan.parametersManager.manualShutter.getMax());
-                manualShutterSlider.SetCurrentValue(camMan.parametersManager.manualShutter.getValue());
+                /*manualShutterSlider.SetMaxValue(camMan.parametersManager.manualShutter.getMax());
+                manualShutterSlider.SetCurrentValue(camMan.parametersManager.manualShutter.getValue());*/
             }
 
         }

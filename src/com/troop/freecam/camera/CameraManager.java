@@ -16,7 +16,7 @@ import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
-import com.troop.freecam.manager.ManualBrightnessManager;
+import com.troop.freecam.menu.seekbar.ManualBrightnessManager;
 import com.troop.freecam.manager.ManualContrastManager;
 import com.troop.freecam.manager.ManualConvergenceManager;
 import com.troop.freecam.manager.ManualExposureManager;

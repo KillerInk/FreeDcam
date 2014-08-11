@@ -23,15 +23,6 @@
                 android:id="@+id/checkBox_exposureManual"
                 android:background="@drawable/icon_manual_exposure"
                 android:textColor="#ff0000" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Exposure" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,15 +37,6 @@
                 android:background="@drawable/icon_manual_sharpness"
                 android:textColor="#ff0000" />
 
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Sharpness" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,15 +51,6 @@
                 android:background="@drawable/icon_manual_saturation"
                 android:checked="false"
                 android:textColor="#ff0000" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Saturation" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,15 +65,6 @@
                 android:background="@drawable/icon_manual_brightnes"
                 android:textColor="#ff0000"
                 android:singleLine="false" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Brightness" />
         </LinearLayout>
 
         <LinearLayout
@@ -113,15 +77,6 @@
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_contrast"
                 android:background="@drawable/icon_manual_contrast" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Contrast" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,15 +89,6 @@
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_manualConvergence"
                 android:background="@drawable/icon_manual_convergence" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Convergence" />
         </LinearLayout>
 
         <LinearLayout
@@ -155,15 +101,6 @@
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_focus"
                 android:background="@drawable/icon_manual_focus" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Focus" />
         </LinearLayout>
 
         <LinearLayout
@@ -176,15 +113,6 @@
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_manualShutter"
                 android:background="@drawable/icon_manual_exposure" />
-            <com.troop.freecam.controls.StyleAbelSlider
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="fill_parent"
-                android:background="@drawable/btn_default_focused_holo_light"
-                custom:horizontal="false"
-                custom:SliderImage="@drawable/icon_shutter_thanos_blast"
-                custom:textview=""
-                custom:valuevied="0"
-                android:id="@+id/slider_Shutter" />
         </LinearLayout>
     </LinearLayout>
 

@@ -57,6 +57,16 @@
             android:layout_alignParentRight="true"
             android:id="@+id/ModesConrolContainer"/>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/layout_seekbar">
+            </LinearLayout>
+
     </RelativeLayout>
 
     <ImageButton
