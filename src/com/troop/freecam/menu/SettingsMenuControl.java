@@ -14,6 +14,7 @@ import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.controls.NumericUpDownControl;
+import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 import com.troop.freecam.menu.submenu.HdrSubMenuControl;
 import com.troop.freecam.menu.submenu.PreviewSubMenuControl;
 import com.troop.freecam.menu.submenu.QualitySubMenuControl;
@@ -277,14 +278,14 @@ public class SettingsMenuControl extends LinearLayout
             captureFrames.setVisibility(GONE);
         }
 
-        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR)
+        if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_HDR))
         {
             hdrSubMenu.setVisibility(VISIBLE);
         }
         else
             hdrSubMenu.setVisibility(GONE);
 
-        if (camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_PIC || camMan.Settings.CameraMode.get() == AppSettingsManager.Preferences.MODE_HDR)
+        if (camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_PIC) || camMan.Settings.CameraMode.get().equals(AppSettingsManager.Preferences.MODE_HDR))
         {
             switchPictureSize.setVisibility(VISIBLE);
         }
