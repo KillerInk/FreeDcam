@@ -503,6 +503,35 @@ public class ParametersManager extends PictureParameters
             return parameters.getInt(brightnessValue);
         }
 
+        public int GetMaxValue()
+        {
+            int max = 100;
+            try {
+                max = parameters.getInt("max-" + brightnessValue);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            if (max > 0)
+                return max;
+            else return 100;
+        }
+        public int GetMinValue()
+        {
+            int min = 100;
+            try {
+                min = parameters.getInt("min-" + brightnessValue);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            if (min > 0)
+                return min;
+            else return 0;
+        }
+
     }
 
     public class AFPriorityManager

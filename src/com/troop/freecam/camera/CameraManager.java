@@ -16,10 +16,9 @@ import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
-import com.troop.freecam.menu.seekbar.ManualBrightnessManager;
 import com.troop.freecam.manager.ManualContrastManager;
 import com.troop.freecam.manager.ManualConvergenceManager;
-import com.troop.freecam.manager.ManualExposureManager;
+import com.troop.freecam.menu.seekbar.ManualExposureSeekbar;
 import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.ManualFocusManager;
 import com.troop.freecam.manager.ManualSharpnessManager;
@@ -47,10 +46,10 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
     public boolean touchtofocus = false;
     public MainActivity activity;
-    public ManualExposureManager manualExposureManager;
+
     public ManualSharpnessManager manualSharpnessManager;
     public ManualContrastManager manualContrastManager;
-    public ManualBrightnessManager manualBrightnessManager;
+
     public ManualFocusManager manualFocusManager;
     public ManualShutterManager manualShutterManager;
     public ManualFocus manualFocus;
@@ -71,11 +70,11 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         zoomManager = new ZoomManager(this);
         autoFocusManager = new AutoFocusManager(this, activity);
 
-        manualExposureManager = new ManualExposureManager(this);
+
         cameraManager = this;
         manualSharpnessManager = new ManualSharpnessManager(this);
         manualContrastManager = new ManualContrastManager(this);
-        manualBrightnessManager = new ManualBrightnessManager(this);
+
         manualFocusManager = new ManualFocusManager(this);
         manualShutterManager = new ManualShutterManager(this);
 

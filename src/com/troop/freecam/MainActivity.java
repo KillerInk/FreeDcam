@@ -33,6 +33,7 @@ import com.troop.freecam.menu.ManualMenuControl;
 import com.troop.freecam.menu.ModeMenuControl;
 import com.troop.freecam.menu.SettingsMenuControl;
 import com.troop.freecam.menu.popupmenu.PictureFormatMenu;
+import com.troop.freecam.menu.seekbar.SeekbarListHandler;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecam.utils.EncodeTiff;
@@ -65,6 +66,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     //Holds the SettingsMenu
     SettingsMenuControl settingsFragment;
     ModeMenuControl cameraModesControl;
+    SeekbarListHandler seekbarListHandler;
     int currentZoom = 0;
     SensorManager sensorManager;
     Sensor sensor;
@@ -111,6 +113,9 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
 
         manualMenuControl = (ManualMenuControl)findViewById(R.id.Layout_Manual);
         manualMenuControl.SetStuff(camMan, this);
+
+        seekbarListHandler = (SeekbarListHandler)findViewById(R.id.layout_seekbar);
+        seekbarListHandler.Init(camMan, this);
 
         mPreview.SetCameraManager(camMan);
 

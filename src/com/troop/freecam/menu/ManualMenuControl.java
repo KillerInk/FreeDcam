@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.StyleAbelSlider;
-import com.troop.freecam.manager.ManualSaturationManager;
 
 /**
  * Created by troop on 17.01.14.
@@ -36,6 +34,8 @@ public class ManualMenuControl extends LinearLayout
     StyleAbelSlider manualShutterSlider;
     StyleAbelSlider manualContrastSlider;
     StyleAbelSlider manualConvergenceSlider;*/
+
+
     CheckBox checkbox_convergence;
 
     public ManualMenuControl(Context context) {
@@ -61,6 +61,7 @@ public class ManualMenuControl extends LinearLayout
     {
         LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_menu_control, this);
+
 
         manualExposure = (CheckBox)findViewById(R.id.checkBox_exposureManual);
         manualExposure.setOnClickListener(new View.OnClickListener() {
@@ -238,7 +239,7 @@ public class ManualMenuControl extends LinearLayout
             if (min < 0)
                 min *= -1;
             int max = camMan.parametersManager.manualExposure.getMax() + min;
-            camMan.manualExposureManager.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
+            //camMan.manualExposureSeekbar.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
             /*manualExposureSlider.SetCurrentValue(camMan.parametersManager.manualExposure.getMax());
             manualExposureSlider.SetMaxValue(max);*/
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.manager.ManualSaturationManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**
@@ -162,9 +161,9 @@ public class SeekbarViewControl extends LinearLayout
             min *= -1;
         int max = camMan.parametersManager.manualExposure.getMax() + min;
         exposureSeekbar.setMax(max);
-        camMan.manualExposureManager.ExternalSet = true;
+        //camMan.manualExposureSeekbar.ExternalSet = true;
         exposureSeekbar.setProgress(camMan.parametersManager.manualExposure.getMax());
-        camMan.manualExposureManager.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
+        //camMan.manualExposureSeekbar.SetMinMax(camMan.parametersManager.manualExposure.getMin(), camMan.parametersManager.manualExposure.getMax());
         //camMan.manualExposureManager.ExternalSet = true;
         //camMan.manualExposureManager.SetCurrentValue(camMan.parametersManager.getParameters().getExposureCompensation());
 

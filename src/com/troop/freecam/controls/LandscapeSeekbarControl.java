@@ -15,8 +15,8 @@ import com.troop.freecam.camera.CameraManager;
  */
 public class LandscapeSeekbarControl extends LinearLayout implements SeekBar.OnSeekBarChangeListener
 {
-    TextView textView_currentValue;
-    SeekBar seekBar;
+    protected TextView textView_currentValue;
+    protected SeekBar seekBar;
 
     protected int min;
     protected int max;
