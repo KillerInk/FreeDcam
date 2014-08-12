@@ -39,6 +39,7 @@ public class BaseCamera
                         mCamera = Camera.open(100);
                         //mCamera.setErrorCallback(errorCallback);
                         Settings.CurrentCamera = 100;
+                        Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back3D);
                         Log.d(TAG, "sense 3D camera open");
                     }
                     catch (Exception ex)
@@ -53,6 +54,7 @@ public class BaseCamera
                     mCamera = Camera.open(2);
                     //mCamera.setErrorCallback(errorCallback);
                     Settings.CurrentCamera = 2;
+                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back3D);
                 }
             }
             else if(tmp.equals(AppSettingsManager.Preferences.MODE_2D))
@@ -63,6 +65,7 @@ public class BaseCamera
                     mCamera = Camera.open(0);
                     //mCamera.setErrorCallback(errorCallback);
                     Settings.CurrentCamera = 0;
+                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back2D);
                 }
                 catch (Exception ex)
                 {
@@ -79,6 +82,7 @@ public class BaseCamera
                     mCamera = Camera.open(1);
                     //mCamera.setErrorCallback(errorCallback);
                     Settings.CurrentCamera = 1;
+                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
                 }
                 catch (Exception ex)
                 {
@@ -94,17 +98,20 @@ public class BaseCamera
             {
                 mCamera = Camera.open(0);
                 Settings.CurrentCamera = 0;
+                Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back2D);
             }
             if (tmp.equals(AppSettingsManager.Preferences.MODE_Front))
             {
                 mCamera = Camera.open(1);
                 Settings.CurrentCamera = 1;
+                Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
             }
         }
         else if (Camera.getNumberOfCameras() == 1)
         {
             mCamera = Camera.open(0);
             Settings.CurrentCamera = 0;
+            Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
         }
 
         //mCamera.addCallbackBuffer(rawbuffer);

@@ -12,8 +12,6 @@ public class AppSettingsManager
 {
     public class Preferences
     {
-
-
         public static final String SwitchCamera = "switchcam";
         public static final String MODE_3D = "3D";
         public static final String MODE_2D = "2D";
@@ -182,9 +180,9 @@ public class AppSettingsManager
 
         public CameraValues GetCameraEnum()
         {
-            if (GetCamera() == Preferences.MODE_3D)
+            if (GetCamera().equals(Preferences.MODE_3D))
                 return CameraValues.Back3D;
-            else if (GetCamera() == Preferences.MODE_2D)
+            else if (GetCamera().equals(Preferences.MODE_2D))
                 return CameraValues.Back2D;
             else
                 return CameraValues.Front;
