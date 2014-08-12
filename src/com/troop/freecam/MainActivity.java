@@ -111,11 +111,13 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         autoMenuFragment = (AutoMenuControl)findViewById(R.id.LayoutAuto);
         autoMenuFragment.SetCameraManager(camMan, this);
 
-        manualMenuControl = (ManualMenuControl)findViewById(R.id.Layout_Manual);
-        manualMenuControl.SetStuff(camMan, this);
-
         seekbarListHandler = (SeekbarListHandler)findViewById(R.id.layout_seekbar);
         seekbarListHandler.Init(camMan, this);
+
+        manualMenuControl = (ManualMenuControl)findViewById(R.id.Layout_Manual);
+        manualMenuControl.SetStuff(camMan, this, seekbarListHandler);
+
+
 
         mPreview.SetCameraManager(camMan);
 
@@ -409,16 +411,18 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     @Override
     public void parametersHasChanged(boolean restarted, ParametersManager.enumParameters paras)
     {
-        try{
+        //try{
             autoMenuFragment.UpdateUI(restarted, paras);
             settingsFragment.UpdateUI(restarted, paras);
             manualMenuControl.UpdateUI(restarted);
             infoScreenFragment.showtext();
-        }
+        if(restarted)
+            seekbarListHandler.Update();
+        /*}
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }
+        }*/
     }
 
 }

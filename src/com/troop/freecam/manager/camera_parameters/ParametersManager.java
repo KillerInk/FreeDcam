@@ -511,7 +511,7 @@ public class ParametersManager extends PictureParameters
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+
             }
             if (max > 0)
                 return max;
@@ -525,7 +525,7 @@ public class ParametersManager extends PictureParameters
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+
             }
             if (min > 0)
                 return min;
@@ -1687,6 +1687,27 @@ public class ParametersManager extends PictureParameters
                 max = 100;
             }
             return max;
+        }
+
+        public int getMin()
+        {
+            int min = 0;
+            try {
+                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    min = Integer.parseInt(parameters.get("min-contrast"));
+
+                }
+                else
+                {
+                    min = Integer.parseInt(parameters.get("contrast-min"));
+                }
+            }
+            catch (Exception ex)
+            {
+                min = 0;
+            }
+            return min;
         }
 
         public int getValue()

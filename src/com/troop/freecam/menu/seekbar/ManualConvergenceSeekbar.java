@@ -10,39 +10,39 @@ import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
- * Created by troop on 03.09.13.
+ * Created by troop on 24.01.14.
  */
-public class ManualExposureSeekbar extends LandscapeSeekbarControl {
+public class ManualConvergenceSeekbar extends LandscapeSeekbarControl
+{
 
-
-
-    public ManualExposureSeekbar(Context context) {
+    public ManualConvergenceSeekbar(Context context) {
         super(context);
     }
 
-    public ManualExposureSeekbar(Context context, AttributeSet attrs) {
+    public ManualConvergenceSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ManualExposureSeekbar(Context context, AttributeSet attrs, int defStyle) {
+    public ManualConvergenceSeekbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     public void SetCameraManager(CameraManager cameraManager) {
         super.SetCameraManager(cameraManager);
-        e_manualSeekbar = E_ManualSeekbar.Exposure;
+        e_manualSeekbar = E_ManualSeekbar.Convergence;
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-    {
-        if (fromUser) {
-            current = progress + min;
-            if (current >= cameraManager.parametersManager.manualExposure.getMin() && current <= cameraManager.parametersManager.manualExposure.getMax()) {
-                cameraManager.parametersManager.manualExposure.set(current);
-                textView_currentValue.setText("Exposure: " + current);
-            }
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        super.onProgressChanged(seekBar, progress, fromUser);
+        current = progress + min;
+        //if (maxValue < 61)
+        //{
+        if (current >= cameraManager.parametersManager.manualConvergence.getMin() && current <= cameraManager.parametersManager.manualConvergence.getMax())
+        {
+            cameraManager.parametersManager.manualConvergence.set(current);
+            textView_currentValue.setText("Convergence: " + current);
         }
     }
 
@@ -68,6 +68,6 @@ public class ManualExposureSeekbar extends LandscapeSeekbarControl {
             seekBar.setProgress(current + max);
         else
             seekBar.setProgress(current);
-        textView_currentValue.setText("Exposure: " + current);
+        textView_currentValue.setText("Convergence: " + current);
     }
 }

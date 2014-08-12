@@ -177,7 +177,7 @@ public class SeekbarViewControl extends LinearLayout
         if (camMan.parametersManager.getSupportContrast())
         {
             contrastSeekBar.setMax(180);
-            camMan.manualContrastManager.ExternalSet = true;
+            //camMan.manualContrastSeekbar.ExternalSet = true;
             contrastSeekBar.setProgress(camMan.parametersManager.getParameters().getInt("contrast"));
         }
         //Brightness

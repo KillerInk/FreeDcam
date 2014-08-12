@@ -10,42 +10,41 @@ import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 /**
- * Created by troop on 07.09.13.
+ * Created by troop on 08.09.13.
  */
-public class ManualBrightnessSeekbar extends LandscapeSeekbarControl
-{
-    public ManualBrightnessSeekbar(Context context) {
+public class ManualSaturationSeekbar extends LandscapeSeekbarControl{
+
+    public ManualSaturationSeekbar(Context context) {
         super(context);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs) {
+    public ManualSaturationSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs, int defStyle) {
+    public ManualSaturationSeekbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     public void SetCameraManager(CameraManager cameraManager) {
         super.SetCameraManager(cameraManager);
-        e_manualSeekbar = E_ManualSeekbar.Brightness;
+        e_manualSeekbar = E_ManualSeekbar.Saturation;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         super.onProgressChanged(seekBar, progress, fromUser);
-        if (cameraManager.parametersManager.getSupportWhiteBalance() && fromUser) {
-            cameraManager.parametersManager.Brightness.Set(progress);
-            textView_currentValue.setText("Brightness: " + progress);
+        if (cameraManager.parametersManager.getSupportSaturation()&& fromUser)
+        {
+            cameraManager.parametersManager.manualSaturation.set(progress);
+            textView_currentValue.setText("Saturation: " + progress);
+            //cameraManager.ReloadCameraParameters(false);
         }
     }
-
     @Override
     public void SetCurrentValue(int current) {
         super.SetCurrentValue(current);
-        textView_currentValue.setText("Brightness: " + current);
+        textView_currentValue.setText("Saturation: " + current);
     }
-
-
 }

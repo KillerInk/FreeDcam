@@ -12,40 +12,40 @@ import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 /**
  * Created by troop on 07.09.13.
  */
-public class ManualBrightnessSeekbar extends LandscapeSeekbarControl
+public class ManualContrastSeekbar extends LandscapeSeekbarControl
 {
-    public ManualBrightnessSeekbar(Context context) {
+    public ManualContrastSeekbar(Context context) {
         super(context);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs) {
+    public ManualContrastSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs, int defStyle) {
+    public ManualContrastSeekbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     public void SetCameraManager(CameraManager cameraManager) {
         super.SetCameraManager(cameraManager);
-        e_manualSeekbar = E_ManualSeekbar.Brightness;
+        e_manualSeekbar = E_ManualSeekbar.Contrast;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         super.onProgressChanged(seekBar, progress, fromUser);
-        if (cameraManager.parametersManager.getSupportWhiteBalance() && fromUser) {
-            cameraManager.parametersManager.Brightness.Set(progress);
-            textView_currentValue.setText("Brightness: " + progress);
+        if (cameraManager.parametersManager.getSupportContrast() && fromUser)
+        {
+            cameraManager.parametersManager.manualContrast.set(progress);
+            textView_currentValue.setText("Contrast: " + progress);
         }
     }
 
     @Override
     public void SetCurrentValue(int current) {
         super.SetCurrentValue(current);
-        textView_currentValue.setText("Brightness: " + current);
+        textView_currentValue.setText("Contrast: " + current);
     }
-
 
 }

@@ -8,6 +8,11 @@ import android.widget.LinearLayout;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.controls.LandscapeSeekbarControl;
+import com.troop.freecam.enums.E_ManualSeekbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by troop on 11.08.2014.
@@ -19,6 +24,16 @@ public class SeekbarListHandler extends LinearLayout
 
     public ManualBrightnessSeekbar manualBrightnessSeekbar;
     public ManualExposureSeekbar manualExposureSeekbar;
+    public ManualContrastSeekbar manualContrastSeekbar;
+    public ManualSharpnessSeekbar manualSharpnessSeekbar;
+    public ManualSaturationSeekbar manualSaturationSeekbar;
+    public ManualConvergenceSeekbar manualConvergenceSeekbar;
+    public ManualFocusSeekbar manualFocusSeekbar;
+    public ManualShutterSeekbar manualShutterSeekbar;
+
+    List<LandscapeSeekbarControl> seekbarControls;
+
+
     public SeekbarListHandler(Context context) {
         super(context);
     }
@@ -38,18 +53,108 @@ public class SeekbarListHandler extends LinearLayout
         this.cameraManager = cameraManager;
         this.activity = activity;
 
+        seekbarControls = new ArrayList<LandscapeSeekbarControl>();
+
+        manualBrightnessSeekbar = (ManualBrightnessSeekbar) findViewById(R.id.brightness_seekbar);
+        manualBrightnessSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualBrightnessSeekbar);
+
+        manualExposureSeekbar = (ManualExposureSeekbar) findViewById(R.id.exposure_seekbar);
+        manualExposureSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualExposureSeekbar);
+
+        manualContrastSeekbar = (ManualContrastSeekbar)findViewById(R.id.contrast_seekbar);
+        manualContrastSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualContrastSeekbar);
+
+        manualSharpnessSeekbar = (ManualSharpnessSeekbar)findViewById(R.id.sharpness_seekbar);
+        manualSharpnessSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualSharpnessSeekbar);
+
+        manualSaturationSeekbar = (ManualSaturationSeekbar)findViewById(R.id.saturation_seekbar);
+        manualSaturationSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualSaturationSeekbar);
+
+        manualConvergenceSeekbar = (ManualConvergenceSeekbar)findViewById(R.id.convergence_seekbar);
+        manualConvergenceSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualConvergenceSeekbar);
+
+        manualFocusSeekbar = (ManualFocusSeekbar)findViewById(R.id.focus_seekbar);
+        manualFocusSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualFocusSeekbar);
+
+        manualShutterSeekbar = (ManualShutterSeekbar)findViewById(R.id.shutter_seekbar);
+        manualShutterSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(manualShutterSeekbar);
+
+        hideAll();
+    }
+
+    public void Update()
+    {
         if (cameraManager.parametersManager.getSupportBrightness()) {
-            manualBrightnessSeekbar = (ManualBrightnessSeekbar) findViewById(R.id.brightness_seekbar);
-            manualBrightnessSeekbar.SetCameraManager(cameraManager);
             manualBrightnessSeekbar.SetMinMaxValues(cameraManager.parametersManager.Brightness.GetMinValue(), cameraManager.parametersManager.Brightness.GetMaxValue());
             manualBrightnessSeekbar.SetCurrentValue(cameraManager.parametersManager.Brightness.Get());
         }
-
         if (cameraManager.parametersManager.getSupportExposureMode()) {
-            manualExposureSeekbar = (ManualExposureSeekbar) findViewById(R.id.exposure_seekbar);
-            manualExposureSeekbar.SetCameraManager(cameraManager);
             manualExposureSeekbar.SetMinMaxValues(cameraManager.parametersManager.manualExposure.getMin(), cameraManager.parametersManager.manualExposure.getMax());
             manualExposureSeekbar.SetCurrentValue(cameraManager.parametersManager.manualExposure.getValue());
+        }
+        if (cameraManager.parametersManager.getSupportContrast())
+        {
+            manualContrastSeekbar.SetMinMaxValues(cameraManager.parametersManager.manualContrast.getMin(), cameraManager.parametersManager.manualContrast.getMax());
+            manualContrastSeekbar.SetCurrentValue(cameraManager.parametersManager.manualContrast.getValue());
+        }
+        if (cameraManager.parametersManager.getSupportSharpness())
+        {
+            //TODO: add get min value to manualSharpness
+            manualSharpnessSeekbar.SetMinMaxValues(0, cameraManager.parametersManager.manualSharpness.getMax());
+            manualSharpnessSeekbar.SetCurrentValue(cameraManager.parametersManager.manualSharpness.getValue());
+        }
+        if (cameraManager.parametersManager.getSupportSaturation())
+        {
+            //TODO: add min value to manualSaturation
+            manualSaturationSeekbar.SetMinMaxValues(0, cameraManager.parametersManager.manualSaturation.getMax());
+            manualSaturationSeekbar.SetCurrentValue(cameraManager.parametersManager.manualSaturation.getValue());
+        }
+
+        if (cameraManager.parametersManager.getSupportManualConvergence())
+        {
+            manualConvergenceSeekbar.SetMinMaxValues(cameraManager.parametersManager.manualConvergence.getMin(), cameraManager.parametersManager.manualConvergence.getMax());
+            manualConvergenceSeekbar.SetCurrentValue(cameraManager.parametersManager.manualConvergence.get());
+        }
+        if (cameraManager.parametersManager.getSupportManualFocus())
+        {
+            manualFocusSeekbar.SetMinMaxValues(cameraManager.parametersManager.manualFocus.getMin(), cameraManager.parametersManager.manualFocus.getMax());
+            manualFocusSeekbar.SetCurrentValue(cameraManager.parametersManager.manualFocus.getValue());
+        }
+        if (cameraManager.parametersManager.getSupportManualShutter())
+        {
+            //TODO: add min value for shutter
+            manualShutterSeekbar.SetMinMaxValues(0, cameraManager.parametersManager.manualShutter.getMax());
+            manualShutterSeekbar.SetCurrentValue(cameraManager.parametersManager.manualShutter.getValue());
+        }
+    }
+
+    public void setVisibility(E_ManualSeekbar e_manualSeekbar, boolean show)
+    {
+        for (int i = 0; i<seekbarControls.size(); i++)
+        {
+            if (seekbarControls.get(i).GetManualSeekBarEnum() == e_manualSeekbar)
+                if (show)
+                    seekbarControls.get(i).setVisibility(VISIBLE);
+                else
+                    seekbarControls.get(i).setVisibility(GONE);
+            else
+                seekbarControls.get(i).setVisibility(GONE);
+        }
+    }
+
+    private void hideAll()
+    {
+        for (int i = 0; i<seekbarControls.size(); i++)
+        {
+            seekbarControls.get(i).setVisibility(GONE);
         }
     }
 }

@@ -66,10 +66,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_VIDEO);
-                    camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
-                    switchVisibility();
-                    menuOpen= false;
+                    setMode(AppSettingsManager.Preferences.MODE_VIDEO);
                 }
             }
         });
@@ -85,10 +82,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_PIC);
-                    camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
-                    switchVisibility();
-                    menuOpen= false;
+                    setMode(AppSettingsManager.Preferences.MODE_PIC);
                 }
             }
         });
@@ -104,10 +98,7 @@ public class ModeMenuControl extends LinearLayout
                 }
                 else
                 {
-                    camMan.Settings.CameraMode.set(AppSettingsManager.Preferences.MODE_HDR);
-                    camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
-                    switchVisibility();
-                    menuOpen= false;
+                    setMode(AppSettingsManager.Preferences.MODE_HDR);
                 }
             }
         });
@@ -115,6 +106,14 @@ public class ModeMenuControl extends LinearLayout
         //check default mode and set this visible
         switchVisibility();
 
+    }
+
+    private void setMode(String mode)
+    {
+        camMan.Settings.CameraMode.set(mode);
+        camMan.parametersManager.UpdateGui(true, BaseParametersManager.enumParameters.All);
+        switchVisibility();
+        menuOpen= false;
     }
 
     //change the visibility of the controls depending wich mode is set

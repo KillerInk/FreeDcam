@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_exposureManual"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_sharpness"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_saturation"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_brightness"
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_contrast"
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_manualConvergence"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_focus"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <com.troop.freecam.controls.ExtendedCheckBox
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/checkBox_manualShutter"

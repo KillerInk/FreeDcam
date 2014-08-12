@@ -14,4 +14,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/exposure_seekbar" />
 
+    <com.troop.freecam.menu.seekbar.ManualContrastSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contrast_seekbar" />
+
+    <com.troop.freecam.menu.seekbar.ManualSharpnessSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sharpness_seekbar" />
+
+    <com.troop.freecam.menu.seekbar.ManualSaturationSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/saturation_seekbar" />
+    <com.troop.freecam.menu.seekbar.ManualConvergenceSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/convergence_seekbar" />
+
+    <com.troop.freecam.menu.seekbar.ManualFocusSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/focus_seekbar" />
+
+    <com.troop.freecam.menu.seekbar.ManualShutterSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shutter_seekbar" />
+
 </LinearLayout>

@@ -12,40 +12,45 @@ import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 /**
  * Created by troop on 07.09.13.
  */
-public class ManualBrightnessSeekbar extends LandscapeSeekbarControl
+public class ManualFocusSeekbar extends LandscapeSeekbarControl
 {
-    public ManualBrightnessSeekbar(Context context) {
+
+
+    public ManualFocusSeekbar(Context context) {
         super(context);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs) {
+    public ManualFocusSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ManualBrightnessSeekbar(Context context, AttributeSet attrs, int defStyle) {
+    public ManualFocusSeekbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     public void SetCameraManager(CameraManager cameraManager) {
         super.SetCameraManager(cameraManager);
-        e_manualSeekbar = E_ManualSeekbar.Brightness;
+        e_manualSeekbar = E_ManualSeekbar.Focus;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        super.onProgressChanged(seekBar, progress, fromUser);
-        if (cameraManager.parametersManager.getSupportWhiteBalance() && fromUser) {
-            cameraManager.parametersManager.Brightness.Set(progress);
-            textView_currentValue.setText("Brightness: " + progress);
+        if (cameraManager.parametersManager.getSupportManualFocus() && fromUser)
+        {
+            if (progress >= cameraManager.parametersManager.manualFocus.getMin() && progress <= cameraManager.parametersManager.manualFocus.getMax()) {
+                cameraManager.parametersManager.manualFocus.set(progress);
+                textView_currentValue.setText("Focus: " + current);
+            }
+
+            //cameraManager.ReloadCameraParameters(false);
         }
     }
 
     @Override
     public void SetCurrentValue(int current) {
         super.SetCurrentValue(current);
-        textView_currentValue.setText("Brightness: " + current);
+        textView_currentValue.setText("Focus: " + current);
     }
-
 
 }

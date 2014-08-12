@@ -16,13 +16,8 @@ import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
-import com.troop.freecam.manager.ManualContrastManager;
-import com.troop.freecam.manager.ManualConvergenceManager;
-import com.troop.freecam.menu.seekbar.ManualExposureSeekbar;
 import com.troop.freecam.manager.ManualFocus;
-import com.troop.freecam.manager.ManualFocusManager;
-import com.troop.freecam.manager.ManualSharpnessManager;
-import com.troop.freecam.manager.ManualShutterManager;
+import com.troop.freecam.menu.seekbar.ManualShutterSeekbar;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.manager.ZoomManager;
@@ -47,14 +42,14 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
     public boolean touchtofocus = false;
     public MainActivity activity;
 
-    public ManualSharpnessManager manualSharpnessManager;
-    public ManualContrastManager manualContrastManager;
 
-    public ManualFocusManager manualFocusManager;
-    public ManualShutterManager manualShutterManager;
+
+
+
+
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
-    public ManualConvergenceManager manualConvergenceManager;
+
     public boolean takePicture = false;
     public boolean isRdy = false;
 
@@ -72,16 +67,16 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
 
         cameraManager = this;
-        manualSharpnessManager = new ManualSharpnessManager(this);
-        manualContrastManager = new ManualContrastManager(this);
 
-        manualFocusManager = new ManualFocusManager(this);
-        manualShutterManager = new ManualShutterManager(this);
+
+
+
+
 
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this, appSettingsManager);
-        manualConvergenceManager = new ManualConvergenceManager(cameraManager);
+
         Log.d(TAG, "Loading CameraManager done");
 
     }
