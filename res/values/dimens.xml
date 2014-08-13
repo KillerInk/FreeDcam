@@ -7,6 +7,8 @@
     <dimen name="appiconsizethree">144dp</dimen><dimen name="TextSizeSmallPlus">21dp</dimen>
     <dimen name="app_icon_size">48dp</dimen>
     <dimen name="autolayout_margineTop">50dp</dimen><dimen name="menuwidth">300dp</dimen>
+    <dimen name="landscape_seekbar_textview_width">160dp</dimen>
+    <dimen name="toggleControl_width">75dp</dimen>
 
 
 </resources>

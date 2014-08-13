@@ -10,7 +10,8 @@ import android.widget.LinearLayout;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.ExtendedCheckBox;
+import com.troop.freecam.controls.ToggleControl;
+import com.troop.freecam.controls.ToggleControl;
 import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.menu.seekbar.SeekbarListHandler;
 
@@ -25,19 +26,17 @@ public class ManualMenuControl extends LinearLayout
     CameraManager camMan;
     MainActivity activity;
 
-    public ExtendedCheckBox manualExposure;
-    public ExtendedCheckBox manualShaprness;
-    public ExtendedCheckBox manualFocus;
-    public ExtendedCheckBox manualShutter;
-    public ExtendedCheckBox contrastcheckBox;
-    ExtendedCheckBox brightnessCheckBox;
-    public ExtendedCheckBox saturationCheckBox;
+    ToggleControl toggleExposure;
+    ToggleControl toggleSharpness;
+    ToggleControl toggleFocus;
+    ToggleControl toggleShutter;
+    ToggleControl toggleContrast;
+    ToggleControl toggleBrightness;
+    ToggleControl toggleSaturation;
+    ToggleControl toggleConvergence;
 
-    private List<ExtendedCheckBox> checkBoxes;
-
+    private List<ToggleControl> toggleControls;
     SeekbarListHandler seekbarListHandler;
-
-    ExtendedCheckBox checkbox_convergence;
 
     public ManualMenuControl(Context context) {
         super(context);
@@ -64,61 +63,62 @@ public class ManualMenuControl extends LinearLayout
         LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_menu_control, this);
 
-        checkBoxes = new ArrayList<ExtendedCheckBox>();
+        toggleControls = new ArrayList<ToggleControl>();
 
-        manualExposure = (ExtendedCheckBox)findViewById(R.id.checkBox_exposureManual);
-        manualExposure.SetSeekbarValue(E_ManualSeekbar.Exposure);
-        checkBoxes.add(manualExposure);
-        manualExposure.setOnClickListener(onCheckBoxClick);
+        toggleExposure = (ToggleControl)findViewById(R.id.toggleExposure);
+        toggleExposure.SetSeekbarValue(E_ManualSeekbar.Exposure);
+        toggleControls.add(toggleExposure);
+        toggleExposure.setOnClickListener(onCheckBoxClick);
 
-        manualShaprness = (ExtendedCheckBox) findViewById(R.id.checkBox_sharpness);
-        manualShaprness.SetSeekbarValue(E_ManualSeekbar.Sharpness);
-        checkBoxes.add(manualShaprness);
-        manualShaprness.setOnClickListener(onCheckBoxClick);
+        toggleSharpness = (ToggleControl) findViewById(R.id.toggleSharpness);
+        toggleSharpness.SetSeekbarValue(E_ManualSeekbar.Sharpness);
+        toggleControls.add(toggleSharpness);
+        toggleSharpness.setOnClickListener(onCheckBoxClick);
 
-        manualFocus = (ExtendedCheckBox)findViewById(R.id.checkBox_focus);
-        manualFocus.SetSeekbarValue(E_ManualSeekbar.Focus);
-        checkBoxes.add(manualFocus);
-        manualFocus.setOnClickListener(onCheckBoxClick);
+        toggleFocus = (ToggleControl)findViewById(R.id.toggleFocus);
+        toggleFocus.SetSeekbarValue(E_ManualSeekbar.Focus);
+        toggleControls.add(toggleFocus);
+        toggleFocus.setOnClickListener(onCheckBoxClick);
 
-        manualShutter = (ExtendedCheckBox)findViewById(R.id.checkBox_manualShutter);
-        manualShutter.SetSeekbarValue(E_ManualSeekbar.Shutter);
-        checkBoxes.add(manualShutter);
-        manualShutter.setOnClickListener(onCheckBoxClick);
+        toggleShutter = (ToggleControl)findViewById(R.id.toggleShutter);
+        toggleShutter.SetSeekbarValue(E_ManualSeekbar.Shutter);
+        toggleControls.add(toggleShutter);
+        toggleShutter.setOnClickListener(onCheckBoxClick);
 
-        contrastcheckBox = (ExtendedCheckBox)findViewById(R.id.checkBox_contrast);
-        contrastcheckBox.SetSeekbarValue(E_ManualSeekbar.Contrast);
-        checkBoxes.add(contrastcheckBox);
-        contrastcheckBox.setOnClickListener(onCheckBoxClick);
+        toggleContrast = (ToggleControl)findViewById(R.id.toggleContrast);
+        toggleContrast.SetSeekbarValue(E_ManualSeekbar.Contrast);
+        toggleControls.add(toggleContrast);
+        toggleContrast.setOnClickListener(onCheckBoxClick);
 
-        brightnessCheckBox = (ExtendedCheckBox)findViewById(R.id.checkBox_brightness);
-        brightnessCheckBox.SetSeekbarValue(E_ManualSeekbar.Brightness);
-        checkBoxes.add(brightnessCheckBox);
-        brightnessCheckBox.setOnClickListener(onCheckBoxClick);
+        toggleBrightness = (ToggleControl)findViewById(R.id.toggleBrightness);
+        toggleBrightness.SetSeekbarValue(E_ManualSeekbar.Brightness);
+        toggleControls.add(toggleBrightness);
+        toggleBrightness.setOnClickListener(onCheckBoxClick);
 
-        saturationCheckBox = (ExtendedCheckBox) findViewById(R.id.checkBox_saturation);
-        saturationCheckBox.SetSeekbarValue(E_ManualSeekbar.Saturation);
-        checkBoxes.add(saturationCheckBox);
-        saturationCheckBox.setOnClickListener(onCheckBoxClick);
+        toggleSaturation = (ToggleControl) findViewById(R.id.toggleSaturation);
+        toggleSaturation.SetSeekbarValue(E_ManualSeekbar.Saturation);
+        toggleControls.add(toggleSaturation);
+        toggleSaturation.setOnClickListener(onCheckBoxClick);
 
-        checkbox_convergence = (ExtendedCheckBox)findViewById(R.id.checkBox_manualConvergence);
-        checkbox_convergence.SetSeekbarValue(E_ManualSeekbar.Convergence);
-        checkBoxes.add(checkbox_convergence);
-        checkbox_convergence.setOnClickListener(onCheckBoxClick);
+        toggleConvergence = (ToggleControl)findViewById(R.id.toggleConvergence);
+        toggleConvergence.SetSeekbarValue(E_ManualSeekbar.Convergence);
+        toggleControls.add(toggleConvergence);
+        toggleConvergence.setOnClickListener(onCheckBoxClick);
     }
 
     OnClickListener onCheckBoxClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
-            CheckBox box = (CheckBox) v;
-            for (int i = 0; i < checkBoxes.size(); i++)
+            //ToogleControl->LinearLayout->ToggleButton v=ToggleButton
+            ToggleControl box = (ToggleControl) v.getParent().getParent();
+            for (int i = 0; i < toggleControls.size(); i++)
             {
-                if (checkBoxes.get(i) != box)
-                    checkBoxes.get(i).setChecked(false);
+                if (toggleControls.get(i) != box)
+                    toggleControls.get(i).setChecked(false);
                 else
                 {
-                    seekbarListHandler.setVisibility(checkBoxes.get(i).GetSeekBarValue(), checkBoxes.get(i).isChecked() );
+                    seekbarListHandler.setVisibility(toggleControls.get(i).GetSeekBarValue(), toggleControls.get(i).isChecked() );
                 }
 
             }
@@ -130,48 +130,48 @@ public class ManualMenuControl extends LinearLayout
         if (restarted)
         {
             if (!camMan.parametersManager.getSupportBrightness())
-                brightnessCheckBox.setVisibility(View.GONE);
+                toggleBrightness.setVisibility(View.GONE);
             else
             {
-                brightnessCheckBox.setVisibility(View.VISIBLE);
+                toggleBrightness.setVisibility(View.VISIBLE);
             }
             if (!camMan.parametersManager.getSupportSharpness())
-                manualShaprness.setVisibility(View.GONE);
+                toggleSharpness.setVisibility(View.GONE);
             else
             {
-                manualShaprness.setVisibility(View.VISIBLE);
+                toggleSharpness.setVisibility(View.VISIBLE);
             }
             if (!camMan.parametersManager.getSupportSaturation())
-                saturationCheckBox.setVisibility(View.GONE);
+                toggleSaturation.setVisibility(View.GONE);
             else
             {
-                saturationCheckBox.setVisibility(View.VISIBLE);
+                toggleSaturation.setVisibility(View.VISIBLE);
             }
             if (!camMan.parametersManager.getSupportContrast())
-                contrastcheckBox.setVisibility(GONE);
+                toggleContrast.setVisibility(GONE);
             else
             {
-                contrastcheckBox.setVisibility(VISIBLE);
+                toggleContrast.setVisibility(VISIBLE);
             }
             if (camMan.parametersManager.getSupportManualConvergence())
             {
-                checkbox_convergence.setVisibility(VISIBLE);
+                toggleConvergence.setVisibility(VISIBLE);
             }
             else
             {
-                checkbox_convergence.setVisibility(GONE);
+                toggleConvergence.setVisibility(GONE);
             }
             if (!camMan.parametersManager.getSupportManualFocus())
-                manualFocus.setVisibility(View.GONE);
+                toggleFocus.setVisibility(View.GONE);
             else
             {
-                manualFocus.setVisibility(View.VISIBLE);
+                toggleFocus.setVisibility(View.VISIBLE);
             }
             if (!camMan.parametersManager.getSupportManualShutter())
-                manualShutter.setVisibility(View.GONE);
+                toggleShutter.setVisibility(View.GONE);
             else
             {
-                manualShutter.setVisibility(View.VISIBLE);
+                toggleShutter.setVisibility(View.VISIBLE);
             }
 
         }

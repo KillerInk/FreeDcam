@@ -17,4 +17,7 @@
         <attr name="ButtonText" format="string" />
         <attr name="TextViewText" format="string" />
     </declare-styleable>
+    <declare-styleable name="ToggleControl">
+        <attr name="ToggleTextViewText" format="string" />
+    </declare-styleable>
 </resources>

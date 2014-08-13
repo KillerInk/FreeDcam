@@ -8,112 +8,80 @@
     android:longClickable="false">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_icon_size"
+        android:background="@drawable/camera_frame_box_ver_bg"
+        android:layout_marginRight="@dimen/app_icon_size">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView">
 
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_exposureManual"
-                android:background="@drawable/icon_manual_exposure"
-                android:textColor="#ff0000" />
-        </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_sharpness"
-                android:background="@drawable/icon_manual_sharpness"
-                android:textColor="#ff0000" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_saturation"
-                android:background="@drawable/icon_manual_saturation"
-                android:checked="false"
-                android:textColor="#ff0000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_brightness"
-                android:background="@drawable/icon_manual_brightnes"
-                android:textColor="#ff0000"
-                android:singleLine="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_contrast"
-                android:background="@drawable/icon_manual_contrast" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_manualConvergence"
-                android:background="@drawable/icon_manual_convergence" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_focus"
-                android:background="@drawable/icon_manual_focus" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.troop.freecam.controls.ExtendedCheckBox
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:id="@+id/checkBox_manualShutter"
-                android:background="@drawable/icon_manual_exposure" />
-        </LinearLayout>
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Convergence"
+                    android:id="@+id/toggleConvergence"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp" />
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Exposure"
+                    android:id="@+id/toggleExposure"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp" />
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Sharpness"
+                    android:id="@+id/toggleSharpness"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp" />
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Saturation"
+                    android:id="@+id/toggleSaturation"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Brightness"
+                    android:id="@+id/toggleBrightness"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Contrast"
+                    android:id="@+id/toggleContrast"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Focus"
+                    android:id="@+id/toggleFocus"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <com.troop.freecam.controls.ToggleControl
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:ToggleTextViewText="Shutter"
+                    android:id="@+id/toggleShutter"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
 </LinearLayout>
