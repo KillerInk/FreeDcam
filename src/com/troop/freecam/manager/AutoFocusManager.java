@@ -32,7 +32,7 @@ public class AutoFocusManager
     public boolean takePicture = false;
     ImageView crosshair;
     MainActivity activity;
-    final int crosshairshowTime = 3000;
+    final int crosshairshowTime = 5000;
 
     String supportedFocusModes = "auto, extended, manual, macro";
 
@@ -75,11 +75,23 @@ public class AutoFocusManager
             crosshair.setLayoutParams(mParams);
             crosshair.bringToFront();
 
-            if (cameraManager.parametersManager.getParameters().getMaxNumFocusAreas() >= 1 )
-                cameraManager.parametersManager.getParameters().setFocusAreas(null);
-            if(cameraManager.parametersManager.getParameters().getMaxNumMeteringAreas() >= 1)
-                cameraManager.parametersManager.getParameters().setMeteringAreas(null);
+            final Rect targetFocusRect = new Rect(
+                    (halflength - half) * 2000/activity.mPreview.getWidth() - 1000,
+                    (halfheight - half) * 2000/activity.mPreview.getHeight() - 1000,
+                    (halflength + half) * 2000/activity.mPreview.getWidth() - 1000,
+                    (halfheight + half) * 2000/activity.mPreview.getHeight() - 1000);
+            Camera.Area focusArea = new Camera.Area(targetFocusRect, 1000);
+            final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
 
+            if (cameraManager.parametersManager.getParameters().getMaxNumFocusAreas() >= 1 ) {
+                cameraManager.parametersManager.getParameters().setFocusAreas(null);
+                cameraManager.parametersManager.getParameters().setFocusAreas(meteringList);
+            }
+            if(cameraManager.parametersManager.getParameters().getMaxNumMeteringAreas() >= 1) {
+                cameraManager.parametersManager.getParameters().setMeteringAreas(null);
+                cameraManager.parametersManager.getParameters().setMeteringAreas(meteringList);
+            }
+            cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
             doFocus();
         }
     }
@@ -101,7 +113,7 @@ public class AutoFocusManager
 
     public void StartTouchToFocus(int x, int y)
     {
-        if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive)
+        if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive && cameraManager.Settings.touchToFocusSetting.get())
         {
             //focusing = true;
             crosshair.setVisibility(View.VISIBLE);

@@ -25,6 +25,7 @@ public class PictureSettingsSubMenuControl extends BaseSubMenu
     MenuItemControl switchPictureSize;
     public Switch ExynosRaw;
     public Switch tripod;
+    Switch switchTouchToFocus;
 
     public PictureSettingsSubMenuControl(Context context) {
         super(context);
@@ -82,6 +83,16 @@ public class PictureSettingsSubMenuControl extends BaseSubMenu
                     cameraManager.parametersManager.setNightEnable("off");
 
                 }
+            }
+        });
+
+        switchTouchToFocus = (Switch)findViewById(R.id.button_touchetofocus);
+        switchTouchToFocus.setChecked(cameraManager.Settings.touchToFocusSetting.get());
+        switchTouchToFocus.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cameraManager.Settings.touchToFocusSetting.set(switchTouchToFocus.isChecked());
             }
         });
 

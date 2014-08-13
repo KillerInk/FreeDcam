@@ -31,6 +31,16 @@
             custom:ButtonText=""
             custom:TextViewText="Picture Format"
             android:id="@+id/switch_pictureFormat" />
+
+        <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_touchetofocus"
+            android:textSize="@dimen/TextSizeSmallPlus"
+            android:text="Touch to Focus"
+            android:singleLine="true"
+            android:paddingLeft="4dp" />
+
         <Switch
             android:layout_width="fill_parent"
             android:layout_height="@dimen/app_icon_size"

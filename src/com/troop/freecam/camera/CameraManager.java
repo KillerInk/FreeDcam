@@ -276,37 +276,34 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 
     public void StartTakePicture()
     {
-        if (IsWorking == false)
+
+        //if cam is not working
+        if(!IsWorking)
         {
-            Log.d("StartTakingPicture", "takepicture:" + takePicture);
-            Log.d("StartTakingPicture", "touchtofocus:" + touchtofocus);
-            takePicture = true;
-            if (!IsWorking && !autoFocusManager.focusing && autoFocusManager.CanFocus())
+            //if focus mode is touch to focus
+            if(cameraManager.Settings.touchToFocusSetting.get())
             {
-                if (parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||
-                    parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
-                {
-                    if (!cameraManager.autoFocusManager.focusing)
-                    {
-                        if (!autoFocusManager.hasFocus)
-                        {
-                            autoFocusManager.StartFocus();
-                            autoFocusManager.takePicture = true;
-                        }
-                        else
-                        {
-                            TakePicture(crop);
-                        }
-                    }
-                }
-                else
-                {
-                    TakePicture(crop);
-                }
+                //take pic directly
+                TakePicture(crop);
             }
             else
-                TakePicture(crop);
+            {
+                if (!autoFocusManager.focusing && autoFocusManager.CanFocus() &&
+                    parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO) ||
+                    parametersManager.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_MACRO))
+                {
+                    if (!autoFocusManager.hasFocus)
+                    {
+                        autoFocusManager.StartFocus();
+                        autoFocusManager.takePicture = true;
+                    }
+                    else
+                    {
+                        TakePicture(crop);
+                    }
+                }
 
+            }
         }
     }
 

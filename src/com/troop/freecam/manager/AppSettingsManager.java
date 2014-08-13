@@ -132,6 +132,7 @@ public class AppSettingsManager
     public VideoProfiles VideoProfileSETTINGS;
     public CaptureFrameRate captureFrameRate;
     public PictureFormatClass pictureFormat;
+    public TouchToFocusSetting touchToFocusSetting;
 
 
     public AppSettingsManager(SharedPreferences preferences) {
@@ -163,6 +164,7 @@ public class AppSettingsManager
         VideoProfileSETTINGS =  new VideoProfiles();
         captureFrameRate = new CaptureFrameRate();
         pictureFormat = new PictureFormatClass();
+        touchToFocusSetting = new TouchToFocusSetting();
 
     }
 
@@ -573,6 +575,19 @@ public class AppSettingsManager
         public float get()
         {
             return preferences.getFloat("captureFrame", 30);
+        }
+    }
+
+    public class TouchToFocusSetting
+    {
+        public void set(boolean value)
+        {
+             preferences.edit().putBoolean("touch_to_focus", value).commit();
+        }
+
+        public boolean get()
+        {
+            return preferences.getBoolean("touch_to_focus", false);
         }
     }
 }
