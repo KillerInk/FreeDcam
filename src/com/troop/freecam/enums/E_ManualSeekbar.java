@@ -13,4 +13,5 @@ public enum E_ManualSeekbar
     Saturation,
     Sharpness,
     Shutter,
+    Zoom,
 }

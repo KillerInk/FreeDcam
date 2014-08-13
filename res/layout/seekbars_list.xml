@@ -43,4 +43,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/shutter_seekbar" />
 
+    <com.troop.freecam.menu.seekbar.ZoomSeekbar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoom_seekbar" />
+
 </LinearLayout>

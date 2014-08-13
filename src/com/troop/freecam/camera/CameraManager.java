@@ -17,10 +17,9 @@ import com.troop.freecam.manager.AutoFocusManager;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualFocus;
-import com.troop.freecam.menu.seekbar.ManualShutterSeekbar;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
-import com.troop.freecam.manager.ZoomManager;
+import com.troop.freecam.menu.seekbar.ZoomSeekbar;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -34,24 +33,18 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
 {
     final String TAG = "freecam.CameraManager";
     CameraManager cameraManager;
-    public ZoomManager zoomManager;
+
     public boolean Running = false;
     public AutoFocusManager autoFocusManager;
     public static final String KEY_CAMERA_INDEX = "camera-index";
     public static final String KEY_S3D_SUPPORTED_STR = "s3d-supported";
     public boolean touchtofocus = false;
     public MainActivity activity;
-
-
-
-
-
-
     public ManualFocus manualFocus;
     public HdrManager HdrRender;
-
     public boolean takePicture = false;
     public boolean isRdy = false;
+    private Camera.OnZoomChangeListener onZoomChangeListener;
 
 
 
@@ -60,25 +53,15 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         super(context, appSettingsManager);
         this.activity = activity;
         Log.d(TAG, "Loading CameraManager");
-        //scanManager = new MediaScannerManager(context.getContext());
         context.getHolder().addCallback(this);
-        zoomManager = new ZoomManager(this);
+
         autoFocusManager = new AutoFocusManager(this, activity);
-
-
         cameraManager = this;
-
-
-
-
-
-
         manualFocus = new ManualFocus(this);
         HdrRender = new HdrManager(this);
         parametersManager = new ParametersManager(this, appSettingsManager);
 
         Log.d(TAG, "Loading CameraManager done");
-
     }
 
     //Remaining Pictures Ca;cu;ation
@@ -91,8 +74,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         int mb = (int) megAvailable / 10;
 
         return mb;
-
-
     }
 //WIP
     public int VideoLength ()
@@ -104,7 +85,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         int mb = (int) megAvailable / 10;
 
         return mb;
-
     }
     //Aspect ratio Calc
     public String Aspect()
@@ -124,9 +104,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         if(ar == 1.333333333333333)
             return box;
 
-
         return box;
-
     }
     
     //On Picture Size Detect Do Action
@@ -135,17 +113,12 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         if (Double.parseDouble(Aspect()) == 1.777777777777778)
             parametersManager.getParameters().setPreviewSize(1920,1080);
 
-
         if(DeviceUtils.isG2())
             if(Double.parseDouble(Aspect()) == 1.333333333333333)
                 parametersManager.getParameters().setPreviewSize(1440,1080);
 
         if(Double.parseDouble(Aspect()) == 1.333333333333333)
             parametersManager.getParameters().setPreviewSize(1440,1080);
-
-        //532 Layer
-
-
     }
 
     Bitmap bitmascale;
@@ -158,7 +131,7 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         try
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 16;
+            options.inSampleSize = 32;
             Bitmap bitmaporg = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             //mediaScannerManager.startScan(s);
 
@@ -189,16 +162,20 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
         OpenCamera();
     }
 
+    public void SetOnZoomChangedListner(Camera.OnZoomChangeListener onZoomChangeListener)
+    {
+        this.onZoomChangeListener = onZoomChangeListener;
+    }
+
     @Override
     protected void OpenCamera() {
         super.OpenCamera();
         isRdy = false;
         try {
             mCamera.setPreviewDisplay(activity.mPreview.mHolder);
-            mCamera.setZoomChangeListener(zoomManager);
+            mCamera.setZoomChangeListener(onZoomChangeListener);
             if(Settings.OrientationFix.GET() == true)
                 fixCameraDisplayOrientation();
-            zoomManager.ResetZoom();
         } catch (Exception exception) {
             CloseCamera();
 

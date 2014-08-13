@@ -300,17 +300,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public boolean dispatchKeyEvent(KeyEvent event) {
         int key = event.getKeyCode();
         //zoom in
-        if(key == KeyEvent.KEYCODE_VOLUME_UP)
-        {
-            camMan.zoomManager.setZoom(1);
-        }
-        //zoom out
-        else if(key == KeyEvent.KEYCODE_VOLUME_DOWN)
-        {
-            camMan.zoomManager.setZoom(-1);
-        }
+
         //o3d 3d key take picture
-        else if(key == KeyEvent.KEYCODE_3D_MODE ||key == KeyEvent.KEYCODE_POWER )
+        seekbarListHandler.OnKeyEvent(event);
+        if(key == KeyEvent.KEYCODE_3D_MODE ||key == KeyEvent.KEYCODE_POWER )
         {
             doaction();
         }

@@ -2,6 +2,7 @@ package com.troop.freecam.menu.seekbar;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
@@ -30,6 +31,9 @@ public class SeekbarListHandler extends LinearLayout
     public ManualConvergenceSeekbar manualConvergenceSeekbar;
     public ManualFocusSeekbar manualFocusSeekbar;
     public ManualShutterSeekbar manualShutterSeekbar;
+    public ZoomSeekbar zoomSeekbar;
+
+    LandscapeSeekbarControl selectedSeekbar;
 
     List<LandscapeSeekbarControl> seekbarControls;
 
@@ -87,6 +91,10 @@ public class SeekbarListHandler extends LinearLayout
         manualShutterSeekbar.SetCameraManager(cameraManager);
         seekbarControls.add(manualShutterSeekbar);
 
+        zoomSeekbar = (ZoomSeekbar)findViewById(R.id.zoom_seekbar);
+        zoomSeekbar.SetCameraManager(cameraManager);
+        seekbarControls.add(zoomSeekbar);
+
         hideAll();
     }
 
@@ -134,6 +142,11 @@ public class SeekbarListHandler extends LinearLayout
             manualShutterSeekbar.SetMinMaxValues(0, cameraManager.parametersManager.manualShutter.getMax());
             manualShutterSeekbar.SetCurrentValue(cameraManager.parametersManager.manualShutter.getValue());
         }
+        if (cameraManager.parametersManager.getParameters().isZoomSupported())
+        {
+            zoomSeekbar.SetMinMaxValues(1, zoomSeekbar.getMaxZoomValue());
+            zoomSeekbar.SetCurrentValue(cameraManager.parametersManager.getParameters().getZoom());
+        }
     }
 
     public void setVisibility(E_ManualSeekbar e_manualSeekbar, boolean show)
@@ -141,10 +154,14 @@ public class SeekbarListHandler extends LinearLayout
         for (int i = 0; i<seekbarControls.size(); i++)
         {
             if (seekbarControls.get(i).GetManualSeekBarEnum() == e_manualSeekbar)
-                if (show)
+                if (show) {
                     seekbarControls.get(i).setVisibility(VISIBLE);
-                else
+                    selectedSeekbar = seekbarControls.get(i);
+                }
+                else {
                     seekbarControls.get(i).setVisibility(GONE);
+                    selectedSeekbar = zoomSeekbar;
+                }
             else
                 seekbarControls.get(i).setVisibility(GONE);
         }
@@ -155,6 +172,24 @@ public class SeekbarListHandler extends LinearLayout
         for (int i = 0; i<seekbarControls.size(); i++)
         {
             seekbarControls.get(i).setVisibility(GONE);
+            selectedSeekbar = zoomSeekbar;
         }
+    }
+
+    public boolean OnKeyEvent(KeyEvent keyEvent)
+    {
+        int key = keyEvent.getKeyCode();
+        if (selectedSeekbar != null) {
+            if (key == KeyEvent.KEYCODE_VOLUME_UP) {
+                selectedSeekbar.SetCurrentValue(selectedSeekbar.GetCurrentValue() + 1);
+                return true;
+            }
+            //zoom out
+            else if (key == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                selectedSeekbar.SetCurrentValue(selectedSeekbar.GetCurrentValue() - 1);
+                return true;
+            }
+        }
+        return false;
     }
 }
