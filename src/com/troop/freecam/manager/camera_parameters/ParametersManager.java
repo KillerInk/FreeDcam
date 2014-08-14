@@ -1009,21 +1009,38 @@ public class ParametersManager extends VideoParameters
         {
             int max = 0;
             try {
-                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    max = Integer.parseInt(parameters.get("max-saturation"));
-                }
-                else
-                {
-                    max = Integer.parseInt(parameters.get("saturation-max"));
-                }
-
+                max = Integer.parseInt(parameters.get("max-saturation"));
             }
             catch (Exception ex)
             {
-                max = 100;
             }
+            try
+            {
+                max = Integer.parseInt(parameters.get("saturation-max"));
+            }
+            catch (Exception ex)
+            {}
+            if (max == 0)
+                max = 100;
             return max;
+        }
+
+        public int getMin()
+        {
+            int min = 0;
+            try {
+                min = Integer.parseInt(parameters.get("min-saturation"));
+            }
+            catch (Exception ex)
+            {
+            }
+            try
+            {
+                min = Integer.parseInt(parameters.get("saturation-min"));
+            }
+            catch (Exception ex)
+            {}
+            return min;
         }
 
         public int getValue()
