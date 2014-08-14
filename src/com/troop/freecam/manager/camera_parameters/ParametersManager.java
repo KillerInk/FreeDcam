@@ -1056,10 +1056,31 @@ public class ParametersManager extends VideoParameters
                 max = Integer.parseInt(parameters.get("sharpness-max"));
             }
             catch (Exception ex)
-            {
-                max = 100;
+            {}
+            try {
+                max = Integer.parseInt(parameters.get("max-sharpness"));
             }
+            catch (Exception ex)
+            {}
+            if(max == 0)
+                max = 100;
             return max;
+        }
+
+        public int getMin()
+        {
+            int min = 0;
+            try {
+                min = Integer.parseInt(parameters.get("sharpness-min"));
+            }
+            catch (Exception ex)
+            {}
+            try {
+                min = Integer.parseInt(parameters.get("min-sharpness"));
+            }
+            catch (Exception ex)
+            {}
+            return min;
         }
 
         public int getValue()
