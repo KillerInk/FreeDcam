@@ -1523,21 +1523,20 @@ public class ParametersManager extends VideoParameters
     {
         public int getMax()
         {
-            int max = 0;
-            try {
-                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    max = Integer.parseInt(parameters.get("max-contrast"));
-
-                }
-                else
-                {
-                    max = Integer.parseInt(parameters.get("contrast-max"));
-                }
+            int max = 100;
+            try
+            {
+                 max = Integer.parseInt(parameters.get("max-contrast"));
             }
             catch (Exception ex)
             {
-                max = 100;
+            }
+            try
+            {
+                max = Integer.parseInt(parameters.get("contrast-max"));
+            }
+            catch (Exception ex)
+            {
             }
             return max;
         }
@@ -1546,19 +1545,18 @@ public class ParametersManager extends VideoParameters
         {
             int min = 0;
             try {
-                if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    min = Integer.parseInt(parameters.get("min-contrast"));
-
-                }
-                else
-                {
-                    min = Integer.parseInt(parameters.get("contrast-min"));
-                }
+                min = Integer.parseInt(parameters.get("min-contrast"));
+                min = Integer.parseInt(parameters.get("contrast-min"));
             }
             catch (Exception ex)
             {
-                min = 0;
+            }
+            try {
+
+                min = Integer.parseInt(parameters.get("contrast-min"));
+            }
+            catch (Exception ex)
+            {
             }
             return min;
         }
