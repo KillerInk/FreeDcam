@@ -86,15 +86,16 @@ public class ZoomSeekbar extends LandscapeSeekbarControl
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         super.onProgressChanged(seekBar, progress, fromUser);
-        if (fromUser && progress >= 1 &&progress <= cameraManager.parametersManager.getParameters().getMaxZoom()) {
+        if (fromUser && progress >= 0 &&progress <= cameraManager.parametersManager.getParameters().getMaxZoom()) {
             cameraManager.parametersManager.zoomManager.set(progress);
             textView_currentValue.setText("Zoom: " + progress);
+            current = progress;
         }
     }
 
     @Override
     public void SetCurrentValue(int current) {
-        if ( current >= 1 && current <= cameraManager.parametersManager.getParameters().getMaxZoom() )
+        if ( current >= 0 && current <= cameraManager.parametersManager.getParameters().getMaxZoom() )
         {
             this.current = current;
             Log.d(TAG, "SmoothZoomSupported:" + cameraManager.parametersManager.getParameters().isSmoothZoomSupported());
