@@ -34,6 +34,7 @@ public class ManualMenuControl extends LinearLayout
     ToggleControl toggleBrightness;
     ToggleControl toggleSaturation;
     ToggleControl toggleConvergence;
+    ToggleControl toggleZoom;
 
     private List<ToggleControl> toggleControls;
     SeekbarListHandler seekbarListHandler;
@@ -104,6 +105,11 @@ public class ManualMenuControl extends LinearLayout
         toggleConvergence.SetSeekbarValue(E_ManualSeekbar.Convergence);
         toggleControls.add(toggleConvergence);
         toggleConvergence.setOnClickListener(onCheckBoxClick);
+
+        toggleZoom = (ToggleControl)findViewById(R.id.toggleZoom);
+        toggleZoom.SetSeekbarValue(E_ManualSeekbar.Zoom);
+        toggleControls.add(toggleZoom);
+        toggleZoom.setOnClickListener(onCheckBoxClick);
     }
 
     OnClickListener onCheckBoxClick = new OnClickListener() {
@@ -173,6 +179,10 @@ public class ManualMenuControl extends LinearLayout
             {
                 toggleShutter.setVisibility(View.VISIBLE);
             }
+            if (camMan.parametersManager.getParameters().isZoomSupported())
+                toggleZoom.setVisibility(VISIBLE);
+            else
+                toggleZoom.setVisibility(GONE);
 
         }
     }

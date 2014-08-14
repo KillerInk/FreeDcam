@@ -13,7 +13,7 @@ import com.troop.freecam.enums.E_ManualSeekbar;
 /**
  * Created by troop on 27.08.13.
  */
-public class ZoomSeekbar extends LandscapeSeekbarControl implements Camera.OnZoomChangeListener
+public class ZoomSeekbar extends LandscapeSeekbarControl
 {
     boolean zoomaktiv = false;
     String TAG = "freecam.ZoomManager";
@@ -57,17 +57,18 @@ public class ZoomSeekbar extends LandscapeSeekbarControl implements Camera.OnZoo
         }
     }
 
-    @Override
-    public void onZoomChange(int zoomValue, boolean stopped, Camera camera)
-    {
-        if (stopped)
-            zoomaktiv = false;
-        //cameraManager.mCamera.stopSmoothZoom();
-    }
+    /*Camera.OnZoomChangeListener zoomChangeListener = new Camera.OnZoomChangeListener() {
+        @Override
+        public void onZoomChange(int zoomValue, boolean stopped, Camera camera) {
+            if (stopped)
+                zoomaktiv = false;
+        }
+    };*/
+
 
     public  void ResetZoom()
     {
-        current = 0;
+        current = 1;
     }
 
     public int getMaxZoomValue()
@@ -79,24 +80,25 @@ public class ZoomSeekbar extends LandscapeSeekbarControl implements Camera.OnZoo
     public void SetCameraManager(CameraManager cameraManager) {
         super.SetCameraManager(cameraManager);
         e_manualSeekbar = E_ManualSeekbar.Zoom;
-        cameraManager.SetOnZoomChangedListner(this);
+        //cameraManager.SetOnZoomChangedListner(zoomChangeListener);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         super.onProgressChanged(seekBar, progress, fromUser);
-        setZoom(progress);
-        textView_currentValue.setText("Zoom: " + progress);
-
+        if (fromUser && progress >= 1 &&progress <= cameraManager.parametersManager.getParameters().getMaxZoom()) {
+            cameraManager.parametersManager.zoomManager.set(progress);
+            textView_currentValue.setText("Zoom: " + progress);
+        }
     }
 
     @Override
     public void SetCurrentValue(int current) {
-        if ( current >= 0 && current <= cameraManager.parametersManager.getParameters().getMaxZoom() )
+        if ( current >= 1 && current <= cameraManager.parametersManager.getParameters().getMaxZoom() )
         {
             this.current = current;
             Log.d(TAG, "SmoothZoomSupported:" + cameraManager.parametersManager.getParameters().isSmoothZoomSupported());
-            cameraManager.parametersManager.getParameters().setZoom(current);
+            /*cameraManager.parametersManager.getParameters().setZoom(current);
             if (cameraManager.parametersManager.getParameters().isSmoothZoomSupported())
             {
                 cameraManager.mCamera.startSmoothZoom(current);
@@ -106,7 +108,7 @@ public class ZoomSeekbar extends LandscapeSeekbarControl implements Camera.OnZoo
             {
                 cameraManager.ReloadCameraParameters(false);
                 zoomaktiv = false;
-            }
+            }*/
 
 
         }

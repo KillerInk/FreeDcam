@@ -1781,4 +1781,28 @@ public class ParametersManager extends PictureParameters
             return max;
         }
     }
+
+    public class ZoomManager
+    {
+        int min;
+        int max;
+        int current;
+
+        public ZoomManager()
+        {
+            max = parameters.getMaxZoom();
+            min = 1;
+        }
+
+        public int get()
+        {
+            return parameters.getZoom();
+        }
+
+        public void set(int value)
+        {
+            parameters.setZoom(value);
+            cameraManager.ReloadCameraParameters(false);
+        }
+    }
 }
