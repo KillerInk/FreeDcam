@@ -64,7 +64,7 @@ public class ParametersManager extends PictureParameters
     public boolean getSupportManualShutter(){ return  supportManualShutter;}
     public boolean getSupportScene() { return supportScene;}
 
-    public BrightnessManager Brightness;
+    public ManualBrightnessManager Brightness;
     public AFPriorityManager AfPriority;
     public VideoModes videoModes;
     public ZeroShutterLagClass ZSLModes;
@@ -99,7 +99,7 @@ public class ParametersManager extends PictureParameters
         for(int i = 0; i < paras.length; i++)
             Log.d("freecam.CameraParameters", paras[i]);
         checkParametersSupport();
-        Brightness = new BrightnessManager();
+        Brightness = new ManualBrightnessManager();
         AfPriority = new AFPriorityManager();
         videoModes = new VideoModes();
         ZSLModes = new ZeroShutterLagClass();
@@ -454,10 +454,10 @@ public class ParametersManager extends PictureParameters
         }
     }
 
-    public class BrightnessManager
+    public class ManualBrightnessManager
     {
         String brightnessValue;
-        public BrightnessManager()
+        public ManualBrightnessManager()
         {
             try
             {
@@ -512,7 +512,7 @@ public class ParametersManager extends PictureParameters
         {
             int max = 100;
             try {
-                max = parameters.getInt("max-" + brightnessValue);
+                max = parameters.getInt("max-brightness");
             }
             catch (Exception ex)
             {
@@ -526,7 +526,7 @@ public class ParametersManager extends PictureParameters
         {
             int min = 100;
             try {
-                min = parameters.getInt("min-" + brightnessValue);
+                min = parameters.getInt("min-brightness");
             }
             catch (Exception ex)
             {
