@@ -63,6 +63,8 @@ public class ManualConvergenceSeekbar extends LandscapeSeekbarControl
     @Override
     public void SetCurrentValue(int current) {
         //super.SetCurrentValue(current + max);
+        if(current <= min || current >= max)
+            return;
         this.current = current;
         if (min < 0)
             seekBar.setProgress(current + max);

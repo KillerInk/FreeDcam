@@ -68,6 +68,8 @@ public class LandscapeSeekbarControl extends LinearLayout implements SeekBar.OnS
 
     public void SetCurrentValue(int current)
     {
+        if(current <= min || current >= max)
+            return;
         this.current = current;
         seekBar.setProgress(current);
     }
