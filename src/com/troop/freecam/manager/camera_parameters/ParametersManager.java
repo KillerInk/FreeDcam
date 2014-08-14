@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by troop on 16.10.13.
  */
-public class ParametersManager extends PictureParameters
+public class ParametersManager extends VideoParameters
 {
     //New Pref 07-12-13
 
@@ -66,7 +66,7 @@ public class ParametersManager extends PictureParameters
 
     public ManualBrightnessManager Brightness;
     public AFPriorityManager AfPriority;
-    public VideoModes videoModes;
+
     public ZeroShutterLagClass ZSLModes;
     public DenoiseClass Denoise;
     public WhiteBalanceClass WhiteBalance;
@@ -81,7 +81,7 @@ public class ParametersManager extends PictureParameters
     public ManualExposureClass manualExposure;
     public ManualContrastClass manualContrast;
     public ManualConvergenceClass manualConvergence;
-    public VideoProfiles VideoProfileClass;
+
     public ManualFocusClass manualFocus;
     public ManualShutterClass manualShutter;
     public ZoomManager zoomManager;
@@ -101,7 +101,7 @@ public class ParametersManager extends PictureParameters
         checkParametersSupport();
         Brightness = new ManualBrightnessManager();
         AfPriority = new AFPriorityManager();
-        videoModes = new VideoModes();
+
         ZSLModes = new ZeroShutterLagClass();
         Denoise = new DenoiseClass();
         WhiteBalance = new WhiteBalanceClass();
@@ -116,7 +116,7 @@ public class ParametersManager extends PictureParameters
         manualContrast = new ManualContrastClass();
         manualConvergence = new ManualConvergenceClass();
         manualFocus = new ManualFocusClass();
-        VideoProfileClass = new VideoProfiles();
+
         manualShutter = new ManualShutterClass();
         zoomManager = new ZoomManager();
 
@@ -145,13 +145,10 @@ public class ParametersManager extends PictureParameters
 
     private void checkParametersSupport()
     {
-
-
-
         try {
             if(DeviceUtils.isHTCADV() || DeviceUtils.isLGADV())
             {
-            supportManualFocus = true;
+                supportManualFocus = true;
             }
         }
         catch (Exception ex)
@@ -619,202 +616,7 @@ public class ParametersManager extends PictureParameters
         }
     }
 
-    public class VideoModes
-    {
-        List<Camera.Size> sizes;
-        public int Width;
-        public int Height;
 
-        public VideoModes()
-        {
-            sizes = parameters.getSupportedVideoSizes();
-            if (sizes == null || sizes.size() == 0)
-                sizes = parameters.getSupportedPreviewSizes();
-            if (preferences != null)
-                SetProfile(preferences.VideoSize.Get());
-
-        }
-
-        public String[] getStringValues()
-        {
-            String[] ar = new String[sizes.size()];
-            for (int i = 0; i< sizes.size(); i++)
-            {
-                ar[i] = (sizes.get(i).width + "x" + sizes.get(i).height);
-            }
-            return ar;
-        }
-
-        public void SetProfile(String tmp)
-        {
-            String[] widthHeight = tmp.split("x");
-            Width = Integer.parseInt(widthHeight[0]);
-            Height = Integer.parseInt(widthHeight[1]);
-            preferences.VideoSize.Set(Width + "x" + Height);
-            onParametersCHanged(enumParameters.VideoModes);
-        }
-
-
-    }
-
-    public class VideoProfiles
-    {
-        HashMap<String, CamcorderProfile> supportedProfiles;
-        int CAMCORDER_QUALITY_4kUHD = 12;
-        int CAMCORDER_QUALITY_4kDCI = 13;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kUHD = 1012;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kDCI = 1013;
-        String current;
-
-        public VideoProfiles()
-        {
-            supportedProfiles = new HashMap<String, CamcorderProfile>();
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CamcorderProfile.QUALITY_LOW))
-                    supportedProfiles.put("LOW", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_LOW));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_HIGH))
-                    supportedProfiles.put("HIGH", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_HIGH));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QCIF))
-                    supportedProfiles.put("QCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QCIF));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_CIF))
-                    supportedProfiles.put("CIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_CIF));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_480P))
-                    supportedProfiles.put("480p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_480P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_720P))
-                    supportedProfiles.put("720p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_720P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_1080P))
-                    supportedProfiles.put("1080p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_1080P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QVGA))
-                    supportedProfiles.put("QVGA", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_QVGA));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_LOW))
-                    supportedProfiles.put("TimelapseLOW", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_LOW));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_HIGH))
-                    supportedProfiles.put("TimelapseHIGH", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_HIGH));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QCIF))
-                    supportedProfiles.put("TimelapseQCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QCIF));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_CIF))
-                    supportedProfiles.put("TimelapseCIF", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_CIF));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_480P))
-                    supportedProfiles.put("Timelapse480p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_480P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_720P))
-                    supportedProfiles.put("Timelapse720p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_720P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_1080P))
-                    supportedProfiles.put("Timelapse1080p", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_1080P));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QVGA))
-                    supportedProfiles.put("TimelapseQVGA", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CamcorderProfile.QUALITY_TIME_LAPSE_QVGA));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_4kDCI))
-                    supportedProfiles.put("4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_4kDCI));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
-                    supportedProfiles.put("4kUHD", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_4kUHD));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI))
-                    supportedProfiles.put("Timelapse4kDCI", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kDCI));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (CamcorderProfile.hasProfile(cameraManager.Settings.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD))
-                    supportedProfiles.put("Timelapse4kUHD", CamcorderProfile.get(cameraManager.Settings.CurrentCamera,CAMCORDER_QUALITY_TIME_LAPSE_4kUHD));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            current = cameraManager.Settings.VideoProfileSETTINGS.get();
-        }
-
-        public String[] getProfiles()
-        {
-            return supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
-        }
-
-        public CamcorderProfile getProfile()
-        {
-            return supportedProfiles.get(current);
-        }
-
-        public String getProfileString()
-        {
-            return current;
-        }
-
-        public void SetProfile(String value)
-        {
-            current = value;
-            cameraManager.Settings.VideoProfileSETTINGS.set(value);
-        }
-    }
 
 
     public class ZeroShutterLagClass
