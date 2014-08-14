@@ -84,6 +84,7 @@ public class ParametersManager extends PictureParameters
     public VideoProfiles VideoProfileClass;
     public ManualFocusClass manualFocus;
     public ManualShutterClass manualShutter;
+    public ZoomManager zoomManager;
 
     public ParametersManager(CameraManager cameraManager, AppSettingsManager preferences)
     {
@@ -117,6 +118,7 @@ public class ParametersManager extends PictureParameters
         manualFocus = new ManualFocusClass();
         VideoProfileClass = new VideoProfiles();
         manualShutter = new ManualShutterClass();
+        zoomManager = new ZoomManager();
 
         loadDefaultOrLastSavedSettings();
         loadingParametersFinish = true;
@@ -143,6 +145,9 @@ public class ParametersManager extends PictureParameters
 
     private void checkParametersSupport()
     {
+
+
+
         try {
             if(DeviceUtils.isHTCADV() || DeviceUtils.isLGADV())
             {
@@ -929,10 +934,7 @@ public class ParametersManager extends PictureParameters
         {
             try
             {
-                if(DeviceUtils.isOmap())
-                    s_isoValues = "iso-mode-values";
-                if(DeviceUtils.isQualcomm())
-                    s_isoValues = "iso-values";
+                s_isoValues = "iso-mode-values";
                 values = getParameters().get(s_isoValues).split(",");
                 if (values != null && values.length > 0)
                     supportIso = true;
@@ -940,6 +942,17 @@ public class ParametersManager extends PictureParameters
             catch (Exception ex)
             {
                 supportIso = false;
+            }
+            if (!supportIso)
+            {
+                try {
+                    s_isoValues = "iso-values";
+                    values = getParameters().get(s_isoValues).split(",");
+                    if (values != null && values.length > 0)
+                        supportIso = true;
+                } catch (Exception ex) {
+                    supportIso = false;
+                }
             }
             Log.d(TAG,"support IsoModes:" + supportIso);
         }
