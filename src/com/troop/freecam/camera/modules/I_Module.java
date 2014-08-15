@@ -1,5 +1,6 @@
 package com.troop.freecam.camera.modules;
 
+import com.troop.freecam.camera.BaseCameraHolder;
 import com.troop.freecam.camera.I_CameraHandler;
 import com.troop.freecam.enums.E_ManualSeekbar;
 
@@ -9,7 +10,11 @@ import com.troop.freecam.enums.E_ManualSeekbar;
 public interface I_Module
 {
     public String ModuleName();
-    public void SetCameraHandler(I_CameraHandler cameraHandler);
+    public void SetCameraHandler(BaseCameraHolder cameraHandler);
+
+    /**
+     * Let the Module start its work
+     */
     public void DoWork();
     public boolean IsWorking();
 }
