@@ -28,10 +28,8 @@ public class ModuleHandler
         this.appSettingsManager = appSettingsManager;
         this.soundPlayer = soundPlayer;
         moduleList  = new HashMap<String, AbstractModule>();
-        PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager);
-        moduleList.put(pictureModule.ModuleName(), pictureModule);
-        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager);
-        moduleList.put(videoModule.ModuleName(), videoModule);
+        initModules();
+
     }
 
 
@@ -56,6 +54,18 @@ public class ModuleHandler
         }
         else
             return false;
+    }
+
+    private void initModules()
+    {
+        PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager);
+        moduleList.put(pictureModule.ModuleName(), pictureModule);
+
+        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager);
+        moduleList.put(videoModule.ModuleName(), videoModule);
+
+        HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager);
+        moduleList.put(hdrModule.ModuleName(), hdrModule);
     }
 
 }
