@@ -7,9 +7,10 @@ import android.hardware.Camera;
  */
 public interface I_CameraHandler
 {
-    public void OpenCamera();
+    public boolean OpenCamera(int camera);
     public void CloseCamera();
     public Camera GetCamera();
     public boolean IsWorking();
+    public boolean SetCameraParameters(Camera.Parameters parameters);
 
 }

@@ -12,108 +12,31 @@ import com.troop.freecam.utils.DeviceUtils;
  */
 public class BaseCameraHolder implements I_CameraHandler
 {
-    AppSettingsManager Settings;
     Camera mCamera;
     final  String TAG = "freecam.BaseCameraHolder";
 
-    public BaseCameraHolder(AppSettingsManager Settings)
+    public BaseCameraHolder()
     {
-        this.Settings = Settings;
     }
 
+    /**
+     * Opens the Camera
+     * @param camera the camera to open
+     * @return false if camera open fails, return true when open
+     */
     @Override
-    public void OpenCamera()
+    public boolean OpenCamera(int camera)
     {
-        String tmp = Settings.Cameras.GetCamera();
-        Settings.CameraCount = Camera.getNumberOfCameras();
-        if (Camera.getNumberOfCameras() == 3 || DeviceUtils.isEvo3d())
+        try
         {
-            Log.d(TAG, "Device Model: " + Build.MODEL);
-            if (tmp.equals(AppSettingsManager.Preferences.MODE_3D))
-            {
-                if (DeviceUtils.isEvo3d())
-                {
-                    Log.d(TAG, "try open sense 3D camera");
-                    try
-                    {
-                        mCamera = Camera.open(100);
-                        //mCamera.setErrorCallback(errorCallback);
-                        Settings.CurrentCamera = 100;
-                        Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back3D);
-                        Log.d(TAG, "sense 3D camera open");
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.printStackTrace();
-                        Log.e(TAG, "error open sense 3D Camera");
-                        CloseCamera();
-                    }
-                }
-                else
-                {
-                    mCamera = Camera.open(2);
-                    //mCamera.setErrorCallback(errorCallback);
-                    Settings.CurrentCamera = 2;
-                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back3D);
-                }
-            }
-            else if(tmp.equals(AppSettingsManager.Preferences.MODE_2D))
-            {
-                Log.d(TAG, "try open 2D camera");
-                try
-                {
-                    mCamera = Camera.open(0);
-                    //mCamera.setErrorCallback(errorCallback);
-                    Settings.CurrentCamera = 0;
-                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back2D);
-                }
-                catch (Exception ex)
-                {
-                    Log.e(TAG, "Set Camera to 2D failed");
-                    ex.printStackTrace();
-                    CloseCamera();
-                }
-            }
-            else if (tmp.equals(AppSettingsManager.Preferences.MODE_Front))
-            {
-                try
-                {
-                    Log.d(TAG, "try open Front camera");
-                    mCamera = Camera.open(1);
-                    //mCamera.setErrorCallback(errorCallback);
-                    Settings.CurrentCamera = 1;
-                    Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
-                }
-                catch (Exception ex)
-                {
-                    Log.e(TAG, "Set Camera to Front failed");
-                    ex.printStackTrace();
-                    CloseCamera();
-                }
-            }
+            mCamera = Camera.open(camera);
+            return true;
         }
-        else if (Camera.getNumberOfCameras() == 2)
+        catch (Exception ex)
         {
-            if(tmp.equals(AppSettingsManager.Preferences.MODE_2D))
-            {
-                mCamera = Camera.open(0);
-                Settings.CurrentCamera = 0;
-                Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Back2D);
-            }
-            if (tmp.equals(AppSettingsManager.Preferences.MODE_Front))
-            {
-                mCamera = Camera.open(1);
-                Settings.CurrentCamera = 1;
-                Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
-            }
-        }
-        else if (Camera.getNumberOfCameras() == 1)
-        {
-            mCamera = Camera.open(0);
-            Settings.CurrentCamera = 0;
-            Settings.Cameras.SetCameraEnum(AppSettingsManager.CameraValues.Front);
-        }
 
+        }
+        return false;
     }
 
     @Override
@@ -132,6 +55,17 @@ public class BaseCameraHolder implements I_CameraHandler
 
     @Override
     public boolean IsWorking() {
+        return false;
+    }
+
+    @Override
+    public boolean SetCameraParameters(Camera.Parameters parameters) {
+        try{
+            mCamera.setParameters(parameters);
+            return true;
+        }
+        catch (Exception ex)
+        {}
         return false;
     }
 }
