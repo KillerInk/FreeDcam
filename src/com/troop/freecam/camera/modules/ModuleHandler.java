@@ -30,6 +30,8 @@ public class ModuleHandler
         moduleList  = new HashMap<String, AbstractModule>();
         PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
+        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager);
+        moduleList.put(videoModule.ModuleName(), videoModule);
     }
 
 
