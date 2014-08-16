@@ -12,8 +12,8 @@ public abstract class AbstractModule implements I_Module
     protected BaseCameraHolder baseCameraHolder;
     protected AppSettingsManager Settings;
 
-    private boolean isWorking = false;
-    private String name;
+    protected boolean isWorking = false;
+    protected String name;
 
     protected SoundPlayer soundPlayer;
 

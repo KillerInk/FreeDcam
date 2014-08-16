@@ -16,8 +16,6 @@ import java.io.File;
 public class PictureModule extends AbstractModule implements Camera.PictureCallback {
 
 
-    private boolean isWorking;
-
     public final String TAG = "freecam.PictureModule";
 
     public PictureModule()
@@ -27,13 +25,13 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public PictureModule(BaseCameraHolder baseCameraHolder, SoundPlayer soundPlayer, AppSettingsManager appSettingsManager)
     {
         super(baseCameraHolder, soundPlayer, appSettingsManager);
-
+        name = "PictureModule";
     }
 
 
     @Override
     public String ModuleName() {
-        return null;
+        return name;
     }
 
     @Override
@@ -73,7 +71,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
-        //File tiff = getOutputMediaFile(3);
+        /*//File tiff = getOutputMediaFile(3);
         File file;
         boolean isRaw = false;
 
@@ -144,7 +142,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
 
         IsWorking = false;
-        data = null;
+        data = null;*/
 
     }
 }
