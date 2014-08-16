@@ -17,9 +17,6 @@ public abstract class AbstractModule implements I_Module
 
     protected SoundPlayer soundPlayer;
 
-    public AbstractModule()
-    {
-    }
     public AbstractModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings)
     {
         this.baseCameraHolder = cameraHandler;
@@ -30,11 +27,6 @@ public abstract class AbstractModule implements I_Module
     @Override
     public String ModuleName() {
         return null;
-    }
-
-    @Override
-    public void SetCameraHandler(BaseCameraHolder cameraHandler) {
-        this.baseCameraHolder = cameraHandler;
     }
 
     @Override
