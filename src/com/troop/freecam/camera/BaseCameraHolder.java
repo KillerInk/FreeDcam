@@ -14,6 +14,7 @@ public class BaseCameraHolder implements I_CameraHandler
 {
     Camera mCamera;
     final  String TAG = "freecam.BaseCameraHolder";
+    boolean isRdy = false;
 
     public BaseCameraHolder()
     {
@@ -30,11 +31,12 @@ public class BaseCameraHolder implements I_CameraHandler
         try
         {
             mCamera = Camera.open(camera);
+            isRdy = true;
             return true;
         }
         catch (Exception ex)
         {
-
+            isRdy = false;
         }
         return false;
     }
@@ -44,18 +46,24 @@ public class BaseCameraHolder implements I_CameraHandler
     {
         Log.d(TAG, "Try to close Camera");
         mCamera.release();
+        isRdy = false;
 
         mCamera = null;
     }
 
+    /**
+     * Check if the camera isrdy bevor calling this
+     * @return returns the CameraObject
+     */
+
     @Override
     public Camera GetCamera() {
-        return null;
+        return mCamera;
     }
 
     @Override
-    public boolean IsWorking() {
-        return false;
+    public boolean IsRdy() {
+        return isRdy;
     }
 
     @Override

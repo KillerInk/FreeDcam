@@ -10,7 +10,7 @@ public interface I_CameraHandler
     public boolean OpenCamera(int camera);
     public void CloseCamera();
     public Camera GetCamera();
-    public boolean IsWorking();
+    public boolean IsRdy();
     public boolean SetCameraParameters(Camera.Parameters parameters);
 
 }
