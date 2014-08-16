@@ -8,7 +8,7 @@ import com.troop.freecam.surfaces.CamPreview;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraManagerNew
+public class CameraUiWrapper
 {
     private CamPreview preview;
     private ModuleHandler moduleHandler;
@@ -17,7 +17,7 @@ public class CameraManagerNew
     SoundPlayer soundPlayer;
 
 
-    public CameraManagerNew(CamPreview preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public CameraUiWrapper(CamPreview preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
         this.preview = preview;
         this.soundPlayer = soundPlayer;
