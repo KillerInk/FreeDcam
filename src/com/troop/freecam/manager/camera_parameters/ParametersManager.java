@@ -1544,7 +1544,7 @@ public class ParametersManager extends VideoParameters
             int min = 0;
             try {
                 min = Integer.parseInt(parameters.get("min-contrast"));
-                min = Integer.parseInt(parameters.get("contrast-min"));
+
             }
             catch (Exception ex)
             {

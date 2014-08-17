@@ -15,8 +15,9 @@ public class ColorModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public void GetValue() {
-        parameters.getColorEffect();
+    public String GetValue()
+    {
+        return parameters.getColorEffect();
     }
 
     @Override

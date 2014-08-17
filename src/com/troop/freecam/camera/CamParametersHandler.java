@@ -12,6 +12,9 @@ import com.troop.freecam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecam.camera.parameters.modes.ColorModeParameter;
+import com.troop.freecam.camera.parameters.modes.ExposureModeParameter;
+import com.troop.freecam.camera.parameters.modes.FlashModeParameter;
+import com.troop.freecam.camera.parameters.modes.IsoModeParameter;
 
 /**
  * Created by troop on 17.08.2014.
@@ -31,8 +34,10 @@ public class CamParametersHandler
     public FocusManualParameter ManualFocus;
     public ShutterManualParameter ManualShutter;
 
-
     public ColorModeParameter ColorMode;
+    public ExposureModeParameter ExposureMode;
+    public FlashModeParameter FlashMode;
+    public IsoModeParameter IsoMode;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -50,38 +55,14 @@ public class CamParametersHandler
         initParameters();
     }
 
-    /*boolean supportManualSharpness = false;
-    public boolean getSupportManualSharpness() { return supportManualSharpness;}*/
-
-   /* boolean supportManualContrast = false;
-    public boolean getSupportManualContrast() { return  supportManualContrast;}*/
-
-   /* boolean supportManualBrightness = false;
-    public boolean getSupportManualBrightness() { return  supportManualBrightness;}
-*/
-    /*boolean supportManualSaturation = false;
-    public boolean getSupportManualSaturation() { return  supportManualSaturation;}*/
-
     boolean supportManualWhiteBalance = false;
     public boolean getSupportWhiteBalance() { return supportManualWhiteBalance; }
-
-   /* boolean supportManualConvergence = false;
-    public boolean getSupportManualConvergence() { return supportManualConvergence;}*/
-
-    boolean supportManualFocus = false;
-    public boolean getSupportManualFocus(){ return  supportManualFocus;}
-
-    boolean supportManualShutter = false;
-    public boolean getSupportManualShutter(){ return  supportManualShutter;}
 
     boolean supportFlash = false;
     public boolean getSupportFlash() { return  supportFlash;}
 
     boolean supportVNF = false;
     public boolean getSupportVNF() { return supportVNF;}
-
-    boolean supportAutoExposureModes = false;
-    public boolean getSupportAutoExposureModes() { return supportAutoExposureModes;}
 
     boolean supportAfpPriorityModes = false;
     public boolean getSupportAfpPriority() { return supportAfpPriorityModes;}
@@ -92,11 +73,8 @@ public class CamParametersHandler
     boolean supportZSL = false;
     public boolean getSupportZSL() { return supportZSL;}
 
-    boolean supportIso = false;
-    public boolean getSupportIso() { return  supportIso; }
 
-    boolean supportSceneModes = false;
-    public boolean getSupportSceneModes() { return supportSceneModes;}
+
 
 
     private void logParameters()
@@ -119,7 +97,9 @@ public class CamParametersHandler
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
 
         ColorMode = new ColorModeParameter(cameraParameters, "", "");
-
+        ExposureMode = new ExposureModeParameter(cameraParameters,"","");
+        FlashMode = new FlashModeParameter(cameraParameters,"","");
+        IsoMode = new IsoModeParameter(cameraParameters,"","");
 
 
     }

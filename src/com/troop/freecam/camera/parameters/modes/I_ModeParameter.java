@@ -11,7 +11,7 @@ public interface I_ModeParameter
 
     public void SetValue(String valueToSet);
 
-    public void GetValue();
+    public String GetValue();
 
     public String[] GetValues();
 

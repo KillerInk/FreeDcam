@@ -31,9 +31,9 @@ public abstract class BaseModeParameter implements I_ModeParameter
         parameters.set(value, valueToSet);
     }
 
-    public void GetValue()
+    public String GetValue()
     {
-        parameters.get(value);
+        return parameters.get(value);
     }
 
     public String[] GetValues()
