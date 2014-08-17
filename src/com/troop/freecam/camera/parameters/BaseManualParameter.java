@@ -42,6 +42,11 @@ public abstract class BaseManualParameter
         return parameters.getInt(value);
     }
 
+    public void SetValue(int valueToSet)
+    {
+        parameters.set(value, valueToSet);
+    }
+
     protected boolean hasSupport()
     {
         try
