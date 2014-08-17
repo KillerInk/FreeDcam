@@ -1,4 +1,4 @@
-package com.troop.freecam.camera.parameters;
+package com.troop.freecam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
