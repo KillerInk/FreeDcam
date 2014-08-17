@@ -12,6 +12,7 @@ import com.troop.freecam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freecam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecam.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freecam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecam.camera.parameters.modes.FlashModeParameter;
@@ -39,6 +40,7 @@ public class CamParametersHandler
     public ExposureModeParameter ExposureMode;
     public FlashModeParameter FlashMode;
     public IsoModeParameter IsoMode;
+    public AntiBandingModeParameter AntiBandingMode;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -90,7 +92,7 @@ public class CamParametersHandler
         logParameters();
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
-        ManualConvergence =new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
+        ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
         ManualExposure = new ExposureManualParameter(cameraParameters,"","","");
         ManualFocus = new FocusManualParameter(cameraParameters,"","","");
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
@@ -101,7 +103,7 @@ public class CamParametersHandler
         ExposureMode = new ExposureModeParameter(cameraParameters,"","");
         FlashMode = new FlashModeParameter(cameraParameters,"","");
         IsoMode = new IsoModeParameter(cameraParameters,"","");
-
+        AntiBandingMode = new AntiBandingModeParameter(cameraParameters, "antibanding", "antibanding-values");
 
     }
 }
