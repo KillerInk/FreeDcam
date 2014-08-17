@@ -1,4 +1,4 @@
-package com.troop.freecam.camera;
+package com.troop.freecam.camera.old;
 
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;

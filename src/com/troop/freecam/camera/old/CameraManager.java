@@ -1,4 +1,4 @@
-package com.troop.freecam.camera;
+package com.troop.freecam.camera.old;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,7 +19,6 @@ import com.troop.freecam.manager.HdrManager;
 import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
-import com.troop.freecam.menu.seekbar.ZoomSeekbar;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 
@@ -206,7 +205,6 @@ public class CameraManager extends VideoCam implements SurfaceHolder.Callback , 
      * @param restartPreview
      * if true preview is started
      */
-    //
     public  void ReloadCameraParameters(boolean restartPreview)
     {
         isRdy = false;
