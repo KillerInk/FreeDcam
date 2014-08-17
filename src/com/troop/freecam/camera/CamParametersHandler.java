@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freecam.camera.parameters.BrightnessManualParameter;
 import com.troop.freecam.camera.parameters.ContrastManualParameter;
+import com.troop.freecam.camera.parameters.ConvergenceManualParameter;
 import com.troop.freecam.camera.parameters.ExposureManualParameter;
 import com.troop.freecam.camera.parameters.SaturationManualParameter;
 import com.troop.freecam.camera.parameters.SharpnessManualParameter;
@@ -23,6 +24,7 @@ public class CamParametersHandler
     public ContrastManualParameter ManualContrast;
     public SaturationManualParameter ManualSaturation;
     public ExposureManualParameter ManualExposure;
+    public ConvergenceManualParameter ManualConvergence;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -100,9 +102,13 @@ public class CamParametersHandler
     {
         logParameters();
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
-        ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
-        ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
+        ManualConvergence =new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
         ManualExposure = new ExposureManualParameter(cameraParameters,"","","");
+        ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
+        ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
+
+
+
     }
 }
