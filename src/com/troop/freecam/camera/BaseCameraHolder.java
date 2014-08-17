@@ -1,16 +1,12 @@
 package com.troop.freecam.camera;
 
 import android.hardware.Camera;
-import android.os.Build;
 import android.util.Log;
-
-import com.troop.freecam.manager.AppSettingsManager;
-import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 15.08.2014.
  */
-public class BaseCameraHolder implements I_CameraHandler
+public class BaseCameraHolder implements I_CameraHolder
 {
     Camera mCamera;
     final  String TAG = "freecam.BaseCameraHolder";

@@ -5,7 +5,7 @@ import android.hardware.Camera;
 /**
  * Created by troop on 15.08.2014.
  */
-public interface I_CameraHandler
+public interface I_CameraHolder
 {
     public boolean OpenCamera(int camera);
     public void CloseCamera();
