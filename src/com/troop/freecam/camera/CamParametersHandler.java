@@ -31,6 +31,9 @@ public class CamParametersHandler
     public FocusManualParameter ManualFocus;
     public ShutterManualParameter ManualShutter;
 
+
+    public ColorModeParameter ColorMode;
+
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
@@ -114,6 +117,8 @@ public class CamParametersHandler
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
+
+        ColorMode = new ColorModeParameter(cameraParameters, "", "");
 
 
 
