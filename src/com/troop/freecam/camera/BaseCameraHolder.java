@@ -76,4 +76,9 @@ public class BaseCameraHolder implements I_CameraHandler
         {}
         return false;
     }
+
+    public Camera.Parameters GetCameraParameters()
+    {
+        return mCamera.getParameters();
+    }
 }
