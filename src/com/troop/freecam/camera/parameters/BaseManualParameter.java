@@ -19,7 +19,7 @@ public abstract class BaseManualParameter
         this.parameters = parameters;
         this.value = value;
         this.max_value = maxValue;
-        this.min_value = min_value;
+        this.min_value = MinValue;
     }
 
     public boolean IsSupported()
@@ -40,5 +40,19 @@ public abstract class BaseManualParameter
     public int GetValue()
     {
         return parameters.getInt(value);
+    }
+
+    protected boolean hasSupport()
+    {
+        try
+        {
+            parameters.getInt(value);
+            isSupported = true;
+        }
+        catch (Exception ex)
+        {
+            isSupported = false;
+        }
+        return isSupported;
     }
 }

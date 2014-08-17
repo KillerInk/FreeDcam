@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecam.camera.parameters.BrightnessManualParameter;
+import com.troop.freecam.camera.parameters.ContrastManualParameter;
 import com.troop.freecam.camera.parameters.SharpnessManualParameter;
 
 /**
@@ -17,6 +18,7 @@ public class CamParametersHandler
 
     public BrightnessManualParameter ManualBrightness;
     public SharpnessManualParameter ManualSharpness;
+    public ContrastManualParameter ManualContrast;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -37,8 +39,8 @@ public class CamParametersHandler
     /*boolean supportManualSharpness = false;
     public boolean getSupportManualSharpness() { return supportManualSharpness;}*/
 
-    boolean supportManualContrast = false;
-    public boolean getSupportManualContrast() { return  supportManualContrast;}
+   /* boolean supportManualContrast = false;
+    public boolean getSupportManualContrast() { return  supportManualContrast;}*/
 
    /* boolean supportManualBrightness = false;
     public boolean getSupportManualBrightness() { return  supportManualBrightness;}
@@ -95,5 +97,6 @@ public class CamParametersHandler
         logParameters();
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
+        ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
     }
 }

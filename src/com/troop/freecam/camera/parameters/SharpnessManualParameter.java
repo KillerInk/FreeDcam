@@ -11,31 +11,29 @@ public class SharpnessManualParameter extends BaseManualParameter
     {
         super(parameters, value, maxValue, MinValue);
         value = "sharpness";
-        int max = 0;
-        try {
-            max = Integer.parseInt(parameters.get("sharpness-max"));
-            max_value = "sharpness-max";
-        }
-        catch (Exception ex)
-        {}
-        try {
-            max = Integer.parseInt(parameters.get("max-sharpness"));
-            max_value = "max-sharpness";
-        }
-        catch (Exception ex)
-        {}
+        if (hasSupport()) {
+            int max = 0;
+            try {
+                max = Integer.parseInt(parameters.get("sharpness-max"));
+                max_value = "sharpness-max";
+            } catch (Exception ex) {
+            }
+            try {
+                max = Integer.parseInt(parameters.get("max-sharpness"));
+                max_value = "max-sharpness";
+            } catch (Exception ex) {
+            }
 
-        try {
-            max = Integer.parseInt(parameters.get("sharpness-min"));
-            min_value="sharpness-min";
+            try {
+                max = Integer.parseInt(parameters.get("sharpness-min"));
+                min_value = "sharpness-min";
+            } catch (Exception ex) {
+            }
+            try {
+                max = Integer.parseInt(parameters.get("min-sharpness"));
+                min_value = "min-sharpness";
+            } catch (Exception ex) {
+            }
         }
-        catch (Exception ex)
-        {}
-        try {
-            max = Integer.parseInt(parameters.get("min-sharpness"));
-            min_value="min-sharpness";
-        }
-        catch (Exception ex)
-        {}
     }
 }

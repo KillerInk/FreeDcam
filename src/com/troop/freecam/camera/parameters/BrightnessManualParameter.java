@@ -13,17 +13,8 @@ public class BrightnessManualParameter extends BaseManualParameter
     public BrightnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
     {
         super(parameters, value, maxValue, MinValue);
-        try
-        {
-            int i = parameters.getInt("brightness");
-            isSupported = true;
-            value = "brightness";
-        }
-        catch (Exception ex)
-        {
-            isSupported = false;
-        }
-        if (!isSupported)
+        value = "brightness";
+        if (hasSupport())
         {
             try
             {
