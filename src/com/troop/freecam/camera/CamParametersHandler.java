@@ -7,8 +7,10 @@ import com.troop.freecam.camera.parameters.BrightnessManualParameter;
 import com.troop.freecam.camera.parameters.ContrastManualParameter;
 import com.troop.freecam.camera.parameters.ConvergenceManualParameter;
 import com.troop.freecam.camera.parameters.ExposureManualParameter;
+import com.troop.freecam.camera.parameters.FocusManualParameter;
 import com.troop.freecam.camera.parameters.SaturationManualParameter;
 import com.troop.freecam.camera.parameters.SharpnessManualParameter;
+import com.troop.freecam.camera.parameters.ShutterManualParameter;
 
 /**
  * Created by troop on 17.08.2014.
@@ -25,6 +27,8 @@ public class CamParametersHandler
     public SaturationManualParameter ManualSaturation;
     public ExposureManualParameter ManualExposure;
     public ConvergenceManualParameter ManualConvergence;
+    public FocusManualParameter ManualFocus;
+    public ShutterManualParameter ManualShutter;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -57,8 +61,8 @@ public class CamParametersHandler
     boolean supportManualWhiteBalance = false;
     public boolean getSupportWhiteBalance() { return supportManualWhiteBalance; }
 
-    boolean supportManualConvergence = false;
-    public boolean getSupportManualConvergence() { return supportManualConvergence;}
+   /* boolean supportManualConvergence = false;
+    public boolean getSupportManualConvergence() { return supportManualConvergence;}*/
 
     boolean supportManualFocus = false;
     public boolean getSupportManualFocus(){ return  supportManualFocus;}
@@ -105,8 +109,10 @@ public class CamParametersHandler
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
         ManualConvergence =new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
         ManualExposure = new ExposureManualParameter(cameraParameters,"","","");
+        ManualFocus = new FocusManualParameter(cameraParameters,"","","");
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
 
 
 
