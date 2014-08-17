@@ -3,14 +3,15 @@ package com.troop.freecam.camera;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.troop.freecam.camera.parameters.BrightnessManualParameter;
-import com.troop.freecam.camera.parameters.ContrastManualParameter;
-import com.troop.freecam.camera.parameters.ConvergenceManualParameter;
-import com.troop.freecam.camera.parameters.ExposureManualParameter;
-import com.troop.freecam.camera.parameters.FocusManualParameter;
-import com.troop.freecam.camera.parameters.SaturationManualParameter;
-import com.troop.freecam.camera.parameters.SharpnessManualParameter;
-import com.troop.freecam.camera.parameters.ShutterManualParameter;
+import com.troop.freecam.camera.parameters.manual.BrightnessManualParameter;
+import com.troop.freecam.camera.parameters.manual.ContrastManualParameter;
+import com.troop.freecam.camera.parameters.manual.ConvergenceManualParameter;
+import com.troop.freecam.camera.parameters.manual.ExposureManualParameter;
+import com.troop.freecam.camera.parameters.manual.FocusManualParameter;
+import com.troop.freecam.camera.parameters.manual.SaturationManualParameter;
+import com.troop.freecam.camera.parameters.manual.SharpnessManualParameter;
+import com.troop.freecam.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freecam.camera.parameters.modes.ColorModeParameter;
 
 /**
  * Created by troop on 17.08.2014.
