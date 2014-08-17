@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.jni.bitmap_operations.JniBitmapHolder;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.SavePictureCallback;
 import com.troop.freecam.manager.ExifManager;
 import com.troop.freecam.manager.AppSettingsManager;

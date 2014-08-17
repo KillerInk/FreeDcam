@@ -10,11 +10,10 @@ import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.controls.NumericUpDownControl;
-import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 import com.troop.freecam.menu.submenu.HdrSubMenuControl;
 import com.troop.freecam.menu.submenu.PictureSettingsSubMenuControl;
 import com.troop.freecam.menu.submenu.PreviewSubMenuControl;
@@ -24,7 +23,6 @@ import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.menu.popupmenu.FlashMenu;
 import com.troop.freecam.menu.popupmenu.FocusMenu;
-import com.troop.freecam.menu.popupmenu.PictureSizeMenu;
 import com.troop.freecam.menu.popupmenu.VideoSizesMenu;
 import com.troop.freecam.menu.popupmenu.switchcameramenu;
 

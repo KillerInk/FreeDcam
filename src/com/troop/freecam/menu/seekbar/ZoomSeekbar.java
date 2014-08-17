@@ -1,12 +1,11 @@
 package com.troop.freecam.menu.seekbar;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.SeekBar;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.LandscapeSeekbarControl;
 import com.troop.freecam.enums.E_ManualSeekbar;
 
@@ -51,8 +50,6 @@ public class ZoomSeekbar extends LandscapeSeekbarControl
                     cameraManager.ReloadCameraParameters(false);
                     zoomaktiv = false;
                 }
-
-
             }
         }
     }

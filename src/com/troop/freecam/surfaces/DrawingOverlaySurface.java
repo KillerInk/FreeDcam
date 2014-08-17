@@ -11,7 +11,7 @@ import android.view.SurfaceHolder;
 //import com.htc.view.DisplaySetting;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.SizeAbleRectangle;
 import com.troop.freecam.manager.AppSettingsManager;
 

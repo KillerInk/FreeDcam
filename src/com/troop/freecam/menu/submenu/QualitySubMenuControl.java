@@ -9,12 +9,11 @@ import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.menu.popupmenu.AntibandingMenu;
 import com.troop.freecam.menu.popupmenu.DenoiseMenu;
 import com.troop.freecam.menu.popupmenu.IppMenu;
-import com.troop.freecam.menu.popupmenu.PictureFormatMenu;
 import com.troop.freecam.menu.popupmenu.ZslMenu;
 
 /**

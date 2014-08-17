@@ -8,10 +8,9 @@ import android.widget.Switch;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.MenuItemControl;
 import com.troop.freecam.manager.AppSettingsManager;
-import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.menu.popupmenu.PictureFormatMenu;
 import com.troop.freecam.menu.popupmenu.PictureSizeMenu;

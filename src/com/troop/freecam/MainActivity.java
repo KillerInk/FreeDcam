@@ -21,7 +21,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
+import com.troop.freecam.camera.CameraUiWrapper;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.AppSettingsManager;
@@ -77,6 +78,8 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     public CamPreview mPreview;
     SurfaceHolder holder;
 
+    CameraUiWrapper cameraUiWrapper;
+
     CheckEvo3DSwitchModeManager checkEvo3DSwitchModeManager;
 
 	@Override
@@ -91,6 +94,10 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         holder = mPreview.getHolder();
         camMan = new CameraManager(mPreview, this, appSettingsManager);
         camMan.parametersManager.setParametersChanged(this);
+
+        //TODO Soundplayer missing
+        cameraUiWrapper = new CameraUiWrapper(mPreview, appSettingsManager, null);
+
         if (DeviceUtils.isEvo3d())
         {
             checkEvo3DSwitchModeManager = new CheckEvo3DSwitchModeManager(camMan);

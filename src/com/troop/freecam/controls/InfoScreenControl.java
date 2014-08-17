@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.IShutterSpeedCallback;
 import com.troop.freecam.utils.DeviceUtils;
 

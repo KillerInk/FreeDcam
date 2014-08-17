@@ -8,7 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.interfaces.ILandscapeSeekbar;
 

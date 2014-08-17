@@ -3,7 +3,7 @@ package com.troop.freecam.manager;
 import android.os.Handler;
 import android.provider.Settings;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.utils.DeviceUtils;
 
 /**

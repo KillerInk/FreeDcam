@@ -2,7 +2,6 @@ package com.troop.freecam.manager;
 
 import android.content.Intent;
 import android.hardware.Camera;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -10,8 +9,7 @@ import android.util.Log;
 
 import com.troop.freecam.HDR.HdrRenderActivity;
 import com.troop.freecam.HDR.SavePictureRunnable;
-import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.PictureTakeFinish;
 
 import java.io.File;

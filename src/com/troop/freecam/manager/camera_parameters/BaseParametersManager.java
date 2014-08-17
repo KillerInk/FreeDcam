@@ -1,6 +1,6 @@
 package com.troop.freecam.manager.camera_parameters;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.AppSettingsManager;
 

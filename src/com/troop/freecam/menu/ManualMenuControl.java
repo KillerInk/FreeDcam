@@ -4,13 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
-import com.troop.freecam.controls.ToggleControl;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.controls.ToggleControl;
 import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.menu.seekbar.SeekbarListHandler;

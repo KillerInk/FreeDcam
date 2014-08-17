@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.surfaces.DrawingOverlaySurface;
 import com.troop.freecam.utils.DeviceUtils;

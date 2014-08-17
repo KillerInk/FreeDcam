@@ -2,7 +2,6 @@ package com.troop.freecam.manager;
 
 import android.graphics.Rect;
 import android.hardware.Camera;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +10,9 @@ import android.widget.RelativeLayout;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static android.hardware.Camera.AutoFocusCallback;
@@ -56,6 +53,8 @@ public class AutoFocusManager
 
     public void StartFocus()
     {
+        if (focusing)
+            CancelFocus();
 
         crosshair.setVisibility(View.VISIBLE);
         handler.removeCallbacks(runnable);
@@ -84,11 +83,9 @@ public class AutoFocusManager
             final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
 
             if (cameraManager.parametersManager.getParameters().getMaxNumFocusAreas() >= 1 ) {
-                cameraManager.parametersManager.getParameters().setFocusAreas(null);
                 cameraManager.parametersManager.getParameters().setFocusAreas(meteringList);
             }
             if(cameraManager.parametersManager.getParameters().getMaxNumMeteringAreas() >= 1) {
-                cameraManager.parametersManager.getParameters().setMeteringAreas(null);
                 cameraManager.parametersManager.getParameters().setMeteringAreas(meteringList);
             }
             cameraManager.mCamera.setParameters(cameraManager.parametersManager.getParameters());
@@ -113,7 +110,13 @@ public class AutoFocusManager
 
     public void StartTouchToFocus(int x, int y)
     {
-        if (!focusing && !cameraManager.IsWorking && !cameraManager.HdrRender.IsActive && cameraManager.Settings.touchToFocusSetting.get())
+        Log.d(TAG, "Start Touch to Focus");
+        if (focusing&& cameraManager.Settings.touchToFocusSetting.get())
+        {
+            Log.d(TAG, "Cancel Focus because is Focusing " + focusing );
+            CancelFocus();
+        }
+        if (!cameraManager.IsWorking && !cameraManager.HdrRender.IsActive )
         {
             //focusing = true;
             crosshair.setVisibility(View.VISIBLE);
@@ -121,7 +124,6 @@ public class AutoFocusManager
             handler.postDelayed(runnable, crosshairshowTime);
 
             int half = crosshair.getWidth()/2;
-            Log.d(TAG, "start TouchToFocus");
             final Rect targetFocusRect = new Rect(
                     (x - half) * 2000/activity.mPreview.getWidth() - 1000,
                     (y - half) * 2000/activity.mPreview.getHeight() - 1000,
@@ -154,6 +156,7 @@ public class AutoFocusManager
     public void CancelFocus()
     {
         cameraManager.mCamera.cancelAutoFocus();
+        cameraManager.mCamera.autoFocus(null);
         focusing = false;
     }
 
@@ -163,10 +166,15 @@ public class AutoFocusManager
         @Override
         public void onAutoFocus(boolean success, Camera camera)
         {
-            if (success)
+            Log.d(TAG, "Focusing Finished sucessfull: " + success);
+            if (success) {
                 hasFocus = true;
-            else
+
+            }
+            else {
                 hasFocus = false;
+
+            }
             focusing = false;
             if (success && takePicture)
             {
@@ -177,6 +185,7 @@ public class AutoFocusManager
         }
     };
 
+
     private Handler handler = new Handler();
     //this gets called when the touch to focus time has passed crosshairshowTime
     //hides the crosshair and set the focus to false
@@ -185,6 +194,7 @@ public class AutoFocusManager
         public void run()
         {
             crosshair.setVisibility(View.GONE);
+
             hasFocus = false;
         }
     };

@@ -3,9 +3,8 @@ package com.troop.freecam.manager;
 /**
  * Created by George on 12/4/13.
  */
-import android.widget.SeekBar;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.IStyleAbleSliderValueHasChanged;
 
 public class ManualFocus implements IStyleAbleSliderValueHasChanged {

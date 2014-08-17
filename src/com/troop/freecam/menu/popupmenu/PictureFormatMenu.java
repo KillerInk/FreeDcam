@@ -7,7 +7,7 @@ import android.widget.PopupMenu;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 
 /**
  * Created by George on 12/6/13.

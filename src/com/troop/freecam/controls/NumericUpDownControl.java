@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
 import com.troop.freecam.interfaces.INumericUpDownValueCHanged;
 
 /**

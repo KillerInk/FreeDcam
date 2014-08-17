@@ -1,16 +1,14 @@
 package com.troop.freecam.manager.camera_parameters;
 
 import android.hardware.Camera;
-import android.media.CamcorderProfile;
 import android.util.Log;
 import android.view.Display;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.PreviewSizeChangedInterface;
 import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.utils.DeviceUtils;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

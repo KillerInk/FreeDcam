@@ -1,6 +1,6 @@
 package com.troop.freecam.interfaces;
 
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 
 /**
  * Created by troop on 12.08.2014.

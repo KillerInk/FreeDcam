@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
-import com.troop.freecam.camera.CameraManager;
+import com.troop.freecam.camera.old.CameraManager;
 
 /**
  * Created by troop on 27.08.13.

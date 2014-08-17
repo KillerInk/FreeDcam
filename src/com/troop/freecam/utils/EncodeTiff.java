@@ -9,7 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.troop.freecam.R;
-import com.troop.freecam.camera.PictureCam;
+import com.troop.freecam.camera.old.PictureCam;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.nio.ByteBuffer;
 
 /**
  * Created by George on 6/10/14.
