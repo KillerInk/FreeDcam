@@ -1,8 +1,9 @@
-package com.troop.freecam.camera;
+package com.troop.freecam.camera.parameters;
 
 import android.hardware.Camera;
 import android.util.Log;
 
+import com.troop.freecam.camera.BaseCameraHolder;
 import com.troop.freecam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freecam.camera.parameters.manual.ContrastManualParameter;
 import com.troop.freecam.camera.parameters.manual.ConvergenceManualParameter;
