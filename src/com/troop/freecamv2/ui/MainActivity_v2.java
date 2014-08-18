@@ -3,7 +3,9 @@ package com.troop.freecamv2.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -11,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.ExpandableListView;
 
 import com.troop.freecam.R;
+import com.troop.freecam.manager.AppSettingsManager;
+import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.menu.ExpandableChild;
 import com.troop.freecamv2.ui.menu.ExpandableGroup;
 import com.troop.freecamv2.ui.menu.ExpandableListViewMenuAdapter;
@@ -26,14 +30,21 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     protected ViewGroup appViewGroup;
     ExpandableListView menuListView;
     ExpandableListViewMenuAdapter expandableListViewMenuAdapter;
+    TextureView cameraPreview;
+    CameraUiWrapper cameraUiWrapper;
+    AppSettingsManager appSettingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ArrayList<ExpandableGroup> grouplist = createMenu();
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(MainActivity_v2.this, grouplist);
         menuListView.setAdapter(expandableListViewMenuAdapter);
+        cameraPreview = (TextureView)findViewById(R.id.textureViewCameraPreview);
+        cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
 
+    }
 
     private ArrayList<ExpandableGroup> createMenu() {
         menuListView = (ExpandableListView)findViewById(R.id.expandableListViewSettings);

@@ -1,5 +1,6 @@
 package com.troop.freecamv2.camera;
 
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 
 /**
@@ -12,5 +13,8 @@ public interface I_CameraHolder
     public Camera GetCamera();
     public boolean IsRdy();
     public boolean SetCameraParameters(Camera.Parameters parameters);
+    public boolean SetPreviewTexture(SurfaceTexture texture);
+    public void StartPreview();
+    public void StopPreview();
 
 }

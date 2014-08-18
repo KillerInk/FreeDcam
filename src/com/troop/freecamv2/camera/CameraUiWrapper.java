@@ -1,7 +1,9 @@
 package com.troop.freecamv2.camera;
 
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
+import android.view.TextureView;
 
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecam.manager.AppSettingsManager;
@@ -12,48 +14,27 @@ import com.troop.freecam.utils.DeviceUtils;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper implements SurfaceHolder.Callback
+public class CameraUiWrapper implements TextureView.SurfaceTextureListener
 {
-    private CamPreview preview;
+    private TextureView preview;
     private ModuleHandler moduleHandler;
     private BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     SoundPlayer soundPlayer;
 
 
-    public CameraUiWrapper(CamPreview preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public CameraUiWrapper(TextureView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
         this.preview = preview;
         this.soundPlayer = soundPlayer;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
-        preview.getHolder().addCallback(this);
+        preview.setSurfaceTextureListener(this);
         cameraHolder = new BaseCameraHolder();
+
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
     }
 
-//SURFACEHOLDER Interface START
-    @Override
-    public void surfaceCreated(SurfaceHolder holder)
-    {
-        if (openCamera())
-        {
-
-        }
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        cameraHolder.CloseCamera();
-    }
-
-//SURFACEHOLDER Interface END
 
 
 //Module Handler START
@@ -99,4 +80,30 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
         return false;
     }
 
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        if (openCamera())
+        {
+            cameraHolder.SetPreviewTexture(preview.getSurfaceTexture());
+            cameraHolder.StartPreview();
+        }
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
+    {
+        cameraHolder.StopPreview();
+        cameraHolder.CloseCamera();
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+    }
 }

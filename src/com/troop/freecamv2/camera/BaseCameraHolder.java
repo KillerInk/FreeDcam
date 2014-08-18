@@ -1,7 +1,10 @@
 package com.troop.freecamv2.camera;
 
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
+
+import java.io.IOException;
 
 /**
  * Created by troop on 15.08.2014.
@@ -71,6 +74,29 @@ public class BaseCameraHolder implements I_CameraHolder
         catch (Exception ex)
         {}
         return false;
+    }
+
+    @Override
+    public boolean SetPreviewTexture(SurfaceTexture texture) {
+        try {
+            mCamera.setPreviewTexture(texture);
+            return  true;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+
+    @Override
+    public void StartPreview() {
+        mCamera.startPreview();
+    }
+
+    @Override
+    public void StopPreview()
+    {
+        mCamera.stopPreview();
     }
 
     public Camera.Parameters GetCameraParameters()
