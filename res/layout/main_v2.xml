@@ -19,7 +19,14 @@
             android:id="@+id/v2_settings_menu"
             android:focusable="false"
             android:animateLayoutChanges="true"
-            ></LinearLayout>
+            >
+
+            <ExpandableListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListViewSettings"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
