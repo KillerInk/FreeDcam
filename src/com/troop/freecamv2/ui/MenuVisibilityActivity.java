@@ -40,7 +40,9 @@ public class MenuVisibilityActivity extends Activity
         setContentView(R.layout.main_v2);
 
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
+        settingsLayout.setVisibility(View.GONE);
         manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
+        manualSettingsLayout.setVisibility(View.GONE);
 
         swipeMenuListner = new SwipeMenuListner(settingsLayout, manualSettingsLayout);
     }

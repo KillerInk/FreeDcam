@@ -29,17 +29,23 @@
             android:name="com.troop.freecam.MainActivity"
             android:screenOrientation="landscape"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
 
             android:screenOrientation="landscape"
             android:name="com.troop.freecam.HDR.HdrRenderActivity" >
 
+        </activity>
+        <activity
+
+            android:screenOrientation="landscape"
+            android:name="com.troop.freecamv2.ui.MainActivity_v2" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
