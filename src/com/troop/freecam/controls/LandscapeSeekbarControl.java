@@ -12,6 +12,9 @@ import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.enums.E_ManualSeekbar;
 import com.troop.freecam.interfaces.ILandscapeSeekbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by troop on 11.08.2014.
  */
@@ -25,6 +28,7 @@ public class LandscapeSeekbarControl extends LinearLayout implements SeekBar.OnS
     protected int current;
     protected CameraManager cameraManager;
     protected E_ManualSeekbar e_manualSeekbar;
+    protected List<String> stringList;
 
     public LandscapeSeekbarControl(Context context) {
         super(context);
@@ -46,6 +50,7 @@ public class LandscapeSeekbarControl extends LinearLayout implements SeekBar.OnS
         textView_currentValue = (TextView)findViewById(R.id.landscape_seekbar_textview);
         seekBar = (SeekBar)findViewById(R.id.landscape_seekBar);
         seekBar.setOnSeekBarChangeListener(this);
+        stringList = new ArrayList<String>();
     }
 
     public E_ManualSeekbar GetManualSeekBarEnum()
@@ -81,7 +86,15 @@ public class LandscapeSeekbarControl extends LinearLayout implements SeekBar.OnS
 
     public void SetText(String text)
     {
-        textView_currentValue.setText(text);
+        if (stringList != null && stringList.size() > 0)
+            textView_currentValue.setText(text + stringList.get(current));
+        else
+            textView_currentValue.setText(text + current);
+    }
+
+    public void SetStringList(List<String> stringList)
+    {
+        this.stringList = stringList;
     }
 
     @Override

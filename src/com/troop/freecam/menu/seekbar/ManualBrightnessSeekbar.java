@@ -36,15 +36,16 @@ public class ManualBrightnessSeekbar extends LandscapeSeekbarControl
         super.onProgressChanged(seekBar, progress, fromUser);
         if (cameraManager.parametersManager.getSupportBrightness() && progress >= cameraManager.parametersManager.Brightness.GetMinValue() && progress <= cameraManager.parametersManager.Brightness.GetMaxValue())
         {
+            current = progress;
             cameraManager.parametersManager.Brightness.Set(progress);
-            textView_currentValue.setText("Brightness: " + progress);
+            SetText("Brightness: ");
         }
     }
 
     @Override
     public void SetCurrentValue(int current) {
         super.SetCurrentValue(current);
-        textView_currentValue.setText("Brightness: " + current);
+        SetText("Brightness: ");
     }
 
 

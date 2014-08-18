@@ -37,14 +37,15 @@ public class ManualContrastSeekbar extends LandscapeSeekbarControl
         if (cameraManager.parametersManager.getSupportContrast() && fromUser)
         {
             cameraManager.parametersManager.manualContrast.set(progress);
-            textView_currentValue.setText("Contrast: " + progress);
+            current = progress;
+            SetText("Contrast: ");
         }
     }
 
     @Override
     public void SetCurrentValue(int current) {
         super.SetCurrentValue(current);
-        textView_currentValue.setText("Contrast: " + current);
+        SetText("Contrast: ");
     }
 
 }
