@@ -47,4 +47,9 @@ public class PictureSizeParameter extends BaseModeParameter
 
         return stringList.toArray(new String[sizes.size()]);
     }
+
+    @Override
+    public boolean IsSupported() {
+        return true;
+    }
 }

@@ -17,6 +17,7 @@ import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 
 /**
  * Created by troop on 17.08.2014.
@@ -41,6 +42,7 @@ public class CamParametersHandler
     public FlashModeParameter FlashMode;
     public IsoModeParameter IsoMode;
     public AntiBandingModeParameter AntiBandingMode;
+    public PictureSizeParameter PictureSize;
 
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
@@ -55,6 +57,11 @@ public class CamParametersHandler
     public void SetParametersToCamera()
     {
         cameraHolder.SetCameraParameters(cameraParameters);
+    }
+
+    public void LoadParametersFromCamera()
+    {
+        cameraParameters = cameraHolder.GetCameraParameters();
         initParameters();
     }
 
@@ -104,6 +111,8 @@ public class CamParametersHandler
         FlashMode = new FlashModeParameter(cameraParameters,"","");
         IsoMode = new IsoModeParameter(cameraParameters,"","");
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters, "antibanding", "antibanding-values");
+        PictureSize = new PictureSizeParameter(cameraParameters, "", "");
+
 
     }
 }

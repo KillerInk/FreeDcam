@@ -10,6 +10,7 @@ import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 
 /**
  * Created by troop on 16.08.2014.
@@ -21,6 +22,7 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
     private BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     SoundPlayer soundPlayer;
+    CamParametersHandler  camParametersHandler;
 
 
     public CameraUiWrapper(TextureView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
@@ -31,7 +33,7 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
         //attache the callback to the Campreview
         preview.setSurfaceTextureListener(this);
         cameraHolder = new BaseCameraHolder();
-
+        camParametersHandler = new CamParametersHandler(cameraHolder);
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
     }
 
@@ -85,6 +87,7 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
         if (openCamera())
         {
             cameraHolder.SetPreviewTexture(preview.getSurfaceTexture());
+            camParametersHandler.GetParametersFromCamera();
             cameraHolder.StartPreview();
         }
     }
