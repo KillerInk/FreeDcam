@@ -24,6 +24,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 {
     Activity context;
     CameraUiWrapper cameraUiWrapper;
+    MenuCreator menuCreator;
     /**
      * this holds the mainmenu
      */
@@ -43,6 +44,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.OnParametersLoaded = this;
+        menuCreator = new MenuCreator(context, cameraUiWrapper);
 
 
         mShortAnimationDuration = context.getResources().getInteger(
@@ -51,55 +53,10 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
-        createPictureSettingsGroup(grouplist);
-        createModesSettingsGroup(grouplist);
+        grouplist.add(menuCreator.CreatePictureSettings());
+        grouplist.add(menuCreator.CreateModeSettings());
         return grouplist;
     }
-
-    private void createPictureSettingsGroup(ArrayList<ExpandableGroup> groups)
-    {
-        ExpandableGroup picGroup = new ExpandableGroup();
-        picGroup.setName("Picture Settings");
-        groups.add(picGroup);
-        createPictureSettingsChilds(picGroup);
-    }
-
-    private void createPictureSettingsChilds(ExpandableGroup group)
-    {
-        ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
-        ExpandableChild picSize = new ExpandableChild(context);
-        picSize.setName("Picture Size");
-        picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize);
-        piclist.add(picSize);
-        group.setItems(piclist);
-
-    }
-
-    private void createModesSettingsGroup(ArrayList<ExpandableGroup> groups)
-    {
-        ExpandableGroup modesGroup = new ExpandableGroup();
-        modesGroup.setName("Mode Settings");
-        groups.add(modesGroup);
-        createModesSettingsChilds(modesGroup);
-    }
-
-    private void createModesSettingsChilds(ExpandableGroup group)
-    {
-        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-
-        ExpandableChild color = new ExpandableChild(context);
-        color.setName("Color");
-        color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode);
-        childlist.add(color);
-
-        ExpandableChild iso = new ExpandableChild(context);
-        iso.setName("Iso");
-        iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode);
-        childlist.add(iso);
-
-        group.setItems(childlist);
-    }
-
 
     //Expendable LIstview click
     @Override
