@@ -52,16 +52,16 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
         createPictureSettingsGroup(grouplist);
+        createModesSettingsGroup(grouplist);
         return grouplist;
     }
 
-    private ArrayList<ExpandableGroup> createPictureSettingsGroup(ArrayList<ExpandableGroup> groups)
+    private void createPictureSettingsGroup(ArrayList<ExpandableGroup> groups)
     {
         ExpandableGroup picGroup = new ExpandableGroup();
         picGroup.setName("Picture Settings");
         groups.add(picGroup);
         createPictureSettingsChilds(picGroup);
-        return groups;
     }
 
     private void createPictureSettingsChilds(ExpandableGroup group)
@@ -73,6 +73,31 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         piclist.add(picSize);
         group.setItems(piclist);
 
+    }
+
+    private void createModesSettingsGroup(ArrayList<ExpandableGroup> groups)
+    {
+        ExpandableGroup modesGroup = new ExpandableGroup();
+        modesGroup.setName("Mode Settings");
+        groups.add(modesGroup);
+        createModesSettingsChilds(modesGroup);
+    }
+
+    private void createModesSettingsChilds(ExpandableGroup group)
+    {
+        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
+
+        ExpandableChild color = new ExpandableChild(context);
+        color.setName("Color");
+        color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode);
+        childlist.add(color);
+
+        ExpandableChild iso = new ExpandableChild(context);
+        iso.setName("Iso");
+        iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode);
+        childlist.add(iso);
+
+        group.setItems(childlist);
     }
 
 
@@ -180,6 +205,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     {
         String value = (String) listView.getItemAtPosition(position);
         selectedChild.setValue(value);
+        selectedChild = null;
         hideSubMenuAndShowMenu();
 
     }

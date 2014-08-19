@@ -7,8 +7,8 @@ import android.hardware.Camera;
  */
 public abstract class BaseModeParameter implements I_ModeParameter
 {
-    String value;
-    String values;
+    protected String value;
+    protected String values;
     boolean isSupported = false;
     Camera.Parameters parameters;
 

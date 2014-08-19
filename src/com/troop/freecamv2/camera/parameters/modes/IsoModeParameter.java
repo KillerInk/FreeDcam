@@ -12,20 +12,39 @@ public class IsoModeParameter extends BaseModeParameter
         super(parameters, value, values);
         try
         {
-            parameters.get("iso-mode-values");
-            value = "iso";
-            values = "iso-mode-values";
-            isSupported = true;
+            String isomodes = parameters.get("iso-mode-values");
+            if (isomodes != null && !isomodes.equals("")) {
+                this.value = "iso";
+                this.values = "iso-mode-values";
+                isSupported = true;
+            }
         }
         catch (Exception ex){}
         if (!isSupported)
         {
             try {
-                parameters.get("iso-values").split(",");
-                value = "iso";
-                values = "iso-values";
-                isSupported = true;
+                String isomodes = parameters.get("iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso";
+                    this.values = "iso-values";
+                    isSupported = true;
+                }
             } catch (Exception ex) {}
         }
+    }
+
+    @Override
+    public void SetValue(String valueToSet) {
+        super.SetValue(valueToSet);
+    }
+
+    @Override
+    public String GetValue() {
+        return super.GetValue();
+    }
+
+    @Override
+    public String[] GetValues() {
+        return super.GetValues();
     }
 }

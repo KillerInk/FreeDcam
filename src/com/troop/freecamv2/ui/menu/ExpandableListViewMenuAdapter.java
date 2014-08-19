@@ -82,11 +82,10 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {
         ExpandableChild child = (ExpandableChild) getChild(groupPosition, childPosition);
-        if (convertView == null) {
 
             convertView = child;
             convertView.setClickable(false);
-        }
+
         /*TextView tv = (TextView) convertView.findViewById(R.id.tvChild);
         tv.setText(child.getName().toString());
         tv.setTag(child.Value());
