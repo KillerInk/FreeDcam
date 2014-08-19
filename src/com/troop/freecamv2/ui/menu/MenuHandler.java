@@ -36,6 +36,8 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
     int mShortAnimationDuration;
 
+    ExpandableChild selectedChild;
+
     public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper)
     {
         this.context = context;
@@ -81,10 +83,11 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         //get the group
         ExpandableGroup group = (ExpandableGroup)expandableListViewMenuAdapter.getGroup(groupPosition);
         //get the child from group
-        ExpandableChild child = (ExpandableChild)group.getItems().get(childPosition);
+        selectedChild = (ExpandableChild)group.getItems().get(childPosition);
+
 
         //get values from child attached parameter
-        String[] values = child.getParameterHolder().GetValues();
+        String[] values = selectedChild.getParameterHolder().GetValues();
         //set values to the adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
@@ -126,6 +129,38 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
                 });
     }
 
+    private void hideSubMenuAndShowMenu()
+    {
+        listView.setAlpha(1f);
+        listView.setVisibility(View.VISIBLE);
+        listView.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation)
+                    {
+                        listView.setVisibility(View.GONE);
+                        showMenu();
+                    }
+                });
+    }
+
+    private void showMenu()
+    {
+        expandableListView.setAlpha(0f);
+        expandableListView.setVisibility(View.VISIBLE);
+        expandableListView.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                    }
+                });
+    }
+
     //this get fired when the cameraparametershandler has finished loading the parameters and all values are availible
     @Override
     public void ParametersLoaded()
@@ -141,7 +176,11 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        String value = (String) listView.getItemAtPosition(position);
+        selectedChild.setValue(value);
+        hideSubMenuAndShowMenu();
 
     }
 }

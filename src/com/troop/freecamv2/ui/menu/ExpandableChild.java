@@ -16,7 +16,6 @@ import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 public class ExpandableChild extends LinearLayout
 {
     private String Name;
-    private String Value;
     private I_ModeParameter parameterHolder;
     Context context;
     TextView nameTextView;
@@ -53,10 +52,12 @@ public class ExpandableChild extends LinearLayout
         this.Name = Name;
     }
     public String Value() {
-        return Value;
+        return parameterHolder.GetValue();
     }
-    public void setValue(String value) {
-        this.Value = value;
+    public void setValue(String value)
+    {
+        valueTextView.setText(value);
+        parameterHolder.SetValue(value);
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
