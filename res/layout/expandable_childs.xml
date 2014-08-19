@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="55dip"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/app_icon_size"
 
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#ff818181"
+    android:alpha="0.5">
 
 
     <TextView
         android:id="@+id/tvChild"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dip" />
+        android:textSize="19dip"
+        android:text="Test"
+        android:clickable="false"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:autoText="false"
+        android:textColor="#ff000000" />
+    <TextView
+        android:id="@+id/tvChildValue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dip"
+        android:text="Test"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center_horizontal"
+        android:textColor="#ff000000" />
 
 </LinearLayout>

@@ -18,6 +18,7 @@ import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.menu.ExpandableChild;
 import com.troop.freecamv2.ui.menu.ExpandableGroup;
 import com.troop.freecamv2.ui.menu.ExpandableListViewMenuAdapter;
+import com.troop.freecamv2.ui.menu.MenuHandler;
 
 import java.util.ArrayList;
 
@@ -33,32 +34,23 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     TextureView cameraPreview;
     CameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
+    MenuHandler menuHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<ExpandableGroup> grouplist = createMenu();
+
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
-        expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(MainActivity_v2.this, grouplist);
-        menuListView.setAdapter(expandableListViewMenuAdapter);
+
+
         cameraPreview = (TextureView)findViewById(R.id.textureViewCameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
+        menuHandler = new MenuHandler(this, cameraUiWrapper);
+
 
     }
 
-    private ArrayList<ExpandableGroup> createMenu() {
-        menuListView = (ExpandableListView)findViewById(R.id.expandableListViewSettings);
-        ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
-        ArrayList<ExpandableChild> pcilist = new ArrayList<ExpandableChild>();
-        ExpandableGroup picGroup = new ExpandableGroup();
-        picGroup.setName("Picture Settings");
-        ExpandableChild picSize = new ExpandableChild();
-        picSize.setName("PictureSize");
-        pcilist.add(picSize);
-        picGroup.setItems(pcilist);
-        grouplist.add(picGroup);
-        return grouplist;
-    }
+
 
     @Override
     protected void onResume() {
@@ -71,4 +63,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         super.onPause();
 
     }
+
+
 }

@@ -44,6 +44,8 @@ public class CamParametersHandler
     public AntiBandingModeParameter AntiBandingMode;
     public PictureSizeParameter PictureSize;
 
+    public I_ParametersLoaded OnParametersLoaded;
+
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
@@ -113,6 +115,7 @@ public class CamParametersHandler
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters, "antibanding", "antibanding-values");
         PictureSize = new PictureSizeParameter(cameraParameters, "", "");
 
-
+        if (OnParametersLoaded != null)
+            OnParametersLoaded.ParametersLoaded();
     }
 }

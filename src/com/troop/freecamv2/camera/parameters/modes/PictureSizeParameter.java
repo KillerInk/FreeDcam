@@ -30,7 +30,6 @@ public class PictureSizeParameter extends BaseModeParameter
     @Override
     public String GetValue()
     {
-        List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
 
         String picsize = parameters.getPictureSize().width + "x" + parameters.getPictureSize().height;
         return picsize;
@@ -43,7 +42,7 @@ public class PictureSizeParameter extends BaseModeParameter
         List<String> stringList = new ArrayList<String>();
 
         for (int i = 0; i < sizes.size(); i++)
-            stringList.add(sizes.get(i).width + "x" + sizes.get(i).width);
+            stringList.add(sizes.get(i).width + "x" + sizes.get(i).height);
 
         return stringList.toArray(new String[sizes.size()]);
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
@@ -69,6 +70,7 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
         {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = inf.inflate(R.layout.expandable_groups, null);
+            convertView.setClickable(false);
         }
         TextView tv = (TextView) convertView.findViewById(R.id.tvGroup);
         tv.setText(group.getName().toString());
@@ -81,18 +83,21 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
     {
         ExpandableChild child = (ExpandableChild) getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.expandable_childs, null);
+
+            convertView = child;
+            convertView.setClickable(false);
         }
-        TextView tv = (TextView) convertView.findViewById(R.id.tvChild);
+        /*TextView tv = (TextView) convertView.findViewById(R.id.tvChild);
         tv.setText(child.getName().toString());
-        tv.setTag(child.getTag());
-        // TODO Auto-generated method stub
+        tv.setTag(child.Value());
+        // TODO Auto-generated method stub*/
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
+
+
 }

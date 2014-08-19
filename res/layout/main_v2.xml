@@ -4,6 +4,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextureView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textureViewCameraPreview" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -13,7 +18,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="fill_parent"
             android:background="#ffffffff"
             android:id="@+id/v2_settings_menu"
@@ -22,10 +27,14 @@
             >
 
             <ExpandableListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/expandableListViewSettings"
-                android:layout_weight="1" />
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/expandableListViewSettings" />
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/subMenuSettings" />
         </LinearLayout>
 
         <LinearLayout
@@ -37,4 +46,5 @@
             android:animateLayoutChanges="true"
             ></LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>
