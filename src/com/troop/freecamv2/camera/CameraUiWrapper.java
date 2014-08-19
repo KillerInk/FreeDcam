@@ -22,7 +22,7 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
     private BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     SoundPlayer soundPlayer;
-    CamParametersHandler  camParametersHandler;
+    public CamParametersHandler camParametersHandler;
 
 
     public CameraUiWrapper(TextureView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
@@ -87,7 +87,7 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
         if (openCamera())
         {
             cameraHolder.SetPreviewTexture(preview.getSurfaceTexture());
-            camParametersHandler.GetParametersFromCamera();
+            camParametersHandler.LoadParametersFromCamera();
             cameraHolder.StartPreview();
         }
     }
