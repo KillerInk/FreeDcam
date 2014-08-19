@@ -47,4 +47,13 @@
             ></LinearLayout>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="@dimen/appiconsizedouble"
+        android:layout_height="@dimen/appiconsizedouble"
+        android:id="@+id/shutter_imageview"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/shutter"
+        android:longClickable="false" />
+
 </RelativeLayout>
