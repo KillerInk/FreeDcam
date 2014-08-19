@@ -49,15 +49,27 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        ExpandableChild color = new ExpandableChild(context);
-        color.setName("Color");
-        color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode);
-        childlist.add(color);
+        if (cameraUiWrapper.camParametersHandler.ColorMode.IsSupported()) {
+            ExpandableChild color = new ExpandableChild(context);
+            color.setName("Color");
+            color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode);
+            childlist.add(color);
+        }
 
-        ExpandableChild iso = new ExpandableChild(context);
-        iso.setName("Iso");
-        iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode);
-        childlist.add(iso);
+        if (cameraUiWrapper.camParametersHandler.IsoMode.IsSupported()) {
+            ExpandableChild iso = new ExpandableChild(context);
+            iso.setName("Iso");
+            iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode);
+            childlist.add(iso);
+        }
+
+        if (cameraUiWrapper.camParametersHandler.ExposureMode.IsSupported())
+        {
+            ExpandableChild exposure = new ExpandableChild(context);
+            exposure.setName("Exposure");
+            exposure.setParameterHolder(cameraUiWrapper.camParametersHandler.ExposureMode);
+            childlist.add(exposure);
+        }
 
         group.setItems(childlist);
     }

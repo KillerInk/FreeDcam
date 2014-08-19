@@ -11,10 +11,12 @@ public class ExposureModeParameter extends BaseModeParameter {
 
         try
         {
-            parameters.get("exposure-mode-values").split(",");
-            isSupported = true;
-            values = "exposure-mode-values";
-            value = "exposure";
+            String tmp = parameters.get("exposure-mode-values");
+            if(tmp != null && !tmp.equals("")) {
+                isSupported = true;
+                this.values = "exposure-mode-values";
+                this.value = "exposure";
+            }
         }
         catch (Exception ex)
         {
@@ -24,10 +26,12 @@ public class ExposureModeParameter extends BaseModeParameter {
         {
             try
             {
-                parameters.get("auto-exposure-values").split(",");
-                isSupported = true;
-                values = "auto-exposure-values";
-                value = "auto-exposure";
+                String tmp = parameters.get("auto-exposure-values");
+                if(tmp != null && !tmp.equals("")) {
+                    isSupported = true;
+                    this.values = "auto-exposure-values";
+                    this.value = "auto-exposure";
+                }
             }
             catch (Exception ex)
             {
