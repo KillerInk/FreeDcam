@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.camera.old.CameraManager;
-import com.troop.freecam.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecam.controls.InfoScreenControl;
 import com.troop.freecam.interfaces.ParametersChangedInterface;
 import com.troop.freecam.manager.AppSettingsManager;
@@ -96,7 +96,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
         camMan.parametersManager.setParametersChanged(this);
 
         //TODO Soundplayer missing
-        cameraUiWrapper = new CameraUiWrapper(mPreview, appSettingsManager, null);
+
 
         if (DeviceUtils.isEvo3d())
         {
@@ -338,7 +338,7 @@ public class MainActivity extends LayoutActivity implements ParametersChangedInt
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the popupmenu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
