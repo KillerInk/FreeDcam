@@ -3,6 +3,7 @@ package com.troop.freecamv2.camera.parameters;
 import android.hardware.Camera;
 import android.util.Log;
 
+import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ContrastManualParameter;
@@ -16,6 +17,7 @@ import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 
@@ -43,6 +45,7 @@ public class CamParametersHandler
     public IsoModeParameter IsoMode;
     public AntiBandingModeParameter AntiBandingMode;
     public PictureSizeParameter PictureSize;
+    public ImagePostProcessingParameter ImagePostProcessing;
 
     public I_ParametersLoaded OnParametersLoaded;
 
@@ -114,6 +117,7 @@ public class CamParametersHandler
         IsoMode = new IsoModeParameter(cameraParameters,"","");
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters, "antibanding", "antibanding-values");
         PictureSize = new PictureSizeParameter(cameraParameters, "", "");
+        ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters, "ipp", "ipp-values");
 
         if (OnParametersLoaded != null)
             OnParametersLoaded.ParametersLoaded();

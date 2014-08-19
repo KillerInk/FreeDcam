@@ -85,11 +85,20 @@ public class MenuCreator
     private void  createQualitySettingsChilds(ExpandableGroup group)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        if (cameraUiWrapper.camParametersHandler.AntiBandingMode.IsSupported()) {
+
+        if (cameraUiWrapper.camParametersHandler.AntiBandingMode.IsSupported())
+        {
             ExpandableChild antibanding = new ExpandableChild(context);
             antibanding.setName("Antibanding");
             antibanding.setParameterHolder(cameraUiWrapper.camParametersHandler.AntiBandingMode);
             childlist.add(antibanding);
+        }
+        if (cameraUiWrapper.camParametersHandler.ImagePostProcessing.IsSupported())
+        {
+            ExpandableChild ipp = new ExpandableChild(context);
+            ipp.setName("ImagePostProcessing");
+            ipp.setParameterHolder(cameraUiWrapper.camParametersHandler.ImagePostProcessing);
+            childlist.add(ipp);
         }
 
         group.setItems(childlist);
