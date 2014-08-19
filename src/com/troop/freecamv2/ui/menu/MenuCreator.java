@@ -73,4 +73,25 @@ public class MenuCreator
 
         group.setItems(childlist);
     }
+
+    public ExpandableGroup CreateQualitySettings()
+    {
+        ExpandableGroup qualityGroup = new ExpandableGroup();
+        qualityGroup.setName("Quality Settings");
+        createQualitySettingsChilds(qualityGroup);
+        return qualityGroup;
+    }
+
+    private void  createQualitySettingsChilds(ExpandableGroup group)
+    {
+        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
+        if (cameraUiWrapper.camParametersHandler.AntiBandingMode.IsSupported()) {
+            ExpandableChild antibanding = new ExpandableChild(context);
+            antibanding.setName("Antibanding");
+            antibanding.setParameterHolder(cameraUiWrapper.camParametersHandler.AntiBandingMode);
+            childlist.add(antibanding);
+        }
+
+        group.setItems(childlist);
+    }
 }
