@@ -6,11 +6,12 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import com.troop.freecamv2.camera.modules.ModuleHandler;
-import com.troop.freecam.manager.AppSettingsManager;
+
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
+import com.troop.freecamv2.ui.AppSettingsManager;
 
 /**
  * Created by troop on 16.08.2014.
@@ -55,28 +56,9 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
 
     private boolean openCamera()
     {
-        if (Camera.getNumberOfCameras() == 3)
-        {
-            if (appSettingsManager.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_3D)) {
-                if (DeviceUtils.isEvo3d())
-                    return cameraHolder.OpenCamera(100);
-                else
-                    return cameraHolder.OpenCamera(2);
-            } else if (appSettingsManager.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_2D))
-                return cameraHolder.OpenCamera(0);
-            else if (appSettingsManager.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_Front))
-                return cameraHolder.OpenCamera(1);
-        }
-        else if(Camera.getNumberOfCameras() == 2)
-        {
-            if (appSettingsManager.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_2D))
-                return cameraHolder.OpenCamera(0);
-            else if (appSettingsManager.Cameras.GetCamera().equals(AppSettingsManager.Preferences.MODE_Front))
-                return cameraHolder.OpenCamera(1);
-        }
-        else if(Camera.getNumberOfCameras() == 1)
-        {
-            return cameraHolder.OpenCamera(1);
+        if (Camera.getNumberOfCameras() > 0) {
+            cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+            return true;
         }
 
         return false;

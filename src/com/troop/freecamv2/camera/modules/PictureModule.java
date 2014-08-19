@@ -4,8 +4,9 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
-import com.troop.freecam.manager.AppSettingsManager;
+
 import com.troop.freecam.manager.SoundPlayer;
+import com.troop.freecamv2.ui.AppSettingsManager;
 
 /**
  * Created by troop on 15.08.2014.

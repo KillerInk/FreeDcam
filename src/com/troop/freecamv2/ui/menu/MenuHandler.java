@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
+import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 
@@ -38,13 +39,15 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     int mShortAnimationDuration;
 
     ExpandableChild selectedChild;
+    AppSettingsManager appSettingsManager;
 
-    public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper)
+    public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
+        this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.camParametersHandler.OnParametersLoaded = this;
-        menuCreator = new MenuCreator(context, cameraUiWrapper);
+        menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
 
 
         mShortAnimationDuration = context.getResources().getInteger(

@@ -3,6 +3,7 @@ package com.troop.freecamv2.ui.menu;
 import android.content.Context;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 
@@ -13,10 +14,12 @@ public class MenuCreator
 {
     Context context;
     CameraUiWrapper cameraUiWrapper;
-    public MenuCreator(Context context, CameraUiWrapper cameraUiWrapper)
+    AppSettingsManager appSettingsManager;
+    public MenuCreator(Context context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public ExpandableGroup CreatePictureSettings()
@@ -32,7 +35,7 @@ public class MenuCreator
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
         ExpandableChild picSize = new ExpandableChild(context);
         picSize.setName("Picture Size");
-        picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize);
+        picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
         piclist.add(picSize);
         group.setItems(piclist);
     }
@@ -52,14 +55,14 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.ColorMode.IsSupported()) {
             ExpandableChild color = new ExpandableChild(context);
             color.setName("Color");
-            color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode);
+            color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode, appSettingsManager, AppSettingsManager.SETTING_COLORMODE);
             childlist.add(color);
         }
 
         if (cameraUiWrapper.camParametersHandler.IsoMode.IsSupported()) {
             ExpandableChild iso = new ExpandableChild(context);
             iso.setName("Iso");
-            iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode);
+            iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
             childlist.add(iso);
         }
 
@@ -67,7 +70,7 @@ public class MenuCreator
         {
             ExpandableChild exposure = new ExpandableChild(context);
             exposure.setName("Exposure");
-            exposure.setParameterHolder(cameraUiWrapper.camParametersHandler.ExposureMode);
+            exposure.setParameterHolder(cameraUiWrapper.camParametersHandler.ExposureMode, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
             childlist.add(exposure);
         }
 
@@ -90,14 +93,14 @@ public class MenuCreator
         {
             ExpandableChild antibanding = new ExpandableChild(context);
             antibanding.setName("Antibanding");
-            antibanding.setParameterHolder(cameraUiWrapper.camParametersHandler.AntiBandingMode);
+            antibanding.setParameterHolder(cameraUiWrapper.camParametersHandler.AntiBandingMode, appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE);
             childlist.add(antibanding);
         }
         if (cameraUiWrapper.camParametersHandler.ImagePostProcessing.IsSupported())
         {
             ExpandableChild ipp = new ExpandableChild(context);
             ipp.setName("ImagePostProcessing");
-            ipp.setParameterHolder(cameraUiWrapper.camParametersHandler.ImagePostProcessing);
+            ipp.setParameterHolder(cameraUiWrapper.camParametersHandler.ImagePostProcessing, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
             childlist.add(ipp);
         }
 

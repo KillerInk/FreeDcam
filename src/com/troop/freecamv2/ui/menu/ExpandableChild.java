@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
+import com.troop.freecamv2.ui.AppSettingsManager;
 
 /**
  * Created by troop on 18.08.2014.
@@ -17,9 +18,11 @@ public class ExpandableChild extends LinearLayout
 {
     private String Name;
     private I_ModeParameter parameterHolder;
+    private AppSettingsManager appSettingsManager;
     Context context;
     TextView nameTextView;
     TextView valueTextView;
+    private String settingsname;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -61,9 +64,13 @@ public class ExpandableChild extends LinearLayout
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder)
+    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname)
     {
         this.parameterHolder = parameterHolder;
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
+        String campara = parameterHolder.GetValue();
+        String settingValue = appSettingsManager.getString(settingsname);
         nameTextView.setText(Name);
         valueTextView.setText(parameterHolder.GetValue());
     }

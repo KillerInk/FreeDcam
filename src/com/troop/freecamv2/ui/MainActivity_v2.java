@@ -14,7 +14,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
 import com.troop.freecam.R;
-import com.troop.freecam.manager.AppSettingsManager;
+
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.menu.ExpandableChild;
 import com.troop.freecamv2.ui.menu.ExpandableGroup;
@@ -47,7 +47,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         cameraPreview = (TextureView)findViewById(R.id.textureViewCameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
-        menuHandler = new MenuHandler(this, cameraUiWrapper);
+        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager);
 
         shutterButton = (ImageView)findViewById(R.id.shutter_imageview);
         shutterButton.setOnClickListener(new View.OnClickListener() {

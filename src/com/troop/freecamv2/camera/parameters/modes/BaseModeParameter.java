@@ -2,6 +2,8 @@ package com.troop.freecamv2.camera.parameters.modes;
 
 import android.hardware.Camera;
 
+import com.troop.freecamv2.ui.AppSettingsManager;
+
 /**
  * Created by troop on 17.08.2014.
  */
