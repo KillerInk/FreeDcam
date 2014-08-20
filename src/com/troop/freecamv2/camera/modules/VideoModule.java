@@ -14,7 +14,7 @@ public class VideoModule extends AbstractModule
 
     public VideoModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings) {
         super(cameraHandler, soundPlayer, Settings);
-        name  = "VideoModule";
+        name  = ModuleHandler.MODULE_VIDEO;
     }
 
 

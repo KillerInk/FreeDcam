@@ -21,6 +21,10 @@ public class ModuleHandler
     AbstractModule currentModule;
     final String TAG = "freecam.ModuleHandler";
 
+    public static final String MODULE_VIDEO = "module_video";
+    public static final String MODULE_PICTURE = "module_picture";
+    public static final String MODULE_HDR = "module_hdr";
+
     public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
         this.cameraHolder = cameraHolder;

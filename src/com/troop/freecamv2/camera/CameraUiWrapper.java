@@ -19,7 +19,7 @@ import com.troop.freecamv2.ui.AppSettingsManager;
 public class CameraUiWrapper implements TextureView.SurfaceTextureListener
 {
     private TextureView preview;
-    private ModuleHandler moduleHandler;
+    public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     SoundPlayer soundPlayer;

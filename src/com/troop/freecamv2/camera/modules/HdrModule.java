@@ -11,7 +11,7 @@ import com.troop.freecamv2.ui.AppSettingsManager;
 public class HdrModule extends AbstractModule {
     public HdrModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings) {
         super(cameraHandler, soundPlayer, Settings);
-        name = "HdrModule";
+        name = ModuleHandler.MODULE_HDR;
     }
 
     //I_Module START

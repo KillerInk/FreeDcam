@@ -19,7 +19,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public PictureModule(BaseCameraHolder baseCameraHolder, SoundPlayer soundPlayer, AppSettingsManager appSettingsManager)
     {
         super(baseCameraHolder, soundPlayer, appSettingsManager);
-        name = "PictureModule";
+        name = ModuleHandler.MODULE_PICTURE;
     }
 
 //I_Module START
