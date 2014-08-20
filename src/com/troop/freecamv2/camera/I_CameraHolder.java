@@ -11,6 +11,7 @@ public interface I_CameraHolder
     public boolean OpenCamera(int camera);
     public void CloseCamera();
     public Camera GetCamera();
+    public int CameraCout();
     public boolean IsRdy();
     public boolean SetCameraParameters(Camera.Parameters parameters);
     public boolean SetPreviewTexture(SurfaceTexture texture);

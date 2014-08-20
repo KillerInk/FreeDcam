@@ -61,6 +61,11 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     @Override
+    public int CameraCout() {
+        return Camera.getNumberOfCameras();
+    }
+
+    @Override
     public boolean IsRdy() {
         return isRdy;
     }

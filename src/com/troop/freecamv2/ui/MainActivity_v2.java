@@ -37,6 +37,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     AppSettingsManager appSettingsManager;
     MenuHandler menuHandler;
     ImageView shutterButton;
+    CameraSwitchHandler cameraSwitchHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 cameraUiWrapper.DoWork();
             }
         });
-
+        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager);
 
     }
 

@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffffff">
 
     <TextureView
         android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="fill_parent"
             android:background="#ffffffff"
             android:id="@+id/v2_settings_menu"
@@ -45,7 +46,19 @@
             android:id="@+id/v2_manual_menu"
             android:animateLayoutChanges="true"
             ></LinearLayout>
+
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageView_cameraSwitch"
+        android:background="@drawable/camera_back"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="@dimen/app_icon_size"
+        android:layout_marginRight="10dp" />
 
     <ImageView
         android:layout_width="@dimen/appiconsizedouble"
