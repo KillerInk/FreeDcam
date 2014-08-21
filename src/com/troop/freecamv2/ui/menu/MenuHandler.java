@@ -59,6 +59,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         grouplist.add(menuCreator.CreatePictureSettings());
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
+        grouplist.add(menuCreator.CreatePreviewSettings());
         return grouplist;
     }
 
@@ -76,7 +77,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         String[] values = selectedChild.getParameterHolder().GetValues();
         //set values to the adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+                R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);
         hideMenuAndShowSubMenu();
@@ -87,6 +88,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     private void hideMenuAndShowSubMenu()
     {
         expandableListView.setAlpha(1f);
+        expandableListView.setVisibility(View.VISIBLE);
         expandableListView.animate()
                 .alpha(0f)
                 .setDuration(mShortAnimationDuration)
