@@ -20,8 +20,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="180dp"
-            android:layout_height="fill_parent"
-            android:background="#ffffffff"
+            android:layout_height="wrap_content"
             android:id="@+id/v2_settings_menu"
             android:focusable="false"
             android:animateLayoutChanges="true"
@@ -29,13 +28,15 @@
 
             <ExpandableListView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/expandableListViewSettings" />
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListViewSettings"
+                android:background="#b0b3b3b3" />
 
             <ListView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/subMenuSettings" />
+                android:layout_height="wrap_content"
+                android:id="@+id/subMenuSettings"
+                android:background="#b0b3b3b3" />
         </LinearLayout>
 
         <LinearLayout

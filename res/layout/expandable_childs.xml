@@ -4,8 +4,8 @@
     android:layout_height="@dimen/app_icon_size"
 
     android:orientation="vertical"
-    android:background="#ff818181"
-    android:alpha="0.5">
+    android:alpha="0.5"
+    android:background="#b0b3b3b3">
 
 
     <TextView
