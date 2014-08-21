@@ -12,10 +12,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.ui.menu.ExpandableChild;
 import com.troop.freecamv2.ui.menu.ExpandableGroup;
 import com.troop.freecamv2.ui.menu.ExpandableListViewMenuAdapter;
@@ -38,14 +40,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     MenuHandler menuHandler;
     ImageView shutterButton;
     CameraSwitchHandler cameraSwitchHandler;
+    ModuleSwitchHandler moduleSwitchHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
-
-
         cameraPreview = (TextureView)findViewById(R.id.textureViewCameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
         menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager);
@@ -57,11 +58,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 cameraUiWrapper.DoWork();
             }
         });
+
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager);
+        moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
 
     }
-
-
 
     @Override
     protected void onResume() {
@@ -74,6 +75,5 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         super.onPause();
 
     }
-
 
 }

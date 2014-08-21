@@ -69,4 +69,29 @@
         android:background="@drawable/shutter"
         android:longClickable="false" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/moduleSwitch_placeholder"></LinearLayout>
+
+        <TextView
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/textView_ModuleSwitch"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_clean"
+            android:gravity="center_vertical|center_horizontal" />
+
+    </LinearLayout>
+
 </RelativeLayout>
