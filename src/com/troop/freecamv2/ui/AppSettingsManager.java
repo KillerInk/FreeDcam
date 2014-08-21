@@ -20,6 +20,7 @@ public class AppSettingsManager
     public static String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
     public static String SETTING_PICTURESIZE = "picturesize";
     public static String SETTING_CURRENTMODULE = "currentmodule";
+    public static String SETTING_PREVIEWSIZE = "previewsize";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {

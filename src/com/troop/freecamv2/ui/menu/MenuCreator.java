@@ -3,6 +3,7 @@ package com.troop.freecamv2.ui.menu;
 import android.content.Context;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -105,5 +106,36 @@ public class MenuCreator
         }
 
         group.setItems(childlist);
+    }
+
+    public ExpandableGroup CreatePreviewSettings()
+    {
+        ExpandableGroup preview = getNewGroup("Preview Settings");
+        createPreviewSettingsChilds(preview);
+        return preview;
+    }
+
+    private void createPreviewSettingsChilds(ExpandableGroup preview)
+    {
+        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
+        ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, "Preview Size");
+        childlist.add(size);
+
+        preview.setItems(childlist);
+    }
+
+    private ExpandableGroup getNewGroup(String name)
+    {
+        ExpandableGroup group = new ExpandableGroup();
+        group.setName(name);
+        return group;
+    }
+
+    private ExpandableChild getNewChild(I_ModeParameter mode, String appsettingName, String settingName)
+    {
+        ExpandableChild child = new ExpandableChild(context);
+        child.setName(settingName);
+        child.setParameterHolder(mode,appSettingsManager,appsettingName);
+        return child;
     }
 }

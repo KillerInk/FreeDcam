@@ -15,6 +15,8 @@ public class BaseCameraHolder implements I_CameraHolder
     final  String TAG = "freecam.BaseCameraHolder";
     boolean isRdy = false;
 
+    boolean isPreviewRunning = false;
+
     public BaseCameraHolder()
     {
     }
@@ -96,16 +98,20 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public void StartPreview() {
         mCamera.startPreview();
+        isPreviewRunning = true;
     }
 
     @Override
     public void StopPreview()
     {
         mCamera.stopPreview();
+        isPreviewRunning = false;
     }
 
     public Camera.Parameters GetCameraParameters()
     {
         return mCamera.getParameters();
     }
+
+    public boolean IsPreviewRunning() { return isPreviewRunning; }
 }

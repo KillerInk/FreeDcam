@@ -20,6 +20,7 @@ import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
+import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 
 /**
  * Created by troop on 17.08.2014.
@@ -46,6 +47,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public AntiBandingModeParameter AntiBandingMode;
     public PictureSizeParameter PictureSize;
     public ImagePostProcessingParameter ImagePostProcessing;
+    public PreviewSizeParameter PreviewSize;
 
     public I_ParametersLoaded OnParametersLoaded;
 
@@ -123,6 +125,7 @@ public class CamParametersHandler implements I_ParameterChanged
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
+        PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
 
         if (OnParametersLoaded != null)
             OnParametersLoaded.ParametersLoaded();
@@ -148,6 +151,7 @@ public class CamParametersHandler implements I_ParameterChanged
             isRunning = true;
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
+                //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
