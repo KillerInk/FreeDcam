@@ -20,6 +20,7 @@ import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
+import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 
 /**
@@ -48,6 +49,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public PictureSizeParameter PictureSize;
     public ImagePostProcessingParameter ImagePostProcessing;
     public PreviewSizeParameter PreviewSize;
+    public PreviewFpsParameter PreviewFPS;
 
     public I_ParametersLoaded OnParametersLoaded;
 
@@ -126,6 +128,7 @@ public class CamParametersHandler implements I_ParameterChanged
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
+        PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
 
         if (OnParametersLoaded != null)
             OnParametersLoaded.ParametersLoaded();

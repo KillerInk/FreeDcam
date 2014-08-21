@@ -121,6 +121,9 @@ public class MenuCreator
         ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, "Preview Size");
         childlist.add(size);
 
+        ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, "Preview Fps");
+        childlist.add(fps);
+
         preview.setItems(childlist);
     }
 
