@@ -50,49 +50,76 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageView_cameraSwitch"
-        android:background="@drawable/camera_back"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="@dimen/app_icon_size"
-        android:layout_marginRight="10dp" />
-
-    <ImageView
-        android:layout_width="@dimen/appiconsizedouble"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:id="@+id/shutter_imageview"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/shutter"
-        android:longClickable="false" />
-
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true">
+        android:layout_marginTop="@dimen/app_icon_size">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageView_cameraSwitch"
+            android:background="@drawable/camera_back"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="false"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right" />
+
+        <ImageView
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:id="@+id/shutter_imageview"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shutter"
+            android:longClickable="false" />
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/moduleSwitch_placeholder"></LinearLayout>
-
-        <TextView
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/textView_ModuleSwitch"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/button_clean"
-            android:gravity="center_vertical|center_horizontal" />
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp">
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/moduleSwitch_placeholder"></LinearLayout>
+
+            <TextView
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:id="@+id/textView_ModuleSwitch"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button_mode"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="test" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="test"
+                android:id="@+id/textView_flashSwitch"
+                android:background="@drawable/button_flash"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

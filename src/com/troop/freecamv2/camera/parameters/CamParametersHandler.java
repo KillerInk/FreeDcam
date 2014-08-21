@@ -51,7 +51,9 @@ public class CamParametersHandler implements I_ParameterChanged
     public PreviewSizeParameter PreviewSize;
     public PreviewFpsParameter PreviewFPS;
 
-    public I_ParametersLoaded OnParametersLoaded;
+    //public I_ParametersLoaded OnParametersLoaded;
+
+    public CameraParametersListner ParametersEventHandler;
 
     boolean moreParametersToSet = false;
 
@@ -60,6 +62,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
+        ParametersEventHandler = new CameraParametersListner();
     }
 
     public void GetParametersFromCamera()
@@ -130,8 +133,8 @@ public class CamParametersHandler implements I_ParameterChanged
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
 
-        if (OnParametersLoaded != null)
-            OnParametersLoaded.ParametersLoaded();
+
+        ParametersEventHandler.ParametersHasLoaded();
     }
 
     @Override

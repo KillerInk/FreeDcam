@@ -41,6 +41,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     ImageView shutterButton;
     CameraSwitchHandler cameraSwitchHandler;
     ModuleSwitchHandler moduleSwitchHandler;
+    FlashSwitchHandler flashSwitchHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
+        flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
 
     }
 

@@ -46,7 +46,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
-        cameraUiWrapper.camParametersHandler.OnParametersLoaded = this;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
 
 
