@@ -3,6 +3,7 @@ package com.troop.freecamv2.camera;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.TextureView;
 
 import com.troop.freecamv2.camera.modules.ModuleHandler;
@@ -16,9 +17,9 @@ import com.troop.freecamv2.ui.AppSettingsManager;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper implements TextureView.SurfaceTextureListener
+public class CameraUiWrapper implements SurfaceHolder.Callback
 {
-    private TextureView preview;
+    private SurfaceView preview;
     public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
@@ -26,13 +27,13 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
     public CamParametersHandler camParametersHandler;
 
 
-    public CameraUiWrapper(TextureView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
         this.preview = preview;
         this.soundPlayer = soundPlayer;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
-        preview.setSurfaceTextureListener(this);
+        preview.getHolder().addCallback(this);
         cameraHolder = new BaseCameraHolder();
         camParametersHandler = new CamParametersHandler(cameraHolder);
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
@@ -64,31 +65,15 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
         return false;
     }
 
-    @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        StartPreviewAndCamera();
-    }
-
     public void StartPreviewAndCamera() {
         if (openCamera())
         {
-            cameraHolder.SetPreviewTexture(preview.getSurfaceTexture());
+            cameraHolder.SetSurface(preview.getHolder());
             camParametersHandler.LoadParametersFromCamera();
             cameraHolder.StartPreview();
         }
     }
 
-    @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
-    }
-
-    @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
-    {
-        StopPreviewAndCamera();
-        return false;
-    }
 
     public void StopPreviewAndCamera() {
         cameraHolder.StopPreview();
@@ -96,7 +81,17 @@ public class CameraUiWrapper implements TextureView.SurfaceTextureListener
     }
 
     @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+    public void surfaceCreated(SurfaceHolder holder) {
+        StartPreviewAndCamera();
+    }
 
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        StopPreviewAndCamera();
     }
 }

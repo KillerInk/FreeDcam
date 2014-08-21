@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freecamv2.ui.menu.ExpandableChild;
 import com.troop.freecamv2.ui.menu.ExpandableGroup;
 import com.troop.freecamv2.ui.menu.ExpandableListViewMenuAdapter;
@@ -30,11 +32,7 @@ import java.util.ArrayList;
  */
 public class MainActivity_v2 extends MenuVisibilityActivity
 {
-
-    protected ViewGroup appViewGroup;
-    ExpandableListView menuListView;
-    ExpandableListViewMenuAdapter expandableListViewMenuAdapter;
-    TextureView cameraPreview;
+    ExtendedSurfaceView cameraPreview;
     CameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     MenuHandler menuHandler;
@@ -48,7 +46,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         super.onCreate(savedInstanceState);
 
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
-        cameraPreview = (TextureView)findViewById(R.id.textureViewCameraPreview);
+        cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
         menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager);
 
@@ -60,7 +58,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
             }
         });
 
-        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager);
+        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
 

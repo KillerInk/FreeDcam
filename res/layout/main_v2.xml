@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="#ffffffff">
 
-    <TextureView
+    <com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textureViewCameraPreview" />
+        android:id="@+id/CameraPreview" />
 
     <LinearLayout
         android:orientation="horizontal"

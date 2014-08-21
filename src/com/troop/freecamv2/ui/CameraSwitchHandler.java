@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 
 /**
  * Created by troop on 20.08.2014.
@@ -20,11 +21,13 @@ public class CameraSwitchHandler implements View.OnClickListener
     ImageView imageView;
     int currentCamera;
     Bitmap[] bitmaps;
-    public CameraSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    ExtendedSurfaceView surfaceView;
+    public CameraSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.activity = activity;
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
+        this.surfaceView = surfaceView;
         imageView = (ImageView)activity.findViewById(R.id.imageView_cameraSwitch);
         imageView.setOnClickListener(this);
         currentCamera = appSettingsManager.GetCurrentCamera();
@@ -41,11 +44,10 @@ public class CameraSwitchHandler implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        switchImage();
+        switchImageAndCamera();
     }
 
-
-    private void switchImage()
+    private void switchImageAndCamera()
     {
         int maxcams = cameraUiWrapper.cameraHolder.CameraCout();
         if (currentCamera++ >= maxcams - 1)
@@ -53,6 +55,7 @@ public class CameraSwitchHandler implements View.OnClickListener
         imageView.setImageBitmap(bitmaps[currentCamera]);
         appSettingsManager.SetCurrentCamera(currentCamera);
         cameraUiWrapper.StopPreviewAndCamera();
+        surfaceView.SwitchViewMode();
         cameraUiWrapper.StartPreviewAndCamera();
 
     }

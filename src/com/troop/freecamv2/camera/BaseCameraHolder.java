@@ -3,6 +3,8 @@ package com.troop.freecamv2.camera;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Surface;
+import android.view.SurfaceHolder;
 
 import java.io.IOException;
 
@@ -84,9 +86,9 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public boolean SetPreviewTexture(SurfaceTexture texture) {
+    public boolean SetSurface(SurfaceHolder surfaceHolder) {
         try {
-            mCamera.setPreviewTexture(texture);
+            mCamera.setPreviewDisplay(surfaceHolder);
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
