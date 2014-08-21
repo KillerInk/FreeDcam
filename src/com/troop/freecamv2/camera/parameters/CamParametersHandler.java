@@ -24,7 +24,7 @@ import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 /**
  * Created by troop on 17.08.2014.
  */
-public class CamParametersHandler
+public class CamParametersHandler implements I_ParameterChanged
 {
     BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
@@ -49,6 +49,10 @@ public class CamParametersHandler
 
     public I_ParametersLoaded OnParametersLoaded;
 
+    boolean moreParametersToSet = false;
+
+    SetParameterRunner setParameterRunner;
+
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
@@ -67,6 +71,7 @@ public class CamParametersHandler
     public void LoadParametersFromCamera()
     {
         cameraParameters = cameraHolder.GetCameraParameters();
+        setParameterRunner = new SetParameterRunner();
         initParameters();
     }
 
@@ -111,15 +116,48 @@ public class CamParametersHandler
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
 
-        ColorMode = new ColorModeParameter(cameraParameters, "", "");
-        ExposureMode = new ExposureModeParameter(cameraParameters,"","");
-        FlashMode = new FlashModeParameter(cameraParameters,"","");
-        IsoMode = new IsoModeParameter(cameraParameters,"","");
-        AntiBandingMode = new AntiBandingModeParameter(cameraParameters, "antibanding", "antibanding-values");
-        PictureSize = new PictureSizeParameter(cameraParameters, "", "");
-        ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters, "ipp", "ipp-values");
+        ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
+        ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
+        FlashMode = new FlashModeParameter(cameraParameters,this,"","");
+        IsoMode = new IsoModeParameter(cameraParameters,this,"","");
+        AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
+        PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
+        ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
 
         if (OnParametersLoaded != null)
             OnParametersLoaded.ParametersLoaded();
+    }
+
+    @Override
+    public void ParameterChanged()
+    {
+        if (!setParameterRunner.isRunning)
+            setParameterRunner.run();
+        else
+            moreParametersToSet = true;
+
+    }
+
+    class SetParameterRunner implements Runnable
+    {
+        private boolean isRunning = false;
+
+        @Override
+        public void run()
+        {
+            isRunning = true;
+            cameraHolder.SetCameraParameters(cameraParameters);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            isRunning = false;
+            if (moreParametersToSet)
+            {
+                moreParametersToSet = false;
+                run();
+            }
+        }
     }
 }

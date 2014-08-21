@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
+import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
  */
 public class PictureSizeParameter extends BaseModeParameter
 {
-    public PictureSizeParameter(Camera.Parameters parameters, String value, String values) {
-        super(parameters, value, values);
+    public PictureSizeParameter(Camera.Parameters parameters,I_ParameterChanged parameterChanged, String value, String values) {
+        super(parameters, parameterChanged, value, values);
     }
 
     @Override

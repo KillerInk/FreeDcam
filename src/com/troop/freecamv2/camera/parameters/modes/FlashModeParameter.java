@@ -2,12 +2,14 @@ package com.troop.freecamv2.camera.parameters.modes;
 
 import android.hardware.Camera;
 
+import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
+
 /**
  * Created by troop on 17.08.2014.
  */
 public class FlashModeParameter extends BaseModeParameter {
-    public FlashModeParameter(Camera.Parameters parameters, String value, String values) {
-        super(parameters, value, values);
+    public FlashModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+        super(parameters,parameterChanged, value, values);
         if (!parameters.getFlashMode().equals(""))
             isSupported = true;
     }
