@@ -61,6 +61,7 @@ public class ExpandableChild extends LinearLayout
     {
         valueTextView.setText(value);
         parameterHolder.SetValue(value);
+        appSettingsManager.setString(settingsname, value);
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
@@ -71,6 +72,10 @@ public class ExpandableChild extends LinearLayout
         this.settingsname = settingsname;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
+        if (settingValue.equals(""))
+            appSettingsManager.setString(settingsname, campara);
+        if (!settingValue.equals(campara) && !settingValue.equals(""))
+            parameterHolder.SetValue(settingValue);
         nameTextView.setText(Name);
         valueTextView.setText(parameterHolder.GetValue());
     }
