@@ -2,9 +2,19 @@ package com.troop.freecamv2.ui.menu;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+
+import com.troop.freecam.R;
+
 
 /**
  * Created by troop on 18.08.2014.
@@ -19,18 +29,17 @@ public class SwipeMenuListner
     int startY;
     int currentX;
     int currentY;
-    boolean verticalSwipe = false;
-    boolean horizontalSwipe = false;
-    int mShortAnimationDuration;
-    boolean animationRunning = false;
-    LinearLayout animationLayout;
 
-    public SwipeMenuListner(LinearLayout settingsLayout, LinearLayout manualSettingsLayout)
+
+
+
+    public SwipeMenuListner(final LinearLayout settingsLayout, final LinearLayout manualSettingsLayout)
     {
         this.manualSettingsLayout = manualSettingsLayout;
         this.settingsLayout = settingsLayout;
-        mShortAnimationDuration = settingsLayout.getResources().getInteger(
-                android.R.integer.config_mediumAnimTime);
+        this.manualSettingsLayout.setVisibility(View.GONE);
+        this.settingsLayout.setVisibility(View.GONE);
+
 
     }
 
@@ -38,24 +47,24 @@ public class SwipeMenuListner
     public boolean onTouchEvent(MotionEvent event)
     {
         boolean fireagain = true;
-        if (!animationRunning && animationLayout == null) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    startX = (int) event.getX();
-                    startY = (int) event.getY();
-                    currentX = (int) event.getX();
-                    currentY = (int) event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    currentX = (int) event.getX();
-                    currentY = (int) event.getY();
-                    detectSwipeDirection();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    fireagain = false;
-                    break;
-            }
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX = (int) event.getX();
+                startY = (int) event.getY();
+                currentX = (int) event.getX();
+                currentY = (int) event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                currentX = (int) event.getX();
+                currentY = (int) event.getY();
+                detectSwipeDirection();
+                break;
+            case MotionEvent.ACTION_UP:
+                fireagain = false;
+                break;
         }
+
 
         return fireagain;
     }
@@ -86,12 +95,12 @@ public class SwipeMenuListner
         if (startX - currentX > 0)
         {
             if (settingsLayout.getVisibility() == View.VISIBLE)
-                hideAnimation(settingsLayout);
+                hideAnimationHorizontal();
         }
         else
         {
             if (settingsLayout.getVisibility() == View.GONE)
-                showAnimation(settingsLayout);
+                showAnimationHorizontal();
         }
     }
 
@@ -100,51 +109,78 @@ public class SwipeMenuListner
         if (startY - currentY > 0)
         {
             if (manualSettingsLayout.getVisibility() == View.VISIBLE)
-                hideAnimation(manualSettingsLayout);
+                hideVerticalAnimation();
         }
         else
         {
             if (manualSettingsLayout.getVisibility() == View.GONE)
-                showAnimation(manualSettingsLayout);
+                showVerticalAnimation();
         }
     }
 
-    private void showAnimation(LinearLayout layout)
+    private void showAnimationHorizontal()
     {
-        animationLayout = layout;
-        layout.setAlpha(0f);
-        layout.setVisibility(View.VISIBLE);
-        layout.animate()
-                .alpha(1f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        //animationLayout.animate().setListener(null);
-                        animationLayout = null;
-                        animationRunning = false;
-                    }
-                });
+
+            Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_top_to_bottom);
+            hide.setDuration(500);
+            settingsLayout.setVisibility(View.VISIBLE);
+            settingsLayout.startAnimation(hide);
     }
 
-    private void hideAnimation(final LinearLayout layout) {
-        animationRunning = true;
-        animationLayout = layout;
-        layout.setAlpha(1f);
-        layout.animate()
-                .alpha(0f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        animationLayout.setVisibility(View.GONE);
-                        //animationLayout.animate().setListener(null);
-                        animationLayout = null;
-                        animationRunning = false;
-                    }
-                });
+    private void hideAnimationHorizontal()
+    {
+        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_right_to_left);
+        hide.setDuration(500);
+        hide.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                settingsLayout.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        settingsLayout.startAnimation(hide);
     }
 
+    private void showVerticalAnimation()
+    {
+        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_left_to_right);
+        hide.setDuration(500);
+        manualSettingsLayout.setVisibility(View.VISIBLE);
+        manualSettingsLayout.startAnimation(hide);
+    }
 
+    private void hideVerticalAnimation()
+    {
+        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_top);
+        hide.setDuration(500);
+        hide.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                manualSettingsLayout.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        manualSettingsLayout.startAnimation(hide);
+        //layout.startAnimation(move_bottom_to_top);
+    }
 }
