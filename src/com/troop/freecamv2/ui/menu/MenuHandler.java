@@ -91,6 +91,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         expandableListView.setVisibility(View.VISIBLE);
         expandableListView.animate()
                 .alpha(0f)
+                .translationXBy(-expandableListView.getWidth())
                 .setDuration(mShortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -107,6 +108,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         listView.setVisibility(View.VISIBLE);
         listView.animate()
                 .alpha(1f)
+                .translationX(0)
                 .setDuration(mShortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -123,6 +125,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         listView.setVisibility(View.VISIBLE);
         listView.animate()
                 .alpha(0f)
+                .translationX(-expandableListView.getWidth())
                 .setDuration(mShortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -139,7 +142,8 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         expandableListView.setAlpha(0f);
         expandableListView.setVisibility(View.VISIBLE);
         expandableListView.animate()
-                .alpha(0f)
+                .alpha(1f)
+                .translationX(0)
                 .setDuration(mShortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -161,6 +165,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
         listView = (ListView)context.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
+        listView.setVisibility(View.GONE);
     }
 
     @Override
