@@ -7,6 +7,7 @@ import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,10 +21,17 @@ public class ModuleHandler
     SoundPlayer soundPlayer;
     AbstractModule currentModule;
     final String TAG = "freecam.ModuleHandler";
+    public ModuleEventHandler moduleEventHandler;
+
+    public ArrayList<String> PictureModules;
+    public ArrayList<String> VideoModules;
+    public ArrayList<String> AllModules;
 
     public static final String MODULE_VIDEO = "module_video";
     public static final String MODULE_PICTURE = "module_picture";
     public static final String MODULE_HDR = "module_hdr";
+    public static final String MODULE_BURST = "module_burst";
+    public static final String MODULE_ALL = "module_all";
 
     public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
@@ -31,6 +39,15 @@ public class ModuleHandler
         this.appSettingsManager = appSettingsManager;
         this.soundPlayer = soundPlayer;
         moduleList  = new HashMap<String, AbstractModule>();
+        moduleEventHandler = new ModuleEventHandler();
+        PictureModules = new ArrayList<String>();
+        PictureModules.add(MODULE_PICTURE);
+        PictureModules.add(MODULE_BURST);
+        PictureModules.add(MODULE_HDR);
+        VideoModules = new ArrayList<String>();
+        VideoModules.add(MODULE_VIDEO);
+        AllModules = new ArrayList<String>();
+        AllModules.add(MODULE_ALL);
         initModules();
 
     }
@@ -38,6 +55,7 @@ public class ModuleHandler
     public void SetModule(String name)
     {
         currentModule = moduleList.get(name);
+        moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
         Log.d(TAG, "Set Module to " + name);
     }
 

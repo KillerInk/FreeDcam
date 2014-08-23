@@ -8,13 +8,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
+import com.troop.freecamv2.camera.modules.I_ModuleEvent;
+import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class ExpandableChild extends LinearLayout
+public class ExpandableChild extends LinearLayout implements I_ModuleEvent
 {
     private String Name;
     private I_ModeParameter parameterHolder;
@@ -23,6 +27,7 @@ public class ExpandableChild extends LinearLayout
     TextView nameTextView;
     TextView valueTextView;
     private String settingsname;
+    ArrayList<String> modulesToShow;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -46,6 +51,7 @@ public class ExpandableChild extends LinearLayout
         inflater.inflate(R.layout.expandable_childs, this);
         nameTextView = (TextView)findViewById(R.id.tvChild);
         valueTextView = (TextView)findViewById(R.id.tvChildValue);
+        modulesToShow = new ArrayList<String>();
     }
 
     public String getName() {
@@ -65,7 +71,7 @@ public class ExpandableChild extends LinearLayout
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname)
+    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow)
     {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
@@ -78,5 +84,21 @@ public class ExpandableChild extends LinearLayout
             parameterHolder.SetValue(settingValue);
         nameTextView.setText(Name);
         valueTextView.setText(parameterHolder.GetValue());
+        AddModulesToShow(modulesToShow);
+    }
+
+    public void AddModulesToShow(ArrayList<String> modulesToShow)
+    {
+        this.modulesToShow = modulesToShow;
+    }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+        if(modulesToShow.contains(module) || modulesToShow.contains(ModuleHandler.MODULE_ALL))
+            this.setVisibility(VISIBLE);
+        else
+            this.setVisibility(GONE);
+        return null;
     }
 }
