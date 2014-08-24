@@ -1,31 +1,18 @@
 package com.troop.freecamv2.ui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
-import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freecamv2.ui.menu.ExpandableChild;
-import com.troop.freecamv2.ui.menu.ExpandableGroup;
-import com.troop.freecamv2.ui.menu.ExpandableListViewMenuAdapter;
 import com.troop.freecamv2.ui.menu.MenuHandler;
-
-import java.util.ArrayList;
+import com.troop.freecamv2.ui.switches.CameraSwitchHandler;
+import com.troop.freecamv2.ui.switches.FlashSwitchHandler;
+import com.troop.freecamv2.ui.switches.ModuleSwitchHandler;
 
 /**
  * Created by troop on 18.08.2014.

@@ -1,4 +1,4 @@
-package com.troop.freecamv2.ui;
+package com.troop.freecamv2.ui.switches;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
+import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.ui.MainActivity_v2;
 
 import java.util.HashMap;
 
