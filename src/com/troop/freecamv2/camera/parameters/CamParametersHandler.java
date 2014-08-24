@@ -19,6 +19,7 @@ import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -50,6 +51,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public AntiBandingModeParameter AntiBandingMode;
     public PictureSizeParameter PictureSize;
     public PictureFormatParameter PictureFormat;
+    public JpegQualityParameter JpegQuality;
     public ImagePostProcessingParameter ImagePostProcessing;
     public PreviewSizeParameter PreviewSize;
     public PreviewFpsParameter PreviewFPS;
@@ -134,10 +136,12 @@ public class CamParametersHandler implements I_ParameterChanged
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values");
+        JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
+
 
 
         ParametersEventHandler.ParametersHasLoaded();

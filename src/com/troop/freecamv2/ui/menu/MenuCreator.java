@@ -47,6 +47,10 @@ public class MenuCreator
                 "Picture Format",
                 cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(picformat);
+
+        ExpandableChild jpegquality = getNewChild(cameraUiWrapper.camParametersHandler.JpegQuality,
+                AppSettingsManager.SETTING_JPEGQUALITY, "Jpeg Quality", cameraUiWrapper.moduleHandler.PictureModules);
+        piclist.add(jpegquality);
         group.setItems(piclist);
     }
 
