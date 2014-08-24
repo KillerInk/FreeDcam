@@ -135,6 +135,9 @@ public class MenuCreator
         ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, "Preview Fps", cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);
 
+        ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, "Preview Format", cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(format);
+
         preview.setItems(childlist);
     }
 
