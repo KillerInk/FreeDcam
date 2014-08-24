@@ -10,5 +10,7 @@ import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 public class WhiteBalanceModeParameter extends BaseModeParameter {
     public WhiteBalanceModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
+        if (!parameters.get("whitebalance").equals(""))
+            isSupported = true;
     }
 }

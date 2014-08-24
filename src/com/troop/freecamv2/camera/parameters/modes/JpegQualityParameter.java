@@ -34,7 +34,7 @@ public class JpegQualityParameter extends BaseModeParameter {
         int count =0;
         for (int i = 0; i < 100; i =  i + 5)
         {
-            valuetoreturn[count] = String.valueOf(i);
+            valuetoreturn[count] = "" + i;
         }
         return valuetoreturn;
     }
