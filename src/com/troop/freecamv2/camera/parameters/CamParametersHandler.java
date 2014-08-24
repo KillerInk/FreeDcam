@@ -3,7 +3,6 @@ package com.troop.freecamv2.camera.parameters;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ContrastManualParameter;
@@ -61,7 +60,7 @@ public class CamParametersHandler implements I_ParameterChanged
 
     //public I_ParametersLoaded OnParametersLoaded;
 
-    public CameraParametersListner ParametersEventHandler;
+    public CameraParametersEventHandler ParametersEventHandler;
 
     boolean moreParametersToSet = false;
 
@@ -70,7 +69,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public CamParametersHandler(BaseCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
-        ParametersEventHandler = new CameraParametersListner();
+        ParametersEventHandler = new CameraParametersEventHandler();
     }
 
     public void GetParametersFromCamera()
