@@ -9,12 +9,12 @@ import java.util.ArrayList;
 /**
  * Created by troop on 21.08.2014.
  */
-public class CameraParametersListner
+public class CameraParametersEventHandler
 {
     ArrayList<I_ParametersLoaded> parametersLoadedListner;
     ArrayList<I_ParameterChanged> parameterChangedListner;
 
-    public CameraParametersListner()
+    public CameraParametersEventHandler()
     {
         parameterChangedListner = new ArrayList<I_ParameterChanged>();
         parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
