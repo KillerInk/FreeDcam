@@ -41,6 +41,12 @@ public class MenuCreator
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
         picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(picSize);
+
+        ExpandableChild picformat = getNewChild(cameraUiWrapper.camParametersHandler.PictureFormat,
+                AppSettingsManager.SETTING_PICTUREFORMAT,
+                "Picture Format",
+                cameraUiWrapper.moduleHandler.PictureModules);
+        piclist.add(picformat);
         group.setItems(piclist);
     }
 
@@ -148,6 +154,14 @@ public class MenuCreator
         return group;
     }
 
+    /**
+     *
+     * @param mode The camera parameter wich handels the input
+     * @param appsettingName THe name of the appsetting to get stored
+     * @param settingName the name wich gets displayed in menu
+     * @param modules on wich module event the child is shown.
+     * @return
+     */
     private ExpandableChild getNewChild(I_ModeParameter mode, String appsettingName, String settingName, ArrayList<String> modules)
     {
         ExpandableChild child = new ExpandableChild(context);
