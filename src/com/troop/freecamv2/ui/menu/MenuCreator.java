@@ -94,6 +94,14 @@ public class MenuCreator
             childlist.add(exposure);
         }
 
+        if (cameraUiWrapper.camParametersHandler.WhiteBalanceMode.IsSupported())
+        {
+            ExpandableChild wb = getNewChild(cameraUiWrapper.camParametersHandler.WhiteBalanceMode,
+                    "Whitebalance",
+                    AppSettingsManager.SETTING_WHITEBALANCEMODE, cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(wb);
+        }
+
         group.setItems(childlist);
     }
 

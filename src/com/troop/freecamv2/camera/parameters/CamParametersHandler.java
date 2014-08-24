@@ -25,6 +25,7 @@ import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 
 /**
  * Created by troop on 17.08.2014.
@@ -49,6 +50,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public FlashModeParameter FlashMode;
     public IsoModeParameter IsoMode;
     public AntiBandingModeParameter AntiBandingMode;
+    public WhiteBalanceModeParameter WhiteBalanceMode;
     public PictureSizeParameter PictureSize;
     public PictureFormatParameter PictureFormat;
     public JpegQualityParameter JpegQuality;
@@ -134,6 +136,7 @@ public class CamParametersHandler implements I_ParameterChanged
         FlashMode = new FlashModeParameter(cameraParameters,this,"","");
         IsoMode = new IsoModeParameter(cameraParameters,this,"","");
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
+        WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values");
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");

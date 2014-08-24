@@ -17,6 +17,7 @@ public class AppSettingsManager
     public static String SETTING_COLORMODE = "colormode";
     public static String SETTING_ISOMODE = "isomode";
     public static String SETTING_EXPOSUREMODE = "exposuremode";
+    public static String SETTING_WHITEBALANCEMODE = "whitebalancemode";
     public static String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
     public static String SETTING_PICTURESIZE = "picturesize";
     public static String SETTING_PICTUREFORMAT = "pictureformat";
