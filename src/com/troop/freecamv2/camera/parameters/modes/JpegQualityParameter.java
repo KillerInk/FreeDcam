@@ -31,11 +31,9 @@ public class JpegQualityParameter extends BaseModeParameter {
     public String[] GetValues()
     {
         String[] valuetoreturn = new String[20];
-        int count =0;
-        for (int i = 0; i <= 100; i =  i + 5)
+        for (int i = 1; i < 21; i++)
         {
-            valuetoreturn[count] = "" + i;
-            count++;
+            valuetoreturn[i-1] = "" + i*5;
         }
         return valuetoreturn;
     }
