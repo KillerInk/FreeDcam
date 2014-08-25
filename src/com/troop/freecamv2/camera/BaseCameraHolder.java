@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import com.troop.freecamv2.camera.parameters.CamParametersHandler;
+
 import java.io.IOException;
 
 /**
@@ -18,6 +20,8 @@ public class BaseCameraHolder implements I_CameraHolder
     boolean isRdy = false;
 
     boolean isPreviewRunning = false;
+
+    public CamParametersHandler ParameterHandler;
 
     public BaseCameraHolder()
     {

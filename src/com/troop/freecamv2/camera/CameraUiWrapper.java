@@ -36,6 +36,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
         preview.getHolder().addCallback(this);
         cameraHolder = new BaseCameraHolder();
         camParametersHandler = new CamParametersHandler(cameraHolder);
+        cameraHolder.ParameterHandler = camParametersHandler;
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
     }
 
