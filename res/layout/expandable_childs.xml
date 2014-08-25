@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/app_icon_size"
+    android:layout_height="40dp"
 
     android:orientation="vertical"
     android:alpha="0.5"
-    android:background="#b0b3b3b3">
+    android:background="#a4a0a0a0">
 
 
     <TextView
         android:id="@+id/tvChild"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="19dip"
+        android:textSize="15dip"
         android:text="Test"
         android:clickable="false"
         android:gravity="center_horizontal"

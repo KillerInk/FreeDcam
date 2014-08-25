@@ -23,14 +23,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/v2_settings_menu"
             android:focusable="false"
-            android:animateLayoutChanges="true"
+
             >
 
             <ExpandableListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/expandableListViewSettings"
-                android:background="#b0b3b3b3" />
+                android:background="#b0b3b3b3"
+                />
 
             <ListView
                 android:layout_width="fill_parent"
@@ -45,8 +46,8 @@
             android:layout_height="@dimen/app_icon_size"
             android:background="#ffcacaca"
             android:id="@+id/v2_manual_menu"
-            android:animateLayoutChanges="true"
-            ></LinearLayout>
+            android:gravity="left|right"
+            android:layout_gravity="left|right"></LinearLayout>
 
     </LinearLayout>
 
@@ -100,7 +101,8 @@
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/button_mode"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="test" />
+                android:text="test"
+                android:singleLine="true" />
 
         </LinearLayout>
 
@@ -115,10 +117,12 @@
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="test"
+                android:text="testlong"
                 android:id="@+id/textView_flashSwitch"
                 android:background="@drawable/button_flash"
-                android:gravity="center_vertical|center_horizontal" />
+                android:gravity="center_vertical|center_horizontal"
+                android:singleLine="true"
+                android:password="false" />
         </LinearLayout>
     </LinearLayout>
 

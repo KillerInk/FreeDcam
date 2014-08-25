@@ -9,6 +9,7 @@
     <dimen name="autolayout_margineTop">50dp</dimen><dimen name="menuwidth">300dp</dimen>
     <dimen name="landscape_seekbar_textview_width">160dp</dimen>
     <dimen name="toggleControl_width">75dp</dimen>
+    <dimen name="simple_list_item_size">30dp</dimen>
 
 
 </resources>
