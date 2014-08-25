@@ -70,7 +70,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         //get the group
         ExpandableGroup group = (ExpandableGroup)expandableListViewMenuAdapter.getGroup(groupPosition);
         //get the child from group
-        selectedChild = (ExpandableChild)group.getItems().get(childPosition);
+        selectedChild = group.getItems().get(childPosition);
 
 
         //get values from child attached parameter
@@ -171,10 +171,12 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        String value = (String) listView.getItemAtPosition(position);
-        selectedChild.setValue(value);
-        selectedChild = null;
-        hideSubMenuAndShowMenu();
+        if (selectedChild != null) {
+            String value = (String) listView.getItemAtPosition(position);
+            selectedChild.setValue(value);
+            selectedChild = null;
+            hideSubMenuAndShowMenu();
+        }
 
     }
 }
