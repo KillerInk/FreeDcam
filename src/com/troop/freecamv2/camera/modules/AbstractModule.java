@@ -17,12 +17,14 @@ public abstract class AbstractModule implements I_Module
     protected String name;
 
     protected SoundPlayer soundPlayer;
+    protected ModuleEventHandler eventHandler;
 
-    public AbstractModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings)
+    public AbstractModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings, ModuleEventHandler eventHandler)
     {
         this.baseCameraHolder = cameraHandler;
         this.soundPlayer = soundPlayer;
         this.Settings = Settings;
+        this.eventHandler = eventHandler;
     }
 
     @Override

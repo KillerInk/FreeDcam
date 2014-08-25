@@ -28,9 +28,9 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, SoundPlayer soundPlayer, AppSettingsManager appSettingsManager)
+    public PictureModule(BaseCameraHolder baseCameraHolder, SoundPlayer soundPlayer, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
-        super(baseCameraHolder, soundPlayer, appSettingsManager);
+        super(baseCameraHolder, soundPlayer, appSettingsManager, eventHandler);
         name = ModuleHandler.MODULE_PICTURE;
     }
 
@@ -74,8 +74,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public void onPictureTaken(byte[] data, Camera camera)
     {
         Log.d(TAG, "PictureCallback recieved");
-        saveBytesToFile(data, createFileName());
+        File file = createFileName();
+        saveBytesToFile(data, file);
         isWorking = false;
+        eventHandler.WorkFinished(file.getAbsolutePath());
         baseCameraHolder.StartPreview();
     }
 
@@ -111,7 +113,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         if(jpegFormat.contains(pictureFormat))
             return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
         if (jpsFormat.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+            return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
         return  null;
     }
 }

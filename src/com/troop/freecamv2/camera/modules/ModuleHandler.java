@@ -78,13 +78,13 @@ public class ModuleHandler
 
     private void initModules()
     {
-        PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager);
+        PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
 
-        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager);
+        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         moduleList.put(videoModule.ModuleName(), videoModule);
 
-        HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager);
+        HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
     }
 

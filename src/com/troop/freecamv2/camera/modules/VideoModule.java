@@ -12,8 +12,8 @@ public class VideoModule extends AbstractModule
 {
     public final String TAG = "freecam.VideoModule";
 
-    public VideoModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings) {
-        super(cameraHandler, soundPlayer, Settings);
+    public VideoModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
+        super(cameraHandler, soundPlayer, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
     }
 
