@@ -77,7 +77,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         File file = createFileName();
         saveBytesToFile(data, file);
         isWorking = false;
-        eventHandler.WorkFinished(file.getAbsolutePath());
+        eventHandler.WorkFinished(file);
         baseCameraHolder.StartPreview();
     }
 

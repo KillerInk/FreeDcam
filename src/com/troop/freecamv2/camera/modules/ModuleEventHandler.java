@@ -1,5 +1,6 @@
 package com.troop.freecamv2.camera.modules;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +33,7 @@ public class ModuleEventHandler
         WorkFinishedListners.add(i_workEvent);
     }
 
-    public void WorkFinished(String filePath)
+    public void WorkFinished(File filePath)
     {
         for (I_WorkEvent listner : WorkFinishedListners)
             listner.WorkHasFinished(filePath);
