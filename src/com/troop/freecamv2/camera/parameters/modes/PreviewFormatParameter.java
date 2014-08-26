@@ -42,4 +42,9 @@ public class PreviewFormatParameter extends BaseModeParameter
     public String[] GetValues() {
         return super.GetValues();
     }
+
+    public int GetFormat()
+    {
+        return parameters.getPreviewFormat();
+    }
 }

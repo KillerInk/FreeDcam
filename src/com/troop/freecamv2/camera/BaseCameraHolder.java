@@ -124,9 +124,16 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public void StartPreview() {
-        mCamera.startPreview();
-        isPreviewRunning = true;
+    public void StartPreview()
+    {
+        cameraHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mCamera.startPreview();
+                isPreviewRunning = true;
+            }
+        });
+
     }
 
     @Override
@@ -150,6 +157,19 @@ public class BaseCameraHolder implements I_CameraHolder
                 @Override
                 public void run() {
                     mCamera.takePicture(shutter, raw, picture);
+                }
+            });
+        }
+    }
+
+    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
+    {
+        if (cameraThread != null)
+        {
+            cameraHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCamera.setPreviewCallback(previewCallback);
                 }
             });
         }

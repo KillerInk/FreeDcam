@@ -29,7 +29,7 @@ public abstract class AbstractModule implements I_Module
 
     @Override
     public String ModuleName() {
-        return null;
+        return name;
     }
 
     @Override

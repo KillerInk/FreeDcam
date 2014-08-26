@@ -1,4 +1,4 @@
-package com.troop.freecamv2.ui.menu;
+package com.troop.freecamv2.ui.handler;
 
 import android.animation.Animator;
 import android.content.Intent;

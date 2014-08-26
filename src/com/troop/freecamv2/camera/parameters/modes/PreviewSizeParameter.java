@@ -46,4 +46,14 @@ public class PreviewSizeParameter extends BaseModeParameter
     public String[] GetValues() {
         return super.GetValues();
     }
+
+    public int GetWidth()
+    {
+        return  parameters.getPreviewSize().width;
+    }
+
+    public int GetHeight()
+    {
+        return parameters.getPreviewSize().height;
+    }
 }

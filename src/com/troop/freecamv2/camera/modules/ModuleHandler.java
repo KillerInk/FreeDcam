@@ -66,6 +66,13 @@ public class ModuleHandler
         else return "";
     }
 
+    public AbstractModule GetCurrentModule()
+    {
+        if (currentModule != null)
+            return currentModule;
+        return null;
+    }
+
     public boolean DoWork()
     {
         if (currentModule != null && !currentModule.IsWorking()) {
@@ -86,6 +93,9 @@ public class ModuleHandler
 
         HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
+
+        BurstModule burstModule = new BurstModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
+        moduleList.put(burstModule.ModuleName(), burstModule);
     }
 
 }
