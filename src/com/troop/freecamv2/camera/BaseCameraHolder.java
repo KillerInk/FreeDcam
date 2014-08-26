@@ -40,7 +40,7 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
-        //open camera into new looper thread 
+        //open camera into new looper thread
         if (cameraThread == null) {
             cameraThread = new HandlerThread(TAG);
             cameraThread.start();
@@ -142,4 +142,16 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     public boolean IsPreviewRunning() { return isPreviewRunning; }
+
+    public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
+    {
+        if (cameraThread != null) {
+            cameraHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCamera.takePicture(shutter, raw, picture);
+                }
+            });
+        }
+    }
 }

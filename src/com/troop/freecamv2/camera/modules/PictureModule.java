@@ -59,7 +59,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.GetCamera().takePicture(null, null, this);
+            baseCameraHolder.TakePicture(null,null,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
