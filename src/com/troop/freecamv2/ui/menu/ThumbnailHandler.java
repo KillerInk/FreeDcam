@@ -47,13 +47,19 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     }
 
     @Override
-    public String WorkHasFinished(File filePath) {
-        lastFile = filePath;
-        if (thumbView.getAlpha() == 1f)
-            hideThumb(filePath);
-        else
-            showThumb(filePath);
-        MediaScannerManager.ScanMedia(activity, filePath);
+    public String WorkHasFinished(final File filePath)
+    {
+        thumbView.post(new Runnable() {
+            @Override
+            public void run() {
+                lastFile = filePath;
+                if (thumbView.getAlpha() == 1f)
+                    hideThumb(filePath);
+                else
+                    showThumb(filePath);
+                MediaScannerManager.ScanMedia(activity, filePath);
+            }
+        });
         return null;
     }
 

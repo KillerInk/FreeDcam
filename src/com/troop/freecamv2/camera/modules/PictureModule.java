@@ -75,12 +75,31 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     {
         Log.d(TAG, "PictureCallback recieved");
         File file = createFileName();
-        saveBytesToFile(data, file);
+
+        saveFile save = new saveFile(data, file);
+        new Thread(save).start();
         isWorking = false;
-        eventHandler.WorkFinished(file);
+
         baseCameraHolder.StartPreview();
     }
 
+
+    private class saveFile implements Runnable {
+
+        private final byte[] bytes;
+        private final File file;
+
+        public saveFile(byte[] bytes, File file)
+        {
+            this.bytes = bytes;
+            this.file = file;
+        }
+        @Override
+        public void run() {
+            saveBytesToFile(bytes, file);
+            eventHandler.WorkFinished(file);
+        }
+    }
 
     private void saveBytesToFile(byte[] bytes, File fileName)
     {
