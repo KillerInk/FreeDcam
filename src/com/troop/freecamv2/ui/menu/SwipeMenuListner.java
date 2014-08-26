@@ -24,7 +24,7 @@ public class SwipeMenuListner
     LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
 
-    final int distance = 200;
+    final int distance = 100;
     int startX;
     int startY;
     int currentX;
