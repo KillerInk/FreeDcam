@@ -2,6 +2,8 @@ package com.troop.freecamv2.camera;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -23,6 +25,9 @@ public class BaseCameraHolder implements I_CameraHolder
 
     public CamParametersHandler ParameterHandler;
 
+    HandlerThread cameraThread;
+    Handler cameraHandler;
+
     public BaseCameraHolder()
     {
     }
@@ -33,19 +38,32 @@ public class BaseCameraHolder implements I_CameraHolder
      * @return false if camera open fails, return true when open
      */
     @Override
-    public boolean OpenCamera(int camera)
+    public boolean OpenCamera(final int camera)
     {
-        try
-        {
-            mCamera = Camera.open(camera);
-            isRdy = true;
-            return true;
+        //open camera into new looper thread 
+        if (cameraThread == null) {
+            cameraThread = new HandlerThread(TAG);
+            cameraThread.start();
+            cameraHandler = new Handler(cameraThread.getLooper());
         }
-        catch (Exception ex)
-        {
-            isRdy = false;
-        }
-        return false;
+        cameraHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                try
+                {
+                    mCamera = Camera.open(camera);
+                    isRdy = true;
+
+                }
+                catch (Exception ex)
+                {
+                    isRdy = false;
+                }
+            }
+        });
+
+
+        return isRdy;
     }
 
     @Override
@@ -92,11 +110,15 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder) {
         try {
+            while (!isRdy)
+                Thread.sleep(100);
             mCamera.setPreviewDisplay(surfaceHolder);
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return false;
     }
