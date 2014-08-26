@@ -10,6 +10,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/CameraPreview" />
 
+    <ImageView
+        android:layout_width="@dimen/appiconsizedouble"
+        android:layout_height="@dimen/appiconsizedouble"
+        android:id="@+id/imageView_Thumbnail"
+        android:layout_gravity="bottom|left"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentLeft="true" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -18,26 +27,43 @@
         android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/v2_settings_menu"
-            android:focusable="false"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-            >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:id="@+id/v2_settings_menu"
+                android:focusable="false"
 
-            <ExpandableListView
+                >
+
+                <ExpandableListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/expandableListViewSettings"
+                    android:background="#b0b3b3b3"
+                    />
+
+                <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/subMenuSettings"
+                    android:background="#b0b3b3b3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/expandableListViewSettings"
-                android:background="#b0b3b3b3"
-                />
+                android:layout_height="fill_parent"
+                android:layout_gravity="bottom"
+                android:gravity="bottom">
 
-            <ListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings"
-                android:background="#b0b3b3b3" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
