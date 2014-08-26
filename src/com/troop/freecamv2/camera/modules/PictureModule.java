@@ -43,7 +43,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     @Override
     public void DoWork()
     {
-        takePicture();
+        if (!isWorking)
+            takePicture();
     }
 
     @Override
