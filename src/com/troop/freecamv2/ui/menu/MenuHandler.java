@@ -36,7 +36,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
      */
     ListView listView;
 
-    int mShortAnimationDuration;
+    int mShortAnimationDuration = 200;
 
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
@@ -48,10 +48,6 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
-
-
-        mShortAnimationDuration = context.getResources().getInteger(
-                android.R.integer.config_mediumAnimTime);
     }
 
     private ArrayList<ExpandableGroup> createMenu() {

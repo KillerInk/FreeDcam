@@ -29,6 +29,7 @@ public class SwipeMenuListner
     int startY;
     int currentX;
     int currentY;
+    int animationSpeed = 200;
 
 
 
@@ -122,7 +123,7 @@ public class SwipeMenuListner
     {
 
             Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_top_to_bottom);
-            hide.setDuration(500);
+            hide.setDuration(animationSpeed);
             settingsLayout.setVisibility(View.VISIBLE);
             settingsLayout.startAnimation(hide);
     }
@@ -130,7 +131,7 @@ public class SwipeMenuListner
     private void hideAnimationHorizontal()
     {
         Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_right_to_left);
-        hide.setDuration(500);
+        hide.setDuration(animationSpeed);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -154,7 +155,7 @@ public class SwipeMenuListner
     private void showVerticalAnimation()
     {
         Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_left_to_right);
-        hide.setDuration(500);
+        hide.setDuration(animationSpeed);
         manualSettingsLayout.setVisibility(View.VISIBLE);
         manualSettingsLayout.startAnimation(hide);
     }
@@ -162,7 +163,7 @@ public class SwipeMenuListner
     private void hideVerticalAnimation()
     {
         Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_top);
-        hide.setDuration(500);
+        hide.setDuration(animationSpeed);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
