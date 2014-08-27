@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/app_icon_size"
+    android:layout_height="25dp"
     android:orientation="vertical"
     android:background="#ffeaeaea">
 
@@ -9,9 +9,9 @@
     <TextView
         android:id="@+id/tvGroup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="17dip"
         android:text="Group Test"
-        android:gravity="center_horizontal"
-        android:textColor="#ff000000" />
+        android:textColor="#ff000000"
+        android:gravity="center_vertical|center_horizontal" />
 </LinearLayout>

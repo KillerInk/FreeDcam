@@ -66,14 +66,7 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
         ExpandableGroup group = (ExpandableGroup)getGroup(groupPosition);
-        if (convertView == null)
-        {
-            LayoutInflater inf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = inf.inflate(R.layout.expandable_groups, null);
-            convertView.setClickable(false);
-        }
-        TextView tv = (TextView) convertView.findViewById(R.id.tvGroup);
-        tv.setText(group.getName().toString());
+        convertView = group;
         //tv.setTag(group.getTag());
         return convertView;
     }
@@ -83,13 +76,9 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
     {
         ExpandableChild child = (ExpandableChild) getChild(groupPosition, childPosition);
 
-            convertView = child;
-            convertView.setClickable(false);
+        convertView = child;
+        convertView.setClickable(false);
 
-        /*TextView tv = (TextView) convertView.findViewById(R.id.tvChild);
-        tv.setText(child.getName().toString());
-        tv.setTag(child.Value());
-        // TODO Auto-generated method stub*/
         return convertView;
     }
 

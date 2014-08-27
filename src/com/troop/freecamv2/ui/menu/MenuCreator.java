@@ -26,7 +26,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePictureSettings()
     {
-        ExpandableGroup picGroup = new ExpandableGroup();
+        ExpandableGroup picGroup = new ExpandableGroup(context);
         picGroup.setName("Picture Settings");
 
         createPictureSettingsChilds(picGroup);
@@ -56,7 +56,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateModeSettings()
     {
-        ExpandableGroup modesGroup = new ExpandableGroup();
+        ExpandableGroup modesGroup = new ExpandableGroup(context);
         modesGroup.setName("Mode Settings");
         createModesSettingsChilds(modesGroup);
         return modesGroup;
@@ -107,7 +107,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateQualitySettings()
     {
-        ExpandableGroup qualityGroup = new ExpandableGroup();
+        ExpandableGroup qualityGroup = new ExpandableGroup(context);
         qualityGroup.setName("Quality Settings");
         createQualitySettingsChilds(qualityGroup);
         return qualityGroup;
@@ -161,7 +161,7 @@ public class MenuCreator
 
     private ExpandableGroup getNewGroup(String name)
     {
-        ExpandableGroup group = new ExpandableGroup();
+        ExpandableGroup group = new ExpandableGroup(context);
         group.setName(name);
         return group;
     }
