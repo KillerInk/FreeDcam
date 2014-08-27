@@ -2,6 +2,7 @@ package com.troop.freecamv2.ui.menu;
 
 import android.content.Context;
 
+import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
@@ -27,7 +28,7 @@ public class MenuCreator
     public ExpandableGroup CreatePictureSettings()
     {
         ExpandableGroup picGroup = new ExpandableGroup(context);
-        picGroup.setName("Picture Settings");
+        picGroup.setName(context.getString(R.string.picture_settings));
 
         createPictureSettingsChilds(picGroup);
         return picGroup;
@@ -37,19 +38,19 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
         ExpandableChild picSize = new ExpandableChild(context);
-        picSize.setName("Picture Size");
+        picSize.setName(context.getString(R.string.picture_size));
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
         picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(picSize);
 
         ExpandableChild picformat = getNewChild(cameraUiWrapper.camParametersHandler.PictureFormat,
                 AppSettingsManager.SETTING_PICTUREFORMAT,
-                "Picture Format",
+                context.getString(R.string.picture_format),
                 cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(picformat);
 
         ExpandableChild jpegquality = getNewChild(cameraUiWrapper.camParametersHandler.JpegQuality,
-                AppSettingsManager.SETTING_JPEGQUALITY, "Jpeg Quality", cameraUiWrapper.moduleHandler.PictureModules);
+                AppSettingsManager.SETTING_JPEGQUALITY, context.getString(R.string.jpeg_quality), cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(jpegquality);
         group.setItems(piclist);
     }
@@ -57,7 +58,7 @@ public class MenuCreator
     public ExpandableGroup CreateModeSettings()
     {
         ExpandableGroup modesGroup = new ExpandableGroup(context);
-        modesGroup.setName("Mode Settings");
+        modesGroup.setName(context.getString(R.string.mode_settings));
         createModesSettingsChilds(modesGroup);
         return modesGroup;
     }
@@ -68,7 +69,7 @@ public class MenuCreator
 
         if (cameraUiWrapper.camParametersHandler.ColorMode.IsSupported()) {
             ExpandableChild color = new ExpandableChild(context);
-            color.setName("Color");
+            color.setName(context.getString(R.string.mode_color));
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(color);
             color.setParameterHolder(cameraUiWrapper.camParametersHandler.ColorMode, appSettingsManager, AppSettingsManager.SETTING_COLORMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(color);
@@ -76,7 +77,7 @@ public class MenuCreator
 
         if (cameraUiWrapper.camParametersHandler.IsoMode.IsSupported()) {
             ExpandableChild iso = new ExpandableChild(context);
-            iso.setName("Iso");
+            iso.setName(context.getString(R.string.mode_iso));
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(iso);
             iso.setParameterHolder(cameraUiWrapper.camParametersHandler.IsoMode, appSettingsManager, AppSettingsManager.SETTING_ISOMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(iso);
@@ -85,7 +86,7 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.ExposureMode.IsSupported())
         {
             ExpandableChild exposure = new ExpandableChild(context);
-            exposure.setName("Exposure");
+            exposure.setName(context.getString(R.string.mode_exposure));
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(exposure);
             exposure.setParameterHolder(cameraUiWrapper.camParametersHandler.ExposureMode,
                     appSettingsManager,
@@ -97,7 +98,7 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.WhiteBalanceMode.IsSupported())
         {
             ExpandableChild wb = getNewChild(cameraUiWrapper.camParametersHandler.WhiteBalanceMode,
-                    "Whitebalance",
+                    context.getString(R.string.mode_whitebalance),
                     AppSettingsManager.SETTING_WHITEBALANCEMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(wb);
         }
@@ -108,7 +109,7 @@ public class MenuCreator
     public ExpandableGroup CreateQualitySettings()
     {
         ExpandableGroup qualityGroup = new ExpandableGroup(context);
-        qualityGroup.setName("Quality Settings");
+        qualityGroup.setName(context.getString(R.string.quality_settings));
         createQualitySettingsChilds(qualityGroup);
         return qualityGroup;
     }
@@ -120,7 +121,7 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.AntiBandingMode.IsSupported())
         {
             ExpandableChild antibanding = new ExpandableChild(context);
-            antibanding.setName("Antibanding");
+            antibanding.setName(context.getString(R.string.antibanding));
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(antibanding);
             antibanding.setParameterHolder(cameraUiWrapper.camParametersHandler.AntiBandingMode, appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(antibanding);
@@ -128,7 +129,7 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.ImagePostProcessing.IsSupported())
         {
             ExpandableChild ipp = new ExpandableChild(context);
-            ipp.setName("ImagePostProcessing");
+            ipp.setName(context.getString(R.string.image_post_processing));
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ipp);
             ipp.setParameterHolder(cameraUiWrapper.camParametersHandler.ImagePostProcessing, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(ipp);
@@ -139,7 +140,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePreviewSettings()
     {
-        ExpandableGroup preview = getNewGroup("Preview Settings");
+        ExpandableGroup preview = getNewGroup(context.getString(R.string.preview_settings));
         createPreviewSettingsChilds(preview);
         return preview;
     }
@@ -147,13 +148,13 @@ public class MenuCreator
     private void createPreviewSettingsChilds(ExpandableGroup preview)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, "Preview Size", cameraUiWrapper.moduleHandler.AllModules);
+        ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(size);
 
-        ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, "Preview Fps", cameraUiWrapper.moduleHandler.AllModules);
+        ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);
 
-        ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, "Preview Format", cameraUiWrapper.moduleHandler.AllModules);
+        ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, context.getString(R.string.preview_fromat), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(format);
 
         preview.setItems(childlist);
