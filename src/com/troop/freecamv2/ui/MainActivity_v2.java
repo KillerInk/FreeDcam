@@ -3,6 +3,7 @@ package com.troop.freecamv2.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,6 +11,7 @@ import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freecamv2.ui.handler.HardwareKeyHandler;
 import com.troop.freecamv2.ui.handler.ShutterHandler;
 import com.troop.freecamv2.ui.menu.MenuHandler;
 import com.troop.freecamv2.ui.handler.ThumbnailHandler;
@@ -32,6 +34,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     FlashSwitchHandler flashSwitchHandler;
     Activity activity;
     ThumbnailHandler thumbnailHandler;
+    HardwareKeyHandler hardwareKeyHandler;
 
 
     @Override
@@ -51,6 +54,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
+        hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
+
 
     }
 
@@ -63,6 +68,17 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     protected void onPause() {
         super.onPause();
+
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        boolean haskey = hardwareKeyHandler.OnKeyEvent(keyCode, event);
+        if (!haskey)
+            haskey = super.onKeyUp(keyCode, event);
+
+        return haskey;
 
     }
 }
