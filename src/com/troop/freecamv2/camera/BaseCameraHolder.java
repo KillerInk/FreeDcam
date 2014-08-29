@@ -40,8 +40,18 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
+        try
+        {
+            mCamera = Camera.open(camera);
+            isRdy = true;
+
+        }
+        catch (Exception ex)
+        {
+            isRdy = false;
+        }
         //open camera into new looper thread
-        if (cameraThread == null) {
+        /*if (cameraThread == null) {
             cameraThread = new HandlerThread(TAG);
             cameraThread.start();
             cameraHandler = new Handler(cameraThread.getLooper());
@@ -49,18 +59,9 @@ public class BaseCameraHolder implements I_CameraHolder
         cameraHandler.post(new Runnable() {
             @Override
             public void run() {
-                try
-                {
-                    mCamera = Camera.open(camera);
-                    isRdy = true;
 
-                }
-                catch (Exception ex)
-                {
-                    isRdy = false;
-                }
             }
-        });
+        });*/
 
 
         return isRdy;
@@ -110,29 +111,30 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder) {
         try {
-            while (!isRdy)
-                Thread.sleep(100);
+            /*while (!isRdy)
+                Thread.sleep(100);*/
             mCamera.setPreviewDisplay(surfaceHolder);
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
 
-        } catch (InterruptedException e) {
+        } /*catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         return false;
     }
 
     @Override
     public void StartPreview()
     {
-        cameraHandler.post(new Runnable() {
+        mCamera.startPreview();
+        isPreviewRunning = true;
+        /*cameraHandler.post(new Runnable() {
             @Override
             public void run() {
-                mCamera.startPreview();
-                isPreviewRunning = true;
+
             }
-        });
+        });*/
 
     }
 
@@ -150,28 +152,30 @@ public class BaseCameraHolder implements I_CameraHolder
 
     public boolean IsPreviewRunning() { return isPreviewRunning; }
 
-    public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
+    public void TakePicture(Camera.ShutterCallback shutter, Camera.PictureCallback raw, Camera.PictureCallback picture)
     {
-        if (cameraThread != null) {
+        mCamera.takePicture(shutter, null, picture);
+        /*if (cameraThread != null) {
             cameraHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCamera.takePicture(shutter, raw, picture);
+
                 }
             });
-        }
+        }*/
     }
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        if (cameraThread != null)
+        mCamera.setPreviewCallback(previewCallback);
+        /*if (cameraThread != null)
         {
             cameraHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCamera.setPreviewCallback(previewCallback);
+
                 }
             });
-        }
+        }*/
     }
 }
