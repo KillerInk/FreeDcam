@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
+import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 
 import com.troop.freecam.manager.SoundPlayer;
@@ -24,7 +25,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     public final String TAG = "freecam.PictureModule";
 
-    private String rawFormats = "bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,bayer-ideal-qcom-10grbg";
+    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
@@ -104,19 +105,27 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     private void saveBytesToFile(byte[] bytes, File fileName)
     {
-        Log.d(TAG, "Start Saving Bytes");
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(fileName);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (fileName.getAbsolutePath().endsWith(".raw"))
+        {
+            String tiff = fileName.getAbsolutePath();
+            tiff = tiff.replace(".raw", ".tiff");
+            RawUtils.unpackRawByte(tiff, bytes, 0, 2.0f, 3.83f, 0.10f, 100.00f);
         }
-        Log.d(TAG, "End Saving Bytes");
+        else {
+            Log.d(TAG, "Start Saving Bytes");
+            FileOutputStream outStream = null;
+            try {
+                outStream = new FileOutputStream(fileName);
+                outStream.write(bytes);
+                outStream.flush();
+                outStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "End Saving Bytes");
+        }
     }
 
     private File createFileName()
