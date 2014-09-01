@@ -13,6 +13,7 @@ import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freecamv2.ui.handler.HardwareKeyHandler;
 import com.troop.freecamv2.ui.handler.ShutterHandler;
+import com.troop.freecamv2.ui.menu.ManualMenuHandler;
 import com.troop.freecamv2.ui.menu.MenuHandler;
 import com.troop.freecamv2.ui.handler.ThumbnailHandler;
 import com.troop.freecamv2.ui.switches.CameraSwitchHandler;
@@ -35,6 +36,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     Activity activity;
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
+    ManualMenuHandler manualMenuHandler;
 
 
     @Override
@@ -55,6 +57,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
+        manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
 
 
     }

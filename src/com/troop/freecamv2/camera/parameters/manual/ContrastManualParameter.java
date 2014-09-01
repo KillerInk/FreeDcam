@@ -9,7 +9,7 @@ public class ContrastManualParameter extends BaseManualParameter {
     public ContrastManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
     {
         super(parameters, value, maxValue, MinValue);
-        value = "contrast";
+        this.value = "contrast";
         if (hasSupport()) {
             int max = 100;
             try {

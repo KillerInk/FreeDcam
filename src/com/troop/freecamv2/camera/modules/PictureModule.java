@@ -105,27 +105,20 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     private void saveBytesToFile(byte[] bytes, File fileName)
     {
-        if (fileName.getAbsolutePath().endsWith(".raw"))
-        {
-            String tiff = fileName.getAbsolutePath();
-            tiff = tiff.replace(".raw", ".tiff");
-            RawUtils.unpackRawByte(tiff, bytes, 0, 2.0f, 3.83f, 0.10f, 100.00f);
+        Log.d(TAG, "Start Saving Bytes");
+        FileOutputStream outStream = null;
+        try {
+            outStream = new FileOutputStream(fileName);
+            outStream.write(bytes);
+            outStream.flush();
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else {
-            Log.d(TAG, "Start Saving Bytes");
-            FileOutputStream outStream = null;
-            try {
-                outStream = new FileOutputStream(fileName);
-                outStream.write(bytes);
-                outStream.flush();
-                outStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.d(TAG, "End Saving Bytes");
-        }
+        Log.d(TAG, "End Saving Bytes");
+
     }
 
     private File createFileName()
@@ -138,7 +131,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
 
         if(rawFormats.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".raw").toString());
+            return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
         if(jpegFormat.contains(pictureFormat))
             return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
         if (jpsFormat.contains(pictureFormat))

@@ -23,6 +23,7 @@ public class SwipeMenuListner
 {
     LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
+    LinearLayout seekbarLayout;
 
     final int distance = 100;
     int startX;
@@ -34,12 +35,13 @@ public class SwipeMenuListner
 
 
 
-    public SwipeMenuListner(final LinearLayout settingsLayout, final LinearLayout manualSettingsLayout)
+    public SwipeMenuListner(final LinearLayout settingsLayout, final LinearLayout manualSettingsLayout, LinearLayout seekbarLayout)
     {
         this.manualSettingsLayout = manualSettingsLayout;
         this.settingsLayout = settingsLayout;
         this.manualSettingsLayout.setVisibility(View.GONE);
         this.settingsLayout.setVisibility(View.GONE);
+        this.seekbarLayout = seekbarLayout;
 
 
     }
@@ -158,11 +160,14 @@ public class SwipeMenuListner
         hide.setDuration(animationSpeed);
         manualSettingsLayout.setVisibility(View.VISIBLE);
         manualSettingsLayout.startAnimation(hide);
+        seekbarLayout.setVisibility(View.VISIBLE);
+        seekbarLayout.startAnimation(hide);
     }
 
     private void hideVerticalAnimation()
     {
         Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_top);
+        Animation hide2 = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_bottom);
         hide.setDuration(animationSpeed);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -174,6 +179,24 @@ public class SwipeMenuListner
             public void onAnimationEnd(Animation animation) {
                 manualSettingsLayout.setVisibility(View.GONE);
 
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide2.setDuration(animationSpeed);
+        hide2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                seekbarLayout.setVisibility(View.GONE);
             }
 
             @Override
@@ -182,6 +205,7 @@ public class SwipeMenuListner
             }
         });
         manualSettingsLayout.startAnimation(hide);
+        seekbarLayout.startAnimation(hide2);
         //layout.startAnimation(move_bottom_to_top);
     }
 }

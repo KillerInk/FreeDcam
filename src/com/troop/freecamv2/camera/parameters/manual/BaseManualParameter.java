@@ -5,7 +5,7 @@ import android.hardware.Camera;
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseManualParameter
+public abstract class BaseManualParameter implements I_ManualParameter
 {
     Camera.Parameters parameters;
     protected String value;

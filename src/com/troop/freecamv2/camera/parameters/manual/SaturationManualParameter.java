@@ -9,7 +9,7 @@ public class SaturationManualParameter extends BaseManualParameter
 {
     public SaturationManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
         super(parameters, value, maxValue, MinValue);
-        value = "saturation";
+        this.value = "saturation";
         if (hasSupport())
         {
             int max = 0;

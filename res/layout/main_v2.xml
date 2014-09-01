@@ -55,25 +55,44 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="bottom"
-                android:gravity="bottom">
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/app_icon_size"
-            android:background="#ffcacaca"
-            android:id="@+id/v2_manual_menu"
-            android:gravity="left|right"
-            android:layout_gravity="left|right"></LinearLayout>
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffcacaca"
+                android:id="@+id/v2_manual_menu"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal|bottom"
+                android:id="@+id/v2_seekbar_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/textView_seekbar"
+                    android:background="#ff000000"
+                    android:alpha="0.5" />
+
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar_manual" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -13,14 +13,14 @@ public class BrightnessManualParameter extends BaseManualParameter
     public BrightnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
     {
         super(parameters, value, maxValue, MinValue);
-        value = "brightness";
-        if (hasSupport())
+        this.value = "brightness";
+        if (!hasSupport())
         {
             try
             {
                 int i = parameters.getInt("luma-adaptation");
                 isSupported = true;
-                value = "luma-adaptation";
+                this.value = "luma-adaptation";
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ public class BrightnessManualParameter extends BaseManualParameter
 
     @Override
     public int GetMinValue() {
-        int min = 100;
+        int min = 0;
         try {
             min = super.GetMinValue();
         }
@@ -63,7 +63,7 @@ public class BrightnessManualParameter extends BaseManualParameter
         {
 
         }
-        if (min > 0)
+        if (min < 0)
             return min;
         else return 0;
     }

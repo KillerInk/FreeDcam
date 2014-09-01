@@ -10,7 +10,7 @@ public class SharpnessManualParameter extends BaseManualParameter
     public SharpnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
     {
         super(parameters, value, maxValue, MinValue);
-        value = "sharpness";
+        this.value = "sharpness";
         if (hasSupport()) {
             int max = 0;
             try {

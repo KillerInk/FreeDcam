@@ -22,6 +22,7 @@ public class MenuVisibilityActivity extends Activity
     protected ViewGroup appViewGroup;
     LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
+    LinearLayout seekbarLayout;
 
     SwipeMenuListner swipeMenuListner;
 
@@ -43,8 +44,10 @@ public class MenuVisibilityActivity extends Activity
         settingsLayout.setVisibility(View.GONE);
         manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
         manualSettingsLayout.setVisibility(View.GONE);
+        seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
+        seekbarLayout.setVisibility(View.GONE);
 
-        swipeMenuListner = new SwipeMenuListner(settingsLayout, manualSettingsLayout);
+        swipeMenuListner = new SwipeMenuListner(settingsLayout, manualSettingsLayout, seekbarLayout);
     }
 
     @Override
