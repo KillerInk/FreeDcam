@@ -47,4 +47,6 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     {
         toggleButton.setChecked(false);
     }
+
+    public void EnableItem() {toggleButton.setChecked(true);}
 }

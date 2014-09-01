@@ -12,6 +12,7 @@ import com.troop.freecamv2.camera.parameters.manual.FocusManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
@@ -57,6 +58,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public PreviewSizeParameter PreviewSize;
     public PreviewFpsParameter PreviewFPS;
     public PreviewFormatParameter PreviewFormat;
+    public ZoomManualParameter Zoom;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -88,28 +90,6 @@ public class CamParametersHandler implements I_ParameterChanged
         setParameterRunner = new SetParameterRunner();
         initParameters();
     }
-
-    boolean supportManualWhiteBalance = false;
-    public boolean getSupportWhiteBalance() { return supportManualWhiteBalance; }
-
-    boolean supportFlash = false;
-    public boolean getSupportFlash() { return  supportFlash;}
-
-    boolean supportVNF = false;
-    public boolean getSupportVNF() { return supportVNF;}
-
-    boolean supportAfpPriorityModes = false;
-    public boolean getSupportAfpPriority() { return supportAfpPriorityModes;}
-
-    boolean supportIPP = false;
-    public boolean getSupportIPP() { return supportIPP;}
-
-    boolean supportZSL = false;
-    public boolean getSupportZSL() { return supportZSL;}
-
-
-
-
 
     private void logParameters()
     {
@@ -143,6 +123,7 @@ public class CamParametersHandler implements I_ParameterChanged
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
+        Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
 
 
 

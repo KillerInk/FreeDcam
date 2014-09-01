@@ -94,6 +94,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (realMin < 0)
         {
             manualSeekbar.setProgress(value - realMin);
+
         }
         else
         {
@@ -106,10 +107,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (realMin < 0)
         {
             currentItem.manualParameter.SetValue(value + realMin);
+            cameraUiWrapper.camParametersHandler.SetParametersToCamera();
             setTextValue(value + realMin);
         }
         else {
             currentItem.manualParameter.SetValue(value);
+            cameraUiWrapper.camParametersHandler.SetParametersToCamera();
             setTextValue(value);
         }
 
@@ -181,5 +184,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             ManualMenuItem shutter = new ManualMenuItem(activity, "Shutter", this, parametersHandler.ManualShutter);
             addToLists(shutter);
         }
+        if (parametersHandler.Zoom.IsSupported())
+        {
+            ManualMenuItem zoom = new ManualMenuItem(activity, "Zoom", this, parametersHandler.Zoom);
+            addToLists(zoom);
+            zoom.EnableItem();
+            DisableOtherItems(zoom.name);
+        }
+
     }
 }
