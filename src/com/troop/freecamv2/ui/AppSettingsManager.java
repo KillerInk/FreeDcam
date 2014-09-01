@@ -27,6 +27,7 @@ public class AppSettingsManager
     public static String SETTING_PREVIEWFPS = "previewfps";
     public static String SETTING_PREVIEWFORMAT = "previewformat";
     public static String SETTING_FLASHMODE = "flashmode";
+    public static String SETTING_SCENEMODE = "scenemode";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {

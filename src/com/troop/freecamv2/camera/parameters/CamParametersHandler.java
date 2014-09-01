@@ -25,6 +25,7 @@ import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 
 /**
@@ -59,6 +60,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public PreviewFpsParameter PreviewFPS;
     public PreviewFormatParameter PreviewFormat;
     public ZoomManualParameter Zoom;
+    public SceneModeParameter SceneMode;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -124,6 +126,7 @@ public class CamParametersHandler implements I_ParameterChanged
         PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
+        SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
 
 
 

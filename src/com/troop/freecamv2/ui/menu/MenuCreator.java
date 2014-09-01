@@ -102,6 +102,11 @@ public class MenuCreator
                     AppSettingsManager.SETTING_WHITEBALANCEMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(wb);
         }
+        if (cameraUiWrapper.camParametersHandler.SceneMode.IsSupported())
+        {
+            ExpandableChild scen = getNewChild(cameraUiWrapper.camParametersHandler.SceneMode, "Scene", AppSettingsManager.SETTING_SCENEMODE, cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(scen);
+        }
 
         group.setItems(childlist);
     }
