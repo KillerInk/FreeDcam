@@ -19,17 +19,14 @@ import com.troop.freecam.R;
 /**
  * Created by troop on 18.08.2014.
  */
-public class SwipeMenuListner
+public class SwipeMenuListner extends TouchHandler
 {
     LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
     LinearLayout seekbarLayout;
 
-    final int distance = 100;
-    int startX;
-    int startY;
-    int currentX;
-    int currentY;
+
+
     int animationSpeed = 200;
 
 
@@ -46,54 +43,7 @@ public class SwipeMenuListner
 
     }
 
-
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        boolean fireagain = true;
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = (int) event.getX();
-                startY = (int) event.getY();
-                currentX = (int) event.getX();
-                currentY = (int) event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                currentX = (int) event.getX();
-                currentY = (int) event.getY();
-                detectSwipeDirection();
-                break;
-            case MotionEvent.ACTION_UP:
-                fireagain = false;
-                break;
-        }
-
-
-        return fireagain;
-    }
-
-    private void detectSwipeDirection()
-    {
-        int x = getDistance(startX, currentX);
-        int y = getDistance(startY, currentY);
-        if (x >= distance || y >= distance) {
-            if (x >= y)
-                doHorizontalSwipe();
-            else
-                doVerticalSwipe();
-        }
-    }
-
-
-    private int getDistance(int startvalue, int currentvalue)
-    {
-        int dis = startvalue - currentvalue;
-        if (dis < 0)
-            dis = dis *-1;
-        return dis;
-    }
-
-    private void doHorizontalSwipe()
+    protected void doHorizontalSwipe()
     {
         if (startX - currentX > 0)
         {
@@ -107,7 +57,7 @@ public class SwipeMenuListner
         }
     }
 
-    private void doVerticalSwipe()
+    protected void doVerticalSwipe()
     {
         if (startY - currentY > 0)
         {

@@ -49,6 +49,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         manualItems = new ArrayList<ManualMenuItem>();
 
 
+
+
     }
 
     private void addToLists(ManualMenuItem item)
@@ -143,7 +145,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
+        manualMenu.removeAllViews();
+        manualItems.clear();
         if (parametersHandler.ManualBrightness.IsSupported())
         {
             ManualMenuItem brightnes = new ManualMenuItem(activity, "Brightness", this, parametersHandler.ManualBrightness);

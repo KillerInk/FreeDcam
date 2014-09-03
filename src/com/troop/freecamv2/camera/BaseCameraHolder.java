@@ -24,6 +24,7 @@ public class BaseCameraHolder implements I_CameraHolder
     boolean isPreviewRunning = false;
 
     public CamParametersHandler ParameterHandler;
+    public FocusHandler Focus;
 
     HandlerThread cameraThread;
     Handler cameraHandler;
@@ -97,13 +98,16 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(Camera.Parameters parameters) {
+    public boolean SetCameraParameters(Camera.Parameters parameters)
+    {
         try{
             mCamera.setParameters(parameters);
             return true;
         }
         catch (Exception ex)
-        {}
+        {
+            ex.printStackTrace();
+        }
         return false;
     }
 
@@ -170,6 +174,19 @@ public class BaseCameraHolder implements I_CameraHolder
                 @Override
                 public void run() {
                     mCamera.setPreviewCallback(previewCallback);
+                }
+            });
+        }
+    }
+
+    public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
+    {
+        if (cameraThread != null)
+        {
+            cameraHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCamera.autoFocus(autoFocusCallback);
                 }
             });
         }

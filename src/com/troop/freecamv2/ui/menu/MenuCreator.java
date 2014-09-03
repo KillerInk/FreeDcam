@@ -107,6 +107,8 @@ public class MenuCreator
             ExpandableChild scen = getNewChild(cameraUiWrapper.camParametersHandler.SceneMode, "Scene", AppSettingsManager.SETTING_SCENEMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(scen);
         }
+        ExpandableChild focus = getNewChild(cameraUiWrapper.camParametersHandler.FocusMode, "Focus", AppSettingsManager.SETTING_FOCUSMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(focus);
 
         group.setItems(childlist);
     }

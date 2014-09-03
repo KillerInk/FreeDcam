@@ -17,6 +17,7 @@ import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.FocusModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
@@ -27,6 +28,8 @@ import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
+
+import java.util.List;
 
 /**
  * Created by troop on 17.08.2014.
@@ -61,6 +64,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public PreviewFormatParameter PreviewFormat;
     public ZoomManualParameter Zoom;
     public SceneModeParameter SceneMode;
+    public FocusModeParameter FocusMode;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -127,6 +131,8 @@ public class CamParametersHandler implements I_ParameterChanged
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
+        FocusMode = new FocusModeParameter(cameraParameters, this,"","");
+
 
 
 
@@ -154,7 +160,7 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -165,5 +171,15 @@ public class CamParametersHandler implements I_ParameterChanged
                 run();
             }
         }
+    }
+
+    public void SetFocusAREA(List<Camera.Area> focusAreas)
+    {
+        Camera.Parameters para = cameraHolder.GetCameraParameters();
+        if (para.getMaxNumFocusAreas() > 0)
+            para.setFocusAreas(focusAreas);
+        if (para.getMaxNumMeteringAreas() > 0)
+            para.setMeteringAreas(focusAreas);
+        cameraHolder.SetCameraParameters(para);
     }
 }

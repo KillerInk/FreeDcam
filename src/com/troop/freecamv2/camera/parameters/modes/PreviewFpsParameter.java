@@ -28,10 +28,10 @@ public class PreviewFpsParameter extends  BaseModeParameter
         if (cameraHolder.IsPreviewRunning())
             cameraHolder.StopPreview();
         parameters.set(value, valueToSet);
-        cameraHolder.SetCameraParameters(parameters);
+        if (throwParameterChanged != null)
+            throwParameterChanged.ParameterChanged();
         if (!cameraHolder.IsPreviewRunning())
             cameraHolder.StartPreview();
-        super.SetValue(valueToSet);
 
     }
 

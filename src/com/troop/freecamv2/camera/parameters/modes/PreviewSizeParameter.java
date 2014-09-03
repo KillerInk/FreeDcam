@@ -32,7 +32,9 @@ public class PreviewSizeParameter extends BaseModeParameter
         int w = Integer.parseInt(widthHeight[0]);
         int h = Integer.parseInt(widthHeight[1]);
         parameters.setPreviewSize(w,h);
-        baseCameraHolder.SetCameraParameters(parameters);
+        if (throwParameterChanged != null)
+            throwParameterChanged.ParameterChanged();
+        //baseCameraHolder.SetCameraParameters(parameters);
         if (!baseCameraHolder.IsPreviewRunning())
             baseCameraHolder.StartPreview();
     }

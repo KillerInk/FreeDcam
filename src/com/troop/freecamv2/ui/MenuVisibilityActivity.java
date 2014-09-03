@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.troop.freecam.R;
+import com.troop.freecamv2.ui.handler.FocusImageHandler;
 import com.troop.freecamv2.ui.menu.SwipeMenuListner;
 
 /**

@@ -12,12 +12,13 @@ import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.surfaces.CamPreview;
 import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
+import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper implements SurfaceHolder.Callback
+public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded
 {
     private SurfaceView preview;
     public ModuleHandler moduleHandler;
@@ -25,6 +26,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
     AppSettingsManager appSettingsManager;
     SoundPlayer soundPlayer;
     public CamParametersHandler camParametersHandler;
+    public FocusHandler Focus;
 
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
@@ -37,7 +39,11 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
         cameraHolder = new BaseCameraHolder();
         camParametersHandler = new CamParametersHandler(cameraHolder);
         cameraHolder.ParameterHandler = camParametersHandler;
+        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
+        Focus = new FocusHandler(this);
+        cameraHolder.Focus = Focus;
     }
 
 
@@ -71,7 +77,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
         {
             cameraHolder.SetSurface(preview.getHolder());
             camParametersHandler.LoadParametersFromCamera();
-            cameraHolder.StartPreview();
+
         }
     }
 
@@ -94,5 +100,10 @@ public class CameraUiWrapper implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         StopPreviewAndCamera();
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        cameraHolder.StartPreview();
     }
 }

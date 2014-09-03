@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,6 +12,7 @@ import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freecamv2.ui.handler.FocusImageHandler;
 import com.troop.freecamv2.ui.handler.HardwareKeyHandler;
 import com.troop.freecamv2.ui.handler.ShutterHandler;
 import com.troop.freecamv2.ui.menu.ManualMenuHandler;
@@ -37,6 +39,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
     ManualMenuHandler manualMenuHandler;
+    FocusImageHandler focusImageHandler;
 
 
     @Override
@@ -58,6 +61,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
+        focusImageHandler = new FocusImageHandler(this, cameraUiWrapper);
 
 
     }
@@ -84,4 +88,18 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         return haskey;
 
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        boolean ret = focusImageHandler.onTouchEvent(event);
+        if (ret)
+            return super.onTouchEvent(event);
+        else
+            return ret;
+
+
+    }
+
+
 }
