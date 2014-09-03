@@ -2,6 +2,7 @@ package com.troop.freecamv2.ui.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.widget.LinearLayout;
@@ -68,6 +69,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         valueTextView.setText(value);
         parameterHolder.SetValue(value);
         appSettingsManager.setString(settingsname, value);
+        Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
@@ -78,10 +80,15 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         this.settingsname = settingsname;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue.equals(""))
+        if (settingValue.equals("")) {
             appSettingsManager.setString(settingsname, campara);
+            Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
+        }
         if (!settingValue.equals(campara) && !settingValue.equals(""))
+        {
             parameterHolder.SetValue(settingValue);
+            Log.d(getTAG(), "Load default appsetting " + Name + ":" +campara);
+        }
         nameTextView.setText(Name);
         valueTextView.setText(parameterHolder.GetValue());
         AddModulesToShow(modulesToShow);
@@ -100,5 +107,10 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         else
             this.setVisibility(GONE);
         return null;
+    }
+
+    private String getTAG()
+    {
+        return "freecam." + Name;
     }
 }
