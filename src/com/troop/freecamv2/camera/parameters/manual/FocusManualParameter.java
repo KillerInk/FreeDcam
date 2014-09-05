@@ -26,7 +26,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
             return true;
         else
             return false;
@@ -47,11 +47,14 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         int i = 0;
         try {
-            i = parameters.getInt("manualfocus_step");
+            if (DeviceUtils.isLGADV())
+                i = parameters.getInt("manualfocus_step");
+            if (DeviceUtils.isZTEADV());
+                i = parameters.getInt("maf_key");
         }
         catch (Exception ex)
         {
-            parameters.set("manual-focus", 0);
+
         }
 
         return i;
@@ -68,8 +71,15 @@ public class FocusManualParameter extends  BaseManualParameter
         }*/
         //parameters.set("manual", 0);
         parameters.setFocusAreas(null);
-        parameters.setFocusMode("normal");
-        parameters.set("manualfocus_step", valueToSet);
+        if (DeviceUtils.isLGADV()) {
+            parameters.setFocusMode("normal");
+            parameters.set("manualfocus_step", valueToSet);
+        }
+        if (DeviceUtils.isZTEADV())
+        {
+            parameters.setFocusMode("macro");
+            parameters.set("maf_key", valueToSet);
+        }
 
     }
 }
