@@ -24,6 +24,7 @@ import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freecamv2.camera.parameters.modes.LensshadeParameter;
+import com.troop.freecamv2.camera.parameters.modes.MemoryColorEnhancementParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -77,6 +78,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public SceneDetectParameter SceneDetect;
     public DenoiseParameter Denoise;
     public DigitalImageStabilizationParameter DigitalImageStabilization;
+    public MemoryColorEnhancementParameter MemoryColorEnhancement;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -150,6 +152,7 @@ public class CamParametersHandler implements I_ParameterChanged
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values");
+        MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values");
 
 
 
