@@ -58,6 +58,7 @@ public class MenuCreator
             ExpandableChild redeye = getNewChild(cameraUiWrapper.camParametersHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, "RedEye Reduction", cameraUiWrapper.moduleHandler.PictureModules);
             piclist.add(redeye);
         }
+
         group.setItems(piclist);
     }
 
@@ -146,6 +147,11 @@ public class MenuCreator
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ipp);
             ipp.setParameterHolder(cameraUiWrapper.camParametersHandler.ImagePostProcessing, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE, cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(ipp);
+        }
+        if (cameraUiWrapper.camParametersHandler.LensShade.IsSupported())
+        {
+            ExpandableChild lens = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, "Lens Shade", cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(lens);
         }
 
         group.setItems(childlist);

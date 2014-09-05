@@ -21,6 +21,7 @@ import com.troop.freecamv2.camera.parameters.modes.FocusModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
+import com.troop.freecamv2.camera.parameters.modes.LensshadeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -67,6 +68,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public SceneModeParameter SceneMode;
     public FocusModeParameter FocusMode;
     public RedEyeParameter RedEye;
+    public LensshadeParameter LensShade;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -135,6 +137,7 @@ public class CamParametersHandler implements I_ParameterChanged
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
+        LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
 
 
 
