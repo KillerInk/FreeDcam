@@ -52,6 +52,12 @@ public class MenuCreator
         ExpandableChild jpegquality = getNewChild(cameraUiWrapper.camParametersHandler.JpegQuality,
                 AppSettingsManager.SETTING_JPEGQUALITY, context.getString(R.string.jpeg_quality), cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(jpegquality);
+
+        if (cameraUiWrapper.camParametersHandler.RedEye.IsSupported())
+        {
+            ExpandableChild redeye = getNewChild(cameraUiWrapper.camParametersHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, "RedEye Reduction", cameraUiWrapper.moduleHandler.PictureModules);
+            piclist.add(redeye);
+        }
         group.setItems(piclist);
     }
 

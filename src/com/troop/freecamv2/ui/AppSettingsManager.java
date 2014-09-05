@@ -29,6 +29,7 @@ public class AppSettingsManager
     public static String SETTING_FLASHMODE = "flashmode";
     public static String SETTING_SCENEMODE = "scenemode";
     public static String SETTING_FOCUSMODE = "focusmode";
+    public static String SETTING_REDEYE_MODE = "redeyemode";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {

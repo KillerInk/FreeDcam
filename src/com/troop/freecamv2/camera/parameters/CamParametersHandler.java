@@ -26,6 +26,7 @@ import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freecamv2.camera.parameters.modes.RedEyeParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 
@@ -65,6 +66,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public ZoomManualParameter Zoom;
     public SceneModeParameter SceneMode;
     public FocusModeParameter FocusMode;
+    public RedEyeParameter RedEye;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -132,6 +134,8 @@ public class CamParametersHandler implements I_ParameterChanged
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
+        RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
+
 
 
 
