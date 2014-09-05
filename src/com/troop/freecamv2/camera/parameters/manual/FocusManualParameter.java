@@ -77,7 +77,7 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (DeviceUtils.isZTEADV())
         {
-            parameters.setFocusMode("macro");
+            //parameters.setFocusMode("macro");
             parameters.set("maf_key", valueToSet);
         }
 
