@@ -15,6 +15,7 @@ import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.DenoiseParameter;
 import com.troop.freecamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.FocusModeParameter;
@@ -73,6 +74,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public LensshadeParameter LensShade;
     public ZeroShutterLagParameter ZSL;
     public SceneDetectParameter SceneDetect;
+    public DenoiseParameter Denoise;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -144,6 +146,7 @@ public class CamParametersHandler implements I_ParameterChanged
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
+        Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
 
 
 

@@ -163,6 +163,11 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, "Scene Detect", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
+        if (cameraUiWrapper.camParametersHandler.Denoise.IsSupported())
+        {
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, "Denoise", cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(sd);
+        }
 
         group.setItems(childlist);
     }
