@@ -34,6 +34,7 @@ public class AppSettingsManager
     public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
     public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
     public static String SETTING_DENOISE_MODE = "denoisetmode";
+    public static String SETTING_DIS_MODE = "digitalimagestabmode";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {
