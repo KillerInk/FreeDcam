@@ -63,14 +63,14 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        baseCameraHolder.GetCamera().cancelAutoFocus();
+        //baseCameraHolder.GetCamera().cancelAutoFocus();
         /*if (!parameters.getFocusMode().equals("manual-focus"))
         {
             parameters.set("manual-focus", 0);
             parameters.setFocusMode("normal");
         }*/
         //parameters.set("manual", 0);
-        parameters.setFocusAreas(null);
+        //parameters.setFocusAreas(null);
         if (DeviceUtils.isLGADV()) {
             parameters.setFocusMode("normal");
             parameters.set("manualfocus_step", valueToSet);
