@@ -158,6 +158,11 @@ public class MenuCreator
             ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, "ZeroShutterLag", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(zsl);
         }
+        if (cameraUiWrapper.camParametersHandler.SceneDetect.IsSupported())
+        {
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, "Scene Detect", cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(sd);
+        }
 
         group.setItems(childlist);
     }

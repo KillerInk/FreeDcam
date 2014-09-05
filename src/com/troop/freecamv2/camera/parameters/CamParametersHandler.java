@@ -28,6 +28,7 @@ import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.RedEyeParameter;
+import com.troop.freecamv2.camera.parameters.modes.SceneDetectParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ZeroShutterLagParameter;
@@ -71,6 +72,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public RedEyeParameter RedEye;
     public LensshadeParameter LensShade;
     public ZeroShutterLagParameter ZSL;
+    public SceneDetectParameter SceneDetect;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -141,7 +143,7 @@ public class CamParametersHandler implements I_ParameterChanged
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
-
+        SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
 
 
 

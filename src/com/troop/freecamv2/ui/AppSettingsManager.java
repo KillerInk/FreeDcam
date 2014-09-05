@@ -32,6 +32,7 @@ public class AppSettingsManager
     public static String SETTING_REDEYE_MODE = "redeyemode";
     public static String SETTING_LENSSHADE_MODE = "lenshademode";
     public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
+    public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {
