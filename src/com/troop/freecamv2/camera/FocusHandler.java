@@ -18,6 +18,8 @@ public class FocusHandler implements Camera.AutoFocusCallback
     private final CameraUiWrapper cameraUiWrapper;
     private final CamParametersHandler parametersHandler;
     public  I_Focus focusEvent;
+    int count;
+    List<Camera.Area> areas;
 
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
@@ -29,6 +31,8 @@ public class FocusHandler implements Camera.AutoFocusCallback
     @Override
     public void onAutoFocus(boolean success, Camera camera)
     {
+
+        camera.cancelAutoFocus();
         if (focusEvent != null)
             focusEvent.FocusFinished(success);
     }
@@ -62,6 +66,21 @@ public class FocusHandler implements Camera.AutoFocusCallback
         cameraHolder.StartFocus(this);
         if (focusEvent != null)
             focusEvent.FocusStarted(rect);
+        /*count = 0;
+        Camera.Parameters para = cameraHolder.GetCameraParameters();
+        para.set("zsl", "on");
+        para.set("af-bracket", "af-bracket-on");
+        areas = para.getFocusAreas();
+        para.setFocusAreas(null);
+        cameraHolder.GetCamera().setParameters(para);
+        para = cameraHolder.GetCameraParameters();
+        cameraHolder.GetCamera().cancelAutoFocus();
+        cameraHolder.GetCamera().takePicture(null, null, new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                int i = data.length;
+            }
+        });*/
 
     }
 }

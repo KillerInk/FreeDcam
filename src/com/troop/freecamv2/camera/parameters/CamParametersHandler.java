@@ -111,7 +111,7 @@ public class CamParametersHandler implements I_ParameterChanged
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
         ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
         ManualExposure = new ExposureManualParameter(cameraParameters,"","","");
-        ManualFocus = new FocusManualParameter(cameraParameters,"","","");
+        ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","");

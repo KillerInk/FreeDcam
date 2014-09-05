@@ -64,7 +64,7 @@ public class DeviceUtils
     public static boolean isLGADV()
     {
         String s = Build.MODEL;
-        return s.equals("LG-D800") || s.equals("LG-D802");
+        return s.equals("LG-D800") || s.equals("LG-D802") || s.equals("LG-D855");
     }
 
     public static boolean isZTEADV()
