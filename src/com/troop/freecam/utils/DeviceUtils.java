@@ -70,7 +70,7 @@ public class DeviceUtils
     public static boolean isZTEADV()
     {
         String s = Build.MODEL;
-        return s.equals("NX503A") || s.equals("Z5S") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5");
+        return s.equals("NX503A") || s.equals("Z5S") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5") || s.equals("NX507J");
     }
 
     public static boolean isXiaomiADV()
