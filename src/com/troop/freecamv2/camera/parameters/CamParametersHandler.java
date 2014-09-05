@@ -30,6 +30,7 @@ import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.RedEyeParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.ZeroShutterLagParameter;
 
 import java.util.List;
 
@@ -69,6 +70,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public FocusModeParameter FocusMode;
     public RedEyeParameter RedEye;
     public LensshadeParameter LensShade;
+    public ZeroShutterLagParameter ZSL;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -138,6 +140,7 @@ public class CamParametersHandler implements I_ParameterChanged
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
+        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
 
 
 

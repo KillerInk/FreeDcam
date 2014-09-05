@@ -24,8 +24,19 @@ public abstract class BaseModeParameter implements I_ModeParameter
         this.throwParameterChanged = parameterChanged;
     }
 
+    @Override
     public boolean IsSupported()
     {
+        try
+        {
+            String tmp = parameters.get(values);
+            if (!tmp.isEmpty())
+                isSupported = true;
+        }
+        catch (Exception ex)
+        {
+            isSupported = false;
+        }
         return isSupported;
     }
 
