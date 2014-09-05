@@ -20,7 +20,7 @@ public class FocusModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet) {
-        parameters.setFlashMode(valueToSet);
+        parameters.setFocusMode(valueToSet);
         if (throwParameterChanged != null)
             throwParameterChanged.ParameterChanged();
     }
