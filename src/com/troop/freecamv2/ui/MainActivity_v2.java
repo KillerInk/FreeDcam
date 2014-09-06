@@ -6,7 +6,9 @@ import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.troop.freecam.R;
 
@@ -35,17 +37,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     CameraSwitchHandler cameraSwitchHandler;
     ModuleSwitchHandler moduleSwitchHandler;
     FlashSwitchHandler flashSwitchHandler;
-    Activity activity;
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
     ManualMenuHandler manualMenuHandler;
     FocusImageHandler focusImageHandler;
+    TextView exitButton;
+    MainActivity_v2 activity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
@@ -62,6 +66,22 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this, cameraUiWrapper);
+        exitButton = (TextView)findViewById(R.id.textView_Exit);
+        if( ViewConfiguration.get(this).hasPermanentMenuKey())
+        {
+            exitButton.setVisibility(View.GONE);
+        }
+        else
+        {
+            exitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+
+                    activity.finish();
+                }
+            });
+        }
 
 
     }

@@ -94,7 +94,7 @@ public class RawUtils {
         //TimeChecker t = TimeChecker.newInstance();
         //t.prepare();
         Bitmap bitmap = unpackThumbnailBitmapToFit(rawFileName, width, height);
-        //t.check("¸");
+        //t.check("ï¿½");
 
         if (bitmap == null || bitmap.getByteCount() == 0) {
             return false;

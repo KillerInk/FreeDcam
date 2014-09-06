@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="#ffffffff">
 
+
+
     <com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,7 +109,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/app_icon_size">
+        android:layout_marginTop="@dimen/app_icon_size"
+        android:layout_centerVertical="true">
 
         <ImageView
             android:layout_width="30dp"
@@ -153,7 +156,8 @@
                 android:background="@drawable/button_mode"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="test"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/TextSizeSmall" />
 
         </LinearLayout>
 
@@ -167,13 +171,33 @@
             <TextView
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="testlong"
                 android:id="@+id/textView_flashSwitch"
                 android:background="@drawable/button_flash"
                 android:gravity="center_vertical|center_horizontal"
                 android:singleLine="true"
-                android:password="false" />
+                android:password="false"
+                android:textSize="@dimen/TextSizeSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:text="Exit"
+                android:id="@+id/textView_Exit"
+                android:background="@drawable/button_clean"
+                android:gravity="center_vertical|center_horizontal"
+                android:singleLine="true"
+                android:password="false"
+                android:textSize="@dimen/TextSizeSmall" />
         </LinearLayout>
     </LinearLayout>
 
