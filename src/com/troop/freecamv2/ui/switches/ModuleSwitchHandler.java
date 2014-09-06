@@ -3,6 +3,9 @@ package com.troop.freecamv2.ui.switches;
 import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -12,7 +15,9 @@ import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.ui.MainActivity_v2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +32,7 @@ public class ModuleSwitchHandler implements View.OnClickListener
     ModuleHandler moduleHandler;
     HashMap<String,String> modules;
     TextView moduleView;
+    ListView listView;
 
     public ModuleSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
@@ -49,26 +55,28 @@ public class ModuleSwitchHandler implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.moduleSwitch_placeholder));
-
+        listView = (ListView) activity.findViewById(R.id.listView_popup);
+        List<String> mods = new ArrayList<String>();
         for (HashMap.Entry<String,String> o : modules.entrySet())
         {
-            popupMenu.getMenu().add((CharSequence) o.getKey());
+            mods.add((String) o.getKey());
         }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+                R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, mods);
+        //attach adapter to the listview and fill
+        listView.setAdapter(adapter);
+        listView.setVisibility(View.VISIBLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String tmp = item.toString();
-                moduleHandler.SetModule(modules.get(tmp));
-                appSettingsManager.SetCurrentModule(modules.get(tmp));
-                moduleView.setText(tmp);
-                return true;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = (String) listView.getItemAtPosition(position);
+                moduleHandler.SetModule(modules.get(value));
+                appSettingsManager.SetCurrentModule(modules.get(value));
+                moduleView.setText(value);
+                listView.setVisibility(View.GONE);
             }
         });
 
-        popupMenu.show();
     }
 
 

@@ -2,11 +2,15 @@ package com.troop.freecamv2.ui.switches;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.ui.MainActivity_v2;
@@ -22,6 +26,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     CameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
+    ListView listView;
 
     public FlashSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
@@ -34,27 +39,43 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     }
 
     @Override
-    public void onClick(View v) {
-        PopupMenu popupMenu = new PopupMenu(activity, activity.findViewById(R.id.moduleSwitch_placeholder));
-
-        for (String o : cameraUiWrapper.camParametersHandler.FlashMode.GetValues())
-        {
-            popupMenu.getMenu().add((CharSequence) o);
+    public void onClick(View v)
+    {
+        if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO)) {
+            listView = (ListView) activity.findViewById(R.id.listView_popup);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+                    R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, cameraUiWrapper.camParametersHandler.FlashMode.GetValues());
+            //attach adapter to the listview and fill
+            listView.setAdapter(adapter);
+            listView.setVisibility(View.VISIBLE);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String value = (String) listView.getItemAtPosition(position);
+                    cameraUiWrapper.camParametersHandler.FlashMode.SetValue(value);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, value);
+                    textView.setText(value);
+                    listView.setVisibility(View.GONE);
+                }
+            });
         }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String tmp = item.toString();
-                cameraUiWrapper.camParametersHandler.FlashMode.SetValue(tmp);
-                appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, tmp);
-                textView.setText(tmp);
-                return true;
+        else
+        {
+            //TODO check if torch is supported
+            if (textView.getText().equals("torch"))
+            {
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("off");
+                appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "off");
+                textView.setText("off");
             }
-        });
+            else
+            {
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("torch");
+                appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "torch");
+                textView.setText("torch");
+            }
 
-        popupMenu.show();
+        }
     }
 
     @Override
