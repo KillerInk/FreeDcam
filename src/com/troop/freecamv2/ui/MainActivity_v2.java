@@ -54,7 +54,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
 
-        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager);
+        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);

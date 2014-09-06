@@ -1,12 +1,14 @@
 package com.troop.freecamv2.ui.menu;
 
 import android.content.Context;
+import android.view.SurfaceView;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 
 import java.util.ArrayList;
 
@@ -182,18 +184,23 @@ public class MenuCreator
         group.setItems(childlist);
     }
 
-    public ExpandableGroup CreatePreviewSettings()
+    public ExpandableGroup CreatePreviewSettings(ExtendedSurfaceView surfaceView)
     {
         ExpandableGroup preview = getNewGroup(context.getString(R.string.preview_settings));
-        createPreviewSettingsChilds(preview);
+        createPreviewSettingsChilds(preview, surfaceView);
         return preview;
     }
 
-    private void createPreviewSettingsChilds(ExpandableGroup preview)
+    private void createPreviewSettingsChilds(ExpandableGroup preview, ExtendedSurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
-        childlist.add(size);
+        PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
+        size.setName("Preview Size");
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
+        size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.AllModules);
+
+        //ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
+        //childlist.add(size);
 
         ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);

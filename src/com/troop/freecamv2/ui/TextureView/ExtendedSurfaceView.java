@@ -16,7 +16,7 @@ import com.troop.freecam.manager.AppSettingsManager;
 /**
  * Created by troop on 21.08.2014.
  */
-public class ExtendedSurfaceView extends SurfaceView
+public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
@@ -104,5 +104,10 @@ public class ExtendedSurfaceView extends SurfaceView
             else
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
         }
+    }
+
+    @Override
+    public void OnPreviewSizeChanged(int w, int h) {
+
     }
 }

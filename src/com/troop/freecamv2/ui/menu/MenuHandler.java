@@ -15,6 +15,7 @@ import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,8 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     Activity context;
     CameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
+    ExtendedSurfaceView surfaceView;
+
     /**
      * this holds the mainmenu
      */
@@ -41,11 +44,12 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
+        this.surfaceView = surfaceView;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
     }
@@ -55,7 +59,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         grouplist.add(menuCreator.CreatePictureSettings());
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
-        grouplist.add(menuCreator.CreatePreviewSettings());
+        grouplist.add(menuCreator.CreatePreviewSettings(surfaceView));
         return grouplist;
     }
 
