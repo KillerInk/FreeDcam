@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -107,7 +108,13 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     }
 
     @Override
-    public void OnPreviewSizeChanged(int w, int h) {
+    public void OnPreviewSizeChanged(int w, int h)
+    {
+        double newratio = w/h;
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        double displayratio = metrics.widthPixels/metrics.heightPixels;
+        if (newratio == displayratio)
+            return;
 
     }
 }
