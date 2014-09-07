@@ -37,4 +37,9 @@ public class FlashModeParameter extends BaseModeParameter {
     public String GetValue() {
         return parameters.getFlashMode();
     }
+
+    @Override
+    public boolean IsSupported() {
+        return isSupported;
+    }
 }
