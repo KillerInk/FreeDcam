@@ -10,8 +10,15 @@ import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 public class FlashModeParameter extends BaseModeParameter {
     public FlashModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters,parameterChanged, value, values);
-        if (!parameters.getFlashMode().equals(""))
-            isSupported = true;
+        try {
+            if (!parameters.getFlashMode().equals(""))
+                isSupported = true;
+        }
+        catch (Exception ex)
+        {
+            isSupported = false;
+        }
+
     }
 
     @Override
