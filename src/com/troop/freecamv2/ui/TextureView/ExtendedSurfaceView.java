@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
@@ -110,11 +111,28 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-        double newratio = w/h;
+        //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
+        double newratio = (double)w/(double)h;
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        double displayratio = metrics.widthPixels/metrics.heightPixels;
+        double displayratio = (double)metrics.widthPixels/(double)metrics.heightPixels;
         if (newratio == displayratio)
-            return;
+        {
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(metrics.widthPixels, metrics.heightPixels);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams.rightMargin = 0;
+            this.setLayoutParams(layoutParams);
+        }
+        else
+        {
+            int tmo = (int)((double)metrics.widthPixels / displayratio * newratio);
+            int newwidthdiff = metrics.widthPixels - tmo;
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(metrics.widthPixels, metrics.heightPixels);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            layoutParams.rightMargin = newwidthdiff;
+            this.setLayoutParams(layoutParams);
+        }
 
     }
 }
