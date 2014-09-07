@@ -200,7 +200,7 @@ public class MenuCreator
         size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.AllModules);
 
         //ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
-        //childlist.add(size);
+        childlist.add(size);
 
         ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);
