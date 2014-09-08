@@ -18,11 +18,14 @@ import android.widget.RelativeLayout;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.AppSettingsManager;
+import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
+
+import java.lang.ref.SoftReference;
 
 /**
  * Created by troop on 21.08.2014.
  */
-public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent
+public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent, I_ParametersLoaded
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
@@ -33,6 +36,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     SharedPreferences preferences;
 
     Real3D mReal3D;
+
+    public com.troop.freecamv2.ui.AppSettingsManager appSettingsManager;
 
     public ExtendedSurfaceView(Context context) {
         super(context);
@@ -140,8 +145,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         double displayratio = (double)width/(double)height;
         displayratio = Math.round(displayratio*100.0)/100.0;
 
-
-
         if (newratio == displayratio)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
@@ -173,5 +176,15 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             this.setLayoutParams(layoutParams);
         }
 
+    }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        String previewsize = appSettingsManager.getString(com.troop.freecamv2.ui.AppSettingsManager.SETTING_PREVIEWSIZE);
+        String[] split = previewsize.split("x");
+        int w = Integer.parseInt(split[0]);
+        int h = Integer.parseInt(split[1]);
+        OnPreviewSizeChanged(w, h);
     }
 }

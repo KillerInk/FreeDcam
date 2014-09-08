@@ -52,6 +52,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
+        cameraPreview.appSettingsManager = appSettingsManager;
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
 
         menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
@@ -63,6 +64,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(cameraPreview);
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this, cameraUiWrapper);
