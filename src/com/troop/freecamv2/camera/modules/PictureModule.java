@@ -58,6 +58,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     {
         isWorking = true;
         Log.d(TAG, "Start Taking Picture");
+
         try
         {
             //soundPlayer.PlayShutter();
@@ -126,6 +127,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Log.d(TAG, "Create FileName");
         String pictureFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+        if (!file.exists())
+            file.mkdirs();
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
