@@ -36,6 +36,7 @@ public class AppSettingsManager
     public static String SETTING_DENOISE_MODE = "denoisetmode";
     public static String SETTING_DIS_MODE = "digitalimagestabmode";
     public static String SETTING_MCE_MODE = "memorycolorenhancementmode";
+    public static String SETTING_SKINTONE_MODE = "skintonemode";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {

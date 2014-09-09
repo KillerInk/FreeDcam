@@ -33,6 +33,7 @@ import com.troop.freecamv2.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.RedEyeParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneDetectParameter;
 import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.SkinToneParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ZeroShutterLagParameter;
 
@@ -79,6 +80,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public DenoiseParameter Denoise;
     public DigitalImageStabilizationParameter DigitalImageStabilization;
     public MemoryColorEnhancementParameter MemoryColorEnhancement;
+    public SkinToneParameter SkinToneEnhancment;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -153,6 +155,7 @@ public class CamParametersHandler implements I_ParameterChanged
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values");
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values");
+        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
 
 
 

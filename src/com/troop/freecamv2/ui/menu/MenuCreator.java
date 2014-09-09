@@ -181,6 +181,12 @@ public class MenuCreator
             //childlist.add(sd);
         //}
 
+        if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
+        {
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, "SkinTone", cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(sd);
+        }
+
         group.setItems(childlist);
     }
 
