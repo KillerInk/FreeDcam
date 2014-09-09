@@ -175,11 +175,11 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, "DigitalImageStabilization", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
-        if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
-        {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, "Memory Color Enhancement", cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(sd);
-        }
+        //if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
+        //{
+            //ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, "Memory Color Enhancement", cameraUiWrapper.moduleHandler.AllModules);
+            //childlist.add(sd);
+        //}
 
         group.setItems(childlist);
     }
