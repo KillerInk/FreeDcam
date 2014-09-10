@@ -22,6 +22,8 @@ public class SceneModeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet) {
         parameters.setSceneMode(valueToSet);
+        if (throwParameterChanged != null)
+            throwParameterChanged.ParameterChanged();
     }
 
     @Override
