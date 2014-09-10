@@ -3,6 +3,7 @@ package com.troop.freecamv2.ui.handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
@@ -21,6 +22,7 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     private final CameraUiWrapper cameraUiWrapper;
     ImageView shutterButton;
     String currentModule;
+    LinearLayout flashScreen;
 
 
     public ShutterHandler(MainActivity_v2 mainActivity, final CameraUiWrapper cameraUiWrapper)
@@ -28,16 +30,11 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         this.activity = mainActivity;
         this.cameraUiWrapper = cameraUiWrapper;
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
-        shutterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (!currentModule.equals(ModuleHandler.MODULE_BURST))
-                    cameraUiWrapper.DoWork();
-            }
-        });
+        shutterButton.setOnClickListener(this);
         shutterButton.setOnTouchListener(this);
 
+        flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
+        flashScreen.setVisibility(View.GONE);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         this.currentModule = cameraUiWrapper.moduleHandler.GetCurrentModuleName();
 
@@ -45,7 +42,18 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 
     @Override
     public void onClick(View v) {
-
+        if (!currentModule.equals(ModuleHandler.MODULE_BURST))
+        {
+            cameraUiWrapper.DoWork();
+            flashScreen.setVisibility(View.VISIBLE);
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    flashScreen.setVisibility(View.GONE);
+                }
+            };
+            flashScreen.postDelayed(runnable, 50);
+        }
     }
 
     @Override

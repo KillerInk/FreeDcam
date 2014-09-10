@@ -13,6 +13,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/CameraPreview" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/screen_flash"
+        android:focusableInTouchMode="false"
+        android:background="#ff0808ff"
+        android:alpha="0.5"></LinearLayout>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
