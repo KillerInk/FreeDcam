@@ -31,4 +31,9 @@ public class ColorModeParameter extends BaseModeParameter {
         if (throwParameterChanged != null)
             throwParameterChanged.ParameterChanged();
     }
+
+    @Override
+    public boolean IsSupported() {
+        return isSupported;
+    }
 }
