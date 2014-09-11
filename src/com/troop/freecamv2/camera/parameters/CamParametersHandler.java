@@ -153,8 +153,8 @@ public class CamParametersHandler implements I_ParameterChanged
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
-        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values");
-        MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values");
+        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
+        MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
         SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
 
 
@@ -166,10 +166,11 @@ public class CamParametersHandler implements I_ParameterChanged
     @Override
     public void ParameterChanged()
     {
-        if (!setParameterRunner.isRunning)
+        cameraHolder.SetCameraParameters(cameraParameters);
+        /*if (!setParameterRunner.isRunning)
             setParameterRunner.run();
         else
-            moreParametersToSet = true;
+            moreParametersToSet = true;*/
 
     }
 
@@ -184,7 +185,7 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
-                Thread.sleep(500);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

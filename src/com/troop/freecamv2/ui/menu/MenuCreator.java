@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.SurfaceView;
 
 import com.troop.freecam.R;
+import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
@@ -175,17 +176,17 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, "DigitalImageStabilization", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
-        //if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
-        //{
-            //ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, "Memory Color Enhancement", cameraUiWrapper.moduleHandler.AllModules);
-            //childlist.add(sd);
-        //}
+        if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
+        {
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, "Memory Color Enhancement", cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(sd);
+        }
 
-        /*if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
+        if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, "SkinTone", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
-        }*/
+        }
 
         group.setItems(childlist);
     }
@@ -239,5 +240,17 @@ public class MenuCreator
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(child);
         child.setParameterHolder(mode,appSettingsManager,appsettingName, modules);
         return child;
+    }
+
+    public ExpandableGroup CreateVideoSettings(ExtendedSurfaceView surfaceView)
+    {
+        ExpandableGroup preview = getNewGroup("Video Settings");
+        createVideoSettingsChilds(preview, surfaceView);
+        return preview;
+    }
+
+    private void createVideoSettingsChilds(ExpandableGroup preview, ExtendedSurfaceView surfaceView)
+    {
+        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
     }
 }
