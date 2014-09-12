@@ -153,9 +153,9 @@ public class CamParametersHandler implements I_ParameterChanged
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
-        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
+        /*DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
-        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
+        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");*/
 
 
 
