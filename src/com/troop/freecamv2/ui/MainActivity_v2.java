@@ -1,10 +1,13 @@
 package com.troop.freecamv2.ui;
 
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
@@ -43,6 +46,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;
+    OrientationEventListener orientationEventListener;
+    private int currentOrientation = 0;
 
 
     @Override
@@ -85,21 +90,62 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 }
             });
         }
+        orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation)
+            {
+                if (currentOrientation != calcCurrentOrientation(orientation))
+                {
+                    currentOrientation = calcCurrentOrientation(orientation);
+                    setRotationToCam(currentOrientation);
+                }
+            }
+        };
+
+    }
+
+    private int calcCurrentOrientation(int orientation)
+    {
+        int orientationToRet = 0;
+        if (orientation >= 315 || orientation < 45)
+            orientationToRet = 90;
+        else if (orientation < 135 && orientation > 45)
+            orientationToRet = 180;
+        else if (orientation >= 135 && orientation < 230)
+            orientationToRet = 270;
+        return orientationToRet;
+    }
 
 
+    private void setRotationToCam(int orientation)
+    {
+        //cameraUiWrapper.cameraHolder.GetCamera().setDisplayOrientation(orientation);
+        cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        orientationEventListener.enable();
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        orientationEventListener.disable();
 
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // .
+        // Add code if needed
+        // .
+    }
+
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)

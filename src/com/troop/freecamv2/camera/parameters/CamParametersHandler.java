@@ -210,4 +210,10 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraHolder.SetCameraParameters(para);
         }
     }
+
+    public void SetPictureOrientation(int orientation)
+    {
+        cameraParameters.setRotation(orientation);
+        cameraHolder.SetCameraParameters(cameraParameters);
+    }
 }

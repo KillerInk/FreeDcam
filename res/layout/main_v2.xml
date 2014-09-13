@@ -115,11 +115,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentRight="true">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -136,13 +135,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/app_icon_size"
-            android:layout_centerVertical="true"
-            android:layout_gravity="bottom">
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:layout_width="30dp"

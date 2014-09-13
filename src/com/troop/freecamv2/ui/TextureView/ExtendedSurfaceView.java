@@ -2,7 +2,6 @@ package com.troop.freecamv2.ui.TextureView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -189,15 +188,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                layoutParams.rightMargin = 0;
-                layoutParams.leftMargin = 0;
-            }
-            else
-            {
-                layoutParams.topMargin = 0;
-                layoutParams.bottomMargin = 0;
-            }
+            layoutParams.rightMargin = 0;
+            layoutParams.leftMargin = 0;
             this.setLayoutParams(layoutParams);
         }
         else if (newratio == 1.33)
@@ -207,15 +199,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                layoutParams.rightMargin = newwidthdiff / 2;
-                layoutParams.leftMargin = newwidthdiff / 2;
-            }
-            else
-            {
-                layoutParams.topMargin = newwidthdiff / 2;
-                layoutParams.bottomMargin = newwidthdiff / 2;
-            }
+            layoutParams.rightMargin = newwidthdiff/2;
+            layoutParams.leftMargin = newwidthdiff/2;
             this.setLayoutParams(layoutParams);
         }
         else
@@ -225,14 +210,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                layoutParams.rightMargin = newwidthdiff;
-            }
-            else
-            {
-                layoutParams.topMargin = newwidthdiff/2;
-                layoutParams.bottomMargin = newwidthdiff/2;
-            }
+            layoutParams.rightMargin = newwidthdiff;
             this.setLayoutParams(layoutParams);
         }
     }
