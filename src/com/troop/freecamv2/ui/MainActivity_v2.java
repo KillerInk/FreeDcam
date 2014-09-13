@@ -11,6 +11,7 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
@@ -48,6 +49,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     MainActivity_v2 activity;
     OrientationEventListener orientationEventListener;
     private int currentOrientation = 0;
+    LinearLayout cameraControlsLayout;
 
 
     @Override
@@ -90,6 +92,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 }
             });
         }
+
+        cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
         orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation)
@@ -98,6 +102,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 {
                     currentOrientation = calcCurrentOrientation(orientation);
                     setRotationToCam(currentOrientation);
+                    rotateViews(-currentOrientation);
                 }
             }
         };
@@ -116,6 +121,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         return orientationToRet;
     }
 
+    private void rotateViews(int orientation)
+    {
+        for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
+        {
+            cameraControlsLayout.getChildAt(i).setRotation(orientation);
+        }
+    }
 
     private void setRotationToCam(int orientation)
     {

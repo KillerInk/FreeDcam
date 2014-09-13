@@ -140,7 +140,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/app_icon_size"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:id="@+id/layout__cameraControls">
 
             <ImageView
                 android:layout_width="30dp"
