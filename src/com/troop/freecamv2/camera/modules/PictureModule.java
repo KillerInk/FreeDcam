@@ -79,8 +79,9 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Log.d(TAG, "PictureCallback recieved");
         File file = createFileName();
 
-        saveFile save = new saveFile(data, file);
-        new Thread(save).start();
+        final saveFile save = new saveFile(data.clone(), file);
+        final Thread worker = new Thread(save);
+        worker.start();
         isWorking = false;
 
         baseCameraHolder.StartPreview();
