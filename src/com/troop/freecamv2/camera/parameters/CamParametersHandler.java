@@ -143,8 +143,8 @@ public class CamParametersHandler implements I_ParameterChanged
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
-        PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
-        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
+        /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
+        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);*/
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
@@ -153,9 +153,9 @@ public class CamParametersHandler implements I_ParameterChanged
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
-        /*DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
+        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
-        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");*/
+        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
 
 
 
@@ -200,11 +200,14 @@ public class CamParametersHandler implements I_ParameterChanged
 
     public void SetFocusAREA(List<Camera.Area> focusAreas)
     {
-        Camera.Parameters para = cameraHolder.GetCameraParameters();
-        if (para.getMaxNumFocusAreas() > 0)
+        Camera.Parameters para = cameraParameters;
+        if (para.getMaxNumFocusAreas() > 0) {
             para.setFocusAreas(focusAreas);
-        if (para.getMaxNumMeteringAreas() > 0)
+            cameraHolder.SetCameraParameters(para);
+        }
+        if (para.getMaxNumMeteringAreas() > 0) {
             para.setMeteringAreas(focusAreas);
-        cameraHolder.SetCameraParameters(para);
+            cameraHolder.SetCameraParameters(para);
+        }
     }
 }

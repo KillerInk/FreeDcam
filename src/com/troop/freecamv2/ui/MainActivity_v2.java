@@ -53,6 +53,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
         cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraPreview.appSettingsManager = appSettingsManager;
+        cameraPreview.setOnTouchListener(surfaceTouche);
         cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager,null);
 
         menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
@@ -114,14 +115,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        boolean ret = focusImageHandler.onTouchEvent(event);
-        if (ret)
-            return super.onTouchEvent(event);
-        else
-            return ret;
+        return super.onTouchEvent(event);
 
 
     }
 
 
+    View.OnTouchListener surfaceTouche = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            activity.onTouchEvent(event);
+            return focusImageHandler.onTouchEvent(event);
+
+        }
+    };
 }

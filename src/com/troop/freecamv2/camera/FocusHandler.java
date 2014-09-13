@@ -54,18 +54,15 @@ public class FocusHandler implements Camera.AutoFocusCallback
                 rect.top * 2000/height - 1000,
                 rect.right * 2000/width - 1000,
                 rect.bottom * 2000/height - 1000);
-        Camera.Area focusArea = new Camera.Area(targetFocusRect, 1000);
+        Camera.Area focusArea = new Camera.Area(targetFocusRect, 900);
         final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
         meteringList.add(focusArea);
         parametersHandler.SetFocusAREA(meteringList);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         cameraHolder.StartFocus(this);
         if (focusEvent != null)
             focusEvent.FocusStarted(rect);
+
         /*count = 0;
         Camera.Parameters para = cameraHolder.GetCameraParameters();
         para.set("zsl", "on");
