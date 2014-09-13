@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 import com.troop.freecam.manager.AppSettingsManager;
+import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 
 import java.lang.ref.SoftReference;
@@ -38,6 +40,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     Real3D mReal3D;
 
     public com.troop.freecamv2.ui.AppSettingsManager appSettingsManager;
+    public CamParametersHandler ParametersHandler;
 
     public ExtendedSurfaceView(Context context) {
         super(context);
@@ -120,10 +123,46 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-
+        double pictureRatio = getRatio(w,h);
+        String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
+        for (int i = 0; i < previewSizes.length; i++)
+        {
+            String[] split = previewSizes[i].split("x");
+            int pw = Integer.parseInt(split[0]);
+            int ph = Integer.parseInt(split[1]);
+            double previewRatio = getRatio(pw,ph);
+            if (previewRatio == pictureRatio)
+            {
+                ParametersHandler.PreviewSize.SetValue(previewSizes[i]);
+                setPreviewToDisplay(pw, ph);
+                break;
+            }
+        }
         //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
+
+
+    }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        String previewsize = appSettingsManager.getString(com.troop.freecamv2.ui.AppSettingsManager.SETTING_PICTURESIZE);
+        String[] split = previewsize.split("x");
+        int w = Integer.parseInt(split[0]);
+        int h = Integer.parseInt(split[1]);
+        OnPreviewSizeChanged(w, h);
+    }
+
+    private double getRatio(int w, int h)
+    {
         double newratio = (double)w/(double)h;
         newratio = Math.round(newratio*100.0)/100.0;
+        return newratio;
+    }
+
+    private void setPreviewToDisplay(int w, int h)
+    {
+        double newratio = getRatio(w, h);
         int width = 0;
         int height = 0;
 
@@ -142,8 +181,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             height = metrics.heightPixels;
 
         }
-        double displayratio = (double)width/(double)height;
-        displayratio = Math.round(displayratio*100.0)/100.0;
+        double displayratio = getRatio(width, height);
 
         if (newratio == displayratio)
         {
@@ -175,16 +213,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             layoutParams.rightMargin = newwidthdiff;
             this.setLayoutParams(layoutParams);
         }
-
     }
 
-    @Override
-    public void ParametersLoaded()
-    {
-        String previewsize = appSettingsManager.getString(com.troop.freecamv2.ui.AppSettingsManager.SETTING_PREVIEWSIZE);
-        String[] split = previewsize.split("x");
-        int w = Integer.parseInt(split[0]);
-        int h = Integer.parseInt(split[1]);
-        OnPreviewSizeChanged(w, h);
-    }
+
+
+
 }

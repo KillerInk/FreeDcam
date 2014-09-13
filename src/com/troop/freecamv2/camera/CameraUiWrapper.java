@@ -14,13 +14,14 @@ import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 
 /**
  * Created by troop on 16.08.2014.
  */
 public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded
 {
-    private SurfaceView preview;
+    private ExtendedSurfaceView preview;
     public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
@@ -29,7 +30,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     public FocusHandler Focus;
 
 
-    public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
     {
         this.preview = preview;
         this.soundPlayer = soundPlayer;
@@ -40,6 +41,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         camParametersHandler = new CamParametersHandler(cameraHolder);
         cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
         Focus = new FocusHandler(this);

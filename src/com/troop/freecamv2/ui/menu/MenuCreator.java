@@ -28,19 +28,19 @@ public class MenuCreator
         this.appSettingsManager = appSettingsManager;
     }
 
-    public ExpandableGroup CreatePictureSettings()
+    public ExpandableGroup CreatePictureSettings(ExtendedSurfaceView surfaceView)
     {
         ExpandableGroup picGroup = new ExpandableGroup(context);
         picGroup.setName(context.getString(R.string.picture_settings));
 
-        createPictureSettingsChilds(picGroup);
+        createPictureSettingsChilds(picGroup, surfaceView);
         return picGroup;
     }
 
-    private void createPictureSettingsChilds(ExpandableGroup group)
+    private void createPictureSettingsChilds(ExpandableGroup group, ExtendedSurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
-        ExpandableChild picSize = new ExpandableChild(context);
+        PreviewExpandableChild picSize = new PreviewExpandableChild(context, surfaceView);
         picSize.setName(context.getString(R.string.picture_size));
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
         picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules);
@@ -50,6 +50,8 @@ public class MenuCreator
                 AppSettingsManager.SETTING_PICTUREFORMAT,
                 context.getString(R.string.picture_format),
                 cameraUiWrapper.moduleHandler.PictureModules);
+
+
         piclist.add(picformat);
 
         ExpandableChild jpegquality = getNewChild(cameraUiWrapper.camParametersHandler.JpegQuality,
@@ -171,7 +173,7 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, "Denoise", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
-        /*if (cameraUiWrapper.camParametersHandler.DigitalImageStabilization.IsSupported())
+        if (cameraUiWrapper.camParametersHandler.DigitalImageStabilization.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, "DigitalImageStabilization", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
@@ -186,7 +188,7 @@ public class MenuCreator
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, "SkinTone", cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
-        }*/
+        }
 
         group.setItems(childlist);
     }
