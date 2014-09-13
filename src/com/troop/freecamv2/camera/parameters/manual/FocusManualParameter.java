@@ -34,7 +34,7 @@ public class FocusManualParameter extends  BaseManualParameter
 
     @Override
     public int GetMaxValue() {
-        return 80;
+        return 79;
     }
 
     @Override
