@@ -11,6 +11,7 @@
     <dimen name="toggleControl_width">75dp</dimen>
     <dimen name="simple_list_item_size">30dp</dimen>
     <dimen name="manualMenuHeight">35dp</dimen>
+    <dimen name="submenuWidth">100dp</dimen>
 
 
 </resources>

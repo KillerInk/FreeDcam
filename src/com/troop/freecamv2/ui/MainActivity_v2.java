@@ -10,8 +10,10 @@ import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
@@ -50,6 +52,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     OrientationEventListener orientationEventListener;
     private int currentOrientation = 0;
     LinearLayout cameraControlsLayout;
+    ListView switchControlsSubmenu;
+    LinearLayout switchCOntrolLayout;
 
 
     @Override
@@ -94,6 +98,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         }
 
         cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
+        switchControlsSubmenu = (ListView)findViewById(R.id.listView_popup);
+        switchCOntrolLayout = (LinearLayout)findViewById(R.id.moduleSwitch_placeholder);
         orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation)
@@ -127,6 +133,27 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         {
             cameraControlsLayout.getChildAt(i).setRotation(orientation);
         }
+        //switchCOntrolLayout.setRotation(orientation);
+        switchControlsSubmenu.setRotation(orientation);
+        //switchControlsSubmenu.setRotation(orientation);
+
+        /*if (orientation == -90 || orientation == -270 )
+        {
+            switchControlsSubmenu.setRotation(orientation);
+            ViewGroup.LayoutParams params = switchControlsSubmenu.getLayoutParams();
+            params.height = getResources().getDimensionPixelSize(R.dimen.submenuWidth);
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            switchControlsSubmenu.setLayoutParams(params);
+
+        }
+        else
+        {
+            ViewGroup.LayoutParams params = switchControlsSubmenu.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.width = getResources().getDimensionPixelSize(R.dimen.submenuWidth);
+            switchControlsSubmenu.setLayoutParams(params);
+            switchControlsSubmenu.setRotation(orientation);
+        }*/
     }
 
     private void setRotationToCam(int orientation)
