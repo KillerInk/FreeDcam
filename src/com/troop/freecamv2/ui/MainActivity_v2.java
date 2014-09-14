@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
@@ -54,6 +55,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     LinearLayout cameraControlsLayout;
     ListView switchControlsSubmenu;
     LinearLayout switchCOntrolLayout;
+    LinearLayout menuControlLayout;
+
 
 
     @Override
@@ -100,6 +103,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
         switchControlsSubmenu = (ListView)findViewById(R.id.listView_popup);
         switchCOntrolLayout = (LinearLayout)findViewById(R.id.moduleSwitch_placeholder);
+        menuControlLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
         orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation)
@@ -134,26 +138,51 @@ public class MainActivity_v2 extends MenuVisibilityActivity
             cameraControlsLayout.getChildAt(i).setRotation(orientation);
         }
         //switchCOntrolLayout.setRotation(orientation);
-        switchControlsSubmenu.setRotation(orientation);
+        rotateSettingsMenu(orientation);
+    }
+
+    private void rotateSettingsMenu(int orientation)
+    {
+        LinearLayout settingsTopLayout= (LinearLayout)findViewById(R.id.v2_linearLayout_settings);
+        LinearLayout settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
+
+
+
         //switchControlsSubmenu.setRotation(orientation);
 
-        /*if (orientation == -90 || orientation == -270 )
+        if (orientation == -90 || orientation == -270 )
         {
-            switchControlsSubmenu.setRotation(orientation);
-            ViewGroup.LayoutParams params = switchControlsSubmenu.getLayoutParams();
-            params.height = getResources().getDimensionPixelSize(R.dimen.submenuWidth);
-            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-            switchControlsSubmenu.setLayoutParams(params);
 
+            int h = settingsTopLayout.getHeight();
+            int w = settingsTopLayout.getWidth();
+            /*ViewGroup.LayoutParams params = settingsTopLayout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            settingsTopLayout.setLayoutParams(params);*/
+            settingsTopLayout.setGravity(Gravity.TOP);
+            settingsTopLayout.setRotation(orientation);
+            settingsTopLayout.setTranslationX(0);
+            settingsTopLayout.setTranslationY((h-w)/2);
+            settingsTopLayout.requestLayout();
+            //settingsLayout.setGravity(Gravity.LEFT);
+            //settingsLayout.setGravity(Gravity.LEFT | Gravity.TOP);
         }
         else
         {
-            ViewGroup.LayoutParams params = switchControlsSubmenu.getLayoutParams();
+            int h = settingsTopLayout.getHeight();
+            int w = settingsTopLayout.getWidth();
+            /*ViewGroup.LayoutParams params = settingsTopLayout.getLayoutParams();
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.width = getResources().getDimensionPixelSize(R.dimen.submenuWidth);
-            switchControlsSubmenu.setLayoutParams(params);
-            switchControlsSubmenu.setRotation(orientation);
-        }*/
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            settingsTopLayout.setLayoutParams(params);*/
+            settingsTopLayout.setGravity(Gravity.TOP);
+            settingsTopLayout.setRotation(orientation);
+            settingsTopLayout.setTranslationX(0);
+            settingsTopLayout.setTranslationY(0);
+            settingsTopLayout.requestLayout();
+            //settingsLayout.setGravity(Gravity.LEFT | Gravity.TOP);
+        }
+
     }
 
     private void setRotationToCam(int orientation)
