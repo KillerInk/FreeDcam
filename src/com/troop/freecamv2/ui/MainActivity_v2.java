@@ -143,44 +143,28 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
     private void rotateSettingsMenu(int orientation)
     {
-        LinearLayout settingsTopLayout= (LinearLayout)findViewById(R.id.v2_linearLayout_settings);
         LinearLayout settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
 
 
 
         //switchControlsSubmenu.setRotation(orientation);
 
+
         if (orientation == -90 || orientation == -270 )
         {
-
-            int h = settingsTopLayout.getHeight();
-            int w = settingsTopLayout.getWidth();
-            /*ViewGroup.LayoutParams params = settingsTopLayout.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-            settingsTopLayout.setLayoutParams(params);*/
-            settingsTopLayout.setGravity(Gravity.TOP);
-            settingsTopLayout.setRotation(orientation);
-            settingsTopLayout.setTranslationX(0);
-            settingsTopLayout.setTranslationY((h-w)/2);
-            settingsTopLayout.requestLayout();
-            //settingsLayout.setGravity(Gravity.LEFT);
-            //settingsLayout.setGravity(Gravity.LEFT | Gravity.TOP);
+            int h = settingsLayout.getHeight();
+            int w = settingsLayout.getWidth();
+            settingsLayout.setRotation(orientation);
+            settingsLayout.setTranslationX((h-w)/2);
+            settingsLayout.setTranslationY((w-h)/2);
+            settingsLayout.requestLayout();
         }
         else
         {
-            int h = settingsTopLayout.getHeight();
-            int w = settingsTopLayout.getWidth();
-            /*ViewGroup.LayoutParams params = settingsTopLayout.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-            settingsTopLayout.setLayoutParams(params);*/
-            settingsTopLayout.setGravity(Gravity.TOP);
-            settingsTopLayout.setRotation(orientation);
-            settingsTopLayout.setTranslationX(0);
-            settingsTopLayout.setTranslationY(0);
-            settingsTopLayout.requestLayout();
-            //settingsLayout.setGravity(Gravity.LEFT | Gravity.TOP);
+            settingsLayout.setRotation(orientation);
+            settingsLayout.setTranslationX(0);
+            settingsLayout.setTranslationY(0);
+            settingsLayout.requestLayout();
         }
 
     }
