@@ -22,10 +22,10 @@ public class SkinToneParameter extends BaseModeParameter {
     @Override
     public void SetValue(String valueToSet)
     {
-        if (baseCameraHolder.IsPreviewRunning())
-            baseCameraHolder.StopPreview();
+        //if (baseCameraHolder.IsPreviewRunning())
+            //baseCameraHolder.StopPreview();
         super.SetValue(valueToSet);
-        if (!baseCameraHolder.IsPreviewRunning())
-            baseCameraHolder.StartPreview();
+        //if (!baseCameraHolder.IsPreviewRunning())
+            //baseCameraHolder.StartPreview();
     }
 }
