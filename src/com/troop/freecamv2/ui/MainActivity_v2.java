@@ -154,17 +154,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         {
             int h = settingsLayout.getHeight();
             int w = settingsLayout.getWidth();
-            settingsLayout.setRotation(orientation);
-            settingsLayout.setTranslationX((h-w)/2);
-            settingsLayout.setTranslationY((w-h)/2);
+            settingsLayout.getLayoutParams().height = w;
+            settingsLayout.getLayoutParams().width = h;
             settingsLayout.requestLayout();
+            settingsLayout.setRotation(orientation);
         }
         else
         {
-            settingsLayout.setRotation(orientation);
-            settingsLayout.setTranslationX(0);
-            settingsLayout.setTranslationY(0);
+            int h = settingsLayout.getHeight();
+            int w = settingsLayout.getWidth();
+            settingsLayout.getLayoutParams().height = w;
+            settingsLayout.getLayoutParams().width = h;
             settingsLayout.requestLayout();
+            settingsLayout.setRotation(orientation);
         }
 
     }
