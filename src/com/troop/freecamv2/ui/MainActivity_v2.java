@@ -133,27 +133,47 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
     private void rotateViews(int orientation)
     {
+        TextView textView = (TextView)findViewById(R.id.textView_seekbar);
+        textView.setRotation(orientation);
+
         for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
         {
             cameraControlsLayout.getChildAt(i).setRotation(orientation);
         }
         //switchCOntrolLayout.setRotation(orientation);
         rotateSettingsMenu(orientation);
+
+        for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
+        {
+            View view =  manualSettingsLayout.getChildAt(i);
+            int h = view.getHeight();
+            int w = view.getWidth();
+            if (h == 0 || w == 0)
+                return;
+            view.getLayoutParams().height = w;
+            view.getLayoutParams().width = h;
+            view.requestLayout();
+            view.setRotation(orientation);
+        }
     }
 
     private void rotateSettingsMenu(int orientation)
     {
+
+        int h = settingsLayout.getHeight();
+        int w = settingsLayout.getWidth();
+        if (h == 0 || w == 0)
+        {
+            return;
+        }
         LinearLayout settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-
-
-
-        //switchControlsSubmenu.setRotation(orientation);
-
-
+        int wasVisible = settingsLayout.getVisibility();
+        float lastA = settingsLayout.getAlpha();
+        settingsLayout.setAlpha(0f);
+        settingsLayout.setVisibility(View.VISIBLE);
         if (orientation == -90 || orientation == -270 )
         {
-            int h = settingsLayout.getHeight();
-            int w = settingsLayout.getWidth();
+
             settingsLayout.getLayoutParams().height = w;
             settingsLayout.getLayoutParams().width = h;
             settingsLayout.requestLayout();
@@ -161,14 +181,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         }
         else
         {
-            int h = settingsLayout.getHeight();
-            int w = settingsLayout.getWidth();
             settingsLayout.getLayoutParams().height = w;
             settingsLayout.getLayoutParams().width = h;
             settingsLayout.requestLayout();
             settingsLayout.setRotation(orientation);
         }
-
+        settingsLayout.setAlpha(lastA);
+        settingsLayout.setVisibility(wasVisible);
     }
 
     private void setRotationToCam(int orientation)
@@ -180,7 +199,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     protected void onResume() {
         super.onResume();
-        orientationEventListener.enable();
+
 
     }
 
@@ -199,7 +218,23 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         // .
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        orientationEventListener.enable();
+    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
