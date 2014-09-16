@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +15,7 @@ import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.I_Focus;
 import com.troop.freecamv2.ui.MainActivity_v2;
+import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freecamv2.ui.menu.TouchHandler;
 
 /**
@@ -28,6 +30,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int disHeight;
     int disWidth;
 
+    ExtendedSurfaceView surfaceView;
+
     public FocusImageHandler(MainActivity_v2 activity, CameraUiWrapper wrapper)
     {
         this.activity = activity;
@@ -35,14 +39,16 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         wrapper.Focus.focusEvent = this;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         imageView.setVisibility(View.GONE);
+        surfaceView = (ExtendedSurfaceView)activity.findViewById(R.id.CameraPreview);
 
-        disHeight = activity.getWindowManager().getDefaultDisplay().getHeight();
-        disWidth = activity.getWindowManager().getDefaultDisplay().getWidth();
+
     }
 
     @Override
     public void FocusStarted(Rect rect)
     {
+        disWidth = surfaceView.getWidth();
+        disHeight = surfaceView.getHeight();
         handler.removeCallbacksAndMessages(null);
         int recthalf = imageView.getWidth()/2;
         int halfwidth = disWidth /2;
@@ -94,6 +100,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     protected void OnClick(int x, int y)
     {
+        disWidth = surfaceView.getWidth();
+        disHeight = surfaceView.getHeight();
         int recthalf = imageView.getWidth()/2;
         Rect rect = new Rect(x - recthalf, y -recthalf, x +recthalf, y +recthalf);
         wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
