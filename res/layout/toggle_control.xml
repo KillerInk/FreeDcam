@@ -11,8 +11,7 @@
         android:text="Small Text"
         android:id="@+id/toggle_textView"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffffff"
-        android:shadowColor="#ff000000"
+        android:textColor="#ff000000"
         android:singleLine="true"
         android:textSize="7dp" />
 

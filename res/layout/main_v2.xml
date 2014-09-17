@@ -161,7 +161,8 @@
         android:id="@+id/v2_settings_menu"
         android:focusable="false"
 
-        android:gravity="left|top">
+        android:gravity="left|top"
+        android:alpha="1">
 
         <LinearLayout
             android:orientation="horizontal"
