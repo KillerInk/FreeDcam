@@ -27,6 +27,7 @@ import com.troop.freecamv2.ui.handler.ShutterHandler;
 import com.troop.freecamv2.ui.menu.ManualMenuHandler;
 import com.troop.freecamv2.ui.menu.MenuHandler;
 import com.troop.freecamv2.ui.handler.ThumbnailHandler;
+import com.troop.freecamv2.ui.menu.OrientationHandler;
 import com.troop.freecamv2.ui.switches.CameraSwitchHandler;
 import com.troop.freecamv2.ui.switches.FlashSwitchHandler;
 import com.troop.freecamv2.ui.switches.ModuleSwitchHandler;
@@ -50,12 +51,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;
-    OrientationEventListener orientationEventListener;
-    private int currentOrientation = 0;
-    LinearLayout cameraControlsLayout;
-    ListView switchControlsSubmenu;
-    LinearLayout switchCOntrolLayout;
-    LinearLayout menuControlLayout;
+    OrientationHandler orientationHandler;
+
 
 
 
@@ -76,6 +73,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         activity = this;
+
+        orientationHandler = new OrientationHandler(this, cameraUiWrapper);
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
@@ -100,101 +99,12 @@ public class MainActivity_v2 extends MenuVisibilityActivity
             });
         }
 
-        cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
-        switchControlsSubmenu = (ListView)findViewById(R.id.listView_popup);
-        switchCOntrolLayout = (LinearLayout)findViewById(R.id.moduleSwitch_placeholder);
-        menuControlLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-        orientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
-            @Override
-            public void onOrientationChanged(int orientation)
-            {
-                if (currentOrientation != calcCurrentOrientation(orientation))
-                {
-                    currentOrientation = calcCurrentOrientation(orientation);
-                    setRotationToCam(currentOrientation);
-                    rotateViews(-currentOrientation);
-                }
-            }
-        };
+
+
 
     }
 
-    private int calcCurrentOrientation(int orientation)
-    {
-        int orientationToRet = 0;
-        if (orientation >= 315 || orientation < 45)
-            orientationToRet = 90;
-        else if (orientation < 135 && orientation > 45)
-            orientationToRet = 180;
-        else if (orientation >= 135 && orientation < 230)
-            orientationToRet = 270;
-        return orientationToRet;
-    }
 
-    private void rotateViews(int orientation)
-    {
-        TextView textView = (TextView)findViewById(R.id.textView_seekbar);
-        textView.setRotation(orientation);
-
-        for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
-        {
-            cameraControlsLayout.getChildAt(i).setRotation(orientation);
-        }
-        //switchCOntrolLayout.setRotation(orientation);
-        rotateSettingsMenu(orientation);
-
-        for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
-        {
-            View view =  manualSettingsLayout.getChildAt(i);
-            int h = view.getHeight();
-            int w = view.getWidth();
-            if (h == 0 || w == 0)
-                return;
-            view.getLayoutParams().height = w;
-            view.getLayoutParams().width = h;
-            view.requestLayout();
-            view.setRotation(orientation);
-        }
-    }
-
-    private void rotateSettingsMenu(int orientation)
-    {
-
-        int h = settingsLayout.getHeight();
-        int w = settingsLayout.getWidth();
-        if (h == 0 || w == 0)
-        {
-            return;
-        }
-        LinearLayout settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-        int wasVisible = settingsLayout.getVisibility();
-        float lastA = settingsLayout.getAlpha();
-        settingsLayout.setAlpha(0f);
-        settingsLayout.setVisibility(View.VISIBLE);
-        if (orientation == -90 || orientation == -270 )
-        {
-
-            settingsLayout.getLayoutParams().height = w;
-            settingsLayout.getLayoutParams().width = h;
-            settingsLayout.requestLayout();
-            settingsLayout.setRotation(orientation);
-        }
-        else
-        {
-            settingsLayout.getLayoutParams().height = w;
-            settingsLayout.getLayoutParams().width = h;
-            settingsLayout.requestLayout();
-            settingsLayout.setRotation(orientation);
-        }
-        settingsLayout.setAlpha(lastA);
-        settingsLayout.setVisibility(wasVisible);
-    }
-
-    private void setRotationToCam(int orientation)
-    {
-        //cameraUiWrapper.cameraHolder.GetCamera().setDisplayOrientation(orientation);
-        cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
-    }
 
     @Override
     protected void onResume() {
@@ -206,7 +116,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     protected void onPause() {
         super.onPause();
-        orientationEventListener.disable();
+        orientationHandler.Stop();
 
     }
 
@@ -221,7 +131,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-
+        orientationHandler.Start();
     }
 
     @Override
@@ -233,7 +143,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        orientationEventListener.enable();
+
     }
 
     @Override
