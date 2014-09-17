@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.troop.freecam.MainActivity;
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.ui.MainActivity_v2;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
@@ -15,7 +16,7 @@ import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 /**
  * Created by troop on 20.08.2014.
  */
-public class CameraSwitchHandler implements View.OnClickListener
+public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
     CameraUiWrapper cameraUiWrapper;
     MainActivity_v2 activity;
@@ -33,6 +34,7 @@ public class CameraSwitchHandler implements View.OnClickListener
         imageView = (ImageView)activity.findViewById(R.id.imageView_cameraSwitch);
         imageView.setOnClickListener(this);
         currentCamera = appSettingsManager.GetCurrentCamera();
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         bitmaps = new Bitmap[3];
         Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.camera_back);
         bitmaps[0] = back;
@@ -60,5 +62,10 @@ public class CameraSwitchHandler implements View.OnClickListener
         surfaceView.SwitchViewMode();
         cameraUiWrapper.StartPreviewAndCamera();
 
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        imageView.setImageBitmap(bitmaps[currentCamera]);
     }
 }
