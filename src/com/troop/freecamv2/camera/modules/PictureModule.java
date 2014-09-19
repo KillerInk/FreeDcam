@@ -25,7 +25,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     public final String TAG = "freecam.PictureModule";
 
-    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,bayer-ideal-qcom-10grbg";
+    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,bayer-ideal-qcom-10grbg,raw";
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
