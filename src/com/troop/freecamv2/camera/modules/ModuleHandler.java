@@ -88,14 +88,14 @@ public class ModuleHandler
         PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
 
-        VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
-        moduleList.put(videoModule.ModuleName(), videoModule);
+        //VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
+        //moduleList.put(videoModule.ModuleName(), videoModule);
 
-        HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager, moduleEventHandler);
-        moduleList.put(hdrModule.ModuleName(), hdrModule);
+        //HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager, moduleEventHandler);
+        //moduleList.put(hdrModule.ModuleName(), hdrModule);
 
-        BurstModule burstModule = new BurstModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
-        moduleList.put(burstModule.ModuleName(), burstModule);
+        //BurstModule burstModule = new BurstModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
+        //moduleList.put(burstModule.ModuleName(), burstModule);
     }
 
 }
