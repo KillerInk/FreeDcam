@@ -25,17 +25,6 @@
 
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         <activity
-            android:name="com.troop.freecam.MainActivity"
-            android:screenOrientation="landscape"
-            android:label="FreeDCam"
-            android:icon="@drawable/ic_launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-        <activity
 
             android:screenOrientation="landscape"
             android:name="com.troop.freecam.HDR.HdrRenderActivity" >
@@ -45,7 +34,7 @@
 
             android:screenOrientation="landscape"
             android:name="com.troop.freecamv2.ui.MainActivity_v2"
-            android:label="FreeDCamV2"
+            android:label="FreeDCam"
             android:icon="@drawable/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
