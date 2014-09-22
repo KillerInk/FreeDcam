@@ -62,7 +62,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(null,null,this);
+            baseCameraHolder.TakePicture(null,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
@@ -73,10 +73,22 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
     }
 
-    @Override
+    public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
+        public void onPictureTaken(byte[] data, Camera camera)
+        {
+            if (data!= null)
+                Log.d(TAG, "RawCallback data size: " + data.length);
+            else
+                Log.d(TAG, "RawCallback data size is null" );
+            //if (data != null)
+            //saveRawData(data);
+        }
+    };
+
+
     public void onPictureTaken(byte[] data, Camera camera)
     {
-        Log.d(TAG, "PictureCallback recieved");
+        Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         File file = createFileName();
 
         final saveFile save = new saveFile(data.clone(), file);
@@ -90,8 +102,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     private class saveFile implements Runnable {
 
-        private final byte[] bytes;
-        private final File file;
+        private byte[] bytes;
+        private File file;
 
         public saveFile(byte[] bytes, File file)
         {
@@ -102,6 +114,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         public void run() {
             saveBytesToFile(bytes, file);
             eventHandler.WorkFinished(file);
+            bytes = null;
+            file = null;
         }
     }
 
