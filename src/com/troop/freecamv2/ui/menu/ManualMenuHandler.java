@@ -151,47 +151,47 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         manualItems.clear();
         if (parametersHandler.ManualBrightness.IsSupported())
         {
-            ManualMenuItem brightnes = new ManualMenuItem(activity, "Brightness", this, parametersHandler.ManualBrightness);
+            ManualMenuItem brightnes = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this, parametersHandler.ManualBrightness);
             addToLists(brightnes);
         }
         if (parametersHandler.ManualContrast.IsSupported())
         {
-            ManualMenuItem contrast = new ManualMenuItem(activity,"Contrast", this, parametersHandler.ManualContrast);
+            ManualMenuItem contrast = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_contrast), this, parametersHandler.ManualContrast);
             addToLists(contrast);
         }
         if (parametersHandler.ManualConvergence.IsSupported())
         {
-            ManualMenuItem convergence = new ManualMenuItem(activity,"Convergence", this, parametersHandler.ManualConvergence);
+            ManualMenuItem convergence = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_convergence), this, parametersHandler.ManualConvergence);
             addToLists(convergence);
         }
         if (parametersHandler.ManualExposure.IsSupported())
         {
-            ManualMenuItem exposure = new ManualMenuItem(activity, "Exposure", this, parametersHandler.ManualExposure);
+            ManualMenuItem exposure = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this, parametersHandler.ManualExposure);
             addToLists(exposure);
         }
         if (parametersHandler.ManualFocus.IsSupported())
         {
-            ManualMenuItem focus = new ManualMenuItem(activity,"Focus", this,parametersHandler.ManualFocus);
+            ManualMenuItem focus = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_focus), this,parametersHandler.ManualFocus);
             addToLists(focus);
         }
         if (parametersHandler.ManualSaturation.IsSupported())
         {
-            ManualMenuItem satu = new ManualMenuItem(activity, "Saturation", this, parametersHandler.ManualSaturation);
+            ManualMenuItem satu = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_saturation), this, parametersHandler.ManualSaturation);
             addToLists(satu);
         }
         if (parametersHandler.ManualSharpness.IsSupported())
         {
-            ManualMenuItem sharp = new ManualMenuItem(activity, "Sharpness", this, parametersHandler.ManualSharpness);
+            ManualMenuItem sharp = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_sharpness), this, parametersHandler.ManualSharpness);
             addToLists(sharp);
         }
         if (parametersHandler.ManualShutter.IsSupported())
         {
-            ManualMenuItem shutter = new ManualMenuItem(activity, "Shutter", this, parametersHandler.ManualShutter);
+            ManualMenuItem shutter = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_shutter), this, parametersHandler.ManualShutter);
             addToLists(shutter);
         }
         if (parametersHandler.Zoom.IsSupported())
         {
-            ManualMenuItem zoom = new ManualMenuItem(activity, "Zoom", this, parametersHandler.Zoom);
+            ManualMenuItem zoom = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_zoom), this, parametersHandler.Zoom);
             addToLists(zoom);
             zoom.EnableItem();
             DisableOtherItems(zoom.name);

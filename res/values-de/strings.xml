@@ -28,6 +28,16 @@
     <string name="quality_mce">Speicher Farboptimierung</string>
     <string name="quality_skintone">Hautfarbe erhalten</string>
 
+    <string name="manualmenu_brightness">Helligkeit</string>
+    <string name="manualmenu_contrast">Kontrast</string>
+    <string name="manualmenu_convergence">Konvergenz</string>
+    <string name="manualmenu_exposure">Belichtung</string>
+    <string name="manualmenu_focus">Fokus</string>
+    <string name="manualmenu_saturation">Sättigung</string>
+    <string name="manualmenu_sharpness">Schärfe</string>
+    <string name="manualmenu_shutter">Verschlusszeit</string>
+    <string name="manualmenu_zoom">Zoom</string>
+
 
 
 </resources>
