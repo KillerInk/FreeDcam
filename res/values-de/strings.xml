@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FreeDCam</string>
+    <string name="quality_settings">Qualität</string>
+    <string name="preview_settings">Preview Settings</string>
+    <string name="mode_whitebalance">Weißabgleich</string>
+    <string name="mode_exposure">Belichtung</string>
+    <string name="mode_iso">Iso</string>
+    <string name="mode_color">Farbe</string>
+    <string name="mode_scene">Szenen</string>
+    <string name="mode_focus">Focus</string>
+    <string name="image_post_processing">Bildnachbearbeitung</string>
+    <string name="preview_fromat">Preview Format</string>
+    <string name="preview_fps">Preview Fps</string>
+    <string name="preview_size">Preview Size</string>
+    <string name="antibanding">Anti Streifenbildung</string>
+    <string name="mode_settings">Modes</string>
+    <string name="jpeg_quality">Jpeg Qualität</string>
+    <string name="picture_settings">Bild Einstellungen</string>
+    <string name="picture_size">Bild Größe</string>
+    <string name="picture_format">Bild Format</string>
+    <string name="picture_redeyereduction">Rote Augen reduzieren</string>
+    <string name="quality_lensshade">Streulichtblende</string>
+    <string name="quality_zsl">Null Auslöseverzögerung</string>
+    <string name="quality_scenedetect">Szenen erkennen</string>
+    <string name="quality_denoise">Rauschunterdrückung</string>
+    <string name="quality_digitalimagestab">Digitale Bildstabilisierung</string>
+    <string name="quality_mce">Speicher Farboptimierung</string>
+    <string name="quality_skintone">Hautfarbe erhalten</string>
+
+
+
+</resources>

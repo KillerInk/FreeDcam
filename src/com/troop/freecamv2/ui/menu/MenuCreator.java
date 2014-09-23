@@ -60,7 +60,7 @@ public class MenuCreator
 
         if (cameraUiWrapper.camParametersHandler.RedEye.IsSupported())
         {
-            ExpandableChild redeye = getNewChild(cameraUiWrapper.camParametersHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, "RedEye Reduction", cameraUiWrapper.moduleHandler.PictureModules);
+            ExpandableChild redeye = getNewChild(cameraUiWrapper.camParametersHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, context.getString(R.string.picture_redeyereduction), cameraUiWrapper.moduleHandler.PictureModules);
             piclist.add(redeye);
         }
 
@@ -110,16 +110,19 @@ public class MenuCreator
         if (cameraUiWrapper.camParametersHandler.WhiteBalanceMode.IsSupported())
         {
             ExpandableChild wb = getNewChild(cameraUiWrapper.camParametersHandler.WhiteBalanceMode,
-                    context.getString(R.string.mode_whitebalance),
-                    AppSettingsManager.SETTING_WHITEBALANCEMODE, cameraUiWrapper.moduleHandler.AllModules);
+                    AppSettingsManager.SETTING_WHITEBALANCEMODE,
+                    context.getString(R.string.mode_whitebalance), cameraUiWrapper.moduleHandler.AllModules);
+            wb.setName(context.getString(R.string.mode_whitebalance));
             childlist.add(wb);
         }
         if (cameraUiWrapper.camParametersHandler.SceneMode.IsSupported())
         {
-            ExpandableChild scen = getNewChild(cameraUiWrapper.camParametersHandler.SceneMode, "Scene", AppSettingsManager.SETTING_SCENEMODE, cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild scen = getNewChild(cameraUiWrapper.camParametersHandler.SceneMode, AppSettingsManager.SETTING_SCENEMODE, context.getString(R.string.mode_scene), cameraUiWrapper.moduleHandler.AllModules);
+            scen.setName(context.getString(R.string.mode_scene));
             childlist.add(scen);
         }
-        ExpandableChild focus = getNewChild(cameraUiWrapper.camParametersHandler.FocusMode, "Focus", AppSettingsManager.SETTING_FOCUSMODE, cameraUiWrapper.moduleHandler.AllModules);
+        ExpandableChild focus = getNewChild(cameraUiWrapper.camParametersHandler.FocusMode, AppSettingsManager.SETTING_FOCUSMODE, context.getString(R.string.mode_focus), cameraUiWrapper.moduleHandler.AllModules);
+        focus.setName(context.getString(R.string.mode_focus));
         childlist.add(focus);
 
         group.setItems(childlist);
@@ -155,38 +158,38 @@ public class MenuCreator
         }
         if (cameraUiWrapper.camParametersHandler.LensShade.IsSupported())
         {
-            ExpandableChild lens = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, "Lens Shade", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild lens = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, context.getString(R.string.quality_lensshade), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(lens);
         }
         if (cameraUiWrapper.camParametersHandler.ZSL.IsSupported())
         {
-            ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, "ZeroShutterLag", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(zsl);
         }
         if (cameraUiWrapper.camParametersHandler.SceneDetect.IsSupported())
         {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, "Scene Detect", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, context.getString(R.string.quality_scenedetect), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
         if (cameraUiWrapper.camParametersHandler.Denoise.IsSupported())
         {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, "Denoise", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, context.getString(R.string.quality_denoise), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
         if (cameraUiWrapper.camParametersHandler.DigitalImageStabilization.IsSupported())
         {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, "DigitalImageStabilization", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, context.getString(R.string.quality_digitalimagestab), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
         if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
         {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, "Memory Color Enhancement", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, context.getString(R.string.quality_mce), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
 
         if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
         {
-            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, "SkinTone", cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, context.getString(R.string.quality_skintone), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
 
