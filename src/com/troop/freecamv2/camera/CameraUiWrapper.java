@@ -5,7 +5,6 @@ import android.view.SurfaceHolder;
 
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 
-import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
@@ -20,15 +19,13 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
-    SoundPlayer soundPlayer;
     public CamParametersHandler camParametersHandler;
     public FocusHandler Focus;
 
 
-    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager)
     {
         this.preview = preview;
-        this.soundPlayer = soundPlayer;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
@@ -38,7 +35,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;
 
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, soundPlayer);
+        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
         cameraHolder.Focus = Focus;
     }

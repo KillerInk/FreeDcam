@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.troop.freecam.MainActivity;
+
 import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;

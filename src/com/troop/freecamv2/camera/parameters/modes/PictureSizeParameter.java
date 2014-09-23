@@ -1,9 +1,6 @@
 package com.troop.freecamv2.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.util.Log;
-
-import com.troop.freecam.manager.camera_parameters.BaseParametersManager;
 import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 
 import java.util.ArrayList;

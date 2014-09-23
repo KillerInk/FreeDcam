@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
 
-import com.troop.freecam.manager.SoundPlayer;
+
 import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ public class ModuleHandler
     HashMap<String, AbstractModule> moduleList;
     BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
-    SoundPlayer soundPlayer;
     AbstractModule currentModule;
     final String TAG = "freecam.ModuleHandler";
     public ModuleEventHandler moduleEventHandler;
@@ -33,11 +32,10 @@ public class ModuleHandler
     public static final String MODULE_BURST = "module_burst";
     public static final String MODULE_ALL = "module_all";
 
-    public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager, SoundPlayer soundPlayer)
+    public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;
-        this.soundPlayer = soundPlayer;
         moduleList  = new HashMap<String, AbstractModule>();
         moduleEventHandler = new ModuleEventHandler();
         PictureModules = new ArrayList<String>();
@@ -85,7 +83,7 @@ public class ModuleHandler
 
     private void initModules()
     {
-        PictureModule pictureModule = new PictureModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
+        PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
 
         //VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);

@@ -7,7 +7,7 @@ import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 
-import com.troop.freecam.manager.SoundPlayer;
+
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
@@ -28,8 +28,8 @@ public class BurstModule extends AbstractModule implements Camera.PreviewCallbac
     boolean doBurst = false;
     String currentBurstFolder;
     int count;
-    public BurstModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, soundPlayer, Settings, eventHandler);
+    public BurstModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
+        super(cameraHandler, Settings, eventHandler);
         this.name = ModuleHandler.MODULE_BURST;
     }
 

@@ -4,11 +4,7 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-
-import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freecamv2.camera.BaseCameraHolder;
-
-import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.io.File;
@@ -29,9 +25,9 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, SoundPlayer soundPlayer, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
+    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
-        super(baseCameraHolder, soundPlayer, appSettingsManager, eventHandler);
+        super(baseCameraHolder, appSettingsManager, eventHandler);
         name = ModuleHandler.MODULE_PICTURE;
     }
 

@@ -1,9 +1,5 @@
 package com.troop.freecamv2.camera.parameters;
 
-import android.media.audiofx.BassBoost;
-
-import com.troop.freecam.interfaces.ParametersChangedInterface;
-
 import java.util.ArrayList;
 
 /**

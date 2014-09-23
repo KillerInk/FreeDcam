@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freecam.manager.AppSettingsManager;
+
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;

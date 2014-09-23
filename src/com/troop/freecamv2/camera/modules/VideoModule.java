@@ -1,8 +1,6 @@
 package com.troop.freecamv2.camera.modules;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
-
-import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
 /**
@@ -12,8 +10,8 @@ public class VideoModule extends AbstractModule
 {
     public final String TAG = "freecam.VideoModule";
 
-    public VideoModule(BaseCameraHolder cameraHandler, SoundPlayer soundPlayer, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, soundPlayer, Settings, eventHandler);
+    public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
+        super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
     }
 
