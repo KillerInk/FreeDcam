@@ -166,7 +166,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         }
         if (parametersHandler.ManualExposure.IsSupported())
         {
-            ManualMenuItem exposure = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this, parametersHandler.ManualExposure);
+            ManualMenuItem exposure = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_exposure), this, parametersHandler.ManualExposure);
             addToLists(exposure);
         }
         if (parametersHandler.ManualFocus.IsSupported())
