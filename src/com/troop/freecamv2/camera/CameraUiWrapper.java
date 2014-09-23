@@ -1,16 +1,11 @@
 package com.troop.freecamv2.camera;
 
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.TextureView;
 
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 
 import com.troop.freecam.manager.SoundPlayer;
-import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.utils.DeviceUtils;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;

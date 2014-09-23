@@ -13,7 +13,7 @@ import com.troop.freecam.manager.AppSettingsManager;
 import com.troop.freecam.manager.SoundPlayer;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecam.utils.SavePicture;
 
 import java.io.File;

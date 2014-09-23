@@ -20,7 +20,7 @@ import com.troop.freecam.manager.ManualFocus;
 import com.troop.freecam.manager.MediaScannerManager;
 import com.troop.freecam.manager.camera_parameters.ParametersManager;
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,7 +3,7 @@ package com.troop.freecamv2.camera.parameters.manual;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 
 /**

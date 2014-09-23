@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.troop.freecam.R;
 import com.troop.freecam.camera.old.CameraManager;
 import com.troop.freecam.interfaces.IShutterSpeedCallback;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 /**
  * Created by troop on 30.12.13.

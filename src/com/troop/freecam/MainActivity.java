@@ -36,7 +36,7 @@ import com.troop.freecam.menu.SettingsMenuControl;
 import com.troop.freecam.menu.popupmenu.PictureFormatMenu;
 import com.troop.freecam.menu.seekbar.SeekbarListHandler;
 import com.troop.freecam.surfaces.CamPreview;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecam.utils.EncodeTiff;
 
 import java.io.File;

@@ -91,6 +91,10 @@ public class OrientationHandler implements I_ParametersLoaded
         //switchCOntrolLayout.setRotation(orientation);
         rotateSettingsMenu(orientation);
 
+        /*int lasvis = manualSettingsLayout.getVisibility();
+        float lastalp = manualSettingsLayout.getAlpha();
+        manualSettingsLayout.setAlpha(0f);
+        manualSettingsLayout.setVisibility(View.VISIBLE);*/
         for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
         {
             View view =  manualSettingsLayout.getChildAt(i);
@@ -103,10 +107,16 @@ public class OrientationHandler implements I_ParametersLoaded
             view.requestLayout();
             view.setRotation(orientation);
         }
+        /*manualSettingsLayout.setAlpha(lastalp);
+        manualSettingsLayout.setVisibility(lasvis);*/
     }
 
     private void rotateSettingsMenu(int orientation)
     {
+        /*int wasVisible = menuControlLayout.getVisibility();
+        float lastA = menuControlLayout.getAlpha();
+        menuControlLayout.setAlpha(0f);
+        menuControlLayout.setVisibility(View.VISIBLE);*/
 
         int h = menuControlLayout.getHeight();
         int w = menuControlLayout.getWidth();
@@ -114,18 +124,15 @@ public class OrientationHandler implements I_ParametersLoaded
         {
             return;
         }
-        int wasVisible = menuControlLayout.getVisibility();
-        float lastA = menuControlLayout.getAlpha();
-        menuControlLayout.setAlpha(0f);
-        menuControlLayout.setVisibility(View.VISIBLE);
+
 
         menuControlLayout.getLayoutParams().height = w;
         menuControlLayout.getLayoutParams().width = h;
         menuControlLayout.requestLayout();
         menuControlLayout.setRotation(orientation);
 
-        menuControlLayout.setAlpha(lastA);
-        menuControlLayout.setVisibility(wasVisible);
+        /*menuControlLayout.setAlpha(lastA);
+        menuControlLayout.setVisibility(wasVisible);*/
     }
 
     private void setRotationToCam(int orientation)

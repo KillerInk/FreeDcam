@@ -1,9 +1,8 @@
 package com.troop.freecamv2.ui.handler;
 
 import android.view.KeyEvent;
-import android.view.View;
 
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.MainActivity_v2;
 

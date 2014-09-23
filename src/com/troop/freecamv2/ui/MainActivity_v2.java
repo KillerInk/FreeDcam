@@ -1,5 +1,6 @@
 package com.troop.freecamv2.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.hardware.SensorManager;
@@ -53,9 +54,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     MainActivity_v2 activity;
     OrientationHandler orientationHandler;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,15 +91,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 @Override
                 public void onClick(View v)
                 {
-
                     activity.finish();
                 }
             });
         }
-
-
-
-
     }
 
 

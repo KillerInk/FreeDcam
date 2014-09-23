@@ -8,7 +8,6 @@ import android.media.SoundPool;
 import android.os.Handler;
 
 import com.troop.freecam.R;
-import com.troop.freecam.utils.DeviceUtils;
 
 /**
  * Created by troop on 18.10.13.

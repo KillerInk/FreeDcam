@@ -98,10 +98,13 @@ public class BaseCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(Camera.Parameters parameters)
+    public boolean SetCameraParameters(final Camera.Parameters parameters)
     {
         try{
-            mCamera.setParameters(parameters);
+
+                    mCamera.setParameters(parameters);
+
+
             return true;
         }
         catch (Exception ex)
@@ -115,7 +118,7 @@ public class BaseCameraHolder implements I_CameraHolder
     public boolean SetSurface(SurfaceHolder surfaceHolder) {
         try {
             while (!isRdy)
-                Thread.sleep(100);
+                Thread.sleep(10);
             mCamera.setPreviewDisplay(surfaceHolder);
             return  true;
         } catch (IOException e) {

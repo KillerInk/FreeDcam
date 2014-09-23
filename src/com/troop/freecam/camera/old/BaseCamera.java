@@ -5,7 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.troop.freecam.manager.AppSettingsManager;
-import com.troop.freecam.utils.DeviceUtils;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 /**
  * Created by troop on 18.10.13.
