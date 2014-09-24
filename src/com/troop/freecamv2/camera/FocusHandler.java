@@ -49,19 +49,33 @@ public class FocusHandler implements Camera.AutoFocusCallback
 
     public void StartTouchToFocus(Rect rect, int width, int height)
     {
-        final Rect targetFocusRect = new Rect(
-                rect.left * 2000/width - 1000,
-                rect.top * 2000/height - 1000,
-                rect.right * 2000/width - 1000,
-                rect.bottom * 2000/height - 1000);
-        Camera.Area focusArea = new Camera.Area(targetFocusRect, 900);
-        final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
-        meteringList.add(focusArea);
-        parametersHandler.SetFocusAREA(meteringList);
+        if (parametersHandler.FocusMode.GetValue().equals("auto")
+                || parametersHandler.FocusMode.GetValue().equals("macro")
+                || parametersHandler.FocusMode.GetValue().equals("normal"))
+        {
+            if (parametersHandler.FocusMode.GetValue().equals("normal"))
+            {
+                parametersHandler.FocusMode.SetValue("auto");
+            }
+            final Rect targetFocusRect = new Rect(
+                    rect.left * 2000 / width - 1000,
+                    rect.top * 2000 / height - 1000,
+                    rect.right * 2000 / width - 1000,
+                    rect.bottom * 2000 / height - 1000);
+            if (targetFocusRect.left >= -1000
+                    && targetFocusRect.top >= -1000
+                    && targetFocusRect.bottom <= 1000
+                    && targetFocusRect.right <= 1000) {
+                Camera.Area focusArea = new Camera.Area(targetFocusRect, 900);
+                final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
+                meteringList.add(focusArea);
+                parametersHandler.SetFocusAREA(meteringList);
 
-        cameraHolder.StartFocus(this);
-        if (focusEvent != null)
-            focusEvent.FocusStarted(rect);
+                cameraHolder.StartFocus(this);
+                if (focusEvent != null)
+                    focusEvent.FocusStarted(rect);
+            }
+        }
 
         /*count = 0;
         Camera.Parameters para = cameraHolder.GetCameraParameters();

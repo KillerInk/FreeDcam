@@ -203,11 +203,11 @@ public class CamParametersHandler implements I_ParameterChanged
         Camera.Parameters para = cameraParameters;
         if (para.getMaxNumFocusAreas() > 0) {
             para.setFocusAreas(focusAreas);
-            cameraHolder.SetCameraParameters(para);
+            //cameraHolder.SetCameraParameters(para);
         }
         if (para.getMaxNumMeteringAreas() > 0) {
             para.setMeteringAreas(focusAreas);
-            cameraHolder.SetCameraParameters(para);
+            //cameraHolder.SetCameraParameters(para);
         }
     }
 

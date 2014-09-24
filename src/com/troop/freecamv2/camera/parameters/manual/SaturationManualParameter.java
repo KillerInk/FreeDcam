@@ -15,7 +15,7 @@ public class SaturationManualParameter extends BaseManualParameter
             int max = 0;
             try {
                 max = Integer.parseInt(parameters.get("max-saturation"));
-                max_value = "max-saturation";
+                this.max_value = "max-saturation";
             }
             catch (Exception ex)
             {
@@ -23,7 +23,7 @@ public class SaturationManualParameter extends BaseManualParameter
             try
             {
                 max = Integer.parseInt(parameters.get("saturation-max"));
-                max_value = "saturation-max";
+                this.max_value = "saturation-max";
             }
             catch (Exception ex)
             {}
@@ -31,7 +31,7 @@ public class SaturationManualParameter extends BaseManualParameter
             int min = 0;
             try {
                 min = Integer.parseInt(parameters.get("min-saturation"));
-                min_value = "min-saturation";
+                this.min_value = "min-saturation";
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ public class SaturationManualParameter extends BaseManualParameter
             try
             {
                 min = Integer.parseInt(parameters.get("saturation-min"));
-                min_value = "saturation-min";
+                this.min_value = "saturation-min";
             }
             catch (Exception ex)
             {}
