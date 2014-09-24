@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FreeDCam</string>
+    <string name="quality_settings">إعدادات الجودة</string>
+    <string name="preview_settings">إعدادات المعاينة</string>
+    <string name="mode_whitebalance">توازن اللون الأبيض</string>
+    <string name="mode_exposure">التعرض</string>
+    <string name="mode_iso">التعرض للضوء</string>
+    <string name="mode_color">اللون</string>
+    <string name="mode_scene">المشهد</string>
+    <string name="mode_focus">التركيز</string>
+    <string name="image_post_processing">معالجة الصورة</string>
+    <string name="preview_fromat">صيغة المعاينة</string>
+    <string name="preview_fps">اطار العرض</string>
+    <string name="preview_size">حجم المعاينة</string>
+    <string name="antibanding">مضاد النطاقات</string>
+    <string name="mode_settings">إعدادات الوضع</string>
+    <string name="jpeg_quality">جودة الصورة</string>
+    <string name="picture_settings">إعدادات الصورة</string>
+    <string name="picture_size">حجم الصورة</string>
+    <string name="picture_format">صيغة الصورة</string>
+    <string name="picture_redeyereduction">الحد من العين الحمراء</string>
+    <string name="quality_lensshade">ظل العدسة</string>
+    <string name="quality_zsl">مقلل التباطأ</string>
+    <string name="quality_scenedetect">الكشف عن المشهد</string>
+    <string name="quality_denoise">مقلل الضوضاء</string>
+    <string name="quality_digitalimagestab">مثبت الصورة الرقمية</string>
+    <string name="quality_mce">تعزيز اللون</string>
+    <string name="quality_skintone">لون البشرة</string>
+
+
+    <string name="manualmenu_brightness">السطوع</string>
+    <string name="manualmenu_contrast">التباين</string>
+    <string name="manualmenu_convergence">التقارب</string>
+    <string name="manualmenu_exposure">التعرض</string>
+    <string name="manualmenu_focus">التركيز</string>
+    <string name="manualmenu_saturation">صفاء اللون</string>
+    <string name="manualmenu_sharpness">الحدة</string>
+    <string name="manualmenu_shutter">الشاتر</string>
+    <string name="manualmenu_zoom">التقريب</string>
+
+
+</resources>
