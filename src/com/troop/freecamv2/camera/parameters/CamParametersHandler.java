@@ -216,4 +216,18 @@ public class CamParametersHandler implements I_ParameterChanged
         cameraParameters.setRotation(orientation);
         cameraHolder.SetCameraParameters(cameraParameters);
     }
+
+    public void LockExposureAndWhiteBalance(boolean value)
+    {
+        if (cameraParameters.isAutoExposureLockSupported())
+            cameraParameters.setAutoExposureLock(value);
+        if (cameraParameters.isAutoWhiteBalanceLockSupported())
+            cameraParameters.setAutoWhiteBalanceLock(value);
+        cameraHolder.SetCameraParameters(cameraParameters);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

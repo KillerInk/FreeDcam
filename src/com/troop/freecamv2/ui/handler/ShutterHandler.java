@@ -10,6 +10,7 @@ import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.BurstModule;
 import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
+import com.troop.freecamv2.camera.modules.PictureModule;
 import com.troop.freecamv2.ui.MainActivity_v2;
 
 /**
@@ -69,22 +70,47 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         boolean fireagain = false;
         if (currentModule.equals(ModuleHandler.MODULE_BURST))
         {
+            fireagain = handelBurstClick(event, fireagain);
+        }
+        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
+            fireagain = handelPictureClick(event, fireagain);
+        }
+        return fireagain;
+    }
 
-            if (event.getAction() == MotionEvent.ACTION_DOWN)
-            {
-                BurstModule burstModule = (BurstModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
-                if (burstModule !=null) {
-                    burstModule.EnableBurst(true);
-                    fireagain = true;
-                }
+    public boolean handelBurstClick(MotionEvent event, boolean fireagain) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            BurstModule burstModule = (BurstModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
+            if (burstModule !=null) {
+                burstModule.EnableBurst(true);
+                fireagain = true;
             }
-            else if (event.getAction() == MotionEvent.ACTION_UP)
-            {
-                BurstModule burstModule = (BurstModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
-                if (burstModule !=null) {
-                    burstModule.EnableBurst(false);
-                    fireagain = false;
-                }
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP)
+        {
+            BurstModule burstModule = (BurstModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
+            if (burstModule !=null) {
+                burstModule.EnableBurst(false);
+                fireagain = false;
+            }
+        }
+        return fireagain;
+    }
+
+    public boolean handelPictureClick(MotionEvent event, boolean fireagain) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+            fireagain = true;
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP)
+        {
+            PictureModule picModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
+            if (picModule !=null) {
+                picModule.DoWork();
+                fireagain = false;
             }
         }
         return fireagain;
