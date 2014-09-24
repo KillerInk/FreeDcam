@@ -87,9 +87,13 @@ public class FocusManualParameter extends  BaseManualParameter
         }*/
         //parameters.set("manual", 0);
         //parameters.setFocusAreas(null);
-        if (DeviceUtils.isLGADV()) {
+        if (DeviceUtils.isLGADV())
+        {
+            parameters.setFocusAreas(null);
             parameters.setFocusMode("normal");
+            //baseCameraHolder.GetCamera().setParameters(parameters);
             parameters.set("manualfocus_step", valueToSet);
+            //baseCameraHolder.GetCamera().setParameters(parameters);
         }
         if (DeviceUtils.isZTEADV())
         {
