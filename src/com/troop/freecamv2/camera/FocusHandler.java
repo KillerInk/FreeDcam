@@ -62,6 +62,33 @@ public class FocusHandler implements Camera.AutoFocusCallback
                     rect.top * 2000 / height - 1000,
                     rect.right * 2000 / width - 1000,
                     rect.bottom * 2000 / height - 1000);
+            //check if stuff is to big or to small and set it to min max value
+            if (targetFocusRect.left < -1000)
+            {
+                int dif = targetFocusRect.left + 1000;
+                targetFocusRect.left = -1000;
+                targetFocusRect.right += dif;
+            }
+            if (targetFocusRect.right > 1000)
+            {
+                int dif = targetFocusRect.right - 1000;
+                targetFocusRect.right = 1000;
+                targetFocusRect.left -= dif;
+            }
+            if (targetFocusRect.top < -1000)
+            {
+                int dif = targetFocusRect.top + 1000;
+                targetFocusRect.top = -1000;
+                targetFocusRect.bottom += dif;
+            }
+            if (targetFocusRect.bottom > 1000)
+            {
+                int dif = targetFocusRect.bottom -1000;
+                targetFocusRect.bottom = 1000;
+                targetFocusRect.top -=dif;
+            }
+
+
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
                     && targetFocusRect.bottom <= 1000

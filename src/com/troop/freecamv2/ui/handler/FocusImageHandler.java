@@ -47,8 +47,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(Rect rect)
     {
-        disWidth = surfaceView.getWidth();
-        disHeight = surfaceView.getHeight();
+        disWidth = surfaceView.getLayoutParams().width;
+        disHeight = surfaceView.getLayoutParams().height;
+        int margineleft = surfaceView.getLeft();
         handler.removeCallbacksAndMessages(null);
         int recthalf = imageView.getWidth()/2;
         int halfwidth = disWidth /2;
@@ -58,7 +59,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             rect = new Rect(halfwidth - recthalf, halfheight -recthalf, halfwidth + recthalf, halfheight + recthalf);
         }
         RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-        mParams.leftMargin = rect.left;
+        mParams.leftMargin = rect.left + margineleft;
         //mParams.rightMargin = x +half;
         mParams.topMargin = rect.top;
 
