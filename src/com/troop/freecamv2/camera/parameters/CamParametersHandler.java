@@ -166,11 +166,11 @@ public class CamParametersHandler implements I_ParameterChanged
     @Override
     public void ParameterChanged()
     {
-        cameraHolder.SetCameraParameters(cameraParameters);
-        /*if (!setParameterRunner.isRunning)
+        //cameraHolder.SetCameraParameters(cameraParameters);
+        if (!setParameterRunner.isRunning)
             setParameterRunner.run();
         else
-            moreParametersToSet = true;*/
+            moreParametersToSet = true;
 
     }
 
@@ -185,7 +185,7 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -225,7 +225,7 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraParameters.setAutoWhiteBalanceLock(value);
         cameraHolder.SetCameraParameters(cameraParameters);
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
