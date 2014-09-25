@@ -227,6 +227,9 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginRight="@dimen/appiconsizedouble" />
+        android:layout_marginRight="@dimen/appiconsizedouble"
+        android:id="@+id/helpoverlay"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

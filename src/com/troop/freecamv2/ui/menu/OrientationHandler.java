@@ -11,6 +11,7 @@ import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.MainActivity_v2;
+import com.troop.freecamv2.ui.handler.HelpOverlayHandler;
 
 /**
  * Created by troop on 17.09.2014.
@@ -26,6 +27,7 @@ public class OrientationHandler implements I_ParametersLoaded
     LinearLayout switchCOntrolLayout;
     LinearLayout menuControlLayout;
     LinearLayout manualSettingsLayout;
+    HelpOverlayHandler helpOverlayLayout;
     OrientationEventListener orientationEventListener;
     boolean parametersLoaded = false;
 
@@ -40,6 +42,7 @@ public class OrientationHandler implements I_ParametersLoaded
         switchCOntrolLayout = (LinearLayout)activity.findViewById(R.id.moduleSwitch_placeholder);
         menuControlLayout = (LinearLayout)activity.findViewById(R.id.v2_settings_menu);
         manualSettingsLayout = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
+        helpOverlayLayout = (HelpOverlayHandler)activity.findViewById(R.id.helpoverlay);
 
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
@@ -83,6 +86,27 @@ public class OrientationHandler implements I_ParametersLoaded
     {
         TextView textView = (TextView)activity.findViewById(R.id.textView_seekbar);
         textView.setRotation(orientation);
+        if (helpOverlayLayout.getVisibility() == View.VISIBLE)
+        {
+            /*int w = helpOverlayLayout.getWidth();
+            int h = helpOverlayLayout.getHeight();
+            helpOverlayLayout.getLayoutParams().width = h;
+            helpOverlayLayout.getLayoutParams().height = w;
+            helpOverlayLayout.setRotation(orientation);
+            helpOverlayLayout.requestLayout();*/
+            for (int i = 0; i < helpOverlayLayout.getChildCount(); i++)
+            {
+                int h = helpOverlayLayout.getChildAt(i).getHeight();
+                int w = helpOverlayLayout.getChildAt(i).getWidth();
+                helpOverlayLayout.getChildAt(i).getLayoutParams().height = w ;
+                helpOverlayLayout.getChildAt(i).getLayoutParams().width = h ;
+                helpOverlayLayout.getChildAt(i).setTranslationX(h/w);
+                helpOverlayLayout.getChildAt(i).setTranslationY(w/h);
+                helpOverlayLayout.getChildAt(i).setTop(0);
+                helpOverlayLayout.getChildAt(i).setRotation(orientation);
+                helpOverlayLayout.getChildAt(i).requestLayout();
+            }
+        }
 
         for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
         {

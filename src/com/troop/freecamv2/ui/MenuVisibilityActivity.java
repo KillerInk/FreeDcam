@@ -73,7 +73,7 @@ public class MenuVisibilityActivity extends Activity
                 settingsLayout.setAlpha(1f);
             }
         };
-        new Handler().postDelayed(runnable, 3000);
+        new Handler().postDelayed(runnable, 4000);
     }
 
     @Override
