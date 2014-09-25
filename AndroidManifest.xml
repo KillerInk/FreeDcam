@@ -24,12 +24,7 @@
         android:allowBackup="true"
 
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
-        <activity
 
-            android:screenOrientation="landscape"
-            android:name="com.troop.freecam.HDR.HdrRenderActivity" >
-
-        </activity>
         <activity
 
             android:screenOrientation="landscape"
