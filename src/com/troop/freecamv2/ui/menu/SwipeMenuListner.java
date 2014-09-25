@@ -36,8 +36,8 @@ public class SwipeMenuListner extends TouchHandler
     {
         this.manualSettingsLayout = manualSettingsLayout;
         this.settingsLayout = settingsLayout;
-        this.manualSettingsLayout.setVisibility(View.GONE);
-        this.settingsLayout.setVisibility(View.GONE);
+        //this.manualSettingsLayout.setVisibility(View.GONE);
+        //this.settingsLayout.setVisibility(View.GONE);
         this.seekbarLayout = seekbarLayout;
 
 

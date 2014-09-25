@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,13 +51,29 @@ public class MenuVisibilityActivity extends Activity
         setContentView(R.layout.main_v2);
 
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-        settingsLayout.setVisibility(View.GONE);
+        settingsLayout.setAlpha(0f);
+        //settingsLayout.setVisibility(View.GONE);
         manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
-        manualSettingsLayout.setVisibility(View.GONE);
+        manualSettingsLayout.setAlpha(0f);
+        //manualSettingsLayout.setVisibility(View.GONE);
         seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
-        seekbarLayout.setVisibility(View.GONE);
+        seekbarLayout.setAlpha(0f);
+        //seekbarLayout.setVisibility(View.GONE);
 
         swipeMenuListner = new SwipeMenuListner(settingsLayout, manualSettingsLayout, seekbarLayout);
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                seekbarLayout.setVisibility(View.GONE);
+                seekbarLayout.setAlpha(1f);
+                manualSettingsLayout.setVisibility(View.GONE);
+                manualSettingsLayout.setAlpha(1f);
+                settingsLayout.setVisibility(View.GONE);
+                settingsLayout.setAlpha(1f);
+            }
+        };
+        new Handler().postDelayed(runnable, 3000);
     }
 
     @Override

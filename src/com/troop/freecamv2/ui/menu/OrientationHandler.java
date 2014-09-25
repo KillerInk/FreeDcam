@@ -98,8 +98,8 @@ public class OrientationHandler implements I_ParametersLoaded
         for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
         {
             View view =  manualSettingsLayout.getChildAt(i);
-            int h = view.getHeight();
-            int w = view.getWidth();
+            int h = view.getLayoutParams().height;
+            int w = view.getLayoutParams().width;
             if (h == 0 || w == 0)
                 return;
             view.getLayoutParams().height = w;
