@@ -44,6 +44,17 @@ public class AppSettingsManager
         this.appSettings = appSettings;
     }
 
+    public void setshowHelpOverlay(boolean value)
+    {
+        appSettings.edit().putBoolean("showhelpoverlay", value).commit();
+    }
+
+    public boolean getShowHelpOverlay()
+    {
+        return appSettings.getBoolean("showhelpoverlay", true);
+    }
+
+
     public void SetCurrentCamera(int currentcamera)
     {
         this.currentcamera = currentcamera;

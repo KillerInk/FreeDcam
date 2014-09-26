@@ -3,8 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="@dimen/helpoverlay"
     android:layout_height="@dimen/helpoverlay"
-    android:background="#ff969696"
-    android:alpha="0.5"
+    android:background="#ff6a6a6a"
     android:gravity="center_vertical|center_horizontal">
 
     <TextView
@@ -33,4 +32,10 @@
         android:text="OK"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/helpoverlay_checkBoxtext"
+        android:id="@+id/checkBox" />
 </LinearLayout>

@@ -24,6 +24,7 @@ import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freecamv2.ui.handler.FocusImageHandler;
 import com.troop.freecamv2.ui.handler.HardwareKeyHandler;
+import com.troop.freecamv2.ui.handler.HelpOverlayHandler;
 import com.troop.freecamv2.ui.handler.ShutterHandler;
 import com.troop.freecamv2.ui.menu.ManualMenuHandler;
 import com.troop.freecamv2.ui.menu.MenuHandler;
@@ -32,6 +33,7 @@ import com.troop.freecamv2.ui.menu.OrientationHandler;
 import com.troop.freecamv2.ui.switches.CameraSwitchHandler;
 import com.troop.freecamv2.ui.switches.FlashSwitchHandler;
 import com.troop.freecamv2.ui.switches.ModuleSwitchHandler;
+import com.troop.freecamv2.ui.switches.NightModeSwitchHandler;
 
 /**
  * Created by troop on 18.08.2014.
@@ -53,6 +55,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     TextView exitButton;
     MainActivity_v2 activity;
     OrientationHandler orientationHandler;
+    HelpOverlayHandler helpOverlayHandler;
+    NightModeSwitchHandler nightModeSwitchHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
+        nightModeSwitchHandler = new NightModeSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         activity = this;
 
         orientationHandler = new OrientationHandler(this, cameraUiWrapper);
@@ -95,6 +100,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
                 }
             });
         }
+        helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
+        helpOverlayHandler.appSettingsManager = appSettingsManager;
+        if (appSettingsManager.getShowHelpOverlay() == false)
+            helpOverlayHandler.setVisibility(View.GONE);
+
     }
 
 

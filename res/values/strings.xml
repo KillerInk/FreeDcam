@@ -43,7 +43,7 @@
     and from Bottom to Top to close it</string>
     <string name="helpoverlay_swipeLeftToRight">Swipe from Left to Right to open the Settings Menu
     and from Right to Left to close it</string>
-
+    <string name="helpoverlay_checkBoxtext">Don\'t show again</string>
 
 
 </resources>
