@@ -25,6 +25,7 @@ import com.troop.freecamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freecamv2.camera.parameters.modes.LensshadeParameter;
 import com.troop.freecamv2.camera.parameters.modes.MemoryColorEnhancementParameter;
+import com.troop.freecamv2.camera.parameters.modes.NightModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -81,6 +82,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public DigitalImageStabilizationParameter DigitalImageStabilization;
     public MemoryColorEnhancementParameter MemoryColorEnhancement;
     public SkinToneParameter SkinToneEnhancment;
+    public NightModeParameter NightMode;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -156,6 +158,7 @@ public class CamParametersHandler implements I_ParameterChanged
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
         SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
+        NightMode = new NightModeParameter(cameraParameters, this,"","");
 
 
 

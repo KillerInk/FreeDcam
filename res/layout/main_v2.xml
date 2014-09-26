@@ -131,6 +131,25 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Small Text"
+                    android:id="@+id/textView_nightmode"
+                    android:background="@drawable/button_clean"
+                    android:textSize="@dimen/TextSizeSmall"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
@@ -149,6 +168,7 @@
                     android:password="false"
                     android:textSize="@dimen/TextSizeSmall" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -227,7 +247,6 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginRight="@dimen/appiconsizedouble"
         android:id="@+id/helpoverlay"
         android:gravity="center_vertical"
         android:layout_centerVertical="true" />
