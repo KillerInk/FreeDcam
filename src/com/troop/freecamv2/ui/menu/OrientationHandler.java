@@ -22,6 +22,7 @@ public class OrientationHandler implements I_ParametersLoaded
     private final MainActivity_v2 activity;
 
     private int currentOrientation = 0;
+    int helplayoutrot;
     LinearLayout cameraControlsLayout;
     ListView switchControlsSubmenu;
     LinearLayout switchCOntrolLayout;
@@ -86,26 +87,25 @@ public class OrientationHandler implements I_ParametersLoaded
     {
         TextView textView = (TextView)activity.findViewById(R.id.textView_seekbar);
         textView.setRotation(orientation);
-        if (helpOverlayLayout.getVisibility() == View.VISIBLE)
+        if (helpOverlayLayout.getVisibility() == View.VISIBLE && helplayoutrot != currentOrientation)
         {
-            /*int w = helpOverlayLayout.getWidth();
-            int h = helpOverlayLayout.getHeight();
-            helpOverlayLayout.getLayoutParams().width = h;
-            helpOverlayLayout.getLayoutParams().height = w;
-            helpOverlayLayout.setRotation(orientation);
-            helpOverlayLayout.requestLayout();*/
             for (int i = 0; i < helpOverlayLayout.getChildCount(); i++)
             {
                 int h = helpOverlayLayout.getChildAt(i).getHeight();
                 int w = helpOverlayLayout.getChildAt(i).getWidth();
                 helpOverlayLayout.getChildAt(i).getLayoutParams().height = w ;
                 helpOverlayLayout.getChildAt(i).getLayoutParams().width = h ;
-                helpOverlayLayout.getChildAt(i).setTranslationX(h/w);
-                helpOverlayLayout.getChildAt(i).setTranslationY(w/h);
-                helpOverlayLayout.getChildAt(i).setTop(0);
+
+                //helpOverlayLayout.getChildAt(i).setTop(0);
+
                 helpOverlayLayout.getChildAt(i).setRotation(orientation);
+                helpOverlayLayout.getChildAt(i).setTranslationX(0);
+                helpOverlayLayout.getChildAt(i).setTranslationY(0);
                 helpOverlayLayout.getChildAt(i).requestLayout();
+
             }
+            //helpOverlayLayout.setLeft(0);
+            helplayoutrot = -currentOrientation;
         }
 
         for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
@@ -133,6 +133,15 @@ public class OrientationHandler implements I_ParametersLoaded
         }
         /*manualSettingsLayout.setAlpha(lastalp);
         manualSettingsLayout.setVisibility(lasvis);*/
+        /*int oldw = switchCOntrolLayout.getWidth();
+        int oldh = switchCOntrolLayout.getHeight();
+        switchCOntrolLayout.getLayoutParams().height = oldw;
+        switchCOntrolLayout.getLayoutParams().width = oldh;*/
+
+
+        switchCOntrolLayout.setRotation(orientation);
+        switchCOntrolLayout.requestLayout();
+        switchCOntrolLayout.setBottom(0);
     }
 
     private void rotateSettingsMenu(int orientation)

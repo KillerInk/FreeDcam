@@ -12,6 +12,7 @@
     <dimen name="simple_list_item_size">30dp</dimen>
     <dimen name="manualMenuHeight">35dp</dimen>
     <dimen name="submenuWidth">100dp</dimen>
+    <dimen name="helpoverlay">250dp</dimen>
 
 
 </resources>
