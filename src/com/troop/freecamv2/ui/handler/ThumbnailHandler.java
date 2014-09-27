@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.troop.freecam.R;
@@ -20,16 +21,32 @@ import java.io.File;
  */
 public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 {
-    MainActivity_v2 activity;
+    final MainActivity_v2 activity;
     ImageView thumbView;
+    Button delButton;
     File lastFile;
 
-    public ThumbnailHandler(MainActivity_v2 activity)
+    public ThumbnailHandler(final MainActivity_v2 activity)
     {
         this.activity = activity;
         thumbView = (ImageView)activity.findViewById(R.id.imageView_Thumbnail);
         thumbView.setOnClickListener(this);
         thumbView.setAlpha(0f);
+        delButton = (Button)activity.findViewById(R.id.button_deletePic);
+        delButton.setAlpha(0f);
+        delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lastFile != null)
+                {
+                    lastFile.delete();
+                    thumbView.setAlpha(0f);
+                    delButton.setAlpha(0f);
+                    MediaScannerManager.ScanMedia(activity, lastFile);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -99,6 +116,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     {
         if (thumbView.getAlpha() == 1f)
         {
+            delButton.setAlpha(0f);
             thumbView.animate().alpha(0f).setDuration(200).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -108,7 +126,8 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     //thumbView.setVisibility(View.GONE);
-                    thumbView.setImageBitmap(loadThumbViewImage(filePath));
+                    //thumbView.setImageBitmap(loadThumbViewImage(filePath));
+
                     showThumb(null);
                 }
 
@@ -132,6 +151,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
             if(filePath != null)
                 thumbView.setImageBitmap(loadThumbViewImage(filePath));
             thumbView.animate().alpha(1f).setDuration(200).start();
+            delButton.setAlpha(1f);
         }
     }
 }

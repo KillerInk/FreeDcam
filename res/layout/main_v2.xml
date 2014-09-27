@@ -28,14 +28,28 @@
         android:id="@+id/imageView_Crosshair"
         android:background="@drawable/crosshair_normal" />
 
-    <ImageView
-        android:layout_width="@dimen/appiconsizedouble"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:id="@+id/imageView_Thumbnail"
-        android:layout_gravity="bottom|left"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentLeft="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:id="@+id/imageView_Thumbnail"
+            android:layout_gravity="bottom|left"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="X"
+            android:id="@+id/button_deletePic"
+            android:background="@drawable/button_clean" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
