@@ -128,7 +128,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                     //thumbView.setVisibility(View.GONE);
                     //thumbView.setImageBitmap(loadThumbViewImage(filePath));
 
-                    showThumb(null);
+                    showThumb(filePath);
                 }
 
                 @Override
@@ -146,12 +146,10 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void showThumb(File filePath)
     {
-        if (thumbView.getAlpha() == 0f)
-        {
             if(filePath != null)
                 thumbView.setImageBitmap(loadThumbViewImage(filePath));
             thumbView.animate().alpha(1f).setDuration(200).start();
             delButton.setAlpha(1f);
-        }
+
     }
 }
