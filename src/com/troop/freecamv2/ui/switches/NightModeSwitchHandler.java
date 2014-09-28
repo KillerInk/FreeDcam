@@ -45,14 +45,14 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
             textView.setVisibility(View.VISIBLE);
             String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
             String para = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
+            if (para == null || para.equals(""))
+                para = "off";
             if (appSet.equals("")) {
                 appSet = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
                 appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);
             }
             if (!appSet.equals(para))
                 cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet);
-
-
             textView.setText(appSet);
         }
         else
