@@ -13,26 +13,39 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.ui.handler.FocusImageHandler;
+import com.troop.freecamv2.ui.handler.HelpOverlayHandler;
+import com.troop.freecamv2.ui.menu.I_orientation;
 import com.troop.freecamv2.ui.menu.I_swipe;
+import com.troop.freecamv2.ui.menu.OrientationHandler;
 import com.troop.freecamv2.ui.menu.SwipeMenuListner;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class MenuVisibilityActivity extends Activity implements I_swipe
+public class MenuVisibilityActivity extends Activity implements I_swipe, I_orientation
 {
     protected ViewGroup appViewGroup;
-    LinearLayout settingsLayout;
-    LinearLayout manualSettingsLayout;
+    public LinearLayout settingsLayout;
+    public LinearLayout settingsLayoutHolder;
+    boolean settingsLayloutOpen = false;
+    public LinearLayout manualSettingsLayout;
     public LinearLayout seekbarLayout;
     LinearLayout manualMenuHolder;
+
+    LinearLayout cameraControlsLayout;
     boolean manualMenuOpen = false;
+    protected boolean helpOverlayOpen = false;
 
     SwipeMenuListner swipeMenuListner;
+    OrientationHandler orientationHandler;
     int flags;
+
+    protected HelpOverlayHandler helpOverlayHandler;
+    int helplayoutrot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +67,11 @@ public class MenuVisibilityActivity extends Activity implements I_swipe
         setContentView(R.layout.main_v2);
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
+        settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);
+        settingsLayout.removeView(settingsLayoutHolder);
+        settingsLayloutOpen = false;
 
-        settingsLayout.setAlpha(0f);
+        //settingsLayout.setAlpha(0f);
         //settingsLayout.setVisibility(View.GONE);
         manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
         //manualSettingsLayout.setAlpha(0f);
@@ -64,24 +80,28 @@ public class MenuVisibilityActivity extends Activity implements I_swipe
         manualMenuHolder.removeView(manualSettingsLayout);
         manualMenuHolder.removeView(seekbarLayout);
 
+        cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
+
         //seekbarLayout.setAlpha(0f);
         //seekbarLayout.setVisibility(View.GONE);
 
         swipeMenuListner = new SwipeMenuListner(this);
+        orientationHandler = new OrientationHandler(this, this);
 
 
-        Runnable runnable = new Runnable() {
+
+        /*Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 //seekbarLayout.setVisibility(View.GONE);
                 //seekbarLayout.setAlpha(1f);
                 //manualSettingsLayout.setVisibility(View.GONE);
                 //manualSettingsLayout.setAlpha(1f);
-                settingsLayout.setVisibility(View.GONE);
-                settingsLayout.setAlpha(1f);
+                //settingsLayout.setVisibility(View.GONE);
+                //settingsLayout.setAlpha(1f);
             }
         };
-        new Handler().postDelayed(runnable, 4000);
+        new Handler().postDelayed(runnable, 4000);*/
     }
 
     @Override
@@ -136,18 +156,34 @@ public class MenuVisibilityActivity extends Activity implements I_swipe
     }
 
     @Override
-    public void doHorizontalSwipe() {
-
+    public void doHorizontalSwipe()
+    {
+        if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
+        {
+            if (!settingsLayloutOpen) {
+                settingsLayout.addView(settingsLayoutHolder);
+                settingsLayloutOpen = true;
+            }
+        }
+        else
+        {
+            if (settingsLayloutOpen) {
+                settingsLayout.removeView(settingsLayoutHolder);
+                settingsLayloutOpen = false;
+            }
+        }
     }
 
     @Override
     public void doVerticalSwipe()
     {
-        if (swipeMenuListner.startY  - swipeMenuListner.currentY > 0 && !manualMenuOpen)
+        if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
         {
-            manualMenuHolder.addView(manualSettingsLayout);
-            manualMenuHolder.addView(seekbarLayout);
-            manualMenuOpen = true;
+            if (!manualMenuOpen) {
+                manualMenuHolder.addView(manualSettingsLayout);
+                manualMenuHolder.addView(seekbarLayout);
+                manualMenuOpen = true;
+            }
         }
         else
         {
@@ -158,6 +194,87 @@ public class MenuVisibilityActivity extends Activity implements I_swipe
                 manualMenuOpen = false;
             }
         }
+    }
 
+    @Override
+    public int OrientationChanged(int orientation)
+    {
+        rotateViews(-orientation);
+        return orientation;
+    }
+
+    private void rotateViews(int orientation)
+    {
+        TextView textView = (TextView)seekbarLayout.findViewById(R.id.textView_seekbar);
+        textView.setRotation(orientation);
+        if (helpOverlayOpen && helplayoutrot != orientation)
+        {
+            for (int i = 0; i < helpOverlayHandler.getChildCount(); i++)
+            {
+                int h = helpOverlayHandler.getChildAt(i).getHeight();
+                int w = helpOverlayHandler.getChildAt(i).getWidth();
+                helpOverlayHandler.getChildAt(i).getLayoutParams().height = w ;
+                helpOverlayHandler.getChildAt(i).getLayoutParams().width = h ;
+
+                //helpOverlayLayout.getChildAt(i).setTop(0);
+
+                helpOverlayHandler.getChildAt(i).setRotation(orientation);
+                helpOverlayHandler.getChildAt(i).setTranslationX(0);
+                helpOverlayHandler.getChildAt(i).setTranslationY(0);
+                helpOverlayHandler.getChildAt(i).requestLayout();
+
+            }
+            //helpOverlayLayout.setLeft(0);
+            helplayoutrot = -orientation;
+        }
+
+        for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
+        {
+            cameraControlsLayout.getChildAt(i).setRotation(orientation);
+        }
+        //switchCOntrolLayout.setRotation(orientation);
+        rotateSettingsMenu(orientation);
+
+        //*int lasvis = manualSettingsLayout.getVisibility();
+        //float lastalp = manualSettingsLayout.getAlpha();
+        //manualSettingsLayout.setAlpha(0f);
+        //manualSettingsLayout.setVisibility(View.VISIBLE);
+        for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
+        {
+            View view =  manualSettingsLayout.getChildAt(i);
+            int h = view.getLayoutParams().height;
+            int w = view.getLayoutParams().width;
+            if (h == 0 || w == 0)
+                return;
+            view.getLayoutParams().height = w;
+            view.getLayoutParams().width = h;
+            view.requestLayout();
+            view.setRotation(orientation);
+        }
+        //manualSettingsLayout.setAlpha(lastalp);
+        //manualSettingsLayout.setVisibility(lasvis);
+        //int oldw = switchCOntrolLayout.getWidth();
+        //int oldh = switchCOntrolLayout.getHeight();
+        //switchCOntrolLayout.getLayoutParams().height = oldw;
+        //switchCOntrolLayout.getLayoutParams().width = oldh;
+
+
+        //switchCOntrolLayout.setRotation(orientation);
+        //switchCOntrolLayout.requestLayout();
+        //switchCOntrolLayout.setBottom(0);
+    }
+
+    private void rotateSettingsMenu(int orientation)
+    {
+        int h = settingsLayout.getHeight();
+        int w = settingsLayout.getWidth();
+        if (h == 0 || w == 0)
+        {
+            return;
+        }
+        settingsLayout.getLayoutParams().height = w;
+        settingsLayout.getLayoutParams().width = h;
+        settingsLayout.requestLayout();
+        settingsLayout.setRotation(orientation);
     }
 }

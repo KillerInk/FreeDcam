@@ -15,6 +15,7 @@ import com.troop.freecam.R;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.ui.MainActivity_v2;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  */
 public class MenuHandler  implements ExpandableListView.OnChildClickListener, ListView.OnItemClickListener, I_ParametersLoaded
 {
-    Activity context;
+    MainActivity_v2 context;
     CameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
     ExtendedSurfaceView surfaceView;
@@ -44,7 +45,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(Activity context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
+    public MenuHandler(MainActivity_v2 context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -87,7 +88,9 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
     private void hideMenuAndShowSubMenu()
     {
-        expandableListView.setAlpha(1f);
+        context.settingsLayoutHolder.removeView(expandableListView);
+        context.settingsLayoutHolder.addView(listView);
+       /* expandableListView.setAlpha(1f);
         expandableListView.setVisibility(View.VISIBLE);
         expandableListView.animate()
                 .alpha(0f)
@@ -99,7 +102,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
                         expandableListView.setVisibility(View.GONE);
                         showSubMenu();
                     }
-                });
+                });*/
     }
 
     private void showSubMenu()
@@ -121,7 +124,9 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
     private void hideSubMenuAndShowMenu()
     {
-        listView.setAlpha(1f);
+        context.settingsLayoutHolder.removeView(listView);
+        context.settingsLayoutHolder.addView(expandableListView);
+        /*listView.setAlpha(1f);
         listView.setVisibility(View.VISIBLE);
         listView.animate()
                 .alpha(0f)
@@ -134,7 +139,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
                         listView.setVisibility(View.GONE);
                         showMenu();
                     }
-                });
+                });*/
     }
 
     private void showMenu()
@@ -159,13 +164,13 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     {
         ArrayList<ExpandableGroup> grouplist = createMenu();
         expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(context, grouplist);
-        expandableListView = (ExpandableListView) context.findViewById(R.id.expandableListViewSettings);
+        expandableListView = (ExpandableListView) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         expandableListView.setAdapter(expandableListViewMenuAdapter);
         expandableListView.setOnChildClickListener(this);
 
-        listView = (ListView)context.findViewById(R.id.subMenuSettings);
+        listView = (ListView)context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
-        listView.setVisibility(View.GONE);
+        context.settingsLayoutHolder.removeView(listView);
     }
 
     @Override

@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/listView_popup"
                 android:headerDividersEnabled="false"
-                android:background="#b0b3b3b3" />
+                android:background="#b0000000" />
         </LinearLayout>
 
         <LinearLayout
@@ -189,18 +189,18 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/v2_settings_menu"
         android:focusable="false"
 
-        android:gravity="left|top"
-        android:alpha="1">
+        android:gravity="left|top">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="180dp"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent"
+            android:id="@+id/settings_menuHolder">
 
             <ExpandableListView
                 android:layout_width="match_parent"

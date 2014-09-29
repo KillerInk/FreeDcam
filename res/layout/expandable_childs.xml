@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
 
     android:orientation="vertical"
-    android:alpha="1"
     android:background="#a4a0a0a0">
 
 

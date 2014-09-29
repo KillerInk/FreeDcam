@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
@@ -54,8 +55,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;
-    OrientationHandler orientationHandler;
-    HelpOverlayHandler helpOverlayHandler;
+    //OrientationHandler orientationHandler;
+    //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
 
     @Override
@@ -77,7 +78,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         nightModeSwitchHandler = new NightModeSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         activity = this;
 
-        orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
@@ -103,7 +104,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
         if (appSettingsManager.getShowHelpOverlay() == false)
-            helpOverlayHandler.setVisibility(View.GONE);
+        {
+            RelativeLayout view = (RelativeLayout) helpOverlayHandler.getParent();
+            view.removeView(helpOverlayHandler);
+            helpOverlayOpen = false;
+        }
 
     }
 
@@ -178,4 +183,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         }
     };
+
+    @Override
+    public int OrientationChanged(int orientation)
+    {   super.OrientationChanged(orientation);
+        cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
+        return orientation;
+    }
 }

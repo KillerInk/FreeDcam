@@ -45,7 +45,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         manualSeekbar = (SeekBar)activity.seekbarLayout.findViewById(R.id.seekBar_manual);
         seekbarText = (TextView)activity.seekbarLayout.findViewById(R.id.textView_seekbar);
         manualSeekbar.setOnSeekBarChangeListener(this);
-        manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
+        manualMenu = activity.manualSettingsLayout;
         manualItems = new ArrayList<ManualMenuItem>();
 
 
