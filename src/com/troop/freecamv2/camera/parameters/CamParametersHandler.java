@@ -1,6 +1,7 @@
 package com.troop.freecamv2.camera.parameters;
 
 import android.hardware.Camera;
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
@@ -166,12 +167,15 @@ public class CamParametersHandler implements I_ParameterChanged
         ParametersEventHandler.ParametersHasLoaded();
     }
 
+
+    Handler handler = new Handler();
     @Override
     public void ParameterChanged()
     {
         //cameraHolder.SetCameraParameters(cameraParameters);
         if (!setParameterRunner.isRunning)
-            setParameterRunner.run();
+            handler.post(setParameterRunner);
+            //setParameterRunner.run();
         else
             moreParametersToSet = true;
 
