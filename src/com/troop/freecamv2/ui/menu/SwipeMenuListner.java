@@ -21,31 +21,27 @@ import com.troop.freecam.R;
  */
 public class SwipeMenuListner extends TouchHandler
 {
-    LinearLayout settingsLayout;
+    /*LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
     LinearLayout seekbarLayout;
-
-
-
     int animationSpeed = 200;
+*/
+    I_swipe swipehandler;
 
-
-
-
-    public SwipeMenuListner(final LinearLayout settingsLayout, final LinearLayout manualSettingsLayout, LinearLayout seekbarLayout)
+    public SwipeMenuListner(I_swipe swipehandler)
     {
-        this.manualSettingsLayout = manualSettingsLayout;
+        /*this.manualSettingsLayout = manualSettingsLayout;
         this.settingsLayout = settingsLayout;
         //this.manualSettingsLayout.setVisibility(View.GONE);
         //this.settingsLayout.setVisibility(View.GONE);
-        this.seekbarLayout = seekbarLayout;
+        this.seekbarLayout = seekbarLayout;*/
 
-
+        this.swipehandler = swipehandler;
     }
 
     protected void doHorizontalSwipe()
     {
-        if (startX - currentX > 0)
+        /*if (startX - currentX > 0)
         {
             if (settingsLayout.getVisibility() == View.VISIBLE)
                 hideAnimationHorizontal();
@@ -54,12 +50,14 @@ public class SwipeMenuListner extends TouchHandler
         {
             if (settingsLayout.getVisibility() == View.GONE)
                 showAnimationHorizontal();
-        }
+        }*/
+        if (swipehandler != null)
+            swipehandler.doHorizontalSwipe();
     }
 
     protected void doVerticalSwipe()
     {
-        if (startY - currentY > 0)
+        /*if (startY - currentY > 0)
         {
             if (manualSettingsLayout.getVisibility() == View.VISIBLE)
                 hideVerticalAnimation();
@@ -68,10 +66,12 @@ public class SwipeMenuListner extends TouchHandler
         {
             if (manualSettingsLayout.getVisibility() == View.GONE)
                 showVerticalAnimation();
-        }
+        }*/
+        if (swipehandler!= null)
+            swipehandler.doVerticalSwipe();
     }
 
-    private void showAnimationHorizontal()
+    /*private void showAnimationHorizontal()
     {
 
             Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_top_to_bottom);
@@ -157,5 +157,5 @@ public class SwipeMenuListner extends TouchHandler
         manualSettingsLayout.startAnimation(hide);
         seekbarLayout.startAnimation(hide2);
         //layout.startAnimation(move_bottom_to_top);
-    }
+    }*/
 }

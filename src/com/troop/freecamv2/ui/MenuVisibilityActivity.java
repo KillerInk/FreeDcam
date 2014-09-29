@@ -16,17 +16,20 @@ import android.widget.LinearLayout;
 
 import com.troop.freecam.R;
 import com.troop.freecamv2.ui.handler.FocusImageHandler;
+import com.troop.freecamv2.ui.menu.I_swipe;
 import com.troop.freecamv2.ui.menu.SwipeMenuListner;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class MenuVisibilityActivity extends Activity
+public class MenuVisibilityActivity extends Activity implements I_swipe
 {
     protected ViewGroup appViewGroup;
     LinearLayout settingsLayout;
     LinearLayout manualSettingsLayout;
-    LinearLayout seekbarLayout;
+    public LinearLayout seekbarLayout;
+    LinearLayout manualMenuHolder;
+    boolean manualMenuOpen = false;
 
     SwipeMenuListner swipeMenuListner;
     int flags;
@@ -49,26 +52,31 @@ public class MenuVisibilityActivity extends Activity
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
-
+        manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
+
         settingsLayout.setAlpha(0f);
         //settingsLayout.setVisibility(View.GONE);
         manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
-        manualSettingsLayout.setAlpha(0f);
+        //manualSettingsLayout.setAlpha(0f);
         //manualSettingsLayout.setVisibility(View.GONE);
         seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
-        seekbarLayout.setAlpha(0f);
+        manualMenuHolder.removeView(manualSettingsLayout);
+        manualMenuHolder.removeView(seekbarLayout);
+
+        //seekbarLayout.setAlpha(0f);
         //seekbarLayout.setVisibility(View.GONE);
 
-        swipeMenuListner = new SwipeMenuListner(settingsLayout, manualSettingsLayout, seekbarLayout);
+        swipeMenuListner = new SwipeMenuListner(this);
+
 
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                seekbarLayout.setVisibility(View.GONE);
-                seekbarLayout.setAlpha(1f);
-                manualSettingsLayout.setVisibility(View.GONE);
-                manualSettingsLayout.setAlpha(1f);
+                //seekbarLayout.setVisibility(View.GONE);
+                //seekbarLayout.setAlpha(1f);
+                //manualSettingsLayout.setVisibility(View.GONE);
+                //manualSettingsLayout.setAlpha(1f);
                 settingsLayout.setVisibility(View.GONE);
                 settingsLayout.setAlpha(1f);
             }
@@ -124,6 +132,32 @@ public class MenuVisibilityActivity extends Activity
         }
 
 
+
+    }
+
+    @Override
+    public void doHorizontalSwipe() {
+
+    }
+
+    @Override
+    public void doVerticalSwipe()
+    {
+        if (swipeMenuListner.startY  - swipeMenuListner.currentY > 0 && !manualMenuOpen)
+        {
+            manualMenuHolder.addView(manualSettingsLayout);
+            manualMenuHolder.addView(seekbarLayout);
+            manualMenuOpen = true;
+        }
+        else
+        {
+            if (manualMenuOpen)
+            {
+                manualMenuHolder.removeView(manualSettingsLayout);
+                manualMenuHolder.removeView(seekbarLayout);
+                manualMenuOpen = false;
+            }
+        }
 
     }
 }

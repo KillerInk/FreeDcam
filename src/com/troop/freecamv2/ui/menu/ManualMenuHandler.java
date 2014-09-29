@@ -42,8 +42,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         this.appSettingsManager = appSettingsManager;
         this.parametersHandler = cameraUiWrapper.camParametersHandler;
         parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        manualSeekbar = (SeekBar)activity.findViewById(R.id.seekBar_manual);
-        seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
+        manualSeekbar = (SeekBar)activity.seekbarLayout.findViewById(R.id.seekBar_manual);
+        seekbarText = (TextView)activity.seekbarLayout.findViewById(R.id.textView_seekbar);
         manualSeekbar.setOnSeekBarChangeListener(this);
         manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
         manualItems = new ArrayList<ManualMenuItem>();

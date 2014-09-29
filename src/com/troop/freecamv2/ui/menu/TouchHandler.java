@@ -10,10 +10,10 @@ import com.troop.freecamv2.ui.handler.FocusImageHandler;
 public class TouchHandler
 {
     final int distance = 100;
-    int startX;
-    int startY;
-    int currentX;
-    int currentY;
+    public int startX;
+    public int startY;
+    public int currentX;
+    public int currentY;
     boolean swipe = false;
 
     public boolean onTouchEvent(MotionEvent event)
