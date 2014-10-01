@@ -168,9 +168,11 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         expandableListView.setAdapter(expandableListViewMenuAdapter);
         expandableListView.setOnChildClickListener(this);
 
-        listView = (ListView)context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
-        listView.setOnItemClickListener(this);
-        context.settingsLayoutHolder.removeView(listView);
+        if (listView == null) {
+            listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
+            listView.setOnItemClickListener(this);
+            context.settingsLayoutHolder.removeView(listView);
+        }
     }
 
     @Override
