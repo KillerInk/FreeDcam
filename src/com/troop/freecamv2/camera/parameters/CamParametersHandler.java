@@ -38,6 +38,7 @@ import com.troop.freecamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.SkinToneParameter;
 import com.troop.freecamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 import java.util.List;
 
@@ -189,6 +190,11 @@ public class CamParametersHandler implements I_ParameterChanged
         public void run()
         {
             isRunning = true;
+            if (DeviceUtils.isHTCADV())
+            {
+                cameraParameters.set("zsl", "off");
+                cameraParameters.set("non-zsl-manual-mode", "false");
+            }
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
