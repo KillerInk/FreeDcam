@@ -108,6 +108,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
             RelativeLayout view = (RelativeLayout) helpOverlayHandler.getParent();
             view.removeView(helpOverlayHandler);
             helpOverlayOpen = false;
+            helpOverlayHandler.setVisibility(View.GONE);
+        }
+        else
+        {
+            helpOverlayOpen = true;
         }
 
     }
@@ -187,6 +192,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     @Override
     public int OrientationChanged(int orientation)
     {   super.OrientationChanged(orientation);
+
         cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
         return orientation;
     }

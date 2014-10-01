@@ -13,6 +13,14 @@
         android:layout_height="fill_parent"
         android:id="@+id/CameraPreview" />
 
+    <com.troop.freecamv2.ui.handler.HelpOverlayHandler
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/helpoverlay"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -189,12 +197,12 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/menuwidth"
         android:layout_height="wrap_content"
         android:id="@+id/v2_settings_menu"
         android:focusable="false"
 
-        android:gravity="left|top">
+        android:layout_alignParentLeft="true">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -204,13 +212,13 @@
 
             <ExpandableListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/expandableListViewSettings"
                 android:background="#b0b3b3b3" />
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/subMenuSettings"
                 android:background="#b0b3b3b3" />
         </LinearLayout>
@@ -257,13 +265,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <com.troop.freecamv2.ui.handler.HelpOverlayHandler
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/helpoverlay"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true" />
 
 </RelativeLayout>

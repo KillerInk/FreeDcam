@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +49,8 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
 
     protected HelpOverlayHandler helpOverlayHandler;
     int helplayoutrot;
+
+    private final int animationtime = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +204,8 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     @Override
     public int OrientationChanged(int orientation)
     {
-        rotateViews(-orientation);
+        if (Build.VERSION.SDK_INT >= 17)
+            rotateViews(-orientation);
         return orientation;
     }
 
@@ -207,9 +213,10 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     {
         TextView textView = (TextView)seekbarLayout.findViewById(R.id.textView_seekbar);
         textView.setRotation(orientation);
-        if (helpOverlayOpen && helplayoutrot != orientation)
+        if (helpOverlayOpen)
         {
-            for (int i = 0; i < helpOverlayHandler.getChildCount(); i++)
+            helpOverlayHandler.animate().rotation(orientation).setDuration(animationtime).start();
+            /*for (int i = 0; i < helpOverlayHandler.getChildCount(); i++)
             {
                 int h = helpOverlayHandler.getChildAt(i).getHeight();
                 int w = helpOverlayHandler.getChildAt(i).getWidth();
@@ -223,14 +230,14 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
                 helpOverlayHandler.getChildAt(i).setTranslationY(0);
                 helpOverlayHandler.getChildAt(i).requestLayout();
 
-            }
+            }*/
             //helpOverlayLayout.setLeft(0);
-            helplayoutrot = -orientation;
+
         }
 
         for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
         {
-            cameraControlsLayout.getChildAt(i).setRotation(orientation);
+            cameraControlsLayout.getChildAt(i).animate().rotation(orientation).setDuration(animationtime).start();
         }
         //switchCOntrolLayout.setRotation(orientation);
         rotateSettingsMenu(orientation);
@@ -242,14 +249,15 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
         {
             View view =  manualSettingsLayout.getChildAt(i);
-            int h = view.getLayoutParams().height;
+            view.animate().rotation(orientation).setDuration(animationtime).start();
+            /*int h = view.getLayoutParams().height;
             int w = view.getLayoutParams().width;
             if (h == 0 || w == 0)
                 return;
             view.getLayoutParams().height = w;
             view.getLayoutParams().width = h;
             view.requestLayout();
-            view.setRotation(orientation);
+            view.setRotation(orientation);*/
         }
         //manualSettingsLayout.setAlpha(lastalp);
         //manualSettingsLayout.setVisibility(lasvis);
@@ -266,15 +274,14 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
 
     private void rotateSettingsMenu(int orientation)
     {
-        int h = settingsLayout.getHeight();
-        int w = settingsLayout.getWidth();
-        if (h == 0 || w == 0)
-        {
-            return;
-        }
-        settingsLayout.getLayoutParams().height = w;
-        settingsLayout.getLayoutParams().width = h;
-        settingsLayout.requestLayout();
-        settingsLayout.setRotation(orientation);
+        settingsLayoutHolder.animate().rotation(orientation).setDuration(animationtime).start();
+
+        int h = settingsLayout.getLayoutParams().height;
+        int w = settingsLayout.getLayoutParams().width;
+        ViewGroup.LayoutParams params = settingsLayout.getLayoutParams();
+        params.height = w;
+        params.width = h;
+
+        settingsLayout.setLayoutParams(params);
     }
 }
