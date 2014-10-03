@@ -72,10 +72,10 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         {
             fireagain = handelBurstClick(event, fireagain);
         }
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        /*if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
         {
             fireagain = handelPictureClick(event, fireagain);
-        }
+        }*/
         return fireagain;
     }
 
