@@ -155,9 +155,6 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
             imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
 
         }
-
-
-
     }
 
     @Override
@@ -216,60 +213,18 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         if (helpOverlayOpen)
         {
             helpOverlayHandler.animate().rotation(orientation).setDuration(animationtime).start();
-            /*for (int i = 0; i < helpOverlayHandler.getChildCount(); i++)
-            {
-                int h = helpOverlayHandler.getChildAt(i).getHeight();
-                int w = helpOverlayHandler.getChildAt(i).getWidth();
-                helpOverlayHandler.getChildAt(i).getLayoutParams().height = w ;
-                helpOverlayHandler.getChildAt(i).getLayoutParams().width = h ;
-
-                //helpOverlayLayout.getChildAt(i).setTop(0);
-
-                helpOverlayHandler.getChildAt(i).setRotation(orientation);
-                helpOverlayHandler.getChildAt(i).setTranslationX(0);
-                helpOverlayHandler.getChildAt(i).setTranslationY(0);
-                helpOverlayHandler.getChildAt(i).requestLayout();
-
-            }*/
-            //helpOverlayLayout.setLeft(0);
-
         }
 
         for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
         {
             cameraControlsLayout.getChildAt(i).animate().rotation(orientation).setDuration(animationtime).start();
         }
-        //switchCOntrolLayout.setRotation(orientation);
         rotateSettingsMenu(orientation);
-
-        //*int lasvis = manualSettingsLayout.getVisibility();
-        //float lastalp = manualSettingsLayout.getAlpha();
-        //manualSettingsLayout.setAlpha(0f);
-        //manualSettingsLayout.setVisibility(View.VISIBLE);
         for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
         {
             View view =  manualSettingsLayout.getChildAt(i);
             view.animate().rotation(orientation).setDuration(animationtime).start();
-            /*int h = view.getLayoutParams().height;
-            int w = view.getLayoutParams().width;
-            if (h == 0 || w == 0)
-                return;
-            view.getLayoutParams().height = w;
-            view.getLayoutParams().width = h;
-            view.requestLayout();
-            view.setRotation(orientation);*/
         }
-        //manualSettingsLayout.setAlpha(lastalp);
-        //manualSettingsLayout.setVisibility(lasvis);
-        //int oldw = switchCOntrolLayout.getWidth();
-        //int oldh = switchCOntrolLayout.getHeight();
-        //switchCOntrolLayout.getLayoutParams().height = oldw;
-        //switchCOntrolLayout.getLayoutParams().width = oldh;
-
-
-        //switchCOntrolLayout.setRotation(orientation);
-        //switchCOntrolLayout.requestLayout();
-        //switchCOntrolLayout.setBottom(0);
     }
 
     private void rotateSettingsMenu(int orientation)

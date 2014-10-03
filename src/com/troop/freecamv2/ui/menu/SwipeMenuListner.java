@@ -21,141 +21,23 @@ import com.troop.freecam.R;
  */
 public class SwipeMenuListner extends TouchHandler
 {
-    /*LinearLayout settingsLayout;
-    LinearLayout manualSettingsLayout;
-    LinearLayout seekbarLayout;
-    int animationSpeed = 200;
-*/
     I_swipe swipehandler;
 
     public SwipeMenuListner(I_swipe swipehandler)
     {
-        /*this.manualSettingsLayout = manualSettingsLayout;
-        this.settingsLayout = settingsLayout;
-        //this.manualSettingsLayout.setVisibility(View.GONE);
-        //this.settingsLayout.setVisibility(View.GONE);
-        this.seekbarLayout = seekbarLayout;*/
-
         this.swipehandler = swipehandler;
     }
 
     protected void doHorizontalSwipe()
     {
-        /*if (startX - currentX > 0)
-        {
-            if (settingsLayout.getVisibility() == View.VISIBLE)
-                hideAnimationHorizontal();
-        }
-        else
-        {
-            if (settingsLayout.getVisibility() == View.GONE)
-                showAnimationHorizontal();
-        }*/
         if (swipehandler != null)
             swipehandler.doHorizontalSwipe();
     }
 
     protected void doVerticalSwipe()
     {
-        /*if (startY - currentY > 0)
-        {
-            if (manualSettingsLayout.getVisibility() == View.VISIBLE)
-                hideVerticalAnimation();
-        }
-        else
-        {
-            if (manualSettingsLayout.getVisibility() == View.GONE)
-                showVerticalAnimation();
-        }*/
         if (swipehandler!= null)
             swipehandler.doVerticalSwipe();
     }
 
-    /*private void showAnimationHorizontal()
-    {
-
-            Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_top_to_bottom);
-            hide.setDuration(animationSpeed);
-            settingsLayout.setVisibility(View.VISIBLE);
-            settingsLayout.startAnimation(hide);
-    }
-
-    private void hideAnimationHorizontal()
-    {
-        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_right_to_left);
-        hide.setDuration(animationSpeed);
-        hide.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                settingsLayout.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        settingsLayout.startAnimation(hide);
-    }
-
-    private void showVerticalAnimation()
-    {
-        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_left_to_right);
-        hide.setDuration(animationSpeed);
-        manualSettingsLayout.setVisibility(View.VISIBLE);
-        manualSettingsLayout.startAnimation(hide);
-        seekbarLayout.setVisibility(View.VISIBLE);
-        seekbarLayout.startAnimation(hide);
-    }
-
-    private void hideVerticalAnimation()
-    {
-        Animation hide = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_top);
-        Animation hide2 = AnimationUtils.loadAnimation(manualSettingsLayout.getContext(), R.anim.move_bottom_to_bottom);
-        hide.setDuration(animationSpeed);
-        hide.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                manualSettingsLayout.setVisibility(View.GONE);
-
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        hide2.setDuration(animationSpeed);
-        hide2.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                seekbarLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        manualSettingsLayout.startAnimation(hide);
-        seekbarLayout.startAnimation(hide2);
-        //layout.startAnimation(move_bottom_to_top);
-    }*/
 }
