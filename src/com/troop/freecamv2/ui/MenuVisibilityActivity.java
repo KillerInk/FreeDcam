@@ -204,8 +204,8 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     @Override
     public int OrientationChanged(int orientation)
     {
-        if (Build.VERSION.SDK_INT >= 17)
-            rotateViews(-orientation);
+        /*if (Build.VERSION.SDK_INT >= 17)
+            rotateViews(-orientation);*/
         return orientation;
     }
 
