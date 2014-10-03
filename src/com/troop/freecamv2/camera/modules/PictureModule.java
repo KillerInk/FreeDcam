@@ -4,6 +4,8 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
 
@@ -85,6 +87,11 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public void onPictureTaken(byte[] data, Camera camera)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
+        if(data.length < 4500)
+        {
+            baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
+            return;
+        }
         File file = createFileName();
 
         final saveFile save = new saveFile(data.clone(), file);

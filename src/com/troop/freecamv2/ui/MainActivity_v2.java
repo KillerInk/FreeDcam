@@ -18,10 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freecam.R;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
+import com.troop.freecamv2.camera.I_error;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freecamv2.ui.handler.FocusImageHandler;
 import com.troop.freecamv2.ui.handler.HardwareKeyHandler;
@@ -39,7 +41,7 @@ import com.troop.freecamv2.ui.switches.NightModeSwitchHandler;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends MenuVisibilityActivity
+public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 {
     ExtendedSurfaceView cameraPreview;
     CameraUiWrapper cameraUiWrapper;
@@ -58,6 +60,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
+    I_error error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity
         cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraPreview.appSettingsManager = appSettingsManager;
         cameraPreview.setOnTouchListener(surfaceTouche);
-        cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager);
+        cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager, this);
+
 
         menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
@@ -195,5 +199,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity
 
         cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
         return orientation;
+    }
+
+    @Override
+    public void OnError(String error)
+    {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT);
     }
 }

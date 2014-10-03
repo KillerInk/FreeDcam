@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by troop on 15.08.2014.
  */
-public class BaseCameraHolder implements I_CameraHolder
+public class BaseCameraHolder implements I_CameraHolder, Camera.ErrorCallback
 {
     Camera mCamera;
     final  String TAG = "freecam.BaseCameraHolder";
@@ -28,6 +28,8 @@ public class BaseCameraHolder implements I_CameraHolder
 
     HandlerThread cameraThread;
     Handler cameraHandler;
+    Camera.ErrorCallback errorCallback;
+    public I_error errorHandler;
 
     public BaseCameraHolder()
     {
@@ -53,6 +55,7 @@ public class BaseCameraHolder implements I_CameraHolder
                 try
                 {
                     mCamera = Camera.open(camera);
+
                     isRdy = true;
 
                 }
@@ -193,5 +196,10 @@ public class BaseCameraHolder implements I_CameraHolder
                 }
             });
         }
+    }
+
+    @Override
+    public void onError(int i, Camera camera) {
+        errorHandler.OnError("Got Error from camera: " + i);
     }
 }

@@ -21,15 +21,17 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     AppSettingsManager appSettingsManager;
     public CamParametersHandler camParametersHandler;
     public FocusHandler Focus;
+    I_error errorHandler;
 
-
-    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
         this.preview = preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
         cameraHolder = new BaseCameraHolder();
+        this.errorHandler = errorHandler;
+        cameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder);
         cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
@@ -41,6 +43,11 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     }
 
 
+    public void ErrorHappend(String error)
+    {
+        if  (errorHandler != null)
+            errorHandler.OnError(error);
+    }
 
 //Module Handler START
     public void SwitchModule(String moduleName)
