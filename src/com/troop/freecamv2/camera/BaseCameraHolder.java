@@ -33,6 +33,7 @@ public class BaseCameraHolder implements I_CameraHolder, Camera.ErrorCallback
 
     public BaseCameraHolder()
     {
+        errorCallback = this;
     }
 
     /**
@@ -55,7 +56,7 @@ public class BaseCameraHolder implements I_CameraHolder, Camera.ErrorCallback
                 try
                 {
                     mCamera = Camera.open(camera);
-
+                    mCamera.setErrorCallback(errorCallback);
                     isRdy = true;
 
                 }

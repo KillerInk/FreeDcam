@@ -92,6 +92,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
             return;
         }
+        else
+        {
+            baseCameraHolder.errorHandler.OnError("Datasize : " + data.length);
+        }
         File file = createFileName();
 
         final saveFile save = new saveFile(data.clone(), file);

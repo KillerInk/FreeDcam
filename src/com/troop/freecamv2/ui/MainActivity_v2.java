@@ -204,6 +204,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     @Override
     public void OnError(String error)
     {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, error, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
