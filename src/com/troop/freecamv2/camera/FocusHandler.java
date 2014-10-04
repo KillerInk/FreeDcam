@@ -32,7 +32,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
     public void onAutoFocus(boolean success, Camera camera)
     {
 
-        camera.cancelAutoFocus();
+        //camera.cancelAutoFocus();
         if (focusEvent != null)
             focusEvent.FocusFinished(success);
     }
