@@ -203,4 +203,9 @@ public class BaseCameraHolder implements I_CameraHolder, Camera.ErrorCallback
     public void onError(int i, Camera camera) {
         errorHandler.OnError("Got Error from camera: " + i);
     }
+
+    public void SendMessage(String msg)
+    {
+        errorHandler.OnError(msg);
+    }
 }

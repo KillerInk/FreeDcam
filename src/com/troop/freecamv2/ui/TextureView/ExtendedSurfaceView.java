@@ -134,9 +134,12 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             double previewRatio = getRatio(pw,ph);
             if (previewRatio == pictureRatio)
             {
+
                 Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
                 ParametersHandler.PreviewSize.SetValue(previewSizes[i]);
                 setPreviewToDisplay(pw, ph);
+                String msg = "PreviewSize:" + previewSizes[i] + " Ratio:"+ previewRatio + "\nPictureSize:"+w+"x"+h+" Ratio:" + pictureRatio;
+                ParametersHandler.cameraHolder.errorHandler.OnError(msg);
                 break;
             }
         }

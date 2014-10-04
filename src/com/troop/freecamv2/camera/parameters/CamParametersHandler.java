@@ -47,7 +47,7 @@ import java.util.List;
  */
 public class CamParametersHandler implements I_ParameterChanged
 {
-    BaseCameraHolder cameraHolder;
+    public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
 
 
