@@ -26,7 +26,7 @@ public class PictureFormatParameter extends BaseModeParameter
         {
             if (DeviceUtils.isLGADV() && !vals[i].startsWith("bayer-qcom"))
                 toReturn.add(vals[i]);
-            else
+            else if (!DeviceUtils.isLGADV())
                 toReturn.add(vals[i]);
         }
         return toReturn.toArray(new String[toReturn.size()]);
