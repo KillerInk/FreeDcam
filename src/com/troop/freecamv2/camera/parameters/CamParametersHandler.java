@@ -175,8 +175,8 @@ public class CamParametersHandler implements I_ParameterChanged
     {
         //cameraHolder.SetCameraParameters(cameraParameters);
         if (!setParameterRunner.isRunning)
-            //handler.post(setParameterRunner);
-            setParameterRunner.run();
+            handler.post(setParameterRunner);
+            //setParameterRunner.run();
         else
             moreParametersToSet = true;
 
