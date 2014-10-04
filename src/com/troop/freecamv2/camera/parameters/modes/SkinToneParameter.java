@@ -24,6 +24,7 @@ public class SkinToneParameter extends BaseModeParameter {
     {
         //if (baseCameraHolder.IsPreviewRunning())
             //baseCameraHolder.StopPreview();
+        firststart = false;
         super.SetValue(valueToSet);
         //if (!baseCameraHolder.IsPreviewRunning())
             //baseCameraHolder.StartPreview();

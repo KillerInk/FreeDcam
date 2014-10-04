@@ -28,8 +28,9 @@ public class ColorModeParameter extends BaseModeParameter {
     @Override
     public void SetValue(String valueToSet) {
         parameters.setColorEffect(valueToSet);
-        if (throwParameterChanged != null)
+        if (throwParameterChanged != null && firststart == false)
             throwParameterChanged.ParameterChanged();
+        firststart = false;
     }
 
     @Override

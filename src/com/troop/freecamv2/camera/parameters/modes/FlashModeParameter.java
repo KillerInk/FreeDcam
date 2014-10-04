@@ -24,8 +24,9 @@ public class FlashModeParameter extends BaseModeParameter {
     @Override
     public void SetValue(String valueToSet) {
         parameters.setFlashMode(valueToSet);
-        if (throwParameterChanged != null)
+        if (throwParameterChanged != null && firststart == false)
             throwParameterChanged.ParameterChanged();
+        firststart = false;
     }
 
     @Override

@@ -15,6 +15,7 @@ public abstract class BaseModeParameter implements I_ModeParameter
     boolean isSupported = false;
     Camera.Parameters parameters;
     I_ParameterChanged throwParameterChanged;
+    protected boolean firststart = true;
 
     public BaseModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
@@ -43,8 +44,9 @@ public abstract class BaseModeParameter implements I_ModeParameter
     public void SetValue(String valueToSet)
     {
         parameters.set(value, valueToSet);
-        if (throwParameterChanged != null)
+        if (throwParameterChanged != null && firststart == false)
             throwParameterChanged.ParameterChanged();
+        firststart = false;
     }
 
     public String GetValue()

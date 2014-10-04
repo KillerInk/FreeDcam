@@ -21,8 +21,9 @@ public class FocusModeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet) {
         parameters.setFocusMode(valueToSet);
-        if (throwParameterChanged != null)
+        if (throwParameterChanged != null && firststart == false)
             throwParameterChanged.ParameterChanged();
+        firststart = false;
     }
 
     @Override
