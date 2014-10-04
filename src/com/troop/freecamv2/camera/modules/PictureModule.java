@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -94,7 +95,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            baseCameraHolder.errorHandler.OnError("Datasize : " + data.length);
+            baseCameraHolder.errorHandler.OnError("Datasize : " + StringUtils.readableFileSize(data.length));
         }
         File file = createFileName();
 
