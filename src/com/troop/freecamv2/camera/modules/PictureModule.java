@@ -24,7 +24,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     public final String TAG = "freecam.PictureModule";
 
-    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw";
+    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
@@ -103,7 +103,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         final Thread worker = new Thread(save);
         worker.start();
         isWorking = false;
-        baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
+        //baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
         baseCameraHolder.StartPreview();
     }
 
