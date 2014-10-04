@@ -3,6 +3,7 @@ package com.troop.freecamv2.camera.parameters.modes;
 import android.hardware.Camera;
 
 import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,9 @@ public class PictureFormatParameter extends BaseModeParameter
         final String[] vals = parameters.get(values).split(",");
         for (int i = 0; i < vals.length; i++)
         {
-            if (!vals[i].startsWith("bayer-qcom"))
+            if (DeviceUtils.isLGADV() && !vals[i].startsWith("bayer-qcom"))
+                toReturn.add(vals[i]);
+            else
                 toReturn.add(vals[i]);
         }
         return toReturn.toArray(new String[toReturn.size()]);
