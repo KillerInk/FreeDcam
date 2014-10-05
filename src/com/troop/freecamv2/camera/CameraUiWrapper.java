@@ -13,7 +13,7 @@ import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded
+public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
     private ExtendedSurfaceView preview;
     public ModuleHandler moduleHandler;
@@ -67,6 +67,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     {
         if (Camera.getNumberOfCameras() > 0) {
             cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+
             return true;
         }
 
@@ -76,6 +77,13 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     public void StartPreviewAndCamera() {
         if (openCamera())
         {
+            while (!cameraHolder.isRdy)
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            cameraHolder.GetCamera().setErrorCallback(this);
             cameraHolder.SetSurface(preview.getHolder());
             camParametersHandler.LoadParametersFromCamera();
 
@@ -106,5 +114,13 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     @Override
     public void ParametersLoaded() {
         cameraHolder.StartPreview();
+    }
+
+    @Override
+    public void onError(int i, Camera camera)
+    {
+        errorHandler.OnError("Got Error from camera: " + i);
+        StopPreviewAndCamera();
+        StartPreviewAndCamera();
     }
 }
