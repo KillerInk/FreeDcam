@@ -192,6 +192,11 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, context.getString(R.string.quality_skintone), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
+        if (cameraUiWrapper.camParametersHandler.NonZslManualMode.IsSupported())
+        {
+            ExpandableChild nzm = getNewChild(cameraUiWrapper.camParametersHandler.NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE, context.getString(R.string.quality_nonmanualzsl),cameraUiWrapper.moduleHandler.AllModules);
+            childlist.add(nzm);
+        }
 
         group.setItems(childlist);
     }

@@ -27,6 +27,7 @@
     <string name="quality_digitalimagestab">DigitalImageStabilization</string>
     <string name="quality_mce">MemoryColorEnhancement</string>
     <string name="quality_skintone">Skintone</string>
+    <string name="quality_nonmanualzsl">Non Manual ZSL</string>
 
 
     <string name="manualmenu_brightness">Brightness</string>

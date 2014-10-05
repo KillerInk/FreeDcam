@@ -15,6 +15,7 @@ import com.troop.freecamv2.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.BaseModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.DenoiseParameter;
 import com.troop.freecamv2.camera.parameters.modes.DigitalImageStabilizationParameter;
@@ -27,6 +28,7 @@ import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freecamv2.camera.parameters.modes.LensshadeParameter;
 import com.troop.freecamv2.camera.parameters.modes.MemoryColorEnhancementParameter;
 import com.troop.freecamv2.camera.parameters.modes.NightModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.NonZslManualModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -85,6 +87,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public MemoryColorEnhancementParameter MemoryColorEnhancement;
     public SkinToneParameter SkinToneEnhancment;
     public NightModeParameter NightMode;
+    public NonZslManualModeParameter NonZslManualMode;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -161,6 +164,7 @@ public class CamParametersHandler implements I_ParameterChanged
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
         SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
         NightMode = new NightModeParameter(cameraParameters, this,"","");
+        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "");
 
 
 
