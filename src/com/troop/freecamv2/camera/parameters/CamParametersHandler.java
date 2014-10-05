@@ -192,8 +192,8 @@ public class CamParametersHandler implements I_ParameterChanged
             isRunning = true;
             if (DeviceUtils.isHTCADV())
             {
-                cameraParameters.set("zsl", "off");
-                //cameraParameters.set("non-zsl-manual-mode", "false");
+                //cameraParameters.set("zsl", "off");
+                cameraParameters.set("non-zsl-manual-mode", "false");
             }
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
