@@ -82,12 +82,15 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private Bitmap loadThumbViewImage(File file)
     {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        if(!file.getAbsolutePath().endsWith("raw")) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
+            options.inJustDecodeBounds = false;
+            return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        }
+        else return null;
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
