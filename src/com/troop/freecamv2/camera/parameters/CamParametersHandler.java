@@ -194,11 +194,6 @@ public class CamParametersHandler implements I_ParameterChanged
         public void run()
         {
             isRunning = true;
-            if (DeviceUtils.isHTCADV())
-            {
-                //cameraParameters.set("zsl", "off");
-                cameraParameters.set("non-zsl-manual-mode", "false");
-            }
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
