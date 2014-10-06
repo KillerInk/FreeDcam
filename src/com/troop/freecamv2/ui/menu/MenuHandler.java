@@ -60,7 +60,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         grouplist.add(menuCreator.CreatePictureSettings(surfaceView));
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
-        //grouplist.add(menuCreator.CreatePreviewSettings(surfaceView));
+        grouplist.add(menuCreator.CreatePreviewSettings(surfaceView));
         return grouplist;
     }
 

@@ -127,7 +127,15 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         catch (Exception ex)
         {
             ex.printStackTrace();
+
+        }
+        try
+        {
             cameraHolder.CloseCamera();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
         try {
             StartPreviewAndCamera();
