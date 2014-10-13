@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.troop.androiddng.RawToDng;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.utils.StringUtils;
@@ -61,7 +62,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(null,rawCallback,this);
+            baseCameraHolder.TakePicture(null,null,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
@@ -99,6 +100,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         File file = createFileName();
 
+
         final saveFile save = new saveFile(data.clone(), file);
         final Thread worker = new Thread(save);
         worker.start();
@@ -119,11 +121,24 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             this.file = file;
         }
         @Override
-        public void run() {
-            saveBytesToFile(bytes, file);
-            eventHandler.WorkFinished(file);
-            bytes = null;
-            file = null;
+        public void run()
+        {
+            if(!file.getAbsolutePath().endsWith(".dng"))
+            {
+                saveBytesToFile(bytes, file);
+                eventHandler.WorkFinished(file);
+                bytes = null;
+                file = null;
+            }
+            else
+            {
+                String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+                String raw[] = rawSize.split("x");
+                int w = Integer.parseInt(raw[0]);
+                int h = Integer.parseInt(raw[1]);
+                RawToDng.convertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                eventHandler.WorkFinished(file);
+            }
         }
     }
 
@@ -157,7 +172,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
 
         if(rawFormats.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
+            return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
         if(jpegFormat.contains(pictureFormat))
             return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
         if (jpsFormat.contains(pictureFormat))

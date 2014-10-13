@@ -242,4 +242,9 @@ public class CamParametersHandler implements I_ParameterChanged
             e.printStackTrace();
         }
     }
+
+    public String GetRawSize()
+    {
+        return cameraParameters.get("raw-size");
+    }
 }
