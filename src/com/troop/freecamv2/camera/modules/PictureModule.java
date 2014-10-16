@@ -136,7 +136,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                 String raw[] = rawSize.split("x");
                 int w = Integer.parseInt(raw[0]);
                 int h = Integer.parseInt(raw[1]);
-                RawToDng.convertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
                 eventHandler.WorkFinished(file);
             }
         }
