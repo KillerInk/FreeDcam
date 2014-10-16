@@ -22,13 +22,6 @@ public class RawToDng
 			float[] neutral, 
 			int blacklevel
 			);
-	
-	private static native void convertRawToDng(String fileToLoad, String fileToSave, int width, int height);
-	
-	public void ConvertRawToDng(String fileToLoad, String fileToSave, int width, int height)
-	{
-		convertRawToDng(fileToLoad, fileToSave, width, height);
-	}
 
     public static void ConvertRawBytesToDng(
             byte[] data,
