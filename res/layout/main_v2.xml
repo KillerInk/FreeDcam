@@ -51,12 +51,6 @@
             android:layout_alignParentRight="false"
             android:layout_alignParentLeft="true" />
 
-        <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="X"
-            android:id="@+id/button_deletePic"
-            android:background="@drawable/button_clean" />
     </LinearLayout>
 
     <LinearLayout

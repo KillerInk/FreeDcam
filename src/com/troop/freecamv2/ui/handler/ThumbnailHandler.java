@@ -32,21 +32,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
         thumbView = (ImageView)activity.findViewById(R.id.imageView_Thumbnail);
         thumbView.setOnClickListener(this);
         thumbView.setAlpha(0f);
-        delButton = (Button)activity.findViewById(R.id.button_deletePic);
-        delButton.setAlpha(0f);
-        delButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (lastFile != null)
-                {
-                    lastFile.delete();
-                    thumbView.setAlpha(0f);
-                    delButton.setAlpha(0f);
-                    MediaScannerManager.ScanMedia(activity, lastFile);
-                }
 
-            }
-        });
     }
 
     @Override
@@ -116,7 +102,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     {
         if (thumbView.getAlpha() == 1f)
         {
-            delButton.setAlpha(0f);
+            
             thumbView.animate().alpha(0f).setDuration(200).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -149,7 +135,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
             if(filePath != null || !filePath.getAbsolutePath().endsWith(".dng"))
                 thumbView.setImageBitmap(loadThumbViewImage(filePath));
             thumbView.animate().alpha(1f).setDuration(200).start();
-            delButton.setAlpha(1f);
+
 
     }
 }
