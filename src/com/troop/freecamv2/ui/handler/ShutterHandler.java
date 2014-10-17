@@ -75,10 +75,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         {
             fireagain = handelBurstClick(event, fireagain);
         }
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
-        {
-            fireagain = handelPictureClick(event, fireagain);
-        }
         return fireagain;
     }
 
@@ -96,23 +92,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
             BurstModule burstModule = (BurstModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
             if (burstModule !=null) {
                 burstModule.EnableBurst(false);
-                fireagain = false;
-            }
-        }
-        return fireagain;
-    }
-
-    public boolean handelPictureClick(MotionEvent event, boolean fireagain) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
-            fireagain = true;
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP)
-        {
-            PictureModule picModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
-            if (picModule !=null) {
-                picModule.DoWork();
                 fireagain = false;
             }
         }
