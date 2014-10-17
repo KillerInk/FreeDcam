@@ -16,7 +16,7 @@ import com.troop.freecamv2.ui.MainActivity_v2;
 /**
  * Created by troop on 26.08.2014.
  */
-public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View.OnTouchListener
+public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View.OnTouchListener, View.OnLongClickListener
 {
 
     private final MainActivity_v2 activity;
@@ -32,7 +32,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         this.cameraUiWrapper = cameraUiWrapper;
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
         shutterButton.setOnClickListener(this);
-        shutterButton.setOnTouchListener(this);
+        shutterButton.setOnLongClickListener(this);
+        //shutterButton.setOnTouchListener(this);
 
         flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
         flashScreen.setVisibility(View.GONE);
@@ -57,6 +58,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         }
     }
 
+
+
     @Override
     public String ModuleChanged(String module)
     {
@@ -72,10 +75,10 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         {
             fireagain = handelBurstClick(event, fireagain);
         }
-        /*if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
         {
             fireagain = handelPictureClick(event, fireagain);
-        }*/
+        }
         return fireagain;
     }
 
@@ -114,5 +117,12 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
             }
         }
         return fireagain;
+    }
+
+    @Override
+    public boolean onLongClick(View v)
+    {
+        cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+        return false;
     }
 }
