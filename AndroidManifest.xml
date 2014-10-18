@@ -45,6 +45,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
         </activity>
 
@@ -74,10 +78,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <!-- <action android:name="com.lge.action.BLE_ONEKEY" /> -->
             </intent-filter>
-            <!--<intent-filter>
-                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter> -->
+
 
 
         </activity>
