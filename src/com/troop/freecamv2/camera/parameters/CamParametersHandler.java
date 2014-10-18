@@ -225,8 +225,14 @@ public class CamParametersHandler implements I_ParameterChanged
 
     public void SetPictureOrientation(int orientation)
     {
-        cameraParameters.setRotation(orientation);
-        cameraHolder.SetCameraParameters(cameraParameters);
+        try {
+            cameraParameters.setRotation(orientation);
+            cameraHolder.SetCameraParameters(cameraParameters);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public void LockExposureAndWhiteBalance(boolean value)
