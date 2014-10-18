@@ -32,6 +32,10 @@ public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
             cameraUiWrapper.moduleHandler.SetModule(ModuleHandler.MODULE_PICTURE);
         PictureModule pictureModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
         pictureModule.OverRidePath = imageUri.getPath();
+        if (pictureModule.OverRidePath.endsWith(".jpg"))
+        {
+            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
+        }
 
     }
 
@@ -57,11 +61,11 @@ public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
         //shareIntent.setData(Uri.fromFile(filePath));
         //callerIntent.setAction(Intent.ACTION_SEND);
 
-        callerIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+        //callerIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
         //callerIntent.setType("image/jpeg");
 
         setResult(Activity.RESULT_OK, callerIntent);
-        finish();
+        this.finish();
         return null;
     }
 }
