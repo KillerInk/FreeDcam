@@ -2,15 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.troop.freecam"
     android:versionCode="3"
-    android:versionName="3.1"
-    android:largeHeap="true">
+    android:versionName="3.1">
 
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- only for system apps
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
 
@@ -20,24 +21,67 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-feature android:name="android.hardware.sensor.compass"/>
 
+    <meta-data android:name="navi_bar_bg_disabled" android:value="true" />
+    <meta-data android:name="com.lge.app.forceHideImmersiveConfirm" android:value="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="FreeDCam"
-        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+        android:hardwareAccelerated="true"
+        android:supportsRtl="true"
+        android:largeHeap="true">
 
         <activity
-
             android:screenOrientation="landscape"
             android:name="com.troop.freecamv2.ui.MainActivity_v2"
             android:label="FreeDCam"
-            android:icon="@drawable/ic_launcher">
+            android:icon="@drawable/ic_launcher"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <activity
+            android:screenOrientation="landscape"
+            android:name="com.troop.freecamv2.ui.ShareActivity"
+            android:label="FreeDCam"
+            android:icon="@drawable/ic_launcher"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true">
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter> -->
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- <action android:name="com.lge.action.BLE_ONEKEY" /> -->
+            </intent-filter>
+            <!--<intent-filter>
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter> -->
+
+
+        </activity>
+
     </application>
 
 

@@ -29,6 +29,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
+    public String OverRidePath = "";
+
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
@@ -123,22 +125,31 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         @Override
         public void run()
         {
-            if(!file.getAbsolutePath().endsWith(".dng"))
+            if (OverRidePath == "")
             {
+                if (!file.getAbsolutePath().endsWith(".dng")) {
+                    saveBytesToFile(bytes, file);
+                    eventHandler.WorkFinished(file);
+                    bytes = null;
+                    file = null;
+                } else {
+                    String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+                    String raw[] = rawSize.split("x");
+                    int w = Integer.parseInt(raw[0]);
+                    int h = Integer.parseInt(raw[1]);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                    eventHandler.WorkFinished(file);
+                }
+            }
+            else
+            {
+                file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
                 eventHandler.WorkFinished(file);
                 bytes = null;
                 file = null;
             }
-            else
-            {
-                String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
-                String raw[] = rawSize.split("x");
-                int w = Integer.parseInt(raw[0]);
-                int h = Integer.parseInt(raw[1]);
-                RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
-                eventHandler.WorkFinished(file);
-            }
+
         }
     }
 
