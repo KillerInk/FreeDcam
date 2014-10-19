@@ -102,7 +102,6 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     {
         if (thumbView.getAlpha() == 1f)
         {
-            
             thumbView.animate().alpha(0f).setDuration(200).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -132,7 +131,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void showThumb(File filePath)
     {
-            if(filePath != null || !filePath.getAbsolutePath().endsWith(".dng"))
+            if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng"))
                 thumbView.setImageBitmap(loadThumbViewImage(filePath));
             thumbView.animate().alpha(1f).setDuration(200).start();
 
