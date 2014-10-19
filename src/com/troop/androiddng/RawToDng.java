@@ -1,9 +1,8 @@
 package com.troop.androiddng;
 
-import java.io.File;
-import java.nio.ByteBuffer;
-
 import android.R.integer;
+
+import com.troop.freecamv2.utils.DeviceUtils;
 
 public class RawToDng 
 {
@@ -12,16 +11,17 @@ public class RawToDng
 		System.loadLibrary("RawToDng");
     }
 	
-	private static native void convertRawBytesToDng(
+	public static native void convertRawBytesToDng(
 			byte[] data, 
 			String fileToSave, 
 			int width, 
 			int height, 
 			float[] colorMatrix1, 
 			float[] colorMatrix2, 
-			float[] neutral, 
-			int blacklevel
-			);
+			float[] neutral,
+			int blacklevel,
+			String bayerformat,
+			int rowSize);
 
     public static void ConvertRawBytesToDng(
             byte[] data,
@@ -30,9 +30,11 @@ public class RawToDng
             int height
     )
     {
-        convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel);
+        if (DeviceUtils.isHTCADV())
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, "grbg", RawToDng.HTCM8_rowSize);
+        else
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, "bggr", Calculate_rowSize(data.length, height));
     }
-	
 	
 	public static float[] g3_color1 =
 	{
@@ -57,4 +59,12 @@ public class RawToDng
 	};
 	
 	public static int g3_blacklevel = 64;
+	
+	
+	public static int HTCM8_rowSize = 3360;
+	
+	public static int Calculate_rowSize(int fileSize, int height)
+	{
+		return fileSize/height;
+	}
 }
