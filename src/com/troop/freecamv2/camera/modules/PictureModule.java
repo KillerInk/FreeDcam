@@ -65,7 +65,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(null,null,this);
+            baseCameraHolder.TakePicture(null,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
@@ -80,7 +80,13 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         public void onPictureTaken(byte[] data, Camera camera)
         {
             if (data!= null)
+            {
                 Log.d(TAG, "RawCallback data size: " + data.length);
+                File file = createFileName();
+                final saveFile save = new saveFile(data.clone(), file);
+                final Thread worker = new Thread(save);
+                worker.start();
+            }
             else
                 Log.d(TAG, "RawCallback data size is null" );
             //if (data != null)
