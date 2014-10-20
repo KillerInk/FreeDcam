@@ -1,6 +1,7 @@
 package com.troop.freecamv2.camera.parameters;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -125,6 +126,7 @@ public class CamParametersHandler implements I_ParameterChanged
         String[] paras =  cameraParameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
             Log.d("freecam.CameraParametersHandler", paras[i]);
+        Log.d("freecam.CameraParametersHandler", Build.MODEL) ;
     }
 
     private void initParameters()

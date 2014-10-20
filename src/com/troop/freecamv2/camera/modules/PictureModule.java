@@ -194,7 +194,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         else
         {
             if (rawFormats.contains(pictureFormat))
-                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
             if (jpegFormat.contains(pictureFormat))
                 return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
             if (jpsFormat.contains(pictureFormat))
