@@ -131,7 +131,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void showThumb(File filePath)
     {
-            if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng"))
+            if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw"))
                 thumbView.setImageBitmap(loadThumbViewImage(filePath));
             thumbView.animate().alpha(1f).setDuration(200).start();
 
