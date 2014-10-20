@@ -44,7 +44,7 @@ public class HelpOverlayHandler extends LinearLayout
             @Override
             public void onClick(View v)
             {
-                appSettingsManager.setshowHelpOverlay(checkBox.isChecked());
+                appSettingsManager.setshowHelpOverlay(!checkBox.isChecked());
                 setVisibility(GONE);
             }
         });
