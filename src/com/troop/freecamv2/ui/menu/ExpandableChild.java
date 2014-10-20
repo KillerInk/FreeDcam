@@ -13,6 +13,8 @@ import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.DeviceUtils;
+import com.troop.freecamv2.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -66,10 +68,31 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
     public void setValue(String value)
     {
-        valueTextView.setText(value);
-        parameterHolder.SetValue(value);
-        appSettingsManager.setString(settingsname, value);
-        Log.d(getTAG(), "Set " + Name + ":" + value);
+        if (settingsname.equals(AppSettingsManager.SETTING_PICTUREFORMAT) && DeviceUtils.isRawSupported())
+        {
+            if (value.equals("raw") || value.equals("dng"))
+            {
+                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR());
+                }
+                if (DeviceUtils.isHTCADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG());
+                }
+            }
+            else
+                parameterHolder.SetValue(value);
+            valueTextView.setText(value);
+            appSettingsManager.setString(settingsname, value);
+            Log.d(getTAG(), "Set " + Name + ":" + value);
+        }
+        else {
+            valueTextView.setText(value);
+            parameterHolder.SetValue(value);
+            appSettingsManager.setString(settingsname, value);
+            Log.d(getTAG(), "Set " + Name + ":" + value);
+        }
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
@@ -80,18 +103,41 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         this.settingsname = settingsname;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue.equals("")) {
-            appSettingsManager.setString(settingsname, campara);
-            Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
-        }
-        if (!settingValue.equals(campara) && !settingValue.equals(""))
+        if (settingsname.equals(AppSettingsManager.SETTING_PICTUREFORMAT) && DeviceUtils.isRawSupported())
         {
-            parameterHolder.SetValue(settingValue);
-            Log.d(getTAG(), "Load default appsetting " + Name + ":" +campara);
+            if (settingValue == "")
+                appSettingsManager.setString(settingsname, "jpeg");
+            if (settingValue.equals("raw") || settingValue.equals("dng"))
+            {
+                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR());
+                }
+                if (DeviceUtils.isHTCADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG());
+                }
+            }
+            else
+                parameterHolder.SetValue(settingValue);
+            nameTextView.setText(Name);
+            valueTextView.setText(appSettingsManager.getString(settingsname));
+            appSettingsManager.setString(settingsname, settingValue);
+            AddModulesToShow(modulesToShow);
         }
-        nameTextView.setText(Name);
-        valueTextView.setText(parameterHolder.GetValue());
-        AddModulesToShow(modulesToShow);
+        else {
+            if (settingValue.equals("")) {
+
+                Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
+            }
+            if (!settingValue.equals(campara) && !settingValue.equals("")) {
+                parameterHolder.SetValue(settingValue);
+                Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
+            }
+            nameTextView.setText(Name);
+            valueTextView.setText(parameterHolder.GetValue());
+            AddModulesToShow(modulesToShow);
+        }
     }
 
     public void AddModulesToShow(ArrayList<String> modulesToShow)

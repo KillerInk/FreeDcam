@@ -17,6 +17,8 @@ import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.ui.MainActivity_v2;
 import com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freecamv2.utils.DeviceUtils;
+import com.troop.freecamv2.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -72,10 +74,14 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         ExpandableGroup group = (ExpandableGroup)expandableListViewMenuAdapter.getGroup(groupPosition);
         //get the child from group
         selectedChild = group.getItems().get(childPosition);
-
-
         //get values from child attached parameter
         String[] values = selectedChild.getParameterHolder().GetValues();
+        if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
+        {
+            if (DeviceUtils.isRawSupported())
+                values = new String[]{"jpeg", "raw", "dng"};
+        }
+
         //set values to the adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
@@ -178,8 +184,20 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        if (selectedChild != null) {
+        if (selectedChild != null)
+        {
             String value = (String) listView.getItemAtPosition(position);
+            /*if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
+            {
+                if (DeviceUtils.isRawSupported())
+                {
+                    if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
+                        value = StringUtils.BayerMipiBGGR();
+                    if (DeviceUtils.isHTCADV())
+                        value = StringUtils.BayerMipiGRBG();
+                }
+
+            }*/
             selectedChild.setValue(value);
             selectedChild = null;
             hideSubMenuAndShowMenu();

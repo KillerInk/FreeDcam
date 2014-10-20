@@ -91,4 +91,14 @@ public class DeviceUtils
         return s.equals("C6603") || s.equals("C6902") || s.equals("C6602") || s.equals("C6903") || s.equals("HTC One");
     }
 
+    public static boolean isMediaTekTHL5000()
+    {
+        return Build.MODEL.equals("thl 5000");
+    }
+
+    public static boolean isRawSupported()
+    {
+        return isLGADV() || isHTCADV() || isZTEADV() || isMediaTekTHL5000();
+    }
+
 }

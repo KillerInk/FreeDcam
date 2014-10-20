@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.troop.androiddng.RawToDng;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecamv2.utils.StringUtils;
 
 import java.io.File;
@@ -181,13 +182,24 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-
-        if(rawFormats.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
-        if(jpegFormat.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
-        if (jpsFormat.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
+        if (DeviceUtils.isRawSupported())
+        {
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+        }
+        else
+        {
+            if (rawFormats.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
+            if (jpegFormat.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+            if (jpsFormat.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
+        }
         return  null;
     }
 }
