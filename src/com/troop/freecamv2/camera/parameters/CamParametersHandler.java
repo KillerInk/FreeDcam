@@ -152,8 +152,8 @@ public class CamParametersHandler implements I_ParameterChanged
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
-        /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
-        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);*/
+        PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
+        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
