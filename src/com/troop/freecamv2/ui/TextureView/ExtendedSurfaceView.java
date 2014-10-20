@@ -150,7 +150,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             Log.d(TAG, "Found no matching preview size, raw capture will fail");
             String msg = "Found no matching preview size, raw capture will fail";
             ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-            String[] split = previewSizes[previewSizes.length].split("x");
+            String[] split = previewSizes[previewSizes.length -1].split("x");
             int pw = Integer.parseInt(split[0]);
             int ph = Integer.parseInt(split[1]);
             ParametersHandler.PreviewSize.SetValue(previewSizes[previewSizes.length]);
