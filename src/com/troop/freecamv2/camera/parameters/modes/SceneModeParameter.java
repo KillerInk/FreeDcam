@@ -20,9 +20,9 @@ public class SceneModeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet) {
+    public void SetValue(String valueToSet, boolean setToCam) {
         parameters.setSceneMode(valueToSet);
-        if (throwParameterChanged != null && firststart == false)
+        if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
     }

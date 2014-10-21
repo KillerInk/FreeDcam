@@ -55,7 +55,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
         {
             if (parametersHandler.FocusMode.GetValue().equals("normal"))
             {
-                parametersHandler.FocusMode.SetValue("auto");
+                parametersHandler.FocusMode.SetValue("auto", true);
             }
             final Rect targetFocusRect = new Rect(
                     rect.left * 2000 / width - 1000,

@@ -7,7 +7,7 @@ public interface I_ModeParameter
 {
     public boolean IsSupported();
 
-    public void SetValue(String valueToSet);
+    public void SetValue(String valueToSet, boolean setToCamera);
 
     public String GetValue();
 

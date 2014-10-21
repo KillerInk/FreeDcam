@@ -22,16 +22,6 @@ public class NonZslManualModeParameter extends BaseModeParameter{
     }
 
     @Override
-    public void SetValue(String valueToSet) {
-        super.SetValue(valueToSet);
-    }
-
-    @Override
-    public String GetValue() {
-        return super.GetValue();
-    }
-
-    @Override
     public String[] GetValues() {
         return new String[]{"true","false"};
     }

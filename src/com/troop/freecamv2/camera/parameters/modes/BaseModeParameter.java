@@ -42,11 +42,11 @@ public abstract class BaseModeParameter implements I_ModeParameter
         return isSupported;
     }
 
-    public void SetValue(String valueToSet)
+    public void SetValue(String valueToSet,  boolean setToCam)
     {
         parameters.set(value, valueToSet);
         Log.d("freecam.BaseModeParameter", "set "+value+" to "+ valueToSet);
-        if (throwParameterChanged != null && firststart == false)
+        if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
     }

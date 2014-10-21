@@ -76,22 +76,22 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
             {
                 if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
                 {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR());
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), true);
                 }
                 if (DeviceUtils.isHTCADV())
                 {
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG());
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), true);
                 }
             }
             else
-                parameterHolder.SetValue(value);
+                parameterHolder.SetValue(value, true);
             valueTextView.setText(value);
             appSettingsManager.setString(settingsname, value);
             Log.d(getTAG(), "Set " + Name + ":" + value);
         }
         else {
             valueTextView.setText(value);
-            parameterHolder.SetValue(value);
+            parameterHolder.SetValue(value, true);
             appSettingsManager.setString(settingsname, value);
             Log.d(getTAG(), "Set " + Name + ":" + value);
         }
@@ -114,16 +114,16 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
             {
                 if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
                 {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR());
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), false);
                 }
                 if (DeviceUtils.isHTCADV())
                 {
-                    cameraUiWrapper.camParametersHandler.ZSL.SetValue("off");
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG());
+                    cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), false);
                 }
             }
             else
-                parameterHolder.SetValue(settingValue);
+                parameterHolder.SetValue(settingValue, false);
             nameTextView.setText(Name);
             valueTextView.setText(appSettingsManager.getString(settingsname));
             appSettingsManager.setString(settingsname, settingValue);
@@ -135,7 +135,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
                 Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
             }
             if (!settingValue.equals(campara) && !settingValue.equals("")) {
-                parameterHolder.SetValue(settingValue);
+                parameterHolder.SetValue(settingValue, false);
                 Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
             }
             nameTextView.setText(Name);
