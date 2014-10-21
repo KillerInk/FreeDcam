@@ -12,6 +12,7 @@ import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.modules.PictureModule;
 import com.troop.freecamv2.ui.MainActivity_v2;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 /**
  * Created by troop on 26.08.2014.
@@ -101,7 +102,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     @Override
     public boolean onLongClick(View v)
     {
-        cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+        if (!DeviceUtils.isHTCADV())
+            cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
         return false;
     }
 }

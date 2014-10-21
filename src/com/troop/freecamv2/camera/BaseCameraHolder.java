@@ -74,7 +74,16 @@ public class BaseCameraHolder implements I_CameraHolder
     public void CloseCamera()
     {
         Log.d(TAG, "Try to close Camera");
-        mCamera.release();
+        if (mCamera != null)
+        {
+            try {
+                mCamera.release();
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
         isRdy = false;
 
         mCamera = null;

@@ -114,7 +114,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         final Thread worker = new Thread(save);
         worker.start();
         isWorking = false;
-        baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
+        if (!DeviceUtils.isHTCADV())
+            baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
         baseCameraHolder.StartPreview();
     }
 
