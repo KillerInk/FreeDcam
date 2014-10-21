@@ -145,16 +145,10 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 break;
             }
         }
-        if (foundmatchingPreview == false)
-        {
+        if (foundmatchingPreview == false) {
             Log.d(TAG, "Found no matching preview size, raw capture will fail");
             String msg = "Found no matching preview size, raw capture will fail";
             ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-            String[] split = previewSizes[previewSizes.length].split("x");
-            int pw = Integer.parseInt(split[0]);
-            int ph = Integer.parseInt(split[1]);
-            ParametersHandler.PreviewSize.SetValue(previewSizes[previewSizes.length]);
-            setPreviewToDisplay(pw, ph);
         }
         //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
 
