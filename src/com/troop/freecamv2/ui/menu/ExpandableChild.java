@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
+import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
@@ -31,6 +32,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     TextView valueTextView;
     private String settingsname;
     ArrayList<String> modulesToShow;
+    CameraUiWrapper cameraUiWrapper;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -96,11 +98,12 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow)
+    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper)
     {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
+        this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingsname.equals(AppSettingsManager.SETTING_PICTUREFORMAT) && DeviceUtils.isRawSupported())
@@ -115,6 +118,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
                 }
                 if (DeviceUtils.isHTCADV())
                 {
+                    cameraUiWrapper.camParametersHandler.ZSL.SetValue("off");
                     parameterHolder.SetValue(StringUtils.BayerMipiGRBG());
                 }
             }
