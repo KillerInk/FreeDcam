@@ -91,7 +91,8 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     }
 
 
-    public void StopPreviewAndCamera() {
+    public void StopPreviewAndCamera()
+    {
         cameraHolder.StopPreview();
         cameraHolder.CloseCamera();
     }
@@ -137,13 +138,5 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         {
             ex.printStackTrace();
         }
-        try {
-            StartPreviewAndCamera();
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
     }
 }
