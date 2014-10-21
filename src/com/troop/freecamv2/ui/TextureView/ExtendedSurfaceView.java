@@ -123,9 +123,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-        ParametersHandler.PreviewSize.SetValue(w + "x" + h);
-        setPreviewToDisplay(w, h);
-        /*double pictureRatio = getRatio(w,h);
+        double pictureRatio = getRatio(w,h);
         Log.d(TAG, "New Picture size is set: Width: " + w + "Height : " + h + "Ratio:" + pictureRatio);
         String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
         boolean foundmatchingPreview = false;
@@ -137,6 +135,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             double previewRatio = getRatio(pw,ph);
             if (previewRatio == pictureRatio)
             {
+
                 Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
                 ParametersHandler.PreviewSize.SetValue(previewSizes[i]);
                 setPreviewToDisplay(pw, ph);
@@ -151,8 +150,15 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             Log.d(TAG, "Found no matching preview size, raw capture will fail");
             String msg = "Found no matching preview size, raw capture will fail";
             ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-        }*/
+            String[] split = previewSizes[previewSizes.length -1].split("x");
+            int pw = Integer.parseInt(split[0]);
+            int ph = Integer.parseInt(split[1]);
+            ParametersHandler.PreviewSize.SetValue(previewSizes[previewSizes.length-1]);
+            setPreviewToDisplay(pw, ph);
+        }
         //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
+
+
     }
 
     @Override

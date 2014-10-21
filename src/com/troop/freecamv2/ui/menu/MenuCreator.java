@@ -42,7 +42,7 @@ public class MenuCreator
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
         PreviewExpandableChild picSize = new PreviewExpandableChild(context, surfaceView);
         picSize.setName(context.getString(R.string.picture_size));
-        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
         picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(picSize);
 
