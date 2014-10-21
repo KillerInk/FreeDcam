@@ -50,6 +50,8 @@ import java.util.List;
  */
 public class CamParametersHandler implements I_ParameterChanged
 {
+
+    String TAG = "freecam.CameraParametersHandler";
     public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
 
@@ -121,17 +123,17 @@ public class CamParametersHandler implements I_ParameterChanged
         initParameters();
     }
 
-    private void logParameters()
+    private void logParameters(Camera.Parameters parameters)
     {
-        String[] paras =  cameraParameters.flatten().split(";");
+        String[] paras =  parameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
-            Log.d("freecam.CameraParametersHandler", paras[i]);
-        Log.d("freecam.CameraParametersHandler", Build.MODEL) ;
+            Log.d(TAG, paras[i]);
+        Log.d(TAG, Build.MODEL) ;
     }
 
     private void initParameters()
     {
-        logParameters();
+        logParameters(cameraParameters);
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
         ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
@@ -168,9 +170,6 @@ public class CamParametersHandler implements I_ParameterChanged
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "");
 
-
-
-
         ParametersEventHandler.ParametersHasLoaded();
     }
 
@@ -204,6 +203,7 @@ public class CamParametersHandler implements I_ParameterChanged
                 e.printStackTrace();
             }
             isRunning = false;
+            //logParameters(cameraHolder.GetCamera().getParameters());
             if (moreParametersToSet)
             {
                 moreParametersToSet = false;
