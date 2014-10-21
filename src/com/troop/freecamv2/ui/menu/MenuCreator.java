@@ -163,7 +163,7 @@ public class MenuCreator
         }
         if (cameraUiWrapper.camParametersHandler.ZSL.IsSupported())
         {
-            ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(zsl);
         }
         if (cameraUiWrapper.camParametersHandler.SceneDetect.IsSupported())
