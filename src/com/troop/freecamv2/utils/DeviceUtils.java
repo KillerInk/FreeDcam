@@ -98,7 +98,7 @@ public class DeviceUtils
 
     public static boolean isRawSupported()
     {
-        return isLGADV() || isHTCADV() || isZTEADV() || isMediaTekTHL5000();
+        return isLGADV() /*|| isHTCADV()*/ || isZTEADV() || isMediaTekTHL5000();
     }
 
 }

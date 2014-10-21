@@ -23,4 +23,9 @@ public class StringUtils
     {
         return "bayer-mipi-10grbg";
     }
+
+    public static String BayerQcomGRBG()
+    {
+        return "bayer-qcom-10grbg";
+    }
 }

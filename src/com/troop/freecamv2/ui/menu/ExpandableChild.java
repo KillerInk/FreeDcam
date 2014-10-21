@@ -78,10 +78,10 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
                 {
                     parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), true);
                 }
-                if (DeviceUtils.isHTCADV())
+                /*if (DeviceUtils.isHTCADV())
                 {
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), true);
-                }
+                    parameterHolder.SetValue(StringUtils.BayerQcomGRBG(), true);
+                }*/
             }
             else
                 parameterHolder.SetValue(value, true);
