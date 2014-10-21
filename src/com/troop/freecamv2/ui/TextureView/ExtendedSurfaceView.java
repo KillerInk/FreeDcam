@@ -21,7 +21,6 @@ import com.lge.real3d.Real3DInfo;
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
-import com.troop.freecamv2.ui.AppSettingsManager;
 
 import java.lang.ref.SoftReference;
 
@@ -159,18 +158,11 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void ParametersLoaded()
     {
-        try {
-            String previewsize = appSettingsManager.getString(AppSettingsManager.SETTING_PREVIEWSIZE);
-            String[] split = previewsize.split("x");
-            int w = Integer.parseInt(split[0]);
-            int h = Integer.parseInt(split[1]);
-            OnPreviewSizeChanged(w, h);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
+        String previewsize = appSettingsManager.getString(com.troop.freecamv2.ui.AppSettingsManager.SETTING_PICTURESIZE);
+        String[] split = previewsize.split("x");
+        int w = Integer.parseInt(split[0]);
+        int h = Integer.parseInt(split[1]);
+        OnPreviewSizeChanged(w, h);
     }
 
     private double getRatio(int w, int h)
