@@ -118,7 +118,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
                 }
                 if (DeviceUtils.isHTCADV())
                 {
-                    cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
+                    //cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
                     parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), false);
                 }
             }
