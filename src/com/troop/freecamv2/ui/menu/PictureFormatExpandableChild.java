@@ -2,10 +2,13 @@ package com.troop.freecamv2.ui.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.DeviceUtils;
+import com.troop.freecamv2.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -27,7 +30,25 @@ public class PictureFormatExpandableChild extends ExpandableChild {
 
     @Override
     public void setValue(String value) {
-        super.setValue(value);
+        if (DeviceUtils.isRawSupported())
+        {
+            if (value.equals("raw") || value.equals("dng"))
+            {
+                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), true);
+                }
+                if (DeviceUtils.isHTCADV() && !parameterHolder.GetValue().equals(StringUtils.BayerMipiGRBG()))
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), true);
+                }
+            }
+            else
+                parameterHolder.SetValue(value, true);
+            valueTextView.setText(value);
+            appSettingsManager.setString(settingsname, value);
+            Log.d(getTAG(), "Set " + Name + ":" + value);
+        }
     }
 
     @Override
@@ -42,6 +63,39 @@ public class PictureFormatExpandableChild extends ExpandableChild {
 
     @Override
     public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper) {
-        super.setParameterHolder(parameterHolder, appSettingsManager, settingsname, modulesToShow, cameraUiWrapper);
+        this.parameterHolder = parameterHolder;
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
+        this.cameraUiWrapper = cameraUiWrapper;
+        String campara = parameterHolder.GetValue();
+        String settingValue = appSettingsManager.getString(settingsname);
+        if (DeviceUtils.isRawSupported())
+        {
+            if (settingValue == "")
+                appSettingsManager.setString(settingsname, "jpeg");
+            if (settingValue.equals("raw") || settingValue.equals("dng"))
+            {
+                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+                {
+                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), false);
+                }
+                if (DeviceUtils.isHTCADV())
+                {
+                    //cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
+                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), false);
+                }
+                if (DeviceUtils.isMediaTekTHL5000())
+                {
+                    cameraUiWrapper.camParametersHandler.setTHL5000Raw();
+                }
+                //parameterHolder.SetValue("isp-mode");
+            }
+            else
+                parameterHolder.SetValue(settingValue, false);
+            nameTextView.setText(Name);
+            valueTextView.setText(appSettingsManager.getString(settingsname));
+            appSettingsManager.setString(settingsname, settingValue);
+            AddModulesToShow(modulesToShow);
+        }
     }
 }

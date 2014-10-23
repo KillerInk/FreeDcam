@@ -46,10 +46,13 @@ public class MenuCreator
         picSize.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules ,cameraUiWrapper);
         piclist.add(picSize);
 
-        ExpandableChild picformat = getNewChild(cameraUiWrapper.camParametersHandler.PictureFormat,
+        PictureFormatExpandableChild picformat = new PictureFormatExpandableChild(context);
+        picformat.setName(context.getString(R.string.picture_format));
+        picformat.setParameterHolder(cameraUiWrapper.camParametersHandler.PictureFormat, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT, cameraUiWrapper.moduleHandler.PictureModules, cameraUiWrapper);
+         /*getNewChild(cameraUiWrapper.camParametersHandler.PictureFormat,
                 AppSettingsManager.SETTING_PICTUREFORMAT,
                 context.getString(R.string.picture_format),
-                cameraUiWrapper.moduleHandler.PictureModules);
+                cameraUiWrapper.moduleHandler.PictureModules);*/
 
 
         piclist.add(picformat);

@@ -24,13 +24,13 @@ import java.util.ArrayList;
  */
 public class ExpandableChild extends LinearLayout implements I_ModuleEvent
 {
-    private String Name;
-    private I_ModeParameter parameterHolder;
-    private AppSettingsManager appSettingsManager;
+    protected String Name;
+    protected I_ModeParameter parameterHolder;
+    protected AppSettingsManager appSettingsManager;
     Context context;
     TextView nameTextView;
     TextView valueTextView;
-    private String settingsname;
+    protected String settingsname;
     ArrayList<String> modulesToShow;
     CameraUiWrapper cameraUiWrapper;
 
@@ -70,31 +70,10 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
     public void setValue(String value)
     {
-        if (settingsname.equals(AppSettingsManager.SETTING_PICTUREFORMAT) && DeviceUtils.isRawSupported())
-        {
-            if (value.equals("raw") || value.equals("dng"))
-            {
-                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), true);
-                }
-                /*if (DeviceUtils.isHTCADV())
-                {
-                    parameterHolder.SetValue(StringUtils.BayerQcomGRBG(), true);
-                }*/
-            }
-            else
-                parameterHolder.SetValue(value, true);
-            valueTextView.setText(value);
-            appSettingsManager.setString(settingsname, value);
-            Log.d(getTAG(), "Set " + Name + ":" + value);
-        }
-        else {
-            valueTextView.setText(value);
-            parameterHolder.SetValue(value, true);
-            appSettingsManager.setString(settingsname, value);
-            Log.d(getTAG(), "Set " + Name + ":" + value);
-        }
+        valueTextView.setText(value);
+        parameterHolder.SetValue(value, true);
+        appSettingsManager.setString(settingsname, value);
+        Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
@@ -106,42 +85,17 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (settingsname.equals(AppSettingsManager.SETTING_PICTUREFORMAT) && DeviceUtils.isRawSupported())
-        {
-            if (settingValue == "")
-                appSettingsManager.setString(settingsname, "jpeg");
-            if (settingValue.equals("raw") || settingValue.equals("dng"))
-            {
-                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), false);
-                }
-                if (DeviceUtils.isHTCADV())
-                {
-                    //cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), false);
-                }
-            }
-            else
-                parameterHolder.SetValue(settingValue, false);
-            nameTextView.setText(Name);
-            valueTextView.setText(appSettingsManager.getString(settingsname));
-            appSettingsManager.setString(settingsname, settingValue);
-            AddModulesToShow(modulesToShow);
-        }
-        else {
-            if (settingValue.equals("")) {
+        if (settingValue.equals("")) {
 
-                Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
-            }
-            if (!settingValue.equals(campara) && !settingValue.equals("")) {
-                parameterHolder.SetValue(settingValue, false);
-                Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
-            }
-            nameTextView.setText(Name);
-            valueTextView.setText(parameterHolder.GetValue());
-            AddModulesToShow(modulesToShow);
+            Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
         }
+        if (!settingValue.equals(campara) && !settingValue.equals("")) {
+            parameterHolder.SetValue(settingValue, false);
+            Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
+        }
+        nameTextView.setText(Name);
+        valueTextView.setText(parameterHolder.GetValue());
+        AddModulesToShow(modulesToShow);
     }
 
     public void AddModulesToShow(ArrayList<String> modulesToShow)
@@ -159,7 +113,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         return null;
     }
 
-    private String getTAG()
+    protected String getTAG()
     {
         return "freecam." + Name;
     }
