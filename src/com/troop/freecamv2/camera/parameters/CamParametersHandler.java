@@ -255,4 +255,19 @@ public class CamParametersHandler implements I_ParameterChanged
     {
         return cameraParameters.get("raw-size");
     }
+
+    public void setTHL5000Raw(boolean raw)
+    {
+        if (!raw) {
+            cameraParameters.set("rawsave-mode", 1);
+            cameraParameters.set("isp-mode", 0);
+
+        }
+        else
+        {
+            cameraParameters.set("rawsave-mode", 2);
+            cameraParameters.set("isp-mode", 3);
+        }
+        cameraHolder.SetCameraParameters(cameraParameters);
+    }
 }

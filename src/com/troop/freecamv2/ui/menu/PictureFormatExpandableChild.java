@@ -42,9 +42,21 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                 {
                     parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), true);
                 }
+                if (DeviceUtils.isMediaTekTHL5000())
+                {
+                    //set raw
+                    cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
+                }
             }
             else
+            {
                 parameterHolder.SetValue(value, true);
+                if (DeviceUtils.isMediaTekTHL5000())
+                {
+                   //set jpeg
+                    cameraUiWrapper.camParametersHandler.setTHL5000Raw(false);
+                }
+            }
             valueTextView.setText(value);
             appSettingsManager.setString(settingsname, value);
             Log.d(getTAG(), "Set " + Name + ":" + value);
@@ -86,9 +98,8 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                 }
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
-                    cameraUiWrapper.camParametersHandler.setTHL5000Raw();
+                    cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
                 }
-                //parameterHolder.SetValue("isp-mode");
             }
             else
                 parameterHolder.SetValue(settingValue, false);
