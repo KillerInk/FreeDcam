@@ -33,6 +33,17 @@ public class IsoModeParameter extends BaseModeParameter
                 }
             } catch (Exception ex) {}
         }
+        if(!isSupported)
+        {
+            try {
+                String isomodes = parameters.get("iso-speed-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso-speed";
+                    this.values = "iso-speed-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 
 }
