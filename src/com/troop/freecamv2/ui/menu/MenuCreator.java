@@ -61,6 +61,11 @@ public class MenuCreator
                 AppSettingsManager.SETTING_JPEGQUALITY, context.getString(R.string.jpeg_quality), cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(jpegquality);
 
+        if (cameraUiWrapper.camParametersHandler.AE_Bracket.IsSupported()) {
+            ExpandableChild ae_bracket = getNewChild(cameraUiWrapper.camParametersHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);
+            piclist.add(ae_bracket);
+        }
+
         if (cameraUiWrapper.camParametersHandler.RedEye.IsSupported())
         {
             ExpandableChild redeye = getNewChild(cameraUiWrapper.camParametersHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, context.getString(R.string.picture_redeyereduction), cameraUiWrapper.moduleHandler.PictureModules);

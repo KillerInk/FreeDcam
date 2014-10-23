@@ -15,6 +15,7 @@ import com.troop.freecamv2.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ZoomManualParameter;
+import com.troop.freecamv2.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.BaseModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
@@ -91,6 +92,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public SkinToneParameter SkinToneEnhancment;
     public NightModeParameter NightMode;
     public NonZslManualModeParameter NonZslManualMode;
+    public AE_Bracket_HdrModeParameter AE_Bracket;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -152,6 +154,7 @@ public class CamParametersHandler implements I_ParameterChanged
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values");
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
+        AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
