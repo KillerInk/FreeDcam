@@ -20,6 +20,7 @@
     <string name="picture_size">Picture Size</string>
     <string name="picture_format">Picture Format</string>
     <string name="picture_redeyereduction">RedEye Reduction</string>
+    <string name="picture_aebracket">AE Bracket HDR</string>
     <string name="quality_lensshade">Lens Shade</string>
     <string name="quality_zsl">ZeroShutterLag</string>
     <string name="quality_scenedetect">Scene Detect</string>
