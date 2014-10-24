@@ -28,7 +28,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
+        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV() || DeviceUtils.isHTCADV())
             return true;
         else
             return false;
