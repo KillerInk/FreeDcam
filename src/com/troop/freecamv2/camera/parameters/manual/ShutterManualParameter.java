@@ -19,7 +19,7 @@ public class ShutterManualParameter extends BaseManualParameter
         super(parameters, value, maxValue, MinValue);
 
 
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTCADV() || DeviceUtils.isLGADV())
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
@@ -34,7 +34,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMaxValue() {
-        return shutterValues.length;
+        return shutterValues.length-1;
     }
 
     @Override
@@ -50,9 +50,10 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTCADV() || DeviceUtils.isLGADV())
         {
-            String shutterstring = shutterValues[valueToSet];
+            current = valueToSet;
+            String shutterstring = shutterValues[current];
             if (shutterstring.contains("/"))
             {
                 String split[] = shutterstring.split("/");

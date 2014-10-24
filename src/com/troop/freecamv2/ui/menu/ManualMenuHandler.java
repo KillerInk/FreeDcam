@@ -111,6 +111,11 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             currentItem.manualParameter.SetValue(value + realMin);
             cameraUiWrapper.camParametersHandler.SetParametersToCamera();
+
+        }
+        else {
+            currentItem.manualParameter.SetValue(value);
+            cameraUiWrapper.camParametersHandler.SetParametersToCamera();
             if (currentItem.name.equals(activity.getString(R.string.manualmenu_shutter)))
             {
                 ShutterManualParameter shutterManualParameter = (ShutterManualParameter)currentItem.manualParameter;
@@ -118,11 +123,6 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             }
             else
                 setTextValue(value + realMin);
-        }
-        else {
-            currentItem.manualParameter.SetValue(value);
-            cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-            setTextValue(value);
         }
 
     }
