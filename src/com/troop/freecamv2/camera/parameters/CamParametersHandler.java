@@ -7,10 +7,13 @@ import android.util.Log;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.parameters.manual.BrightnessManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.CCTManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ContrastManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ConvergenceManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ExposureManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.FXManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.FocusManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.ISOManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
@@ -65,6 +68,9 @@ public class CamParametersHandler implements I_ParameterChanged
     public ConvergenceManualParameter ManualConvergence;
     public FocusManualParameter ManualFocus;
     public ShutterManualParameter ManualShutter;
+    public CCTManualParameter CCT;
+    public FXManualParameter FX;
+    public ISOManualParameter ISOManual;
 
     public ColorModeParameter ColorMode;
     public ExposureModeParameter ExposureMode;
@@ -144,6 +150,11 @@ public class CamParametersHandler implements I_ParameterChanged
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
+        CCT = new CCTManualParameter(cameraParameters,"","","");
+        FX = new FXManualParameter(cameraParameters,"","","");
+        ISOManual = new ISOManualParameter(cameraParameters,"","","");
+
+
 
         ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");

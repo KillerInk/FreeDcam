@@ -50,12 +50,14 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         return 0;
     }
-
+// HTC Focus Step "focus-step"
     @Override
     public int GetMinValue() {
+    	if (DeviceUtils.isHTCADV())
+            return Integer.parseInt(parameters.get("min-focus"));
         return 0;
     }
-
+//m8 Step Value
     @Override
     public int GetValue()
     {
@@ -66,7 +68,7 @@ public class FocusManualParameter extends  BaseManualParameter
             if (DeviceUtils.isZTEADV());
                 i = parameters.getInt("maf_key");
             if (DeviceUtils.isHTCADV())
-                i = parameters.getInt("focus-pos-index");
+                i = parameters.getInt("current-focus-step");
         }
         catch (Exception ex)
         {
@@ -102,8 +104,15 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (DeviceUtils.isHTCADV())
         {
-            parameters.set("focus-pos-index", valueToSet);
+            parameters.set("focus", valueToSet);
         }
 
     }
+    /* HTC M8 value -1 disable mf
+     *  May have to use this key "non-zsl-manual-mode" set to true
+     * 
+     * 
+     * 
+     * 
+     */
 }
