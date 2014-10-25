@@ -52,10 +52,11 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(false);
                 }
             }
-            valueTextView.setText(value);
-            appSettingsManager.setString(settingsname, value);
-            Log.d(getTAG(), "Set " + Name + ":" + value);
+
         }
+        valueTextView.setText(value);
+        appSettingsManager.setString(settingsname, value);
+        Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
     @Override
@@ -90,10 +91,11 @@ public class PictureFormatExpandableChild extends ExpandableChild {
             }
             else
                 parameterHolder.SetValue(settingValue, false);
-            nameTextView.setText(Name);
-            valueTextView.setText(appSettingsManager.getString(settingsname));
-            appSettingsManager.setString(settingsname, settingValue);
-            AddModulesToShow(modulesToShow);
+
         }
+        nameTextView.setText(Name);
+        valueTextView.setText(appSettingsManager.getString(settingsname));
+        appSettingsManager.setString(settingsname, settingValue);
+        AddModulesToShow(modulesToShow);
     }
 }
