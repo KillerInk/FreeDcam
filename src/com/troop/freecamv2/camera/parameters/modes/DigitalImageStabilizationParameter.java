@@ -23,10 +23,14 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (baseCameraHolder.IsPreviewRunning())
+        if (setToCam)
+        {
             baseCameraHolder.StopPreview();
-        super.SetValue(valueToSet, setToCam);
-        if (!baseCameraHolder.IsPreviewRunning())
+            super.SetValue(valueToSet, setToCam);
             baseCameraHolder.StartPreview();
+        }
+        else
+            super.SetValue(valueToSet, setToCam);
+
     }
 }

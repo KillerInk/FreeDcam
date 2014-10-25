@@ -163,7 +163,7 @@ public class CamParametersHandler implements I_ParameterChanged
         ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
         FlashMode = new FlashModeParameter(cameraParameters,this,"","");
-        IsoMode = new IsoModeParameter(cameraParameters,this,"","");
+        IsoMode = new IsoModeParameter(cameraParameters,this,"","", cameraHolder);
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
@@ -179,14 +179,14 @@ public class CamParametersHandler implements I_ParameterChanged
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
-        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
+        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values", cameraHolder);
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
-        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
+        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
-        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "");
+        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         String rawFormats[] = PictureFormat.GetValues();
         for (String s : rawFormats)
         {
