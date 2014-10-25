@@ -3,6 +3,7 @@ package com.troop.freecamv2.camera.parameters.manual;
 import android.hardware.Camera;
 import android.util.Log;
 
+import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.utils.DeviceUtils;
 
 /**
@@ -24,8 +25,26 @@ public class ShutterManualParameter extends BaseManualParameter
 
     String shutterValues[];
     int current = 0;
+    BaseCameraHolder baseCameraHolder;
 
-    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
+    /*public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
+        super(parameters, value, maxValue, MinValue);
+
+
+        if (DeviceUtils.isHTCADV())
+        {
+            this.isSupported = true;
+            shutterValues = HTCShutterValues.split(",");
+        }
+        if (DeviceUtils.isZTEADV())
+        {
+            this.isSupported = true;
+            shutterValues = Z5SShutterValues.split(",");
+        }
+        //TODO add missing logic
+    }*/
+
+    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder baseCameraHolder) {
         super(parameters, value, maxValue, MinValue);
 
 
@@ -93,12 +112,11 @@ public class ShutterManualParameter extends BaseManualParameter
                 shutterstring = ""+a;
             }
             Log.e("AE", "ae-af");
-            parameters.set("zsl", "off");
-            parameters.set("auto-exposure", "center-weighted");
+
            // parameters.set("night_exposure_mode", 0);
             parameters.set("slow_shutter", shutterstring);
             Log.e("exposure", shutterstring);
-            parameters.set("slow_shutter_addition", 0);
+
        
     }
 /* HTC M8 Value -1 = off
@@ -115,5 +133,18 @@ public class ShutterManualParameter extends BaseManualParameter
     public String GetStringValue()
     {
         return shutterValues[current];
+    }
+
+    @Override
+    public void RestartPreview()
+    {
+        baseCameraHolder.StopPreview();
+        if (DeviceUtils.isHTCADV()||DeviceUtils.isZTEADV()) {
+            parameters.set("zsl", "off");
+            parameters.set("auto-exposure", "center-weighted");
+        }
+        if (DeviceUtils.isZTEADV())
+            parameters.set("slow_shutter_addition", 0);
+        baseCameraHolder.StartPreview();
     }
 }

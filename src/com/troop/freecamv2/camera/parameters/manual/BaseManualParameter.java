@@ -68,4 +68,9 @@ public abstract class BaseManualParameter implements I_ManualParameter
         }
         return isSupported;
     }
+
+    @Override
+    public void RestartPreview() {
+
+    }
 }

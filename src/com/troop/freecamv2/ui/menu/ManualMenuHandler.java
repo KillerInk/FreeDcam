@@ -69,6 +69,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             else
             {
                 currentItem = item;
+                currentItem.manualParameter.RestartPreview();
                 int min = item.manualParameter.GetMinValue();
                 int max = item.manualParameter.GetMaxValue();
                 setSeekbar_Min_Max(min, max);

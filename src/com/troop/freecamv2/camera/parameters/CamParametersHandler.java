@@ -149,7 +149,7 @@ public class CamParametersHandler implements I_ParameterChanged
         ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder);
         CCT = new CCTManualParameter(cameraParameters,"","","");
         FX = new FXManualParameter(cameraParameters,"","","");
         ISOManual = new ISOManualParameter(cameraParameters,"","","");

@@ -14,4 +14,5 @@ public interface I_ManualParameter
     public int GetValue();
 
     public void SetValue(int valueToSet);
+    public void RestartPreview();
 }
