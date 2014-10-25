@@ -145,6 +145,7 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter_addition", 0);
+        baseCameraHolder.SetCameraParameters(parameters);
         baseCameraHolder.StartPreview();
     }
 }
