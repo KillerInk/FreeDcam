@@ -189,7 +189,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-        if (DeviceUtils.isRawSupported())
+        if (baseCameraHolder.ParameterHandler.dngSupported)
         {
             if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
                 return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());

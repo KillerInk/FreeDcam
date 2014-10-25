@@ -78,7 +78,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         String[] values = selectedChild.getParameterHolder().GetValues();
         if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
         {
-            if (DeviceUtils.isRawSupported())
+            if (cameraUiWrapper.camParametersHandler.dngSupported)
                 values = new String[]{"jpeg", "raw", "dng"};
         }
 

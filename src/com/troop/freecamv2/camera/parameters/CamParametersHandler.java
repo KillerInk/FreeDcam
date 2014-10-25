@@ -59,6 +59,10 @@ public class CamParametersHandler implements I_ParameterChanged
     public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
 
+    public boolean rawSupported;
+    public boolean dngSupported;
+    public String BayerMipiFormat;
+
 
     public BrightnessManualParameter ManualBrightness;
     public SharpnessManualParameter ManualSharpness;
@@ -183,6 +187,16 @@ public class CamParametersHandler implements I_ParameterChanged
         SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "");
+        String rawFormats[] = PictureFormat.GetValues();
+        for (String s : rawFormats)
+        {
+            if (s.contains("bayer"))
+                rawSupported = true;
+            if (s.contains("bayer-mipi")) {
+                dngSupported = true;
+                BayerMipiFormat = s;
+            }
+        }
 
         ParametersEventHandler.ParametersHasLoaded();
     }

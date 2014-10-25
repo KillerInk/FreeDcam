@@ -30,18 +30,13 @@ public class PictureFormatExpandableChild extends ExpandableChild {
 
     @Override
     public void setValue(String value) {
-        if (DeviceUtils.isRawSupported())
+        if (cameraUiWrapper.camParametersHandler.dngSupported)
         {
             if (value.equals("raw") || value.equals("dng"))
             {
-                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), true);
-                }
-                if (DeviceUtils.isHTCADV() && !parameterHolder.GetValue().equals(StringUtils.BayerMipiGRBG()))
-                {
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), true);
-                }
+                if (!DeviceUtils.isMediaTekTHL5000())
+                    parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, true);
+
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
                     //set raw
@@ -81,21 +76,13 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (DeviceUtils.isRawSupported())
+        if (cameraUiWrapper.camParametersHandler.dngSupported)
         {
             if (settingValue == "")
                 appSettingsManager.setString(settingsname, "jpeg");
             if (settingValue.equals("raw") || settingValue.equals("dng"))
             {
-                if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
-                {
-                    parameterHolder.SetValue(StringUtils.BayerMipiBGGR(), false);
-                }
-                if (DeviceUtils.isHTCADV())
-                {
-                    //cameraUiWrapper.camParametersHandler.ZSL.SetValue("off", false);
-                    parameterHolder.SetValue(StringUtils.BayerMipiGRBG(), false);
-                }
+                parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
