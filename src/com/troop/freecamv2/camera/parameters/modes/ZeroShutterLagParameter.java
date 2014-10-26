@@ -25,9 +25,9 @@ public class ZeroShutterLagParameter extends BaseModeParameter
     {
         if (setToCam)
         {
-            baseCameraHolder.StopPreview();
+            //baseCameraHolder.StopPreview();
             super.SetValue(valueToSet, setToCam);
-            baseCameraHolder.StartPreview();
+            //baseCameraHolder.StartPreview();
         }
         else
             super.SetValue(valueToSet, setToCam);
