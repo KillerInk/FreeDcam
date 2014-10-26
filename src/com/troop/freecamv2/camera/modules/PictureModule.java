@@ -31,6 +31,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String jpsFormat = "jps";
 
     public String OverRidePath = "";
+    int hdrCount = 0;
+    boolean hdr = false;
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
@@ -61,6 +63,16 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     {
         isWorking = true;
         Log.d(TAG, "Start Taking Picture");
+        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
+        {
+            if (!baseCameraHolder.ParameterHandler.AE_Bracket.GetValue().equals("Off"))
+            {
+                hdrCount = 0;
+                hdr =true;
+            }
+            else
+                hdr = false;
+        }
 
         try
         {
@@ -118,7 +130,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         isWorking = false;
         if (!DeviceUtils.isHTCADV())
             baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
-        baseCameraHolder.StartPreview();
+        /*if (hdr && hdrCount == 2)
+            baseCameraHolder.StartPreview();
+        else*/
+            baseCameraHolder.StartPreview();
     }
 
 
@@ -191,6 +206,11 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+        if (hdr)
+        {
+            s1 += "HDR" + hdrCount;
+            hdrCount++;
+        }
         if (baseCameraHolder.ParameterHandler.dngSupported)
         {
             if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
