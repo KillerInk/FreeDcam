@@ -271,12 +271,7 @@ public class CamParametersHandler implements I_ParameterChanged
             cameraParameters.setAutoExposureLock(value);
         if (cameraParameters.isAutoWhiteBalanceLockSupported())
             cameraParameters.setAutoWhiteBalanceLock(value);
-        cameraHolder.SetCameraParameters(cameraParameters);
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        SetParametersToCamera();
     }
 
     public String GetRawSize()

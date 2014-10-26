@@ -114,7 +114,7 @@ public class BaseCameraHolder implements I_CameraHolder
     {
         try{
 
-                    mCamera.setParameters(parameters);
+            mCamera.setParameters(parameters);
 
 
             return true;

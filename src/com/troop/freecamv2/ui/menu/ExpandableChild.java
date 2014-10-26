@@ -86,7 +86,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue.equals("")) {
-
+            appSettingsManager.setString(settingsname, campara);
             Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
         }
         if (!settingValue.equals(campara) && !settingValue.equals("")) {
