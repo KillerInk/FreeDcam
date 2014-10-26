@@ -10,6 +10,7 @@ import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.parameters.CamParametersHandler;
 import com.troop.freecamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freecamv2.camera.parameters.manual.BaseManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
 import com.troop.freecamv2.ui.MainActivity_v2;
 
@@ -68,6 +69,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             else
             {
                 currentItem = item;
+                currentItem.manualParameter.RestartPreview();
                 int min = item.manualParameter.GetMinValue();
                 int max = item.manualParameter.GetMaxValue();
                 setSeekbar_Min_Max(min, max);
@@ -110,17 +112,27 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             currentItem.manualParameter.SetValue(value + realMin);
             cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-            setTextValue(value + realMin);
+
         }
         else {
             currentItem.manualParameter.SetValue(value);
             cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-            setTextValue(value);
+            if (currentItem.name.equals(activity.getString(R.string.manualmenu_shutter)))
+            {
+                ShutterManualParameter shutterManualParameter = (ShutterManualParameter)currentItem.manualParameter;
+                setTextValue(shutterManualParameter.GetStringValue());
+            }
+            else
+                setTextValue(value + realMin);
         }
 
     }
 
     private void setTextValue(int value)
+    {
+        seekbarText.setText(currentItem.name + ": " + value);
+    }
+    private void setTextValue(String value)
     {
         seekbarText.setText(currentItem.name + ": " + value);
     }

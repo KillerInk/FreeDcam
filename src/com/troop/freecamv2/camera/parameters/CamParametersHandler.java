@@ -1,20 +1,26 @@
 package com.troop.freecamv2.camera.parameters;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.parameters.manual.BrightnessManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.CCTManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ContrastManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ConvergenceManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ExposureManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.FXManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.FocusManualParameter;
+import com.troop.freecamv2.camera.parameters.manual.ISOManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freecamv2.camera.parameters.manual.ZoomManualParameter;
+import com.troop.freecamv2.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.AntiBandingModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.BaseModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.ColorModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.DenoiseParameter;
 import com.troop.freecamv2.camera.parameters.modes.DigitalImageStabilizationParameter;
@@ -27,6 +33,7 @@ import com.troop.freecamv2.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freecamv2.camera.parameters.modes.LensshadeParameter;
 import com.troop.freecamv2.camera.parameters.modes.MemoryColorEnhancementParameter;
 import com.troop.freecamv2.camera.parameters.modes.NightModeParameter;
+import com.troop.freecamv2.camera.parameters.modes.NonZslManualModeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freecamv2.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freecamv2.camera.parameters.modes.PreviewFormatParameter;
@@ -47,8 +54,14 @@ import java.util.List;
  */
 public class CamParametersHandler implements I_ParameterChanged
 {
+
+    String TAG = "freecam.CameraParametersHandler";
     public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
+
+    public boolean rawSupported;
+    public boolean dngSupported;
+    public String BayerMipiFormat;
 
 
     public BrightnessManualParameter ManualBrightness;
@@ -59,6 +72,9 @@ public class CamParametersHandler implements I_ParameterChanged
     public ConvergenceManualParameter ManualConvergence;
     public FocusManualParameter ManualFocus;
     public ShutterManualParameter ManualShutter;
+    public CCTManualParameter CCT;
+    public FXManualParameter FX;
+    public ISOManualParameter ISOManual;
 
     public ColorModeParameter ColorMode;
     public ExposureModeParameter ExposureMode;
@@ -85,6 +101,8 @@ public class CamParametersHandler implements I_ParameterChanged
     public MemoryColorEnhancementParameter MemoryColorEnhancement;
     public SkinToneParameter SkinToneEnhancment;
     public NightModeParameter NightMode;
+    public NonZslManualModeParameter NonZslManualMode;
+    public AE_Bracket_HdrModeParameter AE_Bracket;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -117,16 +135,17 @@ public class CamParametersHandler implements I_ParameterChanged
         initParameters();
     }
 
-    private void logParameters()
+    private void logParameters(Camera.Parameters parameters)
     {
-        String[] paras =  cameraParameters.flatten().split(";");
+        String[] paras =  parameters.flatten().split(";");
         for(int i = 0; i < paras.length; i++)
-            Log.d("freecam.CameraParametersHandler", paras[i]);
+            Log.d(TAG, paras[i]);
+        Log.d(TAG, Build.MODEL) ;
     }
 
     private void initParameters()
     {
-        logParameters();
+        logParameters(cameraParameters);
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
         ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
@@ -134,17 +153,23 @@ public class CamParametersHandler implements I_ParameterChanged
         ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","");
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder);
+        CCT = new CCTManualParameter(cameraParameters,"","","");
+        FX = new FXManualParameter(cameraParameters,"","","");
+        ISOManual = new ISOManualParameter(cameraParameters,"","","");
+
+
 
         ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
         FlashMode = new FlashModeParameter(cameraParameters,this,"","");
-        IsoMode = new IsoModeParameter(cameraParameters,this,"","");
+        IsoMode = new IsoModeParameter(cameraParameters,this,"","", cameraHolder);
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
         PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values");
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
+        AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
@@ -154,16 +179,24 @@ public class CamParametersHandler implements I_ParameterChanged
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
-        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values");
+        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values", cameraHolder);
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
         MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
-        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values");
+        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
-
-
-
+        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
+        String rawFormats[] = PictureFormat.GetValues();
+        for (String s : rawFormats)
+        {
+            if (s.contains("bayer"))
+                rawSupported = true;
+            if (s.contains("bayer-mipi")) {
+                dngSupported = true;
+                BayerMipiFormat = s;
+            }
+        }
 
         ParametersEventHandler.ParametersHasLoaded();
     }
@@ -190,11 +223,6 @@ public class CamParametersHandler implements I_ParameterChanged
         public void run()
         {
             isRunning = true;
-            if (DeviceUtils.isHTCADV())
-            {
-                //cameraParameters.set("zsl", "off");
-                cameraParameters.set("non-zsl-manual-mode", "false");
-            }
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
@@ -203,6 +231,7 @@ public class CamParametersHandler implements I_ParameterChanged
                 e.printStackTrace();
             }
             isRunning = false;
+            //logParameters(cameraHolder.GetCamera().getParameters());
             if (moreParametersToSet)
             {
                 moreParametersToSet = false;
@@ -226,8 +255,14 @@ public class CamParametersHandler implements I_ParameterChanged
 
     public void SetPictureOrientation(int orientation)
     {
-        cameraParameters.setRotation(orientation);
-        cameraHolder.SetCameraParameters(cameraParameters);
+        try {
+            cameraParameters.setRotation(orientation);
+            cameraHolder.SetCameraParameters(cameraParameters);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public void LockExposureAndWhiteBalance(boolean value)
@@ -242,5 +277,27 @@ public class CamParametersHandler implements I_ParameterChanged
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public String GetRawSize()
+    {
+        return cameraParameters.get("raw-size");
+    }
+
+    public void setTHL5000Raw(boolean raw)
+    {
+        Log.d(TAG, "THL5000 try to set mode");
+        if (!raw) {
+            cameraParameters.set("rawsave-mode", 1);
+            cameraParameters.set("isp-mode", 0);
+            Log.d(TAG, "THL5000 set mode to jpeg");
+        }
+        else
+        {
+            cameraParameters.set("rawsave-mode", 2);
+            cameraParameters.set("isp-mode", 3);
+            Log.d(TAG, "THL5000 set mode to RAW");
+        }
+        cameraHolder.SetCameraParameters(cameraParameters);
     }
 }

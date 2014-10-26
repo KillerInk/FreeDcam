@@ -2,6 +2,7 @@ package com.troop.freecamv2.camera.parameters.modes;
 
 import android.hardware.Camera;
 
+import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 
 /**
@@ -9,9 +10,23 @@ import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
  */
 public class IsoModeParameter extends BaseModeParameter
 {
+    BaseCameraHolder baseCameraHolder;
+
     public IsoModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
         super(parameters, parameterChanged, value, values);
+        isIso();
+    }
+
+    public IsoModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder baseCameraHolder)
+    {
+        super(parameters, parameterChanged, value, values);
+        isIso();
+        this.baseCameraHolder = baseCameraHolder;
+    }
+
+    private void isIso()
+    {
         try
         {
             String isomodes = parameters.get("iso-mode-values");
@@ -33,20 +48,29 @@ public class IsoModeParameter extends BaseModeParameter
                 }
             } catch (Exception ex) {}
         }
+        if(!isSupported)
+        {
+            try {
+                String isomodes = parameters.get("iso-speed-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso-speed";
+                    this.values = "iso-speed-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 
     @Override
-    public void SetValue(String valueToSet) {
-        super.SetValue(valueToSet);
-    }
-
-    @Override
-    public String GetValue() {
-        return super.GetValue();
-    }
-
-    @Override
-    public String[] GetValues() {
-        return super.GetValues();
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        if (setToCam)
+        {
+            baseCameraHolder.StopPreview();
+            super.SetValue(valueToSet, setToCam);
+            baseCameraHolder.StartPreview();
+        }
+        else
+            super.SetValue(valueToSet, setToCam);
     }
 }

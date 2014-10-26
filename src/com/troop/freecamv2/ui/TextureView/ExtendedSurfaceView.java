@@ -137,7 +137,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             {
 
                 Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
-                ParametersHandler.PreviewSize.SetValue(previewSizes[i]);
+                ParametersHandler.PreviewSize.SetValue(previewSizes[i], true);
                 setPreviewToDisplay(pw, ph);
                 String msg = "PreviewSize:" + previewSizes[i] + " Ratio:"+ previewRatio + "\nPictureSize:"+w+"x"+h+" Ratio:" + pictureRatio;
                 ParametersHandler.cameraHolder.errorHandler.OnError(msg);
@@ -158,7 +158,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void ParametersLoaded()
     {
-        String previewsize = appSettingsManager.getString(com.troop.freecamv2.ui.AppSettingsManager.SETTING_PICTURESIZE);
+        String previewsize = ParametersHandler.PictureSize.GetValue();
         String[] split = previewsize.split("x");
         int w = Integer.parseInt(split[0]);
         int h = Integer.parseInt(split[1]);

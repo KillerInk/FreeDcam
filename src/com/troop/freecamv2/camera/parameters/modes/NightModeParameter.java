@@ -24,9 +24,9 @@ public class NightModeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet) {
+    public void SetValue(String valueToSet, boolean setToCam) {
         parameters.set("night_key", valueToSet);
-        if (throwParameterChanged != null && firststart == false)
+        if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
     }

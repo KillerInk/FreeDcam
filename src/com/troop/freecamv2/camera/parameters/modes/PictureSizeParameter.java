@@ -16,7 +16,7 @@ public class PictureSizeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet)
+    public void SetValue(String valueToSet, boolean setToCam)
     {
 
         String[] widthHeight = valueToSet.split("x");

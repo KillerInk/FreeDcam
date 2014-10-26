@@ -8,6 +8,8 @@ import android.os.Build;
  */
 public class DeviceUtils
 {
+    private static int lgeadv = 0;
+
     public static boolean isOmap()
     {
         String s = Build.MODEL;
@@ -63,8 +65,25 @@ public class DeviceUtils
 
     public static boolean isLGADV()
     {
-        String s = Build.MODEL;
-        return s.equals("LG-D800") || s.equals("LG-D802") || s.equals("LG-D855");
+        if (lgeadv == 0)
+        {
+            String s = Build.MODEL;
+            if (s.equals("LG-D800") || s.equals("LG-D802") || s.equals("LG-D855") || s.equals("LGLS990"))
+            {
+                lgeadv = 1;
+            }
+            else{
+                lgeadv = 2;}
+        }
+        return  getBoolFromInt(lgeadv);
+    }
+
+    public static boolean getBoolFromInt(int i)
+    {
+        if (i == 1)
+            return true;
+        else
+            return false;
     }
 
     public static boolean isZTEADV()
@@ -89,6 +108,16 @@ public class DeviceUtils
     {
         String s = Build.MODEL;
         return s.equals("C6603") || s.equals("C6902") || s.equals("C6602") || s.equals("C6903") || s.equals("HTC One");
+    }
+
+    public static boolean isMediaTekTHL5000()
+    {
+        return Build.MODEL.equals("thl 5000");
+    }
+
+    public static boolean isRawSupported()
+    {
+        return isLGADV() || isHTCADV() || isZTEADV() || isMediaTekTHL5000();
     }
 
 }

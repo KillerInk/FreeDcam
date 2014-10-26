@@ -38,6 +38,8 @@ public class AppSettingsManager
     public static String SETTING_MCE_MODE = "memorycolorenhancementmode";
     public static String SETTING_SKINTONE_MODE = "skintonemode";
     public static String SETTING_NIGHTEMODE = "nightmode";
+    public static String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
+    public static String SETTING_AEBRACKET = "aebrackethdr";
 
     public AppSettingsManager(SharedPreferences appSettings)
     {

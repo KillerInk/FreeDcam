@@ -52,7 +52,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String value = (String) listView.getItemAtPosition(position);
-                    cameraUiWrapper.camParametersHandler.FlashMode.SetValue(value);
+                    cameraUiWrapper.camParametersHandler.FlashMode.SetValue(value, true);
                     appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, value);
                     textView.setText(value);
                     listView.setVisibility(View.GONE);
@@ -64,13 +64,13 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
             //TODO check if torch is supported
             if (textView.getText().equals("torch"))
             {
-                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("off");
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("off", true);
                 appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "off");
                 textView.setText("off");
             }
             else
             {
-                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("torch");
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue("torch", true);
                 appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "torch");
                 textView.setText("torch");
             }
@@ -91,7 +91,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
                 appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, para);
             }
             if (!appSet.equals(para))
-                cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet);
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet, true);
 
 
             textView.setText(appSet);

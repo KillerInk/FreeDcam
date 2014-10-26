@@ -4,6 +4,8 @@ import android.hardware.Camera;
 
 import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 
+import java.util.List;
+
 /**
  * Created by troop on 01.09.2014.
  */
@@ -12,17 +14,31 @@ public class SceneModeParameter extends BaseModeParameter
 
     public SceneModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
+
+        try
+        {
+            List<String> scenes =  parameters.getSupportedSceneModes();
+            if (scenes.size() > 0)
+                this.isSupported = true;
+            else this.isSupported = false;
+        }
+        catch (Exception ex)
+        {
+            this.isSupported = false;
+        }
     }
 
     @Override
-    public boolean IsSupported() {
-        return true;
+    public boolean IsSupported()
+    {
+
+        return isSupported;
     }
 
     @Override
-    public void SetValue(String valueToSet) {
+    public void SetValue(String valueToSet, boolean setToCam) {
         parameters.setSceneMode(valueToSet);
-        if (throwParameterChanged != null && firststart == false)
+        if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
     }
@@ -33,7 +49,9 @@ public class SceneModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String[] GetValues() {
-        return parameters.getSupportedSceneModes().toArray(new String[parameters.getSupportedSceneModes().size()]);
+    public String[] GetValues()
+    {
+        String scenes[]= parameters.getSupportedSceneModes().toArray(new String[parameters.getSupportedSceneModes().size()]);
+        return scenes;
     }
 }

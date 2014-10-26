@@ -12,11 +12,12 @@ import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.modules.PictureModule;
 import com.troop.freecamv2.ui.MainActivity_v2;
+import com.troop.freecamv2.utils.DeviceUtils;
 
 /**
  * Created by troop on 26.08.2014.
  */
-public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View.OnTouchListener
+public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View.OnTouchListener, View.OnLongClickListener
 {
 
     private final MainActivity_v2 activity;
@@ -32,7 +33,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         this.cameraUiWrapper = cameraUiWrapper;
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
         shutterButton.setOnClickListener(this);
-        shutterButton.setOnTouchListener(this);
+        shutterButton.setOnLongClickListener(this);
+        //shutterButton.setOnTouchListener(this);
 
         flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
         flashScreen.setVisibility(View.GONE);
@@ -57,6 +59,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         }
     }
 
+
+
     @Override
     public String ModuleChanged(String module)
     {
@@ -72,10 +76,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         {
             fireagain = handelBurstClick(event, fireagain);
         }
-        /*if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
-        {
-            fireagain = handelPictureClick(event, fireagain);
-        }*/
         return fireagain;
     }
 
@@ -99,20 +99,11 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         return fireagain;
     }
 
-    public boolean handelPictureClick(MotionEvent event, boolean fireagain) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-        {
+    @Override
+    public boolean onLongClick(View v)
+    {
+        if (!DeviceUtils.isHTCADV())
             cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
-            fireagain = true;
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP)
-        {
-            PictureModule picModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
-            if (picModule !=null) {
-                picModule.DoWork();
-                fireagain = false;
-            }
-        }
-        return fireagain;
+        return false;
     }
 }

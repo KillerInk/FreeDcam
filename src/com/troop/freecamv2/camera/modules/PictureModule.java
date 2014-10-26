@@ -6,8 +6,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.troop.androiddng.RawToDng;
 import com.troop.freecamv2.camera.BaseCameraHolder;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.DeviceUtils;
 import com.troop.freecamv2.utils.StringUtils;
 
 import java.io.File;
@@ -27,6 +29,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
+
+    public String OverRidePath = "";
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
@@ -76,7 +80,13 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         public void onPictureTaken(byte[] data, Camera camera)
         {
             if (data!= null)
+            {
                 Log.d(TAG, "RawCallback data size: " + data.length);
+                File file = createFileName();
+                final saveFile save = new saveFile(data.clone(), file);
+                final Thread worker = new Thread(save);
+                worker.start();
+            }
             else
                 Log.d(TAG, "RawCallback data size is null" );
             //if (data != null)
@@ -101,11 +111,13 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         File file = createFileName();
 
+
         final saveFile save = new saveFile(data.clone(), file);
         final Thread worker = new Thread(save);
         worker.start();
         isWorking = false;
-        //baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
+        if (!DeviceUtils.isHTCADV())
+            baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
         baseCameraHolder.StartPreview();
     }
 
@@ -121,11 +133,33 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             this.file = file;
         }
         @Override
-        public void run() {
-            saveBytesToFile(bytes, file);
-            eventHandler.WorkFinished(file);
-            bytes = null;
-            file = null;
+        public void run()
+        {
+            if (OverRidePath == "")
+            {
+                if (!file.getAbsolutePath().endsWith(".dng")) {
+                    saveBytesToFile(bytes, file);
+                    eventHandler.WorkFinished(file);
+                    bytes = null;
+                    file = null;
+                } else {
+                    String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+                    String raw[] = rawSize.split("x");
+                    int w = Integer.parseInt(raw[0]);
+                    int h = Integer.parseInt(raw[1]);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                    eventHandler.WorkFinished(file);
+                }
+            }
+            else
+            {
+                file = new File(OverRidePath);
+                saveBytesToFile(bytes, file);
+                eventHandler.WorkFinished(file);
+                bytes = null;
+                file = null;
+            }
+
         }
     }
 
@@ -157,13 +191,24 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-
-        if(rawFormats.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
-        if(jpegFormat.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
-        if (jpsFormat.contains(pictureFormat))
-            return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
+        if (baseCameraHolder.ParameterHandler.dngSupported)
+        {
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
+            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+        }
+        else
+        {
+            if (rawFormats.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
+            if (jpegFormat.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+            if (jpsFormat.contains(pictureFormat))
+                return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
+        }
         return  null;
     }
 }

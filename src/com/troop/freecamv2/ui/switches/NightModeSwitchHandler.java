@@ -52,7 +52,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
                 appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);
             }
             if (!appSet.equals(para))
-                cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet);
+                cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
             textView.setText(appSet);
         }
         else
@@ -79,7 +79,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) listView.getItemAtPosition(position);
-                cameraUiWrapper.camParametersHandler.NightMode.SetValue(value);
+                cameraUiWrapper.camParametersHandler.NightMode.SetValue(value, true);
                 appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, value);
                 textView.setText(value);
                 listView.setVisibility(View.GONE);

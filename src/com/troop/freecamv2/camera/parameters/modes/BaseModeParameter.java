@@ -1,6 +1,7 @@
 package com.troop.freecamv2.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import com.troop.freecamv2.camera.parameters.I_ParameterChanged;
 import com.troop.freecamv2.ui.AppSettingsManager;
@@ -41,10 +42,11 @@ public abstract class BaseModeParameter implements I_ModeParameter
         return isSupported;
     }
 
-    public void SetValue(String valueToSet)
+    public void SetValue(String valueToSet,  boolean setToCam)
     {
         parameters.set(value, valueToSet);
-        if (throwParameterChanged != null && firststart == false)
+        Log.d("freecam.BaseModeParameter", "set "+value+" to "+ valueToSet);
+        if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
     }

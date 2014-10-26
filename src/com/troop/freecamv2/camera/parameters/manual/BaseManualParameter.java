@@ -34,7 +34,15 @@ public abstract class BaseManualParameter implements I_ManualParameter
 
     public  int GetMinValue()
     {
-        return  parameters.getInt(min_value);
+        int ret = 0;
+        try {
+            ret = parameters.getInt(min_value);
+        }
+        catch (Exception ex)
+        {
+            ret = 0;
+        }
+        return ret;
     }
 
     public int GetValue()
@@ -59,5 +67,10 @@ public abstract class BaseManualParameter implements I_ManualParameter
             isSupported = false;
         }
         return isSupported;
+    }
+
+    @Override
+    public void RestartPreview() {
+
     }
 }

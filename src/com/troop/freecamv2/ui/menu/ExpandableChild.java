@@ -9,10 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freecam.R;
+import com.troop.freecamv2.camera.CameraUiWrapper;
 import com.troop.freecamv2.camera.modules.I_ModuleEvent;
 import com.troop.freecamv2.camera.modules.ModuleHandler;
 import com.troop.freecamv2.camera.parameters.modes.I_ModeParameter;
 import com.troop.freecamv2.ui.AppSettingsManager;
+import com.troop.freecamv2.utils.DeviceUtils;
+import com.troop.freecamv2.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -21,14 +24,15 @@ import java.util.ArrayList;
  */
 public class ExpandableChild extends LinearLayout implements I_ModuleEvent
 {
-    private String Name;
-    private I_ModeParameter parameterHolder;
-    private AppSettingsManager appSettingsManager;
+    protected String Name;
+    protected I_ModeParameter parameterHolder;
+    protected AppSettingsManager appSettingsManager;
     Context context;
     TextView nameTextView;
     TextView valueTextView;
-    private String settingsname;
+    protected String settingsname;
     ArrayList<String> modulesToShow;
+    CameraUiWrapper cameraUiWrapper;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,27 +71,27 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     public void setValue(String value)
     {
         valueTextView.setText(value);
-        parameterHolder.SetValue(value);
+        parameterHolder.SetValue(value, true);
         appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow)
+    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper)
     {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
+        this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue.equals("")) {
-            appSettingsManager.setString(settingsname, campara);
+
             Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
         }
-        if (!settingValue.equals(campara) && !settingValue.equals(""))
-        {
-            parameterHolder.SetValue(settingValue);
-            Log.d(getTAG(), "Load default appsetting " + Name + ":" +campara);
+        if (!settingValue.equals(campara) && !settingValue.equals("")) {
+            parameterHolder.SetValue(settingValue, false);
+            Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
         }
         nameTextView.setText(Name);
         valueTextView.setText(parameterHolder.GetValue());
@@ -109,7 +113,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         return null;
     }
 
-    private String getTAG()
+    protected String getTAG()
     {
         return "freecam." + Name;
     }
