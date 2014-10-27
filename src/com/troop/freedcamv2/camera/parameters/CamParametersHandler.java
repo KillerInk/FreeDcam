@@ -44,6 +44,8 @@ import com.troop.freedcamv2.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.SkinToneParameter;
 import com.troop.freedcamv2.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcamv2.utils.DeviceUtils;
+import com.troop.freedcamv2.utils.StringUtils;
 
 import java.util.List;
 
@@ -186,14 +188,21 @@ public class CamParametersHandler implements I_ParameterChanged
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         String rawFormats[] = PictureFormat.GetValues();
-        for (String s : rawFormats)
-        {
-            if (s.contains("bayer"))
-                rawSupported = true;
-            if (s.contains("bayer-mipi")) {
-                dngSupported = true;
-                BayerMipiFormat = s;
+        if (!DeviceUtils.isHTCADV()) {
+            for (String s : rawFormats) {
+                if (s.contains("bayer"))
+                    rawSupported = true;
+                if (s.contains("bayer-mipi")) {
+                    dngSupported = true;
+                    BayerMipiFormat = s;
+                }
             }
+        }
+        else
+        {
+            dngSupported = true;
+            rawSupported = true;
+            BayerMipiFormat = StringUtils.BayerMipiGRBG();
         }
 
         ParametersEventHandler.ParametersHasLoaded();
