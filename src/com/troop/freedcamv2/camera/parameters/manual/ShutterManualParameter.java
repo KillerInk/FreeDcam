@@ -50,7 +50,7 @@ public class ShutterManualParameter extends BaseManualParameter
         this.baseCameraHolder = baseCameraHolder;
         {
             this.isSupported = true;
-            shutterValues = HTCShutterValues.split(",");
+            shutterValues = Z5SShutterValues.split(",");
         }
         if (DeviceUtils.isZTEADV())
         {
