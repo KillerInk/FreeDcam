@@ -38,6 +38,7 @@ public class ModuleSwitchHandler implements View.OnClickListener
         this.moduleHandler = cameraUiWrapper.moduleHandler;
         modules = new HashMap<String, String>();
         modules.put("Pic", ModuleHandler.MODULE_PICTURE);
+        modules.put("LongExpo", ModuleHandler.MODULE_LONGEXPO);
         //modules.put("Video", ModuleHandler.MODULE_VIDEO);
         //modules.put("HDR", ModuleHandler.MODULE_HDR);
         //modules.put("Burst", ModuleHandler.MODULE_BURST);

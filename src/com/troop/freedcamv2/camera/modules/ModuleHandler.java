@@ -30,6 +30,7 @@ public class ModuleHandler
     public static final String MODULE_PICTURE = "module_picture";
     public static final String MODULE_HDR = "module_hdr";
     public static final String MODULE_BURST = "module_burst";
+    public static final String MODULE_LONGEXPO = "module_longexposure";
     public static final String MODULE_ALL = "module_all";
 
     public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
@@ -42,6 +43,7 @@ public class ModuleHandler
         PictureModules.add(MODULE_PICTURE);
         PictureModules.add(MODULE_BURST);
         PictureModules.add(MODULE_HDR);
+        PictureModules.add(MODULE_LONGEXPO);
         VideoModules = new ArrayList<String>();
         VideoModules.add(MODULE_VIDEO);
         AllModules = new ArrayList<String>();
@@ -94,6 +96,9 @@ public class ModuleHandler
 
         //BurstModule burstModule = new BurstModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);
+
+        LongExposureModule longExposureModule = new LongExposureModule(cameraHolder, appSettingsManager, moduleEventHandler);
+        moduleList.put(longExposureModule.ModuleName(), longExposureModule);
     }
 
 }
