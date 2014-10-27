@@ -16,7 +16,7 @@ import java.io.IOException;
 public class BaseCameraHolder implements I_CameraHolder
 {
     Camera mCamera;
-    final  String TAG = "freecam.BaseCameraHolder";
+    final  String TAG = "freedcam.BaseCameraHolder";
     boolean isRdy = false;
 
     boolean isPreviewRunning = false;

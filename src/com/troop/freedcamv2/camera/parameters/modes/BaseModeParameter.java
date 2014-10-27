@@ -44,7 +44,7 @@ public abstract class BaseModeParameter implements I_ModeParameter
     public void SetValue(String valueToSet,  boolean setToCam)
     {
         parameters.set(value, valueToSet);
-        Log.d("freecam.BaseModeParameter", "set "+value+" to "+ valueToSet);
+        Log.d("freedcam.BaseModeParameter", "set "+value+" to "+ valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;

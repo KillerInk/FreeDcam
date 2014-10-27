@@ -8,7 +8,7 @@ import com.troop.freedcamv2.ui.AppSettingsManager;
  */
 public class VideoModule extends AbstractModule
 {
-    public final String TAG = "freecam.VideoModule";
+    public final String TAG = "freedcam.VideoModule";
 
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);

@@ -53,7 +53,7 @@ import java.util.List;
 public class CamParametersHandler implements I_ParameterChanged
 {
 
-    String TAG = "freecam.CameraParametersHandler";
+    String TAG = "freedcam.CameraParametersHandler";
     public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
 

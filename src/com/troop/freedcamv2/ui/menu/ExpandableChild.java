@@ -112,6 +112,6 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
 
     protected String getTAG()
     {
-        return "freecam." + Name;
+        return "freedcam." + Name;
     }
 }

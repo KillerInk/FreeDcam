@@ -19,7 +19,7 @@ public class ModuleHandler
     BaseCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     AbstractModule currentModule;
-    final String TAG = "freecam.ModuleHandler";
+    final String TAG = "freedcam.ModuleHandler";
     public ModuleEventHandler moduleEventHandler;
 
     public ArrayList<String> PictureModules;

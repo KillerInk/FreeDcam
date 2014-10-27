@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class BrightnessManualParameter extends BaseManualParameter
 {
-    final  String TAG = "freecam.ManualBrightnessParameter";
+    final  String TAG = "freedcam.ManualBrightnessParameter";
 
     public BrightnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
     {

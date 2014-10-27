@@ -12,7 +12,7 @@ import com.troop.freedcamv2.camera.BaseCameraHolder;
 public class FocusManualParameter extends  BaseManualParameter
 {
     BaseCameraHolder baseCameraHolder;
-    String TAG ="freecam.ManualFocus";
+    String TAG ="freedcam.ManualFocus";
     public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
         super(parameters, value, maxValue, MinValue);
 

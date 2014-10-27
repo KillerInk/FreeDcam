@@ -22,7 +22,7 @@ import java.util.Date;
  */
 public class PictureModule extends AbstractModule implements Camera.PictureCallback {
 
-    public final String TAG = "freecam.PictureModule";
+    public final String TAG = "freedcam.PictureModule";
 
     private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
