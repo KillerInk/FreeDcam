@@ -31,6 +31,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public String OverRidePath = "";
     int hdrCount = 0;
     boolean hdr = false;
+    Thread worker;
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
@@ -121,12 +122,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         File file = createFileName();
 
-
-        final saveFile save = new saveFile(data.clone(), file);
-        final Thread worker = new Thread(save);
+        worker = new Thread(new saveFile(data.clone(), file));
         worker.start();
         isWorking = false;
-        if (!DeviceUtils.isHTCADV())
+        if (baseCameraHolder.ParameterHandler.isExposureAndWBLocked)
             baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
         /*if (hdr && hdrCount == 2)
             baseCameraHolder.StartPreview();
@@ -171,6 +170,11 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                 eventHandler.WorkFinished(file);
                 bytes = null;
                 file = null;
+            }
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
         }

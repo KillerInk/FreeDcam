@@ -263,8 +263,11 @@ public class CamParametersHandler implements I_ParameterChanged
         }
     }
 
+    public boolean isExposureAndWBLocked = false;
+
     public void LockExposureAndWhiteBalance(boolean value)
     {
+        isExposureAndWBLocked = value;
         if (cameraParameters.isAutoExposureLockSupported())
             cameraParameters.setAutoExposureLock(value);
         if (cameraParameters.isAutoWhiteBalanceLockSupported())

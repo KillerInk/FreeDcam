@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
@@ -101,8 +102,8 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     @Override
     public boolean onLongClick(View v)
     {
-        if (!DeviceUtils.isHTCADV())
-            cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+        cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+        Toast.makeText(activity, "Exposure and WhiteBalance locked", Toast.LENGTH_LONG).show();
         return false;
     }
 }
