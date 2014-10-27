@@ -8,12 +8,12 @@
 
 
 
-    <com.troop.freecamv2.ui.TextureView.ExtendedSurfaceView
+    <com.troop.freedcamv2.ui.TextureView.ExtendedSurfaceView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/CameraPreview" />
 
-    <com.troop.freecamv2.ui.handler.HelpOverlayHandler
+    <com.troop.freedcamv2.ui.handler.HelpOverlayHandler
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
