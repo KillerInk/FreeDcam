@@ -121,7 +121,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     public void onError(int i, Camera camera)
     {
         errorHandler.OnError("Got Error from camera: " + i);
-        try
+        /*try
         {
             StopPreviewAndCamera();
         }
@@ -129,7 +129,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         {
             ex.printStackTrace();
 
-        }
+        }*/
         try
         {
             cameraHolder.CloseCamera();
