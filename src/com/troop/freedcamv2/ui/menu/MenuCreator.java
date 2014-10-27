@@ -29,7 +29,8 @@ public class MenuCreator
     {
         ExpandableGroup picGroup = new ExpandableGroup(context);
         picGroup.setName(context.getString(R.string.picture_settings));
-
+        picGroup.modulesToShow = cameraUiWrapper.moduleHandler.PictureModules;
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picGroup);
         createPictureSettingsChilds(picGroup, surfaceView);
         return picGroup;
     }
@@ -76,6 +77,7 @@ public class MenuCreator
     {
         ExpandableGroup modesGroup = new ExpandableGroup(context);
         modesGroup.setName(context.getString(R.string.mode_settings));
+        modesGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createModesSettingsChilds(modesGroup);
         return modesGroup;
     }
@@ -137,6 +139,7 @@ public class MenuCreator
     {
         ExpandableGroup qualityGroup = new ExpandableGroup(context);
         qualityGroup.setName(context.getString(R.string.quality_settings));
+        qualityGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createQualitySettingsChilds(qualityGroup);
         return qualityGroup;
     }
@@ -209,6 +212,7 @@ public class MenuCreator
     public ExpandableGroup CreatePreviewSettings(ExtendedSurfaceView surfaceView)
     {
         ExpandableGroup preview = getNewGroup(context.getString(R.string.preview_settings));
+        preview.modulesToShow = cameraUiWrapper.moduleHandler.LongeExpoModules;
         createPreviewSettingsChilds(preview, surfaceView);
         return preview;
     }
@@ -219,16 +223,16 @@ public class MenuCreator
         PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
         size.setName("Preview Size");
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
-        size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
 
         //ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(size);
 
-        ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
+        /*ExpandableChild fps = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);
 
         ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, context.getString(R.string.preview_fromat), cameraUiWrapper.moduleHandler.AllModules);
-        childlist.add(format);
+        childlist.add(format);*/
 
         preview.setItems(childlist);
     }
@@ -236,6 +240,7 @@ public class MenuCreator
     private ExpandableGroup getNewGroup(String name)
     {
         ExpandableGroup group = new ExpandableGroup(context);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(group);
         group.setName(name);
         return group;
     }

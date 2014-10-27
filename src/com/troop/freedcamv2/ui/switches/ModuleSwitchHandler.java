@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
 import com.troop.freedcamv2.camera.modules.ModuleHandler;
+import com.troop.freedcamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcamv2.ui.AppSettingsManager;
 import com.troop.freedcamv2.ui.MainActivity_v2;
 
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by troop on 20.08.2014.
  */
-public class ModuleSwitchHandler implements View.OnClickListener
+public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
 
     MainActivity_v2 activity;
@@ -46,6 +47,7 @@ public class ModuleSwitchHandler implements View.OnClickListener
         moduleView.setOnClickListener(this);
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleView.setText(GetKeyFromValue(appSettingsManager.GetCurrentModule()));
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
 
     }
 
@@ -88,5 +90,10 @@ public class ModuleSwitchHandler implements View.OnClickListener
             }
         }
         return  null;
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
 }

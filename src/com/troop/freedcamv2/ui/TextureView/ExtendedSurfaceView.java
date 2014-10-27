@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 
+import com.troop.freedcamv2.camera.modules.ModuleHandler;
 import com.troop.freedcamv2.camera.parameters.CamParametersHandler;
 import com.troop.freedcamv2.camera.parameters.I_ParametersLoaded;
 
@@ -118,33 +119,39 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-        double pictureRatio = getRatio(w,h);
-        Log.d(TAG, "New Picture size is set: Width: " + w + "Height : " + h + "Ratio:" + pictureRatio);
-        String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
-        boolean foundmatchingPreview = false;
-        for (int i = 0; i < previewSizes.length; i++)
-        {
-            String[] split = previewSizes[i].split("x");
-            int pw = Integer.parseInt(split[0]);
-            int ph = Integer.parseInt(split[1]);
-            double previewRatio = getRatio(pw,ph);
-            if (previewRatio == pictureRatio)
-            {
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE)) {
+            double pictureRatio = getRatio(w, h);
+            Log.d(TAG, "New Picture size is set: Width: " + w + "Height : " + h + "Ratio:" + pictureRatio);
+            String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
+            boolean foundmatchingPreview = false;
+            for (int i = 0; i < previewSizes.length; i++) {
+                String[] split = previewSizes[i].split("x");
+                int pw = Integer.parseInt(split[0]);
+                int ph = Integer.parseInt(split[1]);
+                double previewRatio = getRatio(pw, ph);
+                if (previewRatio == pictureRatio) {
 
-                Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
-                ParametersHandler.PreviewSize.SetValue(previewSizes[i], true);
-                setPreviewToDisplay(pw, ph);
-                String msg = "PreviewSize:" + previewSizes[i] + " Ratio:"+ previewRatio + "\nPictureSize:"+w+"x"+h+" Ratio:" + pictureRatio;
+                    Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
+                    ParametersHandler.PreviewSize.SetValue(previewSizes[i], true);
+                    setPreviewToDisplay(pw, ph);
+                    String msg = "PreviewSize:" + previewSizes[i] + " Ratio:" + previewRatio + "\nPictureSize:" + w + "x" + h + " Ratio:" + pictureRatio;
+                    ParametersHandler.cameraHolder.errorHandler.OnError(msg);
+                    foundmatchingPreview = true;
+                    break;
+                }
+            }
+            if (foundmatchingPreview == false) {
+                Log.d(TAG, "Found no matching preview size, raw capture will fail");
+                String msg = "Found no matching preview size, raw capture will fail";
                 ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-                foundmatchingPreview = true;
-                break;
             }
         }
-        if (foundmatchingPreview == false) {
-            Log.d(TAG, "Found no matching preview size, raw capture will fail");
-            String msg = "Found no matching preview size, raw capture will fail";
-            ParametersHandler.cameraHolder.errorHandler.OnError(msg);
+        else
+        {
+            ParametersHandler.PreviewSize.SetValue(w+"x"+h, true);
+            setPreviewToDisplay(w, h);
         }
+
         //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
 
 
@@ -153,7 +160,11 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void ParametersLoaded()
     {
-        String previewsize = ParametersHandler.PictureSize.GetValue();
+        String previewsize = "";
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
+            previewsize = ParametersHandler.PictureSize.GetValue();
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
+            previewsize = ParametersHandler.PreviewSize.GetValue();
         String[] split = previewsize.split("x");
         int w = Integer.parseInt(split[0]);
         int h = Integer.parseInt(split[1]);

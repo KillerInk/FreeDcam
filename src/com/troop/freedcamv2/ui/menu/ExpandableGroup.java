@@ -20,7 +20,7 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     private String Name;
     private ArrayList<ExpandableChild> Items;
     Context context;
-    ArrayList<String> modulesToShow;
+    public ArrayList<String> modulesToShow;
     TextView textView;
 
     public ExpandableGroup(Context context) {

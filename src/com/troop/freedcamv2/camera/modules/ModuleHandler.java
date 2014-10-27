@@ -23,6 +23,7 @@ public class ModuleHandler
     public ModuleEventHandler moduleEventHandler;
 
     public ArrayList<String> PictureModules;
+    public ArrayList<String> LongeExpoModules;
     public ArrayList<String> VideoModules;
     public ArrayList<String> AllModules;
 
@@ -43,11 +44,13 @@ public class ModuleHandler
         PictureModules.add(MODULE_PICTURE);
         PictureModules.add(MODULE_BURST);
         PictureModules.add(MODULE_HDR);
-        PictureModules.add(MODULE_LONGEXPO);
+        //PictureModules.add();
         VideoModules = new ArrayList<String>();
         VideoModules.add(MODULE_VIDEO);
         AllModules = new ArrayList<String>();
         AllModules.add(MODULE_ALL);
+        LongeExpoModules = new ArrayList<String>();
+        LongeExpoModules.add(MODULE_LONGEXPO);
         initModules();
 
     }

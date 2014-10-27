@@ -51,7 +51,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             public void run()
             {
                 doWork = false;
-                baseCameraHolder.SetPreviewCallback(null);
+                //baseCameraHolder.SetPreviewCallback(null);
                 File file = createFilename();
                 OutputStream outStream = null;
                 try
