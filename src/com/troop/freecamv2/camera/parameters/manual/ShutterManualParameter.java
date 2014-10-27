@@ -47,8 +47,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder baseCameraHolder) {
         super(parameters, value, maxValue, MinValue);
 
-
-        if (DeviceUtils.isHTCADV())
+        this.baseCameraHolder = baseCameraHolder;
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
