@@ -62,8 +62,12 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     public void setName(String Name) {
         this.Name = Name;
     }
-    public String Value() {
-        return parameterHolder.GetValue();
+    public String Value()
+    {
+        if (!parameterHolder.GetValue().equals(""))
+            return parameterHolder.GetValue();
+        else
+            return appSettingsManager.getString(settingsname);
     }
     public void setValue(String value)
     {
@@ -86,12 +90,13 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
             appSettingsManager.setString(settingsname, campara);
             Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
         }
-        if (!settingValue.equals(campara) && !settingValue.equals("")) {
+        if (!settingValue.equals(campara) && !settingValue.equals("") && !campara.equals("")) {
             parameterHolder.SetValue(settingValue, false);
+            appSettingsManager.setString(settingsname, settingValue);
             Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
         }
         nameTextView.setText(Name);
-        valueTextView.setText(parameterHolder.GetValue());
+        valueTextView.setText(appSettingsManager.getString(settingsname));
         AddModulesToShow(modulesToShow);
     }
 

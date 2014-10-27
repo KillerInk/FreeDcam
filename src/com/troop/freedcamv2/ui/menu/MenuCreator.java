@@ -222,7 +222,7 @@ public class MenuCreator
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
         PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
         size.setName("Preview Size");
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
+        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
         size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
 
         //ExpandableChild size = getNewChild(cameraUiWrapper.camParametersHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
@@ -233,6 +233,9 @@ public class MenuCreator
 
         ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, context.getString(R.string.preview_fromat), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(format);*/
+
+        ExpandableChild expotime = getNewChild(new LongExposureSetting(null,null,"",""),AppSettingsManager.SETTING_EXPOSURELONGTIME, "ExposureTime", cameraUiWrapper.moduleHandler.LongeExpoModules);
+        childlist.add(expotime);
 
         preview.setItems(childlist);
     }

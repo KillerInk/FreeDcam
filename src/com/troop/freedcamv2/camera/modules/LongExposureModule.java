@@ -60,6 +60,8 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                     baseYuv.compressToJpeg(new Rect(0,0,width,height), 100, outStream);
                     outStream.flush();
                     outStream.close();
+
+                    System.gc();
                 }
                 catch (FileNotFoundException e)
                 {
@@ -69,18 +71,20 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 {
                     e.printStackTrace();
                 }
-
+                //baseYuv = null;
                 eventHandler.WorkFinished(file);
             }
         };
+        int time = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_EXPOSURELONGTIME));
         Handler handler = new Handler();
-        handler.postDelayed(runnable, 30000);
+        handler.postDelayed(runnable, time*1000);
     }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        if (doWork && !hasWork) {
-            processYuvFrame(data.clone());
+        if (doWork && !hasWork && data != null)
+        {
+            processYuvFrame(data);
 
 
         }
@@ -92,9 +96,12 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         int pixelsize = (bytes.length / height) / width;
         if (baseYuv == null)
             baseYuv = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
-        else {
-            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
+        else
+        {
 
+            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
+            if (baseYuv == null )
+                return;
             int row = 0;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
