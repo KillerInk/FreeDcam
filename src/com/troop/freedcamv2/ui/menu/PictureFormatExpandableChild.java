@@ -53,6 +53,8 @@ public class PictureFormatExpandableChild extends ExpandableChild {
             }
 
         }
+        else
+            parameterHolder.SetValue(value, true);
         valueTextView.setText(value);
         appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
