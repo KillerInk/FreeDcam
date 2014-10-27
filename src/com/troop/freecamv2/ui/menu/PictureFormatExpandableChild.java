@@ -79,19 +79,31 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         String settingValue = appSettingsManager.getString(settingsname);
         if (cameraUiWrapper.camParametersHandler.dngSupported)
         {
-            if (settingValue == "")
+            if (settingValue.equals(""))
+            {
                 appSettingsManager.setString(settingsname, "jpeg");
+                settingValue = "jpeg";
+            }
             if (settingValue.equals("raw") || settingValue.equals("dng"))
             {
-                parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
+
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
                 }
+                else
+                {
+                    parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
+                }
             }
-            else
-                parameterHolder.SetValue(settingValue, false);
 
+
+        }
+        else
+        {
+            if (settingValue.equals(""))
+                appSettingsManager.setString(settingsname, campara);
+            parameterHolder.SetValue(settingValue, false);
         }
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
