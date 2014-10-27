@@ -10,6 +10,9 @@ import android.widget.ListView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
+import com.troop.freedcamv2.camera.modules.I_Module;
+import com.troop.freedcamv2.camera.modules.I_ModuleEvent;
+import com.troop.freedcamv2.camera.modules.ModuleHandler;
 import com.troop.freedcamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcamv2.ui.AppSettingsManager;
 import com.troop.freedcamv2.ui.MainActivity_v2;
@@ -20,12 +23,15 @@ import java.util.ArrayList;
 /**
  * Created by troop on 19.08.2014.
  */
-public class MenuHandler  implements ExpandableListView.OnChildClickListener, ListView.OnItemClickListener, I_ParametersLoaded
+public class MenuHandler  implements ExpandableListView.OnChildClickListener, ListView.OnItemClickListener, I_ParametersLoaded, I_ModuleEvent
 {
     MainActivity_v2 context;
     CameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
     ExtendedSurfaceView surfaceView;
+    ArrayList<ExpandableGroup> grouplist;
+    ExpandableGroup picSettings;
+    ExpandableGroup previewSettings;
 
     /**
      * this holds the mainmenu
@@ -49,15 +55,27 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         this.appSettingsManager = appSettingsManager;
         this.surfaceView = surfaceView;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+
     }
 
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
-        grouplist.add(menuCreator.CreatePictureSettings(surfaceView));
+        picSettings = menuCreator.CreatePictureSettings(surfaceView);
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
+        {
+
+            grouplist.add(picSettings);
+        }
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
-        grouplist.add(menuCreator.CreatePreviewSettings(surfaceView));
+        previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
+        {
+
+            grouplist.add(previewSettings);
+        }
         return grouplist;
     }
 
@@ -163,7 +181,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     @Override
     public void ParametersLoaded()
     {
-        ArrayList<ExpandableGroup> grouplist = createMenu();
+        grouplist = createMenu();
         expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(context, grouplist);
         expandableListView = (ExpandableListView) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         expandableListView.setAdapter(expandableListViewMenuAdapter);
@@ -182,17 +200,6 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         if (selectedChild != null)
         {
             String value = (String) listView.getItemAtPosition(position);
-            /*if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
-            {
-                if (DeviceUtils.isRawSupported())
-                {
-                    if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
-                        value = StringUtils.BayerMipiBGGR();
-                    if (DeviceUtils.isHTCADV())
-                        value = StringUtils.BayerMipiGRBG();
-                }
-
-            }*/
             selectedChild.setValue(value);
             selectedChild = null;
             hideSubMenuAndShowMenu();
@@ -201,4 +208,25 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     }
 
 
+    @Override
+    public String ModuleChanged(String module)
+    {
+        if (grouplist != null && expandableListView != null) {
+            if (module.equals(ModuleHandler.MODULE_LONGEXPO)) {
+                if (grouplist.contains(picSettings))
+                    grouplist.remove(picSettings);
+                if (!grouplist.contains(previewSettings))
+                    grouplist.add(previewSettings);
+            }
+            if (module.equals(ModuleHandler.MODULE_PICTURE)) {
+                if (!grouplist.contains(picSettings))
+                    grouplist.add(picSettings);
+                if (grouplist.contains(previewSettings))
+                    grouplist.remove(previewSettings);
+            }
+            expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(context, grouplist);
+            expandableListView.setAdapter(expandableListViewMenuAdapter);
+        }
+        return null;
+    }
 }
