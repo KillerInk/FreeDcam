@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcamv2.ui.handler.HelpOverlayHandler;
 import com.troop.freedcamv2.ui.menu.I_orientation;
 import com.troop.freedcamv2.ui.menu.I_swipe;

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 
 import com.troop.freedcamv2.camera.CameraUiWrapper;
 import com.troop.freedcamv2.camera.I_error;

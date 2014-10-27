@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.modules.I_ModuleEvent;
 import com.troop.freedcamv2.camera.modules.ModuleHandler;
 

@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.parameters.manual.I_ManualParameter;
 
 /**

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcamv2.camera.modules.I_WorkEvent;
 import com.troop.freedcamv2.ui.MainActivity_v2;

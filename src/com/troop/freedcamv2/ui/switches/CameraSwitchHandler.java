@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
 import com.troop.freedcamv2.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcamv2.ui.AppSettingsManager;

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import com.troop.freecam.R;
+import com.troop.freedcam.R;
 import com.troop.freedcamv2.ui.AppSettingsManager;
 
 /**
