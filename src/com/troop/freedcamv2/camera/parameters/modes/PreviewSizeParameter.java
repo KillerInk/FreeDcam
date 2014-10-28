@@ -5,6 +5,8 @@ import android.hardware.Camera;
 import com.troop.freedcamv2.camera.BaseCameraHolder;
 import com.troop.freedcamv2.camera.parameters.I_ParameterChanged;
 
+import java.util.List;
+
 /**
  * Created by troop on 21.08.2014.
  */
@@ -47,6 +49,11 @@ public class PreviewSizeParameter extends BaseModeParameter
     @Override
     public String[] GetValues() {
         return super.GetValues();
+    }
+
+    public List<Camera.Size> GetSizes()
+    {
+        return parameters.getSupportedPictureSizes();
     }
 
     public int GetWidth()
