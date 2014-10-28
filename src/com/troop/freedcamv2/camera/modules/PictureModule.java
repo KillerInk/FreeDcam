@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.hardware.Camera.ShutterCallback;
+
 /**
  * Created by troop on 15.08.2014.
  */
@@ -76,7 +78,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(null,rawCallback,this);
+            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
@@ -86,6 +88,14 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             ex.printStackTrace();
         }
     }
+
+
+    ShutterCallback shutterCallback = new ShutterCallback() {
+        @Override
+        public void onShutter() {
+
+        }
+    };
 
     public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera)
