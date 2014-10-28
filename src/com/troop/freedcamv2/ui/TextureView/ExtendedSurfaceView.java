@@ -17,16 +17,18 @@ import android.widget.RelativeLayout;
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
 
+import com.troop.freedcamv2.camera.modules.I_ModuleEvent;
 import com.troop.freedcamv2.camera.modules.ModuleHandler;
 import com.troop.freedcamv2.camera.parameters.CamParametersHandler;
 import com.troop.freedcamv2.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcamv2.ui.AppSettingsManager;
 
 import java.util.List;
 
 /**
  * Created by troop on 21.08.2014.
  */
-public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent, I_ParametersLoaded
+public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent, I_ParametersLoaded, I_ModuleEvent
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
@@ -40,6 +42,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     public com.troop.freedcamv2.ui.AppSettingsManager appSettingsManager;
     public CamParametersHandler ParametersHandler;
+    String currentModule;
 
     public ExtendedSurfaceView(Context context) {
         super(context);
@@ -122,7 +125,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE)) {
+        if (currentModule.equals(""))
+            currentModule = appSettingsManager.GetCurrentModule();
+        if (currentModule.equals(ModuleHandler.MODULE_PICTURE)) {
             /*double pictureRatio = getRatio(w, h);
             Log.d(TAG, "New Picture size is set: Width: " + w + "Height : " + h + "Ratio:" + pictureRatio);
             String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
@@ -147,7 +152,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 Log.d(TAG, "Found no matching preview size, raw capture will fail");
                 String msg = "Found no matching preview size, raw capture will fail";
                 ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-            }*/
+            }
             int width = 0;
             int height = 0;
             if (Build.VERSION.SDK_INT >= 17)
@@ -164,10 +169,12 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 width = metrics.widthPixels;
                 height = metrics.heightPixels;
 
-            }
+            }*/
 
-            Camera.Size size = getOptimalPreviewSize(ParametersHandler.PreviewSize.GetSizes(),width, height );
+            Camera.Size size = getOptimalPreviewSize(ParametersHandler.PreviewSize.GetSizes(),w, h );
+            ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
             setPreviewToDisplay(size.width, size.height);
+
         }
         else
         {
@@ -217,6 +224,10 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             previewsize = ParametersHandler.PictureSize.GetValue();
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
             previewsize = ParametersHandler.PreviewSize.GetValue();
+        setPreviewSize(previewsize);
+    }
+
+    public void setPreviewSize(String previewsize) {
         String[] split = previewsize.split("x");
         int w = Integer.parseInt(split[0]);
         int h = Integer.parseInt(split[1]);
@@ -286,6 +297,14 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     }
 
 
-
-
+    @Override
+    public String ModuleChanged(String module)
+    {
+        this.currentModule = module;
+        if(module.equals(ModuleHandler.MODULE_PICTURE))
+            setPreviewSize(ParametersHandler.PictureSize.GetValue());
+        if (module.equals(ModuleHandler.MODULE_LONGEXPO))
+            setPreviewSize(ParametersHandler.PreviewSize.GetValue());
+        return null;
+    }
 }

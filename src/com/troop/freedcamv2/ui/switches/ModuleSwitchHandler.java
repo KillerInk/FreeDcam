@@ -69,8 +69,9 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) listView.getItemAtPosition(position);
-                moduleHandler.SetModule(modules.get(value));
                 appSettingsManager.SetCurrentModule(modules.get(value));
+                moduleHandler.SetModule(modules.get(value));
+
                 moduleView.setText(value);
                 listView.setVisibility(View.GONE);
             }

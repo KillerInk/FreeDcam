@@ -76,6 +76,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(cameraPreview);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(cameraPreview);
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
