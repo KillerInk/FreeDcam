@@ -148,6 +148,7 @@ public class BaseCameraHolder implements I_CameraHolder
             public void run() {
                 mCamera.startPreview();
                 isPreviewRunning = true;
+                Log.d(TAG, "PreviewStarted");
             }
         });
 
@@ -156,8 +157,27 @@ public class BaseCameraHolder implements I_CameraHolder
     @Override
     public void StopPreview()
     {
-        mCamera.stopPreview();
-        isPreviewRunning = false;
+        cameraHandler.post(new Runnable() {
+            @Override
+            public void run()
+            {
+                //try
+                //{
+
+                    mCamera.stopPreview();
+                    isPreviewRunning = false;
+                    Log.d(TAG, "Preview Stopped");
+
+                /*}
+                catch (Exception ex)
+                {
+                    isPreviewRunning = false;
+                    ex.printStackTrace();
+                }*/
+
+            }
+        });
+
     }
 
     public Camera.Parameters GetCameraParameters()
