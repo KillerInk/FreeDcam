@@ -113,10 +113,12 @@ public class ShutterManualParameter extends BaseManualParameter
             Log.e("AE", "ae-af");
 
            // parameters.set("night_exposure_mode", 0);
+        baseCameraHolder.StopPreview();
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter", shutterstring);
         if (DeviceUtils.isHTCADV())
             parameters.set("shutter", shutterstring);
+        baseCameraHolder.StartPreview();
         Log.e("exposure", shutterstring);
 
        
