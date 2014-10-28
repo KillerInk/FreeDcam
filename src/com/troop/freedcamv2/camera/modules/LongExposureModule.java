@@ -34,9 +34,11 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     LongExposureModule exposureModule;
     boolean doWork = false;
     boolean hasWork = false;
-    YuvImage baseYuv;
+    byte[] baseYuv;
+    byte[] mergeYuv;
     int height;
     int width;
+    Handler handler;
     String TAG = "freedcam.LongExposure";
 
 
@@ -66,11 +68,12 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 try
                 {
                     outStream = new FileOutputStream(file);
-                    baseYuv.compressToJpeg(new Rect(0,0,width,height), 100, outStream);
+                    YuvImage img  = new YuvImage(baseYuv, ImageFormat.NV21, width, height, null);
+                    img.compressToJpeg(new Rect(0, 0, width, height), 100, outStream);
                     outStream.flush();
                     outStream.close();
-
-                    System.gc();
+                    img = null;
+                    //System.gc();
                 }
                 catch (FileNotFoundException e)
                 {
@@ -80,51 +83,59 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 {
                     e.printStackTrace();
                 }
-                //baseYuv = null;
+                baseCameraHolder.GetCamera().setPreviewCallback(null);
+                baseYuv = null;
+
                 eventHandler.WorkFinished(file);
             }
         };
         int time = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_EXPOSURELONGTIME));
-        Handler handler = new Handler();
+        handler = new Handler();
         handler.postDelayed(runnable, time*1000);
     }
 
     @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        if (doWork && !hasWork && data != null)
+    public void onPreviewFrame(final byte[] data, Camera camera)
+    {
+        if (baseYuv == null)
+            baseYuv = data.clone();
+        if (baseYuv != null && mergeYuv == null && doWork && !hasWork)
         {
-            processYuvFrame(data);
-
-
+            mergeYuv = data.clone();
+            if (baseYuv != null && mergeYuv != null)
+                handler.post(runnable);
         }
+
+
+
 
     }
 
-    private void processYuvFrame(byte[] bytes) {
-        this.hasWork = true;
-        int pixelsize = (bytes.length / height) / width;
-        if (baseYuv == null)
-            baseYuv = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
-        else
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run()
         {
-
-            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
-            if (baseYuv == null )
-                return;
-            int row = 0;
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int a = baseYuv.getYuvData()[row + x] & 0xff;
-                    int b = img.getYuvData()[row + x] & 0xff;
-                    int c = (a + b) / 2;
-                    baseYuv.getYuvData()[row + x] = (byte) (c & 0xFF);
-                }
-                row += width;
-            }
-            img = null;
-            //System.gc();
-            Log.d(TAG, "ProcessYuvFrame");
+             processYuvFrame();
         }
+    };
+
+    private void processYuvFrame() {
+        this.hasWork = true;
+
+        if (baseYuv == null )
+            return;
+        int row = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int a = baseYuv[row + x] & 0xff;
+                int b = mergeYuv[row + x] & 0xff;
+                int c = (a + b) / 2;
+                baseYuv[row + x] = (byte) (c & 0xFF);
+            }
+            row += width;
+        }
+        mergeYuv = null;
+        //System.gc();
 
         this.hasWork = false;
     }
