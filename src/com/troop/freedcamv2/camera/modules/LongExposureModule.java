@@ -28,8 +28,10 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     public LongExposureModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name = ModuleHandler.MODULE_LONGEXPO;
+        exposureModule = this;
     }
 
+    LongExposureModule exposureModule;
     boolean doWork = false;
     boolean hasWork = false;
     YuvImage baseYuv;
@@ -50,7 +52,14 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             @Override
             public void run()
             {
-                doWork = false;
+                exposureModule.doWork = false;
+                while (exposureModule.hasWork) {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 //baseCameraHolder.SetPreviewCallback(null);
                 File file = createFilename();
                 OutputStream outStream = null;
@@ -92,7 +101,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     }
 
     private void processYuvFrame(byte[] bytes) {
-        hasWork = true;
+        this.hasWork = true;
         int pixelsize = (bytes.length / height) / width;
         if (baseYuv == null)
             baseYuv = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
@@ -113,11 +122,11 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 row += width;
             }
             img = null;
-            System.gc();
+            //System.gc();
             Log.d(TAG, "ProcessYuvFrame");
         }
 
-        hasWork = false;
+        this.hasWork = false;
     }
 
     public static int byteArrayToInt(byte[] b) {
