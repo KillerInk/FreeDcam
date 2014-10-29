@@ -2,6 +2,7 @@ package com.troop.freedcamv2.camera.modules;
 
 import android.hardware.Camera;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
@@ -34,11 +35,15 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     int hdrCount = 0;
     boolean hdr = false;
     Thread worker;
+    Handler handler;
+    File file;
+    byte bytes[];
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
         name = ModuleHandler.MODULE_PICTURE;
+        handler = new Handler();
     }
 
 //I_Module START
@@ -130,10 +135,11 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         {
             baseCameraHolder.errorHandler.OnError("Datasize : " + StringUtils.readableFileSize(data.length));
         }
-        File file = createFileName();
-
-        worker = new Thread(new saveFile(data.clone(), file));
-        worker.start();
+        file = createFileName();
+        bytes = data;
+        handler.post(saveFileRunner);
+        //worker = new Thread(new saveFile(data.clone(), file));
+        //worker.start();
         isWorking = false;
         if (baseCameraHolder.ParameterHandler.isExposureAndWBLocked)
             baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
@@ -142,6 +148,43 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         else*/
             baseCameraHolder.StartPreview();
     }
+
+    Runnable saveFileRunner = new Runnable() {
+        @Override
+        public void run()
+        {
+            if (OverRidePath == "")
+            {
+                if (!file.getAbsolutePath().endsWith(".dng")) {
+                    saveBytesToFile(bytes, file);
+                    eventHandler.WorkFinished(file);
+                    bytes = null;
+                    file = null;
+                } else {
+                    String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+                    String raw[] = rawSize.split("x");
+                    int w = Integer.parseInt(raw[0]);
+                    int h = Integer.parseInt(raw[1]);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                    eventHandler.WorkFinished(file);
+                }
+            }
+            else
+            {
+                file = new File(OverRidePath);
+                saveBytesToFile(bytes, file);
+                eventHandler.WorkFinished(file);
+                bytes = null;
+                file = null;
+            }
+            /*try {
+                worker.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
+        }
+    };
 
 
     private class saveFile implements Runnable {
