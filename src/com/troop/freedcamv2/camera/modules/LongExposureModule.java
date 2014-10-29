@@ -32,84 +32,103 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     }
 
     LongExposureModule exposureModule;
+    //if true the the preview frames are grabed
     boolean doWork = false;
+    //if true a preview frame merge is in progress
     boolean hasWork = false;
+    //stores the basyuv data wich get merged with the other frames
     byte[] baseYuv;
+    //stores the actual frame to merge
     byte[] mergeYuv;
+    //preview size height
     int height;
+    //preview size width
     int width;
+    //handler to process the merge
     Handler handler;
     String TAG = "freedcam.LongExposure";
 
 
     @Override
-    public void DoWork() {
+    public void DoWork()
+    {
+        //check if already working if true return
+        if (this.isWorking)
+            return;
+        //set working true
+        this.isWorking = true;
+
+        //get width and height from the preview
         width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
+        //start listen to the previewcallback
         baseCameraHolder.SetPreviewCallback(this);
+        //enable frame listing for the callback
         doWork = true;
+        //set baseyuv to null to start a new merge
         baseYuv = null;
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run()
-            {
-                exposureModule.doWork = false;
-                while (exposureModule.hasWork) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //baseCameraHolder.SetPreviewCallback(null);
-                File file = createFilename();
-                OutputStream outStream = null;
-                try
-                {
-                    outStream = new FileOutputStream(file);
-                    YuvImage img  = new YuvImage(baseYuv, ImageFormat.NV21, width, height, null);
-                    img.compressToJpeg(new Rect(0, 0, width, height), 100, outStream);
-                    outStream.flush();
-                    outStream.close();
-                    img = null;
-                    //System.gc();
-                }
-                catch (FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                baseCameraHolder.GetCamera().setPreviewCallback(null);
-                baseYuv = null;
-
-                eventHandler.WorkFinished(file);
-            }
-        };
+        // get the exposure duration
         int time = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_EXPOSURELONGTIME));
         handler = new Handler();
-        handler.postDelayed(runnable, time*1000);
+        //post the runnable after wich time it should stop grabbing the preview frames
+        handler.postDelayed(runnableFinishWork, time*1000);
     }
 
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
+        //if base yuv null a new
         if (baseYuv == null)
             baseYuv = data.clone();
-        if (baseYuv != null && mergeYuv == null && doWork && !hasWork)
+        else if (baseYuv != null && mergeYuv == null && doWork && !hasWork)
         {
             mergeYuv = data.clone();
             if (baseYuv != null && mergeYuv != null)
                 handler.post(runnable);
         }
-
-
-
-
     }
+
+    //this runs when the time is gone and stops listen to the preview and convert then the yuv data into an bitmap and saves it
+    Runnable runnableFinishWork = new Runnable() {
+        @Override
+        public void run()
+        {
+            exposureModule.doWork = false;
+            while (exposureModule.hasWork) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            //baseCameraHolder.SetPreviewCallback(null);
+            File file = createFilename();
+            OutputStream outStream = null;
+            try
+            {
+                outStream = new FileOutputStream(file);
+                YuvImage img  = new YuvImage(baseYuv, ImageFormat.NV21, width, height, null);
+                img.compressToJpeg(new Rect(0, 0, width, height), 100, outStream);
+                outStream.flush();
+                outStream.close();
+                img = null;
+                //System.gc();
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            baseCameraHolder.GetCamera().setPreviewCallback(null);
+            baseYuv = null;
+
+            eventHandler.WorkFinished(file);
+            exposureModule.isWorking = false;
+        }
+    };
 
     Runnable runnable = new Runnable() {
         @Override
@@ -127,9 +146,9 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         int row = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int a = baseYuv[row + x] & 0xff;
-                int b = mergeYuv[row + x] & 0xff;
-                int c = (a + b) / 2;
+                int a = (baseYuv[row + x] & 0xff);
+                int b = (mergeYuv[row + x] & 0xff);
+                int c = (a + b)/2;
                 baseYuv[row + x] = (byte) (c & 0xFF);
             }
             row += width;
