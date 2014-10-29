@@ -218,7 +218,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
                 if (!grouplist.contains(previewSettings))
                     grouplist.add(previewSettings);
             }
-            if (module.equals(ModuleHandler.MODULE_PICTURE)) {
+            if (module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) {
                 if (!grouplist.contains(picSettings))
                     grouplist.add(picSettings);
                 if (grouplist.contains(previewSettings))

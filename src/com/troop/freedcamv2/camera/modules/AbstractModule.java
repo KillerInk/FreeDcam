@@ -39,4 +39,13 @@ public abstract class AbstractModule implements I_Module
         return isWorking;
     }
 
+    @Override
+    public void LoadNeededParameters() {
+
+    }
+
+    @Override
+    public void UnloadNeededParameters() {
+
+    }
 }

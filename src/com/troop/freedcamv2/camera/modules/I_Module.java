@@ -12,4 +12,8 @@ public interface I_Module
      */
     public void DoWork();
     public boolean IsWorking();
+
+    public void LoadNeededParameters();
+    public void UnloadNeededParameters();
+
 }

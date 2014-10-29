@@ -39,13 +39,13 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
         this.moduleHandler = cameraUiWrapper.moduleHandler;
         modules = new HashMap<String, String>();
         modules.put("Pic", ModuleHandler.MODULE_PICTURE);
-        modules.put("LongExpo", ModuleHandler.MODULE_LONGEXPO);
+        modules.put("LoEx", ModuleHandler.MODULE_LONGEXPO);
         //modules.put("Video", ModuleHandler.MODULE_VIDEO);
-        //modules.put("HDR", ModuleHandler.MODULE_HDR);
+        modules.put("HDR", ModuleHandler.MODULE_HDR);
         //modules.put("Burst", ModuleHandler.MODULE_BURST);
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
         moduleView.setOnClickListener(this);
-        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+
         moduleView.setText(GetKeyFromValue(appSettingsManager.GetCurrentModule()));
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
 

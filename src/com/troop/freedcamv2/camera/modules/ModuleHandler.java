@@ -57,7 +57,10 @@ public class ModuleHandler
 
     public void SetModule(String name)
     {
+        if (currentModule !=null)
+            currentModule.UnloadNeededParameters();
         currentModule = moduleList.get(name);
+        currentModule.LoadNeededParameters();
         moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
         Log.d(TAG, "Set Module to " + name);
     }
@@ -94,8 +97,8 @@ public class ModuleHandler
         //VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(videoModule.ModuleName(), videoModule);
 
-        //HdrModule hdrModule = new HdrModule(cameraHolder,soundPlayer,appSettingsManager, moduleEventHandler);
-        //moduleList.put(hdrModule.ModuleName(), hdrModule);
+        HdrModule hdrModule = new HdrModule(cameraHolder,appSettingsManager, moduleEventHandler);
+        moduleList.put(hdrModule.ModuleName(), hdrModule);
 
         //BurstModule burstModule = new BurstModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);

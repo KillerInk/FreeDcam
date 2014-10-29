@@ -27,14 +27,12 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     public final String TAG = "freedcam.PictureModule";
 
-    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
+    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
     public String OverRidePath = "";
-    int hdrCount = 0;
-    boolean hdr = false;
-    Thread worker;
+
     Handler handler;
     File file;
     byte bytes[];
@@ -69,17 +67,6 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     {
         this.isWorking = true;
         Log.d(TAG, "Start Taking Picture");
-        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
-        {
-            if (!baseCameraHolder.ParameterHandler.AE_Bracket.GetValue().equals("Off"))
-            {
-                this.hdrCount = 0;
-                this.hdr =true;
-            }
-            else
-                this.hdr = false;
-        }
-
         try
         {
             //soundPlayer.PlayShutter();
@@ -119,12 +106,17 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public void onPictureTaken(byte[] data, Camera camera)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
+        if (processCallbackData(data)) return;
+        baseCameraHolder.StartPreview();
+    }
+
+    protected boolean processCallbackData(byte[] data) {
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
             isWorking = false;
             baseCameraHolder.StartPreview();
-            return;
+            return true;
         }
         else
         {
@@ -136,8 +128,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         isWorking = false;
         if (baseCameraHolder.ParameterHandler.isExposureAndWBLocked)
             baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
-        if(this.hdr == false || this.hdrCount == 2)
-            baseCameraHolder.StartPreview();
+        return false;
     }
 
     Runnable saveFileRunner = new Runnable() {
@@ -189,21 +180,26 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     }
 
-    private File createFileName()
+    protected File createFileName()
     {
         Log.d(TAG, "Create FileName");
-        String pictureFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+        String s1 = getStringAddTime();
+        return  getFileAndChooseEnding(s1);
+    }
+
+    protected String getStringAddTime()
+    {
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         if (!file.exists())
             file.mkdirs();
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
-        String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-        if (this.hdr)
-        {
-            s1 += "HDR" + this.hdrCount;
-            this.hdrCount++;
-        }
+        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+    }
+
+    protected File getFileAndChooseEnding(String s1)
+    {
+        String pictureFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
         if (baseCameraHolder.ParameterHandler.dngSupported)
         {
             if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
@@ -222,6 +218,6 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             if (jpsFormat.contains(pictureFormat))
                 return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
         }
-        return  null;
+        return null;
     }
 }
