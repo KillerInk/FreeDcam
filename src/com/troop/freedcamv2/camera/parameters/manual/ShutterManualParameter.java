@@ -102,14 +102,16 @@ public class ShutterManualParameter extends BaseManualParameter
     		parameters.set("sony-shutter-speed", valueToSet);
     		
         }*/
-            current = valueToSet;
-            String shutterstring = shutterValues[current];
-            if (shutterstring.contains("/"))
-            {
-                String split[] = shutterstring.split("/");
-                float a = Float.parseFloat(split[0])/ Float.parseFloat(split[1]);
-                shutterstring = ""+a;
-            }
+        current = valueToSet;
+        String shutterstring = shutterValues[current];
+        if (shutterstring.contains("/"))
+        {
+            String split[] = shutterstring.split("/");
+            float a = Float.parseFloat(split[0])/ Float.parseFloat(split[1]);
+            shutterstring = ""+a;
+
+        }
+        shutterstring = String. format("%01.8f",Float.parseFloat(shutterstring));
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter", shutterstring);
         if (DeviceUtils.isHTCADV())
