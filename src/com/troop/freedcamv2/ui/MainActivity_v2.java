@@ -43,7 +43,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     FlashSwitchHandler flashSwitchHandler;
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
-    ManualMenuHandler manualMenuHandler;
+    public ManualMenuHandler manualMenuHandler;
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;

@@ -155,13 +155,33 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public void onStartTrackingTouch(SeekBar seekBar)
+    {
 
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+
+    public void Incrase()
+    {
+        if (currentItem != null && manualSeekbar.getProgress() + 1 <= manualSeekbar.getMax())
+        {
+            setSeekbarProgress(manualSeekbar.getProgress() + 1);
+            setValueToParameters(manualSeekbar.getProgress());
+        }
+    }
+
+    public void Decrase()
+    {
+        if (currentItem != null && manualSeekbar.getProgress() - 1 >= 0)
+        {
+            setSeekbarProgress(manualSeekbar.getProgress() - 1);
+            setValueToParameters(manualSeekbar.getProgress());
+        }
     }
 
     @Override

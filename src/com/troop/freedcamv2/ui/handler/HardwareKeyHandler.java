@@ -1,5 +1,6 @@
 package com.troop.freedcamv2.ui.handler;
 
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.troop.freedcamv2.utils.DeviceUtils;
@@ -14,6 +15,7 @@ public class HardwareKeyHandler
     private final MainActivity_v2 activity;
     private final CameraUiWrapper cameraUiWrapper;
     boolean longKeyPress = false;
+    String TAG = "freedcam.HardwareKeyHandler";
 
     public HardwareKeyHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper)
     {
@@ -26,9 +28,11 @@ public class HardwareKeyHandler
     {
         boolean set = false;
         longKeyPress = false;
+
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
         {
             set = true;
+            Log.d(TAG, "KeyUp");
             activity.shutterHandler.DoWork();
 
         }
@@ -62,12 +66,22 @@ public class HardwareKeyHandler
 
     public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
-        if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK && event.isLongPress() && !longKeyPress)
-        {
-            longKeyPress = true;
-            activity.shutterHandler.OnLongClick();
+        if (event.isLongPress() && !longKeyPress) {
+            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+                Log.d(TAG, "LongKeyPress for Headsethook");
+                longKeyPress = true;
+                activity.shutterHandler.OnLongClick();
+
+            }
 
         }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+                activity.manualMenuHandler.Decrase();
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+                activity.manualMenuHandler.Incrase();
+        }
+
         return true;
     }
 }
