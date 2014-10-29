@@ -6,6 +6,7 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.troop.freedcamv2.camera.BaseCameraHolder;
@@ -29,6 +30,9 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         super(cameraHandler, Settings, eventHandler);
         name = ModuleHandler.MODULE_LONGEXPO;
         exposureModule = this;
+        frameThread = new HandlerThread(TAG);
+        frameThread.start();
+        frameHandler = new Handler(frameThread.getLooper());
     }
 
     LongExposureModule exposureModule;
@@ -46,7 +50,10 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     int width;
     //handler to process the merge
     Handler handler;
-    String TAG = "freedcam.LongExposure";
+    Handler frameHandler;
+    HandlerThread frameThread;
+    static String TAG = "freedcam.LongExposure";
+    int count;
 
 
     @Override
@@ -57,7 +64,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             return;
         //set working true
         this.isWorking = true;
-
+        count = 0;
         //get width and height from the preview
         width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
@@ -72,6 +79,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         handler = new Handler();
         //post the runnable after wich time it should stop grabbing the preview frames
         handler.postDelayed(runnableFinishWork, time*1000);
+
     }
 
     @Override
@@ -79,12 +87,15 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     {
         //if base yuv null a new
         if (baseYuv == null)
-            baseYuv = data.clone();
-        else if (baseYuv != null && mergeYuv == null && doWork && !hasWork)
+            baseYuv = data;
+        else if (baseYuv != null && doWork && !hasWork)
         {
-            mergeYuv = data.clone();
+            mergeYuv = data;
             if (baseYuv != null && mergeYuv != null)
-                handler.post(runnable);
+            {
+                baseCameraHolder.GetCamera().setPreviewCallback(null);
+                new Thread(runnable).start();
+            }
         }
     }
 
@@ -138,25 +149,80 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         }
     };
 
+
+    //Y = image[ w * y + x];
+    //U = image[ w * y + floor(y/2) * (w/2) + floor(x/2) + 1]
+    //V = image[ w * y + floor(y/2) * (w/2) + floor(x/2) + 0]
     private void processYuvFrame() {
         this.hasWork = true;
-
-        if (baseYuv == null )
+        Log.d(TAG, "StartProcessingFrame");
+        if (baseYuv == null)
             return;
         int row = 0;
+
+        int frameSize = width * height;
+
+        /*for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int yPos = y * width + x;
+
+                //baseYuv[y * width + x] = baseYuv[y * width + x] + mergeYuv[y * width + x];
+                baseYuv[yPos] = (byte) (((baseYuv[yPos] & 0xff) + (mergeYuv[yPos] & 0xff)) / 2 & 0xFF);
+                //i++;
+            }
+
+        }
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int a = (baseYuv[row + x] & 0xff);
-                int b = (mergeYuv[row + x] & 0xff);
-                int c = (a + b)/2;
-                baseYuv[row + x] = (byte) (c & 0xFF);
+                int uPos = (width * height) + (y * width) + x;
+                int vPos = (width * height) + (y * width) + (x + 1);
+                baseYuv[uPos] = (byte) (((baseYuv[uPos] & 0xff) + (mergeYuv[uPos] & 0xff)) / 2 & 0xFF);
+                baseYuv[vPos] = (byte) (((baseYuv[vPos] & 0xff) + (mergeYuv[vPos] & 0xff)) / 2 & 0xFF);
+
             }
-            row += width;
+        }*/
+
+        /*for (int j = 0, yp = 0; j < height; j++)
+        {
+            int uvp = frameSize + (j >> 1) * width, u = 0, v = 0, ub =0, vb=0, startuvp =0;
+            for (int i = 0; i < width; i++, yp++)
+            {
+                int y = (0xff & ((int) baseYuv[yp])) - 16;
+                int yb = (0xff & ((int) mergeYuv[yp])) - 16;
+                if (y < 0) y = 0;
+                if ((i & 1) == 0)
+                {
+                    startuvp = uvp;
+                    v = (0xff & baseYuv[uvp]) - 128;
+                    vb= (0xff & mergeYuv[uvp++]) - 128;
+                    u = (0xff & baseYuv[uvp]) - 128;
+                    ub = (0xff & mergeYuv[uvp++]) - 128;
+                }
+
+            }
+        }*/
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+
+
+                //baseYuv[row + x] = (byte) (((baseYuv[row + x] & 0xff) + (mergeYuv[row + x] & 0xff))/2 & 0xFF);
+                int yPos = y * width + x;
+                int uPos = (y/2)*(width/2)+(x/2) + frameSize;
+                int vPos = (y/2)*(width/2)+(x/2) + frameSize + (frameSize/4);
+                baseYuv[yPos] = (byte) (((baseYuv[yPos] & 0xff) + (mergeYuv[yPos] & 0xff))/2 & 0xFF);
+                baseYuv[uPos] = (byte) (((baseYuv[uPos] & 0xff) + (mergeYuv[uPos] & 0xff))/2 & 0xFF);
+                baseYuv[vPos] = (byte) (((baseYuv[vPos] & 0xff) + (mergeYuv[vPos] & 0xff))/2 & 0xFF);
+            }
+            //row += width;
         }
+        count++;
+        Log.d(TAG, "Frame Processed:" + count);
         mergeYuv = null;
         //System.gc();
 
         this.hasWork = false;
+        baseCameraHolder.GetCamera().setPreviewCallback(this);
     }
 
     public static int byteArrayToInt(byte[] b) {
