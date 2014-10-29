@@ -67,6 +67,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             else
             {
                 currentItem = item;
+                item.EnableItem();
                 currentItem.manualParameter.RestartPreview();
                 int min = item.manualParameter.GetMinValue();
                 int max = item.manualParameter.GetMaxValue();
@@ -117,13 +118,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
             if (currentItem.name.equals(activity.getString(R.string.manualmenu_shutter)))
             {
-                cameraUiWrapper.cameraHolder.StopPreview();
+                //cameraUiWrapper.cameraHolder.StopPreview();
                 currentItem.manualParameter.SetValue(value);
                 cameraUiWrapper.camParametersHandler.SetParametersToCamera();
 
                 ShutterManualParameter shutterManualParameter = (ShutterManualParameter)currentItem.manualParameter;
                 setTextValue(shutterManualParameter.GetStringValue());
-                cameraUiWrapper.cameraHolder.StartPreview();
+                //cameraUiWrapper.cameraHolder.StartPreview();
             }
             else
             {
