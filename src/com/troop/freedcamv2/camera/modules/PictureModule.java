@@ -55,7 +55,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     @Override
     public void DoWork()
     {
-        if (!isWorking)
+        if (!this.isWorking)
             takePicture();
     }
 
@@ -67,17 +67,17 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     private void takePicture()
     {
-        isWorking = true;
+        this.isWorking = true;
         Log.d(TAG, "Start Taking Picture");
         if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
         {
             if (!baseCameraHolder.ParameterHandler.AE_Bracket.GetValue().equals("Off"))
             {
-                hdrCount = 0;
-                hdr =true;
+                this.hdrCount = 0;
+                this.hdr =true;
             }
             else
-                hdr = false;
+                this.hdr = false;
         }
 
         try
@@ -97,7 +97,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     ShutterCallback shutterCallback = new ShutterCallback() {
         @Override
-        public void onShutter() {
+        public void onShutter()
+        {
 
         }
     };
@@ -108,15 +109,9 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             if (data!= null)
             {
                 Log.d(TAG, "RawCallback data size: " + data.length);
-                File file = createFileName();
-                final saveFile save = new saveFile(data.clone(), file);
-                final Thread worker = new Thread(save);
-                worker.start();
             }
             else
                 Log.d(TAG, "RawCallback data size is null" );
-            //if (data != null)
-            //saveRawData(data);
         }
     };
 
@@ -137,15 +132,11 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         file = createFileName();
         bytes = data;
-        handler.post(saveFileRunner);
-        //worker = new Thread(new saveFile(data.clone(), file));
-        //worker.start();
+        saveFileRunner.run();
         isWorking = false;
         if (baseCameraHolder.ParameterHandler.isExposureAndWBLocked)
             baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
-        /*if (hdr && hdrCount == 2)
-            baseCameraHolder.StartPreview();
-        else*/
+        if(this.hdr == false || this.hdrCount == 2)
             baseCameraHolder.StartPreview();
     }
 
@@ -177,61 +168,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                 bytes = null;
                 file = null;
             }
-            /*try {
-                worker.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-
         }
     };
-
-
-    private class saveFile implements Runnable {
-
-        private byte[] bytes;
-        private File file;
-
-        public saveFile(byte[] bytes, File file)
-        {
-            this.bytes = bytes;
-            this.file = file;
-        }
-        @Override
-        public void run()
-        {
-            if (OverRidePath == "")
-            {
-                if (!file.getAbsolutePath().endsWith(".dng")) {
-                    saveBytesToFile(bytes, file);
-                    eventHandler.WorkFinished(file);
-                    bytes = null;
-                    file = null;
-                } else {
-                    String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
-                    String raw[] = rawSize.split("x");
-                    int w = Integer.parseInt(raw[0]);
-                    int h = Integer.parseInt(raw[1]);
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
-                    eventHandler.WorkFinished(file);
-                }
-            }
-            else
-            {
-                file = new File(OverRidePath);
-                saveBytesToFile(bytes, file);
-                eventHandler.WorkFinished(file);
-                bytes = null;
-                file = null;
-            }
-            try {
-                worker.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
 
     private void saveBytesToFile(byte[] bytes, File fileName)
     {
@@ -261,10 +199,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-        if (hdr)
+        if (this.hdr)
         {
-            s1 += "HDR" + hdrCount;
-            hdrCount++;
+            s1 += "HDR" + this.hdrCount;
+            this.hdrCount++;
         }
         if (baseCameraHolder.ParameterHandler.dngSupported)
         {
