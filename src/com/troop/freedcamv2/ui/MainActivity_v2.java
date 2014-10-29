@@ -37,7 +37,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     CameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     MenuHandler menuHandler;
-    ShutterHandler shutterHandler;
+    public ShutterHandler shutterHandler;
     CameraSwitchHandler cameraSwitchHandler;
     ModuleSwitchHandler moduleSwitchHandler;
     FlashSwitchHandler flashSwitchHandler;
@@ -157,13 +157,31 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
-        boolean haskey = hardwareKeyHandler.OnKeyEvent(keyCode, event);
+        boolean haskey = hardwareKeyHandler.OnKeyUp(keyCode, event);
         if (!haskey)
             haskey = super.onKeyUp(keyCode, event);
 
         return haskey;
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        hardwareKeyHandler.OnKeyDown(keyCode, event);
+        return true;
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event)
+    {
+        boolean haskey = hardwareKeyHandler.OnKeyLongPress(keyCode, event);
+        if (!haskey)
+            haskey = super.onKeyLongPress(keyCode, event);
+        return haskey;
+    }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event)

@@ -13,6 +13,7 @@ public class HardwareKeyHandler
 {
     private final MainActivity_v2 activity;
     private final CameraUiWrapper cameraUiWrapper;
+    boolean longKeyPress = false;
 
     public HardwareKeyHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper)
     {
@@ -21,13 +22,14 @@ public class HardwareKeyHandler
 
     }
 
-    public boolean OnKeyEvent(int keyCode, KeyEvent event)
+    public boolean OnKeyUp(int keyCode, KeyEvent event)
     {
         boolean set = false;
+        longKeyPress = false;
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
         {
             set = true;
-            cameraUiWrapper.DoWork();
+            activity.shutterHandler.DoWork();
 
         }
         if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
@@ -36,12 +38,36 @@ public class HardwareKeyHandler
             if (keyCode == KeyEvent.KEYCODE_CAMERA)
             {
                 set = true;
-                cameraUiWrapper.DoWork();
+                activity.shutterHandler.DoWork();
             }
             // shutterbutton half pressed
             //if (keyCode == KeyEvent.KEYCODE_FOCUS)
 
         }
+        return true;
+    }
+
+    public boolean OnKeyLongPress(int keyCode, KeyEvent event)
+    {
+        boolean set = false;
+        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
+        {
+            set = true;
+            activity.shutterHandler.OnLongClick();
+
+        }
+
         return set;
+    }
+
+    public boolean OnKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK && event.isLongPress() && !longKeyPress)
+        {
+            longKeyPress = true;
+            activity.shutterHandler.OnLongClick();
+
+        }
+        return true;
     }
 }

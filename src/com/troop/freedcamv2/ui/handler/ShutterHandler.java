@@ -45,6 +45,11 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 
     @Override
     public void onClick(View v) {
+        DoWork();
+    }
+
+    public void DoWork()
+    {
         if (!currentModule.equals(ModuleHandler.MODULE_BURST))
         {
             cameraUiWrapper.DoWork();
@@ -102,8 +107,13 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     @Override
     public boolean onLongClick(View v)
     {
+        OnLongClick();
+        return false;
+    }
+
+    public void OnLongClick()
+    {
         cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
         Toast.makeText(activity, "Exposure and WhiteBalance locked", Toast.LENGTH_LONG).show();
-        return false;
     }
 }
