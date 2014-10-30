@@ -159,6 +159,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                     //baseYuv[vPos] = (byte) (((baseYuv[vPos] & 0xff) + (mergeYuv[vPos] & 0xff))/2 & 0xFF);
                 }
             }
+            yuvIntHolder = null;
             File file = createFilename();
             OutputStream outStream = null;
             try
@@ -169,7 +170,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 outStream.write(mergeYuv);
                 outStream.flush();
                 outStream.close();
-                //img = null;
+                img = null;
                 //System.gc();
             }
             catch (FileNotFoundException e)
@@ -181,11 +182,12 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 e.printStackTrace();
             }
 
-            //baseYuv = null;
+            mergeYuv = null;
 
             Log.d(TAG, "Work done");
             eventHandler.WorkFinished(file);
             exposureModule.isWorking = false;
+            System.gc();
         }
     };
 
