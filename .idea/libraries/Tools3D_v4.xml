@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Tools3D_v4">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/Tools3D_v4.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

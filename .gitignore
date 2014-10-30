@@ -9,3 +9,8 @@ out/production/FreeDCam/FreeDCam.apk
 local.properties
 build/
 .gradle/
+.idea/libraries/
+libs/armeabi-v7a/libRawToDng.so
+libs/armeabi-v7a/libtiff.so
+libs/armeabi/libRawToDng.so
+libs/armeabi/libtiff.so
