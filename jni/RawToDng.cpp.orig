@@ -1,0 +1,309 @@
+#include <jni.h>
+#include <tiffio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <math.h>
+#include <android/log.h>
+#define  LOG_TAG    "DEBUG"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
+
+
+
+enum cfa_pattern {
+CFA_BGGR = 0,
+CFA_GBRG =1,
+CFA_GRBG =2,
+CFA_RGGB =3,
+CFA_NUM_PATTERNS = 4,
+};
+
+enum tiff_cfa_color {
+CFA_RED = 0,
+CFA_GREEN = 1,
+CFA_BLUE = 2,
+};
+
+
+/*static const char cfa_patterns[4][CFA_NUM_PATTERNS] =
+{
+	[CFA_BGGR] = {CFA_BLUE, CFA_GREEN, CFA_GREEN, CFA_RED},
+	[CFA_GBRG] = {CFA_GREEN, CFA_BLUE, CFA_RED, CFA_GREEN},
+	[CFA_GRBG] = {CFA_GREEN, CFA_RED, CFA_BLUE, CFA_GREEN},
+	[CFA_RGGB] = {CFA_RED, CFA_GREEN, CFA_GREEN, CFA_BLUE},
+};*/
+
+extern "C"
+{
+	JNIEXPORT void JNICALL Java_com_example_androiddng_RawToDng_convertRawToDng(JNIEnv *env, jobject thiz, jstring filein, jstring fileout, jint width, jint height);
+}
+
+
+
+JNIEXPORT void JNICALL Java_com_example_androiddng_RawToDng_convertRawToDng(JNIEnv *env, jobject thiz, jstring filein, jstring fileout, jint width, jint height)
+{
+
+
+	LOGD("Start Converting");
+	const char *strfile= env->GetStringUTFChars(filein, 0);
+	const char *strfileout= env->GetStringUTFChars(fileout, 0);
+
+	static const short CFARepeatPatternDim[] = { 2,2 };
+	// this color matrix is definitely inaccurate, TODO: calibrate
+	static const float cam_xyz[] = {
+	// R G B
+	1.000,	0.000,	0.000,	// R
+	0.000,	1.000,	0.000,	// G
+	0.000,	0.000,	1.000	// B
+	};
+	static const float neutral[] = { 1.0, 1.0, 1.0 }; // TODO calibrate
+	long sub_offset=0, white=0x3fff;
+	int status=1, i, j, row, col;
+	unsigned short curve[256];
+	struct stat st;
+	struct tm tm;
+	char datetime[64];
+	FILE *ifp;
+	TIFF *tif;
+	unsigned int pattern = CFA_RGGB;
+	//const char* fname = argv[1];
+	unsigned char *buffer;
+	unsigned short pixel[width]; // array holds 16 bits per pixel
+	unsigned char split; // single byte with 4 pairs of low-order bits
+<<<<<<< HEAD
+	unsigned long fileLen; // number of bytes in file
+	unsigned long bytesLeft;
+	unsigned long theoFileLen;
+	unsigned long headerLen;
+	unsigned long rowSize;
+	tsize_t strip_size;
+=======
+>>>>>>> parent of c23c8dd... updated libtiff to 4.0.3
+
+	if (!(ifp = fopen (strfile, "r")))
+	{
+		LOGD("Error while open filein");
+		perror (strfile);
+		return;
+	}
+	LOGD("open filein");
+	stat (strfile, &st);
+	//gmtime_r (&st.st_mtime, &tm);
+	//sprintf (datetime, "%04d:%02d:%02d %02d:%02d:%02d",
+	//tm.tm_year+1900,tm.tm_mon+1,tm.tm_mday,tm.tm_hour,tm.tm_min,tm.tm_sec);
+	//Get file length
+	//fseek(ifp, 0, SEEK_END);
+	//fileLen=ftell(ifp);
+	//if (fileLen < RAWBLOCKSIZE) {
+	//fprintf(stderr, "File %s too short to contain expected 6MB RAW data.\n", fname);
+	//exit(1);
+	//}
+	//offset = (fileLen - RAWBLOCKSIZE) ; // location in file the raw header starts
+	//fseek(ifp, offset, SEEK_SET);
+	//printf("File length = %d bytes.\n",fileLen);
+	//printf("offset = %d:",offset);
+	//Allocate memory for one line of pixel data
+	//buffer=(unsigned char *)malloc(width+1);
+	/*if (!buffer)
+	{
+	fprintf(stderr, "Memory error!");
+	//status = ENOMEM;
+	goto fail;
+	}*/
+	if (!(tif = TIFFOpen (strfileout, "w"))) goto fail;
+	LOGD("created outputfile");
+	//fprintf(stderr, "Writing TIFF header...\n");
+
+	LOGD("write tiffheader");
+
+	/*TIFFSetField(tif, TIFFTAG_SUBFILETYPE, 1);
+
+	TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width >> 4);
+	TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height >> 4);
+	TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+	TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+	TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+	TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+	TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	TIFFSetField(tif, TIFFTAG_DATETIME, datetime);
+	TIFFSetField(tif, TIFFTAG_COMPRESSION,  COMPRESSION_NONE);
+
+
+	TIFFSetField(tif, TIFFTAG_ORIGINALRAWFILENAME, strfile);
+
+	//TIFFSetField(tif, TIFFTAG_CFAREPEATPATTERNDIM, (short[]){2,2});
+	//TIFFSetField(tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");
+	//TIFFSetField (tif, TIFFTAG_ROWSPERSTRIP, 1);
+	TIFFWriteDirectory (tif);
+	LOGD("write thumb");
+
+	//writes thumb??!
+	memset (pixel, 0, width);	// all-black thumbnail
+	LOGD("memset pixel");
+	for (row=0; row < height >> 4; row++)
+		TIFFWriteScanline (tif, pixel, row, 0);*/
+
+
+
+
+	TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 1);
+<<<<<<< HEAD
+
+	//TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &sub_offset);
+	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
+	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height);
+	TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 8);
+	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, cam_xyz);
+	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
+	TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\001\0\0");
+	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\0\0\0");
+	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "LG G3");
+	LOGD("write raw");
+	TIFFSetField (tif, TIFFTAG_CFAPATTERN,"bggr"); // 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+	//TIFFSetField (tif, TIFFTAG_LINEARIZATIONTABLE, 256, curve);
+	//TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
+	TIFFWriteDirectory(tif);
+	LOGD("Processing RAW data...");
+	strip_size = TIFFStripSize (tif);
+
+	buffer =(unsigned char *)_TIFFmalloc(width);
+
+
+	//TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(tif, width*4));
+
+	rowSize = fileLen - (height*width);
+	LOGD("Fill buffer with RowSize: %d", width);
+	//buffer = (unsigned char *) calloc (width*8, 1);
+	//buffer=(unsigned char *)malloc(rowSize);
+
+	LOGD("buffer filled %d", strip_size);
+
+	size_t result;
+	fseek(ifp, 0, SEEK_SET);
+	for (row=0; row <= height; row ++)
+=======
+	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width >> 4);
+	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height >> 4);
+	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 8);
+	TIFFSetField (tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+	TIFFSetField (tif, TIFFTAG_MAKE, "Raspberry Pi");
+	TIFFSetField (tif, TIFFTAG_MODEL, "Model OV5647");
+	TIFFSetField (tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 3);
+	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	TIFFSetField (tif, TIFFTAG_SOFTWARE, "raspi_dng");
+	TIFFSetField (tif, TIFFTAG_DATETIME, datetime);
+	TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &sub_offset);
+	TIFFSetField (tif, TIFFTAG_DNGVERSION, "\001\001\0\0");
+	TIFFSetField (tif, TIFFTAG_DNGBACKWARDVERSION, "\001\0\0\0");
+	TIFFSetField (tif, TIFFTAG_UNIQUECAMERAMODEL, "Raspberry Pi - OV5647");
+	TIFFSetField (tif, TIFFTAG_COLORMATRIX1, 9, cam_xyz);
+	TIFFSetField (tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+	TIFFSetField (tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+	TIFFSetField (tif, TIFFTAG_ORIGINALRAWFILENAME, strfile);
+
+	// fprintf(stderr, "Writing TIFF thumbnail...\n");
+	//memset (pixel, 0, width);	// all-black thumbnail
+	//for (row=0; row < height >> 4; row++)
+	//TIFFWriteScanline (tif, pixel, row, 0);
+	//TIFFWriteDirectory (tif);
+	// fprintf(stderr, "Writing TIFF header for main image...\n");
+	//TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
+	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height);
+	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 16);
+	//TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
+	//TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+	//TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	//TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+	//TIFFSetField (tif, TIFFTAG_CFAPATTERN, 4, "\002\001\001\0"); // 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+	//TIFFSetField (tif, TIFFTAG_LINEARIZATIONTABLE, 256, curve);
+	//TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
+	fprintf(stderr, "Processing RAW data...\n");
+	LOGD("Processing RAW data...");
+	// for one file, (TotalFileLength:11112983 - RawBlockSize:6404096) + Header:32768 = 4741655
+	// The pixel data is arranged in the file in rows, with 3264 bytes per row.
+	// with 3264 bytes per row x 1944 rows we have 6345216 bytes, that is the full 2592x1944 image area.
+	//Read one line of pixel data into buffer
+	//fread(buffer, IDSIZE, 1, ifp);
+	// now on to the pixel data
+	//offset = (fileLen - RAWBLOCKSIZE) + HEADERSIZE; // location in file the raw pixel data starts
+	//fseek(ifp, offset, SEEK_SET);
+
+	LOGD("Fill buffer");
+	buffer = (unsigned char *) calloc (width*10, 1);
+	LOGD("buffer filled");
+	/*for (row=0; row < height; row++)
+		{ // iterate over pixel rows
+			LOGD("try read next line of pixel data");
+			fread(buffer, width*2, 1, ifp); // read next line of pixel data
+			LOGD("read pixels into buffer");
+			j = 0; // offset into buffer
+			for (col = 0; col < width; col+= 4)
+			{ // iterate over pixel columns
+				pixel[col+0] = buffer[j++] << 8;
+				pixel[col+1] = buffer[j++] << 8;
+				pixel[col+2] = buffer[j++] << 8;
+				pixel[col+3] = buffer[j++] << 8;
+				split = buffer[j++]; // low-order packed bits from previous 4 pixels
+				pixel[col+0] += (split & 0b11000000); // unpack them bits, add to 16-bit values, left-justified
+				pixel[col+1] += (split & 0b00110000)<<2;
+				pixel[col+2] += (split & 0b00001100)<<4;
+				pixel[col+3] += (split & 0b00000011)<<6;
+			}
+			if (TIFFWriteScanline (tif, pixel, row, 0) != 1)
+			{
+				fprintf(stderr, "Error writing TIFF scanline.");
+				exit(1);
+			}
+		} // end for(k..)*/
+	for (row=0; row < height; row ++)
+>>>>>>> parent of c23c8dd... updated libtiff to 4.0.3
+	{
+		LOGD("read row: %d", row);
+<<<<<<< HEAD
+		//j = 0;
+		result = fread(buffer, width, 1, ifp);
+		if (result != 1)
+		{
+			LOGD("file end recieved to early");
+
+		}
+		TIFFWriteScanline (tif, buffer, row, 0);
+		//TIFFWriteRawStrip(tif, row, buffer, strip_size);
+
+=======
+		for(col=0;col<width*10;col++)
+		{
+			//LOGD("try read next line of pixel data");
+			int m = 0;
+			buffer[col+m] = fgetc(ifp);
+			//LOGD("read pixels into buffer");
+		}
+		LOGD("write line to tiff");
+		TIFFWriteScanline (tif, buffer, row, 0);
+		LOGD("line written to tiff");
+>>>>>>> parent of c23c8dd... updated libtiff to 4.0.3
+	}
+
+	LOGD("work finished");
+	free(buffer); // free up that memory we allocated
+	LOGD("all stuff freed");
+
+	TIFFClose (tif);
+	status = 0;
+	fail:
+	fclose (ifp);
+	//return status;
+	}
