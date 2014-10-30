@@ -90,9 +90,15 @@ LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/include \
                     $(LOCAL_PATH)/jpeg
 LOCAL_STATIC_LIBRARIES := libtiff
-
-
-
 include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := YuvMerge
+LOCAL_SRC_FILES := YuvMerge.cpp
+LOCAL_LDLIBS := -lz \
+	-lm \
+	-llog
+include $(BUILD_SHARED_LIBRARY)
+
 APP_OPTIM := debug
 LOCAL_CFLAGS := -g
