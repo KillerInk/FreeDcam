@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="real3d">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/real3d.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

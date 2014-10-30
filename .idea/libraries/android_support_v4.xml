@@ -1,7 +1,6 @@
 <component name="libraryTable">
-  <library name="libs">
+  <library name="android-support-v4">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/real3d.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/" />
     </CLASSES>
     <JAVADOC />
