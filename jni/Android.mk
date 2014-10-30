@@ -1,5 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
+
 include $(CLEAR_VARS)
 
 LOCAL_ARM_MODE := arm
@@ -60,7 +61,8 @@ LOCAL_LDLIBS := -lz \
 	-ljpeg
 LOCAL_STATIC_LIBRARIES  += $(LOCAL_PATH)/libs
 #LOCAL_PRELINK_MODULE:=false
-include $(BUILD_SHARED_LIBRARY)
+#include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
 
 
 #include $(CLEAR_VARS)
@@ -79,8 +81,16 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libRawToDng
 LOCAL_SRC_FILES := RawToDng.cpp
-LOCAL_LDLIBS := -llog
-LOCAL_SHARED_LIBRARIES := libtiff
+LOCAL_LDLIBS := -lz \
+	-L $(LOCAL_PATH)/libs \
+	-lm \
+	-ljpeg \
+	-llog
+LOCAL_C_INCLUDES += \
+					$(LOCAL_PATH)/include \
+                    $(LOCAL_PATH)/jpeg
+LOCAL_STATIC_LIBRARIES := libtiff
+
 
 
 include $(BUILD_SHARED_LIBRARY)
