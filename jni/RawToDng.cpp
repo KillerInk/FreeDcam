@@ -1,5 +1,5 @@
 #include <jni.h>
-#include <tiffio.h>
+#include <include/tiffio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
