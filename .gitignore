@@ -6,3 +6,4 @@ out/
 bin
 obj
 out/production/FreeDCam/FreeDCam.apk
+local.properties

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/FreeCam.iml" filepath="$PROJECT_DIR$/FreeCam.iml" />
       <module fileurl="file://$PROJECT_DIR$/FreeDCam.iml" filepath="$PROJECT_DIR$/FreeDCam.iml" />
     </modules>
   </component>
