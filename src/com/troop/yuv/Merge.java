@@ -15,6 +15,7 @@ public class Merge
     private ByteBuffer nativeHandler = null;
 
     private native ByteBuffer storeYuvFrame(byte data[]);
+    private native void release(ByteBuffer nativeHandler);
 
 
     public void AddYuvFrame(byte data[])
@@ -22,5 +23,13 @@ public class Merge
         if (nativeHandler != null)
             return;
         nativeHandler = storeYuvFrame(data);
+    }
+
+    public void Release()
+    {
+        if (nativeHandler == null)
+            return;
+        release(nativeHandler);
+        nativeHandler =null;
     }
 }

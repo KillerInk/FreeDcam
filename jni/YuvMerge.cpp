@@ -13,6 +13,7 @@
 extern "C"
 {
     JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jobject thiz, jbyte data[]);
+    JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thiz, jobject handler);
 }
 
 struct yuv
@@ -36,7 +37,21 @@ public:
 
 void mergeFrame(YuvIntContainer* merge, jbyte data[])
 {
-
+    int frameSize = merge->_width * merge->_height;
+    int i =0;
+    for (int y = 0; y < merge->_height; y++)
+    {
+        for (int x = 0; x < merge->_width; x++)
+        {
+            int yPos = y * merge->_width + x;
+            int uPos = (y/2)*(merge->_width/2)+(x/2) + frameSize;
+            int vPos = (y/2)*(merge->_width/2)+(x/2) + frameSize + (frameSize/4);
+            merge->_data[i].y += (data[yPos] & 0xff);
+            merge->_data[i].u += (data[uPos] & 0xff);
+            merge->_data[i].v += (data[vPos] & 0xff);
+            i++;
+        }
+    }
 }
 
 JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jobject thiz, jbyte data[], jint width, jint height)
@@ -44,4 +59,14 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jo
     YuvIntContainer* yuvi = new YuvIntContainer(width, height);
     mergeFrame(yuvi, data);
     return env->NewDirectByteBuffer(yuvi, 0);
+}
+
+JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thiz, jobject handler)
+{
+    YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
+    if(yuvi->_data == NULL)
+        return;
+    delete[] yuvi->_data;
+    yuvi->_data = NULL;
+    delete yuvi;
 }
