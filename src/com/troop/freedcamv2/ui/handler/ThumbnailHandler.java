@@ -25,6 +25,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     ImageView thumbView;
     Button delButton;
     File lastFile;
+    boolean working = false;
 
     public ThumbnailHandler(final MainActivity_v2 activity)
     {
@@ -54,12 +55,18 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     {
         thumbView.post(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 lastFile = filePath;
-                if (thumbView.getAlpha() == 1f)
-                    hideThumb(filePath);
-                else
-                    showThumb(filePath);
+                if(!working)
+                {
+                    working = true;
+                    if (thumbView.getAlpha() == 1f)
+                        hideThumb(filePath);
+                    else
+                        showThumb(filePath);
+                    working = false;
+                }
                 MediaScannerManager.ScanMedia(activity, filePath);
             }
         });
@@ -68,7 +75,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private Bitmap loadThumbViewImage(File file)
     {
-        if(!file.getAbsolutePath().endsWith("raw")) {
+        if(file.getAbsolutePath().endsWith("jpg")) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(file.getAbsolutePath(), options);
