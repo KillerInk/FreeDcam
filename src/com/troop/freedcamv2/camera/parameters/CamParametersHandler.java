@@ -26,6 +26,7 @@ import com.troop.freedcamv2.camera.parameters.modes.DigitalImageStabilizationPar
 import com.troop.freedcamv2.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.FocusModeParameter;
+import com.troop.freedcamv2.camera.parameters.modes.HistogramModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcamv2.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcamv2.camera.parameters.modes.JpegQualityParameter;
@@ -103,6 +104,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public NightModeParameter NightMode;
     public NonZslManualModeParameter NonZslManualMode;
     public AE_Bracket_HdrModeParameter AE_Bracket;
+    public HistogramModeParameter Histogram;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -187,6 +189,7 @@ public class CamParametersHandler implements I_ParameterChanged
         SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
+        Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
         String rawFormats[] = PictureFormat.GetValues();
         if (!DeviceUtils.isHTCADV()) {
             for (String s : rawFormats) {

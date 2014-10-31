@@ -59,10 +59,10 @@ public class MenuCreator
                 AppSettingsManager.SETTING_JPEGQUALITY, context.getString(R.string.jpeg_quality), cameraUiWrapper.moduleHandler.PictureModules);
         piclist.add(jpegquality);
 
-        if (cameraUiWrapper.camParametersHandler.AE_Bracket.IsSupported()) {
+        /*if (cameraUiWrapper.camParametersHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(cameraUiWrapper.camParametersHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);
             piclist.add(ae_bracket);
-        }
+        }*/
 
         if (cameraUiWrapper.camParametersHandler.RedEye.IsSupported())
         {
@@ -204,6 +204,11 @@ public class MenuCreator
         {
             ExpandableChild nzm = getNewChild(cameraUiWrapper.camParametersHandler.NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE, context.getString(R.string.quality_nonmanualzsl),cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(nzm);
+        }
+        if(cameraUiWrapper.camParametersHandler.Histogram.IsSupported())
+        {
+            ExpandableChild his = getNewChild(cameraUiWrapper.camParametersHandler.Histogram, AppSettingsManager.SETTING_HISTOGRAM, "Histogram", cameraUiWrapper.moduleHandler.AllModules );
+            childlist.add(his);
         }
 
         group.setItems(childlist);
