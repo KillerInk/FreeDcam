@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.troop.freedcamv2.camera.BaseCameraHolder;
 import com.troop.freedcamv2.ui.AppSettingsManager;
+import com.troop.yuv.Merge;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,6 +66,8 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     static String TAG = "freedcam.LongExposure";
     int count;
 
+    Merge nativeYuvMerge;
+
 
     @Override
     public void DoWork()
@@ -80,7 +83,8 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         //get width and height from the preview
         width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
-        yuvIntHolder = new YuvHolder[width*height];
+        if (nativeYuvMerge == null)
+            nativeYuvMerge = new Merge();
 
         //start listen to the previewcallback
         baseCameraHolder.SetPreviewCallback(this);
@@ -128,38 +132,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             }
             baseCameraHolder.GetCamera().setPreviewCallback(null);
 
-            /*for(int i =0; i < yuvIntHolder.length; i++)
-            {
-                yuvIntHolder[i].y  = yuvIntHolder[i].y /count;
-                yuvIntHolder[i].u = yuvIntHolder[i].u /count;
-                yuvIntHolder[i].v = yuvIntHolder[i].v / count;
-            }*/
-
-            int i = 0;
-            int frameSize = width * height;
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-
-
-                    //baseYuv[row + x] = (byte) (((baseYuv[row + x] & 0xff) + (mergeYuv[row + x] & 0xff))/2 & 0xFF);
-                    int yPos = y * width + x;
-                    int uPos = (y/2)*(width/2)+(x/2) + frameSize;
-                    int vPos = (y/2)*(width/2)+(x/2) + frameSize + (frameSize/4);
-                    //if (yuvIntHolder[x*y] == null)
-                    //    yuvIntHolder[x*y] = new YuvHolder();
-                    mergeYuv[yPos] = (byte) (yuvIntHolder[i].y / count & 0xff);
-                    mergeYuv[uPos] = (byte) (yuvIntHolder[i].u /count & 0xff);
-                    mergeYuv[vPos] = (byte) (yuvIntHolder[i].v /count & 0xff);
-                    i++;
-                    //yuvIntHolder[x*y].y += (mergeYuv[yPos] & 0xff);
-                    //yuvIntHolder[x*y].u += (mergeYuv[uPos] & 0xff);
-                    //yuvIntHolder[x*y].v += (mergeYuv[vPos] & 0xff);
-                    //baseYuv[yPos] = (byte) (((baseYuv[yPos] & 0xff) + (mergeYuv[yPos] & 0xff))/2 & 0xFF);
-                    //baseYuv[uPos] = (byte) (((baseYuv[uPos] & 0xff) + (mergeYuv[uPos] & 0xff))/2 & 0xFF);
-                    //baseYuv[vPos] = (byte) (((baseYuv[vPos] & 0xff) + (mergeYuv[vPos] & 0xff))/2 & 0xFF);
-                }
-            }
-            yuvIntHolder = null;
+            mergeYuv = nativeYuvMerge.GetMergedYuv(count);
             File file = createFilename();
             OutputStream outStream = null;
             try
@@ -167,7 +140,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 outStream = new FileOutputStream(file);
                 YuvImage img  = new YuvImage(mergeYuv, ImageFormat.NV21, width, height, null);
                 img.compressToJpeg(new Rect(0, 0, width, height), 100, outStream);
-                outStream.write(mergeYuv);
+                //outStream.write(mergeYuv);
                 outStream.flush();
                 outStream.close();
                 img = null;
@@ -183,6 +156,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             }
 
             mergeYuv = null;
+            nativeYuvMerge.Release();
 
             Log.d(TAG, "Work done");
             eventHandler.WorkFinished(file);
@@ -200,9 +174,6 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     };
 
 
-    //Y = image[ w * y + x];
-    //U = image[ w * y + floor(y/2) * (w/2) + floor(x/2) + 1]
-    //V = image[ w * y + floor(y/2) * (w/2) + floor(x/2) + 0]
     private void processYuvFrame() {
         this.hasWork = true;
         Log.d(TAG, "StartProcessingFrame");
@@ -212,25 +183,11 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
 
         int frameSize = width * height;
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        if (count == 0)
+            nativeYuvMerge.AddFirstYuvFrame(mergeYuv, width, height);
+        else
+            nativeYuvMerge.AddNextYuvFrame(mergeYuv);
 
-
-                //baseYuv[row + x] = (byte) (((baseYuv[row + x] & 0xff) + (mergeYuv[row + x] & 0xff))/2 & 0xFF);
-                int yPos = y * width + x;
-                int uPos = (y/2)*(width/2)+(x/2) + frameSize;
-                int vPos = (y/2)*(width/2)+(x/2) + frameSize + (frameSize/4);
-                if (yuvIntHolder[i] == null)
-                    yuvIntHolder[i] = new YuvHolder();
-                yuvIntHolder[i].y += (mergeYuv[yPos] & 0xff);
-                yuvIntHolder[i].u += (mergeYuv[uPos] & 0xff);
-                yuvIntHolder[i].v += (mergeYuv[vPos] & 0xff);
-                i++;
-                //baseYuv[yPos] = (byte) (((baseYuv[yPos] & 0xff) + (mergeYuv[yPos] & 0xff))/2 & 0xFF);
-                //baseYuv[uPos] = (byte) (((baseYuv[uPos] & 0xff) + (mergeYuv[uPos] & 0xff))/2 & 0xFF);
-                //baseYuv[vPos] = (byte) (((baseYuv[vPos] & 0xff) + (mergeYuv[vPos] & 0xff))/2 & 0xFF);
-            }
-        }
         count++;
         Log.d(TAG, "Frame Processed:" + count);
 
@@ -239,18 +196,6 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         baseCameraHolder.GetCamera().setPreviewCallback(this);
     }
 
-    public static int byteArrayToInt(byte[] b) {
-        final ByteBuffer bb = ByteBuffer.wrap(b);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        return bb.getInt();
-    }
-
-    public static byte[] intToByteArray(int i) {
-        final ByteBuffer bb = ByteBuffer.allocate(Integer.SIZE / Byte.SIZE);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.putInt(i);
-        return bb.array();
-    }
 
     private File createFilename() {
         Log.d(TAG,"Create FileName");
