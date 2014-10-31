@@ -23,7 +23,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 {
     final MainActivity_v2 activity;
     ImageView thumbView;
-    Button delButton;
+    Bitmap bitmap;
     File lastFile;
     boolean working = false;
 
@@ -81,7 +81,9 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
             BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
             options.inJustDecodeBounds = false;
-            return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            options =null;
+            return map;
         }
         else return null;
     }
@@ -110,9 +112,10 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void hideThumb(final File filePath)
     {
-        if (thumbView.getAlpha() == 1f)
+        /*if (thumbView.getAlpha() == 1f)
         {
-            thumbView.animate().alpha(0f).setDuration(200).setListener(new Animator.AnimatorListener() {
+            thumbView.animate().alpha(0f).setDuration(200).setListener(new Animator.AnimatorListener()
+            {
                 @Override
                 public void onAnimationStart(Animator animation) {
 
@@ -123,7 +126,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                     //thumbView.setVisibility(View.GONE);
                     //thumbView.setImageBitmap(loadThumbViewImage(filePath));
 
-                    showThumb(filePath);
+
                 }
 
                 @Override
@@ -136,13 +139,22 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
                 }
             }).start();
-        }
+        }*/
+        showThumb(filePath);
     }
 
     private void showThumb(File filePath)
     {
             if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw"))
-                thumbView.setImageBitmap(loadThumbViewImage(filePath));
+            {
+                if (bitmap != null) {
+                    bitmap.recycle();
+                    bitmap = null;
+                    System.gc();
+                }
+                bitmap = loadThumbViewImage(filePath);
+                thumbView.setImageBitmap(bitmap);
+            }
             thumbView.animate().alpha(1f).setDuration(200).start();
 
 
