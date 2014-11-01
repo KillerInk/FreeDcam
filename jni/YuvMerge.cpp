@@ -12,7 +12,7 @@
 
 #define GETYPOS(x,y, width) y * width + x;
 #define GETUPOS(x,y, width, frameSize) (y/2)*(width/2)+(x/2) + frameSize;
-#define GETVPOS(x,y, width, frameSize) GETUPOS(x,y,width, frameSize) + (frameSize/4);
+#define GETVPOS(x,y, width, frameSize) (y/2)*(width/2)+(x/2) + frameSize + (frameSize/4);
 
 extern "C"
 {
@@ -49,28 +49,17 @@ void mergeFrame(YuvIntContainer* yuvi, unsigned char* data)
     int i =0, yPos, uPos, vPos, width =yuvi->_width , height = yuvi->_height;
     for (int y = 0; y < height; y++)
     {
-        for (int x = 0; x < width; x +=4)
+        for (int x = 0; x < width; x ++)
         {
-            yPos = GETYPOS(x,y,width);// y * yuvi->_width + x;
-            uPos = GETUPOS(x,y,width, frameSize);// (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
-            vPos = GETVPOS(x,y,width, frameSize); // (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
+            yPos = GETYPOS(x,y,width);
+            uPos = GETUPOS(x,y,width, frameSize);
+            vPos = GETVPOS(x,y,width, frameSize);
 
             yuvi->_data[i].y += data[yPos];
             yuvi->_data[i].u += data[uPos];
             yuvi->_data[i].v += data[vPos];
 
-            yuvi->_data[i+1].y += data[yPos+1];
-            yuvi->_data[i+1].u += data[uPos+1];
-            yuvi->_data[i+1].v += data[vPos+1];
-
-            yuvi->_data[i+2].y += data[yPos+2];
-            yuvi->_data[i+2].u += data[uPos+2];
-            yuvi->_data[i+2].v += data[vPos+2];
-
-            yuvi->_data[i+3].y += data[yPos+3];
-            yuvi->_data[i+3].u += data[uPos+3];
-            yuvi->_data[i+3].v += data[vPos+3];
-            i+=4;
+            i++;
         }
     }
 }
