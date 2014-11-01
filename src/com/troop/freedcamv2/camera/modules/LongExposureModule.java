@@ -83,8 +83,9 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         //get width and height from the preview
         width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
-        if (nativeYuvMerge == null)
-            nativeYuvMerge = new Merge();
+        if (nativeYuvMerge != null)
+            nativeYuvMerge.Release();
+        nativeYuvMerge = new Merge();
 
         //start listen to the previewcallback
         baseCameraHolder.SetPreviewCallback(this);
@@ -112,7 +113,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             if (mergeYuv != null)
             {
                 baseCameraHolder.GetCamera().setPreviewCallback(null);
-                new Thread(runnable).start();
+                processYuvFrame(data);
             }
         }
     }
@@ -132,13 +133,18 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             }
             baseCameraHolder.GetCamera().setPreviewCallback(null);
 
-            mergeYuv = nativeYuvMerge.GetMergedYuv(count);
             File file = createFilename();
+            if (!file.exists())
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             OutputStream outStream = null;
             try
             {
                 outStream = new FileOutputStream(file);
-                YuvImage img  = new YuvImage(mergeYuv, ImageFormat.NV21, width, height, null);
+                YuvImage img  = new YuvImage(nativeYuvMerge.GetMergedYuv(count), ImageFormat.NV21, width, height, null);
                 img.compressToJpeg(new Rect(0, 0, width, height), 100, outStream);
                 //outStream.write(mergeYuv);
                 outStream.flush();
@@ -169,12 +175,12 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         @Override
         public void run()
         {
-             processYuvFrame();
+             //processYuvFrame();
         }
     };
 
 
-    private void processYuvFrame() {
+    private void processYuvFrame(byte mergeYuv[]) {
         this.hasWork = true;
         Log.d(TAG, "StartProcessingFrame");
         if (mergeYuv == null)
@@ -183,10 +189,12 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
 
         int frameSize = width * height;
 
-        if (count == 0)
+        if (count == 0) {
             nativeYuvMerge.AddFirstYuvFrame(mergeYuv, width, height);
-        else
+        }
+        else {
             nativeYuvMerge.AddNextYuvFrame(mergeYuv);
+        }
 
         count++;
         Log.d(TAG, "Frame Processed:" + count);

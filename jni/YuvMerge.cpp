@@ -21,9 +21,9 @@ extern "C"
 class yuv
 {
 public:
-    int y;
-    int u;
-    int v;
+    uint16_t y;
+    uint16_t u;
+    uint16_t v;
     yuv(){};
 };
 class YuvIntContainer
@@ -65,13 +65,13 @@ void mergeFrame(YuvIntContainer* yuvi, unsigned char* data)
             }
             else
             {*/
-                if(x == 2 && y == 2)
+                if(x == 80 && y == 80)
                     LOGD("Y: %i dataY: %i", yuvi->_data[i].y, (int)data[yPos]);
-                yuvi->_data[i].y += (int)data[yPos] & 0xff;
-                if(x == 2 && y == 2)
+                yuvi->_data[i].y += 0xff & data[yPos];
+                if(x == 80 && y == 80)
                     LOGD("Yafter: %i", yuvi->_data[i].y);
-                yuvi->_data[i].u += (int)data[uPos] & 0xff;
-                yuvi->_data[i].v += (int)data[vPos] & 0xff;
+                yuvi->_data[i].u += 0xff & data[uPos];
+                yuvi->_data[i].v += 0xff & data[vPos];
             //}
             i++;
         }
@@ -93,11 +93,11 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jo
 JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thiz, jobject handler)
 {
     YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
-    if(yuvi->_data == NULL)
-        return;
+
     delete[] yuvi->_data;
     yuvi->_data = NULL;
     delete yuvi;
+    yuvi = NULL;
 }
 
 JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_storeNextYuvFrame(JNIEnv *env, jobject thiz, jobject handler, jbyteArray data)
@@ -144,20 +144,15 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, job
             vPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
             if(yPos >= yuvsize || uPos >= yuvsize || vPos >= yuvsize)
                 LOGD("Error: yPos:%i uPos:%i vPos:%i", yPos, uPos , vPos);
-            //LOGD("have byte positions");
 
-            unsigned char cy = (unsigned char)(yuvi->_data[i].y /count);
-            unsigned char cu = (unsigned char)(yuvi->_data[i].u /count);
-            unsigned char cv = (unsigned char)(yuvi->_data[i].v /count);
-            if(x == 2 && y == 2)
-                LOGD("Y: %i cY: %c", yuvi->_data[i].y, cy);
-            //LOGD("y:%i u:%i v:%i", yuvi->_data[i].y, yuvi->_data[i].u, yuvi->_data[i].v);
+            if(x == 80 && y == 80)
+                LOGD("Y: %i ", yuvi->_data[i].y);
 
-            chararray[yPos] = cy;
+            chararray[yPos] = (0xff & yuvi->_data[i].y /count); //cy;
             //LOGD("set cy char %c", cy);
-            chararray[uPos] = cu;
+            chararray[uPos] = (0xff & yuvi->_data[i].u /count); //cu;
             //LOGD("set cy char %c", cu);
-            chararray[vPos] = cv;
+            chararray[vPos] = (0xff & yuvi->_data[i].v /count);//cv;
             //LOGD("set cy char %c", cv);
             /*jbyte *jy = (jbyte*) (yuvi->_data[i].y /count & 0xff);
             jbyte *ju = (jbyte*) (yuvi->_data[i].u /count & 0xff);

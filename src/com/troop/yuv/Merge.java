@@ -22,16 +22,19 @@ public class Merge
 
     private ByteBuffer nativeHandler = null;
 
-    private native ByteBuffer storeYuvFrame(byte data[], int widht, int height);
-    private native void release(ByteBuffer nativeHandler);
-    private native void storeNextYuvFrame(ByteBuffer nativeHandler, byte data[]);
-    private native byte[] getMergedYuv(ByteBuffer nativeHandler, int count);
+    private static native ByteBuffer storeYuvFrame(byte data[], int widht, int height);
+    private static native void release(ByteBuffer nativeHandler);
+    private static native void storeNextYuvFrame(ByteBuffer nativeHandler, byte data[]);
+    private static native byte[] getMergedYuv(ByteBuffer nativeHandler, int count);
 
 
     public void AddFirstYuvFrame(byte data[], int width, int height)
     {
-        if (nativeHandler != null)
+        if (nativeHandler != null) {
             Release();
+            Log.d(TAG, "Native handler not null realasing it");
+            nativeHandler = null;
+        }
         Log.d(TAG, "first frame");
         nativeHandler = storeYuvFrame(data, width, height);
         Log.d(TAG, "first frame stored");
