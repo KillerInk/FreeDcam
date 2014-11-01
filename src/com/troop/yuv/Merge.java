@@ -39,18 +39,14 @@ public class Merge
         }
         this.width = width;
         this.height =height;
-        Log.d(TAG, "first frame");
         nativeHandler = storeYuvFrame(data, width, height);
-        Log.d(TAG, "first frame stored");
     }
 
     public void AddNextYuvFrame(byte data[])
     {
         if (nativeHandler == null)
             return;
-        Log.d(TAG, "next frame");
         storeNextYuvFrame(nativeHandler, data);
-        Log.d(TAG, "next frame stored");
     }
 
     public void Release()

@@ -83,10 +83,8 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         //get width and height from the preview
         width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
-        if (nativeYuvMerge != null)
-            nativeYuvMerge.Release();
-        nativeYuvMerge = null;
-        nativeYuvMerge = new Merge();
+        if (nativeYuvMerge == null)
+            nativeYuvMerge = new Merge();
 
         //start listen to the previewcallback
         baseCameraHolder.SetPreviewCallback(this);
@@ -105,9 +103,6 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        //if base yuv null a new
-        //if (baseYuv == null)
-            //baseYuv = data;
         if (doWork && !hasWork)
         {
             mergeYuv = null;
@@ -115,7 +110,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             if (mergeYuv != null)
             {
                 baseCameraHolder.GetCamera().setPreviewCallback(null);
-                processYuvFrame(data);
+                handler.post(runnable);
             }
         }
     }
@@ -126,6 +121,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         public void run()
         {
             exposureModule.doWork = false;
+            //wait until the last frame is saved
             while (exposureModule.hasWork) {
                 try {
                     Thread.sleep(1);
@@ -133,6 +129,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                     e.printStackTrace();
                 }
             }
+            //remove the previewcallback
             baseCameraHolder.GetCamera().setPreviewCallback(null);
 
             File file = createFilename();
@@ -177,19 +174,16 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         @Override
         public void run()
         {
-             //processYuvFrame();
+             processYuvFrame();
         }
     };
 
 
-    private void processYuvFrame(byte mergeYuv[]) {
+    private void processYuvFrame() {
         this.hasWork = true;
         Log.d(TAG, "StartProcessingFrame");
         if (mergeYuv == null)
             return;
-        int i = 0;
-
-        int frameSize = width * height;
 
         if (count == 0) {
             nativeYuvMerge.AddFirstYuvFrame(mergeYuv, width, height);
@@ -200,7 +194,6 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
 
         count++;
         Log.d(TAG, "Frame Processed:" + count);
-
 
         this.hasWork = false;
         baseCameraHolder.GetCamera().setPreviewCallback(this);
