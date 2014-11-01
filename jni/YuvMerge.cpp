@@ -15,7 +15,7 @@ extern "C"
     JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jobject thiz, jbyteArray data, jint width, jint height);
     JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_storeNextYuvFrame(JNIEnv *env, jobject thiz, jobject handler, jbyteArray data);
-    JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, jobject thiz, jobject handler, jint count);
+    JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, jobject thiz, jobject handler, jint count, jbyteArray byteArray);
 }
 
 class yuv
@@ -43,14 +43,14 @@ void mergeFrame(YuvIntContainer* yuvi, unsigned char* data)
 {
     LOGD("Start Merging Frame");
     int frameSize = yuvi->_width * yuvi->_height;
-    int i =0;
+    int i =0, yPos, uPos, vPos;
     for (int y = 0; y < yuvi->_height; y++)
     {
         for (int x = 0; x < yuvi->_width; x++)
         {
-            int yPos = y * yuvi->_width + x;
-            int uPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
-            int vPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
+            yPos = y * yuvi->_width + x;
+            uPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
+            vPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
             //LOGD("Have yuv byte possis");
             /*if(yuvi->_data[i].y == NULL)
             {
@@ -84,8 +84,10 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jo
     LOGD("Create YuvIntContainer");
     YuvIntContainer* yuvi = new YuvIntContainer(width, height);
     LOGD("Created YuvIntContainer");
-    static unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
+    unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
     mergeFrame(yuvi, nativedata);
+    delete[] nativedata;
+    nativedata = NULL;
     LOGD("First Frame Merged");
     return env->NewDirectByteBuffer(yuvi, 0);
 }
@@ -94,8 +96,13 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thi
 {
     YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
 
-    delete[] yuvi->_data;
-    yuvi->_data = NULL;
+    if(yuvi->_data != NULL)
+    {
+        delete[] yuvi->_data;
+        yuvi->_data = NULL;
+        yuvi->_width = NULL;
+        yuvi->_height = NULL;
+    }
     delete yuvi;
     yuvi = NULL;
 }
@@ -105,7 +112,7 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_storeNextYuvFrame(JNIEnv *env, j
     LOGD("get YuvIntContainer");
     YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
     LOGD("Load data");
-    static unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
+    unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
     LOGD("data nextframe loaded");
     mergeFrame(yuvi, nativedata);
     LOGD("next frame merged");
@@ -114,31 +121,24 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_storeNextYuvFrame(JNIEnv *env, j
     LOGD("cleaned up");
 }
 
-JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, jobject thiz, jobject handler, jint count)
+JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, jobject thiz, jobject handler, jint count, jbyteArray byteArray)
 {
     LOGD("get MergedYuv");
     YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
     LOGD("loaded yuvIntContainer");
     //yuv420sp previewsize in bytes for 2560x1440 = 5529600 bytes = w x h + (w x h) /4 *2
     int yuvsize = (yuvi->_width * yuvi->_height) + (yuvi->_width * yuvi->_height)/2;
-    LOGD("new filesize: %i", yuvsize);
-    int yPos, uPos, vPos;
+    //LOGD("new filesize: %i", yuvsize);
+    int yPos, uPos, vPos, i= 0;
 
 
     unsigned char * chararray = (unsigned char*)malloc(yuvsize);
 
     LOGD("Fill jbyteArray");
-    int i = 0;
     int frameSize = yuvi->_width * yuvi->_height;
     for (int y = 0; y < yuvi->_height; y++) {
         for (int x = 0; x < yuvi->_width; x++)
         {
-
-            //if(dataToRet == NULL)
-            //    LOGD("jbyteArray is null");
-            //if(yuvi->_data[i].y == NULL)
-                //LOGD("yuvi data.y is null");
-
             yPos = y * yuvi->_width + x;
             uPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
             vPos = (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
@@ -149,27 +149,16 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, job
                 LOGD("Y: %i ", yuvi->_data[i].y);
 
             chararray[yPos] = (0xff & yuvi->_data[i].y /count); //cy;
-            //LOGD("set cy char %c", cy);
             chararray[uPos] = (0xff & yuvi->_data[i].u /count); //cu;
-            //LOGD("set cy char %c", cu);
             chararray[vPos] = (0xff & yuvi->_data[i].v /count);//cv;
-            //LOGD("set cy char %c", cv);
-            /*jbyte *jy = (jbyte*) (yuvi->_data[i].y /count & 0xff);
-            jbyte *ju = (jbyte*) (yuvi->_data[i].u /count & 0xff);
-            jbyte *jv = (jbyte*) (yuvi->_data[i].v /count & 0xff);
-            LOGD("loaded jbytes");
-            env->SetByteArrayRegion(dataToRet, yPos, 1, jy);
-            env->SetByteArrayRegion(dataToRet, uPos, 1, ju);
-            env->SetByteArrayRegion(dataToRet, vPos, 1, jv);*/
             i++;
-            //(jbyte*)((yuvi->_data[i].v /count) & 0xff)
         }
     }
     LOGD("Filled jbyteArray");
-    jbyteArray dataToRet = env->NewByteArray(yuvsize);
-    env->SetByteArrayRegion(dataToRet, 0, yuvsize, reinterpret_cast<const jbyte*>(chararray));
-    delete chararray;
+    //jbyteArray dataToRet = env->NewByteArray(yuvsize);
+    env->SetByteArrayRegion(byteArray, 0, yuvsize, reinterpret_cast<const jbyte*>(chararray));
+    delete[] chararray;
     chararray = NULL;
     LOGD("filled Jnibytearray");
-    return dataToRet;
+    return byteArray;
 }

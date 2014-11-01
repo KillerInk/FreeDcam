@@ -21,11 +21,13 @@ public class Merge
     }
 
     private ByteBuffer nativeHandler = null;
+    int width;
+    int height;
 
     private static native ByteBuffer storeYuvFrame(byte data[], int widht, int height);
     private static native void release(ByteBuffer nativeHandler);
     private static native void storeNextYuvFrame(ByteBuffer nativeHandler, byte data[]);
-    private static native byte[] getMergedYuv(ByteBuffer nativeHandler, int count);
+    private static native byte[] getMergedYuv(ByteBuffer nativeHandler, int count, byte arrayToFill[]);
 
 
     public void AddFirstYuvFrame(byte data[], int width, int height)
@@ -35,6 +37,8 @@ public class Merge
             Log.d(TAG, "Native handler not null realasing it");
             nativeHandler = null;
         }
+        this.width = width;
+        this.height =height;
         Log.d(TAG, "first frame");
         nativeHandler = storeYuvFrame(data, width, height);
         Log.d(TAG, "first frame stored");
@@ -63,6 +67,8 @@ public class Merge
         if (nativeHandler == null)
             return null;
         Log.d(TAG, "Get MErged Yuv");
-        return getMergedYuv(nativeHandler, count);
+        int yuvsize = (width * height) + (width * height)/2;
+        byte ar[] = new byte[yuvsize];
+        return getMergedYuv(nativeHandler, count, ar);
     }
 }

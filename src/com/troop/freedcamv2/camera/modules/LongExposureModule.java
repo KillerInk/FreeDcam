@@ -85,6 +85,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
         if (nativeYuvMerge != null)
             nativeYuvMerge.Release();
+        nativeYuvMerge = null;
         nativeYuvMerge = new Merge();
 
         //start listen to the previewcallback
@@ -109,6 +110,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             //baseYuv = data;
         if (doWork && !hasWork)
         {
+            mergeYuv = null;
             mergeYuv = data;
             if (mergeYuv != null)
             {
