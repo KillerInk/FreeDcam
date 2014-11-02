@@ -206,7 +206,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     public int OrientationChanged(int orientation)
     {   super.OrientationChanged(orientation);
 
-        cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
+        //cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
         return orientation;
     }
 
