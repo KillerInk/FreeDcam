@@ -309,4 +309,10 @@ public class CamParametersHandler implements I_ParameterChanged
         }
         cameraHolder.SetCameraParameters(cameraParameters);
     }
+
+    public void setTHL5000rawFilename(String filename)
+    {
+        cameraParameters.set("rawfname", filename);
+        cameraHolder.SetCameraParameters(cameraParameters);
+    }
 }

@@ -70,7 +70,15 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         try
         {
             //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
+            if (DeviceUtils.isMediaTekTHL5000()
+                    && (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
+                    || Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw")))
+            {
+                baseCameraHolder.ParameterHandler.setTHL5000rawFilename(createFileName().getAbsolutePath());
+                baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
+            }
+            else
+                baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
 
         }
@@ -106,8 +114,15 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public void onPictureTaken(byte[] data, Camera camera)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
-        if (processCallbackData(data)) return;
-        baseCameraHolder.StartPreview();
+        if (DeviceUtils.isMediaTekTHL5000()
+                && (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
+                || Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))) {
+            return;
+        }
+        else {
+            if (processCallbackData(data)) return;
+            baseCameraHolder.StartPreview();
+        }
     }
 
     protected boolean processCallbackData(byte[] data) {
