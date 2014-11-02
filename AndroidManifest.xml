@@ -35,7 +35,7 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name="com.troop.freedcamv2.ui.MainActivity_v2"
+            android:name=".ui.MainActivity_v2"
             android:label="FreeDCam"
             android:icon="@drawable/ic_launcher"
             android:windowSoftInputMode="stateAlwaysHidden"
@@ -54,7 +54,7 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name="com.troop.freedcamv2.ui.ShareActivity"
+            android:name=".ui.ShareActivity"
             android:label="FreeDCam"
             android:icon="@drawable/ic_launcher"
             android:windowSoftInputMode="stateAlwaysHidden"

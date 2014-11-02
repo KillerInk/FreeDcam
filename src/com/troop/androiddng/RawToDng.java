@@ -1,6 +1,6 @@
 package com.troop.androiddng;
 
-import com.troop.freedcamv2.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils;
 
 public class RawToDng 
 {
