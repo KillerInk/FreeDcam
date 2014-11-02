@@ -6,8 +6,8 @@ import com.troop.freedcamv2.utils.DeviceUtils;
 import com.troop.freedcamv2.camera.BaseCameraHolder;
 
 public class ISOManualParameter extends BaseManualParameter {
-	
-	BaseCameraHolder baseCameraHolder;
+
+    BaseCameraHolder baseCameraHolder;
     public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
         super(parameters, value, maxValue, MinValue);
 
@@ -19,7 +19,7 @@ public class ISOManualParameter extends BaseManualParameter {
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
     }
-    
+
     @Override
     public boolean IsSupported()
     {
@@ -31,44 +31,42 @@ public class ISOManualParameter extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-    	
-			if (DeviceUtils.isHTCADV())
-				return 6400;
-			return 80;
+
+        if (DeviceUtils.isHTCADV())
+            return 6400;
+        return 80;
     }
 
     @Override
     public int GetMinValue() {
-        
-		if (DeviceUtils.isHTCADV())
-			return 64;
-		return 0;
+
+        if (DeviceUtils.isHTCADV())
+            return 64;
+        return 0;
     }
 
     @Override
     public int GetValue()
     {
-        int i = 0;
+        int i = 400;
         try {
-            if (DeviceUtils.isHTCADV())
-                i = parameters.getInt("iso_value");
-            
+                i = parameters.getInt("iso-st");
+
         }
         catch (Exception ex)
         {
 
         }
-
         return i;
     }
 
     @Override
     public void SetValue(int valueToSet)
     {   	if (DeviceUtils.isHTCADV())
-				parameters.set("iso-st", valueToSet);
-
-     }
+        parameters.set("iso-st", valueToSet);
 
     }
+
+}
 
 
