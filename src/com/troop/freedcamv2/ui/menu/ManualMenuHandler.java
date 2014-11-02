@@ -240,6 +240,11 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             ManualMenuItem shutter = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_shutter), this, parametersHandler.ManualShutter);
             addToLists(shutter);
         }
+        if (parametersHandler.ISOManual.IsSupported())
+        {
+            ManualMenuItem iso = new ManualMenuItem(activity, "iso" , this, parametersHandler.ISOManual);
+            addToLists(iso);
+        }
         if (parametersHandler.Zoom.IsSupported())
         {
             ManualMenuItem zoom = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_zoom), this, parametersHandler.Zoom);
