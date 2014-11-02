@@ -111,7 +111,7 @@ public class ShutterManualParameter extends BaseManualParameter
             shutterstring = ""+a;
 
         }
-        shutterstring = String.format("%01.8f",Float.parseFloat(shutterstring));
+        shutterstring = String.format("%01.8f", Float.parseFloat(shutterstring));
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter", shutterstring);
         if (DeviceUtils.isHTCADV())
@@ -139,15 +139,16 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public void RestartPreview()
     {
-        baseCameraHolder.StopPreview();
-        if (DeviceUtils.isHTCADV()||DeviceUtils.isZTEADV()) {
+        //baseCameraHolder.StopPreview();
+        /*if (DeviceUtils.isHTCADV()||DeviceUtils.isZTEADV()) {
             parameters.set("zsl", "off");
             parameters.set("auto-exposure", "center-weighted");
-            parameters.set("shutter-threshold", "0.2");
-        }
-        if (DeviceUtils.isZTEADV())
+            //parameters.set("shutter-threshold", "0.2");
+        }*/
+        if (DeviceUtils.isZTEADV()) {
             parameters.set("slow_shutter_addition", 0);
-        baseCameraHolder.SetCameraParameters(parameters);
-        baseCameraHolder.StartPreview();
+            baseCameraHolder.SetCameraParameters(parameters);
+        }
+        //baseCameraHolder.StartPreview();
     }
 }
