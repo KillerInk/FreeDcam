@@ -68,7 +68,7 @@ public class FocusManualParameter extends  BaseManualParameter
             if (DeviceUtils.isZTEADV());
                 i = parameters.getInt("maf_key");
             if (DeviceUtils.isHTCADV())
-                i = parameters.getInt("current-focus-step");
+                i = parameters.getInt("focus");
         }
         catch (Exception ex)
         {
