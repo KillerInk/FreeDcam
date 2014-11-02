@@ -81,9 +81,6 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thi
     if(yuvi->_data != NULL)
     {
         delete[] yuvi->_data;
-        yuvi->_data = NULL;
-        yuvi->_width = NULL;
-        yuvi->_height = NULL;
     }
     delete yuvi;
     yuvi = NULL;
@@ -109,9 +106,9 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, job
     for (int y = 0; y < yuvi->_height; y++) {
         for (int x = 0; x < yuvi->_width; x++)
         {
-            yPos = GETYPOS(x,y, width);// y * yuvi->_width + x;
-            uPos = GETUPOS(x,y,width, frameSize);// (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
-            vPos = GETVPOS(x,y,width,frameSize);// (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
+            yPos = GETYPOS(x,y, yuvi->_width);// y * yuvi->_width + x;
+            uPos = GETUPOS(x,y,yuvi->_width, frameSize);// (y/2)*(yuvi->_width/2)+(x/2) + frameSize;
+            vPos = GETVPOS(x,y,yuvi->_width,frameSize);// (y/2)*(yuvi->_width/2)+(x/2) + frameSize + (frameSize/4);
             chararray[yPos] = (yuvi->_data[i].y /count); //cy;
             chararray[uPos] = (yuvi->_data[i].u /count); //cu;
             chararray[vPos] = (yuvi->_data[i].v /count);//cv;
