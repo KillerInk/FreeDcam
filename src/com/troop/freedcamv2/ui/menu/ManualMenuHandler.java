@@ -3,6 +3,7 @@ package com.troop.freedcamv2.ui.menu;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
@@ -120,7 +121,17 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             {
                 //cameraUiWrapper.cameraHolder.StopPreview();
                 currentItem.manualParameter.SetValue(value);
-                cameraUiWrapper.camParametersHandler.SetParametersToCamera();
+                try
+                {
+                    cameraUiWrapper.cameraHolder.GetCamera().setParameters(cameraUiWrapper.camParametersHandler.getParameters());
+                    Toast.makeText(activity, "Manual Shutter set to:" + value, Toast.LENGTH_LONG);
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(activity, "Error Set Manual Shutter", Toast.LENGTH_LONG);
+                }
+
+                //cameraUiWrapper.camParametersHandler.SetParametersToCamera();
 
                 ShutterManualParameter shutterManualParameter = (ShutterManualParameter)currentItem.manualParameter;
                 setTextValue(shutterManualParameter.GetStringValue());

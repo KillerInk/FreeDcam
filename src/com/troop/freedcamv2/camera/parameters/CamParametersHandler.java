@@ -59,6 +59,7 @@ public class CamParametersHandler implements I_ParameterChanged
     String TAG = "freedcam.CameraParametersHandler";
     public BaseCameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
+    public Camera.Parameters getParameters(){return cameraParameters;}
 
     public boolean rawSupported;
     public boolean dngSupported;

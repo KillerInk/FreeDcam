@@ -111,7 +111,7 @@ public class ShutterManualParameter extends BaseManualParameter
             shutterstring = ""+a;
 
         }
-        shutterstring = String. format("%01.8f",Float.parseFloat(shutterstring));
+        shutterstring = String.format("%01.8f",Float.parseFloat(shutterstring));
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter", shutterstring);
         if (DeviceUtils.isHTCADV())

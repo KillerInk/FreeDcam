@@ -61,9 +61,9 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                 if(!working)
                 {
                     working = true;
-                    if (thumbView.getAlpha() == 1f)
+                    /*if (thumbView.getAlpha() == 1f)
                         hideThumb(filePath);
-                    else
+                    else*/
                         showThumb(filePath);
                     working = false;
                 }
@@ -82,7 +82,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
             options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
             options.inJustDecodeBounds = false;
             Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-            options =null;
+            //options =null;
             return map;
         }
         else return null;
