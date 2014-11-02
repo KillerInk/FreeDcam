@@ -211,6 +211,11 @@ public class MenuCreator
             childlist.add(his);
         }
 
+        SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
+        saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        childlist.add(saveCamparas);
+
+
         group.setItems(childlist);
     }
 

@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.troop.freedcam.R;
 import com.troop.freedcamv2.camera.CameraUiWrapper;
@@ -87,20 +88,28 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         ExpandableGroup group = (ExpandableGroup)expandableListViewMenuAdapter.getGroup(groupPosition);
         //get the child from group
         selectedChild = group.getItems().get(childPosition);
-        //get values from child attached parameter
-        String[] values = selectedChild.getParameterHolder().GetValues();
-        if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
+        if (!(selectedChild instanceof SaveCamParasExpandableChild))
         {
-            if (cameraUiWrapper.camParametersHandler.dngSupported)
-                values = new String[]{"jpeg", "raw", "dng"};
-        }
+            //get values from child attached parameter
+            String[] values = selectedChild.getParameterHolder().GetValues();
+            if (selectedChild.getName().equals(context.getString(R.string.picture_format))) {
+                if (cameraUiWrapper.camParametersHandler.dngSupported)
+                    values = new String[]{"jpeg", "raw", "dng"};
+            }
 
-        //set values to the adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
-        //attach adapter to the listview and fill
-        listView.setAdapter(adapter);
-        hideMenuAndShowSubMenu();
+            //set values to the adapter
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                    R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
+            //attach adapter to the listview and fill
+            listView.setAdapter(adapter);
+            hideMenuAndShowSubMenu();
+        }
+        else
+        {
+            SaveCamParasExpandableChild child = (SaveCamParasExpandableChild) selectedChild;
+            child.SaveCamParameters();
+            Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
+        }
         return false;
     }
 
