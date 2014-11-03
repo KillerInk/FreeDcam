@@ -62,19 +62,17 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
 
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
-        picSettings = menuCreator.CreatePictureSettings(surfaceView);
-        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
-        {
-
-            grouplist.add(picSettings);
-        }
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
         previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
         {
-
             grouplist.add(previewSettings);
+        }
+        picSettings = menuCreator.CreatePictureSettings(surfaceView);
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
+        {
+            grouplist.add(picSettings);
         }
         return grouplist;
     }
