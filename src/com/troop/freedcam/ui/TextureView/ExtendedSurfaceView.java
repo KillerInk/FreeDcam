@@ -218,13 +218,13 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void ParametersLoaded()
     {
-        String previewsize = "";
+        /*String previewsize = "";
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE)
                 || appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_HDR) )
             previewsize = ParametersHandler.PictureSize.GetValue();
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
             previewsize = ParametersHandler.PreviewSize.GetValue();
-        setPreviewSize(previewsize);
+        setPreviewSize(previewsize);*/
     }
 
     public void setPreviewSize(String previewsize) {

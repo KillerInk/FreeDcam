@@ -53,7 +53,7 @@ public class PreviewSizeParameter extends BaseModeParameter
 
     public List<Camera.Size> GetSizes()
     {
-        return parameters.getSupportedPictureSizes();
+        return parameters.getSupportedPreviewSizes();
     }
 
     public int GetWidth()
