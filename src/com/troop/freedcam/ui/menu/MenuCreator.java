@@ -221,7 +221,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePreviewSettings(ExtendedSurfaceView surfaceView)
     {
-        ExpandableGroup preview = getNewGroup(context.getString(R.string.preview_settings));
+        ExpandableGroup preview = getNewGroup("Long Exposure");
         //preview.modulesToShow = cameraUiWrapper.moduleHandler.LongeExpoModules;
         createPreviewSettingsChilds(preview, surfaceView);
         return preview;
@@ -231,7 +231,7 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
         PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
-        size.setName("Preview Size");
+        size.setName("Picture Size");
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
         size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
 
