@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu;
+package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
