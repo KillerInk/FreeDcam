@@ -34,6 +34,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     ArrayList<ExpandableGroup> grouplist;
     ExpandableGroup picSettings;
     ExpandableGroup previewSettings;
+    ExpandableGroup videoSettings;
 
     /**
      * this holds the mainmenu
@@ -76,6 +77,9 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         {
             grouplist.add(picSettings);
         }
+        videoSettings = menuCreator.CreateVideoSettings(surfaceView);
+        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
+            grouplist.add(videoSettings);
         return grouplist;
     }
 
@@ -225,14 +229,28 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
             if (module.equals(ModuleHandler.MODULE_LONGEXPO)) {
                 if (grouplist.contains(picSettings))
                     grouplist.remove(picSettings);
+                if (grouplist.contains(videoSettings))
+                    grouplist.remove(videoSettings);
                 if (!grouplist.contains(previewSettings))
                     grouplist.add(previewSettings);
             }
-            if (module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) {
+            if (module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR))
+            {
                 if (!grouplist.contains(picSettings))
                     grouplist.add(picSettings);
                 if (grouplist.contains(previewSettings))
                     grouplist.remove(previewSettings);
+                if (grouplist.contains(videoSettings))
+                    grouplist.remove(videoSettings);
+            }
+            if (module.equals(ModuleHandler.MODULE_VIDEO))
+            {
+                if (grouplist.contains(picSettings))
+                    grouplist.remove(picSettings);
+                if (grouplist.contains(previewSettings))
+                    grouplist.remove(previewSettings);
+                if (!grouplist.contains(videoSettings))
+                    grouplist.add(videoSettings);
             }
             expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(context, grouplist);
             expandableListView.setAdapter(expandableListViewMenuAdapter);

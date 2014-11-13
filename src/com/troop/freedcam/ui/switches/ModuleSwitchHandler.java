@@ -40,7 +40,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
         modules = new HashMap<String, String>();
         modules.put("Pic", ModuleHandler.MODULE_PICTURE);
         modules.put("LoEx", ModuleHandler.MODULE_LONGEXPO);
-        //modules.put("Video", ModuleHandler.MODULE_VIDEO);
+        modules.put("Video", ModuleHandler.MODULE_VIDEO);
         modules.put("HDR", ModuleHandler.MODULE_HDR);
         //modules.put("Burst", ModuleHandler.MODULE_BURST);
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
@@ -51,6 +51,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
 
     }
 
+
+    //shows the popupmenu
     @Override
     public void onClick(View v)
     {

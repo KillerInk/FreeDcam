@@ -94,8 +94,8 @@ public class ModuleHandler
         PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
 
-        //VideoModule videoModule = new VideoModule(cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
-        //moduleList.put(videoModule.ModuleName(), videoModule);
+        VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
+        moduleList.put(videoModule.ModuleName(), videoModule);
 
         HdrModule hdrModule = new HdrModule(cameraHolder,appSettingsManager, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
