@@ -31,6 +31,7 @@ public class LongExposureChild extends ExpandableChild {
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
         this.cameraUiWrapper = cameraUiWrapper;
+        this.parameterHolder = parameterHolder;
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue.equals("")) {
             appSettingsManager.setString(settingsname, "1");
