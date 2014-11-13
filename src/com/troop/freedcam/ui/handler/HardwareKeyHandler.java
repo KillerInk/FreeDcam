@@ -29,7 +29,7 @@ public class HardwareKeyHandler
         boolean set = false;
         longKeyPress = false;
 
-        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
+        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_UNKNOWN)
         {
             set = true;
             Log.d(TAG, "KeyUp");
@@ -48,6 +48,8 @@ public class HardwareKeyHandler
             //if (keyCode == KeyEvent.KEYCODE_FOCUS)
 
         }
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+            activity.finish();
         return true;
     }
 
