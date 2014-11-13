@@ -17,6 +17,8 @@ import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 
 import java.util.ArrayList;
 
@@ -90,8 +92,10 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
             //get values from child attached parameter
             String[] values = selectedChild.getParameterHolder().GetValues();
             if (selectedChild.getName().equals(context.getString(R.string.picture_format))) {
-                if (cameraUiWrapper.camParametersHandler.dngSupported)
+                if (cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported)
                     values = new String[]{"jpeg", "raw", "dng"};
+                else
+                    values = new String[]{"jpeg", "raw"};
             }
 
             //set values to the adapter

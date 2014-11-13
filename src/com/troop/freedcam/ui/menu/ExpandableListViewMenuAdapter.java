@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
+import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+
 import java.util.ArrayList;
 
 /**

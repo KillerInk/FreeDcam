@@ -7,6 +7,11 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.LongExposureChild;
+import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
+import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
+import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 
 import java.util.ArrayList;
 
@@ -244,8 +249,12 @@ public class MenuCreator
         ExpandableChild format = getNewChild(cameraUiWrapper.camParametersHandler.PreviewFormat, AppSettingsManager.SETTING_PREVIEWFORMAT, context.getString(R.string.preview_fromat), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(format);*/
 
-        ExpandableChild expotime = getNewChild(new LongExposureSetting(null,null,"",""),AppSettingsManager.SETTING_EXPOSURELONGTIME, "ExposureTime", cameraUiWrapper.moduleHandler.LongeExpoModules);
-        childlist.add(expotime);
+        //ExpandableChild expotime = getNewChild(new LongExposureSetting(null,null,"",""),AppSettingsManager.SETTING_EXPOSURELONGTIME, "ExposureTime", cameraUiWrapper.moduleHandler.LongeExpoModules);
+
+        LongExposureChild child = new LongExposureChild(context);
+        child.setName("ExposureTime");
+        child.setParameterHolder(new LongExposureSetting(null,null,"",""), appSettingsManager, AppSettingsManager.SETTING_EXPOSURELONGTIME, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
+        childlist.add(child);
 
         preview.setItems(childlist);
     }

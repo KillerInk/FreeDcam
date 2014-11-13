@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 
 import java.util.ArrayList;
 
