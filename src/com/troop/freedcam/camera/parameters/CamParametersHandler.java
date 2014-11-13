@@ -192,7 +192,16 @@ public class CamParametersHandler implements I_ParameterChanged
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
         String rawFormats[] = PictureFormat.GetValues();
-        if (!DeviceUtils.isHTCADV()) {
+
+        if (DeviceUtils.isMediaTekTHL5000())
+        {
+            rawSupported =true;
+        }
+        else if (DeviceUtils.isOmap())
+        {
+            rawSupported = true;
+        }
+        else if (!DeviceUtils.isHTCADV()) {
             for (String s : rawFormats) {
                 if (s.contains("bayer"))
                     rawSupported = true;
