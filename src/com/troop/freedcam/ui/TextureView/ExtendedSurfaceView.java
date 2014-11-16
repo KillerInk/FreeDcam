@@ -65,6 +65,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         {
             isopensense();
             isReald3d();
+
             preferences = PreferenceManager.getDefaultSharedPreferences(context);
             mHolder = getHolder();
             mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);

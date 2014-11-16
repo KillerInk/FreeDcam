@@ -5,6 +5,7 @@ import android.content.Context;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
@@ -12,6 +13,7 @@ import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.ui.menu.childs.VideoSizeExpandableChild;
 
 import java.util.ArrayList;
 
@@ -291,8 +293,17 @@ public class MenuCreator
         return preview;
     }
 
-    private void createVideoSettingsChilds(ExpandableGroup preview, ExtendedSurfaceView surfaceView)
+    private void createVideoSettingsChilds(ExpandableGroup video, ExtendedSurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
+
+        VideoSizeExpandableChild videoSizeExpandableChild = new VideoSizeExpandableChild(context);
+        videoSizeExpandableChild.setName("Video Size");
+        videoSizeExpandableChild.setParameterHolder(new VideoSizeParameter(cameraUiWrapper.camParametersHandler.getParameters(), null,"",""),appSettingsManager,AppSettingsManager.SETTING_VIDEOSIZE,cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
+        childlist.add(videoSizeExpandableChild);
+
+        video.setItems(childlist);
     }
+
+
 }

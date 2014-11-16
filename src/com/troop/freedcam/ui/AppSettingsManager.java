@@ -42,6 +42,7 @@ public class AppSettingsManager
     public static String SETTING_AEBRACKET = "aebrackethdr";
     public static String SETTING_EXPOSURELONGTIME = "expolongtime";
     public static String SETTING_HISTOGRAM = "histogram";
+    public static String SETTING_VIDEOSIZE = "videosize";
 
 
     public AppSettingsManager(SharedPreferences appSettings)

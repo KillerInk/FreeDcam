@@ -1,6 +1,10 @@
 package com.troop.freedcam.utils;
 
+import android.hardware.Camera;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ingo on 04.10.2014.
@@ -27,5 +31,16 @@ public class StringUtils
     public static String BayerQcomGRBG()
     {
         return "bayer-qcom-10grbg";
+    }
+
+
+    public static String[] getStringArrayFromCameraSizes(List<Camera.Size> sizes)
+    {
+        List<String> stringList = new ArrayList<String>();
+
+        for (int i = 0; i < sizes.size(); i++)
+            stringList.add(sizes.get(i).width + "x" + sizes.get(i).height);
+
+        return stringList.toArray(new String[sizes.size()]);
     }
 }
