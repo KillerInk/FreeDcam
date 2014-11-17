@@ -43,6 +43,8 @@ import com.troop.freedcam.camera.parameters.modes.RedEyeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneDetectParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.SkinToneParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -107,6 +109,9 @@ public class CamParametersHandler implements I_ParameterChanged
     public AE_Bracket_HdrModeParameter AE_Bracket;
     public HistogramModeParameter Histogram;
 
+    public VideoProfilesParameter VideoProfiles;
+    public VideoSizeParameter VideoSize;
+
     //public I_ParametersLoaded OnParametersLoaded;
 
     public CameraParametersEventHandler ParametersEventHandler;
@@ -161,8 +166,6 @@ public class CamParametersHandler implements I_ParameterChanged
         FX = new FXManualParameter(cameraParameters,"","","");
         ISOManual = new ISOManualParameter(cameraParameters,"","","");
 
-
-
         ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
         FlashMode = new FlashModeParameter(cameraParameters,this,"","");
@@ -191,6 +194,10 @@ public class CamParametersHandler implements I_ParameterChanged
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
+
+        VideoSize = new VideoSizeParameter(cameraParameters,this,"","");
+        VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
+
         String rawFormats[] = PictureFormat.GetValues();
 
         if (DeviceUtils.isMediaTekTHL5000())

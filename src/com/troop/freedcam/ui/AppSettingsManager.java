@@ -43,6 +43,7 @@ public class AppSettingsManager
     public static String SETTING_EXPOSURELONGTIME = "expolongtime";
     public static String SETTING_HISTOGRAM = "histogram";
     public static String SETTING_VIDEOSIZE = "videosize";
+    public static String SETTING_VIDEPROFILE = "videoprofile";
 
 
     public AppSettingsManager(SharedPreferences appSettings)

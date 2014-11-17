@@ -10,20 +10,18 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import java.util.ArrayList;
 
 /**
- * Created by troop on 13.11.2014.
+ * Created by troop on 17.11.2014.
  */
-public class VideoSizeExpandableChild extends ExpandableChild
-{
-
-    public VideoSizeExpandableChild(Context context, AttributeSet attrs) {
+public class VideoProfileExpandableChild extends ExpandableChild {
+    public VideoProfileExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public VideoSizeExpandableChild(Context context) {
+    public VideoProfileExpandableChild(Context context) {
         super(context);
     }
 
-    public VideoSizeExpandableChild(Context context, AttributeSet attrs, int defStyle) {
+    public VideoProfileExpandableChild(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -66,8 +64,11 @@ public class VideoSizeExpandableChild extends ExpandableChild
             settingValue = parameterHolder.GetValues()[0];
             appSettingsManager.setString(settingsname, settingValue);
         }
+
+
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
+        //appSettingsManager.setString(settingsname, settingValue);
         AddModulesToShow(modulesToShow);
     }
 

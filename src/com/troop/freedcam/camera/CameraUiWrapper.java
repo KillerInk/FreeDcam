@@ -18,7 +18,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     private ExtendedSurfaceView preview;
     public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
-    AppSettingsManager appSettingsManager;
+    public AppSettingsManager appSettingsManager;
     public CamParametersHandler camParametersHandler;
     public FocusHandler Focus;
     I_error errorHandler;

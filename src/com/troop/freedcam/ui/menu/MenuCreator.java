@@ -5,6 +5,7 @@ import android.content.Context;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
@@ -13,6 +14,7 @@ import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.ui.menu.childs.VideoProfileExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoSizeExpandableChild;
 
 import java.util.ArrayList;
@@ -209,12 +211,20 @@ public class MenuCreator
         }
         if (cameraUiWrapper.camParametersHandler.NonZslManualMode.IsSupported())
         {
-            ExpandableChild nzm = getNewChild(cameraUiWrapper.camParametersHandler.NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE, context.getString(R.string.quality_nonmanualzsl),cameraUiWrapper.moduleHandler.AllModules);
+            ExpandableChild nzm = getNewChild(
+                    cameraUiWrapper.camParametersHandler.NonZslManualMode,
+                    AppSettingsManager.SETTING_NONZSLMANUALMODE,
+                    context.getString(R.string.quality_nonmanualzsl),
+                    cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(nzm);
         }
         if(cameraUiWrapper.camParametersHandler.Histogram.IsSupported())
         {
-            ExpandableChild his = getNewChild(cameraUiWrapper.camParametersHandler.Histogram, AppSettingsManager.SETTING_HISTOGRAM, "Histogram", cameraUiWrapper.moduleHandler.AllModules );
+            ExpandableChild his = getNewChild(
+                    cameraUiWrapper.camParametersHandler.Histogram,
+                    AppSettingsManager.SETTING_HISTOGRAM,
+                    "Histogram",
+                    cameraUiWrapper.moduleHandler.AllModules );
             childlist.add(his);
         }
 
@@ -255,7 +265,12 @@ public class MenuCreator
 
         LongExposureChild child = new LongExposureChild(context);
         child.setName("ExposureTime");
-        child.setParameterHolder(new LongExposureSetting(null,null,"",""), appSettingsManager, AppSettingsManager.SETTING_EXPOSURELONGTIME, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
+        child.setParameterHolder(
+                new LongExposureSetting(null,null,"",""),
+                appSettingsManager,
+                AppSettingsManager.SETTING_EXPOSURELONGTIME,
+                cameraUiWrapper.moduleHandler.LongeExpoModules,
+                cameraUiWrapper);
         childlist.add(child);
 
         preview.setItems(childlist);
@@ -299,8 +314,22 @@ public class MenuCreator
 
         VideoSizeExpandableChild videoSizeExpandableChild = new VideoSizeExpandableChild(context);
         videoSizeExpandableChild.setName("Video Size");
-        videoSizeExpandableChild.setParameterHolder(new VideoSizeParameter(cameraUiWrapper.camParametersHandler.getParameters(), null,"",""),appSettingsManager,AppSettingsManager.SETTING_VIDEOSIZE,cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
+        videoSizeExpandableChild.setParameterHolder(
+                cameraUiWrapper.camParametersHandler.VideoSize,
+                appSettingsManager,AppSettingsManager.SETTING_VIDEOSIZE,
+                cameraUiWrapper.moduleHandler.VideoModules,
+                cameraUiWrapper);
         childlist.add(videoSizeExpandableChild);
+
+        VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context);
+        videoProfile.setName("Video Profile");
+        videoProfile.setParameterHolder(
+                cameraUiWrapper.camParametersHandler.VideoProfiles,
+                appSettingsManager,
+                AppSettingsManager.SETTING_VIDEPROFILE,
+                cameraUiWrapper.moduleHandler.VideoModules,
+                cameraUiWrapper);
+        childlist.add(videoProfile);
 
         video.setItems(childlist);
     }

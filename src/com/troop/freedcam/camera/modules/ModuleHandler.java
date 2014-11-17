@@ -81,7 +81,7 @@ public class ModuleHandler
 
     public boolean DoWork()
     {
-        if (currentModule != null && !currentModule.IsWorking()) {
+        if (currentModule != null) {
             currentModule.DoWork();
             return true;
         }

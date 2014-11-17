@@ -27,6 +27,9 @@ public class BaseCameraHolder implements I_CameraHolder
     HandlerThread cameraThread;
     Handler cameraHandler;
     public I_error errorHandler;
+    public SurfaceHolder surfaceHolder;
+
+    public int CurrentCamera;
 
     public BaseCameraHolder()
     {
@@ -46,6 +49,7 @@ public class BaseCameraHolder implements I_CameraHolder
             cameraThread = new HandlerThread(TAG);
             cameraThread.start();
             cameraHandler = new Handler(cameraThread.getLooper());
+            CurrentCamera = camera;
         }
         cameraHandler.post(new Runnable() {
             @Override
@@ -130,6 +134,7 @@ public class BaseCameraHolder implements I_CameraHolder
             while (!isRdy)
                 Thread.sleep(10);
             mCamera.setPreviewDisplay(surfaceHolder);
+            this.surfaceHolder = surfaceHolder;
             return  true;
         } catch (IOException e) {
             e.printStackTrace();

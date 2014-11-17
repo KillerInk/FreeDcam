@@ -3,8 +3,10 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +15,7 @@ import java.util.List;
 public class VideoSizeParameter extends BaseModeParameter
 {
     String[] sizeString;
+    public final String UHDSIZE = "3840x2160";
 
     public VideoSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
@@ -21,8 +24,15 @@ public class VideoSizeParameter extends BaseModeParameter
         if (sizes == null || sizes.size() == 0)
             sizes = parameters.getSupportedPreviewSizes();
         isSupported = true;
-        sizeString = StringUtils.getStringArrayFromCameraSizes(sizes);
+        List<String> stringList = new ArrayList<String>();
+
+        for (int i = 0; i < sizes.size(); i++)
+            stringList.add(sizes.get(i).width + "x" + sizes.get(i).height);
+        if (DeviceUtils.isLGADV())
+            stringList.add(UHDSIZE);
+        sizeString = stringList.toArray(new String[stringList.size()]);
         sizes =null;
+        stringList = null;
     }
 
     @Override
