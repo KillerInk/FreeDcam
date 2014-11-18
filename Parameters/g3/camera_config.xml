@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preference>
+    <G3>
+        <!-- Mode ************************************************* -->
+        <item name="mode_rear_supported">
+            mode_normal,
+            mode_refocus,
+            mode_panorama,
+            mode_dual_camera
+        </item>
+        <item name="mode_front_supported">
+            mode_normal,
+            mode_dual_camera
+        </item>
+        <!-- camera rear size ************************************************* -->
+        <item name="camera_pictureSize_rear_supported">
+            4160x3120,
+            4160x2340,
+            3120x3120,
+            2048x1536
+        </item>
+        <!-- 3264x2448,-->
+        <item name="camera_previewSize_rear_supported">
+            1920x1440,
+            2560x1440,
+            1440x1440,
+            1920x1440
+        </item>
+        <item name="camera_previewSizeOnScreen_rear_supported">
+            1920x1440,
+            2560x1440,
+            1440x1440,
+            1920x1440
+        </item>
+        <item name="camera_pictureSize_rear_default">
+            4160x2340
+        </item>
+        <!-- camera front size ************************************************* -->
+        <item name="camera_pictureSize_front_supported">
+            1920x1080,
+            1280x960
+        </item>
+        <item name="camera_previewSize_front_supported">
+            1280x720,
+            1280x960
+        </item>
+        <item name="camera_previewSizeOnScreen_front_supported">
+            2560x1440,
+            1920x1440
+        </item>
+        <item name="camera_pictureSize_front_default">
+            1920x1080
+        </item>
+        <!-- video rear size *************************************************** -->
+        <item name="video_size_rear_supported">
+            3840x2160,
+            1920x1080,
+            1280x720,
+            1280x720@120,
+            640x480,
+            320x240,
+            176x144
+        </item>
+        <item name="video_previewSizeOnScreen_rear_supported">
+            2560x1440,
+            2560x1440,
+            2560x1440,
+            2560x1440,
+            1920x1440,
+            1920x1440,
+            1056x864
+        </item>
+        <item name="video_size_rear_bitrate">
+            30000000,
+            17000000,
+            12000000,
+            5000000,
+            5000000,
+            320000,
+            128000
+        </item>
+        <item name="video_size_rear_default">
+            1920x1080
+        </item>
+        <!-- video front size *************************************************** -->
+        <item name="video_size_front_supported">
+            1920x1080,
+            1280x720,
+            640x480,
+            320x240,
+            176x144
+        </item>
+        <item name="video_previewSizeOnScreen_front_supported">
+            2560x1440,
+            2560x1440,
+            1920x1440,
+            1920x1440,
+            1056x864
+        </item>
+        <item name="video_size_front_bitrate">
+            17000000,
+            12000000,
+            5000000,
+            320000,
+            128000
+        </item>
+        <item name="video_size_front_default">
+            1920x1080
+        </item>
+        <!-- FPS range ********************************************** -->
+        <item name="camera_preview_fps_range_rear">
+            6000,30000
+        </item>
+        <item name="camera_preview_fps_range_front">
+            4000,30000
+        </item>
+        <item name="camera_preview_fps_range_night_rear">
+            6000,30000
+        </item>
+        <item name="camera_preview_fps_range_night_front">
+            6000,30000
+        </item>
+        <item name="camera_preview_fps_range_ia_rear">
+            6000,30000
+        </item>
+        <item name="camera_preview_fps_range_full_frame_continuous_rear">
+            6000,30000
+        </item>
+        <!-- live effect ********************************************** -->
+        <item name="liveeffect_record_size_rear">
+            720x480
+        </item>
+        <item name="liveeffect_preview_size_rear">
+            1620x1080
+        </item>
+        <item name="liveeffect_record_size_front">
+            720x480
+        </item>
+        <item name="liveeffect_preview_size_front">
+            1620x1080
+        </item>
+        <!-- focus *************************************************** -->
+        <item name="focus_supported">
+            mw_continuous-picture,
+            manual-focus,
+            face_tracking
+        </item>
+        <item name="focus_default">
+            mw_continuous-picture
+        </item>
+        <!-- iso *************************************************** -->
+        <item name="iso_supported">
+            auto,
+            100,
+            200,
+            400,
+            800
+        </item>
+        <item name="iso_default">
+            auto
+        </item>
+        <!-- zsl supported *************************************************** -->
+        <item name="zsl_supported">
+            true
+        </item>
+        <!-- Multi AF supported *************************************************** -->
+        <item name="multi_af_supported">
+            true
+        </item>
+        <!-- Time catch shot supported *************************************************** -->
+        <item name="time_catch_shot_supported">
+            true
+        </item>
+        <!-- Manual anti-banding supported *************************************************** -->
+        <item name="manual_antibanding_supported">
+            false
+        </item>
+        <!-- HDMI MHL supported *************************************************** -->
+        <item name="hdmi_mhl_supported">
+            true
+        </item>
+        <!-- Morpho night shot *************************************************** -->
+        <item name="morpho_night_shot_supported">
+            true
+        </item>
+        <!-- Renesas ISP *************************************************** -->
+        <item name="use_renesas_ISP">
+            false
+        </item>
+        <!-- MTK *************************************************** -->
+        <item name="MTK_chipset">
+            false
+        </item>
+        <!-- Light frame *************************************************** -->
+        <item name="light_frame_supported">
+            true
+        </item>
+        <!-- Long shot *************************************************** -->
+        <item name="long_shot_supported">
+            true
+        </item>
+        <!-- panorama *************************************************** -->
+        <item name="panorama_picture_size">
+            4160x2340
+        </item>
+        <item name="panorama_preview_size">
+            1280x720
+        </item>
+        <item name="panorama_preview_size_on_screen">
+            2560x1440
+        </item>
+        <!-- gestureshot *************************************************** -->
+        <item name="gestureshot_supported">
+            true
+        </item>
+        <!-- beautyshot *************************************************** -->
+        <item name="beautyshot_supported">
+            true
+        </item>
+        <!-- HDR *************************************************** -->
+        <item name="hdr_supported">
+            3
+        </item>
+        <!-- Video auto flash *************************************************** -->
+        <item name="video_auto_flash_supported">
+            false
+        </item>
+        <!-- Video stabilizatoin *************************************************** -->
+        <item name="video_stabilization_supported">
+            false
+        </item>
+        <!-- Face detection *************************************************** -->
+        <item name="face_detection_supported">
+            true
+        </item>
+        <!-- super zoom *************************************************** -->
+        <item name="super_zoom_supported">
+            true
+        </item>
+		<!-- AE focus *************************************************** -->
+        <item name="AE_focus_supported">
+            true
+        </item>
+    </G3>
+</Preference>
