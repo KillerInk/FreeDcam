@@ -45,6 +45,7 @@ public class VideoSizeExpandableChild extends ExpandableChild
     @Override
     public void setValue(String value) {
         appSettingsManager.setString(settingsname, value);
+        parameterHolder.SetValue(value, true);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
     }
@@ -60,14 +61,15 @@ public class VideoSizeExpandableChild extends ExpandableChild
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
         this.cameraUiWrapper = cameraUiWrapper;
-        //String campara = parameterHolder.GetValue();
+        String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue == null || settingValue == "") {
-            settingValue = parameterHolder.GetValues()[0];
+            settingValue = campara;
             appSettingsManager.setString(settingsname, settingValue);
         }
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
+        parameterHolder.SetValue(settingValue, false);
         AddModulesToShow(modulesToShow);
     }
 

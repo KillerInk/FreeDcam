@@ -81,6 +81,21 @@ public class VideoModule extends AbstractModule
     {
         try
         {
+            baseCameraHolder.StopPreview();
+
+            baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
+            baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
+            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+
+            baseCameraHolder.ParameterHandler.setString("video-size","");
+            baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
+            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Log.d(TAG, "InitMediaRecorder");
             recorder = new MediaRecorder();
             baseCameraHolder.GetCamera().unlock();
@@ -90,10 +105,24 @@ public class VideoModule extends AbstractModule
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             CamcorderProfile prof = baseCameraHolder.ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
             recorder.setProfile(prof);
+
+
+
+            /*
+            recorder.setOutputFormat(prof.fileFormat);
             String[] split = Settings.getString(AppSettingsManager.SETTING_VIDEOSIZE).split("x");
             int w = Integer.parseInt(split[0]);
             int h = Integer.parseInt(split[1]);
             recorder.setVideoSize(w,h);
+            recorder.setVideoEncoder(prof.videoCodec);
+            recorder.setVideoEncodingBitRate(prof.videoBitRate);
+            recorder.setVideoFrameRate(30);
+
+            recorder.setAudioChannels(prof.audioChannels);
+            recorder.setAudioEncoder(prof.audioCodec);
+            recorder.setAudioEncodingBitRate(prof.audioBitRate);*/
+
+
 
             //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             //recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
@@ -144,5 +173,39 @@ public class VideoModule extends AbstractModule
             baseCameraHolder.GetCamera().lock();
             recorder.release();
         }
+    }
+
+    @Override
+    public void LoadNeededParameters()
+    {
+        /*if (baseCameraHolder != null && baseCameraHolder.ParameterHandler.PreviewFormat != null)
+        {
+
+            if (baseCameraHolder.IsPreviewRunning())
+                baseCameraHolder.StopPreview();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
+            baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
+
+            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue(baseCameraHolder.ParameterHandler.VideoSize.GetValue(), true);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            baseCameraHolder.StartPreview();
+
+        }*/
+    }
+
+    @Override
+    public void UnloadNeededParameters() {
+        baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
     }
 }

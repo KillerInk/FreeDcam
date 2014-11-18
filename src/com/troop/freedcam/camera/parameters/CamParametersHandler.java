@@ -178,8 +178,8 @@ public class CamParametersHandler implements I_ParameterChanged
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
-        /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);
-        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);*/
+        /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);*/
+        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
@@ -195,7 +195,7 @@ public class CamParametersHandler implements I_ParameterChanged
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
 
-        VideoSize = new VideoSizeParameter(cameraParameters,this,"","");
+        VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
 
         String rawFormats[] = PictureFormat.GetValues();
@@ -330,5 +330,11 @@ public class CamParametersHandler implements I_ParameterChanged
     {
         cameraParameters.set("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
+    }
+
+    public void setString(String param, String value)
+    {
+        cameraParameters.set(param, value);
+        //cameraHolder.SetCameraParameters(cameraParameters);
     }
 }

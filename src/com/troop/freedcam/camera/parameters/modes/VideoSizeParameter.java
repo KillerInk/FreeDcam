@@ -7,6 +7,7 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,20 +30,24 @@ public class VideoSizeParameter extends BaseModeParameter
         for (int i = 0; i < sizes.size(); i++)
             stringList.add(sizes.get(i).width + "x" + sizes.get(i).height);
         if (DeviceUtils.isLGADV())
+        {
             stringList.add(UHDSIZE);
+            Collections.sort(stringList);
+        }
         sizeString = stringList.toArray(new String[stringList.size()]);
         sizes =null;
         stringList = null;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
-
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        super.SetValue(valueToSet, setToCam);
     }
 
     @Override
     public String GetValue() {
-        return "";
+        return super.GetValue();
     }
 
     @Override

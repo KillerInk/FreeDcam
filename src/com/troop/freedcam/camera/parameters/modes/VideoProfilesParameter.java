@@ -174,7 +174,13 @@ public class VideoProfilesParameter extends BaseModeParameter
             }
             try {
                 if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
-                    supportedProfiles.put("4kUHD", CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD));
+                {
+                    CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH);
+                    fourk.videoFrameWidth = 3840;
+                    fourk.videoFrameHeight = 2160;
+                    fourk.videoBitRate = 30000000;
+                    supportedProfiles.put("4kUHD", fourk);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
