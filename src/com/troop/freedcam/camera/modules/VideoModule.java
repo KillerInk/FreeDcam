@@ -81,15 +81,15 @@ public class VideoModule extends AbstractModule
     {
         try
         {
-            baseCameraHolder.StopPreview();
+            //baseCameraHolder.StopPreview();
 
             baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
             baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
             baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
 
-            baseCameraHolder.ParameterHandler.setString("video-size","");
-            baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
-            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            //baseCameraHolder.ParameterHandler.setString("video-size","");
+            //baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
+            //baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
             //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
             try {
                 Thread.sleep(100);
@@ -97,14 +97,9 @@ public class VideoModule extends AbstractModule
                 e.printStackTrace();
             }
             Log.d(TAG, "InitMediaRecorder");
-            recorder = new MediaRecorder();
+
             baseCameraHolder.GetCamera().unlock();
-            recorder.reset();
-            recorder.setCamera(baseCameraHolder.GetCamera());
-            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            CamcorderProfile prof = baseCameraHolder.ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-            recorder.setProfile(prof);
+            recorder =  initRecorder();
 
 
 
@@ -173,6 +168,17 @@ public class VideoModule extends AbstractModule
             baseCameraHolder.GetCamera().lock();
             recorder.release();
         }
+    }
+
+    protected MediaRecorder initRecorder() {
+        recorder = new MediaRecorder();
+        recorder.reset();
+        recorder.setCamera(baseCameraHolder.GetCamera());
+        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        CamcorderProfile prof = baseCameraHolder.ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        recorder.setProfile(prof);
+        return recorder;
     }
 
     @Override

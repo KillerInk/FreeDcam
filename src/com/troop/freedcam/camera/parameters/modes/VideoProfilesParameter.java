@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 
+import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
@@ -175,11 +176,9 @@ public class VideoProfilesParameter extends BaseModeParameter
             try {
                 if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
                 {
-                    CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH);
-                    fourk.videoFrameWidth = 3840;
-                    fourk.videoFrameHeight = 2160;
-                    fourk.videoBitRate = 30000000;
-                    supportedProfiles.put("4kUHD", fourk);
+                    CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
+
+                    //supportedProfiles.put("4kUHD", (CamcorderProfile) fourk);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -43,6 +43,7 @@ import com.troop.freedcam.camera.parameters.modes.RedEyeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneDetectParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.SkinToneParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
@@ -110,6 +111,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public HistogramModeParameter Histogram;
 
     public VideoProfilesParameter VideoProfiles;
+    public VideoProfilesG3Parameter VideoProfilesG3;
     public VideoSizeParameter VideoSize;
 
     //public I_ParametersLoaded OnParametersLoaded;
@@ -197,6 +199,8 @@ public class CamParametersHandler implements I_ParameterChanged
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
+        if (DeviceUtils.isLGADV())
+            VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
 
         String rawFormats[] = PictureFormat.GetValues();
 

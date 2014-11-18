@@ -6,6 +6,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 
 
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,8 +95,15 @@ public class ModuleHandler
         PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModule.ModuleName(), pictureModule);
 
-        VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
-        moduleList.put(videoModule.ModuleName(), videoModule);
+        if (!DeviceUtils.isLGADV()) {
+            VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(videoModule.ModuleName(), videoModule);
+        }
+        else
+        {
+            VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
+        }
 
         HdrModule hdrModule = new HdrModule(cameraHolder,appSettingsManager, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);

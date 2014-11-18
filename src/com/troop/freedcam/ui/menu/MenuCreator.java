@@ -16,6 +16,7 @@ import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoProfileExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoSizeExpandableChild;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
@@ -323,12 +324,23 @@ public class MenuCreator
 
         VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context);
         videoProfile.setName("Video Profile");
-        videoProfile.setParameterHolder(
-                cameraUiWrapper.camParametersHandler.VideoProfiles,
-                appSettingsManager,
-                AppSettingsManager.SETTING_VIDEPROFILE,
-                cameraUiWrapper.moduleHandler.VideoModules,
-                cameraUiWrapper);
+        if (!DeviceUtils.isLGADV()) {
+            videoProfile.setParameterHolder(
+                    cameraUiWrapper.camParametersHandler.VideoProfiles,
+                    appSettingsManager,
+                    AppSettingsManager.SETTING_VIDEPROFILE,
+                    cameraUiWrapper.moduleHandler.VideoModules,
+                    cameraUiWrapper);
+        }
+        else
+        {
+            videoProfile.setParameterHolder(
+                    cameraUiWrapper.camParametersHandler.VideoProfilesG3,
+                    appSettingsManager,
+                    AppSettingsManager.SETTING_VIDEPROFILE,
+                    cameraUiWrapper.moduleHandler.VideoModules,
+                    cameraUiWrapper);
+        }
         childlist.add(videoProfile);
 
         video.setItems(childlist);
