@@ -81,21 +81,34 @@ public class VideoModule extends AbstractModule
     {
         try
         {
-            //baseCameraHolder.StopPreview();
+            //
 
+            baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
             baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
             baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
-            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
 
-            //baseCameraHolder.ParameterHandler.setString("video-size","");
-            //baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
-            //baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
+            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
+            baseCameraHolder.ParameterHandler.setString("video-size","3840x2160");
+            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            baseCameraHolder.StartPreview();
+
+
+
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
+            //baseCameraHolder.ParameterHandler.setString("video-size","");
+
+            //baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
+
             Log.d(TAG, "InitMediaRecorder");
 
             baseCameraHolder.GetCamera().unlock();

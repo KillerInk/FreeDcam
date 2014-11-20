@@ -15,13 +15,15 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
  */
 public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
-    private ExtendedSurfaceView preview;
+    protected ExtendedSurfaceView preview;
     public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     public AppSettingsManager appSettingsManager;
     public CamParametersHandler camParametersHandler;
     public FocusHandler Focus;
     I_error errorHandler;
+
+    public CameraUiWrapper(){};
 
     public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {

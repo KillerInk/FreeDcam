@@ -6,7 +6,9 @@ import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.lge.hardware.LGCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
 
@@ -16,6 +18,8 @@ import java.io.IOException;
 public class BaseCameraHolder implements I_CameraHolder
 {
     Camera mCamera;
+    LGCamera lgCamera;
+    LGCamera.LGParameters lgParameters;
     final  String TAG = "freedcam.BaseCameraHolder";
     boolean isRdy = false;
 
@@ -56,7 +60,17 @@ public class BaseCameraHolder implements I_CameraHolder
             public void run() {
                 try
                 {
-                    mCamera = Camera.open(camera);
+                    if (DeviceUtils.isLGADV())
+                    {
+                        lgCamera = new LGCamera(camera);
+                        mCamera = lgCamera.getCamera();
+                        lgParameters = lgCamera.getLGParameters();
+                    }
+                    else
+                    {
+                        mCamera = Camera.open(camera);
+                    }
+
 
                     isRdy = true;
 
@@ -78,7 +92,8 @@ public class BaseCameraHolder implements I_CameraHolder
         Log.d(TAG, "Try to close Camera");
         if (mCamera != null)
         {
-            try {
+            try
+            {
                 mCamera.release();
             }
             catch (Exception ex)
@@ -116,7 +131,12 @@ public class BaseCameraHolder implements I_CameraHolder
     {
         try{
 
-            mCamera.setParameters(parameters);
+            if (DeviceUtils.isLGADV())
+            {
+                lgParameters.setParameters(parameters);
+            }
+            else
+                mCamera.setParameters(parameters);
 
 
             return true;
@@ -211,6 +231,7 @@ public class BaseCameraHolder implements I_CameraHolder
             cameraHandler.post(new Runnable() {
                 @Override
                 public void run() {
+
                     mCamera.setPreviewCallback(previewCallback);
                 }
             });

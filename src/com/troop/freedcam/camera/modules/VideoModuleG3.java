@@ -27,6 +27,8 @@ public class VideoModuleG3 extends VideoModule
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         CamcorderProfileEx prof = baseCameraHolder.ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         recorder.setProfile(prof);
+        recorder.setMaxFileSize(3037822976L);
+        recorder.setMaxDuration(7200000);
         return recorder;
     }
 }
