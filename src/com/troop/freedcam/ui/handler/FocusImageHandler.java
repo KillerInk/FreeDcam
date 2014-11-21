@@ -11,7 +11,6 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.I_Focus;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
 /**
@@ -26,7 +25,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int disHeight;
     int disWidth;
 
-    PreviewHandler previewHandler;
+    ExtendedSurfaceView surfaceView;
 
     public FocusImageHandler(MainActivity_v2 activity, CameraUiWrapper wrapper)
     {
@@ -35,7 +34,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         wrapper.Focus.focusEvent = this;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         imageView.setVisibility(View.GONE);
-        previewHandler = (PreviewHandler)activity.findViewById(R.id.PreviewHolderLayout);
+        surfaceView = (ExtendedSurfaceView)activity.findViewById(R.id.CameraPreview);
 
 
     }
@@ -43,9 +42,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(Rect rect)
     {
-        disWidth = previewHandler.getLayoutParams().width;
-        disHeight = previewHandler.getLayoutParams().height;
-        int margineleft = previewHandler.getLeft();
+        disWidth = surfaceView.getLayoutParams().width;
+        disHeight = surfaceView.getLayoutParams().height;
+        int margineleft = surfaceView.getLeft();
         handler.removeCallbacksAndMessages(null);
         int recthalf = imageView.getWidth()/2;
         int halfwidth = disWidth /2;
@@ -97,8 +96,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     protected void OnClick(int x, int y)
     {
-        disWidth = previewHandler.getWidth();
-        disHeight = previewHandler.getHeight();
+        disWidth = surfaceView.getWidth();
+        disHeight = surfaceView.getHeight();
         int recthalf = imageView.getWidth()/2;
         Rect rect = new Rect(x - recthalf, y -recthalf, x +recthalf, y +recthalf);
         wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);

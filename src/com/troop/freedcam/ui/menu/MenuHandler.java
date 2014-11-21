@@ -17,7 +17,6 @@ import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 
@@ -31,7 +30,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     MainActivity_v2 context;
     CameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
-    PreviewHandler previewHandler;
+    ExtendedSurfaceView surfaceView;
     ArrayList<ExpandableGroup> grouplist;
     ExpandableGroup picSettings;
     ExpandableGroup previewSettings;
@@ -52,12 +51,12 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, PreviewHandler previewHandler)
+    public MenuHandler(MainActivity_v2 context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
-        this.previewHandler = previewHandler;
+        this.surfaceView = surfaceView;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
@@ -68,17 +67,17 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
-        previewSettings = menuCreator.CreatePreviewSettings(previewHandler);
+        previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
         {
             grouplist.add(previewSettings);
         }
-        picSettings = menuCreator.CreatePictureSettings(previewHandler);
+        picSettings = menuCreator.CreatePictureSettings(surfaceView);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
         {
             grouplist.add(picSettings);
         }
-        videoSettings = menuCreator.CreateVideoSettings(previewHandler);
+        videoSettings = menuCreator.CreateVideoSettings(surfaceView);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
             grouplist.add(videoSettings);
         return grouplist;

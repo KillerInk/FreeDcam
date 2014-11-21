@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.TextureView;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -33,7 +32,6 @@ public class BaseCameraHolder implements I_CameraHolder
     Handler cameraHandler;
     public I_error errorHandler;
     public SurfaceHolder surfaceHolder;
-    public TextureView textureView;
 
     public int CurrentCamera;
 
@@ -165,23 +163,6 @@ public class BaseCameraHolder implements I_CameraHolder
             e.printStackTrace();
         }
         return false;
-    }
-
-    public void SetTextureView(TextureView textureView)
-    {
-        try {
-            while (!isRdy)
-                Thread.sleep(10);
-            mCamera.setPreviewTexture(textureView.getSurfaceTexture());
-            this.textureView = textureView;
-            this.surfaceHolder = surfaceHolder;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

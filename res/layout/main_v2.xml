@@ -8,10 +8,11 @@
     android:longClickable="true">
 
 
-    <com.troop.freedcam.ui.TextureView.PreviewHandler
+
+    <com.troop.freedcam.ui.TextureView.ExtendedSurfaceView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/PreviewHolderLayout"></com.troop.freedcam.ui.TextureView.PreviewHandler>
+        android:id="@+id/CameraPreview" />
 
     <com.troop.freedcam.ui.handler.HelpOverlayHandler
         android:orientation="horizontal"
