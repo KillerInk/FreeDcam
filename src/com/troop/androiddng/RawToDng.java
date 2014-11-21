@@ -60,6 +60,9 @@ public class RawToDng
 	
 	
 	public static int HTCM8_rowSize = 3360;
+
+    public static String SonyXperiaLRawSize = "3282x2448";
+    public static String Optimus3DRawSize = "2608x1944";
 	
 	public static int Calculate_rowSize(int fileSize, int height)
 	{
