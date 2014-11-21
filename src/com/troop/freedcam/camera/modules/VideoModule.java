@@ -83,17 +83,9 @@ public class VideoModule extends AbstractModule
         {
             //
 
-            baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
-            baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
-            baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
-            baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
 
-            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
-            baseCameraHolder.ParameterHandler.setString("video-size","3840x2160");
-            baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-            baseCameraHolder.StartPreview();
+            //baseCameraHolder.StopPreview();
+            //baseCameraHolder.StartPreview();
 
 
 
@@ -153,8 +145,8 @@ public class VideoModule extends AbstractModule
             String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
 
             mediaSavePath = new StringBuilder(String.valueOf(file.getPath())).append(File.separator).append("VID_").append(s).append(".mp4").toString();
-            recorder.setOutputFile(mediaSavePath);
-            recorder.setPreviewDisplay(baseCameraHolder.surfaceHolder.getSurface());
+            setRecorderOutPutFile(mediaSavePath);
+
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
@@ -192,6 +184,11 @@ public class VideoModule extends AbstractModule
         CamcorderProfile prof = baseCameraHolder.ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         recorder.setProfile(prof);
         return recorder;
+    }
+
+    protected void setRecorderOutPutFile(String s)
+    {
+        recorder.setOutputFile(s);
     }
 
     @Override

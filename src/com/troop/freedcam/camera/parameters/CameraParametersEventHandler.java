@@ -34,7 +34,14 @@ public class CameraParametersEventHandler
 
     public void ParametersHasLoaded()
     {
-        for(I_ParametersLoaded loaded : parametersLoadedListner)
-            loaded.ParametersLoaded();
+        for(int i= 0; i< parametersLoadedListner.size(); i++)
+        {
+            if (parametersLoadedListner.get(i) == null) {
+                parametersLoadedListner.remove(i);
+                i--;
+            }
+            else
+                parametersLoadedListner.get(i).ParametersLoaded();
+        }
     }
 }

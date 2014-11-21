@@ -16,6 +16,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
@@ -47,6 +48,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;
+    PreviewHandler previewHandler;
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
@@ -56,27 +58,31 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.activity =this;
+        this.activity = this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
-        cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
+
+        previewHandler = (PreviewHandler)findViewById(R.id.PreviewHolderLayout);
+        previewHandler.SetAppSettings(appSettingsManager);
+        previewHandler.SetOnTouch(surfaceTouche);
+
+        /*cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraPreview.appSettingsManager = appSettingsManager;
-        cameraPreview.setOnTouchListener(surfaceTouche);
-        cameraUiWrapper = new CameraUiWrapper(cameraPreview, appSettingsManager, this);
+        cameraPreview.setOnTouchListener(surfaceTouche);*/
+        cameraUiWrapper = new CameraUiWrapper(previewHandler, appSettingsManager, this);
 
 
-        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
+        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler);
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         nightModeSwitchHandler = new NightModeSwitchHandler(this, cameraUiWrapper, appSettingsManager);
-        activity = this;
 
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
 
         thumbnailHandler = new ThumbnailHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(cameraPreview);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(previewHandler);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(cameraPreview);
         hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);

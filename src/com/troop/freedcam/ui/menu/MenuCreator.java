@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
@@ -35,17 +36,17 @@ public class MenuCreator
         this.appSettingsManager = appSettingsManager;
     }
 
-    public ExpandableGroup CreatePictureSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreatePictureSettings(PreviewHandler previewHandler)
     {
         ExpandableGroup picGroup = new ExpandableGroup(context);
         picGroup.setName(context.getString(R.string.picture_settings));
         picGroup.modulesToShow = cameraUiWrapper.moduleHandler.PictureModules;
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picGroup);
-        createPictureSettingsChilds(picGroup, surfaceView);
+        createPictureSettingsChilds(picGroup, previewHandler);
         return picGroup;
     }
 
-    private void createPictureSettingsChilds(ExpandableGroup group, ExtendedSurfaceView surfaceView)
+    private void createPictureSettingsChilds(ExpandableGroup group, PreviewHandler surfaceView)
     {
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
         PreviewExpandableChild picSize = new PreviewExpandableChild(context, surfaceView);
@@ -237,18 +238,18 @@ public class MenuCreator
         group.setItems(childlist);
     }
 
-    public ExpandableGroup CreatePreviewSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreatePreviewSettings(PreviewHandler previewHandler)
     {
         ExpandableGroup preview = getNewGroup("Long Exposure");
         //preview.modulesToShow = cameraUiWrapper.moduleHandler.LongeExpoModules;
-        createPreviewSettingsChilds(preview, surfaceView);
+        createPreviewSettingsChilds(preview, previewHandler);
         return preview;
     }
 
-    private void createPreviewSettingsChilds(ExpandableGroup preview, ExtendedSurfaceView surfaceView)
+    private void createPreviewSettingsChilds(ExpandableGroup preview, PreviewHandler previewHandler)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
+        PreviewExpandableChild size = new PreviewExpandableChild(context, previewHandler);
         size.setName("Picture Size");
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
         size.setParameterHolder(cameraUiWrapper.camParametersHandler.PreviewSize,appSettingsManager,AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
@@ -302,14 +303,14 @@ public class MenuCreator
         return child;
     }
 
-    public ExpandableGroup CreateVideoSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreateVideoSettings(PreviewHandler previewHandler)
     {
         ExpandableGroup preview = getNewGroup("Video Settings");
-        createVideoSettingsChilds(preview, surfaceView);
+        createVideoSettingsChilds(preview, previewHandler);
         return preview;
     }
 
-    private void createVideoSettingsChilds(ExpandableGroup video, ExtendedSurfaceView surfaceView)
+    private void createVideoSettingsChilds(ExpandableGroup video, PreviewHandler previewHandler)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
