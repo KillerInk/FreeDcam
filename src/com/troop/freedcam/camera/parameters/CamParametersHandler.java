@@ -198,9 +198,11 @@ public class CamParametersHandler implements I_ParameterChanged
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
-        VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
+
         if (DeviceUtils.isLGADV())
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
+        else
+            VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
 
         String rawFormats[] = PictureFormat.GetValues();
 
