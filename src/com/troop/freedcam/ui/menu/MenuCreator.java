@@ -313,14 +313,14 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        VideoSizeExpandableChild videoSizeExpandableChild = new VideoSizeExpandableChild(context);
+        /*VideoSizeExpandableChild videoSizeExpandableChild = new VideoSizeExpandableChild(context);
         videoSizeExpandableChild.setName("Video Size");
         videoSizeExpandableChild.setParameterHolder(
                 cameraUiWrapper.camParametersHandler.VideoSize,
                 appSettingsManager,AppSettingsManager.SETTING_VIDEOSIZE,
                 cameraUiWrapper.moduleHandler.VideoModules,
                 cameraUiWrapper);
-        childlist.add(videoSizeExpandableChild);
+        childlist.add(videoSizeExpandableChild);*/
 
         VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context);
         videoProfile.setName("Video Profile");
