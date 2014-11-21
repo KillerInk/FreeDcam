@@ -157,9 +157,17 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                     eventHandler.WorkFinished(file);
                     bytes = null;
                     file = null;
-                } else {
-                    String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
-                    String raw[] = rawSize.split("x");
+                } else
+                {
+                    String raw[];
+                    if (DeviceUtils.isXperiaL())
+                    {
+                        raw = RawToDng.SonyXperiaLRawSize.split("x");
+                    }
+                    else {
+                        String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+                        raw = rawSize.split("x");
+                    }
                     int w = Integer.parseInt(raw[0]);
                     int h = Integer.parseInt(raw[1]);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);

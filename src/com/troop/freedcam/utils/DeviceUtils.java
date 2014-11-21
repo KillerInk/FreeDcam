@@ -10,10 +10,11 @@ public class DeviceUtils
 {
     private static int lgeadv = 0;
 
+
+    public static String Omap4Devices = "Galaxy Nexus,LG-P920,LG-P720,LG-P925,LG-P760,LG-P765,LG-P925,LG-SU760,LG-SU870,Motorola RAZR MAXX,DROID RAZR,DROID 4,GT-I9100G,U9200";
     public static boolean isOmap()
     {
-        String s = Build.MODEL;
-        return s.equals("Galaxy Nexus") || s.equals("LG-P920") || s.equals("LG-P720") || s.equals("LG-P925") || s.equals("LG-P760") || s.equals("LG-P765") || s.equals("LG-P925") || s.equals("LG-SU760") || s.equals("LG-SU870") || s.equals("Motorola RAZR MAXX") || s.equals("DROID RAZR") || s.equals("DROID 4") || s.equals("GT-I9100G") || s.equals("U9200");
+        return Omap4Devices.contains(Build.MODEL);
     }
 
     public static boolean isQualcomm()
@@ -63,19 +64,11 @@ public class DeviceUtils
         return s.equals("HTC One_M8") || s.equals("HTC One_M7");
     }
 
+
+    public static String G3Models = "LG-D800,LG-D802,LG-D855,LGLS990";
     public static boolean isLGADV()
     {
-        if (lgeadv == 0)
-        {
-            String s = Build.MODEL;
-            if (s.equals("LG-D800") || s.equals("LG-D802") || s.equals("LG-D855") || s.equals("LGLS990"))
-            {
-                lgeadv = 1;
-            }
-            else{
-                lgeadv = 2;}
-        }
-        return  getBoolFromInt(lgeadv);
+        return G3Models.contains(Build.MODEL);
     }
 
     public static boolean getBoolFromInt(int i)
@@ -118,6 +111,13 @@ public class DeviceUtils
     public static boolean isRawSupported()
     {
         return isLGADV() || isHTCADV() || isZTEADV() || isMediaTekTHL5000();
+    }
+
+
+    static String xperiaLModels = "C2104";
+    public static  boolean isXperiaL()
+    {
+        return xperiaLModels.contains(Build.MODEL);
     }
 
 }

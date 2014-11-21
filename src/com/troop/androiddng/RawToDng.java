@@ -28,7 +28,7 @@ public class RawToDng
             int height
     )
     {
-        if (!DeviceUtils.isLGADV() && !DeviceUtils.isZTEADV())
+        if (DeviceUtils.isHTCADV())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, "grbg", RawToDng.HTCM8_rowSize);
         else
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, "bggr", Calculate_rowSize(data.length, height));

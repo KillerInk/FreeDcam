@@ -214,6 +214,12 @@ public class CamParametersHandler implements I_ParameterChanged
         {
             rawSupported = true;
         }
+        else if (DeviceUtils.isXperiaL())
+        {
+            rawSupported = true;
+            dngSupported = true;
+            BayerMipiFormat = StringUtils.BayerMipiBGGR();
+        }
         else if (!DeviceUtils.isHTCADV()) {
             for (String s : rawFormats) {
                 if (s.contains("bayer"))
