@@ -56,43 +56,19 @@ public class VideoModuleG3 extends VideoModule
     @Override
     public void LoadNeededParameters()
     {
-        /*if (baseCameraHolder != null && baseCameraHolder.ParameterHandler.PreviewFormat != null)
-        {
-
-            if (baseCameraHolder.IsPreviewRunning())
-                baseCameraHolder.StopPreview();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-            baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
-            baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
-
-            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue(baseCameraHolder.ParameterHandler.VideoSize.GetValue(), true);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            baseCameraHolder.StartPreview();
-
-        }*/
 
         baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
         baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
         baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
         baseCameraHolder.ParameterHandler.setString("video-hdr", "off");
         baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
-        baseCameraHolder.ParameterHandler.setString("preview-size","3840x2160");
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
+            baseCameraHolder.ParameterHandler.setString("preview-size", "3840x2160");
+            baseCameraHolder.ParameterHandler.setString("video-size", "3840x2160");
+        }
+        if(baseCameraHolder.ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
+            baseCameraHolder.ParameterHandler.MemoryColorEnhancement.SetValue("disable", false);
 
-        baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-
-
-        //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
-        baseCameraHolder.ParameterHandler.setString("video-size","3840x2160");
         baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
     }
 }
