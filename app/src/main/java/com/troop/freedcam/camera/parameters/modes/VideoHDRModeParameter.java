@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -10,11 +11,14 @@ import com.troop.freedcam.utils.DeviceUtils;
  */
 public class VideoHDRModeParameter extends  BaseModeParameter
 {
-    public VideoHDRModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
+    BaseCameraHolder baseCameraHolder;
+
+    public VideoHDRModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder baseCameraHolder)
     {
         super(parameters, parameterChanged, value, values);
         if (DeviceUtils.isLGADV())
             this.value = "hdr-mode";
+        this.baseCameraHolder = baseCameraHolder;
     }
 
     @Override
@@ -29,6 +33,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
+        baseCameraHolder.StopPreview();
         if (DeviceUtils.isLGADV())
         {
             if (valueToSet.equals("off"))
@@ -40,5 +45,15 @@ public class VideoHDRModeParameter extends  BaseModeParameter
         }
         else
             super.SetValue(valueToSet, setToCam);
+        baseCameraHolder.StartPreview();
+    }
+
+    @Override
+    public String GetValue()
+    {
+        String ret = super.GetValue();
+        if (ret == null || ret == "")
+            ret = "off";
+        return ret;
     }
 }

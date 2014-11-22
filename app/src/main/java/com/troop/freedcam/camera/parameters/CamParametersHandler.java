@@ -200,7 +200,7 @@ public class CamParametersHandler implements I_ParameterChanged
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
-        VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values");
+        VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
 
         if (DeviceUtils.isLGADV())
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
