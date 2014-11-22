@@ -93,7 +93,7 @@ public class VideoModuleG3 extends VideoModule
         baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
         CamcorderProfileEx prof = baseCameraHolder.ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
-        baseCameraHolder.ParameterHandler.setString("preview-size", size);
+        baseCameraHolder.ParameterHandler.PreviewSize.SetValue(size, false);
         baseCameraHolder.ParameterHandler.setString("video-size", size);
 
         baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());

@@ -260,9 +260,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     public String ModuleChanged(String module)
     {
         this.currentModule = module;
-        if(module.equals(ModuleHandler.MODULE_PICTURE))
+        if(module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR))
             setPreviewSize(ParametersHandler.PictureSize.GetValue());
-        if (module.equals(ModuleHandler.MODULE_LONGEXPO))
+        if (module.equals(ModuleHandler.MODULE_LONGEXPO) || module.equals(ModuleHandler.MODULE_VIDEO))
             setPreviewSize(ParametersHandler.PreviewSize.GetValue());
         return null;
     }
