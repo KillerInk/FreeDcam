@@ -176,9 +176,9 @@ public class VideoProfilesParameter extends BaseModeParameter
             try {
                 if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
                 {
-                    CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
+                    CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
 
-                    //supportedProfiles.put("4kUHD", (CamcorderProfile) fourk);
+                    supportedProfiles.put("4kUHD",fourk);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
