@@ -50,6 +50,8 @@ public abstract class BaseModeParameter implements I_ModeParameter
         firststart = false;
     }
 
+
+
     public String GetValue()
     {
         return parameters.get(value);

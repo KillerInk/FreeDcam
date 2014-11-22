@@ -4,15 +4,22 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.modules.VideoModuleG3;
 import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.TextureView.I_PreviewSizeEvent;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
 /**
  * Created by troop on 17.11.2014.
  */
-public class VideoProfileExpandableChild extends ExpandableChild {
+public class VideoProfileExpandableChild extends ExpandableChild
+{
+    private I_PreviewSizeEvent previewSizeEvent;
+    CameraUiWrapper cameraUiWrapper;
+
     public VideoProfileExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -23,6 +30,18 @@ public class VideoProfileExpandableChild extends ExpandableChild {
 
     public VideoProfileExpandableChild(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent)
+    {
+        super(context);
+        this.previewSizeEvent = previewSizeEvent;
+    }
+
+    public VideoProfileExpandableChild(Context context, CameraUiWrapper cameraUiWrapper)
+    {
+        super(context);
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
@@ -45,6 +64,22 @@ public class VideoProfileExpandableChild extends ExpandableChild {
         appSettingsManager.setString(settingsname, value);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
+        if (DeviceUtils.isLGADV())
+        {
+            VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
+            g3.UpdatePreview();
+        }
+        /*if (DeviceUtils.isLGADV())
+        {
+            previewSizeEvent.OnPreviewSizeChanged(cameraUiWrapper.camParametersHandler.VideoProfilesG3.GetCameraProfile(value).videoFrameWidth,
+                    cameraUiWrapper.camParametersHandler.VideoProfilesG3.GetCameraProfile(value).videoFrameHeight);
+
+        }
+        else
+        {
+            previewSizeEvent.OnPreviewSizeChanged(cameraUiWrapper.camParametersHandler.VideoProfiles.GetCameraProfile(value).videoFrameWidth,
+                    cameraUiWrapper.camParametersHandler.VideoProfiles.GetCameraProfile(value).videoFrameHeight);
+        }*/
     }
 
     @Override

@@ -52,7 +52,6 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(false);
                 }
             }
-
         }
         else
             parameterHolder.SetValue(value, true);
@@ -88,7 +87,6 @@ public class PictureFormatExpandableChild extends ExpandableChild {
             }
             if (settingValue.equals("raw") || settingValue.equals("dng"))
             {
-
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
@@ -98,8 +96,6 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                     parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
                 }
             }
-
-
         }
         else
         {

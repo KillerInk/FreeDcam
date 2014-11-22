@@ -127,50 +127,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     {
         if (currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE)) {
-            /*double pictureRatio = getRatio(w, h);
-            Log.d(TAG, "New Picture size is set: Width: " + w + "Height : " + h + "Ratio:" + pictureRatio);
-            String[] previewSizes = ParametersHandler.PreviewSize.GetValues();
-            boolean foundmatchingPreview = false;
-            for (int i = 0; i < previewSizes.length; i++) {
-                String[] split = previewSizes[i].split("x");
-                int pw = Integer.parseInt(split[0]);
-                int ph = Integer.parseInt(split[1]);
-                double previewRatio = getRatio(pw, ph);
-                if (previewRatio == pictureRatio) {
-
-                    Log.d(TAG, "Found matching preview size and set it to:" + previewSizes[i] + " Ratio:" + previewRatio);
-                    ParametersHandler.PreviewSize.SetValue(previewSizes[i], true);
-                    setPreviewToDisplay(pw, ph);
-                    String msg = "PreviewSize:" + previewSizes[i] + " Ratio:" + previewRatio + "\nPictureSize:" + w + "x" + h + " Ratio:" + pictureRatio;
-                    ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-                    foundmatchingPreview = true;
-                    break;
-                }
-            }
-            if (foundmatchingPreview == false) {
-                Log.d(TAG, "Found no matching preview size, raw capture will fail");
-                String msg = "Found no matching preview size, raw capture will fail";
-                ParametersHandler.cameraHolder.errorHandler.OnError(msg);
-            }
-            int width = 0;
-            int height = 0;
-            if (Build.VERSION.SDK_INT >= 17)
-            {
-                WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-                Point size =  new Point();
-                wm.getDefaultDisplay().getRealSize(size);
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-
-            }*/
-
+        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
             Camera.Size size = getOptimalPreviewSize(ParametersHandler.PreviewSize.GetSizes(),w, h );
             ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
             setPreviewToDisplay(size.width, size.height);

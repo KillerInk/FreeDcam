@@ -322,7 +322,7 @@ public class MenuCreator
                 cameraUiWrapper);
         childlist.add(videoSizeExpandableChild);*/
 
-        VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context);
+        VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context, cameraUiWrapper);
         videoProfile.setName("Video Profile");
         if (!DeviceUtils.isLGADV()) {
             videoProfile.setParameterHolder(
