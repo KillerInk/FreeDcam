@@ -62,7 +62,7 @@ public class VideoModuleG3 extends VideoModule
     @Override
     public void LoadNeededParameters()
     {
-
+        loadProfileSpecificParameters();
     }
 
     public void UpdatePreview()
