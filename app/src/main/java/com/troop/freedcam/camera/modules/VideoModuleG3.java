@@ -88,7 +88,9 @@ public class VideoModuleG3 extends VideoModule
         }
         else
         {
-            baseCameraHolder.ParameterHandler.setString("preview-format", "yuv420sp");
+            baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
+            baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
+            baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
         }
         baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
         CamcorderProfileEx prof = baseCameraHolder.ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));

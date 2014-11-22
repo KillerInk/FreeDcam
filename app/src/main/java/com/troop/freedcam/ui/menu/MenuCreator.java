@@ -343,7 +343,24 @@ public class MenuCreator
         }
         childlist.add(videoProfile);
 
+
+
+        if (cameraUiWrapper.camParametersHandler.VideoHDR.IsSupported()) {
+            ExpandableChild videoHdr = new ExpandableChild(context);
+            videoHdr.setName("Video HDR");
+            videoHdr.setParameterHolder(
+                    cameraUiWrapper.camParametersHandler.VideoHDR,
+                    appSettingsManager,
+                    AppSettingsManager.SETTING_VIDEOHDR,
+                    cameraUiWrapper.moduleHandler.VideoModules,
+                    cameraUiWrapper
+            );
+
+            childlist.add(videoHdr);
+        }
+
         video.setItems(childlist);
+
     }
 
 

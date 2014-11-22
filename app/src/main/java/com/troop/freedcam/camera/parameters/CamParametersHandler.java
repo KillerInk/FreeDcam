@@ -43,6 +43,7 @@ import com.troop.freedcam.camera.parameters.modes.RedEyeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneDetectParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.SkinToneParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoHDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
@@ -113,6 +114,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public VideoProfilesParameter VideoProfiles;
     public VideoProfilesG3Parameter VideoProfilesG3;
     public VideoSizeParameter VideoSize;
+    public VideoHDRModeParameter VideoHDR;
 
     //public I_ParametersLoaded OnParametersLoaded;
 
@@ -198,6 +200,7 @@ public class CamParametersHandler implements I_ParameterChanged
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
+        VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values");
 
         if (DeviceUtils.isLGADV())
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
