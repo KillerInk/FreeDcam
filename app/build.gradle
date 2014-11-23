@@ -17,6 +17,7 @@ android {
                 main {
 
                     jni.srcDirs = []
+                    jniLibs.srcDir 'libs'
 
                 }
 
