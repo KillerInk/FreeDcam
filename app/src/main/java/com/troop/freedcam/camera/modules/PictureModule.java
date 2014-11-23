@@ -243,4 +243,17 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         return null;
     }
+
+    @Override
+    public void LoadNeededParameters() {
+        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
+            baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("Off", true);
+        if (baseCameraHolder.ParameterHandler.VideoHDR.IsSupported());
+            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("off", true);
+    }
+
+    @Override
+    public void UnloadNeededParameters() {
+        super.UnloadNeededParameters();
+    }
 }

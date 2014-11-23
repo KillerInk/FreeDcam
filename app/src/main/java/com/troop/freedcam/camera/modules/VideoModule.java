@@ -194,34 +194,15 @@ public class VideoModule extends AbstractModule
     @Override
     public void LoadNeededParameters()
     {
-        /*if (baseCameraHolder != null && baseCameraHolder.ParameterHandler.PreviewFormat != null)
-        {
 
-            if (baseCameraHolder.IsPreviewRunning())
-                baseCameraHolder.StopPreview();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-            baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
-            baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
-
-            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue(baseCameraHolder.ParameterHandler.VideoSize.GetValue(), true);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            baseCameraHolder.StartPreview();
-
-        }*/
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && baseCameraHolder.ParameterHandler.VideoHDR.IsSupported());
+            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("on", true);
     }
 
     @Override
     public void UnloadNeededParameters() {
         baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+        if (baseCameraHolder.ParameterHandler.VideoHDR.IsSupported())
+            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("off", true);
     }
 }
