@@ -186,19 +186,20 @@ public class BaseCameraHolder implements I_CameraHolder
             @Override
             public void run()
             {
-                //try
-                //{
+                try
+                {
 
                     mCamera.stopPreview();
                     isPreviewRunning = false;
                     Log.d(TAG, "Preview Stopped");
 
-                /*}
+                }
                 catch (Exception ex)
                 {
                     isPreviewRunning = false;
+                    Log.d(TAG, "Camera was released");
                     ex.printStackTrace();
-                }*/
+                }
 
             }
         });

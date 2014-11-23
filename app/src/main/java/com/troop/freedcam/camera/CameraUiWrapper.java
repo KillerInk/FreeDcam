@@ -42,6 +42,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
         cameraHolder.Focus = Focus;
+
     }
 
 
