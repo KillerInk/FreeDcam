@@ -328,14 +328,14 @@ public class CamParametersHandler implements I_ParameterChanged
     {
         Log.d(TAG, "THL5000 try to set mode");
         if (!raw) {
-            cameraParameters.set("rawsave-mode", 1);
+            cameraParameters.set("rawsave-mode", 0);
             cameraParameters.set("isp-mode", 0);
             Log.d(TAG, "THL5000 set mode to jpeg");
         }
         else
         {
-            cameraParameters.set("rawsave-mode", 2);
-            cameraParameters.set("isp-mode", 3);
+            cameraParameters.set("rawsave-mode", 1);
+            cameraParameters.set("isp-mode", 1);
             Log.d(TAG, "THL5000 set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);

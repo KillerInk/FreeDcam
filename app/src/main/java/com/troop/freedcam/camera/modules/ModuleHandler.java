@@ -92,8 +92,18 @@ public class ModuleHandler
 
     private void initModules()
     {
-        PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
-        moduleList.put(pictureModule.ModuleName(), pictureModule);
+        //init the Modules DeviceDepending
+        //splitting modules make the code foreach device cleaner
+        if (DeviceUtils.isMediaTekTHL5000())
+        {
+            PictureModuleThl5000 thl5000 = new PictureModuleThl5000(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(thl5000.ModuleName(), thl5000);
+        }
+        else //use default pictureModule
+        {
+            PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(pictureModule.ModuleName(), pictureModule);
+        }
 
         if (!DeviceUtils.isLGADV()) {
             VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
