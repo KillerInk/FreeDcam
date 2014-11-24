@@ -189,7 +189,7 @@ public class CamParametersHandler implements I_ParameterChanged
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
         LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
-        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "zsl", "zsl-values", cameraHolder);
+        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "", "", cameraHolder);
         SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
