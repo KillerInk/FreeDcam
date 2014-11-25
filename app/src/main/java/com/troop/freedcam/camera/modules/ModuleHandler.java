@@ -99,6 +99,11 @@ public class ModuleHandler
             PictureModuleThl5000 thl5000 = new PictureModuleThl5000(cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
         }
+        else if (DeviceUtils.isOmap())
+        {
+            PictureModuleO3D omap = new PictureModuleO3D(cameraHolder,appSettingsManager,moduleEventHandler);
+            moduleList.put(omap.ModuleName(),omap);
+        }
         else //use default pictureModule
         {
             PictureModule pictureModule = new PictureModule(cameraHolder, appSettingsManager, moduleEventHandler);
