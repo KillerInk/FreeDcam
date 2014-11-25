@@ -31,6 +31,15 @@ public class PictureModuleO3D extends PictureModule
     }
 
     @Override
+    protected void takePicture()
+    {
+        File dataDirectory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/Bayer_Raw/");
+        if (!dataDirectory.exists())
+            dataDirectory.mkdirs();
+        super.takePicture();
+    }
+
+    @Override
     public void onPictureTaken(byte[] data, Camera camera) {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
