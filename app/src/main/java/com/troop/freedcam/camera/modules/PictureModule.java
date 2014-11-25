@@ -144,15 +144,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                     file = null;
                 } else
                 {
-                    String raw[];
-                    if (DeviceUtils.isXperiaL())
-                    {
-                        raw = RawToDng.SonyXperiaLRawSize.split("x");
-                    }
-                    else {
-                        String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
-                        raw = rawSize.split("x");
-                    }
+                    String raw[] = getRawSize();
+
                     int w = Integer.parseInt(raw[0]);
                     int h = Integer.parseInt(raw[1]);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
@@ -169,6 +162,21 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             }
         }
     };
+
+    protected String[] getRawSize()
+    {
+        String raw[];
+        if (DeviceUtils.isXperiaL())
+        {
+            raw = RawToDng.SonyXperiaLRawSize.split("x");
+        }
+        else
+        {
+            String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+            raw = rawSize.split("x");
+        }
+        return raw;
+    }
 
     private void saveBytesToFile(byte[] bytes, File fileName)
     {
