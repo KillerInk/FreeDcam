@@ -67,7 +67,7 @@ public class HdrModule extends PictureModule
 
     //I_Module END
 
-    private void takePicture()
+    protected void takePicture()
     {
         this.isWorking = true;
         Log.d(TAG, "Start Taking Picture");
