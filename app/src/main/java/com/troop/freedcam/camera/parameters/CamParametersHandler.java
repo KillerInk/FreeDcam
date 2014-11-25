@@ -213,7 +213,7 @@ public class CamParametersHandler implements I_ParameterChanged
         {
             rawSupported =true;
         }
-        else if (DeviceUtils.isOmap())
+        else if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
         {
             rawSupported = true;
         }
