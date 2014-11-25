@@ -34,14 +34,20 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         {
             if (value.equals("raw") || value.equals("dng"))
             {
-                if (!DeviceUtils.isMediaTekTHL5000())
-                    parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, true);
-
-                if (DeviceUtils.isMediaTekTHL5000())
+                //galaxy nexus and atrix2
+                if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
+                {
+                    parameterHolder.SetValue("raw", true);
+                }
+                else if (DeviceUtils.isMediaTekTHL5000())
                 {
                     //set raw
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
                 }
+                else
+                    parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, true);
+
+
             }
             else
             {
