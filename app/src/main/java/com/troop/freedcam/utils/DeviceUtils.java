@@ -35,7 +35,7 @@ public class DeviceUtils
         return s.equals("GT-I9000") || s.equals("GT-I9100") || s.equals("GT-I9300") || s.equals("GT-I9500") || s.equals("SM-905") || s.equals("GT-N7000") || s.equals("GT-N7100")|| s.equals("SM-G900H");
     }
 
-    public static boolean is3d()
+    public static boolean isO3d()
     {
         String s = Build.MODEL;
         return s.equals("LG-P920") || s.equals("LG-P720") || s.equals("LG-P925") || s.equals("LG-P925") || s.equals("LG-SU760") || s.equals("LG-SU870");
