@@ -20,6 +20,7 @@ import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
+import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
 import com.troop.freedcam.ui.menu.MenuHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
@@ -47,6 +48,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     FocusImageHandler focusImageHandler;
     TextView exitButton;
     MainActivity_v2 activity;
+    TimerHandler timerHandler;
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
@@ -82,6 +84,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this, cameraUiWrapper);
         exitButton = (TextView)findViewById(R.id.textView_Exit);
+
+        timerHandler = new TimerHandler(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+
         if( ViewConfiguration.get(this).hasPermanentMenuKey())
         {
             exitButton.setVisibility(View.GONE);

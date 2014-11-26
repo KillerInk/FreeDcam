@@ -54,6 +54,7 @@ public class VideoModule extends AbstractModule
     private void startRecording()
     {
         prepareRecorder();
+        eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
     }
 
     private void stopRecording()
@@ -74,6 +75,7 @@ public class VideoModule extends AbstractModule
             recorder.release();
             isWorking = false;
             eventHandler.WorkFinished(new File(mediaSavePath));
+            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }
     }
 

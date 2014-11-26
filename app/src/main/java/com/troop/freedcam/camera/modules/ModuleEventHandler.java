@@ -10,11 +10,13 @@ public class ModuleEventHandler
 {
     ArrayList<I_ModuleEvent> moduleChangedListner;
     ArrayList<I_WorkEvent> WorkFinishedListners;
+    ArrayList<I_RecorderStateChanged> RecorderStateListners;
 
     public  ModuleEventHandler()
     {
         moduleChangedListner = new ArrayList<I_ModuleEvent>();
         WorkFinishedListners = new ArrayList<I_WorkEvent>();
+        RecorderStateListners = new ArrayList<I_RecorderStateChanged>();
     }
 
     public  void addListner(I_ModuleEvent listner)
@@ -37,5 +39,16 @@ public class ModuleEventHandler
     {
         for (I_WorkEvent listner : WorkFinishedListners)
             listner.WorkHasFinished(filePath);
+    }
+
+    public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)
+    {
+        RecorderStateListners.add(recorderStateChanged);
+    }
+
+    public void onRecorderstateChanged(int state)
+    {
+        for (I_RecorderStateChanged lisn : RecorderStateListners)
+            lisn.RecordingStateChanged(state);
     }
 }
