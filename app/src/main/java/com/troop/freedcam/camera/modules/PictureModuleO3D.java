@@ -106,4 +106,15 @@ public class PictureModuleO3D extends PictureModule
         is.close();
         return bytes;
     }
+
+
+    @Override
+    protected File getFileAndChooseEnding(String s1)
+    {
+        String zsl = baseCameraHolder.ParameterHandler.ZSL.GetValue();
+        if (zsl != null && zsl.equals("high-quality"))
+            return new File((new StringBuilder(String.valueOf(s1))).append("_").append(".raw").toString());
+        else
+            return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+    }
 }
