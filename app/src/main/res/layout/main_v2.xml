@@ -79,6 +79,26 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0:00:00"
+            android:id="@+id/textView_RecCounter"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="false"
+            android:background="#ff000000" />
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -266,25 +286,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0:00:00"
-            android:id="@+id/textView_RecCounter"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_alignParentTop="false"
-            android:background="#ff000000" />
     </LinearLayout>
 
 </RelativeLayout>
