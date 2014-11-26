@@ -221,7 +221,6 @@ public class CamParametersHandler implements I_ParameterChanged
         {
             rawSupported = true;
             dngSupported = true;
-            BayerMipiFormat = StringUtils.BayerMipiBGGR();
         }
         else if (!DeviceUtils.isHTCADV()) {
             for (String s : rawFormats) {

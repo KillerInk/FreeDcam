@@ -95,11 +95,12 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         {
             //get values from child attached parameter
             String[] values = selectedChild.getParameterHolder().GetValues();
-            if (selectedChild.getName().equals(context.getString(R.string.picture_format))) {
-                if (cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported)
+            if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
+            {
+                if (cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported && cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
                     values = new String[]{"jpeg", "raw", "dng"};
                 else
-                    values = new String[]{"jpeg", "raw"};
+                    values = cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
             }
 
             //set values to the adapter

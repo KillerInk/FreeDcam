@@ -29,8 +29,10 @@ public class PictureFormatExpandableChild extends ExpandableChild {
     }
 
     @Override
-    public void setValue(String value) {
-        if (cameraUiWrapper.camParametersHandler.dngSupported)
+    public void setValue(String value)
+    {
+        //TODO this is ugly need to find a different way.. class design fail
+        if (cameraUiWrapper.camParametersHandler.rawSupported)
         {
             if (value.equals("raw") || value.equals("dng"))
             {
@@ -45,9 +47,12 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
                 }
                 else
+                if (cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
                     parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, true);
-
-
+                else
+                {
+                    parameterHolder.SetValue(value, false);
+                }
             }
             else
             {
@@ -84,7 +89,17 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (cameraUiWrapper.camParametersHandler.dngSupported)
+        //TODO code design fail
+        //process raw supported devices
+        settingValue = setDeviceSettings(parameterHolder, appSettingsManager, settingsname, cameraUiWrapper, campara, settingValue);
+        nameTextView.setText(Name);
+        valueTextView.setText(appSettingsManager.getString(settingsname));
+        appSettingsManager.setString(settingsname, settingValue);
+        AddModulesToShow(modulesToShow);
+    }
+
+    private String setDeviceSettings(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, CameraUiWrapper cameraUiWrapper, String campara, String settingValue) {
+        if (cameraUiWrapper.camParametersHandler.rawSupported)
         {
             if (settingValue.equals(""))
             {
@@ -99,19 +114,23 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                 }
                 else
                 {
-                    parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
+                    //BayerMipiFormat is null if its not in the picture-formats
+                    if (cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
+                        parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, false);
+                    else
+                    {
+                        parameterHolder.SetValue(settingValue, false);
+                    }
                 }
             }
         }
+        //process all other devices
         else
         {
             if (settingValue.equals(""))
                 appSettingsManager.setString(settingsname, campara);
             parameterHolder.SetValue(settingValue, false);
         }
-        nameTextView.setText(Name);
-        valueTextView.setText(appSettingsManager.getString(settingsname));
-        appSettingsManager.setString(settingsname, settingValue);
-        AddModulesToShow(modulesToShow);
+        return settingValue;
     }
 }
