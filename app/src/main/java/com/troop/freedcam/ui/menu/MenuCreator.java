@@ -179,11 +179,11 @@ public class MenuCreator
             ExpandableChild lens = getNewChild(cameraUiWrapper.camParametersHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, context.getString(R.string.quality_lensshade), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(lens);
         }
-        if (cameraUiWrapper.camParametersHandler.ZSL.IsSupported())
+        /*if (cameraUiWrapper.camParametersHandler.ZSL.IsSupported())
         {
             ExpandableChild zsl = getNewChild(cameraUiWrapper.camParametersHandler.ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(zsl);
-        }
+        }*/
         if (cameraUiWrapper.camParametersHandler.SceneDetect.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, context.getString(R.string.quality_scenedetect), cameraUiWrapper.moduleHandler.AllModules);
