@@ -20,6 +20,7 @@ import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
+import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DenoiseParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
@@ -115,6 +116,7 @@ public class CamParametersHandler implements I_ParameterChanged
     public VideoProfilesG3Parameter VideoProfilesG3;
     public VideoSizeParameter VideoSize;
     public VideoHDRModeParameter VideoHDR;
+    public HistogramModeParameter CameraMode;
 
 
 
@@ -200,6 +202,8 @@ public class CamParametersHandler implements I_ParameterChanged
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
+        CameraMode = new HistogramModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
+
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
