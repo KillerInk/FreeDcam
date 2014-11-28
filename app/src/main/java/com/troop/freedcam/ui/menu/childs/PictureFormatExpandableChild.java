@@ -46,9 +46,10 @@ public class PictureFormatExpandableChild extends ExpandableChild {
                     //set raw
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(true);
                 }
-                else
-                if (cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
+                else if (cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
                     parameterHolder.SetValue(cameraUiWrapper.camParametersHandler.BayerMipiFormat, true);
+                else if (DeviceUtils.isXperiaL())
+                    parameterHolder.SetValue("raw", true);
                 else
                 {
                     parameterHolder.SetValue(value, false);
@@ -56,12 +57,13 @@ public class PictureFormatExpandableChild extends ExpandableChild {
             }
             else
             {
-                parameterHolder.SetValue(value, true);
                 if (DeviceUtils.isMediaTekTHL5000())
                 {
                    //set jpeg
                     cameraUiWrapper.camParametersHandler.setTHL5000Raw(false);
                 }
+                else
+                    parameterHolder.SetValue(value, true);
             }
         }
         else

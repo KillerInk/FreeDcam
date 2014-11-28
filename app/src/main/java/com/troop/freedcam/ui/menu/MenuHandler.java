@@ -19,6 +19,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
@@ -97,10 +98,7 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
             String[] values = selectedChild.getParameterHolder().GetValues();
             if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
             {
-                if (cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported && cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
-                    values = new String[]{"jpeg", "raw", "dng"};
-                else
-                    values = cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
+                values = getPictureFormats();
             }
 
             //set values to the adapter
@@ -117,6 +115,16 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
             Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
         }
         return false;
+    }
+
+    private String[] getPictureFormats() {
+        String[] values;
+        if ((cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported && cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
+                || DeviceUtils.isXperiaL())
+            values = new String[]{"jpeg", "raw", "dng"};
+        else
+            values = cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
+        return values;
     }
 
 

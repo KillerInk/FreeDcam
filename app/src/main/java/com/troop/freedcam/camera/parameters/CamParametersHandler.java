@@ -116,6 +116,8 @@ public class CamParametersHandler implements I_ParameterChanged
     public VideoSizeParameter VideoSize;
     public VideoHDRModeParameter VideoHDR;
 
+
+
     //public I_ParametersLoaded OnParametersLoaded;
 
     public CameraParametersEventHandler ParametersEventHandler;
@@ -207,13 +209,34 @@ public class CamParametersHandler implements I_ParameterChanged
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
 
+        checkRawSupport();
+
+        ParametersEventHandler.ParametersHasLoaded();
+    }
+
+    private void checkRawSupport()
+    {
         String rawFormats[] = PictureFormat.GetValues();
+
+        for (String s : rawFormats)
+        {
+            if (s.contains("bayer") || s.contains("raw"))
+            {
+                rawSupported = true;
+            }
+            if (s.contains("bayer-mipi")) {
+                dngSupported = true;
+                BayerMipiFormat = s;
+                if (DeviceUtils.isHTCADV())
+                    BayerMipiFormat = StringUtils.BayerMipiGRBG();
+            }
+        }
 
         if (DeviceUtils.isMediaTekTHL5000())
         {
             rawSupported =true;
         }
-        else if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
+        /*else if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
         {
             rawSupported = true;
         }
@@ -222,8 +245,10 @@ public class CamParametersHandler implements I_ParameterChanged
             rawSupported = true;
             dngSupported = true;
         }
-        else if (!DeviceUtils.isHTCADV()) {
-            for (String s : rawFormats) {
+        else if (!DeviceUtils.isHTCADV())
+        {
+            for (String s : rawFormats)
+            {
                 if (s.contains("bayer"))
                     rawSupported = true;
                 if (s.contains("bayer-mipi")) {
@@ -237,9 +262,7 @@ public class CamParametersHandler implements I_ParameterChanged
             dngSupported = true;
             rawSupported = true;
             BayerMipiFormat = StringUtils.BayerMipiGRBG();
-        }
-
-        ParametersEventHandler.ParametersHasLoaded();
+        }*/
     }
 
 
