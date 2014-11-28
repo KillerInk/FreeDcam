@@ -29,9 +29,11 @@ public class RawToDng
     )
     {
         if (DeviceUtils.isHTCADV())
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, "grbg", RawToDng.HTCM8_rowSize);
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize);
+        if (DeviceUtils.isXperiaL())
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.XperiaL_rowSize);
         else
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, "bggr", Calculate_rowSize(data.length, height));
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, BGGR, Calculate_rowSize(data.length, height));
     }
 	
 	public static float[] g3_color1 =
@@ -60,9 +62,13 @@ public class RawToDng
 	
 	
 	public static int HTCM8_rowSize = 3360;
+    public static int XperiaL_rowSize = 4376;
 
     public static String SonyXperiaLRawSize = "3282x2448";
     public static String Optimus3DRawSize = "2608x1944";
+
+    public static String BGGR = "bggr";
+    public static String GRBG = "grbg";
 	
 	public static int Calculate_rowSize(int fileSize, int height)
 	{
