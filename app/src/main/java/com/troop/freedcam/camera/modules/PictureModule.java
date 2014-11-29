@@ -247,6 +247,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             baseCameraHolder.ParameterHandler.CameraMode.SetValue("0", true);
         if (baseCameraHolder.ParameterHandler.ZSL.IsSupported() && !baseCameraHolder.ParameterHandler.ZSL.equals("off"))
             baseCameraHolder.ParameterHandler.ZSL.SetValue("off", true);
+        if(baseCameraHolder.ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
+            baseCameraHolder.ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
     }
 
     @Override
