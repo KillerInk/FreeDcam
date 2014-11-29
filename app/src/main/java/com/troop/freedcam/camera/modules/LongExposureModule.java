@@ -79,8 +79,8 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         this.isWorking = true;
         count = 0;
         //get width and height from the preview
-        width = baseCameraHolder.ParameterHandler.PreviewSize.GetWidth();
-        height = baseCameraHolder.ParameterHandler.PreviewSize.GetHeight();
+        width = ParameterHandler.PreviewSize.GetWidth();
+        height = ParameterHandler.PreviewSize.GetHeight();
         if (nativeYuvMerge == null)
             nativeYuvMerge = new Merge();
 
@@ -200,7 +200,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
 
     private File createFilename() {
         Log.d(TAG,"Create FileName");
-        String pictureFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+        String pictureFormat = ParameterHandler.PictureFormat.GetValue();
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         if(!file.exists())
             file.mkdirs();

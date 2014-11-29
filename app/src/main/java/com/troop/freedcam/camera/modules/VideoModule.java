@@ -98,10 +98,10 @@ public class VideoModule extends AbstractModule
             }
 
 
-            //baseCameraHolder.ParameterHandler.setString("video-size","");
+            //ParameterHandler.setString("video-size","");
 
-            //baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-            //baseCameraHolder.ParameterHandler.PreviewSize.SetValue("3840x2160", true);
+            //baseCameraHolder.SetCameraParameters(ParameterHandler.getParameters());
+            //ParameterHandler.PreviewSize.SetValue("3840x2160", true);
 
             Log.d(TAG, "InitMediaRecorder");
 
@@ -183,7 +183,7 @@ public class VideoModule extends AbstractModule
         recorder.setCamera(baseCameraHolder.GetCamera());
         recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        CamcorderProfile prof = baseCameraHolder.ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        CamcorderProfile prof = ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         recorder.setProfile(prof);
         return recorder;
     }
@@ -197,14 +197,14 @@ public class VideoModule extends AbstractModule
     public void LoadNeededParameters()
     {
 
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && baseCameraHolder.ParameterHandler.VideoHDR.IsSupported());
-            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("on", true);
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && ParameterHandler.VideoHDR.IsSupported());
+            ParameterHandler.VideoHDR.SetValue("on", true);
     }
 
     @Override
     public void UnloadNeededParameters() {
-        baseCameraHolder.ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-        if (baseCameraHolder.ParameterHandler.VideoHDR.IsSupported())
-            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("off", true);
+        ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+        if (ParameterHandler.VideoHDR.IsSupported())
+            ParameterHandler.VideoHDR.SetValue("off", true);
     }
 }

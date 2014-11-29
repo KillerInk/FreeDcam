@@ -48,20 +48,20 @@ public class HdrModule extends PictureModule
     @Override
     public void LoadNeededParameters()
     {
-        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
+        if (ParameterHandler.AE_Bracket.IsSupported())
         {
             aeBrackethdr = true;
-            baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
         }
     }
 
     @Override
     public void UnloadNeededParameters()
     {
-        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
+        if (ParameterHandler.AE_Bracket.IsSupported())
         {
             aeBrackethdr = true;
-            baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("Off", true);
+            ParameterHandler.AE_Bracket.SetValue("Off", true);
         }
     }
 

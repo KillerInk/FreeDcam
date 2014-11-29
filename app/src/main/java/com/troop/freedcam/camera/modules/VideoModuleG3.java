@@ -26,7 +26,7 @@ public class VideoModuleG3 extends VideoModule
 
     protected MediaRecorder initRecorder()
     {
-        CamcorderProfileEx prof = baseCameraHolder.ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
 
         recorder = new MediaRecorderEx();
@@ -75,29 +75,29 @@ public class VideoModuleG3 extends VideoModule
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
         {
-            baseCameraHolder.ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            baseCameraHolder.ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            baseCameraHolder.ParameterHandler.Denoise.SetValue("denoise-off", true);
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+            ParameterHandler.Denoise.SetValue("denoise-off", true);
 
-            baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
-            baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
+            ParameterHandler.setString("dual-recorder", "0");
+            ParameterHandler.setString("preview-format", "nv12-venus");
 
-            //baseCameraHolder.ParameterHandler.setString("video-hfr", "off");
-            //baseCameraHolder.ParameterHandler.setString("video-hdr", "off");
-            baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
+            //ParameterHandler.setString("video-hfr", "off");
+            //ParameterHandler.setString("video-hdr", "off");
+            ParameterHandler.setString("lge-camera", "1");
         }
         else
         {
-            baseCameraHolder.ParameterHandler.setString("preview-format", "nv12-venus");
-            baseCameraHolder.ParameterHandler.setString("lge-camera", "1");
-            baseCameraHolder.ParameterHandler.setString("dual-recorder", "0");
+            ParameterHandler.setString("preview-format", "nv12-venus");
+            ParameterHandler.setString("lge-camera", "1");
+            ParameterHandler.setString("dual-recorder", "0");
         }
-        baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
-        CamcorderProfileEx prof = baseCameraHolder.ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        baseCameraHolder.SetCameraParameters(ParameterHandler.getParameters());
+        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
-        baseCameraHolder.ParameterHandler.PreviewSize.SetValue(size, false);
-        baseCameraHolder.ParameterHandler.setString("video-size", size);
+        ParameterHandler.PreviewSize.SetValue(size, false);
+        ParameterHandler.setString("video-size", size);
 
-        baseCameraHolder.SetCameraParameters(baseCameraHolder.ParameterHandler.getParameters());
+        baseCameraHolder.SetCameraParameters(ParameterHandler.getParameters());
     }
 }
