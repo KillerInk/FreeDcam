@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -10,6 +11,7 @@ public abstract class AbstractModule implements I_Module
 {
     protected BaseCameraHolder baseCameraHolder;
     protected AppSettingsManager Settings;
+    protected CamParametersHandler ParameterHandler;
 
     protected boolean isWorking = false;
     protected String name;
@@ -21,6 +23,7 @@ public abstract class AbstractModule implements I_Module
         this.baseCameraHolder = cameraHandler;
         this.Settings = Settings;
         this.eventHandler = eventHandler;
+        this.ParameterHandler = baseCameraHolder.ParameterHandler;
     }
 
     @Override

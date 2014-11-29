@@ -194,11 +194,11 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, context.getString(R.string.quality_denoise), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }
-        if (cameraUiWrapper.camParametersHandler.DigitalImageStabilization.IsSupported())
+        /*if (cameraUiWrapper.camParametersHandler.DigitalImageStabilization.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, context.getString(R.string.quality_digitalimagestab), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
-        }
+        }*/
         /*if (cameraUiWrapper.camParametersHandler.MemoryColorEnhancement.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, context.getString(R.string.quality_mce), cameraUiWrapper.moduleHandler.AllModules);

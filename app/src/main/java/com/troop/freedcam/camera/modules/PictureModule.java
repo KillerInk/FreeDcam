@@ -126,8 +126,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         bytes = data;
         saveFileRunner.run();
         isWorking = false;
-        if (baseCameraHolder.ParameterHandler.isExposureAndWBLocked)
-            baseCameraHolder.ParameterHandler.LockExposureAndWhiteBalance(false);
+        if (ParameterHandler.isExposureAndWBLocked)
+            ParameterHandler.LockExposureAndWhiteBalance(false);
         return false;
     }
 
@@ -172,7 +172,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            String rawSize = baseCameraHolder.ParameterHandler.GetRawSize();
+            String rawSize = ParameterHandler.GetRawSize();
             raw = rawSize.split("x");
         }
         return raw;
@@ -215,8 +215,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     protected File getFileAndChooseEnding(String s1)
     {
-        String pictureFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-        if (baseCameraHolder.ParameterHandler.dngSupported)
+        String pictureFormat = ParameterHandler.PictureFormat.GetValue();
+        if (ParameterHandler.dngSupported)
         {
             if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
                 return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
@@ -239,16 +239,18 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     @Override
     public void LoadNeededParameters() {
-        if (baseCameraHolder.ParameterHandler.AE_Bracket.IsSupported())
-            baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("Off", true);
-        if (baseCameraHolder.ParameterHandler.VideoHDR.IsSupported());
-            baseCameraHolder.ParameterHandler.VideoHDR.SetValue("off", true);
-        if (baseCameraHolder.ParameterHandler.CameraMode.IsSupported() && baseCameraHolder.ParameterHandler.CameraMode.GetValue().equals("1"))
-            baseCameraHolder.ParameterHandler.CameraMode.SetValue("0", true);
-        if (baseCameraHolder.ParameterHandler.ZSL.IsSupported() && !baseCameraHolder.ParameterHandler.ZSL.equals("off"))
-            baseCameraHolder.ParameterHandler.ZSL.SetValue("off", true);
-        if(baseCameraHolder.ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
-            baseCameraHolder.ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+        if (ParameterHandler.AE_Bracket.IsSupported())
+            ParameterHandler.AE_Bracket.SetValue("Off", true);
+        if (ParameterHandler.VideoHDR.IsSupported());
+            ParameterHandler.VideoHDR.SetValue("off", true);
+        if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
+            ParameterHandler.CameraMode.SetValue("0", true);
+        if (ParameterHandler.ZSL.IsSupported() && !ParameterHandler.ZSL.equals("off"))
+            ParameterHandler.ZSL.SetValue("off", true);
+        if(ParameterHandler.MemoryColorEnhancement.IsSupported() && ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+        if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
     }
 
     @Override
