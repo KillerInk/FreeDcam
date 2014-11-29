@@ -205,11 +205,11 @@ public class MenuCreator
             childlist.add(sd);
         }*/
 
-        if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
+        /*if (cameraUiWrapper.camParametersHandler.SkinToneEnhancment.IsSupported())
         {
             ExpandableChild sd = getNewChild(cameraUiWrapper.camParametersHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, context.getString(R.string.quality_skintone), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
-        }
+        }*/
         if (cameraUiWrapper.camParametersHandler.NonZslManualMode.IsSupported())
         {
             ExpandableChild nzm = getNewChild(
@@ -219,7 +219,7 @@ public class MenuCreator
                     cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(nzm);
         }
-        if(cameraUiWrapper.camParametersHandler.Histogram.IsSupported())
+        /*if(cameraUiWrapper.camParametersHandler.Histogram.IsSupported())
         {
             ExpandableChild his = getNewChild(
                     cameraUiWrapper.camParametersHandler.Histogram,
@@ -227,7 +227,7 @@ public class MenuCreator
                     "Histogram",
                     cameraUiWrapper.moduleHandler.AllModules );
             childlist.add(his);
-        }
+        }*/
 
         SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
         saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
