@@ -243,8 +243,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             ParameterHandler.AE_Bracket.SetValue("Off", true);
         if (ParameterHandler.VideoHDR.IsSupported());
             ParameterHandler.VideoHDR.SetValue("off", true);
-        if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
-            ParameterHandler.CameraMode.SetValue("0", true);
+        //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
+            //ParameterHandler.CameraMode.SetValue("0", true);
         if (ParameterHandler.ZSL.IsSupported() && !ParameterHandler.ZSL.equals("off"))
             ParameterHandler.ZSL.SetValue("off", true);
         if(ParameterHandler.MemoryColorEnhancement.IsSupported() && ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
