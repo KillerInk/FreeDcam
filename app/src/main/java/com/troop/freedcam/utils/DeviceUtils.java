@@ -58,10 +58,16 @@ public class DeviceUtils
         return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU")|| Build.MODEL.equals("HTC Shooter");
     }
 
-    public static boolean isHTCADV()
+    public static boolean isHTC_M8()
     {
         String s = Build.MODEL;
-        return s.equals("HTC One_M8") || s.equals("HTC One_M7");
+        return s.equals("HTC One_M8");
+    }
+
+    public static boolean isHTC_M7()
+    {
+        String s = Build.MODEL;
+        return s.equals("HTC One_M7");
     }
 
 
@@ -110,7 +116,7 @@ public class DeviceUtils
 
     public static boolean isRawSupported()
     {
-        return isLGADV() || isHTCADV() || isZTEADV() || isMediaTekTHL5000();
+        return isLGADV() || isHTC_M8() || isZTEADV() || isMediaTekTHL5000();
     }
 
 

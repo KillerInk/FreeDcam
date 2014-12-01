@@ -20,7 +20,6 @@ import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
-import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DenoiseParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
@@ -231,7 +230,7 @@ public class CamParametersHandler implements I_ParameterChanged
             if (s.contains("bayer-mipi")) {
                 dngSupported = true;
                 BayerMipiFormat = s;
-                if (DeviceUtils.isHTCADV())
+                if (DeviceUtils.isHTC_M8())
                     BayerMipiFormat = StringUtils.BayerMipiGRBG();
             }
         }
@@ -249,7 +248,7 @@ public class CamParametersHandler implements I_ParameterChanged
             rawSupported = true;
             dngSupported = true;
         }
-        else if (!DeviceUtils.isHTCADV())
+        else if (!DeviceUtils.isHTC_M8())
         {
             for (String s : rawFormats)
             {

@@ -23,7 +23,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isHTCADV() || DeviceUtils.isZTEADV())
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV())
             return true;
         else
             return false;
@@ -33,7 +33,7 @@ public class CCTManualParameter extends BaseManualParameter {
     public int GetMaxValue() {
     	if (DeviceUtils.isZTEADV())
     		return parameters.getInt("max-wb-cct");
-			if (DeviceUtils.isHTCADV())
+			if (DeviceUtils.isHTC_M8())
     		return parameters.getInt("max-wb-ct");
         return 80;
     }
@@ -42,7 +42,7 @@ public class CCTManualParameter extends BaseManualParameter {
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV())
 			return parameters.getInt("min-wb-cct");
-		if (DeviceUtils.isHTCADV())
+		if (DeviceUtils.isHTC_M8())
 			return parameters.getInt("min-wb-ct");
 		return 0;
     }
@@ -52,7 +52,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isHTCADV())
+            if (DeviceUtils.isHTC_M8())
                 i = parameters.getInt("wb-current-ct");
             if (DeviceUtils.isZTEADV());
                 i = parameters.getInt("wb-current-cct");
@@ -70,7 +70,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {   if (DeviceUtils.isZTEADV())
 			parameters.setWhiteBalance("manual-cct");   
 			parameters.set("wb-manual-cct", valueToSet); 
-		if (DeviceUtils.isHTCADV())
+		if (DeviceUtils.isHTC_M8())
 			parameters.set("wb-ct", valueToSet);
 
      }

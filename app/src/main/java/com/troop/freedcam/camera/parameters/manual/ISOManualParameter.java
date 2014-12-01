@@ -23,7 +23,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
             return true;
         else
             return false;
@@ -32,7 +32,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public int GetMaxValue() {
 
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
             return 6400;
         return 80;
     }
@@ -40,7 +40,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
 
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
             return 64;
         return 0;
     }
@@ -62,7 +62,7 @@ public class ISOManualParameter extends BaseManualParameter {
 
     @Override
     public void SetValue(int valueToSet)
-    {   	if (DeviceUtils.isHTCADV())
+    {   	if (DeviceUtils.isHTC_M8())
         parameters.set("iso-st", valueToSet);
 
     }

@@ -28,7 +28,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV() || DeviceUtils.isHTCADV())
+        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
             return true;
         else
             return false;
@@ -40,7 +40,7 @@ public class FocusManualParameter extends  BaseManualParameter
         try {
             if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
                 return 79;
-            if (DeviceUtils.isHTCADV())
+            if (DeviceUtils.isHTC_M8())
                 return Integer.parseInt(parameters.get("max-focus"));
             else return 0;
         }
@@ -53,7 +53,7 @@ public class FocusManualParameter extends  BaseManualParameter
 // HTC Focus Step "focus-step"
     @Override
     public int GetMinValue() {
-    	if (DeviceUtils.isHTCADV())
+    	if (DeviceUtils.isHTC_M8())
             return Integer.parseInt(parameters.get("min-focus"));
         return 0;
     }
@@ -67,7 +67,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 i = parameters.getInt("manualfocus_step");
             if (DeviceUtils.isZTEADV());
                 i = parameters.getInt("maf_key");
-            if (DeviceUtils.isHTCADV())
+            if (DeviceUtils.isHTC_M8())
                 i = parameters.getInt("focus");
         }
         catch (Exception ex)
@@ -102,7 +102,7 @@ public class FocusManualParameter extends  BaseManualParameter
             //parameters.setFocusMode("macro");
             parameters.set("maf_key", valueToSet);
         }
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
         {
             parameters.set("focus", valueToSet);
         }

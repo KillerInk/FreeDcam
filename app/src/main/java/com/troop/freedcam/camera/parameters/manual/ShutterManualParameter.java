@@ -35,7 +35,7 @@ public class ShutterManualParameter extends BaseManualParameter
         super(parameters, value, maxValue, MinValue);
 
 
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
@@ -52,7 +52,7 @@ public class ShutterManualParameter extends BaseManualParameter
         super(parameters, value, maxValue, MinValue);
 
         this.baseCameraHolder = baseCameraHolder;
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
@@ -114,7 +114,7 @@ public class ShutterManualParameter extends BaseManualParameter
         shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
         if (DeviceUtils.isZTEADV())
             parameters.set("slow_shutter", shutterstring);
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
             parameters.set("shutter", shutterstring);
         Log.e(TAG, shutterstring);
 
@@ -140,7 +140,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public void RestartPreview()
     {
         //baseCameraHolder.StopPreview();
-        /*if (DeviceUtils.isHTCADV()||DeviceUtils.isZTEADV()) {
+        /*if (DeviceUtils.isHTC_M8()||DeviceUtils.isZTEADV()) {
             parameters.set("zsl", "off");
             parameters.set("auto-exposure", "center-weighted");
             //parameters.set("shutter-threshold", "0.2");

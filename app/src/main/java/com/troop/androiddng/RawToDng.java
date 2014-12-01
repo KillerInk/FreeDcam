@@ -28,7 +28,7 @@ public class RawToDng
             int height
     )
     {
-        if (DeviceUtils.isHTCADV())
+        if (DeviceUtils.isHTC_M8())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize);
         if (DeviceUtils.isXperiaL())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.XperiaL_rowSize);
@@ -62,6 +62,9 @@ public class RawToDng
 	
 	
 	public static int HTCM8_rowSize = 3360;
+
+    //Rawsize =  10788864
+    //RealSize = 10712448
     public static int XperiaL_rowSize = 4376;
 
     public static String SonyXperiaLRawSize = "3282x2448";
