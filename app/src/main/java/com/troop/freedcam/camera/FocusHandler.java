@@ -20,6 +20,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
     public  I_Focus focusEvent;
     int count;
     List<Camera.Area> areas;
+    boolean isFocusing = false;
 
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
@@ -33,29 +34,44 @@ public class FocusHandler implements Camera.AutoFocusCallback
     {
 
         //camera.cancelAutoFocus();
+        isFocusing = false;
         if (focusEvent != null)
             focusEvent.FocusFinished(success);
     }
 
     public void StartFocus()
     {
+        if (isFocusing) {
+            cameraHolder.GetCamera().cancelAutoFocus();
+            isFocusing =false;
+        }
+
         if (focusEvent != null)
         {
             focusEvent.FocusStarted(null);
         }
 
         cameraHolder.StartFocus(this);
+        isFocusing = true;
     }
 
     public void StartTouchToFocus(Rect rect, int width, int height)
     {
-        if (parametersHandler.FocusMode.GetValue().equals("auto")
-                || parametersHandler.FocusMode.GetValue().equals("macro")
-                || parametersHandler.FocusMode.GetValue().equals("normal"))
+        if (isFocusing) {
+            cameraHolder.GetCamera().cancelAutoFocus();
+            isFocusing =false;
+        }
+
+        String focusmode = parametersHandler.FocusMode.GetValue();
+        if (focusmode.equals("auto")
+                || focusmode.equals("macro")
+                || focusmode.equals("normal"))
         {
-            if (parametersHandler.FocusMode.GetValue().equals("normal"))
+            if (focusmode.equals("normal"))
             {
+                parametersHandler.ManualFocus.SetValue(-1);
                 parametersHandler.FocusMode.SetValue("auto", true);
+
             }
             final Rect targetFocusRect = new Rect(
                     rect.left * 2000 / width - 1000,
@@ -99,6 +115,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
                 parametersHandler.SetFocusAREA(meteringList);
 
                 cameraHolder.StartFocus(this);
+                isFocusing = true;
                 if (focusEvent != null)
                     focusEvent.FocusStarted(rect);
             }
