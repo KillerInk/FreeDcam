@@ -19,6 +19,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
 {
     private I_PreviewSizeEvent previewSizeEvent;
     CameraUiWrapper cameraUiWrapper;
+    public I_VideoProfile videoProfileChanged;
 
     public VideoProfileExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -69,6 +70,8 @@ public class VideoProfileExpandableChild extends ExpandableChild
             VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
             g3.UpdatePreview();
         }
+        if (videoProfileChanged != null)
+            videoProfileChanged.VideoProfileChanged(value);
         /*if (DeviceUtils.isLGADV())
         {
             previewSizeEvent.OnPreviewSizeChanged(cameraUiWrapper.camParametersHandler.VideoProfilesG3.GetCameraProfile(value).videoFrameWidth,
@@ -98,6 +101,8 @@ public class VideoProfileExpandableChild extends ExpandableChild
         if (settingValue == null || settingValue == "") {
             settingValue = parameterHolder.GetValues()[0];
             appSettingsManager.setString(settingsname, settingValue);
+            if (videoProfileChanged != null)
+                videoProfileChanged.VideoProfileChanged(settingValue);
         }
 
 
@@ -121,4 +126,5 @@ public class VideoProfileExpandableChild extends ExpandableChild
     protected String getTAG() {
         return super.getTAG();
     }
+
 }

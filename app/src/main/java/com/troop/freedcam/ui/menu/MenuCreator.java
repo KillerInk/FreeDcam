@@ -10,6 +10,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
@@ -358,6 +359,13 @@ public class MenuCreator
 
             childlist.add(videoHdr);
         }
+
+        ExpandableChildNumber timelapseframes = new ExpandableChildNumber(context,appSettingsManager,AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
+        timelapseframes.setMinMax(0.01d, 30);
+        timelapseframes.setName("Timelapse FPS");
+        childlist.add(timelapseframes);
+        videoProfile.videoProfileChanged = timelapseframes;
+
 
         video.setItems(childlist);
 

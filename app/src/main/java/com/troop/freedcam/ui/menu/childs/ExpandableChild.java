@@ -28,7 +28,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     TextView nameTextView;
     TextView valueTextView;
     protected String settingsname;
-    ArrayList<String> modulesToShow;
+    protected ArrayList<String> modulesToShow;
     CameraUiWrapper cameraUiWrapper;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
@@ -46,7 +46,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
         init(context);
     }
 
-    private void init(Context context)
+    protected void init(Context context)
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

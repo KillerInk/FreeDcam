@@ -40,6 +40,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     SwipeMenuListner swipeMenuListner;
     OrientationHandler orientationHandler;
     int flags;
+    int flags2;
 
     protected HelpOverlayHandler helpOverlayHandler;
     int helplayoutrot;
@@ -57,9 +58,6 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE;
-
-
-
 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
@@ -81,26 +79,8 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
 
         cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
 
-        //seekbarLayout.setAlpha(0f);
-        //seekbarLayout.setVisibility(View.GONE);
-
         swipeMenuListner = new SwipeMenuListner(this);
         orientationHandler = new OrientationHandler(this, this);
-
-
-
-        /*Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                //seekbarLayout.setVisibility(View.GONE);
-                //seekbarLayout.setAlpha(1f);
-                //manualSettingsLayout.setVisibility(View.GONE);
-                //manualSettingsLayout.setAlpha(1f);
-                //settingsLayout.setVisibility(View.GONE);
-                //settingsLayout.setAlpha(1f);
-            }
-        };
-        new Handler().postDelayed(runnable, 4000);*/
     }
 
     @Override
@@ -123,8 +103,10 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+
+        if (hasFocus)
+            HIDENAVBAR();
         super.onWindowFocusChanged(hasFocus);
-        HIDENAVBAR();
     }
 
     public void HIDENAVBAR()
@@ -140,13 +122,16 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
             decorView.setSystemUiVisibility(flags);
             decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    if (Build.VERSION.SDK_INT >= 16)
-                        getWindow().getDecorView().setSystemUiVisibility(flags);
+                public void onSystemUiVisibilityChange(int visibility)
+                {
+                    if (visibility > 0) {
+                        if (Build.VERSION.SDK_INT >= 16)
+                            getWindow().getDecorView().setSystemUiVisibility(flags);
+                    }
                 }
             });
-            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
+            //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            //imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
 
         }
     }

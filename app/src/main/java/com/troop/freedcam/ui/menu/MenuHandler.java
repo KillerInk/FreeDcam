@@ -61,6 +61,12 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+        expandableListView = (ExpandableListView) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
+        expandableListView.setOnChildClickListener(this);
+
+        listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
+        listView.setOnItemClickListener(this);
+        context.settingsLayoutHolder.removeView(listView);
 
     }
 
@@ -132,73 +138,15 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     {
         context.settingsLayoutHolder.removeView(expandableListView);
         context.settingsLayoutHolder.addView(listView);
-       /* expandableListView.setAlpha(1f);
-        expandableListView.setVisibility(View.VISIBLE);
-        expandableListView.animate()
-                .alpha(0f)
-                .translationXBy(-expandableListView.getWidth())
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        expandableListView.setVisibility(View.GONE);
-                        showSubMenu();
-                    }
-                });*/
-    }
-
-    private void showSubMenu()
-    {
-        listView.setAlpha(0f);
-        listView.setVisibility(View.VISIBLE);
-        listView.animate()
-                .alpha(1f)
-                .translationX(0)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-
-                    }
-                });
     }
 
     private void hideSubMenuAndShowMenu()
     {
         context.settingsLayoutHolder.removeView(listView);
         context.settingsLayoutHolder.addView(expandableListView);
-        /*listView.setAlpha(1f);
-        listView.setVisibility(View.VISIBLE);
-        listView.animate()
-                .alpha(0f)
-                .translationX(-expandableListView.getWidth())
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        listView.setVisibility(View.GONE);
-                        showMenu();
-                    }
-                });*/
     }
 
-    private void showMenu()
-    {
-        expandableListView.setAlpha(0f);
-        expandableListView.setVisibility(View.VISIBLE);
-        expandableListView.animate()
-                .alpha(1f)
-                .translationX(0)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
 
-                    }
-                });
-    }
 
     //this get fired when the cameraparametershandler has finished loading the parameters and all values are availible
     @Override
@@ -206,15 +154,10 @@ public class MenuHandler  implements ExpandableListView.OnChildClickListener, Li
     {
         grouplist = createMenu();
         expandableListViewMenuAdapter = new ExpandableListViewMenuAdapter(context, grouplist);
-        expandableListView = (ExpandableListView) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
-        expandableListView.setAdapter(expandableListViewMenuAdapter);
-        expandableListView.setOnChildClickListener(this);
 
-        if (listView == null) {
-            listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
-            listView.setOnItemClickListener(this);
-            context.settingsLayoutHolder.removeView(listView);
-        }
+        expandableListView.setAdapter(expandableListViewMenuAdapter);
+        context.settingsLayoutHolder.removeView(expandableListView);
+        context.settingsLayoutHolder.addView(expandableListView);
     }
 
     @Override

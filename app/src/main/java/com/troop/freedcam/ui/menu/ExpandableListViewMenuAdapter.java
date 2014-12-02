@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
+import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 
 import java.util.ArrayList;
 
@@ -72,9 +74,20 @@ public class ExpandableListViewMenuAdapter extends BaseExpandableListAdapter
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {
         ExpandableChild child = (ExpandableChild) getChild(groupPosition, childPosition);
+        if (child instanceof ExpandableChildNumber)
+        {
+            convertView = (ExpandableChildNumber) child;
+            convertView.setClickable(true);
+            convertView.bringToFront();
+        }
+        else
+        {
+            convertView = child;
+            convertView.setClickable(false);
+        }
 
-        convertView = child;
-        convertView.setClickable(false);
+
+
 
         return convertView;
     }
