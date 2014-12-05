@@ -27,9 +27,11 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     Button minus;
     EditText editText;
 
-    double min;
-    double max;
-    double current;
+    float min;
+    float max;
+    float current;
+    final float mover = 0.1f;
+    final float bigmover = 1;
     I_VideoProfile videoProfile;
 
     public ExpandableChildNumber(Context context, AttributeSet attrs) {
@@ -68,32 +70,6 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
         this.plus = (Button)findViewById(R.id.button_plus);
         this.minus = (Button)findViewById(R.id.button_minus);
         this.editText = (EditText)findViewById(R.id.editText_number);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-                double i = 0;
-                try
-                {
-                    i = Double.parseDouble(s.toString());
-                }
-                catch (Exception ex)
-                {}
-                if (i > 0 && i <= 30 );
-                    current = i;
-
-            }
-        });
         this.plus.setClickable(true);
         this.minus.setClickable(true);
 
@@ -102,21 +78,46 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
         minus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (current > min)
-                {
-                    current--;
-                    editText.setText(current + "");
+
+                if ((current - bigmover) >= 1 )
+                    current -= bigmover;
+                else if (current - mover > min)
+                    current -= mover;
+                String form = String.format("%.1f", current).replace(",", ".");
+                try {
+
+                    current = (float)Float.parseFloat(form);
                 }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+                editText.setText(current + "");
+
             }
         });
         plus.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (current < max)
+            public void onClick(View v)
+            {
+                if (current >= 1 && current + bigmover <= max)
+                    current += bigmover;
+                else if (current + mover <= 1)
                 {
-                    current++;
-                    editText.setText(current +"");
+                    current += mover;
                 }
+                String form = String.format("%.1f", current).replace(",", ".");
+                try {
+
+                    current = (float)Float.parseFloat(form);
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+                editText.setText(current + "");
             }
         });
 
@@ -124,18 +125,18 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
         if (fps == null || fps.equals(""))
             fps = "30";
         editText.setText(fps);
-        current = Double.parseDouble(fps);
+        current = Float.parseFloat(fps);
 
         this.modulesToShow = new ArrayList<String>();
     }
 
-    public void setMinMax(double min, double max)
+    public void setMinMax(float min, float max)
     {
         this.min = min;
         this.max = max;
     }
 
-    public void setCurrent(double current)
+    public void setCurrent(float current)
     {
         this.current = current;
         editText.setText(current +"");
@@ -147,7 +148,13 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     }
 
     @Override
-    public void VideoProfileChanged(String videoProfile) {
+    public void VideoProfileChanged(String videoProfile)
+    {
+        if (videoProfile.contains("Timelapse"))
+            this.setVisibility(VISIBLE);
+        else
+            this.setVisibility(GONE);
+
 
     }
 

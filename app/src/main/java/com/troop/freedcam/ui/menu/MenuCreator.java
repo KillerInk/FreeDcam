@@ -361,7 +361,7 @@ public class MenuCreator
         }
 
         ExpandableChildNumber timelapseframes = new ExpandableChildNumber(context,appSettingsManager,AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
-        timelapseframes.setMinMax(0.01d, 30);
+        timelapseframes.setMinMax(0.01f, 30);
         timelapseframes.setName("Timelapse FPS");
         childlist.add(timelapseframes);
         videoProfile.videoProfileChanged = timelapseframes;
