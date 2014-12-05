@@ -26,16 +26,28 @@ public class VideoModuleG3 extends VideoModule
 
     protected MediaRecorder initRecorder()
     {
-        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(profile);
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
 
         recorder = new MediaRecorderEx();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
-        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
+
+        if (!profile.contains("Timelapse")) {
+            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        }
+
         recorder.setProfile(prof);
+
+        if (profile.contains("Timelapse"))
+        {
+            float frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+            recorder.setCaptureRate(frame);
+        }
+
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
             recorder.setMaxFileSize(3037822976L);
             recorder.setMaxDuration(7200000);

@@ -83,56 +83,10 @@ public class VideoModule extends AbstractModule
     {
         try
         {
-            //
-
-
-            //baseCameraHolder.StopPreview();
-            //baseCameraHolder.StartPreview();
-
-
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            //ParameterHandler.setString("video-size","");
-
-            //baseCameraHolder.SetCameraParameters(ParameterHandler.getParameters());
-            //ParameterHandler.PreviewSize.SetValue("3840x2160", true);
-
             Log.d(TAG, "InitMediaRecorder");
 
             baseCameraHolder.GetCamera().unlock();
             recorder =  initRecorder();
-
-
-
-            /*
-            recorder.setOutputFormat(prof.fileFormat);
-            String[] split = Settings.getString(AppSettingsManager.SETTING_VIDEOSIZE).split("x");
-            int w = Integer.parseInt(split[0]);
-            int h = Integer.parseInt(split[1]);
-            recorder.setVideoSize(w,h);
-            recorder.setVideoEncoder(prof.videoCodec);
-            recorder.setVideoEncodingBitRate(prof.videoBitRate);
-            recorder.setVideoFrameRate(30);
-
-            recorder.setAudioChannels(prof.audioChannels);
-            recorder.setAudioEncoder(prof.audioCodec);
-            recorder.setAudioEncodingBitRate(prof.audioBitRate);*/
-
-
-
-            //recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            //recorder.setVideoSize(parametersManager.videoModes.Width, parametersManager.videoModes.Height);
-            /*recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-            recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);*/
-
-            /*recorder.setVideoEncodingBitRate(20000000);
-            recorder.setVideoFrameRate(30);*/
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
@@ -181,10 +135,22 @@ public class VideoModule extends AbstractModule
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
-        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+        CamcorderProfile prof = ParameterHandler.VideoProfiles.GetCameraProfile(profile);
+
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        CamcorderProfile prof = ParameterHandler.VideoProfiles.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+
+        if (!profile.contains("Timelapse")) {
+            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        }
+
         recorder.setProfile(prof);
+
+        if (profile.contains("Timelapse"))
+        {
+            float frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+            recorder.setCaptureRate(frame);
+        }
         return recorder;
     }
 
