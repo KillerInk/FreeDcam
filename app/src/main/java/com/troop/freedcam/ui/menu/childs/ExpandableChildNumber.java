@@ -91,7 +91,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
                 {}
                 if (i > 0 && i <= 30 );
                     current = i;
-                
+
             }
         });
         this.plus.setClickable(true);

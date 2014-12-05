@@ -26,8 +26,17 @@ public class ModuleEventHandler
 
     public void ModuleHasChanged(String module)
     {
-        for (I_ModuleEvent listner : moduleChangedListner)
-            listner.ModuleChanged(module);
+        for (int i =0; i < moduleChangedListner.size(); i++)
+        {
+            if (moduleChangedListner.get(i) == null) {
+                moduleChangedListner.remove(i);
+                i--;
+            }
+            else
+            {
+                moduleChangedListner.get(i).ModuleChanged(module);
+            }
+        }
     }
 
     public void AddWorkFinishedListner(I_WorkEvent i_workEvent)
