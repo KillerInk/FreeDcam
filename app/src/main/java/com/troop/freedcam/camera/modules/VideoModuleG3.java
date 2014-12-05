@@ -47,6 +47,10 @@ public class VideoModuleG3 extends VideoModule
             float frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
             recorder.setCaptureRate(frame);
         }
+        if (profile.contains("HFR"))
+        {
+            recorder.setCaptureRate(120);
+        }
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
             recorder.setMaxFileSize(3037822976L);
