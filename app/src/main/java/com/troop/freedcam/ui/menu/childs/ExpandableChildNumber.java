@@ -83,18 +83,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
                     current -= bigmover;
                 else if (current - mover > min)
                     current -= mover;
-                String form = String.format("%.1f", current).replace(",", ".");
-                try {
-
-                    current = (float)Float.parseFloat(form);
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-
-                editText.setText(current + "");
-
+                setCurrent(current);
             }
         });
         plus.setOnClickListener(new OnClickListener() {
@@ -107,24 +96,15 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
                 {
                     current += mover;
                 }
-                String form = String.format("%.1f", current).replace(",", ".");
-                try {
+                setCurrent(current);
 
-                    current = (float)Float.parseFloat(form);
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-
-                editText.setText(current + "");
             }
         });
 
         String fps = this.appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))
             fps = "30";
-        editText.setText(fps);
+        editText.setText(fps + " fps");
         current = Float.parseFloat(fps);
 
         this.modulesToShow = new ArrayList<String>();
@@ -138,8 +118,17 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
 
     public void setCurrent(float current)
     {
-        this.current = current;
-        editText.setText(current +"");
+        String form = String.format("%.1f", current).replace(",", ".");
+        try {
+
+            current = Float.parseFloat(form);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        appSettingsManager.setString(settingsname, current+"");
+        editText.setText(current + " fps");
     }
 
     public double GetCurrent()
