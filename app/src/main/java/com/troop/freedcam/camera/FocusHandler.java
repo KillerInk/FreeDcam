@@ -109,7 +109,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
                     && targetFocusRect.top >= -1000
                     && targetFocusRect.bottom <= 1000
                     && targetFocusRect.right <= 1000) {
-                Camera.Area focusArea = new Camera.Area(targetFocusRect, 900);
+                Camera.Area focusArea = new Camera.Area(targetFocusRect, 500);
                 final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
                 meteringList.add(focusArea);
                 parametersHandler.SetFocusAREA(meteringList);
