@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.view.SurfaceHolder;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
@@ -9,6 +10,8 @@ import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+
+import java.lang.annotation.Target;
 
 /**
  * Created by troop on 16.08.2014.
@@ -21,7 +24,7 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
     public AppSettingsManager appSettingsManager;
     public CamParametersHandler camParametersHandler;
     public FocusHandler Focus;
-    I_error errorHandler;
+    protected I_error errorHandler;
 
     public CameraUiWrapper(){};
 
