@@ -32,7 +32,6 @@ public class FocusHandler implements Camera.AutoFocusCallback
     @Override
     public void onAutoFocus(boolean success, Camera camera)
     {
-
         //camera.cancelAutoFocus();
         isFocusing = false;
         if (focusEvent != null)
@@ -109,7 +108,7 @@ public class FocusHandler implements Camera.AutoFocusCallback
                     && targetFocusRect.top >= -1000
                     && targetFocusRect.bottom <= 1000
                     && targetFocusRect.right <= 1000) {
-                Camera.Area focusArea = new Camera.Area(targetFocusRect, 500);
+                Camera.Area focusArea = new Camera.Area(targetFocusRect, 300);
                 final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
                 meteringList.add(focusArea);
                 parametersHandler.SetFocusAREA(meteringList);
