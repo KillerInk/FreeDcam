@@ -6,6 +6,7 @@ import android.media.MediaRecorder;
 import com.lge.media.CamcorderProfileEx;
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.FileDescriptor;
@@ -27,7 +28,8 @@ public class VideoModuleG3 extends VideoModule
     protected MediaRecorder initRecorder()
     {
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(profile);
+        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
+        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(profile);
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
 
         recorder = new MediaRecorderEx();
@@ -109,7 +111,8 @@ public class VideoModuleG3 extends VideoModule
             ParameterHandler.setString("dual-recorder", "0");
         }
         baseCameraHolder.SetCameraParameters(ParameterHandler.getParameters());
-        CamcorderProfileEx prof = ParameterHandler.VideoProfilesG3.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
+        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size, false);
         ParameterHandler.setString("video-size", size);

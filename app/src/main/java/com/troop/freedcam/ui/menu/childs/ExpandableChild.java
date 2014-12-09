@@ -11,7 +11,8 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     TextView valueTextView;
     protected String settingsname;
     protected ArrayList<String> modulesToShow;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public ExpandableChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -78,7 +79,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper)
+    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;

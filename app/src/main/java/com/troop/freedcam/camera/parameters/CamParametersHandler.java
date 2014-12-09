@@ -49,6 +49,8 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -57,7 +59,7 @@ import java.util.List;
 /**
  * Created by troop on 17.08.2014.
  */
-public class CamParametersHandler implements I_ParameterChanged
+public class CamParametersHandler extends AbstractParameterHandler implements I_ParameterChanged
 {
 
     String TAG = "freedcam.CameraParametersHandler";
@@ -68,69 +70,26 @@ public class CamParametersHandler implements I_ParameterChanged
     public boolean rawSupported;
     public boolean dngSupported;
     public String BayerMipiFormat;
+    AppSettingsManager appSettingsManager;
 
 
-    public BrightnessManualParameter ManualBrightness;
-    public SharpnessManualParameter ManualSharpness;
-    public ContrastManualParameter ManualContrast;
-    public SaturationManualParameter ManualSaturation;
-    public ExposureManualParameter ManualExposure;
-    public ConvergenceManualParameter ManualConvergence;
-    public FocusManualParameter ManualFocus;
-    public ShutterManualParameter ManualShutter;
-    public CCTManualParameter CCT;
-    public FXManualParameter FX;
-    public ISOManualParameter ISOManual;
 
-    public ColorModeParameter ColorMode;
-    public ExposureModeParameter ExposureMode;
-    public FlashModeParameter FlashMode;
-    public IsoModeParameter IsoMode;
-    public AntiBandingModeParameter AntiBandingMode;
-    public WhiteBalanceModeParameter WhiteBalanceMode;
-    public PictureSizeParameter PictureSize;
-    public PictureFormatParameter PictureFormat;
-    public JpegQualityParameter JpegQuality;
-    public ImagePostProcessingParameter ImagePostProcessing;
-    public PreviewSizeParameter PreviewSize;
-    public PreviewFpsParameter PreviewFPS;
-    public PreviewFormatParameter PreviewFormat;
-    public ZoomManualParameter Zoom;
-    public SceneModeParameter SceneMode;
-    public FocusModeParameter FocusMode;
-    public RedEyeParameter RedEye;
-    public LensshadeParameter LensShade;
-    public ZeroShutterLagParameter ZSL;
-    public SceneDetectParameter SceneDetect;
-    public DenoiseParameter Denoise;
-    public DigitalImageStabilizationParameter DigitalImageStabilization;
-    public MemoryColorEnhancementParameter MemoryColorEnhancement;
-    public SkinToneParameter SkinToneEnhancment;
-    public NightModeParameter NightMode;
-    public NonZslManualModeParameter NonZslManualMode;
-    public AE_Bracket_HdrModeParameter AE_Bracket;
-    public HistogramModeParameter Histogram;
-
-    public VideoProfilesParameter VideoProfiles;
-    public VideoProfilesG3Parameter VideoProfilesG3;
-    public VideoSizeParameter VideoSize;
-    public VideoHDRModeParameter VideoHDR;
-    public HistogramModeParameter CameraMode;
 
 
 
     //public I_ParametersLoaded OnParametersLoaded;
 
-    public CameraParametersEventHandler ParametersEventHandler;
+
 
     boolean moreParametersToSet = false;
 
     SetParameterRunner setParameterRunner;
 
-    public CamParametersHandler(BaseCameraHolder cameraHolder)
+    public CamParametersHandler(BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void GetParametersFromCamera()
@@ -161,17 +120,19 @@ public class CamParametersHandler implements I_ParameterChanged
     private void initParameters()
     {
         logParameters(cameraParameters);
-        ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","");
-        ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "");
-        ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min");
-        ManualExposure = new ExposureManualParameter(cameraParameters,"","","");
-        ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder);
-        ManualSaturation = new SaturationManualParameter(cameraParameters,"","","");
-        ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "");
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder);
-        CCT = new CCTManualParameter(cameraParameters,"","","");
-        FX = new FXManualParameter(cameraParameters,"","","");
-        ISOManual = new ISOManualParameter(cameraParameters,"","","");
+        ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
+        ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
+        ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this);
+        ManualExposure = new ExposureManualParameter(cameraParameters,"","","", this);
+        ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
+        ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
+        ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder, this);
+        CCT = new CCTManualParameter(cameraParameters,"","","", this);
+        FX = new FXManualParameter(cameraParameters,"","","", this);
+        ISOManual = new ISOManualParameter(cameraParameters,"","","", this);
+        Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
+
 
         ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
@@ -180,14 +141,14 @@ public class CamParametersHandler implements I_ParameterChanged
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
-        PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values");
+        PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
         /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);*/
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
-        Zoom = new ZoomManualParameter(cameraParameters,"", "", "");
+
         SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
         FocusMode = new FocusModeParameter(cameraParameters, this,"","");
         RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");

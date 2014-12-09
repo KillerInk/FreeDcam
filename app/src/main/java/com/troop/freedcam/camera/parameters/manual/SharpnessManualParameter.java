@@ -2,14 +2,16 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+
 /**
  * Created by troop on 17.08.2014.
  */
 public class SharpnessManualParameter extends BaseManualParameter
 {
-    public SharpnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
+    public SharpnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue,CamParametersHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue);
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "sharpness";
         if (hasSupport()) {
             int max = 0;

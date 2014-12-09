@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;
@@ -136,7 +137,8 @@ public class VideoModule extends AbstractModule
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-        CamcorderProfile prof = ParameterHandler.VideoProfiles.GetCameraProfile(profile);
+        VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
+        CamcorderProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 

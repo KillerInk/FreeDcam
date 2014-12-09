@@ -2,13 +2,15 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+
 /**
  * Created by troop on 17.08.2014.
  */
 public class ContrastManualParameter extends BaseManualParameter {
-    public ContrastManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
+    public ContrastManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue);
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "contrast";
         if (hasSupport()) {
             int max = 100;

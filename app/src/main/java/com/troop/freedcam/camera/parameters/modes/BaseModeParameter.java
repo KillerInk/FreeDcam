@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
 /**
  * Created by troop on 17.08.2014.

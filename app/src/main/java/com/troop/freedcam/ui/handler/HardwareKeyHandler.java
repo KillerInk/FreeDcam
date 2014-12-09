@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.handler;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.ui.MainActivity_v2;
@@ -13,11 +14,11 @@ import com.troop.freedcam.ui.MainActivity_v2;
 public class HardwareKeyHandler
 {
     private final MainActivity_v2 activity;
-    private final CameraUiWrapper cameraUiWrapper;
+    private final AbstractCameraUiWrapper cameraUiWrapper;
     boolean longKeyPress = false;
     String TAG = "freedcam.HardwareKeyHandler";
 
-    public HardwareKeyHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper)
+    public HardwareKeyHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.activity = activity;
         this.cameraUiWrapper = cameraUiWrapper;

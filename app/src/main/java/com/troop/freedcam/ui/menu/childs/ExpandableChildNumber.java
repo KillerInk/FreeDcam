@@ -1,18 +1,16 @@
 package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
         super(context);
     }
 
-    public ExpandableChildNumber(Context context, AppSettingsManager appSettingsManager,String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper)
+    public ExpandableChildNumber(Context context, AppSettingsManager appSettingsManager,String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
     {
         super(context);
         this.appSettingsManager = appSettingsManager;
@@ -173,7 +171,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
 
     }
 

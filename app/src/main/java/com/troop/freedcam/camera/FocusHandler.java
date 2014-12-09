@@ -4,6 +4,11 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.AbstractFocusHandler;
+import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.I_Focus;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +16,18 @@ import java.util.List;
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler implements Camera.AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements Camera.AutoFocusCallback
 {
 
-    private final BaseCameraHolder cameraHolder;
-    private final CameraUiWrapper cameraUiWrapper;
-    private final CamParametersHandler parametersHandler;
-    public  I_Focus focusEvent;
+    private final I_CameraHolder cameraHolder;
+    private final AbstractCameraUiWrapper cameraUiWrapper;
+    private final AbstractParameterHandler parametersHandler;
+
     int count;
     List<Camera.Area> areas;
     boolean isFocusing = false;
 
-    public FocusHandler(CameraUiWrapper cameraUiWrapper)
+    public FocusHandler(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
@@ -49,8 +54,8 @@ public class FocusHandler implements Camera.AutoFocusCallback
         {
             focusEvent.FocusStarted(null);
         }
-
-        cameraHolder.StartFocus(this);
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder)cameraHolder;
+        baseCameraHolder.StartFocus(this);
         isFocusing = true;
     }
 
@@ -111,9 +116,11 @@ public class FocusHandler implements Camera.AutoFocusCallback
                 Camera.Area focusArea = new Camera.Area(targetFocusRect, 300);
                 final List<Camera.Area> meteringList = new ArrayList<Camera.Area>();
                 meteringList.add(focusArea);
-                parametersHandler.SetFocusAREA(meteringList);
+                CamParametersHandler camParametersHandler = (CamParametersHandler) parametersHandler;
+                camParametersHandler.SetFocusAREA(meteringList);
 
-                cameraHolder.StartFocus(this);
+                BaseCameraHolder baseCameraHolder = (BaseCameraHolder)cameraHolder;
+                baseCameraHolder.StartFocus(this);
                 isFocusing = true;
                 if (focusEvent != null)
                     focusEvent.FocusStarted(rect);

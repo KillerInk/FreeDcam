@@ -3,6 +3,8 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.hardware.Camera;
 import android.util.Log;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+
 /**
  * Created by troop on 17.08.2014.
  */
@@ -10,9 +12,9 @@ public class BrightnessManualParameter extends BaseManualParameter
 {
     final  String TAG = "freedcam.ManualBrightnessParameter";
 
-    public BrightnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue)
+    public BrightnessManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue);
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "brightness";
         if (!hasSupport())
         {

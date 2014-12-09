@@ -10,6 +10,7 @@ import android.os.HandlerThread;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.yuv.Merge;
 
@@ -79,8 +80,9 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         this.isWorking = true;
         count = 0;
         //get width and height from the preview
-        width = ParameterHandler.PreviewSize.GetWidth();
-        height = ParameterHandler.PreviewSize.GetHeight();
+        PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
+        width = previewSizeParameter.GetWidth();
+        height = previewSizeParameter.GetHeight();
         if (nativeYuvMerge == null)
             nativeYuvMerge = new Merge();
 

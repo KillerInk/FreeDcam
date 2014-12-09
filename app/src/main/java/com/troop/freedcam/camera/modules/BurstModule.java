@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;
@@ -89,8 +90,9 @@ public class BurstModule extends AbstractModule implements Camera.PreviewCallbac
         Log.d(TAG, "Saving file: " + file.getAbsolutePath());
         if (true/*baseCameraHolder.ParameterHandler.PreviewFormat.GetFormat() == ImageFormat.NV21*/)
         {
-            Rect rect = new Rect(0,0,baseCameraHolder.ParameterHandler.PreviewSize.GetWidth(),baseCameraHolder.ParameterHandler.PreviewSize.GetHeight());
-            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, baseCameraHolder.ParameterHandler.PreviewSize.GetWidth(), baseCameraHolder.ParameterHandler.PreviewSize.GetHeight(), null);
+            PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
+            Rect rect = new Rect(0,0,previewSizeParameter.GetWidth(),previewSizeParameter.GetHeight());
+            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, previewSizeParameter.GetWidth(), previewSizeParameter.GetHeight(), null);
             OutputStream outStream = null;
             try
             {

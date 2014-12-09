@@ -15,6 +15,7 @@ import com.troop.freedcam.R;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.I_error;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
@@ -35,7 +36,7 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
 public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 {
     ExtendedSurfaceView cameraPreview;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     MenuHandler menuHandler;
     public ShutterHandler shutterHandler;

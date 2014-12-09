@@ -5,7 +5,8 @@ import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoModuleG3;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.I_PreviewSizeEvent;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class VideoProfileExpandableChild extends ExpandableChild
 {
     private I_PreviewSizeEvent previewSizeEvent;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     public I_VideoProfile videoProfileChanged;
 
     public VideoProfileExpandableChild(Context context, AttributeSet attrs) {
@@ -39,7 +40,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
         this.previewSizeEvent = previewSizeEvent;
     }
 
-    public VideoProfileExpandableChild(Context context, CameraUiWrapper cameraUiWrapper)
+    public VideoProfileExpandableChild(Context context, AbstractCameraUiWrapper cameraUiWrapper)
     {
         super(context);
         this.cameraUiWrapper = cameraUiWrapper;
@@ -91,7 +92,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;

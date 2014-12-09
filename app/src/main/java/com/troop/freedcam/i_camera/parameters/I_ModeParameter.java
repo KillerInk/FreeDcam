@@ -1,4 +1,4 @@
-package com.troop.freedcam.camera.parameters.modes;
+package com.troop.freedcam.i_camera.parameters;
 
 /**
  * Created by troop on 17.08.2014.

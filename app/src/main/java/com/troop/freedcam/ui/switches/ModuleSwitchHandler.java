@@ -34,7 +34,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     TextView moduleView;
     ListView listView;
 
-    public ModuleSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public ModuleSwitchHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
         this.cameraUiWrapper = cameraUiWrapper;

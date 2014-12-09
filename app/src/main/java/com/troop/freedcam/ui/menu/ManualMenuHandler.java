@@ -10,6 +10,8 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -22,12 +24,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 {
     private final MainActivity_v2 activity;
     private final AppSettingsManager appSettingsManager;
-    private final CameraUiWrapper cameraUiWrapper;
+    private final AbstractCameraUiWrapper cameraUiWrapper;
     private final SeekBar manualSeekbar;
     private final LinearLayout manualMenu;
     TextView seekbarText;
     ManualMenuItem currentItem;
-    CamParametersHandler parametersHandler;
+    AbstractParameterHandler parametersHandler;
 
     int realMin;
     int realMax;
@@ -35,7 +37,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     ArrayList<ManualMenuItem> manualItems;
 
-    public ManualMenuHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public ManualMenuHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -111,19 +113,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (realMin < 0)
         {
             currentItem.manualParameter.SetValue(value + realMin);
-            cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-
         }
         else
         {
 
             if (currentItem.name.equals(activity.getString(R.string.manualmenu_shutter)))
             {
-                //cameraUiWrapper.cameraHolder.StopPreview();
-                currentItem.manualParameter.SetValue(value);
                 try
                 {
-                    cameraUiWrapper.cameraHolder.GetCamera().setParameters(cameraUiWrapper.camParametersHandler.getParameters());
+                    currentItem.manualParameter.SetValue(value);
                     Toast.makeText(activity, "Manual Shutter set to:" + value, Toast.LENGTH_LONG);
                 }
                 catch (Exception ex)
@@ -140,7 +138,6 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             else
             {
                 currentItem.manualParameter.SetValue(value);
-                cameraUiWrapper.camParametersHandler.SetParametersToCamera();
                 setTextValue(value + realMin);
             }
         }

@@ -17,6 +17,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent
 {
     MainActivity_v2 context;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
     ExtendedSurfaceView surfaceView;
     ArrayList<ExpandableGroup> grouplist;
@@ -55,7 +56,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
+    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -129,10 +130,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
     private String[] getPictureFormats() {
         String[] values;
-        if ((cameraUiWrapper.camParametersHandler.dngSupported && cameraUiWrapper.camParametersHandler.rawSupported && cameraUiWrapper.camParametersHandler.BayerMipiFormat != null)
-                || DeviceUtils.isXperiaL())
-            values = new String[]{"jpeg", "raw", "dng"};
-        else
+
             values = cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
         return values;
     }

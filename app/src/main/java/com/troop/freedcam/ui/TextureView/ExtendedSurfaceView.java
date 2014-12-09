@@ -21,6 +21,7 @@ import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 
 import java.util.List;
 
@@ -129,7 +130,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             currentModule = appSettingsManager.GetCurrentModule();
         if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
         {
-            Camera.Size size = getOptimalPreviewSize(ParametersHandler.PreviewSize.GetSizes(),w, h );
+            PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)ParametersHandler.PreviewSize;
+            Camera.Size size = getOptimalPreviewSize(previewSizeParameter.GetSizes(),w, h );
             ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
             setPreviewToDisplay(size.width, size.height);
 

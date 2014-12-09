@@ -5,7 +5,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class LongExposureChild extends ExpandableChild {
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
         this.cameraUiWrapper = cameraUiWrapper;

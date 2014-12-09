@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.parameters.manual.I_ManualParameter;
+import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 /**
  * Created by troop on 01.09.2014.

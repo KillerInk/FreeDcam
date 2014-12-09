@@ -3,10 +3,9 @@ package com.troop.freedcam.ui.menu;
 import android.content.Context;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
-import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
-import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
+
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
@@ -16,7 +15,6 @@ import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoProfileExpandableChild;
-import com.troop.freedcam.ui.menu.childs.VideoSizeExpandableChild;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -27,9 +25,9 @@ import java.util.ArrayList;
 public class MenuCreator
 {
     Context context;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
-    public MenuCreator(Context context, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public MenuCreator(Context context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;

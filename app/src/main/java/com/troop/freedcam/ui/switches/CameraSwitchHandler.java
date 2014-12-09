@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
@@ -18,14 +19,14 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
  */
 public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     MainActivity_v2 activity;
     AppSettingsManager appSettingsManager;
     ImageView imageView;
     int currentCamera;
     Bitmap[] bitmaps;
     ExtendedSurfaceView surfaceView;
-    public CameraSwitchHandler(MainActivity_v2 activity, CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
+    public CameraSwitchHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
     {
         this.activity = activity;
         this.cameraUiWrapper = cameraUiWrapper;

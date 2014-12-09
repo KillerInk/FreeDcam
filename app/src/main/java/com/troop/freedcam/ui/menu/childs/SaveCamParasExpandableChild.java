@@ -6,9 +6,10 @@ import android.os.Environment;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.modes.I_ModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.AbstractFocusHandler;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +34,7 @@ public class SaveCamParasExpandableChild extends ExpandableChild {
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, CameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;

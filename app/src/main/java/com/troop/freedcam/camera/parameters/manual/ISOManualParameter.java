@@ -2,19 +2,20 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 public class ISOManualParameter extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
-    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
-        super(parameters, value, maxValue, MinValue);
+    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder) {
-        super(parameters, value, maxValue, MinValue);
+    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic

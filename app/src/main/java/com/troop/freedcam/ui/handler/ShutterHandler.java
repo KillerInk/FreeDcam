@@ -11,6 +11,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.BurstModule;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
@@ -20,13 +21,13 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 {
 
     private final MainActivity_v2 activity;
-    private final CameraUiWrapper cameraUiWrapper;
+    private final AbstractCameraUiWrapper cameraUiWrapper;
     ImageView shutterButton;
     String currentModule;
     LinearLayout flashScreen;
 
 
-    public ShutterHandler(MainActivity_v2 mainActivity, final CameraUiWrapper cameraUiWrapper)
+    public ShutterHandler(MainActivity_v2 mainActivity, final AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.activity = mainActivity;
         this.cameraUiWrapper = cameraUiWrapper;

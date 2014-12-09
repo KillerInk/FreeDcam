@@ -7,8 +7,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.I_Focus;
+import com.troop.freedcam.i_camera.I_Focus;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.TouchHandler;
@@ -19,7 +19,7 @@ import com.troop.freedcam.ui.menu.TouchHandler;
 public class FocusImageHandler extends TouchHandler implements I_Focus
 {
     private final MainActivity_v2 activity;
-    private final CameraUiWrapper wrapper;
+    private final AbstractCameraUiWrapper wrapper;
     ImageView imageView;
     final int crosshairShowTime = 5000;
     int disHeight;
@@ -27,7 +27,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
     ExtendedSurfaceView surfaceView;
 
-    public FocusImageHandler(MainActivity_v2 activity, CameraUiWrapper wrapper)
+    public FocusImageHandler(MainActivity_v2 activity, AbstractCameraUiWrapper wrapper)
     {
         this.activity = activity;
         this.wrapper = wrapper;

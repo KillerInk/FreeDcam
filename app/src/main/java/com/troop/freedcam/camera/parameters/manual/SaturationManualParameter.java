@@ -2,13 +2,15 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+
 /**
  * Created by troop on 17.08.2014.
  */
 public class SaturationManualParameter extends BaseManualParameter
 {
-    public SaturationManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
-        super(parameters, value, maxValue, MinValue);
+    public SaturationManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue,CamParametersHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "saturation";
         if (hasSupport())
         {
