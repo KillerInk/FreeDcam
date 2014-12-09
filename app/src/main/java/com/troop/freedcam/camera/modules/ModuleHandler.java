@@ -23,7 +23,7 @@ public class ModuleHandler extends AbstractModuleHandler
     AppSettingsManager appSettingsManager;
     AbstractModule currentModule;
     final String TAG = "freedcam.ModuleHandler";
-    public ModuleEventHandler moduleEventHandler;
+
 
 
 

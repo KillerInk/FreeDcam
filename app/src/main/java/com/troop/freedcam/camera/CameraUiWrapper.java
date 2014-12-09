@@ -23,8 +23,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
     public BaseCameraHolder cameraHolder;
     public AppSettingsManager appSettingsManager;
-    public CamParametersHandler camParametersHandler;
-    public FocusHandler Focus;
+
     protected I_error errorHandler;
 
     public CameraUiWrapper(){};
@@ -38,7 +37,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         cameraHolder = new BaseCameraHolder();
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new CamParametersHandler(cameraHolder);
+        camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;
@@ -78,7 +77,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 }
             cameraHolder.GetCamera().setErrorCallback(this);
             cameraHolder.SetSurface(preview.getHolder());
-            camParametersHandler.LoadParametersFromCamera();
+            CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
+            camParametersHandler1.LoadParametersFromCamera();
 
         }
     }

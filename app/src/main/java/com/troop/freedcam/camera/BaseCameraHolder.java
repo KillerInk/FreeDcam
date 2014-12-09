@@ -8,7 +8,9 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
@@ -26,8 +28,8 @@ public class BaseCameraHolder implements I_CameraHolder
 
     boolean isPreviewRunning = false;
 
-    public CamParametersHandler ParameterHandler;
-    public FocusHandler Focus;
+    public AbstractParameterHandler ParameterHandler;
+    public AbstractFocusHandler Focus;
 
     HandlerThread cameraThread;
     Handler cameraHandler;

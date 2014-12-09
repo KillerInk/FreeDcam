@@ -22,6 +22,8 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     Real3D mReal3D;
 
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
-    public CamParametersHandler ParametersHandler;
+    public AbstractParameterHandler ParametersHandler;
     String currentModule;
 
     public ExtendedSurfaceView(Context context) {

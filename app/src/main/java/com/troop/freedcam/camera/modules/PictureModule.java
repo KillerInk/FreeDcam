@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -32,6 +33,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     private String jpsFormat = "jps";
 
     public String OverRidePath = "";
+    CamParametersHandler parametersHandler;
 
     Handler handler;
     File file;
@@ -42,6 +44,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         super(baseCameraHolder, appSettingsManager, eventHandler);
         name = ModuleHandler.MODULE_PICTURE;
         handler = new Handler();
+        parametersHandler = (CamParametersHandler)ParameterHandler;
     }
 
 //I_Module START
@@ -172,7 +175,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            String rawSize = ParameterHandler.GetRawSize();
+            String rawSize = parametersHandler.GetRawSize();
             raw = rawSize.split("x");
         }
         return raw;
@@ -216,7 +219,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     protected File getFileAndChooseEnding(String s1)
     {
         String pictureFormat = ParameterHandler.PictureFormat.GetValue();
-        if (ParameterHandler.dngSupported)
+        if (parametersHandler.dngSupported)
         {
             if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
                 return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());

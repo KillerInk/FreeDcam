@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Module;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -12,7 +13,7 @@ public abstract class AbstractModule implements I_Module
 {
     protected BaseCameraHolder baseCameraHolder;
     protected AppSettingsManager Settings;
-    protected CamParametersHandler ParameterHandler;
+    protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
     protected String name;

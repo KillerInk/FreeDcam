@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -127,7 +128,9 @@ public class PreviewHandler extends RelativeLayout implements I_PreviewSizeEvent
 
             }*/
 
-            Camera.Size size = getOptimalPreviewSize(ParametersHandler.PreviewSize.GetSizes(),w, h );
+            //TODO this need to change for other apis
+            PreviewSizeParameter sizeParameter = (PreviewSizeParameter)ParametersHandler.PreviewSize;
+            Camera.Size size = getOptimalPreviewSize(sizeParameter.GetSizes(),w, h );
             ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
             setPreviewToDisplay(size.width, size.height);
 

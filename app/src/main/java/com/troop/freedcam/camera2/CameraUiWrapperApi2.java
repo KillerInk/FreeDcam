@@ -35,7 +35,7 @@ public class CameraUiWrapperApi2 extends CameraUiWrapper
         this.cameraHolder = new BaseCameraHolderApi2(context);
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new CamParametersHandler(cameraHolder);
+        camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;

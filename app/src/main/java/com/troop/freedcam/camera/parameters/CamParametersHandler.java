@@ -293,7 +293,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         }
     }
 
-    public boolean isExposureAndWBLocked = false;
+
 
     public void LockExposureAndWhiteBalance(boolean value)
     {

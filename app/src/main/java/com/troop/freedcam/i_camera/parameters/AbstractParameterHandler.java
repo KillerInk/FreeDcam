@@ -100,4 +100,5 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter CameraMode;
 
     public void LockExposureAndWhiteBalance(boolean lock){};
+    public boolean isExposureAndWBLocked = false;
 }
