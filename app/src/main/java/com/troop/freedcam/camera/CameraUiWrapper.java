@@ -8,6 +8,8 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
@@ -16,10 +18,9 @@ import java.lang.annotation.Target;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
     protected ExtendedSurfaceView preview;
-    public ModuleHandler moduleHandler;
     public BaseCameraHolder cameraHolder;
     public AppSettingsManager appSettingsManager;
     public CamParametersHandler camParametersHandler;
@@ -54,20 +55,6 @@ public class CameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoad
         if  (errorHandler != null)
             errorHandler.OnError(error);
     }
-
-//Module Handler START
-    public void SwitchModule(String moduleName)
-    {
-        moduleHandler.SetModule(moduleName);
-    }
-
-    public void DoWork()
-    {
-        moduleHandler.DoWork();
-    }
-
-//Module Handler END
-
 
     private boolean openCamera()
     {

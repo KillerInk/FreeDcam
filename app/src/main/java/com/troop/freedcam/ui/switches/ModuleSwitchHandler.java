@@ -8,8 +8,11 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -24,9 +27,9 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
 {
 
     MainActivity_v2 activity;
-    CameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
-    ModuleHandler moduleHandler;
+    AbstractModuleHandler moduleHandler;
     HashMap<String,String> modules;
     TextView moduleView;
     ListView listView;

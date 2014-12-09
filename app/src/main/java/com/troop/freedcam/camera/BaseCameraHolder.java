@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;

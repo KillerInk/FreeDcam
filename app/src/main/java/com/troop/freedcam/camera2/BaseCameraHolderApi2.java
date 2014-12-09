@@ -58,7 +58,7 @@ public class BaseCameraHolderApi2 extends BaseCameraHolder
     public void CloseCamera() {
         try {
             mCameraOpenCloseLock.acquire();
-            if (null != mCaptureSession) {
+            /*if (null != mCaptureSession) {
                 mCaptureSession.close();
                 mCaptureSession = null;
             }
@@ -69,7 +69,7 @@ public class BaseCameraHolderApi2 extends BaseCameraHolder
             if (null != mImageReader) {
                 mImageReader.close();
                 mImageReader = null;
-            }
+            }*/
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         } finally {

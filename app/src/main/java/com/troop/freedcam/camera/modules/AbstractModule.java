@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.modules;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.modules.I_Module;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**

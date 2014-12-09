@@ -5,6 +5,8 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -14,7 +16,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 16.08.2014.
  */
-public class ModuleHandler
+public class ModuleHandler extends AbstractModuleHandler
 {
     HashMap<String, AbstractModule> moduleList;
     BaseCameraHolder cameraHolder;
@@ -23,10 +25,7 @@ public class ModuleHandler
     final String TAG = "freedcam.ModuleHandler";
     public ModuleEventHandler moduleEventHandler;
 
-    public ArrayList<String> PictureModules;
-    public ArrayList<String> LongeExpoModules;
-    public ArrayList<String> VideoModules;
-    public ArrayList<String> AllModules;
+
 
     public static final String MODULE_VIDEO = "module_video";
     public static final String MODULE_PICTURE = "module_picture";
