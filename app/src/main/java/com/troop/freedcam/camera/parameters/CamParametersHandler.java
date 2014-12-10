@@ -67,9 +67,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     Camera.Parameters cameraParameters;
     public Camera.Parameters getParameters(){return cameraParameters;}
 
-    public boolean rawSupported;
-    public boolean dngSupported;
-    public String BayerMipiFormat;
+
     AppSettingsManager appSettingsManager;
 
 
@@ -180,7 +178,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     private void checkRawSupport()
     {
-        String rawFormats[] = PictureFormat.GetValues();
+        String rawFormats[] = cameraParameters.get("picture-format-values").split(",");
 
         for (String s : rawFormats)
         {
@@ -195,11 +193,11 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                     BayerMipiFormat = StringUtils.BayerMipiGRBG();
             }
         }
-
         if (DeviceUtils.isMediaTekTHL5000())
         {
             rawSupported =true;
         }
+
         /*else if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
         {
             rawSupported = true;

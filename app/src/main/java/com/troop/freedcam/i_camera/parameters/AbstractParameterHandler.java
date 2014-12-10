@@ -101,4 +101,8 @@ public abstract class AbstractParameterHandler
 
     public void LockExposureAndWhiteBalance(boolean lock){};
     public boolean isExposureAndWBLocked = false;
+
+    public boolean rawSupported;
+    public boolean dngSupported;
+    public String BayerMipiFormat;
 }
