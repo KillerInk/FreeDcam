@@ -5,6 +5,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -34,9 +35,9 @@ public class ModuleHandler extends AbstractModuleHandler
     public static final String MODULE_LONGEXPO = "module_longexposure";
     public static final String MODULE_ALL = "module_all";
 
-    public  ModuleHandler (BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public  ModuleHandler (I_CameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
-        this.cameraHolder = cameraHolder;
+        this.cameraHolder = (BaseCameraHolder) cameraHolder;
         this.appSettingsManager = appSettingsManager;
         moduleList  = new HashMap<String, AbstractModule>();
         moduleEventHandler = new ModuleEventHandler();

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
 /**
@@ -30,7 +31,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     String shutterValues[];
     int current = 0;
-    BaseCameraHolder baseCameraHolder;
+    I_CameraHolder baseCameraHolder;
 
     /*public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue) {
         super(parameters, value, maxValue, MinValue);
@@ -49,7 +50,7 @@ public class ShutterManualParameter extends BaseManualParameter
         //TODO add missing logic
     }*/
 
-    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
+    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;

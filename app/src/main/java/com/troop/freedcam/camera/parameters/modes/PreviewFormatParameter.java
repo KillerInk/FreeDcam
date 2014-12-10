@@ -4,18 +4,19 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 
 /**
  * Created by troop on 24.08.2014.
  */
 public class PreviewFormatParameter extends BaseModeParameter
 {
-    BaseCameraHolder cameraHolder;
+    I_CameraHolder cameraHolder;
     public PreviewFormatParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public PreviewFormatParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder cameraHolder) {
+    public PreviewFormatParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.cameraHolder = cameraHolder;
     }
@@ -23,12 +24,13 @@ public class PreviewFormatParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (cameraHolder.IsPreviewRunning())
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        if (baseCameraHolder.IsPreviewRunning())
             cameraHolder.StopPreview();
         parameters.set(value, valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
-        if (!cameraHolder.IsPreviewRunning())
+        if (!baseCameraHolder.IsPreviewRunning())
             cameraHolder.StartPreview();
 
 

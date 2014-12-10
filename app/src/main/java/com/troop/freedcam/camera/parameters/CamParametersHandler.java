@@ -49,6 +49,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -63,7 +64,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 {
 
     String TAG = "freedcam.CameraParametersHandler";
-    public BaseCameraHolder cameraHolder;
+    public I_CameraHolder cameraHolder;
     Camera.Parameters cameraParameters;
     public Camera.Parameters getParameters(){return cameraParameters;}
 
@@ -83,7 +84,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     SetParameterRunner setParameterRunner;
 
-    public CamParametersHandler(BaseCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public CamParametersHandler(I_CameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
@@ -92,7 +93,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     public void GetParametersFromCamera()
     {
-        cameraParameters = cameraHolder.GetCameraParameters();
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        cameraParameters = baseCameraHolder.GetCameraParameters();
     }
 
     public void SetParametersToCamera()
@@ -102,7 +104,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     public void LoadParametersFromCamera()
     {
-        cameraParameters = cameraHolder.GetCameraParameters();
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        cameraParameters = baseCameraHolder.GetCameraParameters();
         setParameterRunner = new SetParameterRunner();
         initParameters();
     }

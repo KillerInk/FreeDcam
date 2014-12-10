@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,9 +21,9 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     HashMap<String, CamcorderProfileEx> supportedProfiles;
     BaseCameraHolder cameraHolder;
 
-    public VideoProfilesG3Parameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder cameraUiWrapper) {
+    public VideoProfilesG3Parameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
-        this.cameraHolder = cameraUiWrapper;
+        this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
         this.isSupported =true;
         loadProfiles();
     }

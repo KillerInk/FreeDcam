@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
@@ -12,14 +13,14 @@ import com.troop.freedcam.camera.BaseCameraHolder;
  */
 public class FocusManualParameter extends  BaseManualParameter
 {
-    BaseCameraHolder baseCameraHolder;
+    I_CameraHolder baseCameraHolder;
     String TAG ="freedcam.ManualFocus";
     public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
+    public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;

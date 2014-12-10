@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 
 import java.util.List;
 
@@ -12,14 +13,14 @@ import java.util.List;
  */
 public class PreviewSizeParameter extends BaseModeParameter
 {
-    BaseCameraHolder baseCameraHolder;
+    I_CameraHolder baseCameraHolder;
 
     public PreviewSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
         super(parameters, parameterChanged, value, values);
     }
 
-    public PreviewSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder cameraHolder)
+    public PreviewSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraHolder)
     {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = cameraHolder;

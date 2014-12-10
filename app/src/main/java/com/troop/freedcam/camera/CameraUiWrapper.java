@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
     protected ExtendedSurfaceView preview;
-    public BaseCameraHolder cameraHolder;
+
     public AppSettingsManager appSettingsManager;
 
     protected I_error errorHandler;
@@ -34,17 +34,19 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
-        cameraHolder = new BaseCameraHolder();
+
         this.errorHandler = errorHandler;
-        cameraHolder.errorHandler = errorHandler;
+        BaseCameraHolder baseCameraHolder =new BaseCameraHolder();
+        cameraHolder = baseCameraHolder;
+        baseCameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
-        cameraHolder.ParameterHandler = camParametersHandler;
+        baseCameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
-        cameraHolder.Focus = Focus;
+        baseCameraHolder.Focus = Focus;
 
     }
 
@@ -69,7 +71,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void StartPreviewAndCamera() {
         if (openCamera())
         {
-            while (!cameraHolder.isRdy)
+            BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+            while (!baseCameraHolder.isRdy)
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {

@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 
 /**
  * Created by troop on 05.09.2014.
@@ -11,12 +12,12 @@ import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 public class MemoryColorEnhancementParameter extends  BaseModeParameter
 {
 
-    BaseCameraHolder baseCameraHolder;
+    I_CameraHolder baseCameraHolder;
     public MemoryColorEnhancementParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public MemoryColorEnhancementParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder baseCameraHolder) {
+    public MemoryColorEnhancementParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = baseCameraHolder;
     }
@@ -24,10 +25,12 @@ public class MemoryColorEnhancementParameter extends  BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (baseCameraHolder.IsPreviewRunning())
+        BaseCameraHolder cameraHolder = (BaseCameraHolder)baseCameraHolder;
+
+        if (cameraHolder.IsPreviewRunning())
             baseCameraHolder.StopPreview();
         super.SetValue(valueToSet, setToCam);
-        if (!baseCameraHolder.IsPreviewRunning())
+        if (!cameraHolder.IsPreviewRunning())
             baseCameraHolder.StartPreview();
     }
 }

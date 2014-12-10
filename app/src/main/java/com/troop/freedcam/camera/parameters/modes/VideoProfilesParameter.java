@@ -7,6 +7,7 @@ import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.lang.reflect.Array;
@@ -24,9 +25,9 @@ public class VideoProfilesParameter extends BaseModeParameter
     HashMap<String, CamcorderProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
 
-    public VideoProfilesParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, BaseCameraHolder cameraUiWrapper) {
+    public VideoProfilesParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
-        this.cameraHolder = cameraUiWrapper;
+        this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
         this.isSupported =true;
         loadProfiles();
     }
