@@ -27,7 +27,7 @@ public class PictureFormatParameter extends BaseModeParameter
         //TODO this is ugly need to find a different way.. class design fail
         if (camParametersHandler.rawSupported)
         {
-            if (value.equals("raw") || value.equals("dng"))
+            if (valueToSet.equals("raw") || valueToSet.equals("dng"))
             {
                 //galaxy nexus and atrix2
                 if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
@@ -45,7 +45,7 @@ public class PictureFormatParameter extends BaseModeParameter
                     super.SetValue("raw", true);
                 else
                 {
-                    super.SetValue(value, false);
+                    super.SetValue(valueToSet, false);
                 }
             }
             else
@@ -56,11 +56,11 @@ public class PictureFormatParameter extends BaseModeParameter
                     camParametersHandler.setTHL5000Raw(false);
                 }
                 else
-                    super.SetValue(value, true);
+                    super.SetValue(valueToSet, true);
             }
         }
         else
-            super.SetValue(value, true);
+            super.SetValue(valueToSet, true);
     }
 
     @Override
