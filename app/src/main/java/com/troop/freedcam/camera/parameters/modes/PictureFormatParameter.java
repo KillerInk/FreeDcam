@@ -71,9 +71,7 @@ public class PictureFormatParameter extends BaseModeParameter
             return new String[]{"jpeg", "raw", "dng"};
         else
         {
-            ArrayList<String> toReturn = new ArrayList<String>();
-            final String[] vals = parameters.get(values).split(",");
-            return toReturn.toArray(new String[toReturn.size()]);
+            return parameters.get(values).split(",");
         }
     }
 
