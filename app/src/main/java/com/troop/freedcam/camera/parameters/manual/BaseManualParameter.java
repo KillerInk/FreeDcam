@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 /**
@@ -16,9 +17,9 @@ public abstract class BaseManualParameter implements I_ManualParameter
     protected String  min_value;
 
     boolean isSupported = false;
-    CamParametersHandler camParametersHandler;
+    AbstractParameterHandler camParametersHandler;
 
-    public BaseManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
+    public BaseManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         this.parameters = parameters;
         this.value = value;
@@ -58,6 +59,7 @@ public abstract class BaseManualParameter implements I_ManualParameter
     public void SetValue(int valueToSet)
     {
         parameters.set(value, valueToSet);
+
         camParametersHandler.SetParametersToCamera();
 
     }

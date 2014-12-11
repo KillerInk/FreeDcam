@@ -99,10 +99,13 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter VideoHDR;
     public I_ModeParameter CameraMode;
 
-    public void LockExposureAndWhiteBalance(boolean lock){};
+
     public boolean isExposureAndWBLocked = false;
 
     public boolean rawSupported;
     public boolean dngSupported;
     public String BayerMipiFormat;
+
+    public void SetParametersToCamera() {};
+    public void LockExposureAndWhiteBalance(boolean lock){};
 }
