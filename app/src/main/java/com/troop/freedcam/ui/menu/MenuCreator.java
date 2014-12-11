@@ -228,9 +228,7 @@ public class MenuCreator
             childlist.add(his);
         }*/
 
-        SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
-        saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-        childlist.add(saveCamparas);
+
 
 
         group.setItems(childlist);
@@ -367,6 +365,20 @@ public class MenuCreator
 
         video.setItems(childlist);
 
+    }
+
+    public ExpandableGroup CreateSettings()
+    {
+        ExpandableGroup preview = getNewGroup("Settings");
+        ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
+
+        SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
+        saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        childlist.add(saveCamparas);
+
+        preview.setItems(childlist);
+
+        return preview;
     }
 
 

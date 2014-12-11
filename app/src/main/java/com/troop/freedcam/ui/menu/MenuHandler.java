@@ -77,6 +77,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
+        grouplist.add(menuCreator.CreateSettings());
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
         previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
