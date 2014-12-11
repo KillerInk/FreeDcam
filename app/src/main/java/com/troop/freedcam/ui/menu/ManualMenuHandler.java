@@ -113,6 +113,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (realMin < 0)
         {
             currentItem.manualParameter.SetValue(value + realMin);
+            setTextValue(value + realMin);
         }
         else
         {
