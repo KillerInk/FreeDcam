@@ -3,18 +3,19 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 public class FXManualParameter extends BaseManualParameter {
 	
 	BaseCameraHolder baseCameraHolder;
-    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
+    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
+    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
@@ -62,7 +63,8 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {   
-    	parameters.set("morpho_effect_type", valueToSet);  	
+    	parameters.set("morpho_effect_type", valueToSet);
+        camParametersHandler.SetParametersToCamera();
 
      }
 

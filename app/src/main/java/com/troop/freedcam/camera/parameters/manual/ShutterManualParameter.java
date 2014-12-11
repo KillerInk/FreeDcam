@@ -6,6 +6,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 /**
@@ -50,7 +51,7 @@ public class ShutterManualParameter extends BaseManualParameter
         //TODO add missing logic
     }*/
 
-    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
+    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -119,7 +120,7 @@ public class ShutterManualParameter extends BaseManualParameter
         if (DeviceUtils.isHTC_M8())
             parameters.set("shutter", shutterstring);
         Log.e(TAG, shutterstring);
-
+        camParametersHandler.SetParametersToCamera();
        
     }
 /* HTC M8 Value -1 = off
