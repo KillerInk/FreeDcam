@@ -4,8 +4,7 @@
 
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import com.example.sony.cameraremote.utils.SimpleHttpClient;
-import com.example.sony.cameraremote.utils.XmlElement;
+
 
 import android.util.Log;
 
