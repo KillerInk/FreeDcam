@@ -34,6 +34,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     public String OverRidePath = "";
     CamParametersHandler parametersHandler;
+    BaseCameraHolder baseCameraHolder;
 
     Handler handler;
     File file;
@@ -45,6 +46,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         name = ModuleHandler.MODULE_PICTURE;
         handler = new Handler();
         parametersHandler = (CamParametersHandler)ParameterHandler;
+        this.baseCameraHolder = baseCameraHolder;
     }
 
 //I_Module START

@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.modules;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.modules.I_Module;
@@ -10,7 +11,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 /**
  * Created by troop on 12.12.2014.
  */
-public abstract class AbstractModuleApi2 implements I_Module
+public abstract class AbstractModuleApi2 extends AbstractModule
 {
     protected BaseCameraHolderApi2 baseCameraHolder;
     protected AppSettingsManager Settings;
