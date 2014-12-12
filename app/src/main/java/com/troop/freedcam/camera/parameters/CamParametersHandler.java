@@ -64,12 +64,11 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 {
 
     String TAG = "freedcam.CameraParametersHandler";
-    public I_CameraHolder cameraHolder;
+
     Camera.Parameters cameraParameters;
     public Camera.Parameters getParameters(){return cameraParameters;}
 
 
-    AppSettingsManager appSettingsManager;
 
 
 

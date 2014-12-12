@@ -44,6 +44,8 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 09.12.2014.
@@ -105,6 +107,9 @@ public abstract class AbstractParameterHandler
     public boolean rawSupported;
     public boolean dngSupported;
     public String BayerMipiFormat;
+
+    public I_CameraHolder cameraHolder;
+    protected AppSettingsManager appSettingsManager;
 
     public void SetParametersToCamera() {};
     public void LockExposureAndWhiteBalance(boolean lock){};
