@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.handler;
 
+import android.content.Context;
 import android.os.Build;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
@@ -14,15 +15,15 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
  */
 public class ApiHandler
 {
-    public AbstractCameraUiWrapper getCameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
+    public AbstractCameraUiWrapper getCameraUiWrapper(Context context, ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
         AbstractCameraUiWrapper ret;
-        /*if (Build.VERSION.SDK_INT < 21)
-        {*/
+        if (Build.VERSION.SDK_INT < 21)
+        {
             ret = new CameraUiWrapper(preview, appSettingsManager, errorHandler);
-        /*}
+        }
         else
-            ret = new CameraUiWrapperApi2();*/
+            ret = new CameraUiWrapperApi2(context, preview, appSettingsManager, errorHandler);
         return ret;
 
     }

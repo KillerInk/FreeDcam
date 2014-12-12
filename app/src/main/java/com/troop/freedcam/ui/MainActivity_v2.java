@@ -70,7 +70,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
 
-        cameraUiWrapper = apiHandler.getCameraUiWrapper(cameraPreview, appSettingsManager, this);
+        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,cameraPreview, appSettingsManager, this);
 
         initCameraStuff(cameraUiWrapper);
 
