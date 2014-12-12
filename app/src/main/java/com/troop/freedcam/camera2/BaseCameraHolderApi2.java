@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
@@ -14,6 +16,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.hardware.display.DisplayManager;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
@@ -23,6 +26,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -68,6 +72,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     private CaptureRequest mPreviewRequest;
 
     public int CurrentCamera;
+    Size preview;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context)
@@ -171,11 +176,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
 
-            Size preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                    960, 720, largest);
+            preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+                    textureView.getWidth(), textureView.getHeight(), largest);
             textureView.setAspectRatio(preview.getWidth(), preview.getHeight());
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
+            configureTransform(textureView.getWidth(), textureView.getHeight());
             Surface surface = new Surface(texture);
 
 
@@ -230,6 +236,28 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             e.printStackTrace();
             return;
         }
+    }
+
+
+    private void configureTransform(int viewWidth, int viewHeight) {
+
+        DisplayManager windowManager = (DisplayManager)context.getSystemService(Context.DISPLAY_SERVICE);
+        int rotation = windowManager.getDisplay(0).getRotation();
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        RectF bufferRect = new RectF(0, 0, preview.getHeight(), preview.getWidth());
+        float centerX = viewRect.centerX();
+        float centerY = viewRect.centerY();
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            float scale = Math.max(
+                    (float) viewHeight / preview.getHeight(),
+                    (float) viewWidth / preview.getWidth());
+            matrix.postScale(scale, scale, centerX, centerY);
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        }
+        textureView.setTransform(matrix);
     }
 
     /**
