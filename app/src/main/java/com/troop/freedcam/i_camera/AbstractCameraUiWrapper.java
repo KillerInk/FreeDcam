@@ -18,9 +18,19 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper
     public AbstractParameterHandler camParametersHandler;
     public I_CameraHolder cameraHolder;
     public AbstractFocusHandler Focus;
+    protected I_error errorHandler;
 
     public AbstractCameraUiWrapper(){};
-    public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler){};
+    public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
+    {
+
+    };
+
+    public void ErrorHappend(String error)
+    {
+        if  (errorHandler != null)
+            errorHandler.OnError(error);
+    }
 
 
     @Override

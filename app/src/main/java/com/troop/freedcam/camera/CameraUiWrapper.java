@@ -24,7 +24,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public AppSettingsManager appSettingsManager;
 
-    protected I_error errorHandler;
+
 
     public CameraUiWrapper(){};
 
@@ -51,11 +51,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
 
-    public void ErrorHappend(String error)
-    {
-        if  (errorHandler != null)
-            errorHandler.OnError(error);
-    }
+
 
     private boolean openCamera()
     {

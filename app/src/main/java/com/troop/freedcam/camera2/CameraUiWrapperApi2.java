@@ -10,16 +10,21 @@ import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
 /**
  * Created by troop on 07.12.2014.
  */
-public class CameraUiWrapperApi2 extends CameraUiWrapper
+public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
+    AppSettingsManager appSettingsManager;
+    ExtendedSurfaceView preview;
 
     public CameraUiWrapperApi2()
     {
@@ -35,9 +40,9 @@ public class CameraUiWrapperApi2 extends CameraUiWrapper
         this.cameraHolder = new BaseCameraHolderApi2(context);
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
-        cameraHolder.ParameterHandler = camParametersHandler;
-        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        //camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
+        cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
+        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
@@ -72,26 +77,44 @@ public class CameraUiWrapperApi2 extends CameraUiWrapper
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        super.surfaceCreated(holder);
+        StartPreviewAndCamera();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        super.surfaceChanged(holder, format, width, height);
+
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        super.surfaceDestroyed(holder);
+        StopPreviewAndCamera();
     }
 
     @Override
     public void ParametersLoaded() {
-        super.ParametersLoaded();
+        cameraHolder.StartPreview();
     }
 
     @Override
-    public void onError(int i, Camera camera) {
-        super.onError(i, camera);
+    public void onError(int i, Camera camera)
+    {
+        errorHandler.OnError("Got Error from camera: " + i);
+        /*try
+        {
+            StopPreviewAndCamera();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+
+        }*/
+        try
+        {
+            cameraHolder.CloseCamera();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
