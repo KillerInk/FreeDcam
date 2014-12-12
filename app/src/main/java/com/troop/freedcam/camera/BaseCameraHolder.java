@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -18,23 +19,20 @@ import java.io.IOException;
 /**
  * Created by troop on 15.08.2014.
  */
-public class BaseCameraHolder implements I_CameraHolder
+public class BaseCameraHolder extends AbstractCameraHolder
 {
     Camera mCamera;
     LGCamera lgCamera;
     LGCamera.LGParameters lgParameters;
     final  String TAG = "freedcam.BaseCameraHolder";
-    boolean isRdy = false;
 
-    boolean isPreviewRunning = false;
 
-    public AbstractParameterHandler ParameterHandler;
-    public AbstractFocusHandler Focus;
+
 
     HandlerThread cameraThread;
     Handler cameraHandler;
     public I_error errorHandler;
-    public SurfaceHolder surfaceHolder;
+
 
     public int CurrentCamera;
 
@@ -213,8 +211,6 @@ public class BaseCameraHolder implements I_CameraHolder
     {
         return mCamera.getParameters();
     }
-
-    public boolean IsPreviewRunning() { return isPreviewRunning; }
 
     public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
     {
