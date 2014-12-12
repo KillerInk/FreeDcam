@@ -47,8 +47,8 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Surf
         preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
-        //Focus = new FocusHandler(this);
-        //cameraHolder.Focus = Focus;
+        Focus = new FocusHandlerApi2(this);
+        cameraHolder.Focus = Focus;
     }
 
     @Override
