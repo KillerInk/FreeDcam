@@ -3,19 +3,26 @@ package com.troop.freedcam.camera2;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.widget.Toast;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -24,7 +31,11 @@ import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +45,8 @@ import java.util.concurrent.TimeUnit;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class BaseCameraHolderApi2 extends AbstractCameraHolder
 {
+    final static String TAG = "freedcam.BaseCameraHolderApi2";
+
     Context context;
     public I_error errorHandler;
     private Handler mBackgroundHandler;
@@ -52,6 +65,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     private ImageReader mImageReader;
     private CaptureRequest mPreviewRequest;
 
+    public int CurrentCamera;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context)
     {
@@ -62,6 +77,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public boolean OpenCamera(int camera)
     {
+        CurrentCamera = camera;
         String cam = camera +"";
         try
         {
@@ -142,16 +158,35 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        Surface surface = surfaceHolder.getSurface();
 
+        try {
+            CameraCharacteristics characteristics
+                    = manager.getCameraCharacteristics(CurrentCamera+"");
+
+            StreamConfigurationMap map = characteristics.get(
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+            Size largest = Collections.max(
+                    Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
+                    new CompareSizesByArea());
+
+            Size preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+                    960, 720, largest);
+            surfaceHolder.setFixedSize(preview.getWidth(),preview.getHeight());
+            //surfaceHolder.setFormat();
+
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
         // We set up a CaptureRequest.Builder with the output Surface.
         try
         {
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(surface);
+            mPreviewRequestBuilder.addTarget(surfaceHolder.getSurface());
 
             // Here, we create a CameraCaptureSession for camera preview.
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
+            mCameraDevice.createCaptureSession(Arrays.asList(surfaceHolder.getSurface()),
                     new CameraCaptureSession.StateCallback()
                     {
 
@@ -186,7 +221,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         @Override
                         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
                         {
-
                         }
                     }, null
             );
@@ -258,4 +292,39 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         }
     };
+
+    private static Size chooseOptimalSize(Size[] choices, int width, int height, Size aspectRatio) {
+        // Collect the supported resolutions that are at least as big as the preview Surface
+        List<Size> bigEnough = new ArrayList<Size>();
+        int w = aspectRatio.getWidth();
+        int h = aspectRatio.getHeight();
+        for (Size option : choices) {
+            if (option.getHeight() == option.getWidth() * h / w &&
+                    option.getWidth() >= width && option.getHeight() >= height) {
+                bigEnough.add(option);
+            }
+        }
+
+        // Pick the smallest of those, assuming we found any
+        if (bigEnough.size() > 0) {
+            return Collections.min(bigEnough, new CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable preview size");
+            return choices[0];
+        }
+    }
+
+    /**
+     * Compares two {@code Size}s based on their areas.
+     */
+    static class CompareSizesByArea implements Comparator<Size> {
+
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            // We cast here to ensure the multiplications won't overflow
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+
+    }
 }

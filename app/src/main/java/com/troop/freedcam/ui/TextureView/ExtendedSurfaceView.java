@@ -64,25 +64,33 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     private void init(Context context)
     {
         this.context = context;
-        try
+        if (Build.VERSION.SDK_INT < 21)
         {
-            isopensense();
-            isReald3d();
 
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            mHolder = getHolder();
-            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            try {
+                isopensense();
+                isReald3d();
 
-            if (hasReal3d)
-            {
-                mReal3D = new Real3D(mHolder);
-                mReal3D.setMinimumNegative(-1);
-                SwitchViewMode();
+                preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                mHolder = getHolder();
+                mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+
+                if (hasReal3d) {
+                    mReal3D = new Real3D(mHolder);
+                    mReal3D.setMinimumNegative(-1);
+                    SwitchViewMode();
+                }
+            } catch (NoSuchMethodError noSuchMethodError) {
+                Log.d("Not", " 3D Device");
             }
         }
-        catch (NoSuchMethodError noSuchMethodError)
+        else
         {
-            Log.d("Not", " 3D Device");
+            preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            mHolder = getHolder();
+            android.widget.FrameLayout.LayoutParams params = new android.widget.FrameLayout.LayoutParams(960, 720);
+            this.setLayoutParams(params);
         }
     }
 
