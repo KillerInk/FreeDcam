@@ -240,7 +240,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // This method is called when the camera is opened.  We start camera preview here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
-
+            StartPreview();
         }
 
         @Override

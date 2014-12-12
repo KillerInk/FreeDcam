@@ -67,13 +67,16 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Surf
     }
 
     @Override
-    public void StartPreviewAndCamera() {
-        super.StartPreviewAndCamera();
+    public void StartPreviewAndCamera()
+    {
+        cameraHolder.SetSurface(preview.getHolder());
+        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+        //cameraHolder.StartPreview();
     }
 
     @Override
     public void StopPreviewAndCamera() {
-        super.StopPreviewAndCamera();
+        cameraHolder.StopPreview();
     }
 
     @Override
