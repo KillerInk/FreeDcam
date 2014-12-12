@@ -30,6 +30,7 @@ import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +54,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     CameraManager manager;
     private CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
+    AutoFitTextureView textureView;
 
     //this is needed for the preview...
     private CaptureRequest.Builder mPreviewRequestBuilder;
@@ -148,10 +150,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         return  false;
     }
 
-    @Override
-    public boolean SetSurface(SurfaceHolder surfaceHolder)
+    public boolean SetSurface(TextureView surfaceHolder)
     {
-        this.surfaceHolder = surfaceHolder;
+        this.textureView = (AutoFitTextureView) surfaceHolder;
         return true;
     }
 
@@ -172,21 +173,20 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             Size preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     960, 720, largest);
-            surfaceHolder.setFixedSize(preview.getWidth(),preview.getHeight());
-            //surfaceHolder.setFormat();
+            textureView.setAspectRatio(preview.getWidth(), preview.getHeight());
+            SurfaceTexture texture = textureView.getSurfaceTexture();
+            texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
+            Surface surface = new Surface(texture);
 
 
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
+
         // We set up a CaptureRequest.Builder with the output Surface.
-        try
-        {
+
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(surfaceHolder.getSurface());
+            mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            mCameraDevice.createCaptureSession(Arrays.asList(surfaceHolder.getSurface()),
+            mCameraDevice.createCaptureSession(Arrays.asList(surface),
                     new CameraCaptureSession.StateCallback()
                     {
 

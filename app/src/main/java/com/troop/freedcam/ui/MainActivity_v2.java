@@ -17,6 +17,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
@@ -36,7 +37,7 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
  */
 public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 {
-    ExtendedSurfaceView cameraPreview;
+    //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     MenuHandler menuHandler;
@@ -52,6 +53,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     MainActivity_v2 activity;
     ApiHandler apiHandler;
     TimerHandler timerHandler;
+    PreviewHandler previewHandler;
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
@@ -63,22 +65,29 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
-        cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
+
+        previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
+        previewHandler.Init();
+        previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
+
+        /*cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraPreview.appSettingsManager = appSettingsManager;
-        cameraPreview.setOnTouchListener(surfaceTouche);
+        cameraPreview.setOnTouchListener(surfaceTouche);*/
 
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
 
-        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,cameraPreview, appSettingsManager, this);
+        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this);
 
         initCameraStuff(cameraUiWrapper);
 
         activity = this;
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(cameraPreview);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(cameraPreview);
+        if (previewHandler.surfaceView != null) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(previewHandler.surfaceView);
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(previewHandler.surfaceView);
+        }
 
         timerHandler = new TimerHandler(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
@@ -119,9 +128,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 
     private void initCameraStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
+        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
-        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, cameraPreview);
+        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
         nightModeSwitchHandler = new NightModeSwitchHandler(this, cameraUiWrapper, appSettingsManager);

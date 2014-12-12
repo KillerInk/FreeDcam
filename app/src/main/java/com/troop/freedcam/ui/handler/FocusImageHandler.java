@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.I_Focus;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
 /**
@@ -25,7 +26,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int disHeight;
     int disWidth;
 
-    ExtendedSurfaceView surfaceView;
+    PreviewHandler surfaceView;
 
     public FocusImageHandler(MainActivity_v2 activity, AbstractCameraUiWrapper wrapper)
     {
@@ -34,7 +35,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         wrapper.Focus.focusEvent = this;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         imageView.setVisibility(View.GONE);
-        surfaceView = (ExtendedSurfaceView)activity.findViewById(R.id.CameraPreview);
+        surfaceView = (PreviewHandler)activity.findViewById(R.id.CameraPreview);
 
 
     }

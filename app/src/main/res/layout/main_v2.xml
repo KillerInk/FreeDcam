@@ -9,7 +9,7 @@
 
 
 
-    <com.troop.freedcam.ui.TextureView.ExtendedSurfaceView
+    <com.troop.freedcam.ui.TextureView.PreviewHandler
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/CameraPreview" />
