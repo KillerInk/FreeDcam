@@ -11,6 +11,7 @@ import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -40,14 +41,14 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Surf
         this.cameraHolder = new BaseCameraHolderApi2(context);
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;
-        //camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
+        camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
-        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         preview.ParametersHandler = camParametersHandler;
 
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
-        Focus = new FocusHandler(this);
-        cameraHolder.Focus = Focus;
+        moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
+        //Focus = new FocusHandler(this);
+        //cameraHolder.Focus = Focus;
     }
 
     @Override
