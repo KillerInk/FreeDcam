@@ -254,4 +254,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
         toast.show();
     }
+
+    public void ActivateSonyApi(String value)
+    {
+        loadCameraUiWrapper();
+    }
 }

@@ -2,12 +2,14 @@ package com.troop.freedcam.ui.menu;
 
 import android.content.Context;
 
+import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ConnectSonyExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
@@ -26,11 +28,11 @@ import java.util.ArrayList;
  */
 public class MenuCreator
 {
-    Context context;
+    MainActivity_v2 context;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractParameterHandler parameterHandler;
-    public MenuCreator(Context context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
