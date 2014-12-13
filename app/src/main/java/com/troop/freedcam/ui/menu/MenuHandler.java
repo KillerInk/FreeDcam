@@ -220,7 +220,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     public void onClick(View v)
     {
         selectedChild = (ExpandableChild)v;
-        if (!(selectedChild instanceof SaveCamParasExpandableChild) && !(selectedChild instanceof ConnectSonyExpandableChild))
+        if (!(selectedChild instanceof SaveCamParasExpandableChild))
         {
             //get values from child attached parameter
             String[] values = selectedChild.getParameterHolder().GetValues();
@@ -242,10 +242,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
             child.SaveCamParameters();
             Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
         }
-        else if(selectedChild instanceof ConnectSonyExpandableChild)
-        {
-            ConnectSonyExpandableChild sonyExpandableChild = (ConnectSonyExpandableChild)selectedChild;
 
-        }
     }
 }

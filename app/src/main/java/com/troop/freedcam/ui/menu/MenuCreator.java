@@ -407,7 +407,7 @@ public class MenuCreator
         childlist.add(saveCamparas);
 
         ConnectSonyExpandableChild sonyExpandableChild = new ConnectSonyExpandableChild(context);
-        sonyExpandableChild.setParameterHolder(null, null, "ConnectSony", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        sonyExpandableChild.setParameterHolder(null, appSettingsManager, AppSettingsManager.SETTING_SONYAPI, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         childlist.add(sonyExpandableChild);
 
         preview.setItems(childlist);

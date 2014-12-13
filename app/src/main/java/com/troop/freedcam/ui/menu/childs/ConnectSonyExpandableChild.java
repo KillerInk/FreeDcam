@@ -32,13 +32,15 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
         this.settingsname = settingsname;
         this.cameraUiWrapper = cameraUiWrapper;
         nameTextView.setText("Connect to Sony");
-        valueTextView.setText("");
+        valueTextView.setText(Value());
+
     }
 
     @Override
     public void setValue(String value)
     {
         appSettingsManager.setString(settingsname, value);
+        valueTextView.setText(value);
     }
 
     @Override
@@ -68,5 +70,10 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
     @Override
     public String[] GetValues() {
         return new String[] {"true", "false"};
+    }
+
+    @Override
+    public String getName() {
+        return "sonyconnect";
     }
 }
