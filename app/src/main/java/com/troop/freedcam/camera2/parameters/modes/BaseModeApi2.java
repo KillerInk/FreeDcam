@@ -17,6 +17,8 @@ import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 public class BaseModeApi2 implements I_ModeParameter
 {
     BaseCameraHolderApi2 cameraHolder;
+    boolean isSupported = false;
+
     public BaseModeApi2(BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         this.cameraHolder = baseCameraHolderApi2;
@@ -25,7 +27,7 @@ public class BaseModeApi2 implements I_ModeParameter
     @Override
     public boolean IsSupported()
     {
-        return false;
+        return isSupported;
     }
 
     @Override

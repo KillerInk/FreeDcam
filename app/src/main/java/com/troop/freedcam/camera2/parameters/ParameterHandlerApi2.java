@@ -12,6 +12,8 @@ import android.util.Log;
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -46,6 +48,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         }
         boolean muh = this.cameraHolder.characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE );
         FlashMode = new FlashModeApi2(this.cameraHolder);
+        SceneMode = new SceneModeApi2(this.cameraHolder);
+        PictureSize = new PictureSizeModeApi2(this.cameraHolder);
         ParametersEventHandler.ParametersHasLoaded();
     }
 
