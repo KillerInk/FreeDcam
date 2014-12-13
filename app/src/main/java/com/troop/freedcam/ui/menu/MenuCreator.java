@@ -9,6 +9,7 @@ import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.childs.ConnectSonyExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -404,6 +405,10 @@ public class MenuCreator
         SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
         saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         childlist.add(saveCamparas);
+
+        ConnectSonyExpandableChild sonyExpandableChild = new ConnectSonyExpandableChild(context);
+        sonyExpandableChild.setParameterHolder(null, null, "ConnectSony", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        childlist.add(sonyExpandableChild);
 
         preview.setItems(childlist);
 

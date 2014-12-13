@@ -46,6 +46,7 @@ public class AppSettingsManager
     public static String SETTING_VIDEPROFILE = "videoprofile";
     public static String SETTING_VIDEOHDR = "videohdr";
     public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
+    public static String SETTING_SONYAPI = "sonyapi";
 
 
     public AppSettingsManager(SharedPreferences appSettings)

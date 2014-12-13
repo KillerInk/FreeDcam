@@ -4,6 +4,8 @@ import android.view.SurfaceView;
 
 import com.troop.freedcam.camera.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
@@ -12,14 +14,36 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
  */
 public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 {
-    protected ExtendedSurfaceView extendedSurfaceView;
+    protected SurfaceView extendedSurfaceView;
 
-    public CameraUiWrapperSony() {
+    private SimpleSsdpClient mSsdpClient;
+    ServerDevice serverDevice;
+
+    public CameraUiWrapperSony()
+    {
+
     }
 
-    public CameraUiWrapperSony(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
+    public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
         super(preview, appSettingsManager, errorHandler);
         this.extendedSurfaceView = preview;
+        mSsdpClient = new SimpleSsdpClient();
+        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
+            @Override
+            public void onDeviceFound(ServerDevice device) {
+                serverDevice = device;
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public void onErrorFinished() {
+
+            }
+        });
     }
 
     @Override

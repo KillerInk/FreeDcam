@@ -69,6 +69,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
         previewHandler.Init();
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
+        activity = this;
+        timerHandler = new TimerHandler(this);
 
         /*cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
         cameraPreview.appSettingsManager = appSettingsManager;
@@ -77,21 +79,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
 
-        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this);
-
-        initCameraStuff(cameraUiWrapper);
-
-        activity = this;
-        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        if (previewHandler.surfaceView != null) {
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(previewHandler.surfaceView);
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(previewHandler.surfaceView);
-        }
-
-        timerHandler = new TimerHandler(this);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        loadCameraUiWrapper();
 
         exitButton = (TextView)findViewById(R.id.textView_Exit);
 
@@ -123,6 +111,30 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
             helpOverlayOpen = true;
         }
 
+    }
+
+    private void loadCameraUiWrapper()
+    {
+        if (cameraUiWrapper != null)
+        {
+            cameraUiWrapper.StopPreviewAndCamera();
+            cameraUiWrapper = null;
+        }
+        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this);
+
+        initCameraStuff(cameraUiWrapper);
+
+
+        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
+        if (previewHandler.surfaceView != null) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(previewHandler.surfaceView);
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(previewHandler.surfaceView);
+        }
+
+
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
     }
 
 
