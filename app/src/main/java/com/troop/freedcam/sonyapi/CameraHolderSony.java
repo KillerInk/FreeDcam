@@ -3,12 +3,16 @@ package com.troop.freedcam.sonyapi;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
 
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraHolderSony implements I_CameraHolder {
+public class CameraHolderSony extends AbstractCameraHolder
+{
+
+
     @Override
     public boolean OpenCamera(int camera) {
         return false;
