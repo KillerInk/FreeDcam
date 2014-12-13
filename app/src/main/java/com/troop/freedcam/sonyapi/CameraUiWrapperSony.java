@@ -9,6 +9,7 @@ import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
@@ -17,7 +18,7 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
  */
 public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 {
-    protected SurfaceView extendedSurfaceView;
+    protected SimpleStreamSurfaceView surfaceView;
 
     private SimpleSsdpClient mSsdpClient;
     ServerDevice serverDevice;
@@ -30,8 +31,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
         super(preview, appSettingsManager, errorHandler);
-        this.extendedSurfaceView = preview;
-        this.cameraHolder = new CameraHolderSony();
+        this.surfaceView = (SimpleStreamSurfaceView)preview;
+        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView);
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();

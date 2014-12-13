@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu;
 
 import android.content.Context;
+import android.view.SurfaceView;
 
 import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
@@ -40,7 +41,7 @@ public class MenuCreator
         this.parameterHandler = cameraUiWrapper.camParametersHandler;
     }
 
-    public ExpandableGroup CreatePictureSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
     {
         ExpandableGroup picGroup = new ExpandableGroup(context);
         picGroup.setName(context.getString(R.string.picture_settings));
@@ -50,11 +51,20 @@ public class MenuCreator
         return picGroup;
     }
 
-    private void createPictureSettingsChilds(ExpandableGroup group, ExtendedSurfaceView surfaceView)
+    private void createPictureSettingsChilds(ExpandableGroup group, SurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
-        if (parameterHandler.PictureSize != null) {
-            PreviewExpandableChild picSize = new PreviewExpandableChild(context, surfaceView);
+        if (parameterHandler.PictureSize != null)
+        {
+            PreviewExpandableChild picSize;
+            if (surfaceView instanceof ExtendedSurfaceView)
+            {
+                picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView);
+            }
+            else
+            {
+                picSize = new PreviewExpandableChild(context);
+            }
             picSize.setName(context.getString(R.string.picture_size));
             //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
             picSize.setParameterHolder(parameterHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules, cameraUiWrapper);
@@ -248,7 +258,7 @@ public class MenuCreator
         group.setItems(childlist);
     }
 
-    public ExpandableGroup CreatePreviewSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreatePreviewSettings(SurfaceView surfaceView)
     {
         ExpandableGroup preview = getNewGroup("Long Exposure");
         //preview.modulesToShow = cameraUiWrapper.moduleHandler.LongeExpoModules;
@@ -256,11 +266,19 @@ public class MenuCreator
         return preview;
     }
 
-    private void createPreviewSettingsChilds(ExpandableGroup preview, ExtendedSurfaceView surfaceView)
+    private void createPreviewSettingsChilds(ExpandableGroup preview, SurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        if (parameterHandler.PreviewSize != null) {
-            PreviewExpandableChild size = new PreviewExpandableChild(context, surfaceView);
+        if (parameterHandler.PreviewSize != null)
+        {
+            PreviewExpandableChild size;
+            if (surfaceView instanceof ExtendedSurfaceView) {
+                size = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView);
+            }
+            else
+            {
+                size = new PreviewExpandableChild(context);
+            }
             size.setName("Picture Size");
             //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
             size.setParameterHolder(parameterHandler.PreviewSize, appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
@@ -316,14 +334,14 @@ public class MenuCreator
         return child;
     }
 
-    public ExpandableGroup CreateVideoSettings(ExtendedSurfaceView surfaceView)
+    public ExpandableGroup CreateVideoSettings(SurfaceView surfaceView)
     {
         ExpandableGroup preview = getNewGroup("Video Settings");
         createVideoSettingsChilds(preview, surfaceView);
         return preview;
     }
 
-    private void createVideoSettingsChilds(ExpandableGroup video, ExtendedSurfaceView surfaceView)
+    private void createVideoSettingsChilds(ExpandableGroup video, SurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 

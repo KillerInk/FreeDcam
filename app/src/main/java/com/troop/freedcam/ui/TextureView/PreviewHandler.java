@@ -16,6 +16,7 @@ import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -27,7 +28,8 @@ import java.util.List;
 public class PreviewHandler extends RelativeLayout
 {
     public TextureView textureView;
-    public ExtendedSurfaceView surfaceView;
+    public SurfaceView surfaceView;
+    public
     Context context;
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
 
@@ -56,7 +58,13 @@ public class PreviewHandler extends RelativeLayout
 
     public void Init()
     {
-        if (Build.VERSION.SDK_INT < 21)
+        this.removeAllViews();
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
+        {
+            surfaceView = new SimpleStreamSurfaceView(context);
+            this.addView(surfaceView);
+        }
+        else if (Build.VERSION.SDK_INT < 21)
         {
             surfaceView = new ExtendedSurfaceView(context);
             this.addView(surfaceView);
@@ -71,11 +79,16 @@ public class PreviewHandler extends RelativeLayout
 
     public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager, View.OnTouchListener surfaceTouche)
     {
-        if (Build.VERSION.SDK_INT < 21)
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
         {
-            surfaceView.appSettingsManager = appSettingsManager;
-            surfaceView.setOnTouchListener(surfaceTouche);
-
+            SimpleStreamSurfaceView simplesurfaceView = (SimpleStreamSurfaceView)surfaceView;
+            simplesurfaceView.setOnTouchListener(surfaceTouche);
+        }
+        else if (Build.VERSION.SDK_INT < 21)
+        {
+            ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)surfaceView;
+            extendedSurfaceView.appSettingsManager = appSettingsManager;
+            extendedSurfaceView.setOnTouchListener(surfaceTouche);
         }
         else
         {

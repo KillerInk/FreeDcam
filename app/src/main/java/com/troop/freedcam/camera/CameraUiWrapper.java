@@ -3,6 +3,7 @@ package com.troop.freedcam.camera;
 import android.hardware.Camera;
 import android.os.Build;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
 
@@ -28,9 +29,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public CameraUiWrapper(){};
 
-    public CameraUiWrapper(ExtendedSurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
+    public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
-        this.preview = preview;
+        this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
@@ -42,7 +43,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
         baseCameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        preview.ParametersHandler = camParametersHandler;
+        this.preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);

@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     MainActivity_v2 context;
     AbstractCameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
-    ExtendedSurfaceView surfaceView;
+    SurfaceView surfaceView;
     ArrayList<ExpandableGroup> grouplist;
     ExpandableGroup picSettings;
     ExpandableGroup previewSettings;
@@ -57,7 +58,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, ExtendedSurfaceView surfaceView)
+    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView)
     {
         this.context = context;
         this.cameraUiWrapper = cameraUiWrapper;
