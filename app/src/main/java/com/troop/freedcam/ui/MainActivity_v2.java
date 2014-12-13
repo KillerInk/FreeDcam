@@ -67,8 +67,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
 
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
-        previewHandler.Init();
-        previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
+        previewHandler.appSettingsManager = appSettingsManager;
+
         activity = this;
         timerHandler = new TimerHandler(this);
 
@@ -120,6 +120,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
             cameraUiWrapper.StopPreviewAndCamera();
             cameraUiWrapper = null;
         }
+        previewHandler.Init();
+        previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
+
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this);
 
         initCameraStuff(cameraUiWrapper);
@@ -127,9 +130,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        if (previewHandler.surfaceView != null) {
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(previewHandler.surfaceView);
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(previewHandler.surfaceView);
+        if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView) {
+            ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)previewHandler.surfaceView;
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
         }
 
 
