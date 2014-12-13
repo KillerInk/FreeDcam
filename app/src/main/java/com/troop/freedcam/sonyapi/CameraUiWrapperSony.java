@@ -3,7 +3,9 @@ package com.troop.freedcam.sonyapi;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.camera.I_error;
+import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
@@ -31,6 +33,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         this.extendedSurfaceView = preview;
         this.cameraHolder = new CameraHolderSony();
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
+        moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override

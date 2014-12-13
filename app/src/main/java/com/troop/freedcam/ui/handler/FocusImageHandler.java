@@ -32,7 +32,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         this.activity = activity;
         this.wrapper = wrapper;
-        wrapper.Focus.focusEvent = this;
+        if (wrapper.Focus != null)
+            wrapper.Focus.focusEvent = this;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         imageView.setVisibility(View.GONE);
         surfaceView = (PreviewHandler)activity.findViewById(R.id.CameraPreview);
