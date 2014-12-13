@@ -66,7 +66,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     @Override
     public void DoWork() {
-        super.DoWork();
+        //moduleHandler.DoWork();
     }
 
     @Override
@@ -74,6 +74,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         cameraHolder.SetSurface(preview);
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+
         //cameraHolder.StartPreview();
     }
 

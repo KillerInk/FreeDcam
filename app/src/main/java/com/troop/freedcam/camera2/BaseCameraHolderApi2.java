@@ -36,6 +36,8 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
 
+import org.xml.sax.ErrorHandler;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,24 +57,26 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     Context context;
     public I_error errorHandler;
     private Handler mBackgroundHandler;
-    CameraManager manager;
+    public CameraManager manager;
     private CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     AutoFitTextureView textureView;
 
     //this is needed for the preview...
-    private CaptureRequest.Builder mPreviewRequestBuilder;
+    public CaptureRequest.Builder mPreviewRequestBuilder;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
      */
-    private CameraCaptureSession mCaptureSession;
+    public CameraCaptureSession mCaptureSession;
+    public StreamConfigurationMap map;
 
     private ImageReader mImageReader;
     private CaptureRequest mPreviewRequest;
 
     public int CurrentCamera;
     Size preview;
+    public CameraCharacteristics characteristics;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context)
@@ -166,11 +170,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
 
         try {
-            CameraCharacteristics characteristics
-                    = manager.getCameraCharacteristics(CurrentCamera+"");
+            characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
 
-            StreamConfigurationMap map = characteristics.get(
+            map = characteristics.get(
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+            characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
 
             Size largest = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
@@ -227,6 +232,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         @Override
                         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
                         {
+
                         }
                     }, null
             );
@@ -263,7 +269,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
-    private CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback() {
+    public CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback() {
 
         private void process(CaptureResult result) {
 
@@ -282,20 +288,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
 
-    public void TakePicture(Camera.ShutterCallback shutter, Camera.PictureCallback raw, Camera.PictureCallback picture) {
-        //super.TakePicture(shutter, raw, picture);
-    }
-
-    public void SetPreviewCallback(Camera.PreviewCallback previewCallback) {
-        //super.SetPreviewCallback(previewCallback);
-    }
-
-    public void StartFocus(Camera.AutoFocusCallback autoFocusCallback) {
-        //super.StartFocus(autoFocusCallback);
-    }
-
-
-
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
@@ -303,6 +295,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
             StartPreview();
+            ((ParameterHandlerApi2)ParameterHandler).Init();
         }
 
         @Override
