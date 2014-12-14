@@ -7,10 +7,12 @@ import android.view.SurfaceHolder;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
+import com.troop.freedcam.sonyapi.sonystuff.SonyUtils;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 import org.json.JSONArray;
@@ -78,12 +80,12 @@ public class CameraHolderSony extends AbstractCameraHolder
                         mAvailableCameraApiSet.add(api);
                     }
                     if (!mEventObserver.getLiveviewStatus() //
-                            && isCameraApiAvailable("startLiveview")) {
+                            && JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
                         if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
                             startLiveview();
                         }
                     }
-                    if (isCameraApiAvailable("actZoom")) {
+                    if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
 
 
                     } else {
@@ -149,20 +151,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     }
 
-    /**
-     * Check if the specified API is available at present. This works correctly
-     * only for Camera API.
-     *
-     * @param apiName
-     * @return
-     */
-    private boolean isCameraApiAvailable(String apiName) {
-        boolean isAvailable = false;
-        synchronized (mAvailableCameraApiSet) {
-            isAvailable = mAvailableCameraApiSet.contains(apiName);
-        }
-        return isAvailable;
-    }
+
 
     private void startLiveview() {
         if (mLiveviewSurface == null) {
@@ -231,19 +220,19 @@ public class CameraHolderSony extends AbstractCameraHolder
                 try {
                     // Get supported API list (Camera API)
                     JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
-                    loadSupportedApiList(replyJsonCamera);
+                    JsonUtils.loadSupportedApiList(replyJsonCamera, mSupportedApiSet);
 
                     try {
                         // Get supported API list (AvContent API)
                         JSONObject replyJsonAvcontent = mRemoteApi.getAvcontentMethodTypes();
-                        loadSupportedApiList(replyJsonAvcontent);
+                        JsonUtils.loadSupportedApiList(replyJsonAvcontent, mSupportedApiSet);
                     } catch (IOException e) {
                         Log.d(TAG, "AvContent is not support.");
                     }
 
 
 
-                    if (!isApiSupported("setCameraFunction")) {
+                    if (!JsonUtils.isApiSupported("setCameraFunction", mSupportedApiSet)) {
 
                         // this device does not support setCameraFunction.
                         // No need to check camera status.
@@ -256,7 +245,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // after confirmation of camera state, open connection.
                         Log.d(TAG, "this device support set camera function");
 
-                        if (!isApiSupported("getEvent")) {
+                        if (!JsonUtils.isApiSupported("getEvent", mSupportedApiSet)) {
                             Log.e(TAG, "this device is not support getEvent");
                             openConnection();
                             return;
@@ -274,7 +263,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             throw new IOException();
                         }
 
-                        if (isShootingStatus(cameraStatus)) {
+                        if (SonyUtils.isShootingStatus(cameraStatus)) {
                             Log.d(TAG, "camera function is Remote Shooting.");
                             openConnection();
                         } else {
@@ -296,59 +285,6 @@ public class CameraHolderSony extends AbstractCameraHolder
         }.start();
     }
 
-    /**
-     * Retrieve a list of APIs that are supported by the target device.
-     *
-     * @param replyJson
-     */
-    private void loadSupportedApiList(JSONObject replyJson) {
-        synchronized (mSupportedApiSet) {
-            try {
-                JSONArray resultArrayJson = replyJson.getJSONArray("results");
-                for (int i = 0; i < resultArrayJson.length(); i++) {
-                    mSupportedApiSet.add(resultArrayJson.getJSONArray(i).getString(0));
-                }
-            } catch (JSONException e) {
-                Log.w(TAG, "loadSupportedApiList: JSON format error.");
-            }
-        }
-    }
-
-    private static boolean isShootingStatus(String currentStatus) {
-        Set<String> shootingStatus = new HashSet<String>();
-        shootingStatus.add("IDLE");
-        shootingStatus.add("StillCapturing");
-        shootingStatus.add("StillSaving");
-        shootingStatus.add("MovieWaitRecStart");
-        shootingStatus.add("MovieRecording");
-        shootingStatus.add("MovieWaitRecStop");
-        shootingStatus.add("MovieSaving");
-        shootingStatus.add("IntervalWaitRecStart");
-        shootingStatus.add("IntervalRecording");
-        shootingStatus.add("IntervalWaitRecStop");
-        shootingStatus.add("AudioWaitRecStart");
-        shootingStatus.add("AudioRecording");
-        shootingStatus.add("AudioWaitRecStop");
-        shootingStatus.add("AudioSaving");
-
-        return shootingStatus.contains(currentStatus);
-    }
-
-    /**
-     * Check if the specified API is supported. This is for camera and avContent
-     * service API. The result of this method does not change dynamically.
-     *
-     * @param apiName
-     * @return
-     */
-    private boolean isApiSupported(String apiName) {
-        boolean isAvailable = false;
-        synchronized (mSupportedApiSet) {
-            isAvailable = mSupportedApiSet.contains(apiName);
-        }
-        return isAvailable;
-    }
-
     private void openConnection() {
 
         mEventObserver.setEventChangeListener(mEventListener);
@@ -363,10 +299,10 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                     // getAvailableApiList
                     replyJson = mRemoteApi.getAvailableApiList();
-                    loadAvailableCameraApiList(replyJson);
+                    JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
 
                     // check version of the server device
-                    if (isCameraApiAvailable("getApplicationInfo")) {
+                    if (JsonUtils.isCameraApiAvailable("getApplicationInfo", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): getApplicationInfo()");
                         replyJson = mRemoteApi.getApplicationInfo();
 
@@ -376,36 +312,36 @@ public class CameraHolderSony extends AbstractCameraHolder
                     }
 
                     // startRecMode if necessary.
-                    if (isCameraApiAvailable("startRecMode")) {
+                    if (JsonUtils.isCameraApiAvailable("startRecMode", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): startRecMode()");
                         replyJson = mRemoteApi.startRecMode();
 
                         // Call again.
                         replyJson = mRemoteApi.getAvailableApiList();
-                        loadAvailableCameraApiList(replyJson);
+                        JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
                     }
 
                     // getEvent start
-                    if (isCameraApiAvailable("getEvent")) {
+                    if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): EventObserver.start()");
                         mEventObserver.start();
                     }
 
                     // Liveview start
-                    if (isCameraApiAvailable("startLiveview")) {
+                    if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): LiveviewSurface.start()");
                         startLiveview();
                     }
 
                     // prepare UIs
-                    if (isCameraApiAvailable("getAvailableShootMode")) {
+                    if (JsonUtils.isCameraApiAvailable("getAvailableShootMode", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): prepareShootModeSpinner()");
 
                         // Note: hide progress bar on title after this calling.
                     }
 
                     // prepare UIs
-                    if (isCameraApiAvailable("actZoom")) {
+                    if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): prepareActZoomButtons()");
 
                     } else {
@@ -422,25 +358,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     }
 
-    /**
-     * Retrieve a list of APIs that are available at present.
-     *
-     * @param replyJson
-     */
-    private void loadAvailableCameraApiList(JSONObject replyJson) {
-        synchronized (mAvailableCameraApiSet) {
-            mAvailableCameraApiSet.clear();
-            try {
-                JSONArray resultArrayJson = replyJson.getJSONArray("result");
-                JSONArray apiListJson = resultArrayJson.getJSONArray(0);
-                for (int i = 0; i < apiListJson.length(); i++) {
-                    mAvailableCameraApiSet.add(apiListJson.getString(i));
-                }
-            } catch (JSONException e) {
-                Log.w(TAG, "loadAvailableCameraApiList: JSON format error.");
-            }
-        }
-    }
+
 
     private void startOpenConnectionAfterChangeCameraState() {
         Log.d(TAG, "startOpenConectiontAfterChangeCameraState() exec");
