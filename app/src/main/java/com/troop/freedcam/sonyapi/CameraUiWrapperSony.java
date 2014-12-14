@@ -40,6 +40,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
             @Override
             public void onDeviceFound(ServerDevice device) {
                 serverDevice = device;
+                cameraHolder.setServerDevice(serverDevice);
             }
 
             @Override

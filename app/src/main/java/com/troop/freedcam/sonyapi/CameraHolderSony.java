@@ -107,6 +107,9 @@ public class CameraHolderSony extends AbstractCameraHolder
 
             }
         };
+        mEventObserver.activate();
+        prepareOpenConnection();
+
 
     }
 
@@ -215,5 +218,262 @@ public class CameraHolderSony extends AbstractCameraHolder
                 }
             }
         }.start();
+    }
+
+    private void prepareOpenConnection() {
+        Log.d(TAG, "prepareToOpenConection() exec");
+
+
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    // Get supported API list (Camera API)
+                    JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
+                    loadSupportedApiList(replyJsonCamera);
+
+                    try {
+                        // Get supported API list (AvContent API)
+                        JSONObject replyJsonAvcontent = mRemoteApi.getAvcontentMethodTypes();
+                        loadSupportedApiList(replyJsonAvcontent);
+                    } catch (IOException e) {
+                        Log.d(TAG, "AvContent is not support.");
+                    }
+
+
+
+                    if (!isApiSupported("setCameraFunction")) {
+
+                        // this device does not support setCameraFunction.
+                        // No need to check camera status.
+
+                        openConnection();
+
+                    } else {
+
+                        // this device supports setCameraFunction.
+                        // after confirmation of camera state, open connection.
+                        Log.d(TAG, "this device support set camera function");
+
+                        if (!isApiSupported("getEvent")) {
+                            Log.e(TAG, "this device is not support getEvent");
+                            openConnection();
+                            return;
+                        }
+
+                        // confirm current camera status
+                        String cameraStatus = null;
+                        JSONObject replyJson = mRemoteApi.getEvent(false);
+                        JSONArray resultsObj = replyJson.getJSONArray("result");
+                        JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
+                        String type = cameraStatusObj.getString("type");
+                        if ("cameraStatus".equals(type)) {
+                            cameraStatus = cameraStatusObj.getString("cameraStatus");
+                        } else {
+                            throw new IOException();
+                        }
+
+                        if (isShootingStatus(cameraStatus)) {
+                            Log.d(TAG, "camera function is Remote Shooting.");
+                            openConnection();
+                        } else {
+                            // set Listener
+                            startOpenConnectionAfterChangeCameraState();
+
+                            // set Camera function to Remote Shooting
+                            replyJson = mRemoteApi.setCameraFunction("Remote Shooting");
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());
+
+                } catch (JSONException e) {
+                    Log.w(TAG, "prepareToStartContentsListMode: JSONException: " + e.getMessage());
+
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * Retrieve a list of APIs that are supported by the target device.
+     *
+     * @param replyJson
+     */
+    private void loadSupportedApiList(JSONObject replyJson) {
+        synchronized (mSupportedApiSet) {
+            try {
+                JSONArray resultArrayJson = replyJson.getJSONArray("results");
+                for (int i = 0; i < resultArrayJson.length(); i++) {
+                    mSupportedApiSet.add(resultArrayJson.getJSONArray(i).getString(0));
+                }
+            } catch (JSONException e) {
+                Log.w(TAG, "loadSupportedApiList: JSON format error.");
+            }
+        }
+    }
+
+    private static boolean isShootingStatus(String currentStatus) {
+        Set<String> shootingStatus = new HashSet<String>();
+        shootingStatus.add("IDLE");
+        shootingStatus.add("StillCapturing");
+        shootingStatus.add("StillSaving");
+        shootingStatus.add("MovieWaitRecStart");
+        shootingStatus.add("MovieRecording");
+        shootingStatus.add("MovieWaitRecStop");
+        shootingStatus.add("MovieSaving");
+        shootingStatus.add("IntervalWaitRecStart");
+        shootingStatus.add("IntervalRecording");
+        shootingStatus.add("IntervalWaitRecStop");
+        shootingStatus.add("AudioWaitRecStart");
+        shootingStatus.add("AudioRecording");
+        shootingStatus.add("AudioWaitRecStop");
+        shootingStatus.add("AudioSaving");
+
+        return shootingStatus.contains(currentStatus);
+    }
+
+    /**
+     * Check if the specified API is supported. This is for camera and avContent
+     * service API. The result of this method does not change dynamically.
+     *
+     * @param apiName
+     * @return
+     */
+    private boolean isApiSupported(String apiName) {
+        boolean isAvailable = false;
+        synchronized (mSupportedApiSet) {
+            isAvailable = mSupportedApiSet.contains(apiName);
+        }
+        return isAvailable;
+    }
+
+    private void openConnection() {
+
+        mEventObserver.setEventChangeListener(mEventListener);
+        new Thread() {
+
+            @Override
+            public void run() {
+                Log.d(TAG, "openConnection(): exec.");
+
+                try {
+                    JSONObject replyJson = null;
+
+                    // getAvailableApiList
+                    replyJson = mRemoteApi.getAvailableApiList();
+                    loadAvailableCameraApiList(replyJson);
+
+                    // check version of the server device
+                    if (isCameraApiAvailable("getApplicationInfo")) {
+                        Log.d(TAG, "openConnection(): getApplicationInfo()");
+                        replyJson = mRemoteApi.getApplicationInfo();
+
+                    } else {
+                        // never happens;
+                        return;
+                    }
+
+                    // startRecMode if necessary.
+                    if (isCameraApiAvailable("startRecMode")) {
+                        Log.d(TAG, "openConnection(): startRecMode()");
+                        replyJson = mRemoteApi.startRecMode();
+
+                        // Call again.
+                        replyJson = mRemoteApi.getAvailableApiList();
+                        loadAvailableCameraApiList(replyJson);
+                    }
+
+                    // getEvent start
+                    if (isCameraApiAvailable("getEvent")) {
+                        Log.d(TAG, "openConnection(): EventObserver.start()");
+                        mEventObserver.start();
+                    }
+
+                    // Liveview start
+                    if (isCameraApiAvailable("startLiveview")) {
+                        Log.d(TAG, "openConnection(): LiveviewSurface.start()");
+                        startLiveview();
+                    }
+
+                    // prepare UIs
+                    if (isCameraApiAvailable("getAvailableShootMode")) {
+                        Log.d(TAG, "openConnection(): prepareShootModeSpinner()");
+
+                        // Note: hide progress bar on title after this calling.
+                    }
+
+                    // prepare UIs
+                    if (isCameraApiAvailable("actZoom")) {
+                        Log.d(TAG, "openConnection(): prepareActZoomButtons()");
+
+                    } else {
+
+                    }
+
+                    Log.d(TAG, "openConnection(): completed.");
+                } catch (IOException e) {
+                    Log.w(TAG, "openConnection : IOException: " + e.getMessage());
+
+                }
+            }
+        }.start();
+
+    }
+
+    /**
+     * Retrieve a list of APIs that are available at present.
+     *
+     * @param replyJson
+     */
+    private void loadAvailableCameraApiList(JSONObject replyJson) {
+        synchronized (mAvailableCameraApiSet) {
+            mAvailableCameraApiSet.clear();
+            try {
+                JSONArray resultArrayJson = replyJson.getJSONArray("result");
+                JSONArray apiListJson = resultArrayJson.getJSONArray(0);
+                for (int i = 0; i < apiListJson.length(); i++) {
+                    mAvailableCameraApiSet.add(apiListJson.getString(i));
+                }
+            } catch (JSONException e) {
+                Log.w(TAG, "loadAvailableCameraApiList: JSON format error.");
+            }
+        }
+    }
+
+    private void startOpenConnectionAfterChangeCameraState() {
+        Log.d(TAG, "startOpenConectiontAfterChangeCameraState() exec");
+
+        context.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mEventObserver
+                        .setEventChangeListener(new SimpleCameraEventObserver.ChangeListenerTmpl() {
+
+                            @Override
+                            public void onCameraStatusChanged(String status) {
+                                Log.d(TAG, "onCameraStatusChanged:" + status);
+                                if ("IDLE".equals(status)) {
+                                    openConnection();
+                                }
+
+                            }
+
+                            @Override
+                            public void onShootModeChanged(String shootMode) {
+
+                            }
+
+                            @Override
+                            public void onStorageIdChanged(String storageId) {
+
+                            }
+                        });
+
+                mEventObserver.start();
+            }
+        });
     }
 }

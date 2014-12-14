@@ -18,6 +18,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         this.cameraHolder = (CameraHolderSony)cameraHolder;
         this.appSettingsManager = appSettingsManager;
         ParametersEventHandler = new CameraParametersEventHandler();
+        ParametersEventHandler.ParametersHasLoaded();
     }
 
     @Override
