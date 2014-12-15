@@ -53,7 +53,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
 
-    public void setServerDevice(ServerDevice serverDevice)
+    public boolean OpenCamera(ServerDevice serverDevice)
     {
         this.serverDevice = serverDevice;
         mRemoteApi = new SimpleRemoteApi(serverDevice);
@@ -109,20 +109,14 @@ public class CameraHolderSony extends AbstractCameraHolder
 
             }
         };
-        mEventObserver.activate();
-        prepareOpenConnection();
-
-
-    }
-
-    @Override
-    public boolean OpenCamera(int camera) {
+        StartPreview();
         return false;
     }
 
     @Override
-    public void CloseCamera() {
-
+    public void CloseCamera()
+    {
+        closeConnection();
     }
 
     @Override
@@ -142,8 +136,9 @@ public class CameraHolderSony extends AbstractCameraHolder
 
 
     @Override
-    public void StartPreview() {
-
+    public void StartPreview()
+    {
+        prepareOpenConnection();
     }
 
     @Override
@@ -356,6 +351,43 @@ public class CameraHolderSony extends AbstractCameraHolder
             }
         }.start();
 
+    }
+
+    /**
+     * Stop monitoring Camera events and close liveview connection.
+     */
+    private void closeConnection() {
+
+        Log.d(TAG, "closeConnection(): exec.");
+        // Liveview stop
+        Log.d(TAG, "closeConnection(): LiveviewSurface.stop()");
+        if (mLiveviewSurface != null) {
+            mLiveviewSurface.stop();
+            mLiveviewSurface = null;
+            stopLiveview();
+        }
+
+        // getEvent stop
+        Log.d(TAG, "closeConnection(): EventObserver.release()");
+        mEventObserver.release();
+
+        // stopRecMode if necessary.
+        if (JsonUtils.isCameraApiAvailable("stopRecMode",mAvailableCameraApiSet)) {
+            new Thread() {
+
+                @Override
+                public void run() {
+                    Log.d(TAG, "closeConnection(): stopRecMode()");
+                    try {
+                        mRemoteApi.stopRecMode();
+                    } catch (IOException e) {
+                        Log.w(TAG, "closeConnection: IOException: " + e.getMessage());
+                    }
+                }
+            }.start();
+        }
+
+        Log.d(TAG, "closeConnection(): completed.");
     }
 
 

@@ -36,42 +36,55 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
+        StartPreviewAndCamera();
+
+    }
+
+    @Override
+    public void SwitchModule(String moduleName) {
+        moduleHandler.SetModule(moduleName);
+    }
+
+    @Override
+    public void StartPreviewAndCamera()
+    {
+        ErrorHappend("Start searching for PlayMemory Device");
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
-            public void onDeviceFound(ServerDevice device) {
+            public void onDeviceFound(ServerDevice device)
+            {
+                ErrorHappend("Found Device " + device.getModelName());
                 serverDevice = device;
-                cameraHolder.setServerDevice(serverDevice);
-            }
-
-            @Override
-            public void onFinished() {
+                cameraHolder.OpenCamera(serverDevice);
 
             }
 
             @Override
-            public void onErrorFinished() {
+            public void onFinished()
+            {
+                ErrorHappend("Finished Searching");
+            }
 
+            @Override
+            public void onErrorFinished()
+            {
+                ErrorHappend("Searching faild");
             }
         });
     }
 
     @Override
-    public void SwitchModule(String moduleName) {
-        super.SwitchModule(moduleName);
-    }
-
-    @Override
-    public void StartPreviewAndCamera() {
-        super.StartPreviewAndCamera();
-    }
-
-    @Override
     public void StopPreviewAndCamera() {
-        super.StopPreviewAndCamera();
+        cameraHolder.CloseCamera();
     }
 
     @Override
     public void DoWork() {
-        super.DoWork();
+        moduleHandler.DoWork();
+    }
+
+    @Override
+    public void ErrorHappend(String error) {
+        super.ErrorHappend(error);
     }
 }
