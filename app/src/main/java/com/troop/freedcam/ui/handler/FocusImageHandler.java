@@ -102,6 +102,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         disHeight = surfaceView.getHeight();
         int recthalf = imageView.getWidth()/2;
         Rect rect = new Rect(x - recthalf, y -recthalf, x +recthalf, y +recthalf);
-        wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
+        if (wrapper.Focus != null)
+            wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
     }
 }
