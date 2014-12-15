@@ -24,16 +24,22 @@ public class ApiHandler
             ret.StopPreviewAndCamera();
             ret = null;
         }
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
+        if (appSettingsManager.getSonyCam())
         {
+            appSettingsManager.setSonyCam(true);
             ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager, errorHandler);
+
         }
         else if (Build.VERSION.SDK_INT < 21)
         {
+            appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
         }
         else
+        {
+            appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager, errorHandler);
+        }
         return ret;
 
     }

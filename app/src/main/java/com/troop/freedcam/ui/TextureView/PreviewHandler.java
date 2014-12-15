@@ -59,7 +59,7 @@ public class PreviewHandler extends RelativeLayout
     public void Init()
     {
         this.removeAllViews();
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
+        if (appSettingsManager.getSonyCam())
         {
             surfaceView = new SimpleStreamSurfaceView(context);
             this.addView(surfaceView);
@@ -79,7 +79,7 @@ public class PreviewHandler extends RelativeLayout
 
     public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager, View.OnTouchListener surfaceTouche)
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
+        if (appSettingsManager.getSonyCam())
         {
             SimpleStreamSurfaceView simplesurfaceView = (SimpleStreamSurfaceView)surfaceView;
             simplesurfaceView.setOnTouchListener(surfaceTouche);

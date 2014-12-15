@@ -3,6 +3,7 @@ package com.troop.freedcam.ui;
 import android.content.SharedPreferences;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 
 /**
  * Created by troop on 19.08.2014.
@@ -12,6 +13,7 @@ public class AppSettingsManager
     SharedPreferences appSettings;
     public MainActivity_v2 context;
     private int currentcamera = 0;
+    boolean sonyCam = false;
 
     public static String SETTING_CURRENTCAMERA = "currentcamera";
     public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
@@ -56,6 +58,18 @@ public class AppSettingsManager
         this.context = context;
     }
 
+    public void setSonyCam(boolean isSony)
+    {
+        sonyCam = isSony;
+        appSettings.edit().putBoolean(SETTING_SONYAPI, isSony).commit();
+    }
+
+    public boolean getSonyCam()
+    {
+        sonyCam = appSettings.getBoolean(SETTING_SONYAPI, false);
+        return sonyCam;
+    }
+
     public void setshowHelpOverlay(boolean value)
     {
         appSettings.edit().putBoolean("showhelpoverlay", value).commit();
@@ -91,13 +105,21 @@ public class AppSettingsManager
 
     public String getString(String valueToGet)
     {
-        String newstring = valueToGet + currentcamera;
+        String newstring;
+        if (sonyCam)
+            newstring = valueToGet + "sony";
+        else
+            newstring = valueToGet + currentcamera;
         return appSettings.getString(newstring, "");
     }
 
     public void setString(String valueToSet, String Value)
     {
-        String newstring = valueToSet + currentcamera;
+        String newstring;
+        if (sonyCam)
+            newstring = valueToSet + "sony";
+        else
+            newstring = valueToSet + currentcamera;
         appSettings.edit().putString(newstring, Value).commit();
     }
 }

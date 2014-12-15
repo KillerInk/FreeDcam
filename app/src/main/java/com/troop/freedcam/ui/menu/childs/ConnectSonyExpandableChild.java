@@ -46,7 +46,11 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
     @Override
     public void setValue(String value)
     {
-        appSettingsManager.setString(settingsname, value);
+        if (value.equals("true"))
+            appSettingsManager.setSonyCam(true);
+        else
+            appSettingsManager.setSonyCam(false);
+
         valueTextView.setText(value);
         context.ActivateSonyApi(value);
     }
