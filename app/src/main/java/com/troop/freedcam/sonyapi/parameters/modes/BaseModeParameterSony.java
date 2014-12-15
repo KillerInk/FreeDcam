@@ -24,6 +24,7 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
     private SimpleRemoteApi mRemoteApi;
     private Set<String> mAvailableCameraApiSet;
     private Set<String> mSupportedApiSet;
+    JSONObject jsonObject;
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
@@ -59,15 +60,35 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
     @Override
     public String GetValue()
     {
+        jsonObject = null;
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    jsonObject = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        while (jsonObject == null)
+        {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        JSONArray array;
         try {
-            JSONObject jsonObject = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-            JSONArray resultArrayJson = jsonObject.getJSONArray("result");
-        } catch (IOException e) {
-            e.printStackTrace();
+            array = jsonObject.getJSONArray("result");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return "";
+
     }
 
     @Override

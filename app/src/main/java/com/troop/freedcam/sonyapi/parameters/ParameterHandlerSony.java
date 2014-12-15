@@ -22,7 +22,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 {
     CameraHolderSony cameraHolder;
     private SimpleRemoteApi mRemoteApi;
-    private Set<String> mAvailableCameraApiSet;
+    public Set<String> mAvailableCameraApiSet;
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
 
@@ -35,20 +35,34 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
     }
 
-    public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)
+    public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        for (int i = 0; i < parametersChangedList.size(); i++)
+        /*appSettingsManager.context.runOnUiThread(new Runnable()
         {
-            if (parametersChangedList.get(i) == null)
-            {
-                parametersChangedList.remove(i);
-                i--;
-            }
-            else
-                parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
-        }
+            @Override
+            public void run()
+            {*/
+                for (int i = 0; i < parametersChangedList.size(); i++)
+                {
+                    if (parametersChangedList.get(i) == null)
+                    {
+                        parametersChangedList.remove(i);
+                        i--;
+                    }
+                    else
+                        parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
 
+                }
+           /* }
+        })
+
+        appSettingsManager.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ParametersEventHandler.ParametersHasLoaded();
+            }
+        });;*/
         ParametersEventHandler.ParametersHasLoaded();
 
     }

@@ -23,6 +23,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     private SimpleSsdpClient mSsdpClient;
     ServerDevice serverDevice;
     CameraHolderSony cameraHolder;
+    AppSettingsManager appSettingsManager;
 
     public CameraUiWrapperSony()
     {
@@ -32,6 +33,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
         super(preview, appSettingsManager, errorHandler);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
+        this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView);
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
@@ -52,23 +54,26 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         ErrorHappend("Start searching for PlayMemory Device");
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
-            public void onDeviceFound(ServerDevice device)
-            {
+            public void onDeviceFound(ServerDevice device) {
                 ErrorHappend("Found Device " + device.getModelName());
                 serverDevice = device;
-                cameraHolder.OpenCamera(serverDevice);
+                appSettingsManager.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        cameraHolder.OpenCamera(serverDevice);
+                    }
+                });
+
 
             }
 
             @Override
-            public void onFinished()
-            {
+            public void onFinished() {
                 ErrorHappend("Finished Searching");
             }
 
             @Override
-            public void onErrorFinished()
-            {
+            public void onErrorFinished() {
                 ErrorHappend("Searching faild");
             }
         });

@@ -178,19 +178,20 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     @Override
     public void ParametersLoaded()
     {
-        /*appSettingsManager.context.runOnUiThread(new Runnable() {
+        appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 fillMenu();
             }
-        });*/
-        fillMenu();
+        });
+        //fillMenu();
 
 
     }
 
     private void fillMenu()
     {
+
         grouplist = createMenu();
         mainMenuView.removeAllViews();
         for (ExpandableGroup g:grouplist)
