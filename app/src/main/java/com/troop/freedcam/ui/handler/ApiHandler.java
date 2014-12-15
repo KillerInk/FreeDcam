@@ -17,9 +17,13 @@ import com.troop.freedcam.ui.TextureView.PreviewHandler;
  */
 public class ApiHandler
 {
-    public AbstractCameraUiWrapper getCameraUiWrapper(Context context, PreviewHandler preview, AppSettingsManager appSettingsManager, I_error errorHandler)
+    public AbstractCameraUiWrapper getCameraUiWrapper(Context context, PreviewHandler preview, AppSettingsManager appSettingsManager, I_error errorHandler, AbstractCameraUiWrapper ret)
     {
-        AbstractCameraUiWrapper ret;
+        if (ret != null)
+        {
+            ret.StopPreviewAndCamera();
+            ret = null;
+        }
         if (appSettingsManager.getString(AppSettingsManager.SETTING_SONYAPI).equals("true"))
         {
             ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager, errorHandler);

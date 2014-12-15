@@ -42,16 +42,16 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableGroup picSettings;
     ExpandableGroup previewSettings;
     ExpandableGroup videoSettings;
-    ScrollView scrollView;
+    public ScrollView scrollView;
 
     /**
      * this holds the mainmenu
      */
-    LinearLayout mainMenuView;
+    public LinearLayout mainMenuView;
     /**
      * this hold the main submenu
      */
-    ListView listView;
+    public ListView listView;
 
     int mShortAnimationDuration = 200;
 
@@ -73,6 +73,26 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
         scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
+        context.settingsLayoutHolder.removeView(listView);
+
+    }
+
+    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView, ScrollView scrollView,
+                       LinearLayout mainMenuView, ListView listView)
+    {
+        this.context = context;
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.appSettingsManager = appSettingsManager;
+        this.surfaceView = surfaceView;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+        this.mainMenuView = mainMenuView;
+
+
+        this.listView = listView;
+        listView.setOnItemClickListener(this);
+        this.scrollView = scrollView;
         context.settingsLayoutHolder.removeView(listView);
 
     }
@@ -157,6 +177,19 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     //this get fired when the cameraparametershandler has finished loading the parameters and all values are availible
     @Override
     public void ParametersLoaded()
+    {
+        /*appSettingsManager.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fillMenu();
+            }
+        });*/
+        fillMenu();
+
+
+    }
+
+    private void fillMenu()
     {
         grouplist = createMenu();
         mainMenuView.removeAllViews();

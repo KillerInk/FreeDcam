@@ -123,7 +123,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         previewHandler.Init();
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
 
-        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this);
+        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
 
         initCameraStuff(cameraUiWrapper);
 
@@ -144,7 +144,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
 
     private void initCameraStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
+        if (menuHandler == null)
+            menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
+        else
+            menuHandler = new MenuHandler(this, cameraUiWrapper,appSettingsManager,previewHandler.surfaceView, menuHandler.scrollView, menuHandler.mainMenuView, menuHandler.listView);
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
