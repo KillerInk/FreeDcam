@@ -70,7 +70,15 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     }
 
     @Override
-    public void ParametersLoaded() {
-        imageView.setImageBitmap(bitmaps[currentCamera]);
+    public void ParametersLoaded()
+    {
+        imageView.post(new Runnable() {
+            @Override
+            public void run()
+            {
+                imageView.setImageBitmap(bitmaps[currentCamera]);
+            }
+        });
+
     }
 }

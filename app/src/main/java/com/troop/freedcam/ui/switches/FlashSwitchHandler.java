@@ -78,24 +78,30 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper.camParametersHandler.FlashMode.IsSupported())
-        {
-            textView.setVisibility(View.VISIBLE);
-            String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
-            String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-            if (appSet.equals("")) {
-                appSet = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-                appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, para);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.camParametersHandler.FlashMode != null && cameraUiWrapper.camParametersHandler.FlashMode.IsSupported())
+                {
+                    textView.setVisibility(View.VISIBLE);
+                    String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
+                    String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
+                    if (appSet.equals("")) {
+                        appSet = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
+                        appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, para);
+                    }
+                    if (!appSet.equals(para))
+                        cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet, true);
+
+
+                    textView.setText(appSet);
+                }
+                else
+                {
+                    textView.setVisibility(View.GONE);
+                }
             }
-            if (!appSet.equals(para))
-                cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet, true);
+        });
 
-
-            textView.setText(appSet);
-        }
-        else
-        {
-            textView.setVisibility(View.GONE);
-        }
     }
 }
