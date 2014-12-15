@@ -952,12 +952,12 @@ public class SimpleRemoteApi {
         return hasError;
     }
 
-    public JSONObject setParameterToCamera(String parameter, String valueToSet) throws IOException {
+    public JSONObject setParameterToCamera(String parameter, JSONArray valueToSet) throws IOException {
         String service = "camera";
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", parameter) //
-                            .put("params", new JSONArray().put(valueToSet)) //
+                            .put("params", valueToSet) //
                             .put("id", id()).put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
