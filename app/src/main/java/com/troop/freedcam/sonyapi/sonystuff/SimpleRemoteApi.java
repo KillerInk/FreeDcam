@@ -951,4 +951,40 @@ public class SimpleRemoteApi {
         boolean hasError = (replyJson != null && replyJson.has("error"));
         return hasError;
     }
+
+    public JSONObject setParameterToCamera(String parameter, String valueToSet) throws IOException {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", parameter) //
+                            .put("params", new JSONArray().put(valueToSet)) //
+                            .put("id", id()).put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public JSONObject getParameterFromCamera(String valueToGet) throws IOException {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", valueToGet) //
+                            .put("params", new JSONArray()).put("id", id()) //
+                            .put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
 }
