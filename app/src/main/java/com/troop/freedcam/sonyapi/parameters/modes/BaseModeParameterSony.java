@@ -21,9 +21,9 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
     protected String VALUE_TO_SET ="";
     protected String VALUES_TO_GET ="";
 
-    private SimpleRemoteApi mRemoteApi;
-    private Set<String> mAvailableCameraApiSet;
-    private Set<String> mSupportedApiSet;
+    protected SimpleRemoteApi mRemoteApi;
+    protected Set<String> mAvailableCameraApiSet;
+    protected Set<String> mSupportedApiSet;
     JSONObject jsonObject;
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
@@ -47,15 +47,22 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void SetValue(final String valueToSet, boolean setToCamera)
     {
-        try {
-            JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, valueToSet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                processValuesToSet(valueToSet);
+            }
+        }).start();
+    }
+
+    protected void processValuesToSet(String valueToSet)
+    {
 
     }
+
+
 
     @Override
     public String GetValue()
@@ -80,19 +87,66 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
                 e.printStackTrace();
             }
         }
-        JSONArray array;
+        JSONArray array = null;
         try {
             array = jsonObject.getJSONArray("result");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return "";
+        String ret ="";
+        try
+        {
+            JSONObject size = array.getJSONObject(0);
+            ret = size.getString("aspect") + "+" +size.getString("size");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
 
     }
 
     @Override
-    public String[] GetValues() {
-        return new String[0];
+    public String[] GetValues()
+    {
+        jsonObject =null;
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        while (jsonObject == null)
+        {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        String[] ret = processValuesToReturn();
+
+        return ret;
+    }
+
+    protected String[] processValuesToReturn() {
+        String[] ret = null;
+        try {
+            JSONArray array = jsonObject.getJSONArray("result");
+            JSONArray subarray = array.getJSONArray(1);
+            ret = new String[subarray.length()];
+            for (int i =0; i < subarray.length(); i++)
+            {
+                JSONObject size = subarray.getJSONObject(i);
+                ret[i] = size.getString("aspect") + "+" +size.getString("size");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
     }
 }
