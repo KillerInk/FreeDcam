@@ -64,7 +64,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         super.onCreate(savedInstanceState);
 
         this.activity =this;
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
 
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
         previewHandler.appSettingsManager = appSettingsManager;

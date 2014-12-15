@@ -10,6 +10,7 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 public class AppSettingsManager
 {
     SharedPreferences appSettings;
+    public MainActivity_v2 context;
     private int currentcamera = 0;
 
     public static String SETTING_CURRENTCAMERA = "currentcamera";
@@ -49,9 +50,10 @@ public class AppSettingsManager
     public static String SETTING_SONYAPI = "sonyapi";
 
 
-    public AppSettingsManager(SharedPreferences appSettings)
+    public AppSettingsManager(SharedPreferences appSettings, MainActivity_v2 context)
     {
         this.appSettings = appSettings;
+        this.context = context;
     }
 
     public void setshowHelpOverlay(boolean value)
