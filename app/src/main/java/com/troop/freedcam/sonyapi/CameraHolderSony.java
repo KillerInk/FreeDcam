@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
@@ -46,6 +47,8 @@ public class CameraHolderSony extends AbstractCameraHolder
     private final Set<String> mSupportedApiSet = new HashSet<String>();
     private SimpleStreamSurfaceView mLiveviewSurface;
 
+    public ParameterHandlerSony ParameterHandler;
+
     public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView)
     {
         this.context = (MainActivity_v2)context;
@@ -57,6 +60,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     {
         this.serverDevice = serverDevice;
         mRemoteApi = new SimpleRemoteApi(serverDevice);
+        ParameterHandler.SetRemoteApi(mRemoteApi);
         mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
 
         mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl() {
@@ -79,6 +83,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     for (String api : apis) {
                         mAvailableCameraApiSet.add(api);
                     }
+                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
                     if (!mEventObserver.getLiveviewStatus() //
                             && JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
                         if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
@@ -216,6 +221,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     // Get supported API list (Camera API)
                     JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
                     JsonUtils.loadSupportedApiList(replyJsonCamera, mSupportedApiSet);
+                    ParameterHandler.SetSupportedApiSet(mSupportedApiSet);
 
                     try {
                         // Get supported API list (AvContent API)
@@ -295,6 +301,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     // getAvailableApiList
                     replyJson = mRemoteApi.getAvailableApiList();
                     JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
+                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
 
                     // check version of the server device
                     if (JsonUtils.isCameraApiAvailable("getApplicationInfo", mAvailableCameraApiSet)) {
@@ -372,7 +379,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         mEventObserver.release();
 
         // stopRecMode if necessary.
-        if (JsonUtils.isCameraApiAvailable("stopRecMode",mAvailableCameraApiSet)) {
+        if (JsonUtils.isCameraApiAvailable("stopRecMode", mAvailableCameraApiSet)) {
             new Thread() {
 
                 @Override
