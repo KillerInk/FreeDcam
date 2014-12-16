@@ -53,22 +53,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
+        /*get pic size*/
         String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
         int width = Integer.parseInt(split[0]);
         int height = Integer.parseInt(split[1]);
+        //create new ImageReader with the size for the image
         mImageReader = ImageReader.newInstance(width,height,
                 ImageFormat.JPEG, /*maxImages*/2);
-        //cameraHolder.SetImageReader(mImageReader);
+        //this returns the image data finaly
         mImageReader.setOnImageAvailableListener(
                 mOnImageAvailableListener, cameraHolder.mBackgroundHandler);
-       final CaptureRequest.Builder captureBuilder;
+
+        final CaptureRequest.Builder captureBuilder;
         try {
+            // create a new capture requestbuilder for image caputre
             captureBuilder = cameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            //add the imagerader surface to the capture that it gets the image data stored
             captureBuilder.addTarget(mImageReader.getSurface());
-            cameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(mImageReader.getSurface()),new CameraCaptureSession.StateCallback() {
+            //tell the cameradevice to create a new capturesession
+            cameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(mImageReader.getSurface()),new CameraCaptureSession.StateCallback()
+            {
+                //if the capture session is sucessfull configured
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
                     try {
+                        //start the capture and wait for the mOnImageAvailableListener.callback
+                        //the capturecallback tells only that the capturesession has finished
                         session.capture(captureBuilder.build(), CaptureCallback, null);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
@@ -80,9 +90,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
                 }
             }, null);
-
-            //cameraHolder.mCaptureSession.stopRepeating();
-            //cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -126,6 +133,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             new ImageSaver(reader.acquireNextImage(), file).run();
             //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
             Log.d(TAG, "Recieved on onImageAvailabel");
+            cameraHolder.StartPreview();
         }
 
     };
