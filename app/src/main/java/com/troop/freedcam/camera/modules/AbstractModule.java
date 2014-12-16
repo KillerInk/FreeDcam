@@ -17,7 +17,7 @@ public abstract class AbstractModule implements I_Module
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
-    protected String name;
+    public String name;
 
     protected ModuleEventHandler eventHandler;
 
