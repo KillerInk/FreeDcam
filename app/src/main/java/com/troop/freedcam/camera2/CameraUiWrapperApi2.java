@@ -42,6 +42,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         //attache the callback to the Campreview
         //preview.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context);
+        super.cameraHolder = this.cameraHolder;
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager);
@@ -81,6 +82,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public void StopPreviewAndCamera() {
         cameraHolder.StopPreview();
+        cameraHolder.CloseCamera();
     }
 
     @Override
