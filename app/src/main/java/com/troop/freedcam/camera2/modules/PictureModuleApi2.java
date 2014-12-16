@@ -17,6 +17,10 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.util.Arrays;
+
+import static android.hardware.camera2.CameraCaptureSession.CaptureCallback;
+
 /**
  * Created by troop on 12.12.2014.
  */
@@ -45,19 +49,31 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int height = Integer.parseInt(split[1]);
         mImageReader = ImageReader.newInstance(width,height,
                 ImageFormat.JPEG, /*maxImages*/2);
-        cameraHolder.SetImageReader(mImageReader);
+        //cameraHolder.SetImageReader(mImageReader);
         mImageReader.setOnImageAvailableListener(
                 mOnImageAvailableListener, cameraHolder.mBackgroundHandler);
-        final CaptureRequest.Builder captureBuilder;
+       final CaptureRequest.Builder captureBuilder;
         try {
             captureBuilder = cameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(mImageReader.getSurface());
+            cameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(mImageReader.getSurface()),new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    try {
+                        session.capture(captureBuilder.build(), CaptureCallback, null);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                @Override
+                public void onConfigureFailed(CameraCaptureSession session) {
 
+                }
+            }, null);
 
-
-            cameraHolder.mCaptureSession.stopRepeating();
-            cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+            //cameraHolder.mCaptureSession.stopRepeating();
+            //cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
