@@ -39,7 +39,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = cameraHolder.map.getOutputSizes(ImageFormat.JPEG);
+        Size[] sizes = cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR);
         String[] ret = new String[sizes.length];
         for(int i = 0; i < sizes.length; i++)
         {

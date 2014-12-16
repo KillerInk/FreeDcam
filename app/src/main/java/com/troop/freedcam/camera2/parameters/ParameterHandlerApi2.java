@@ -13,6 +13,7 @@ import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.I_CameraHolder;
@@ -52,6 +53,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         SceneMode = new SceneModeApi2(this.cameraHolder);
         ColorMode = new ColorModeApi2(this.cameraHolder);
         PictureSize = new PictureSizeModeApi2(this.cameraHolder);
+        PictureFormat = new PictureFormatParameterApi2(this.cameraHolder);
         ParametersEventHandler.ParametersHasLoaded();
     }
 

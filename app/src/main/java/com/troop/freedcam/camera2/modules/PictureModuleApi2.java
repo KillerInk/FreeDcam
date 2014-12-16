@@ -57,9 +57,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
         int width = Integer.parseInt(split[0]);
         int height = Integer.parseInt(split[1]);
-        //create new ImageReader with the size for the image
+        //create new ImageReader with the size and format for the image
         mImageReader = ImageReader.newInstance(width,height,
-                ImageFormat.JPEG, /*maxImages*/2);
+                ImageFormat.RAW10, /*maxImages*/2);
         //this returns the image data finaly
         mImageReader.setOnImageAvailableListener(
                 mOnImageAvailableListener, cameraHolder.mBackgroundHandler);
@@ -77,6 +77,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
                     try {
+
                         //start the capture and wait for the mOnImageAvailableListener.callback
                         //the capturecallback tells only that the capturesession has finished
                         session.capture(captureBuilder.build(), CaptureCallback, null);
