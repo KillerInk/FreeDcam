@@ -82,6 +82,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public int CurrentCamera;
     Size preview;
     public CameraCharacteristics characteristics;
+    public Surface surface;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context)
@@ -102,6 +103,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
             manager.openCamera(cam, mStateCallback, mBackgroundHandler);
+            characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
+            map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {
             e.printStackTrace();
             return  false;
@@ -177,13 +180,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
 
         try {
-            characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
-
-            map = characteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-
-            //characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-
             Size largest = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
@@ -194,7 +190,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
             configureTransform(textureView.getWidth(), textureView.getHeight());
-            Surface surface = new Surface(texture);
+            surface = new Surface(texture);
 
 
 
