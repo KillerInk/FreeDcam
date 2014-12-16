@@ -7,8 +7,10 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +19,14 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import static android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 
@@ -111,10 +120,69 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             = new ImageReader.OnImageAvailableListener() {
 
         @Override
-        public void onImageAvailable(ImageReader reader) {
+        public void onImageAvailable(ImageReader reader)
+        {
+            File file = new File(getStringAddTime() +".jpg");
+            new ImageSaver(reader.acquireNextImage(), file).run();
             //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
             Log.d(TAG, "Recieved on onImageAvailabel");
         }
 
     };
+
+    protected String getStringAddTime()
+    {
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+        if (!file.exists())
+            file.mkdirs();
+        Date date = new Date();
+        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+    }
+
+    /**
+     * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
+     */
+    private static class ImageSaver implements Runnable {
+
+        /**
+         * The JPEG image
+         */
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
+
+        public ImageSaver(Image image, File file) {
+            mImage = image;
+            mFile = file;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+    }
 }
