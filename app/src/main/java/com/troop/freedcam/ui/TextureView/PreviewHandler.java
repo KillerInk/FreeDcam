@@ -64,17 +64,17 @@ public class PreviewHandler extends RelativeLayout
             surfaceView = new SimpleStreamSurfaceView(context);
             this.addView(surfaceView);
         }
-        else if (Build.VERSION.SDK_INT < 21)
+        else /*if (Build.VERSION.SDK_INT < 21)*/
         {
             surfaceView = new ExtendedSurfaceView(context);
             this.addView(surfaceView);
 
         }
-        else
+        /*else
         {
             textureView = new AutoFitTextureView(context);
             this.addView(textureView);
-        }
+        }*/
     }
 
     public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager, View.OnTouchListener surfaceTouche)
@@ -84,15 +84,15 @@ public class PreviewHandler extends RelativeLayout
             SimpleStreamSurfaceView simplesurfaceView = (SimpleStreamSurfaceView)surfaceView;
             simplesurfaceView.setOnTouchListener(surfaceTouche);
         }
-        else if (Build.VERSION.SDK_INT < 21)
+        /*else if (Build.VERSION.SDK_INT < 21)
+        {
+            textureView.setOnTouchListener(surfaceTouche);
+        }*/
+        else
         {
             ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)surfaceView;
             extendedSurfaceView.appSettingsManager = appSettingsManager;
             extendedSurfaceView.setOnTouchListener(surfaceTouche);
-        }
-        else
-        {
-            textureView.setOnTouchListener(surfaceTouche);
         }
     }
 

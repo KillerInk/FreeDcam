@@ -121,10 +121,10 @@ public class AppSettingsManager
         String newstring;
         if (sonyCam)
             newstring = valueToSet + "sony";
-        else if(Build.VERSION.SDK_INT < 21)
+        else /*if(Build.VERSION.SDK_INT < 21)*/
             newstring = valueToSet + currentcamera;
-        else
-            newstring = valueToSet + currentcamera + "api2";
+        /*else
+            newstring = valueToSet + currentcamera + "api2";*/
         appSettings.edit().putString(newstring, Value).commit();
     }
 }

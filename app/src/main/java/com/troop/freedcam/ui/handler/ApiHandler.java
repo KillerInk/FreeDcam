@@ -30,16 +30,16 @@ public class ApiHandler
             ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager, errorHandler);
 
         }
-        else if (Build.VERSION.SDK_INT < 21)
+        else /*if (Build.VERSION.SDK_INT < 21)*/
         {
             appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
         }
-        else
+        /*else
         {
             appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager, errorHandler);
-        }
+        }*/
         return ret;
 
     }
