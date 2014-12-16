@@ -1,9 +1,11 @@
 package com.troop.freedcam.sonyapi.parameters;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
+import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
@@ -21,7 +23,7 @@ import java.util.Set;
 public class ParameterHandlerSony extends AbstractParameterHandler
 {
     CameraHolderSony cameraHolder;
-    private SimpleRemoteApi mRemoteApi;
+    public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
@@ -71,6 +73,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
+
+        Zoom = new ZoomManualSony("","","", this);
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)
