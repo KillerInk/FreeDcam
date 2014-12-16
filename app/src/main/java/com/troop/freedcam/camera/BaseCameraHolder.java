@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -61,7 +62,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             public void run() {
                 try
                 {
-                    if (DeviceUtils.isLGADV())
+                    if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
                     {
                         lgCamera = new LGCamera(camera);
                         mCamera = lgCamera.getCamera();
@@ -132,7 +133,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try{
 
-            if (DeviceUtils.isLGADV())
+            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
             {
                 lgParameters.setParameters(parameters);
             }
