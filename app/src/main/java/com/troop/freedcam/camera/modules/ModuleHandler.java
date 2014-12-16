@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -108,14 +109,14 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(pictureModule.ModuleName(), pictureModule);
         }
 
-        if (!DeviceUtils.isLGADV()) {
-            VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
-            moduleList.put(videoModule.ModuleName(), videoModule);
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21 ) {
+            VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
-            VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraHolder, appSettingsManager, moduleEventHandler);
-            moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
+            VideoModule videoModule = new VideoModule(cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
         HdrModule hdrModule = new HdrModule(cameraHolder,appSettingsManager, moduleEventHandler);

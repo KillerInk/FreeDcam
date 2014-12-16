@@ -109,10 +109,10 @@ public class AppSettingsManager
         String newstring;
         if (sonyCam)
             newstring = valueToGet + "sony";
-        else if(Build.VERSION.SDK_INT < 21)
+        else /*if(Build.VERSION.SDK_INT < 21)*/
             newstring = valueToGet + currentcamera;
-        else
-            newstring = valueToGet + currentcamera + "api2";
+        /*else
+            newstring = valueToGet + currentcamera + "api2";*/
         return appSettings.getString(newstring, "");
     }
 
