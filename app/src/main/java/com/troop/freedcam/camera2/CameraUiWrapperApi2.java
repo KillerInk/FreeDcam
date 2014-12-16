@@ -67,7 +67,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     @Override
     public void DoWork() {
-        //moduleHandler.DoWork();
+        moduleHandler.DoWork();
     }
 
     @Override

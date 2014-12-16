@@ -25,14 +25,14 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        super.SetValue(valueToSet, setToCamera);
+        //super.SetValue(valueToSet, setToCamera);
     }
 
     @Override
     public String GetValue()
     {
-        //Size size = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.)
-        return super.GetValue();
+
+        return GetValues()[0];
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

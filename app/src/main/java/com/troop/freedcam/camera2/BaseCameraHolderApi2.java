@@ -20,6 +20,7 @@ import android.hardware.display.DisplayManager;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -56,9 +57,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     Context context;
     public I_error errorHandler;
-    private Handler mBackgroundHandler;
+    /**
+     * An additional thread for running tasks that shouldn't block the UI.
+     */
+    private HandlerThread mBackgroundThread;
+    public Handler mBackgroundHandler;
     public CameraManager manager;
-    private CameraDevice mCameraDevice;
+    public CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     AutoFitTextureView textureView;
 
@@ -88,6 +93,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public boolean OpenCamera(int camera)
     {
+        //startBackgroundThread();
         CurrentCamera = camera;
         String cam = camera +"";
         try
@@ -126,6 +132,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         } finally {
             mCameraOpenCloseLock.release();
         }
+        //stopBackgroundThread();
     }
 
     @Override
@@ -175,7 +182,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             map = characteristics.get(
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
-            characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+            //characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
 
             Size largest = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
@@ -197,7 +204,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
+            if (mImageReader == null)
+                mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
+            else
+                mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),previewStateCallBack, null);
 
 
         }
@@ -250,18 +260,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
         if (mCaptureSession != null)
         {
-            StopPreview();
+            //StopPreview();
             try {
                 mPreviewRequestBuilder.set(key, value);
-                SurfaceTexture texture = textureView.getSurfaceTexture();
-                texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
-                configureTransform(textureView.getWidth(), textureView.getHeight());
-                Surface surface = new Surface(texture);
-                mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                        mBackgroundHandler);
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            mPreviewRequestBuilder.set(key, value);
         }
     }
 
@@ -292,7 +303,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      */
     public CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback() {
 
-        private void process(CaptureResult result) {
+        private void process(CaptureResult result)
+        {
 
         }
     };
@@ -300,6 +312,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
+
         if (mCaptureSession != null)
             mCaptureSession.close();
     }
@@ -368,5 +381,35 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     (long) rhs.getWidth() * rhs.getHeight());
         }
 
+    }
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread() {
+        mBackgroundThread.quitSafely();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SetImageReader(ImageReader imageReader)
+    {
+        this.mImageReader = imageReader;
+        StopPreview();
+        StartPreview();
     }
 }

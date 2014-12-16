@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera2.modules;
 
+import android.util.Log;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.HdrModule;
@@ -54,22 +56,36 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
 
     @Override
     public void SetModule(String name) {
-        super.SetModule(name);
+        if (currentModule !=null)
+            currentModule.UnloadNeededParameters();
+        currentModule = moduleList.get(name);
+        currentModule.LoadNeededParameters();
+        moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
+        Log.d(TAG, "Set Module to " + name);
     }
 
     @Override
     public String GetCurrentModuleName() {
-        return super.GetCurrentModuleName();
+        if (currentModule != null)
+            return currentModule.name;
+        else return "";
     }
 
     @Override
     public AbstractModule GetCurrentModule() {
-        return super.GetCurrentModule();
+        if (currentModule != null)
+            return currentModule;
+        return null;
     }
 
     @Override
     public boolean DoWork() {
-        return super.DoWork();
+        if (currentModule != null) {
+            currentModule.DoWork();
+            return true;
+        }
+        else
+            return false;
     }
 
     private void initModules()
