@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -108,8 +109,10 @@ public class AppSettingsManager
         String newstring;
         if (sonyCam)
             newstring = valueToGet + "sony";
-        else
+        else if(Build.VERSION.SDK_INT < 21)
             newstring = valueToGet + currentcamera;
+        else
+            newstring = valueToGet + currentcamera + "api2";
         return appSettings.getString(newstring, "");
     }
 
@@ -118,8 +121,10 @@ public class AppSettingsManager
         String newstring;
         if (sonyCam)
             newstring = valueToSet + "sony";
-        else
+        else if(Build.VERSION.SDK_INT < 21)
             newstring = valueToSet + currentcamera;
+        else
+            newstring = valueToSet + currentcamera + "api2";
         appSettings.edit().putString(newstring, Value).commit();
     }
 }
