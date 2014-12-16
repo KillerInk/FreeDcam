@@ -197,50 +197,71 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            mCameraDevice.createCaptureSession(Arrays.asList(surface),
-                    new CameraCaptureSession.StateCallback()
-                    {
+            mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
 
-                        @Override
-                        public void onConfigured(CameraCaptureSession cameraCaptureSession)
-                        {
-                            // The camera is already closed
-                            if (null == mCameraDevice)
-                            {
-                                return;
-                            }
 
-                            // When the session is ready, we start displaying the preview.
-                            mCaptureSession = cameraCaptureSession;
-                            try {
-                                // Auto focus should be continuous for camera preview.
-                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                                // Flash is automatically enabled when necessary.
-                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                                        CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-
-                                // Finally, we start displaying the camera preview.
-                                mPreviewRequest = mPreviewRequestBuilder.build();
-                                mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                                        mCaptureCallback, mBackgroundHandler);
-                            } catch (CameraAccessException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
-                        {
-
-                        }
-                    }, null
-            );
         }
         catch (CameraAccessException e)
         {
             e.printStackTrace();
             return;
+        }
+    }
+
+    CameraCaptureSession.StateCallback previewStateCallBack = new CameraCaptureSession.StateCallback()
+    {
+
+        @Override
+        public void onConfigured(CameraCaptureSession cameraCaptureSession)
+        {
+            // The camera is already closed
+            if (null == mCameraDevice)
+            {
+                return;
+            }
+
+            // When the session is ready, we start displaying the preview.
+            mCaptureSession = cameraCaptureSession;
+            try {
+                // Auto focus should be continuous for camera preview.
+                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                // Flash is automatically enabled when necessary.
+                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                        CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+
+                // Finally, we start displaying the camera preview.
+                mPreviewRequest = mPreviewRequestBuilder.build();
+                mCaptureSession.setRepeatingRequest(mPreviewRequest,
+                        mCaptureCallback, mBackgroundHandler);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
+        {
+
+        }
+    };
+
+    public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
+    {
+        if (mCaptureSession != null)
+        {
+            StopPreview();
+            try {
+                mPreviewRequestBuilder.set(key, value);
+                SurfaceTexture texture = textureView.getSurfaceTexture();
+                texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
+                configureTransform(textureView.getWidth(), textureView.getHeight());
+                Surface surface = new Surface(texture);
+                mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
+
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 
