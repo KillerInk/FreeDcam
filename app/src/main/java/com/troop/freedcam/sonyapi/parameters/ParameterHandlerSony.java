@@ -1,12 +1,15 @@
 package com.troop.freedcam.sonyapi.parameters;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
+import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
+import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
@@ -73,8 +76,11 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
+        ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
         Zoom = new ZoomManualSony("","","", this);
+        ManualShutter = new ExposureTimeSony("", "","", this);
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)

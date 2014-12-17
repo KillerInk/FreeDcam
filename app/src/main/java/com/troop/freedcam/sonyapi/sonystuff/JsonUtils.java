@@ -81,4 +81,18 @@ public class JsonUtils
             }
         }
     }
+
+    public static String[] ConvertJSONArrayToStringArray(JSONArray array)
+    {
+        String[] ret = new String[array.length()];
+        for (int i = 0; i < array.length(); i++)
+        {
+            try {
+                ret[i] = array.get(i).toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return ret;
+    }
 }

@@ -53,4 +53,22 @@ public class PictureSizeSony extends BaseModeParameterSony
         }
         return ret;
     }
+
+    protected String processGetString() {
+        JSONArray array = null;
+        try {
+            array = jsonObject.getJSONArray("result");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String ret ="";
+        try
+        {
+            JSONObject size = array.getJSONObject(0);
+            ret = size.getString("aspect") + "+" +size.getString("size");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }
