@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
@@ -100,8 +101,9 @@ public class CameraHolderSony extends AbstractCameraHolder
             }
 
             @Override
-            public void onZoomPositionChanged(int zoomPosition) {
-
+            public void onZoomPositionChanged(int zoomPosition)
+            {
+                ((AbstractManualParameter)ParameterHandler.Zoom).currentValueChanged(zoomPosition);
             }
 
             @Override

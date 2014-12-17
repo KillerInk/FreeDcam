@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
@@ -11,7 +12,7 @@ import java.util.Set;
 /**
  * Created by troop on 15.12.2014.
  */
-public abstract class BaseManualParameterSony implements I_ManualParameter
+public abstract class BaseManualParameterSony extends AbstractManualParameter
 {
     protected String MAX_TO_GET;
     protected String MIN_TO_GET;
@@ -26,6 +27,7 @@ public abstract class BaseManualParameterSony implements I_ManualParameter
         this.MIN_TO_GET = MIN_TO_GET;
         this.CURRENT_TO_GET = CURRENT_TO_GET;
         this.ParameterHandler = parameterHandlerSony;
+
     }
 
     @Override
@@ -51,7 +53,8 @@ public abstract class BaseManualParameterSony implements I_ManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet) {
+    public void SetValue(int valueToSet)
+    {
 
     }
 

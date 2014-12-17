@@ -11,7 +11,9 @@ import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded
+public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ParameterEvent
 {
     private final MainActivity_v2 activity;
     private final AppSettingsManager appSettingsManager;
@@ -65,13 +67,16 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         for(ManualMenuItem item : manualItems)
         {
-            if (!item.name.equals(name))
+            if (!item.name.equals(name)) {
                 item.DisableItem();
+                item.manualParameter.removeEventListner(this);
+            }
             else
             {
+                item.manualParameter.addEventListner(this);
                 currentItem = item;
                 item.EnableItem();
-                currentItem.manualParameter.RestartPreview();
+                //currentItem.manualParameter.RestartPreview();
                 int min = item.manualParameter.GetMinValue();
                 int max = item.manualParameter.GetMaxValue();
                 setSeekbar_Min_Max(min, max);
@@ -131,9 +136,14 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                 }
 
                 //cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-
-                ShutterManualParameter shutterManualParameter = (ShutterManualParameter)currentItem.manualParameter;
-                setTextValue(shutterManualParameter.GetStringValue());
+                if(currentItem.manualParameter instanceof ShutterManualParameter) {
+                    ShutterManualParameter shutterManualParameter = (ShutterManualParameter) currentItem.manualParameter;
+                    setTextValue(shutterManualParameter.GetStringValue());
+                }
+                if(currentItem.manualParameter instanceof ExposureTimeSony) {
+                    ExposureTimeSony shutterManualParameter = (ExposureTimeSony) currentItem.manualParameter;
+                    setTextValue(shutterManualParameter.GetStringValue());
+                }
                 //cameraUiWrapper.cameraHolder.StartPreview();
             }
             else
@@ -251,5 +261,26 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             DisableOtherItems(zoom.name);
         }
 
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current)
+    {
+        setTextValue(current + realMin);
     }
 }

@@ -54,18 +54,18 @@ public abstract class AbstractParameterHandler
 {
     public CameraParametersEventHandler ParametersEventHandler;
 
-    public I_ManualParameter ManualBrightness;
-    public I_ManualParameter ManualSharpness;
-    public I_ManualParameter ManualContrast;
-    public I_ManualParameter ManualSaturation;
-    public I_ManualParameter ManualExposure;
-    public I_ManualParameter ManualConvergence;
-    public I_ManualParameter ManualFocus;
-    public I_ManualParameter ManualShutter;
-    public I_ManualParameter CCT;
-    public I_ManualParameter FX;
-    public I_ManualParameter ISOManual;
-    public I_ManualParameter Zoom;
+    public AbstractManualParameter ManualBrightness;
+    public AbstractManualParameter ManualSharpness;
+    public AbstractManualParameter ManualContrast;
+    public AbstractManualParameter ManualSaturation;
+    public AbstractManualParameter ManualExposure;
+    public AbstractManualParameter ManualConvergence;
+    public AbstractManualParameter ManualFocus;
+    public AbstractManualParameter ManualShutter;
+    public AbstractManualParameter CCT;
+    public AbstractManualParameter FX;
+    public AbstractManualParameter ISOManual;
+    public AbstractManualParameter Zoom;
 
     public I_ModeParameter ColorMode;
     public I_ModeParameter ExposureMode;

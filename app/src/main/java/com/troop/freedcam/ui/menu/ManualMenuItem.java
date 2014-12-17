@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 /**
@@ -20,9 +21,9 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     private ToggleButton toggleButton;
     public final String name;
     ManualMenuHandler manualMenuHandler;
-    public I_ManualParameter manualParameter;
+    public AbstractManualParameter manualParameter;
 
-    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, I_ManualParameter parameter) {
+    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AbstractManualParameter parameter) {
         super(context);
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

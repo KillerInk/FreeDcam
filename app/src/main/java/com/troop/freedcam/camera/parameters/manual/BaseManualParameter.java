@@ -3,14 +3,14 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseManualParameter implements I_ManualParameter
-{
+public abstract class BaseManualParameter extends AbstractManualParameter {
     Camera.Parameters parameters;
     protected String value;
     protected String max_value;

@@ -59,7 +59,19 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
 
     protected void processValuesToSet(String valueToSet)
     {
+        try
+        {
+            try {
+                JSONArray array = new JSONArray().put(0, valueToSet);
+                JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -87,22 +99,21 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
                 e.printStackTrace();
             }
         }
+        String ret = processGetString();
+        return ret;
+
+    }
+
+    protected String processGetString() {
         JSONArray array = null;
+        String ret ="";
         try {
             array = jsonObject.getJSONArray("result");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String ret ="";
-        try
-        {
-            JSONObject size = array.getJSONObject(0);
-            ret = size.getString("aspect") + "+" +size.getString("size");
+            ret = array.getString(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return ret;
-
     }
 
     @Override
@@ -138,12 +149,7 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
         try {
             JSONArray array = jsonObject.getJSONArray("result");
             JSONArray subarray = array.getJSONArray(1);
-            ret = new String[subarray.length()];
-            for (int i =0; i < subarray.length(); i++)
-            {
-                JSONObject size = subarray.getJSONObject(i);
-                ret[i] = size.getString("aspect") + "+" +size.getString("size");
-            }
+            ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
