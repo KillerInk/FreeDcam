@@ -1,0 +1,35 @@
+Response: {
+"result":
+[
+    {"type":"availableApiList","names":
+        ["getVersions","getMethodTypes","getApplicationInfo","getAvailableApiList","getEvent","actTakePicture","setSelfTimer","getSelfTimer","getAvailableSelfTimer","getSupportedSelfTimer","setContShootingMode","getContShootingMode","getAvailableContShootingMode","getSupportedContShootingMode","startLiveview","stopLiveview","setCameraFunction","getCameraFunction","getSupportedCameraFunction","getAvailableCameraFunction","actZoom","actHalfPressShutter","cancelHalfPressShutter","setExposureMode","getAvailableExposureMode","getExposureMode","getSupportedExposureMode","setExposureCompensation","getExposureCompensation","getAvailableExposureCompensation","getSupportedExposureCompensation","setFNumber","getFNumber","getAvailableFNumber","getSupportedFNumber","setIsoSpeedRate","getIsoSpeedRate","getAvailableIsoSpeedRate","getSupportedIsoSpeedRate","setPostviewImageSize","getPostviewImageSize","getAvailablePostviewImageSize","getSupportedPostviewImageSize","getSupportedProgramShift","setShootMode","getShootMode","getAvailableShootMode","getSupportedShootMode","getShutterSpeed","getAvailableShutterSpeed","getSupportedShutterSpeed","setTouchAFPosition","getTouchAFPosition","setWhiteBalance","getWhiteBalance","getSupportedWhiteBalance","getAvailableWhiteBalance","setFlashMode","getFlashMode","getAvailableFlashMode","getSupportedFlashMode","setFocusMode","getFocusMode","getAvailableFocusMode","getSupportedFocusMode","setStillSize","getStillSize","getAvailableStillSize","getSupportedStillSize","setStillQuality","getAvailableStillQuality","getStillQuality","getSupportedStillQuality","getSupportedZoomSetting","getStorageInformation","setBeepMode","getBeepMode","getAvailableBeepMode","getSupportedBeepMode","setTrackingFocus","getTrackingFocus","getAvailableTrackingFocus","getSupportedTrackingFocus","actFormatStorage","setLiveviewFrameInfo","getLiveviewFrameInfo"
+        ]
+    },
+    {"cameraStatus":"IDLE","type":"cameraStatus"},
+   ,{"zoomPositionCurrentBox":0,"type":"zoomInformation","zoomIndexCurrentBox":0,"zoomNumberBox":1,"zoomPosition":0},
+   {"type":"liveviewStatus","liveviewStatus":true},
+   {"type":"liveviewOrientation","liveviewOrientation":"0"},
+   [],[],null,
+   {"sceneRecognition":"None","type":"sceneRecognition","motionRecognition":"None","steadyRecognition":"None"},
+   null,
+   [
+    {"storageDescription":"Storage Media","numberOfRecordableImages":2165,"type":"storageInformation","storageID":"Memory Card 1","recordTarget":true,"recordableTime":0}
+    ],
+   {"beepModeCandidates":["On","Off"],"type":"beepMode","currentBeepMode":"Off"},
+   {"cameraFunctionCandidates":["Contents Transfer","Remote Shooting"],
+   "type":"cameraFunction","currentCameraFunction":"Remote Shooting"},
+   null,
+   {"type":"stillSize","currentAspect":"3:2","checkAvailability":true,"currentSize":"20M"}
+   ,null,null,null,
+   {"exposureModeCandidates":["Intelligent Auto","Superior Auto","Program Auto","Aperture","Shutter"],"type":"exposureMode","currentExposureMode":"Aperture"}
+   ,{"postviewImageSizeCandidates":["Original","2M"],"type":"postviewImageSize","currentPostviewImageSize":"2M"},
+   {"currentSelfTimer":0,"type":"selfTimer","selfTimerCandidates":[0,2,10]},
+   {"shootModeCandidates":["still","movie"],"type":"shootMode","currentShootMode":"still"},null,null,null,
+   {"minExposureCompensation":-9,"type":"exposureCompensation","stepIndexOfExposureCompensation":1,"maxExposureCompensation":9,"currentExposureCompensation":0},
+   {"type":"flashMode","flashModeCandidates":["off"],"currentFlashMode":"off"},
+   {"fNumberCandidates":["3.5","4.0","4.5","5.0","5.6","6.3","7.1","8.0","9.0","10","11","13","14","16","18","20","22"],"type":"fNumber","currentFNumber":"22"},
+   {"focusModeCandidates":["AF-S","MF"],"type":"focusMode","currentFocusMode":"AF-S"},
+   {"type":"isoSpeedRate","isoSpeedRateCandidates":["AUTO","100","125","160","200","250","320","400","500","640","800","1000","1250","1600","2000","2500","3200","4000","5000","6400","8000","10000","12800","16000"],"currentIsoSpeedRate":"100"},
+   null,
+   {"type":"programShift","isShifted":false},{"type":"shutterSpeed","shutterSpeedCandidates":[],"
+}
