@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -65,6 +66,10 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
         }
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
+        {
+            this.isSupported = true;
+        }
         //TODO add missing logic
     }
 
@@ -77,14 +82,18 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
     	/*if (DeviceUtils.isSonyADV())
         return Integer.parseInt(parameters.get("sony-min-shutter-speed"));*/
-        return shutterValues.length-1;
+        if (DeviceUtils.isLGADV())
+           return parameters.getInt("max-exposure-time");
+        else
+            return shutterValues.length-1;
     }
 
     @Override
     public int GetMinValue() {
     	/*if (DeviceUtils.isSonyADV())
         return Integer.parseInt(parameters.get("sony-max-shutter-speed"));*/
-    	
+    	if (DeviceUtils.isLGADV())
+            return parameters.getInt("min-exposure-time");
         return 0;
     }
 
@@ -105,21 +114,26 @@ public class ShutterManualParameter extends BaseManualParameter
     		parameters.set("sony-shutter-speed", valueToSet);
     		
         }*/
-        current = valueToSet;
-        String shutterstring = shutterValues[current];
-        if (shutterstring.contains("/"))
-        {
-            String split[] = shutterstring.split("/");
-            float a = Float.parseFloat(split[0])/ Float.parseFloat(split[1]);
-            shutterstring = ""+a;
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()) {
+            current = valueToSet;
+            String shutterstring = shutterValues[current];
+            if (shutterstring.contains("/")) {
+                String split[] = shutterstring.split("/");
+                float a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]);
+                shutterstring = "" + a;
 
+            }
+            shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
+            if (DeviceUtils.isZTEADV())
+                parameters.set("slow_shutter", shutterstring);
+            if (DeviceUtils.isHTC_M8())
+                parameters.set("shutter", shutterstring);
+            Log.e(TAG, shutterstring);
         }
-        shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
-        if (DeviceUtils.isZTEADV())
-            parameters.set("slow_shutter", shutterstring);
-        if (DeviceUtils.isHTC_M8())
-            parameters.set("shutter", shutterstring);
-        Log.e(TAG, shutterstring);
+        else
+        {
+            parameters.set("exposure-time", valueToSet);
+        }
         camParametersHandler.SetParametersToCamera();
        
     }
@@ -136,7 +150,10 @@ public class ShutterManualParameter extends BaseManualParameter
 
     public String GetStringValue()
     {
-        return shutterValues[current];
+        if (DeviceUtils.isLGADV())
+            return  current +"";
+        else
+            return shutterValues[current];
     }
 
     @Override
@@ -150,6 +167,11 @@ public class ShutterManualParameter extends BaseManualParameter
         }*/
         if (DeviceUtils.isZTEADV()) {
             parameters.set("slow_shutter_addition", 0);
+            baseCameraHolder.SetCameraParameters(parameters);
+        }
+        if (DeviceUtils.isLGADV())
+        {
+            parameters.set("long-shot", "on");
             baseCameraHolder.SetCameraParameters(parameters);
         }
         //baseCameraHolder.StartPreview();
