@@ -2,22 +2,13 @@ package com.troop.freedcam.camera2.modules;
 
 import android.util.Log;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.AbstractModule;
-import com.troop.freedcam.camera.modules.HdrModule;
-import com.troop.freedcam.camera.modules.LongExposureModule;
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.modules.PictureModule;
-import com.troop.freedcam.camera.modules.PictureModuleO3D;
-import com.troop.freedcam.camera.modules.PictureModuleThl5000;
-import com.troop.freedcam.camera.modules.VideoModule;
-import com.troop.freedcam.camera.modules.VideoModuleG3;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

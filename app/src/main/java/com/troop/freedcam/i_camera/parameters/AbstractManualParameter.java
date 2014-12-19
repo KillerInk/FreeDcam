@@ -25,9 +25,7 @@ public class AbstractManualParameter implements  I_ManualParameter
         events = new ArrayList<I_ParameterEvent>();
     }
 
-    public abstract class ParameterEvent implements I_ParameterEvent {
 
-    }
 
     public void addEventListner(I_ParameterEvent eventListner)
     {

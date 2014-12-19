@@ -6,10 +6,8 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
-import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.i_camera.modules.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 

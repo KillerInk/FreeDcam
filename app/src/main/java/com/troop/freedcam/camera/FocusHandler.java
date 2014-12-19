@@ -6,8 +6,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
-import com.troop.freedcam.i_camera.I_CameraHolder;
-import com.troop.freedcam.i_camera.I_Focus;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;

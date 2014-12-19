@@ -1,15 +1,12 @@
 package com.troop.freedcam.ui.handler;
 
 import android.content.Context;
-import android.os.Build;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.I_error;
-import com.troop.freedcam.camera2.CameraUiWrapperApi2;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 
 /**

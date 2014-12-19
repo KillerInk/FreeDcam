@@ -37,7 +37,6 @@ import com.troop.freedcam.camera.parameters.modes.NonZslManualModeParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
-import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.RedEyeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneDetectParameter;
@@ -49,7 +48,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
-import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -175,7 +174,13 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
         checkRawSupport();
 
-        ParametersEventHandler.ParametersHasLoaded();
+        appSettingsManager.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ParametersEventHandler.ParametersHasLoaded();
+            }
+        });
+
     }
 
     private void checkRawSupport()
@@ -194,6 +199,10 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                 if (DeviceUtils.isHTC_M8())
                     BayerMipiFormat = StringUtils.BayerMipiGRBG();
             }
+        }
+        if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
+        {
+            BayerMipiFormat = "bayer-qcom-10bggr";
         }
         if (DeviceUtils.isMediaTekTHL5000())
         {

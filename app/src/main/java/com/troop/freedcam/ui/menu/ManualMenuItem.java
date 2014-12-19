@@ -14,7 +14,7 @@ import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuItem extends LinearLayout implements View.OnClickListener
+public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ParameterEvent
 {
     Context context;
     TextView textView;
@@ -49,4 +49,24 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     }
 
     public void EnableItem() {toggleButton.setChecked(true);}
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current) {
+
+    }
 }

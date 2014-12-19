@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
-import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -10,11 +9,11 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.I_ModuleHandler;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.I_Module;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-
-import java.lang.annotation.Target;
 
 /**
  * Created by troop on 16.08.2014.
@@ -24,6 +23,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
 
     public AppSettingsManager appSettingsManager;
+
 
 
 
@@ -37,7 +37,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = errorHandler;
-        BaseCameraHolder baseCameraHolder =new BaseCameraHolder();
+        BaseCameraHolder baseCameraHolder =new BaseCameraHolder(this);
         cameraHolder = baseCameraHolder;
         baseCameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);
@@ -65,8 +65,36 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         return false;
     }
 
+    private void openCamerainTHread()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+                //onCameraOpen();
+            }
+        }).start();
+    }
+
+    private void onCameraOpen()
+    {
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        while (!baseCameraHolder.isRdy)
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        cameraHolder.GetCamera().setErrorCallback(this);
+        cameraHolder.SetSurface(preview.getHolder());
+        CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
+        camParametersHandler1.LoadParametersFromCamera();
+    }
+
     public void StartPreviewAndCamera() {
-        if (openCamera())
+        openCamerainTHread();
+        /*if (openCamera())
         {
             BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
             while (!baseCameraHolder.isRdy)
@@ -80,7 +108,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
             camParametersHandler1.LoadParametersFromCamera();
 
-        }
+        }*/
     }
 
 
@@ -114,15 +142,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void onError(int i, Camera camera)
     {
         errorHandler.OnError("Got Error from camera: " + i);
-        /*try
-        {
-            StopPreviewAndCamera();
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-
-        }*/
         try
         {
             cameraHolder.CloseCamera();
@@ -131,5 +150,28 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onCameraOpen(String message)
+    {
+        onCameraOpen();
+        super.onCameraOpen(message);
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        super.onCameraError(error);
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status)
+    {
+        super.onCameraStatusChanged(status);
+    }
+
+    @Override
+    public void onModuleChanged(I_Module module) {
+        super.onModuleChanged(module);
     }
 }

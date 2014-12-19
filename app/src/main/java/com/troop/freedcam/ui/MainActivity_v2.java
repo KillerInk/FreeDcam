@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 import com.troop.freedcam.R;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.I_error;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_Module;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
@@ -35,7 +36,7 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
+public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, I_CameraChangedListner
 {
     //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
@@ -124,6 +125,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
 
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
+        cameraUiWrapper.SetCameraChangedListner(this);
 
         initCameraStuff(cameraUiWrapper);
 
@@ -265,5 +267,25 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error
     public void ActivateSonyApi(String value)
     {
         loadCameraUiWrapper();
+    }
+
+    @Override
+    public void onCameraOpen(String message) {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status) {
+
+    }
+
+    @Override
+    public void onModuleChanged(I_Module module) {
+
     }
 }

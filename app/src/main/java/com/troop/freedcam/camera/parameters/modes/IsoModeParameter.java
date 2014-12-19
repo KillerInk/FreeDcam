@@ -2,9 +2,8 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.hardware.Camera;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
-import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 /**
  * Created by troop on 17.08.2014.

@@ -1,9 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
-import com.troop.freedcam.i_camera.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
@@ -16,7 +14,6 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

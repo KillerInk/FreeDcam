@@ -1,4 +1,4 @@
-package com.troop.freedcam.i_camera;
+package com.troop.freedcam.i_camera.interfaces;
 
 import android.hardware.Camera;
 import android.view.SurfaceHolder;

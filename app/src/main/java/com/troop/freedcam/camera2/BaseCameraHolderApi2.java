@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera2;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -24,20 +23,13 @@ import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.TextureView;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.I_error;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.I_CameraHolder;
 import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
-
-import org.xml.sax.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,8 +77,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public Surface surface;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner)
     {
+        super(cameraChangedListner);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }

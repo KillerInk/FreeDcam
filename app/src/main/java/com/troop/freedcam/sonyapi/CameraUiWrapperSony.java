@@ -2,8 +2,7 @@ package com.troop.freedcam.sonyapi;
 
 import android.view.SurfaceView;
 
-import com.troop.freedcam.camera.I_error;
-import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
@@ -11,7 +10,6 @@ import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
 /**
  * Created by troop on 11.12.2014.
@@ -34,7 +32,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         super(preview, appSettingsManager, errorHandler);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
-        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView);
+        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this);
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);

@@ -3,21 +3,14 @@ package com.troop.freedcam.camera2;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.view.SurfaceHolder;
 import android.view.TextureView;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.FocusHandler;
-import com.troop.freedcam.camera.I_error;
-import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 
 /**
  * Created by troop on 07.12.2014.
@@ -41,7 +34,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         this.context = context;
         //attache the callback to the Campreview
         //preview.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this);
         super.cameraHolder = this.cameraHolder;
         this.errorHandler = errorHandler;
         cameraHolder.errorHandler = errorHandler;

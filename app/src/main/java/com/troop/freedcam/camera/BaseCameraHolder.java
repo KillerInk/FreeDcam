@@ -8,11 +8,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.AbstractFocusHandler;
-import com.troop.freedcam.i_camera.I_CameraHolder;
-import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
@@ -37,9 +35,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public int CurrentCamera;
 
-    public BaseCameraHolder()
+    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner)
     {
-
+        super(cameraChangedListner);
     }
 
     /**
@@ -50,6 +48,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
+        super.OpenCamera(camera);
         //open camera into new looper thread
         if (cameraThread == null) {
             cameraThread = new HandlerThread(TAG);
@@ -75,11 +74,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
 
                     isRdy = true;
+                    cameraChangedListner.onCameraOpen("");
 
                 }
                 catch (Exception ex)
                 {
                     isRdy = false;
+                    ex.printStackTrace();
                 }
             }
         });

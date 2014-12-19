@@ -3,6 +3,8 @@ package com.troop.freedcam.i_camera;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
 
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 /**
@@ -16,9 +18,17 @@ public class AbstractCameraHolder implements I_CameraHolder
     public AbstractParameterHandler ParameterHandler;
     public AbstractFocusHandler Focus;
     public SurfaceHolder surfaceHolder;
+    protected I_CameraChangedListner cameraChangedListner;
+
+    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner)
+    {
+        this.cameraChangedListner = cameraChangedListner;
+    }
 
     @Override
-    public boolean OpenCamera(int camera) {
+    public boolean OpenCamera(int camera)
+    {
+
         return false;
     }
 
