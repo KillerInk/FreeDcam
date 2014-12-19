@@ -14,7 +14,7 @@ public class AppSettingsManager
     SharedPreferences appSettings;
     public MainActivity_v2 context;
     private int currentcamera = 0;
-    boolean sonyCam = false;
+    String camApiString = "api1";
 
     public static String SETTING_CURRENTCAMERA = "currentcamera";
     public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
@@ -52,6 +52,11 @@ public class AppSettingsManager
     public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     public static String SETTING_SONYAPI = "sonyapi";
 
+    public static String API_SONY = "sony";
+    public static String API_1 = "api1";
+    public static String API_2 = "api2";
+
+
 
     public AppSettingsManager(SharedPreferences appSettings, MainActivity_v2 context)
     {
@@ -59,16 +64,16 @@ public class AppSettingsManager
         this.context = context;
     }
 
-    public void setSonyCam(boolean isSony)
+    public void setCamApi(String api)
     {
-        sonyCam = isSony;
-        appSettings.edit().putBoolean(SETTING_SONYAPI, isSony).commit();
+        camApiString = api;
+        appSettings.edit().putString(SETTING_SONYAPI, api).commit();
     }
 
-    public boolean getSonyCam()
+    public String getCamApi()
     {
-        sonyCam = appSettings.getBoolean(SETTING_SONYAPI, false);
-        return sonyCam;
+        camApiString = appSettings.getString(SETTING_SONYAPI, API_1);
+        return camApiString;
     }
 
     public void setshowHelpOverlay(boolean value)
@@ -107,24 +112,24 @@ public class AppSettingsManager
     public String getString(String valueToGet)
     {
         String newstring;
-        if (sonyCam)
-            newstring = valueToGet + "sony";
-        else /*if(Build.VERSION.SDK_INT < 21)*/
+        if (API_SONY.equals(camApiString))
+            newstring = valueToGet + API_SONY;
+        else if(API_1.equals(camApiString))
             newstring = valueToGet + currentcamera;
-        /*else
-            newstring = valueToGet + currentcamera + "api2";*/
+        else
+            newstring = valueToGet + currentcamera + API_2;
         return appSettings.getString(newstring, "");
     }
 
     public void setString(String valueToSet, String Value)
     {
         String newstring;
-        if (sonyCam)
-            newstring = valueToSet + "sony";
-        else /*if(Build.VERSION.SDK_INT < 21)*/
+        if (API_SONY.equals(camApiString))
+            newstring = valueToSet + API_SONY;
+        else if(API_1.equals(camApiString))
             newstring = valueToSet + currentcamera;
-        /*else
-            newstring = valueToSet + currentcamera + "api2";*/
+        else
+            newstring = valueToSet + currentcamera + API_2;
         appSettings.edit().putString(newstring, Value).commit();
     }
 }

@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.handler;
 import android.content.Context;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
@@ -21,22 +22,19 @@ public class ApiHandler
             ret.StopPreviewAndCamera();
             ret = null;
         }
-        if (appSettingsManager.getSonyCam())
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
-            appSettingsManager.setSonyCam(true);
             ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager, errorHandler);
 
         }
-        else /*if (Build.VERSION.SDK_INT < 21)*/
+        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {
-            appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
         }
-        /*else
+        else
         {
-            appSettingsManager.setSonyCam(false);
             ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager, errorHandler);
-        }*/
+        }
         return ret;
 
     }

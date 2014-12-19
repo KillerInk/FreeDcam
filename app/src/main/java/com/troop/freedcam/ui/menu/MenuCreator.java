@@ -1,9 +1,7 @@
 package com.troop.freedcam.ui.menu;
 
-import android.content.Context;
 import android.view.SurfaceView;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -12,7 +10,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.menu.childs.ConnectSonyExpandableChild;
+import com.troop.freedcam.ui.menu.childs.SwitchApiExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -426,7 +424,7 @@ public class MenuCreator
         saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         childlist.add(saveCamparas);
 
-        ConnectSonyExpandableChild sonyExpandableChild = new ConnectSonyExpandableChild(context);
+        SwitchApiExpandableChild sonyExpandableChild = new SwitchApiExpandableChild(context);
         sonyExpandableChild.setParameterHolder(null, appSettingsManager, AppSettingsManager.SETTING_SONYAPI, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         childlist.add(sonyExpandableChild);
 

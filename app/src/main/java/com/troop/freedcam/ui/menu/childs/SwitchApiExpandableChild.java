@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import com.troop.androiddng.MainActivity;
@@ -14,20 +15,20 @@ import java.util.ArrayList;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ConnectSonyExpandableChild extends ExpandableChild implements I_ModeParameter
+public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeParameter
 {
     MainActivity_v2 context;
-    public ConnectSonyExpandableChild(MainActivity_v2 context, AttributeSet attrs) {
+    public SwitchApiExpandableChild(MainActivity_v2 context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
 
-    public ConnectSonyExpandableChild(MainActivity_v2 context) {
+    public SwitchApiExpandableChild(MainActivity_v2 context) {
         super(context);
         this.context = context;
     }
 
-    public ConnectSonyExpandableChild(MainActivity_v2 context, AttributeSet attrs, int defStyle) {
+    public SwitchApiExpandableChild(MainActivity_v2 context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
     }
@@ -38,7 +39,7 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
         this.cameraUiWrapper = cameraUiWrapper;
-        nameTextView.setText("Connect to Sony");
+        nameTextView.setText("Switch Api");
         valueTextView.setText(Value());
 
     }
@@ -46,11 +47,7 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
     @Override
     public void setValue(String value)
     {
-        if (value.equals("true"))
-            appSettingsManager.setSonyCam(true);
-        else
-            appSettingsManager.setSonyCam(false);
-
+        appSettingsManager.setCamApi(value);
         valueTextView.setText(value);
         context.ActivateSonyApi(value);
     }
@@ -58,9 +55,9 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
     @Override
     public String Value()
     {
-        String ret = appSettingsManager.getString(settingsname);
+        String ret = appSettingsManager.getCamApi();
         if (ret.equals(""))
-            ret = "false";
+            ret = "api1";
         return ret;
     }
 
@@ -81,8 +78,12 @@ public class ConnectSonyExpandableChild extends ExpandableChild implements I_Mod
     }
 
     @Override
-    public String[] GetValues() {
-        return new String[] {"true", "false"};
+    public String[] GetValues()
+    {
+        if (Build.VERSION.SDK_INT  >= 21)
+            return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1, AppSettingsManager.API_2};
+        else
+            return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
     }
 
     @Override
