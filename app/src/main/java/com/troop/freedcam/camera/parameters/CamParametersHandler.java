@@ -189,42 +189,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                     BayerMipiFormat = StringUtils.BayerMipiGRBG();
             }
         }
-        if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
+        /*if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
         {
             BayerMipiFormat = "bayer-qcom-10bggr";
-        }
+        }*/
         if (DeviceUtils.isMediaTekTHL5000())
         {
             rawSupported =true;
         }
-
-        /*else if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
-        {
-            rawSupported = true;
-        }
-        else if (DeviceUtils.isXperiaL())
-        {
-            rawSupported = true;
-            dngSupported = true;
-        }
-        else if (!DeviceUtils.isHTC_M8())
-        {
-            for (String s : rawFormats)
-            {
-                if (s.contains("bayer"))
-                    rawSupported = true;
-                if (s.contains("bayer-mipi")) {
-                    dngSupported = true;
-                    BayerMipiFormat = s;
-                }
-            }
-        }
-        else
-        {
-            dngSupported = true;
-            rawSupported = true;
-            BayerMipiFormat = StringUtils.BayerMipiGRBG();
-        }*/
     }
 
 
