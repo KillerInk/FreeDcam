@@ -24,9 +24,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public AppSettingsManager appSettingsManager;
 
-
-
-
     public CameraUiWrapper(){};
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
@@ -102,13 +99,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void onCameraOpen(String message)
     {
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
-        while (!baseCameraHolder.isRdy)
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         cameraHolder.GetCamera().setErrorCallback(this);
         cameraHolder.SetSurface(preview.getHolder());
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
