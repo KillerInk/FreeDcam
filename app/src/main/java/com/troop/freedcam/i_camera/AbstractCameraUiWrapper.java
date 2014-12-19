@@ -21,7 +21,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     public String TAG = AbstractCameraUiWrapper.class.getSimpleName();
     public AbstractModuleHandler moduleHandler;
     public AbstractParameterHandler camParametersHandler;
-    public I_CameraHolder cameraHolder;
+    public AbstractCameraHolder cameraHolder;
     public AbstractFocusHandler Focus;
     protected I_error errorHandler;
     I_CameraChangedListner cameraChangedListner;

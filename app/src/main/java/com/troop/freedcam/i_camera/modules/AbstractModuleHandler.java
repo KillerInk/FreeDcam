@@ -18,7 +18,7 @@ public class AbstractModuleHandler implements I_ModuleHandler
     public ArrayList<String> LongeExpoModules;
     public ArrayList<String> VideoModules;
     public ArrayList<String> AllModules;
-    protected HashMap<String, AbstractModule> moduleList;
+    public HashMap<String, AbstractModule> moduleList;
     protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
     AbstractCameraHolder cameraHolder;

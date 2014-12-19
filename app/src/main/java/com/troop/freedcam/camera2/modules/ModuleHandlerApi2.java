@@ -2,6 +2,8 @@ package com.troop.freedcam.camera2.modules;
 
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
@@ -23,8 +25,9 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
 
     final String TAG = "freedcam.ModuleHandler";
 
-    public  ModuleHandlerApi2 (I_CameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
+        super(cameraHolder,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
         this.appSettingsManager = appSettingsManager;
         moduleList  = new HashMap<String, AbstractModule>();

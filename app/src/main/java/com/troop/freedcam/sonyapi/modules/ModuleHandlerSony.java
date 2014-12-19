@@ -19,8 +19,8 @@ public class ModuleHandlerSony extends AbstractModuleHandler
 
     public ModuleHandlerSony(CameraHolderSony cameraHolder, AppSettingsManager appSettingsManager)
     {
+        super(cameraHolder, appSettingsManager);
         this.cameraHolder = cameraHolder;
-        this.appSettingsManager = appSettingsManager;
 
         moduleList  = new HashMap<String, AbstractModule>();
         moduleEventHandler = new ModuleEventHandler();
