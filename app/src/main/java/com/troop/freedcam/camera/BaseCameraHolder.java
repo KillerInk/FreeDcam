@@ -42,29 +42,22 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
-        backGroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) {
-                        lgCamera = new LGCamera(camera);
-                        mCamera = lgCamera.getCamera();
-                        lgParameters = lgCamera.getLGParameters();
-                    } else {
-                        mCamera = Camera.open(camera);
-                    }
-
-
-                    isRdy = true;
-                    cameraChangedListner.onCameraOpen("");
-
-                } catch (Exception ex) {
-                    isRdy = false;
-                    ex.printStackTrace();
-                }
+        try {
+            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) {
+                lgCamera = new LGCamera(camera);
+                mCamera = lgCamera.getCamera();
+                lgParameters = lgCamera.getLGParameters();
+            } else {
+                mCamera = Camera.open(camera);
             }
-        });
 
+            isRdy = true;
+            cameraChangedListner.onCameraOpen("");
+
+        } catch (Exception ex) {
+            isRdy = false;
+            ex.printStackTrace();
+        }
 
         return isRdy;
     }
@@ -151,15 +144,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        backGroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mCamera.startPreview();
-                isPreviewRunning = true;
-                Log.d(TAG, "PreviewStarted");
-            }
-        });
-
+        mCamera.startPreview();
+        isPreviewRunning = true;
+        Log.d(TAG, "PreviewStarted");
     }
 
     @Override
@@ -167,24 +154,16 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         if (mCamera == null)
             return;
-        backGroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
+        try {
+            mCamera.stopPreview();
+            isPreviewRunning = false;
+            Log.d(TAG, "Preview Stopped");
 
-                    mCamera.stopPreview();
-                    isPreviewRunning = false;
-                    Log.d(TAG, "Preview Stopped");
-
-                } catch (Exception ex) {
-                    isPreviewRunning = false;
-                    Log.d(TAG, "Camera was released");
-                    ex.printStackTrace();
-                }
-
-            }
-        });
-
+        } catch (Exception ex) {
+            isPreviewRunning = false;
+            Log.d(TAG, "Camera was released");
+            ex.printStackTrace();
+        }
     }
 
     public Camera.Parameters GetCameraParameters()
