@@ -44,6 +44,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
+        this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
         handler = new Handler();
         parametersHandler = (CamParametersHandler)ParameterHandler;
