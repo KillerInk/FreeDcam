@@ -1,7 +1,10 @@
 package com.troop.freedcam.camera2.parameters;
 
+import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
@@ -20,18 +23,20 @@ import java.util.List;
 /**
  * Created by troop on 12.12.2014.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     public static String TAG = ParameterHandlerApi2.class.getSimpleName();
 
     BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public ParameterHandlerApi2(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
     {
-        super(cameraHolder, appSettingsManager);
+        super(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
     }
+
 
     public void Init()
     {

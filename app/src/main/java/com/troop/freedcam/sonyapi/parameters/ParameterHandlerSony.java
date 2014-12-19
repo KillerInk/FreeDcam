@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
@@ -29,9 +31,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
 
-    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
     {
-        super(cameraHolder, appSettingsManager);
+        super(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
         parametersChangedList  = new ArrayList<I_SonyApi>();

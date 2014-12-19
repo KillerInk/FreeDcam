@@ -38,7 +38,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         //preview.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context, this, backGroundThread, backGroundHandler, uiHandler);
         super.cameraHolder = this.cameraHolder;
-        camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager);
+        camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         //preview.ParametersHandler = camParametersHandler;

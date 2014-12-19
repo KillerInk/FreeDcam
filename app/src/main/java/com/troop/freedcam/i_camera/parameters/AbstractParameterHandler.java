@@ -75,10 +75,12 @@ public abstract class AbstractParameterHandler
     public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
+        this.backGroundHandler = backGroundHandler;
+        this.uiHandler = uiHandler;
     }
 
     public void SetParametersToCamera() {};

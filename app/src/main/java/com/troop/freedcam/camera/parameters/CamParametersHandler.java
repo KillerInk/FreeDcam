@@ -72,9 +72,9 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     SetParameterRunner setParameterRunner;
 
-    public CamParametersHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public CamParametersHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager,Handler backGroundHandler, Handler uiHandler)
     {
-        super(cameraHolder,appSettingsManager);
+        super(cameraHolder,appSettingsManager, backGroundHandler, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler();
     }
 

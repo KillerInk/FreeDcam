@@ -33,7 +33,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, backGroundThread, backGroundHandler, uiHandler);
-        camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager);
+        camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
