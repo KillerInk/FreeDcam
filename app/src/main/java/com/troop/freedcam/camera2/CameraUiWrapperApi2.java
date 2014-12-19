@@ -27,14 +27,16 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     }
 
-    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager) {
+    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager)
+    {
+        super(null, appSettingsManager);
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
         this.appSettingsManager = appSettingsManager;
         this.context = context;
         //attache the callback to the Campreview
         //preview.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context, this);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, backGroundThread, backGroundHandler, uiHandler);
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
@@ -44,29 +46,17 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
+        StartPreviewAndCamera();
     }
 
     @Override
-    public void SwitchModule(String moduleName) {
-        super.SwitchModule(moduleName);
-    }
+    protected void startCameraAndPreview() {
 
-    @Override
-    public void DoWork() {
-        moduleHandler.DoWork();
-    }
-
-    @Override
-    public void StartPreviewAndCamera()
-    {
-        cameraHolder.SetSurface(preview);
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-
-        //cameraHolder.StartPreview();
     }
 
     @Override
-    public void StopPreviewAndCamera() {
+    protected void stopCameraAndPreview() {
         cameraHolder.StopPreview();
         cameraHolder.CloseCamera();
     }
@@ -77,8 +67,16 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     }
 
     @Override
+    public void onCameraOpen(String message)
+    {
+        cameraHolder.SetSurface(preview);
+        cameraHolder.StartPreview();
+        super.onCameraOpen(message);
+    }
+
+    @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        StartPreviewAndCamera();
+
     }
 
     @Override

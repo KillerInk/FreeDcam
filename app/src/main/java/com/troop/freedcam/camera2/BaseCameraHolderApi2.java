@@ -49,11 +49,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     Context context;
     public I_error errorHandler;
-    /**
-     * An additional thread for running tasks that shouldn't block the UI.
-     */
-    private HandlerThread mBackgroundThread;
-    public Handler mBackgroundHandler;
+
     public CameraManager manager;
     public CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
@@ -77,9 +73,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public Surface surface;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner,HandlerThread backGroundThread, Handler backGroundHandler, Handler UIHandler)
     {
-        super(cameraChangedListner,null, null);
+        super(cameraChangedListner,backGroundThread, backGroundHandler, UIHandler);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
@@ -95,7 +91,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback, mBackgroundHandler);
+            manager.openCamera(cam, mStateCallback, backGroundHandler);
             characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {
@@ -232,7 +228,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                        mCaptureCallback, mBackgroundHandler);
+                        mCaptureCallback, backGroundHandler);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -253,7 +249,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mPreviewRequestBuilder.set(key, value);
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
-                        mBackgroundHandler);
+                        backGroundHandler);
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -317,7 +313,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // This method is called when the camera is opened.  We start camera preview here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
-            StartPreview();
+
+
+            cameraChangedListner.onCameraOpen("");
             ((ParameterHandlerApi2)ParameterHandler).Init();
         }
 
@@ -370,29 +368,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     (long) rhs.getWidth() * rhs.getHeight());
         }
 
-    }
-
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread() {
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void SetImageReader(ImageReader imageReader)

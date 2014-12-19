@@ -12,7 +12,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 /**
  * Created by troop on 12.12.2014.
  */
-public class AbstractCameraHolder implements I_CameraHolder
+public abstract class AbstractCameraHolder implements I_CameraHolder
 {
     public boolean isRdy = false;
 
@@ -23,12 +23,14 @@ public class AbstractCameraHolder implements I_CameraHolder
     protected I_CameraChangedListner cameraChangedListner;
     protected HandlerThread backGroundThread;
     protected Handler backGroundHandler;
+    protected Handler UIHandler;
 
-    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler)
+    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler,Handler UIHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
         this.backGroundHandler = backGroundHandler;
         this.backGroundThread = backGroundThread;
+        this.UIHandler = UIHandler;
     }
 
     @Override

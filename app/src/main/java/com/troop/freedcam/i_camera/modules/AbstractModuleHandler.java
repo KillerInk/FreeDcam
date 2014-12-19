@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 09.12.2014.
  */
-public class AbstractModuleHandler implements I_ModuleHandler
+public abstract class AbstractModuleHandler implements I_ModuleHandler
 {
     String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;

@@ -72,7 +72,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 ImageFormat.RAW10, /*maxImages*/2);
         //this returns the image data finaly
         mImageReader.setOnImageAvailableListener(
-                mOnImageAvailableListener, cameraHolder.mBackgroundHandler);
+                mOnImageAvailableListener, null);
 
         final CaptureRequest.Builder captureBuilder;
         try {

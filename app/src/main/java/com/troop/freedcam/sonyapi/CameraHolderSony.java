@@ -2,6 +2,8 @@ package com.troop.freedcam.sonyapi;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -49,9 +51,9 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public ParameterHandlerSony ParameterHandler;
 
-    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner)
+    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner,HandlerThread backGroundThread, Handler backGroundHandler,Handler UIHandler)
     {
-        super(cameraChangedListner, null ,null);
+        super(cameraChangedListner, backGroundThread ,backGroundHandler, UIHandler);
         this.context = (MainActivity_v2)context;
         this.mLiveviewSurface = simpleStreamSurfaceView;
     }

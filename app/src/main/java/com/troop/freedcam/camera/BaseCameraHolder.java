@@ -29,9 +29,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public int CurrentCamera;
 
-    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler)
+    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler, Handler UIHandler)
     {
-        super(cameraChangedListner, backGroundThread, backGroundHandler);
+        super(cameraChangedListner, backGroundThread, backGroundHandler, UIHandler);
     }
 
     /**
