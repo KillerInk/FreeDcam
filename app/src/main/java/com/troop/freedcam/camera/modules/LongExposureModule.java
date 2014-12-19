@@ -29,6 +29,7 @@ import java.util.Date;
 public class LongExposureModule extends AbstractModule implements Camera.PreviewCallback
 {
     BaseCameraHolder baseCameraHolder;
+
     public LongExposureModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name = ModuleHandler.MODULE_LONGEXPO;
@@ -36,7 +37,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         frameThread = new HandlerThread(TAG);
         frameThread.start();
         frameHandler = new Handler(frameThread.getLooper());
-        this.baseCameraHolder = baseCameraHolder;
+        this.baseCameraHolder = cameraHandler;
     }
 
     private class YuvHolder
