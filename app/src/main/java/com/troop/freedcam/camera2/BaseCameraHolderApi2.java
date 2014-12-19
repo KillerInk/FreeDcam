@@ -315,7 +315,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCameraDevice = cameraDevice;
 
 
-            cameraChangedListner.onCameraOpen("");
+            UIHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpen("");
+                }
+            });
+
             ((ParameterHandlerApi2)ParameterHandler).Init();
         }
 
