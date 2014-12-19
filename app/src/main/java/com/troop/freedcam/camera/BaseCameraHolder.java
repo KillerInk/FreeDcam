@@ -165,6 +165,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
+        if (mCamera == null)
+            return;
         backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
