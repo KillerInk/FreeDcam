@@ -29,6 +29,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     {
         super(cameraHolder,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
+        initModules();
     }
 
 
