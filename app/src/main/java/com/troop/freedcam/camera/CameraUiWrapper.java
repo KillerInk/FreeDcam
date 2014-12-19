@@ -45,6 +45,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
         baseCameraHolder.Focus = Focus;
+        StartPreviewAndCamera();
 
     }
 
@@ -61,8 +62,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        StartPreviewAndCamera();
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+
     }
 
     @Override
@@ -76,7 +78,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
+        cameraHolder.SetSurface(preview.getHolder());
         cameraHolder.StartPreview();
     }
 
@@ -99,7 +103,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void onCameraOpen(String message)
     {
         cameraHolder.GetCamera().setErrorCallback(this);
-        cameraHolder.SetSurface(preview.getHolder());
+
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
 
