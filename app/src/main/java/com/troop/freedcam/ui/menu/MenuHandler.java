@@ -67,26 +67,28 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
-        mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
+        try
+        {
+            mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
 
 
-        listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
-        listView.setOnItemClickListener(this);
-        scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
-        context.settingsLayoutHolder.removeView(listView);
+            listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
+            listView.setOnItemClickListener(this);
+            scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
+            context.settingsLayoutHolder.removeView(listView);
+        }
+        catch (Exception ex)
+        {
+
+        }
+
 
     }
 
     public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView, ScrollView scrollView,
                        LinearLayout mainMenuView, ListView listView)
     {
-        this.context = context;
-        this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = appSettingsManager;
-        this.surfaceView = surfaceView;
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+        this(context, cameraUiWrapper, appSettingsManager, surfaceView);
         this.mainMenuView = mainMenuView;
 
 
