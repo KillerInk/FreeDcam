@@ -59,6 +59,9 @@ public class RawToDng
 	};
 	
 	public static int g3_blacklevel = 64;
+
+    public static int g3_rowSizeKitKat = 5200;
+    public static int getG3_rowSizeL = 5264;
 	
 	
 	public static int HTCM8_rowSize = 3360;
