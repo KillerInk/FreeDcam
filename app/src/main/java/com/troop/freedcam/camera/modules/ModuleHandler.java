@@ -24,9 +24,6 @@ public class ModuleHandler extends AbstractModuleHandler
     BaseCameraHolder cameraHolder;
     final String TAG = "freedcam.ModuleHandler";
 
-
-
-
     public static final String MODULE_VIDEO = "module_video";
     public static final String MODULE_PICTURE = "module_picture";
     public static final String MODULE_HDR = "module_hdr";
@@ -34,11 +31,11 @@ public class ModuleHandler extends AbstractModuleHandler
     public static final String MODULE_LONGEXPO = "module_longexposure";
     public static final String MODULE_ALL = "module_all";
 
-    public  ModuleHandler (I_CameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public  ModuleHandler (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
+        super(cameraHolder, appSettingsManager);
         this.cameraHolder = (BaseCameraHolder) cameraHolder;
-        this.appSettingsManager = appSettingsManager;
-        moduleList  = new HashMap<String, AbstractModule>();
+
         moduleEventHandler = new ModuleEventHandler();
         PictureModules = new ArrayList<String>();
         PictureModules.add(MODULE_PICTURE);
