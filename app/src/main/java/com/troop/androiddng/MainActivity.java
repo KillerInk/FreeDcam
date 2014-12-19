@@ -28,6 +28,8 @@ import com.troop.freedcam.R;
 public class MainActivity extends Activity {
 
 	EditText box;
+    final int g3W = 4160;
+    final int g3H = 3120;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,10 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}
 			String out = filetosave.getAbsolutePath();
+            int r = data.length / g3H;
             int rowsize = Integer.parseInt(box.getEditableText().toString());
 
-			RawToDng.convertRawBytesToDng(data.clone(), out, width,height, RawToDng.g3_color1,RawToDng.g3_color2, RawToDng.g3_neutral, RawToDng.g3_blacklevel, RawToDng.GRBG, rowsize);
+			RawToDng.convertRawBytesToDng(data.clone(), out, g3W,g3H, RawToDng.g3_color1,RawToDng.g3_color2, RawToDng.g3_neutral, RawToDng.g3_blacklevel, RawToDng.GRBG, rowsize);
 			data = null;
 			Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 	        intent.setData(Uri.fromFile(filetosave));
