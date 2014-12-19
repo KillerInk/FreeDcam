@@ -21,44 +21,9 @@ public class ModuleHandlerSony extends AbstractModuleHandler
     {
         super(cameraHolder, appSettingsManager);
         this.cameraHolder = cameraHolder;
-
-        moduleList  = new HashMap<String, AbstractModule>();
-        moduleEventHandler = new ModuleEventHandler();
-        PictureModules = new ArrayList<String>();
-        PictureModules.add(ModuleHandler.MODULE_PICTURE);
-        PictureModules.add(ModuleHandler.MODULE_BURST);
-        PictureModules.add(ModuleHandler.MODULE_HDR);
-        //PictureModules.add();
-        VideoModules = new ArrayList<String>();
-        VideoModules.add(ModuleHandler.MODULE_VIDEO);
-        AllModules = new ArrayList<String>();
-        AllModules.add(ModuleHandler.MODULE_ALL);
-        LongeExpoModules = new ArrayList<String>();
-        LongeExpoModules.add(ModuleHandler.MODULE_LONGEXPO);
-
     }
 
-    @Override
-    public void SetModule(String name) {
-        super.SetModule(name);
-    }
-
-    @Override
-    public String GetCurrentModuleName() {
-        return super.GetCurrentModuleName();
-    }
-
-    @Override
-    public AbstractModule GetCurrentModule() {
-        return super.GetCurrentModule();
-    }
-
-    @Override
-    public boolean DoWork() {
-        return super.DoWork();
-    }
-
-    private void initModules()
+    protected void initModules()
     {
 
         //init the Modules DeviceDepending

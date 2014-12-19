@@ -29,60 +29,10 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     {
         super(cameraHolder,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
-        this.appSettingsManager = appSettingsManager;
-        moduleList  = new HashMap<String, AbstractModule>();
-        moduleEventHandler = new ModuleEventHandler();
-        PictureModules = new ArrayList<String>();
-        PictureModules.add(ModuleHandler.MODULE_PICTURE);
-        PictureModules.add(ModuleHandler.MODULE_BURST);
-        PictureModules.add(ModuleHandler.MODULE_HDR);
-        //PictureModules.add();
-        VideoModules = new ArrayList<String>();
-        VideoModules.add(ModuleHandler.MODULE_VIDEO);
-        AllModules = new ArrayList<String>();
-        AllModules.add(ModuleHandler.MODULE_ALL);
-        LongeExpoModules = new ArrayList<String>();
-        LongeExpoModules.add(ModuleHandler.MODULE_LONGEXPO);
-        initModules();
-
     }
 
 
-    @Override
-    public void SetModule(String name) {
-        if (currentModule !=null)
-            currentModule.UnloadNeededParameters();
-        currentModule = moduleList.get(name);
-        currentModule.LoadNeededParameters();
-        moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
-        Log.d(TAG, "Set Module to " + name);
-    }
-
-    @Override
-    public String GetCurrentModuleName() {
-        if (currentModule != null)
-            return currentModule.name;
-        else return "";
-    }
-
-    @Override
-    public AbstractModule GetCurrentModule() {
-        if (currentModule != null)
-            return currentModule;
-        return null;
-    }
-
-    @Override
-    public boolean DoWork() {
-        if (currentModule != null) {
-            currentModule.DoWork();
-            return true;
-        }
-        else
-            return false;
-    }
-
-    private void initModules()
+    protected void initModules()
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
