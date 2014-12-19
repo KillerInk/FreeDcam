@@ -50,7 +50,7 @@ public class AbstractModuleHandler implements I_ModuleHandler
         AllModules.add(MODULE_ALL);
         LongeExpoModules = new ArrayList<String>();
         LongeExpoModules.add(MODULE_LONGEXPO);
-        initModules();
+
     }
 
     @Override
