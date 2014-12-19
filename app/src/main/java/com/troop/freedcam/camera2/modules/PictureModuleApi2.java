@@ -51,6 +51,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
+    public String LongName() {
+        return "Picture";
+    }
+
+    @Override
+    public String ShortName() {
+        return "Pic";
+    }
+
+    @Override
     public void DoWork()
     {
         /*get pic size*/
