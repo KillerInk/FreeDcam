@@ -15,7 +15,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 /**
  * Created by troop on 07.12.2014.
  */
-public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener, I_ParametersLoaded, Camera.ErrorCallback
+public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener, I_ParametersLoaded
 {
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
@@ -27,7 +27,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     }
 
-    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
+    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager) {
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
         this.appSettingsManager = appSettingsManager;
@@ -36,8 +36,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         //preview.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context, this);
         super.cameraHolder = this.cameraHolder;
-        this.errorHandler = errorHandler;
-        cameraHolder.errorHandler = errorHandler;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
@@ -46,11 +44,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
-    }
-
-    @Override
-    public void ErrorHappend(String error) {
-        super.ErrorHappend(error);
     }
 
     @Override
@@ -81,29 +74,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public void ParametersLoaded() {
         //cameraHolder.StartPreview();
-    }
-
-    @Override
-    public void onError(int i, Camera camera)
-    {
-        errorHandler.OnError("Got Error from camera: " + i);
-        /*try
-        {
-            StopPreviewAndCamera();
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-
-        }*/
-        try
-        {
-            cameraHolder.CloseCamera();
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
     }
 
     @Override

@@ -23,7 +23,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     public AbstractParameterHandler camParametersHandler;
     public AbstractCameraHolder cameraHolder;
     public AbstractFocusHandler Focus;
-    protected I_error errorHandler;
+
     I_CameraChangedListner cameraChangedListner;
 
     protected HandlerThread backGroundThread;
@@ -31,7 +31,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     protected Handler uiHandler;
 
     public AbstractCameraUiWrapper(){};
-    public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
+    public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
     {
         if (backGroundThread == null) {
             backGroundThread = new HandlerThread(TAG);
@@ -45,13 +45,6 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     {
         this.cameraChangedListner = cameraChangedListner;
     }
-
-    public void ErrorHappend(String error)
-    {
-        if  (errorHandler != null)
-            errorHandler.OnError(error);
-    }
-
 
     @Override
     public void SwitchModule(String moduleName)

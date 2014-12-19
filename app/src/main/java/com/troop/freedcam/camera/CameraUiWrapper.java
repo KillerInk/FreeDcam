@@ -20,14 +20,14 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
 {
     protected ExtendedSurfaceView preview;
-
+    protected I_error errorHandler;
     public AppSettingsManager appSettingsManager;
 
     public CameraUiWrapper(){};
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
-        super(preview,appSettingsManager, errorHandler);
+        super(preview,appSettingsManager);
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview

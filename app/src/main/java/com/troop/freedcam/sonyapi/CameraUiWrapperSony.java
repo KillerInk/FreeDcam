@@ -28,8 +28,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 
     }
 
-    public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler) {
-        super(preview, appSettingsManager, errorHandler);
+    public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
+        super(preview, appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this);
@@ -49,11 +49,9 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     @Override
     public void StartPreviewAndCamera()
     {
-        ErrorHappend("Start searching for PlayMemory Device");
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
             public void onDeviceFound(ServerDevice device) {
-                ErrorHappend("Found Device " + device.getModelName());
                 serverDevice = device;
                 appSettingsManager.context.runOnUiThread(new Runnable() {
                     @Override
@@ -67,12 +65,12 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 
             @Override
             public void onFinished() {
-                ErrorHappend("Finished Searching");
+                
             }
 
             @Override
             public void onErrorFinished() {
-                ErrorHappend("Searching faild");
+
             }
         });
     }
@@ -87,8 +85,4 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         moduleHandler.DoWork();
     }
 
-    @Override
-    public void ErrorHappend(String error) {
-        super.ErrorHappend(error);
-    }
 }

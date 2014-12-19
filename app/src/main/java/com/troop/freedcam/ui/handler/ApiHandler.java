@@ -24,7 +24,7 @@ public class ApiHandler
         }
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
-            ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager, errorHandler);
+            ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager);
 
         }
         else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
@@ -33,7 +33,7 @@ public class ApiHandler
         }
         else
         {
-            ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager, errorHandler);
+            ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager);
         }
         return ret;
 
