@@ -24,20 +24,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
     LGCamera lgCamera;
     LGCamera.LGParameters lgParameters;
     final  String TAG = "freedcam.BaseCameraHolder";
-
-
-
-
-    HandlerThread cameraThread;
-    Handler cameraHandler;
     public I_error errorHandler;
 
 
     public int CurrentCamera;
 
-    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner)
+    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler)
     {
-        super(cameraChangedListner);
+        super(cameraChangedListner, backGroundThread, backGroundHandler);
     }
 
     /**
@@ -48,27 +42,15 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
-        super.OpenCamera(camera);
-        //open camera into new looper thread
-        if (cameraThread == null) {
-            cameraThread = new HandlerThread(TAG);
-            cameraThread.start();
-            cameraHandler = new Handler(cameraThread.getLooper());
-            CurrentCamera = camera;
-        }
-        cameraHandler.post(new Runnable() {
+        backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                try
-                {
-                    if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
-                    {
+                try {
+                    if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) {
                         lgCamera = new LGCamera(camera);
                         mCamera = lgCamera.getCamera();
                         lgParameters = lgCamera.getLGParameters();
-                    }
-                    else
-                    {
+                    } else {
                         mCamera = Camera.open(camera);
                     }
 
@@ -76,9 +58,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     isRdy = true;
                     cameraChangedListner.onCameraOpen("");
 
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     isRdy = false;
                     ex.printStackTrace();
                 }
@@ -171,7 +151,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        cameraHandler.post(new Runnable() {
+        backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 mCamera.startPreview();
@@ -185,20 +165,16 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
-        cameraHandler.post(new Runnable() {
+        backGroundHandler.post(new Runnable() {
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
 
                     mCamera.stopPreview();
                     isPreviewRunning = false;
                     Log.d(TAG, "Preview Stopped");
 
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     isPreviewRunning = false;
                     Log.d(TAG, "Camera was released");
                     ex.printStackTrace();
@@ -216,8 +192,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
     {
-        if (cameraThread != null) {
-            cameraHandler.post(new Runnable() {
+        if (backGroundThread != null) {
+            backGroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     mCamera.takePicture(shutter, raw, picture);
@@ -228,9 +204,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        if (cameraThread != null)
+        if (backGroundThread != null)
         {
-            cameraHandler.post(new Runnable() {
+            backGroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
 
@@ -242,9 +218,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
     {
-        if (cameraThread != null)
+        if (backGroundThread != null)
         {
-            cameraHandler.post(new Runnable() {
+            backGroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     mCamera.autoFocus(autoFocusCallback);

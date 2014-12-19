@@ -31,13 +31,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
+        super(preview,appSettingsManager, errorHandler);
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
 
         this.errorHandler = errorHandler;
-        BaseCameraHolder baseCameraHolder =new BaseCameraHolder(this);
+        BaseCameraHolder baseCameraHolder =new BaseCameraHolder(this, backGroundThread, backGroundHandler);
         cameraHolder = baseCameraHolder;
         baseCameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager);

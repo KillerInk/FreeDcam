@@ -1,6 +1,8 @@
 package com.troop.freedcam.i_camera;
 
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.SurfaceHolder;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -19,10 +21,14 @@ public class AbstractCameraHolder implements I_CameraHolder
     public AbstractFocusHandler Focus;
     public SurfaceHolder surfaceHolder;
     protected I_CameraChangedListner cameraChangedListner;
+    protected HandlerThread backGroundThread;
+    protected Handler backGroundHandler;
 
-    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner)
+    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
+        this.backGroundHandler = backGroundHandler;
+        this.backGroundThread = backGroundThread;
     }
 
     @Override

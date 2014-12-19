@@ -1,5 +1,7 @@
 package com.troop.freedcam.i_camera;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -16,6 +18,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_CameraChangedListner
 {
+    public String TAG = AbstractCameraUiWrapper.class.getSimpleName();
     public AbstractModuleHandler moduleHandler;
     public AbstractParameterHandler camParametersHandler;
     public I_CameraHolder cameraHolder;
@@ -23,10 +26,19 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     protected I_error errorHandler;
     I_CameraChangedListner cameraChangedListner;
 
+    protected HandlerThread backGroundThread;
+    protected Handler backGroundHandler;
+    protected Handler uiHandler;
+
     public AbstractCameraUiWrapper(){};
     public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
-
+        if (backGroundThread == null) {
+            backGroundThread = new HandlerThread(TAG);
+            backGroundThread.start();
+            backGroundHandler = new Handler(backGroundThread.getLooper());
+            uiHandler = new Handler(appSettingsManager.context.getMainLooper());
+        }
     };
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
@@ -64,30 +76,53 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     }
 
     @Override
-    public void onCameraOpen(String message)
+    public void onCameraOpen(final String message)
     {
         if (cameraChangedListner != null)
-            cameraChangedListner.onCameraOpen(message);
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpen(message);
+                }
+            });
+
 
     }
 
     @Override
-    public void onCameraError(String error) {
+    public void onCameraError(final String error) {
         if (cameraChangedListner != null)
-            cameraChangedListner.onCameraError(error);
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraError(error);
+                }
+            });
     }
 
     @Override
-    public void onCameraStatusChanged(String status)
+    public void onCameraStatusChanged(final String status)
     {
         if (cameraChangedListner != null)
-            cameraChangedListner.onCameraStatusChanged(status);
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraStatusChanged(status);
+                }
+            });
+
 
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(final I_Module module) {
         if (cameraChangedListner != null)
-            cameraChangedListner.onModuleChanged(module);
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onModuleChanged(module);
+                }
+            });
+
     }
 }
