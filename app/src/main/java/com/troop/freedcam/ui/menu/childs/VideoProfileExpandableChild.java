@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
@@ -66,7 +67,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
         appSettingsManager.setString(settingsname, value);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
         {
             VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
             g3.UpdatePreview();
