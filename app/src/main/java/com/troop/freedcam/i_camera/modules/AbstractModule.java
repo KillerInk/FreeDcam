@@ -55,4 +55,14 @@ public abstract class AbstractModule implements I_Module
     public void UnloadNeededParameters() {
 
     }
+
+    @Override
+    public String LongName() {
+        return null;
+    }
+
+    @Override
+    public String ShortName() {
+        return null;
+    }
 }

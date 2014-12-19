@@ -70,12 +70,19 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
 
     Merge nativeYuvMerge;
 
+    @Override
+    public String ShortName() {
+        return "LoEx";
+    }
+
+    @Override
+    public String LongName() {
+        return "Long Exposure";
+    }
 
     @Override
     public void DoWork()
     {
-
-
         //check if already working if true return
         if (this.isWorking)
             return;

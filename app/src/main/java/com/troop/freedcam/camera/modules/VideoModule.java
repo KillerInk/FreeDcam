@@ -30,6 +30,16 @@ public class VideoModule extends AbstractModule
     }
 
 
+    @Override
+    public String ShortName() {
+        return "Mov";
+    }
+
+    @Override
+    public String LongName() {
+        return "Movie";
+    }
+
 //I_Module START
     @Override
     public String ModuleName() {

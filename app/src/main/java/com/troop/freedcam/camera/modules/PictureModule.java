@@ -50,6 +50,16 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         this.baseCameraHolder = baseCameraHolder;
     }
 
+    @Override
+    public String ShortName() {
+        return "Pic";
+    }
+
+    @Override
+    public String LongName() {
+        return "Picture";
+    }
+
 //I_Module START
     @Override
     public String ModuleName() {

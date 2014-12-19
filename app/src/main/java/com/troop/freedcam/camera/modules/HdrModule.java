@@ -41,6 +41,16 @@ public class HdrModule extends PictureModule
     }
 
     @Override
+    public String ShortName() {
+        return "HDR";
+    }
+
+    @Override
+    public String LongName() {
+        return "HDR";
+    }
+
+    @Override
     public boolean IsWorking() {
         return isWorking;
     }
