@@ -59,14 +59,38 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
         moduleHandler.SetModule(moduleName);
     }
 
+
+    //start the camera and preview in the background
     @Override
     public void StartPreviewAndCamera()
+    {
+        backGroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                startCameraAndPreview();
+            }
+        });
+    }
+
+    //override this to handle what happens in the background when StartPreviewAndCamera() is called
+    protected void startCameraAndPreview()
     {
 
     }
 
     @Override
     public void StopPreviewAndCamera() {
+        backGroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                stopCameraAndPreview();
+            }
+        });
+    }
+
+    //override this to handle what happens in the background when StopPreviewAndCamera() is called
+    protected void stopCameraAndPreview()
+    {
 
     }
 

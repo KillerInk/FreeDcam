@@ -52,69 +52,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     }
 
-
-
-
-    private boolean openCamera()
-    {
-        if (Camera.getNumberOfCameras() > 0) {
-            cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-
-            return true;
-        }
-
-        return false;
+    //this get handled in backgroundThread when StartPreviewAndCamera() was called
+    @Override
+    protected void startCameraAndPreview() {
+        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
     }
 
-    private void openCamerainTHread()
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-                //onCameraOpen();
-            }
-        }).start();
-    }
-
-    private void onCameraOpen()
-    {
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
-        while (!baseCameraHolder.isRdy)
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        cameraHolder.GetCamera().setErrorCallback(this);
-        cameraHolder.SetSurface(preview.getHolder());
-        CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
-        camParametersHandler1.LoadParametersFromCamera();
-    }
-
-    public void StartPreviewAndCamera() {
-        openCamerainTHread();
-        /*if (openCamera())
-        {
-            BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
-            while (!baseCameraHolder.isRdy)
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            cameraHolder.GetCamera().setErrorCallback(this);
-            cameraHolder.SetSurface(preview.getHolder());
-            CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
-            camParametersHandler1.LoadParametersFromCamera();
-
-        }*/
-    }
-
-
-    public void StopPreviewAndCamera()
-    {
+    @Override
+    protected void stopCameraAndPreview() {
         cameraHolder.StopPreview();
         cameraHolder.CloseCamera();
     }
@@ -153,10 +98,22 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         }
     }
 
+    //this gets called when the cameraholder has open the camera
     @Override
     public void onCameraOpen(String message)
     {
-        onCameraOpen();
+        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        while (!baseCameraHolder.isRdy)
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        cameraHolder.GetCamera().setErrorCallback(this);
+        cameraHolder.SetSurface(preview.getHolder());
+        CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
+        camParametersHandler1.LoadParametersFromCamera();
+
         super.onCameraOpen(message);
     }
 
