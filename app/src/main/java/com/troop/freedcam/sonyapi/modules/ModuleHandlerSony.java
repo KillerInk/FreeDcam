@@ -1,9 +1,8 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import com.troop.freedcam.camera.modules.AbstractModule;
+import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera2.modules.PictureModuleApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;

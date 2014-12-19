@@ -9,7 +9,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.i_camera.modules.I_Module;
+import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 

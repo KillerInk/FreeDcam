@@ -1,7 +1,6 @@
-package com.troop.freedcam.i_camera.modules;
+package com.troop.freedcam.i_camera.interfaces;
 
-import com.troop.freedcam.camera.modules.AbstractModule;
-import com.troop.freedcam.camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.modules.AbstractModule;
 
 /**
  * Created by troop on 09.12.2014.

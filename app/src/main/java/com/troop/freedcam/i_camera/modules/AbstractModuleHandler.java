@@ -1,7 +1,8 @@
 package com.troop.freedcam.i_camera.modules;
 
-import com.troop.freedcam.camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -20,6 +21,15 @@ public class AbstractModuleHandler implements I_ModuleHandler
     protected HashMap<String, AbstractModule> moduleList;
     protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
+    AbstractCameraHolder cameraHolder;
+
+    public AbstractModuleHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    {
+        this.cameraHolder = cameraHolder;
+        this.appSettingsManager = appSettingsManager;
+        moduleList  = new HashMap<String, AbstractModule>();
+    }
+
     @Override
     public void SetModule(String name) {
 

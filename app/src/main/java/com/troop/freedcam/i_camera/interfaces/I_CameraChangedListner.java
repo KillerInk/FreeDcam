@@ -1,7 +1,5 @@
 package com.troop.freedcam.i_camera.interfaces;
 
-import com.troop.freedcam.i_camera.modules.I_Module;
-
 /**
  * Created by troop on 17.12.2014.
  */

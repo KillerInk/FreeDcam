@@ -16,7 +16,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.I_Module;
+import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
@@ -72,10 +72,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         activity = this;
         timerHandler = new TimerHandler(this);
-
-        /*cameraPreview = (ExtendedSurfaceView)findViewById(R.id.CameraPreview);
-        cameraPreview.appSettingsManager = appSettingsManager;
-        cameraPreview.setOnTouchListener(surfaceTouche);*/
 
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
@@ -270,7 +266,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     }
 
     @Override
-    public void onCameraOpen(String message) {
+    public void onCameraOpen(String message)
+    {
 
     }
 

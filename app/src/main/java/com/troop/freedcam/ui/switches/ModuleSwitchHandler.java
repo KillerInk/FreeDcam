@@ -7,8 +7,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.modules.AbstractModule;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;

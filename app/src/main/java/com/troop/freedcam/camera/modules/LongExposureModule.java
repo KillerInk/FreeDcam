@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.yuv.Merge;
 
