@@ -48,6 +48,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -67,26 +68,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     Camera.Parameters cameraParameters;
     public Camera.Parameters getParameters(){return cameraParameters;}
 
-
-
-
-
-
-
-
-    //public I_ParametersLoaded OnParametersLoaded;
-
-
-
     boolean moreParametersToSet = false;
 
     SetParameterRunner setParameterRunner;
 
-    public CamParametersHandler(I_CameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public CamParametersHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
-        this.cameraHolder = cameraHolder;
+        super(cameraHolder,appSettingsManager);
         ParametersEventHandler = new CameraParametersEventHandler();
-        this.appSettingsManager = appSettingsManager;
     }
 
     public void GetParametersFromCamera()

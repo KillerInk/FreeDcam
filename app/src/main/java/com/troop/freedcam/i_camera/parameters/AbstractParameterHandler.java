@@ -1,6 +1,10 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.os.Handler;
+import android.os.HandlerThread;
+
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -9,6 +13,10 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractParameterHandler
 {
+    protected HandlerThread backGroundThread;
+    protected Handler backGroundHandler;
+    protected Handler uiHandler;
+
     public CameraParametersEventHandler ParametersEventHandler;
 
     public AbstractManualParameter ManualBrightness;
@@ -58,15 +66,20 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter VideoHDR;
     public I_ModeParameter CameraMode;
 
-
     public boolean isExposureAndWBLocked = false;
 
     public boolean rawSupported;
     public boolean dngSupported;
     public String BayerMipiFormat;
 
-    public I_CameraHolder cameraHolder;
+    public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;
+
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    {
+        this.appSettingsManager = appSettingsManager;
+        this.cameraHolder = cameraHolder;
+    }
 
     public void SetParametersToCamera() {};
     public void LockExposureAndWhiteBalance(boolean lock){};
