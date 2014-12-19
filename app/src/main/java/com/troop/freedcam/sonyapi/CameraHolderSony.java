@@ -51,7 +51,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner)
     {
-        super(cameraChangedListner);
+        super(cameraChangedListner, null ,null);
         this.context = (MainActivity_v2)context;
         this.mLiveviewSurface = simpleStreamSurfaceView;
     }

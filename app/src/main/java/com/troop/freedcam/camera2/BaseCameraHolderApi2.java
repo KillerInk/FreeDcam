@@ -79,7 +79,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner)
     {
-        super(cameraChangedListner);
+        super(cameraChangedListner,null, null);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
