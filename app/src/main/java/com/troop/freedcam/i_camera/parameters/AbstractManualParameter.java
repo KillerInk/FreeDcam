@@ -8,10 +8,18 @@ import java.util.List;
  */
 
 
-public class AbstractManualParameter implements  I_ManualParameter
+public abstract class AbstractManualParameter implements I_ManualParameter
 {
 
     private List<I_ParameterEvent> events;
+    protected AbstractParameterHandler camParametersHandler;
+
+    public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
+    {
+        this.camParametersHandler = camParametersHandler;
+        events = new ArrayList<I_ParameterEvent>();
+    }
+
     public interface I_ParameterEvent
     {
         void onIsSupportedChanged(boolean value);
@@ -19,12 +27,6 @@ public class AbstractManualParameter implements  I_ManualParameter
         void onMinValueChanged(int min);
         void onCurrentValueChanged(int current);
     }
-
-    public AbstractManualParameter()
-    {
-        events = new ArrayList<I_ParameterEvent>();
-    }
-
 
 
     public void addEventListner(I_ParameterEvent eventListner)
@@ -74,12 +76,17 @@ public class AbstractManualParameter implements  I_ManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet) {
-
+    public void SetValue(int valueToSet)
+    {
+        setvalue(valueToSet);
+        currentValueChanged(valueToSet);
     }
 
     @Override
     public void RestartPreview() {
 
     }
+
+    protected void setvalue(int valueToset)
+    {}
 }

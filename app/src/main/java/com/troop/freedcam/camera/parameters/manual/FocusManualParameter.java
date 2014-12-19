@@ -80,7 +80,7 @@ public class FocusManualParameter extends  BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    protected void setvalue(int valueToSet)
     {
         //baseCameraHolder.GetCamera().cancelAutoFocus();
         /*if (!parameters.getFocusMode().equals("manual-focus"))

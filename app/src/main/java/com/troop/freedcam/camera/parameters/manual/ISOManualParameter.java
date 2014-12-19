@@ -63,7 +63,7 @@ public class ISOManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    protected void setvalue(int valueToSet)
     {   	if (DeviceUtils.isHTC_M8())
         parameters.set("iso-st", valueToSet);
 

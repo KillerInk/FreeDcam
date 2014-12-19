@@ -23,6 +23,7 @@ public abstract class BaseManualParameterSony extends AbstractManualParameter
 
     public BaseManualParameterSony(String MAX_TO_GET, String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony)
     {
+        super(parameterHandlerSony);
         this.MAX_TO_GET = MAX_TO_GET;
         this.MIN_TO_GET = MIN_TO_GET;
         this.CURRENT_TO_GET = CURRENT_TO_GET;

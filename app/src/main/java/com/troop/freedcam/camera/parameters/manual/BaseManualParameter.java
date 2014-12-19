@@ -17,15 +17,15 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
     protected String  min_value;
 
     boolean isSupported = false;
-    AbstractParameterHandler camParametersHandler;
+
 
     public BaseManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
+        super(camParametersHandler);
         this.parameters = parameters;
         this.value = value;
         this.max_value = maxValue;
         this.min_value = MinValue;
-        this.camParametersHandler = camParametersHandler;
     }
 
     public boolean IsSupported()
@@ -56,12 +56,10 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
         return parameters.getInt(value);
     }
 
-    public void SetValue(int valueToSet)
-    {
-        parameters.set(value, valueToSet);
-
+    @Override
+    protected void setvalue(int valueToset) {
+        parameters.set(value, valueToset);
         camParametersHandler.SetParametersToCamera();
-
     }
 
     protected boolean hasSupport()

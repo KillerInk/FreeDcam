@@ -104,7 +104,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    protected void setvalue(int valueToSet)
     {
     	/*if(DeviceUtils.isSonyADV())
         {

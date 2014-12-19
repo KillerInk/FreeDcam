@@ -61,11 +61,11 @@ public class FXManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    protected void setvalue(int valueToSet)
     {   
     	parameters.set("morpho_effect_type", valueToSet);
         camParametersHandler.SetParametersToCamera();
 
-     }
-
     }
+
+}

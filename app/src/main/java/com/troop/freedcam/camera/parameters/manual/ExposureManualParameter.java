@@ -35,7 +35,7 @@ public class ExposureManualParameter extends BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet) {
+    protected void setvalue(int valueToSet) {
         parameters.setExposureCompensation(valueToSet);
         camParametersHandler.SetParametersToCamera();
 
