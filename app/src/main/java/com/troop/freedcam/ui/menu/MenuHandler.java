@@ -1,31 +1,24 @@
 package com.troop.freedcam.ui.menu;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.menu.childs.ConnectSonyExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
