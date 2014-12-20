@@ -87,6 +87,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         isRdy = false;
 
         mCamera = null;
+        cameraChangedListner.onCameraClose("");
     }
 
     /**
@@ -154,6 +155,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         mCamera.startPreview();
         isPreviewRunning = true;
         Log.d(TAG, "PreviewStarted");
+        cameraChangedListner.onPreviewOpen("");
     }
 
     @Override
@@ -165,6 +167,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             mCamera.stopPreview();
             isPreviewRunning = false;
             Log.d(TAG, "Preview Stopped");
+            cameraChangedListner.onPreviewClose("");
 
         } catch (Exception ex) {
             isPreviewRunning = false;
