@@ -139,7 +139,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView) {
+        if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView && appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
             ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)previewHandler.surfaceView;
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
             cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
