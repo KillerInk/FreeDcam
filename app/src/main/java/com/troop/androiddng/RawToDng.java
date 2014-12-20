@@ -1,5 +1,7 @@
 package com.troop.androiddng;
 
+import android.os.Build;
+
 import com.troop.freedcam.utils.DeviceUtils;
 
 public class RawToDng 
@@ -30,8 +32,10 @@ public class RawToDng
     {
         if (DeviceUtils.isHTC_M8())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize);
-        if (DeviceUtils.isXperiaL())
+        else if (DeviceUtils.isXperiaL())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.XperiaL_rowSize);
+        else if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+            convertRawBytesToDng(data, fileToSave, width, 3080, g3_color1, g3_color2, g3_neutral, g3_blacklevel, BGGR, getG3_rowSizeL);
         else
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, BGGR, Calculate_rowSize(data.length, height));
     }
