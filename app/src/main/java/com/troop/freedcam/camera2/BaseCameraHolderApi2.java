@@ -201,6 +201,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             e.printStackTrace();
             return;
         }
+
     }
 
     CameraCaptureSession.StateCallback previewStateCallBack = new CameraCaptureSession.StateCallback()
@@ -228,7 +229,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                        mCaptureCallback, backGroundHandler);
+                        mCaptureCallback, null);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -249,7 +250,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mPreviewRequestBuilder.set(key, value);
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
-                        backGroundHandler);
+                        null);
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();

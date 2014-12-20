@@ -60,4 +60,11 @@ public class ModuleEventHandler
         for (I_RecorderStateChanged lisn : RecorderStateListners)
             lisn.RecordingStateChanged(state);
     }
+
+    public void CLEAR()
+    {
+        moduleChangedListner.clear();
+        WorkFinishedListners.clear();
+        RecorderStateListners.clear();
+    }
 }

@@ -6,7 +6,9 @@ package com.troop.freedcam.i_camera.interfaces;
 public interface I_CameraUiWrapper
 {
     public void SwitchModule(String moduleName);
-    public void StartPreviewAndCamera();
-    public void StopPreviewAndCamera();
+    public void StartCamera();
+    public void StopCamera();
+    public void StartPreview();
+    public void StopPreview();
     public void DoWork();
 }

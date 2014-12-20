@@ -19,7 +19,8 @@ public class ApiHandler
     {
         if (ret != null)
         {
-            ret.StopPreviewAndCamera();
+            ret.StopPreview();
+            ret.StopCamera();
             ret = null;
         }
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))

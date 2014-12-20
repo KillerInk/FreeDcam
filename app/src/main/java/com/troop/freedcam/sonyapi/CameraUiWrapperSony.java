@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi;
 
 import android.view.SurfaceView;
 
+import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
@@ -37,7 +38,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
-        StartPreviewAndCamera();
+        StartCamera();
 
     }
 
@@ -46,9 +47,9 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         moduleHandler.SetModule(moduleName);
     }
 
+
     @Override
-    public void StartPreviewAndCamera()
-    {
+    protected void startCamera() {
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
             public void onDeviceFound(ServerDevice device) {
@@ -76,8 +77,38 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     }
 
     @Override
-    public void StopPreviewAndCamera() {
+    protected void stopCamera() {
         cameraHolder.CloseCamera();
+    }
+
+    @Override
+    protected void stopPreview() {
+        super.stopPreview();
+    }
+
+    @Override
+    protected void startPreview() {
+        super.startPreview();
+    }
+
+    @Override
+    public void onCameraOpen(String message) {
+        super.onCameraOpen(message);
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        super.onCameraError(error);
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status) {
+        super.onCameraStatusChanged(status);
+    }
+
+    @Override
+    public void onModuleChanged(I_Module module) {
+        super.onModuleChanged(module);
     }
 
     @Override
@@ -85,4 +116,18 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         moduleHandler.DoWork();
     }
 
+    @Override
+    public void onCameraClose(String message) {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
+
+    }
 }

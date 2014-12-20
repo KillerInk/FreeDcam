@@ -28,12 +28,18 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public String ModuleChanged(final String module)
     {
-        if (module.equals(ModuleHandler.MODULE_VIDEO))
-            timerText.setVisibility(View.VISIBLE);
-        else
-            timerText.setVisibility(View.GONE);
+        mainActivity_v2.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (module.equals(ModuleHandler.MODULE_VIDEO))
+                    timerText.setVisibility(View.VISIBLE);
+                else
+                    timerText.setVisibility(View.GONE);
+            }
+        });
+
         return null;
     }
 

@@ -3,6 +3,7 @@ package com.troop.freedcam.camera2;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.TextureView;
 
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -21,6 +22,8 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     Context context;
     AppSettingsManager appSettingsManager;
     TextureView preview;
+
+    String TAG = CameraUiWrapperApi2.class.getSimpleName();
 
     public CameraUiWrapperApi2()
     {
@@ -46,19 +49,35 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
-        StartPreviewAndCamera();
+        Log.d(TAG, "Constructor done");
+
     }
 
     @Override
-    protected void startCameraAndPreview() {
-
+    protected void startCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+        Log.d(TAG, "opencamera");
     }
 
     @Override
-    protected void stopCameraAndPreview() {
-        cameraHolder.StopPreview();
+    protected void stopCamera()
+    {
+        Log.d(TAG, "Stop Camera");
         cameraHolder.CloseCamera();
+    }
+
+    @Override
+    protected void startPreview()
+    {
+        Log.d(TAG, "Stop Preview");
+        cameraHolder.StartPreview();
+    }
+
+    @Override
+    protected void stopPreview()
+    {
+        Log.d(TAG, "Stop Preview");
+        cameraHolder.StopPreview();
     }
 
     @Override
@@ -71,12 +90,32 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         cameraHolder.SetSurface(preview);
         cameraHolder.StartPreview();
+        Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
     }
 
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+    public void onCameraClose(String message)
+    {
 
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
+
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+    {
+        Log.d(TAG, "SurfaceTextureAvailable");
+        PreviewSurfaceRdy = true;
+        //StartPreview();
     }
 
     @Override
@@ -87,7 +126,10 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
-        StopPreviewAndCamera();
+        StopPreview();
+        StopCamera();
+        Log.d(TAG, "Surface destroyed");
+        PreviewSurfaceRdy = false;
         return false;
     }
 

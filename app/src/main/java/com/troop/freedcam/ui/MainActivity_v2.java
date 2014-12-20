@@ -114,8 +114,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         if (cameraUiWrapper != null)
         {
-            cameraUiWrapper.StopPreviewAndCamera();
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
+            cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
+            cameraUiWrapper.moduleHandler.moduleEventHandler = null;
+            cameraUiWrapper.StopPreview();
+            cameraUiWrapper.StopCamera();
+
             cameraUiWrapper = null;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         previewHandler.Init();
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
@@ -137,6 +148,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.StartCamera();
     }
 
 
@@ -268,6 +280,21 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraOpen(String message)
     {
+
+    }
+
+    @Override
+    public void onCameraClose(String message) {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
 
     }
 

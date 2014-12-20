@@ -60,12 +60,14 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
             currentCamera = 0;
         imageView.setImageBitmap(bitmaps[currentCamera]);
         appSettingsManager.SetCurrentCamera(currentCamera);
-        cameraUiWrapper.StopPreviewAndCamera();
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StopCamera();
         if (surfaceView instanceof ExtendedSurfaceView)
         {
             ((ExtendedSurfaceView)surfaceView).SwitchViewMode();
         }
-        cameraUiWrapper.StartPreviewAndCamera();
+        cameraUiWrapper.StartCamera();
+        cameraUiWrapper.StartPreview();
 
     }
 

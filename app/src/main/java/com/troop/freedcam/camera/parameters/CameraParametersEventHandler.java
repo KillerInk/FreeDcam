@@ -14,6 +14,8 @@ public class CameraParametersEventHandler
     {
         parameterChangedListner = new ArrayList<I_ParameterChanged>();
         parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
+        parameterChangedListner.clear();
+        parametersLoadedListner.clear();
     }
 
     public void AddParametersChangedListner(I_ParameterChanged parameterChanged)
@@ -43,5 +45,11 @@ public class CameraParametersEventHandler
             else
                 parametersLoadedListner.get(i).ParametersLoaded();
         }
+    }
+
+    public void CLEAR()
+    {
+        parameterChangedListner.clear();
+        parametersLoadedListner.clear();
     }
 }

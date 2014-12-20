@@ -51,7 +51,13 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ColorMode = new ColorModeApi2(this.cameraHolder);
         PictureSize = new PictureSizeModeApi2(this.cameraHolder);
         PictureFormat = new PictureFormatParameterApi2(this.cameraHolder);
-        ParametersEventHandler.ParametersHasLoaded();
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ParametersEventHandler.ParametersHasLoaded();
+            }
+        });
+
     }
 
 

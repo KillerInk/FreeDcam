@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -22,6 +23,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
     public AppSettingsManager appSettingsManager;
+    String TAG = CameraUiWrapper.class.getSimpleName();
 
     public CameraUiWrapper(){};
 
@@ -45,26 +47,46 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
         baseCameraHolder.Focus = Focus;
-        StartPreviewAndCamera();
+        Log.d(TAG, "Ctor done");
+
 
     }
 
     //this get handled in backgroundThread when StartPreviewAndCamera() was called
     @Override
-    protected void startCameraAndPreview() {
+    protected void startCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+        Log.d(TAG, "opencamera");
     }
 
     @Override
-    protected void stopCameraAndPreview() {
-        cameraHolder.StopPreview();
+    protected void stopCamera()
+    {
+        Log.d(TAG, "Stop Camera");
         cameraHolder.CloseCamera();
     }
 
     @Override
+    protected void startPreview()
+    {
+        Log.d(TAG, "Stop Preview");
+        cameraHolder.StartPreview();
+    }
+
+    @Override
+    protected void stopPreview()
+    {
+        Log.d(TAG, "Stop Preview");
+        cameraHolder.StopPreview();
+    }
+
+
+
+    @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-
+        Log.d(TAG, "surface created");
+        PreviewSurfaceRdy = true;
     }
 
     @Override
@@ -73,15 +95,16 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        StopPreviewAndCamera();
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
+        PreviewSurfaceRdy =false;
+        StopPreview(); StopCamera();
     }
 
     @Override
     public void ParametersLoaded()
     {
-        cameraHolder.SetSurface(preview.getHolder());
-        cameraHolder.StartPreview();
+
     }
 
     @Override
@@ -103,11 +126,28 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void onCameraOpen(String message)
     {
         cameraHolder.GetCamera().setErrorCallback(this);
-
+        super.onCameraOpen(message);
+        cameraHolder.SetSurface(preview.getHolder());
+        cameraHolder.StartPreview();
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
 
-        super.onCameraOpen(message);
+
+    }
+
+    @Override
+    public void onCameraClose(String message) {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
+
     }
 
     @Override

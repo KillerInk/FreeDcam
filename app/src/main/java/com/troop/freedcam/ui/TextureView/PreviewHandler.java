@@ -58,6 +58,10 @@ public class PreviewHandler extends RelativeLayout
 
     public void Init()
     {
+        if (surfaceView != null)
+        {
+            surfaceView = null;
+        }
         this.removeAllViews();
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {

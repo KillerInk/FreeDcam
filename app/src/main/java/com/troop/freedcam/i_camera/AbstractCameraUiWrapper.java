@@ -23,6 +23,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     public AbstractParameterHandler camParametersHandler;
     public AbstractCameraHolder cameraHolder;
     public AbstractFocusHandler Focus;
+    protected boolean PreviewSurfaceRdy = false;
 
     I_CameraChangedListner cameraChangedListner;
 
@@ -55,37 +56,70 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     //start the camera and preview in the background
     @Override
-    public void StartPreviewAndCamera()
+    public void StartCamera()
     {
         backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                startCameraAndPreview();
+                startCamera();
             }
         });
     }
 
-    //override this to handle what happens in the background when StartPreviewAndCamera() is called
-    protected void startCameraAndPreview()
+    //override this to handle what happens in the background when StartCamera() is called
+    protected void startCamera()
     {
 
     }
 
     @Override
-    public void StopPreviewAndCamera() {
+    public void StopCamera()
+    {
+        stopCamera();
+        /*backGroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });*/
+    }
+
+    //override this to handle what happens in the background when StopPreviewAndCamera() is called
+    protected void stopCamera()
+    {
+
+    }
+
+    @Override
+    public void StopPreview()
+    {
+        stopPreview();
+        /*backGroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });*/
+    }
+
+    protected void stopPreview()
+    {
+
+    }
+
+    @Override
+    public void StartPreview()
+    {
         backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                stopCameraAndPreview();
+                startPreview();
             }
         });
     }
 
-    //override this to handle what happens in the background when StopPreviewAndCamera() is called
-    protected void stopCameraAndPreview()
-    {
-
-    }
+    protected void startPreview()
+    {}
 
     @Override
     public void DoWork() {
@@ -129,6 +163,42 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
             });
 
 
+    }
+
+    @Override
+    public void onCameraClose(final String message)
+    {
+        if (cameraChangedListner != null)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraClose(message);
+                }
+            });
+
+    }
+
+    @Override
+    public void onPreviewOpen(final String message)
+    {
+        if (cameraChangedListner != null)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewOpen(message);
+                }
+            });
+    }
+
+    @Override
+    public void onPreviewClose(final String message) {
+        if (cameraChangedListner != null)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewClose(message);
+                }
+            });
     }
 
     @Override
