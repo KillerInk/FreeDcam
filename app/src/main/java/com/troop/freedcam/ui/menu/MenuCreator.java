@@ -420,9 +420,11 @@ public class MenuCreator
         ExpandableGroup preview = getNewGroup("Settings");
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
-        saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-        childlist.add(saveCamparas);
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
+            SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
+            saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+            childlist.add(saveCamparas);
+        }
 
         SwitchApiExpandableChild sonyExpandableChild = new SwitchApiExpandableChild(context);
         sonyExpandableChild.setParameterHolder(null, appSettingsManager, AppSettingsManager.SETTING_SONYAPI, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
