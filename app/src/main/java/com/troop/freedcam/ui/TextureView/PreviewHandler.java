@@ -62,7 +62,14 @@ public class PreviewHandler extends RelativeLayout
         {
             surfaceView = null;
         }
-        this.removeAllViews();
+        try {
+            this.removeAllViews();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             surfaceView = new SimpleStreamSurfaceView(context);
