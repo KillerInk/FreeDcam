@@ -12,7 +12,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public abstract class AbstractModuleApi2 extends AbstractModule
 {
     protected BaseCameraHolderApi2 baseCameraHolder;
-    protected AppSettingsManager Settings;
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
@@ -23,7 +22,6 @@ public abstract class AbstractModuleApi2 extends AbstractModule
     public AbstractModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
     {
         this.baseCameraHolder = cameraHandler;
-        this.Settings = Settings;
         this.eventHandler = eventHandler;
         this.ParameterHandler = baseCameraHolder.ParameterHandler;
     }
