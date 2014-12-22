@@ -370,6 +370,8 @@ public class CameraHolderSony extends AbstractCameraHolder
     private void closeConnection() {
 
         Log.d(TAG, "closeConnection(): exec.");
+        if (mLiveviewSurface == null || mEventObserver == null || mAvailableCameraApiSet == null)
+            return;
         // Liveview stop
         Log.d(TAG, "closeConnection(): LiveviewSurface.stop()");
         if (mLiveviewSurface != null) {

@@ -17,6 +17,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
@@ -280,7 +281,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraOpen(String message)
     {
-
+        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+            Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -299,7 +301,15 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     }
 
     @Override
-    public void onCameraError(String error) {
+    public void onCameraError(String error)
+    {
+        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+        {
+            Toast.makeText(this, "Couldnt find RemoteDevice", Toast.LENGTH_SHORT).show();
+            appSettingsManager.setCamApi(AppSettingsManager.API_1);
+            loadCameraUiWrapper();
+        }
+
 
     }
 

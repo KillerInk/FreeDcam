@@ -24,11 +24,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     CameraHolderSony cameraHolder;
     AppSettingsManager appSettingsManager;
 
-    public CameraUiWrapperSony()
-    {
-
-    }
-
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
         super(preview, appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
@@ -38,8 +33,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
-        StartCamera();
-
     }
 
     @Override
@@ -49,7 +42,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 
 
     @Override
-    protected void startCamera() {
+    protected void startCamera()
+    {
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
             public void onDeviceFound(ServerDevice device) {
@@ -65,15 +59,19 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
             }
 
             @Override
-            public void onFinished() {
+            public void onFinished()
+            {
+                if (serverDevice == null)
+                    onCameraError("");
 
             }
 
             @Override
             public void onErrorFinished() {
-
+                    onCameraError("");
             }
         });
+        onCameraOpen("");
     }
 
     @Override

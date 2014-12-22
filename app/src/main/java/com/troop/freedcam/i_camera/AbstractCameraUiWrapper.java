@@ -25,7 +25,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     public AbstractFocusHandler Focus;
     protected boolean PreviewSurfaceRdy = false;
 
-    I_CameraChangedListner cameraChangedListner;
+    protected I_CameraChangedListner cameraChangedListner;
 
     protected HandlerThread backGroundThread;
     protected Handler backGroundHandler;
