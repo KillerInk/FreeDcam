@@ -212,4 +212,17 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
             });
 
     }
+
+    @Override
+    public void onCameraOpenFinish(final String message)
+    {
+        if (cameraChangedListner != null)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpenFinish(message);
+                }
+            });
+
+    }
 }

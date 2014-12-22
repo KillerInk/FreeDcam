@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -60,6 +61,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
     I_error error;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,7 +284,23 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     public void onCameraOpen(String message)
     {
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
-            Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT).show();
+        {
+            progress = ProgressDialog.show(this,"", "Searching RemoteDevice", true);
+
+            //Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT).show();
+        }
+        //else
+            //progress = ProgressDialog.show(this,"", "Loading", true);
+    }
+
+    @Override
+    public void onCameraOpenFinish(String message)
+    {
+        if (progress != null)
+        {
+            progress.cancel();
+            progress = null;
+        }
     }
 
     @Override
@@ -303,12 +321,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraError(String error)
     {
+        if (progress != null)
+        {
+            progress.cancel();
+            progress = null;
+        }
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
+
             Toast.makeText(this, "Couldnt find RemoteDevice", Toast.LENGTH_SHORT).show();
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }
+
 
 
     }

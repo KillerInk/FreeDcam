@@ -36,7 +36,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = errorHandler;
-        BaseCameraHolder baseCameraHolder =new BaseCameraHolder(this, backGroundThread, backGroundHandler, uiHandler);
+        BaseCameraHolder baseCameraHolder = new BaseCameraHolder(this, backGroundThread, backGroundHandler, uiHandler);
         cameraHolder = baseCameraHolder;
         baseCameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
@@ -125,6 +125,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void onCameraOpen(String message)
     {
+        super.onCameraOpen(message);
         cameraHolder.GetCamera().setErrorCallback(this);
         super.onCameraOpen(message);
         cameraHolder.SetSurface(preview.getHolder());
@@ -138,6 +139,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         cameraHolder.StartPreview();
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
+        super.onCameraOpenFinish("");
 
 
     }
@@ -171,5 +173,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void onModuleChanged(I_Module module) {
         super.onModuleChanged(module);
+    }
+
+    @Override
+    public void onCameraOpenFinish(String message) {
+        super.onCameraOpenFinish(message);
     }
 }
