@@ -60,15 +60,15 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
                 }
            /* }
-        })
+        })*/
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ParametersEventHandler.ParametersHasLoaded();
             }
-        });;*/
-        ParametersEventHandler.ParametersHasLoaded();
+        });
+        //ParametersEventHandler.ParametersHasLoaded();
 
     }
 
