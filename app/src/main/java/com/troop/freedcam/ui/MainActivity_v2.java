@@ -288,8 +288,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     public void onCameraOpen(String message)
     {
         try {
-            if (cameraUiWrapper instanceof CameraUiWrapperSony && initDone) {
-                progress = ProgressDialog.show(this,"", message, true);
+            if (cameraUiWrapper instanceof CameraUiWrapperSony)
+            {
+                Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT);
             }
         }
         catch (Exception ex)
@@ -303,10 +304,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraOpenFinish(String message)
     {
-        if (progress != null)
+        if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-            progress.cancel();
-            progress = null;
+            Toast.makeText(this, "Found RemoteDevice", Toast.LENGTH_SHORT);
         }
     }
 
@@ -328,14 +328,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraError(String error)
     {
-        if (progress != null)
-        {
-            progress.cancel();
-            progress = null;
-        }
+
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-
             Toast.makeText(this, "Couldnt find RemoteDevice", Toast.LENGTH_SHORT).show();
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
