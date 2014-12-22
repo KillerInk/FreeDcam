@@ -21,11 +21,13 @@ public class ModuleHandlerSony extends AbstractModuleHandler
     {
         super(cameraHolder, appSettingsManager);
         this.cameraHolder = cameraHolder;
+        initModules();
     }
 
     protected void initModules()
     {
-
+        PictureModuleSony pic = new PictureModuleSony(cameraHolder, appSettingsManager, moduleEventHandler);
+        moduleList.put(pic.ModuleName(), pic);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
 
