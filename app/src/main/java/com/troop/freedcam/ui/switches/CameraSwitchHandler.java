@@ -67,7 +67,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
             ((ExtendedSurfaceView)surfaceView).SwitchViewMode();
         }
         cameraUiWrapper.StartCamera();
-        cameraUiWrapper.StartPreview();
+        //cameraUiWrapper.StartPreview();
 
     }
 

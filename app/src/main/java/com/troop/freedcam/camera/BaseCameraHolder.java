@@ -78,12 +78,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
         }
 
-        try {
+        /*try {
             backGroundThread.quit();
             backGroundThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         isRdy = false;
 
         mCamera = null;
