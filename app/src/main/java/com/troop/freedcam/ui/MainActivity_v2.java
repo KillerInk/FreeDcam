@@ -63,6 +63,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     I_error error;
     ProgressDialog progress;
 
+    boolean initDone = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +112,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             helpOverlayOpen = true;
         }
+
 
     }
 
@@ -198,6 +201,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     protected void onPostResume() {
         super.onPostResume();
         orientationHandler.Start();
+        initDone = true;
     }
 
     @Override
@@ -283,11 +287,14 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraOpen(String message)
     {
-        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+        try {
+            if (cameraUiWrapper instanceof CameraUiWrapperSony && initDone) {
+                progress = ProgressDialog.show(this,"", message, true);
+            }
+        }
+        catch (Exception ex)
         {
-            progress = ProgressDialog.show(this,"", "Searching RemoteDevice", true);
-
-            //Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
         }
         //else
             //progress = ProgressDialog.show(this,"", "Loading", true);
