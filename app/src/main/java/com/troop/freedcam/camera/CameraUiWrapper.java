@@ -87,6 +87,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
+        StartCamera();
     }
 
     @Override

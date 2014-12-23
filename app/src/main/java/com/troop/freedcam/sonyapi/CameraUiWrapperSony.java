@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi;
 
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_Module;
@@ -15,7 +16,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
+public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements SurfaceHolder.Callback
 {
     protected SimpleStreamSurfaceView surfaceView;
 
@@ -27,6 +28,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
         super(preview, appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
+        this.surfaceView.getHolder().addCallback(this);
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, backGroundThread, backGroundHandler, uiHandler);
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
@@ -81,12 +83,12 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
 
     @Override
     protected void stopPreview() {
-        super.stopPreview();
+
     }
 
     @Override
     protected void startPreview() {
-        super.startPreview();
+
     }
 
     @Override
@@ -127,5 +129,22 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper
     @Override
     public void onPreviewClose(String message) {
 
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+        StartCamera();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        StopPreview();
+        StopCamera();
     }
 }

@@ -115,7 +115,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         Log.d(TAG, "SurfaceTextureAvailable");
         PreviewSurfaceRdy = true;
-        //StartPreview();
+        StartCamera();
     }
 
     @Override

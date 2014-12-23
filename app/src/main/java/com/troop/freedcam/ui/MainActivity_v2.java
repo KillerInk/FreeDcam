@@ -154,7 +154,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraUiWrapper.StartCamera();
+        //cameraUiWrapper.StartCamera();
     }
 
 
