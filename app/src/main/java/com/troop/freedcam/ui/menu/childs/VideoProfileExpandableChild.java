@@ -10,6 +10,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.I_PreviewSizeEvent;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -23,38 +24,17 @@ public class VideoProfileExpandableChild extends ExpandableChild
     AbstractCameraUiWrapper cameraUiWrapper;
     public I_VideoProfile videoProfileChanged;
 
-    public VideoProfileExpandableChild(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public VideoProfileExpandableChild(Context context) {
-        super(context);
-    }
-
-    public VideoProfileExpandableChild(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent)
+    public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,
+                                       ArrayList<String> modulesToShow)
     {
-        super(context);
+        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
         this.previewSizeEvent = previewSizeEvent;
     }
 
-    public VideoProfileExpandableChild(Context context, AbstractCameraUiWrapper cameraUiWrapper)
-    {
-        super(context);
-        this.cameraUiWrapper = cameraUiWrapper;
-    }
 
     @Override
     public String getName() {
         return super.getName();
-    }
-
-    @Override
-    public void setName(String Name) {
-        super.setName(Name);
     }
 
     @Override
@@ -93,7 +73,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder) {
         this.parameterHolder = parameterHolder;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
@@ -111,12 +91,6 @@ public class VideoProfileExpandableChild extends ExpandableChild
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
         //appSettingsManager.setString(settingsname, settingValue);
-        AddModulesToShow(modulesToShow);
-    }
-
-    @Override
-    public void AddModulesToShow(ArrayList<String> modulesToShow) {
-        super.AddModulesToShow(modulesToShow);
     }
 
     @Override

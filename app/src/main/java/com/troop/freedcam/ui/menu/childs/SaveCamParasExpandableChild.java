@@ -10,6 +10,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,25 +21,19 @@ import java.util.Arrays;
 /**
  * Created by Ingo on 02.11.2014.
  */
-public class SaveCamParasExpandableChild extends ExpandableChild {
-    public SaveCamParasExpandableChild(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public SaveCamParasExpandableChild(Context context) {
-        super(context);
-    }
-
-    public SaveCamParasExpandableChild(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+public class SaveCamParasExpandableChild extends ExpandableChild
+{
+    AbstractCameraUiWrapper cameraUiWrapper;
+    public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow,
+    AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        super(context, group,name,appSettingsManager,settingsname,modulesToShow);
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder) {
         this.parameterHolder = parameterHolder;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.cameraUiWrapper = cameraUiWrapper;
         nameTextView.setText("Save CamParameter");
         valueTextView.setText("");
     }

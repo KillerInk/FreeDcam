@@ -7,6 +7,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
 
@@ -15,17 +16,8 @@ import java.util.ArrayList;
  */
 public class VideoSizeExpandableChild extends ExpandableChild
 {
-
-    public VideoSizeExpandableChild(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public VideoSizeExpandableChild(Context context) {
-        super(context);
-    }
-
-    public VideoSizeExpandableChild(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public VideoSizeExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
+        super(context,group, name, appSettingsManager,settingsname,modulesToShow);
     }
 
     @Override
@@ -33,10 +25,6 @@ public class VideoSizeExpandableChild extends ExpandableChild
         return super.getName();
     }
 
-    @Override
-    public void setName(String Name) {
-        super.setName(Name);
-    }
 
     @Override
     public String Value() {
@@ -57,11 +45,8 @@ public class VideoSizeExpandableChild extends ExpandableChild
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
+    public void setParameterHolder(I_ModeParameter parameterHolder) {
         this.parameterHolder = parameterHolder;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.cameraUiWrapper = cameraUiWrapper;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue == null || settingValue == "") {
@@ -71,13 +56,8 @@ public class VideoSizeExpandableChild extends ExpandableChild
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
         parameterHolder.SetValue(settingValue, false);
-        AddModulesToShow(modulesToShow);
     }
 
-    @Override
-    public void AddModulesToShow(ArrayList<String> modulesToShow) {
-        super.AddModulesToShow(modulesToShow);
-    }
 
     @Override
     public String ModuleChanged(String module) {

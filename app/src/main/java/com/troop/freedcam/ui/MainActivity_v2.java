@@ -160,10 +160,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        if (menuHandler == null)
-            menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
-        else
-            menuHandler = new MenuHandler(this, cameraUiWrapper,appSettingsManager,previewHandler.surfaceView, menuHandler.scrollView, menuHandler.mainMenuView, menuHandler.listView);
+        if (menuHandler == null) {
+            menuHandler = new MenuHandler(this, appSettingsManager, previewHandler.surfaceView);
+            menuHandler.SetCameraUiWrapper(cameraUiWrapper);
+        }
+        else {
+            menuHandler.SetCameraUiWrapper(cameraUiWrapper);
+        }
         shutterHandler = new ShutterHandler(this, cameraUiWrapper);
         cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
         moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);

@@ -12,6 +12,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
 
@@ -32,27 +33,12 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     final float bigmover = 1;
     I_VideoProfile videoProfile;
 
-    public ExpandableChildNumber(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
 
-    public ExpandableChildNumber(Context context) {
-        super(context);
-    }
-
-    public ExpandableChildNumber(Context context, AppSettingsManager appSettingsManager,String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
+    public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname, ArrayList<String> modulesToShow)
     {
-        super(context);
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.modulesToShow = modulesToShow;
-        this.cameraUiWrapper = cameraUiWrapper;
+        super(context,group,name, appSettingsManager, settingsname, modulesToShow);
         initt(context);
 
-    }
-
-    public ExpandableChildNumber(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
     }
 
     @Override
@@ -151,11 +137,6 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     }
 
     @Override
-    public void setName(String Name) {
-        super.setName(Name);
-    }
-
-    @Override
     public String Value() {
         return null;
     }
@@ -171,13 +152,9 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
-
-    }
-
-    @Override
-    public void AddModulesToShow(ArrayList<String> modulesToShow) {
-        super.AddModulesToShow(modulesToShow);
+    public void setParameterHolder(I_ModeParameter parameterHolder)
+    {
+        this.parameterHolder = parameterHolder;
     }
 
     @Override

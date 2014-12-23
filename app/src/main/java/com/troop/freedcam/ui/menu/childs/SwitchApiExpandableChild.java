@@ -9,6 +9,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
 
@@ -18,27 +19,17 @@ import java.util.ArrayList;
 public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeParameter
 {
     MainActivity_v2 context;
-    public SwitchApiExpandableChild(MainActivity_v2 context, AttributeSet attrs) {
-        super(context, attrs);
+
+
+    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
+        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
         this.context = context;
     }
 
-    public SwitchApiExpandableChild(MainActivity_v2 context) {
-        super(context);
-        this.context = context;
-    }
 
-    public SwitchApiExpandableChild(MainActivity_v2 context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        this.context = context;
-    }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper) {
-        this.parameterHolder = this;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.cameraUiWrapper = cameraUiWrapper;
+    public void setParameterHolder(I_ModeParameter parameterHolder) {
         nameTextView.setText("Switch Api");
         valueTextView.setText(Value());
 

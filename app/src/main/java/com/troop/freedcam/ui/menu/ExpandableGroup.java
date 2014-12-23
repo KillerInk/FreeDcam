@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 
 import java.util.ArrayList;
@@ -28,19 +29,10 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     LinearLayout groupcontainer;
     boolean submenuVisible = false;
     OnClickListener onChildclick;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public ExpandableGroup(Context context) {
         super(context);
-        init(context);
-    }
-
-    public ExpandableGroup(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    public ExpandableGroup(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
         init(context);
     }
 
@@ -89,7 +81,8 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         submenu.removeAllViews();
         for (ExpandableChild child:Items)
         {
-            submenu.addView(child);
+            child.getParameterHolder().IsSupported();
+                submenu.addView(child);
         }
     }
 

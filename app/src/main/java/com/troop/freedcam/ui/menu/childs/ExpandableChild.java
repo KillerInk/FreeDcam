@@ -14,6 +14,7 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
 
@@ -30,22 +31,19 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     TextView valueTextView;
     protected String settingsname;
     protected ArrayList<String> modulesToShow;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    ExpandableGroup group;
 
-    public ExpandableChild(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
 
-    public ExpandableChild(Context context) {
+    public ExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
         super(context);
+        this.group = group;
+        this.Name = name;
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
+        this.modulesToShow = modulesToShow;
         init(context);
     }
 
-    public ExpandableChild(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-    }
 
     protected void init(Context context)
     {
@@ -60,9 +58,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     public String getName() {
         return Name;
     }
-    public void setName(String Name) {
-        this.Name = Name;
-    }
+
     public String Value()
     {
         if (!parameterHolder.GetValue().equals(""))
@@ -79,32 +75,29 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder( I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
+    public void setParameterHolder(I_ModeParameter parameterHolder)
     {
         this.parameterHolder = parameterHolder;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.cameraUiWrapper = cameraUiWrapper;
-        String campara = parameterHolder.GetValue();
-        String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue.equals("")) {
-            appSettingsManager.setString(settingsname, campara);
-            Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
+
+        if (parameterHolder.IsSupported())
+        {
+            String campara = parameterHolder.GetValue();
+            String settingValue = appSettingsManager.getString(settingsname);
+            if (settingValue.equals("")) {
+                appSettingsManager.setString(settingsname, campara);
+                Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
+            }
+            if (campara != null && !settingValue.equals(campara) && !settingValue.equals("") && !campara.equals("")) {
+                parameterHolder.SetValue(settingValue, false);
+                appSettingsManager.setString(settingsname, settingValue);
+                Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
+            }
+            nameTextView.setText(Name);
+            valueTextView.setText(appSettingsManager.getString(settingsname));
         }
-        if (campara != null &&!settingValue.equals(campara) && !settingValue.equals("") && !campara.equals("")) {
-            parameterHolder.SetValue(settingValue, false);
-            appSettingsManager.setString(settingsname, settingValue);
-            Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
-        }
-        nameTextView.setText(Name);
-        valueTextView.setText(appSettingsManager.getString(settingsname));
-        AddModulesToShow(modulesToShow);
     }
 
-    public void AddModulesToShow(ArrayList<String> modulesToShow)
-    {
-        this.modulesToShow = modulesToShow;
-    }
+
 
     @Override
     public String ModuleChanged(String module)

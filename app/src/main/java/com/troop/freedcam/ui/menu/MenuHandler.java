@@ -51,14 +51,13 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView)
+    public MenuHandler(MainActivity_v2 context, AppSettingsManager appSettingsManager, SurfaceView surfaceView)
     {
         this.context = context;
-        this.cameraUiWrapper = cameraUiWrapper;
+
         this.appSettingsManager = appSettingsManager;
         this.surfaceView = surfaceView;
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
         try
         {
@@ -78,19 +77,13 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
     }
 
-    public MenuHandler(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView, ScrollView scrollView,
-                       LinearLayout mainMenuView, ListView listView)
+    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this(context, cameraUiWrapper, appSettingsManager, surfaceView);
-        this.mainMenuView = mainMenuView;
-
-
-        this.listView = listView;
-        listView.setOnItemClickListener(this);
-        this.scrollView = scrollView;
-        context.settingsLayoutHolder.removeView(listView);
-
+        this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
+
 
     private ArrayList<ExpandableGroup> createMenu() {
         ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();

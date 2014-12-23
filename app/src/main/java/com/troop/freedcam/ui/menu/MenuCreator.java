@@ -4,6 +4,7 @@ import android.view.SurfaceView;
 
 import com.troop.freedcam.R;
 
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -31,12 +32,139 @@ public class MenuCreator
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractParameterHandler parameterHandler;
+
+    ExpandableGroup settingsGroup;
+
+    PreviewExpandableChild picSize;
+    PictureFormatExpandableChild picformat;
+    ExpandableChild jpegquality;
+    ExpandableChild redeye;
+    ExpandableChild color;
+    ExpandableChild iso;
+    ExpandableChild exposureMode;
+    ExpandableChild whitebalanceMode;
+    ExpandableChild sceneMode;
+    ExpandableChild focusMode;
+    ExpandableChild antibandingMode;
+    ExpandableChild ippMode;
+    ExpandableChild lensShadeMode;
+    ExpandableChild sceneDectecMode;
+    ExpandableChild denoiseMode;
+    ExpandableChild nonZSLMode;
+    PreviewExpandableChild previewSize;
+    LongExposureChild longExposureTime;
+    VideoProfileExpandableChild videoProfile;
+    ExpandableChild videoHdr;
+    ExpandableChildNumber timelapseframes;
+    SaveCamParasExpandableChild saveCamparas;
+
     public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
         this.appSettingsManager = appSettingsManager;
+
+    }
+
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
         this.parameterHandler = cameraUiWrapper.camParametersHandler;
+        if (parameterHandler.PictureSize != null)
+        {
+            picSize.setParameterHolder(parameterHandler.PictureSize);
+        }
+        if (parameterHandler.PictureFormat != null)
+        {
+            picformat.setParameterHolder(parameterHandler.PictureFormat);
+        }
+        if (parameterHandler.JpegQuality != null) {
+            jpegquality.setParameterHolder(parameterHandler.JpegQuality);
+        }
+        if (parameterHandler.RedEye != null && parameterHandler.RedEye.IsSupported())
+        {
+            redeye.setParameterHolder(parameterHandler.RedEye);
+        }
+        if (parameterHandler.ColorMode != null && parameterHandler.ColorMode.IsSupported()) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(color);
+            color.setParameterHolder(parameterHandler.ColorMode);
+        }
+        if (parameterHandler.IsoMode != null && parameterHandler.IsoMode.IsSupported()) {
+
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(iso);
+            iso.setParameterHolder(parameterHandler.IsoMode);
+        }
+        if (parameterHandler.ExposureMode != null && parameterHandler.ExposureMode.IsSupported())
+        {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(exposureMode);
+            exposureMode.setParameterHolder(parameterHandler.ExposureMode);
+        }
+        if (parameterHandler.WhiteBalanceMode != null && parameterHandler.WhiteBalanceMode.IsSupported())
+        {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(whitebalanceMode);
+            whitebalanceMode.setParameterHolder(parameterHandler.WhiteBalanceMode);
+        }
+        if (parameterHandler.SceneMode != null && parameterHandler.SceneMode.IsSupported())
+        {
+            //TODO look why they arent added to moduleeventhandler
+            sceneMode.setParameterHolder(parameterHandler.SceneMode);
+        }
+        if (parameterHandler.FocusMode != null) {
+
+            focusMode.setParameterHolder(parameterHandler.FocusMode);
+        }
+        if (parameterHandler.AntiBandingMode != null && parameterHandler.AntiBandingMode.IsSupported())
+        {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(antibandingMode);
+            antibandingMode.setParameterHolder(parameterHandler.AntiBandingMode);
+        }
+        if (parameterHandler.ImagePostProcessing != null && parameterHandler.ImagePostProcessing.IsSupported())
+        {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ippMode);
+            ippMode.setParameterHolder(parameterHandler.ImagePostProcessing);
+        }
+        if (parameterHandler.LensShade != null && parameterHandler.LensShade.IsSupported())
+        {
+            lensShadeMode.setParameterHolder(parameterHandler.LensShade);
+        }
+        if (parameterHandler.SceneDetect != null && parameterHandler.SceneDetect.IsSupported())
+        {
+            sceneDectecMode.setParameterHolder(parameterHandler.SceneDetect);
+        }
+        if (parameterHandler.Denoise != null && parameterHandler.Denoise.IsSupported())
+        {
+            denoiseMode.setParameterHolder(parameterHandler.Denoise);
+        }
+        if (parameterHandler.NonZslManualMode != null && parameterHandler.NonZslManualMode.IsSupported())
+        {
+            nonZSLMode.setParameterHolder(parameterHandler.NonZslManualMode);
+        }
+        //used for longexposuremodule
+        if (parameterHandler.PreviewSize != null)
+        {
+            previewSize.setParameterHolder(parameterHandler.PreviewSize);
+        }
+
+        longExposureTime.setParameterHolder(new LongExposureSetting(null,null,"",""));
+
+        if (parameterHandler.VideoProfiles != null)
+        {
+            videoProfile.setParameterHolder(parameterHandler.VideoProfiles);
+        }
+        if (parameterHandler.VideoProfilesG3 != null && DeviceUtils.isLGADV())
+        {
+            videoProfile.setParameterHolder(parameterHandler.VideoProfilesG3);
+        }
+        if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
+            videoHdr.setParameterHolder(parameterHandler.VideoHDR);
+        }
+        if (saveCamparas != null && settingsGroup.getItems().contains(saveCamparas))
+            settingsGroup.getItems().remove(saveCamparas);
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+        {
+            saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",null, null,null,cameraUiWrapper);
+            settingsGroup.getItems().add(saveCamparas);
+        }
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -52,52 +180,30 @@ public class MenuCreator
     private void createPictureSettingsChilds(ExpandableGroup group, SurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> piclist = new ArrayList<ExpandableChild>();
-        if (parameterHandler.PictureSize != null)
+
+        if (surfaceView instanceof ExtendedSurfaceView)
         {
-            PreviewExpandableChild picSize;
-            if (surfaceView instanceof ExtendedSurfaceView)
-            {
-                picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView);
-            }
-            else
-            {
-                picSize = new PreviewExpandableChild(context);
-            }
-            picSize.setName(context.getString(R.string.picture_size));
-            //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(picSize);
-            picSize.setParameterHolder(parameterHandler.PictureSize, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules, cameraUiWrapper);
-            piclist.add(picSize);
+            picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, group, context.getString(R.string.picture_size), appSettingsManager , AppSettingsManager.SETTING_PICTURESIZE, cameraUiWrapper.moduleHandler.PictureModules);
         }
-
-        if (parameterHandler.PictureFormat != null) {
-            PictureFormatExpandableChild picformat = new PictureFormatExpandableChild(context);
-            picformat.setName(context.getString(R.string.picture_format));
-            picformat.setParameterHolder(parameterHandler.PictureFormat, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT, cameraUiWrapper.moduleHandler.PictureModules, cameraUiWrapper);
-         /*getNewChild(parameterHandler.PictureFormat,
-                AppSettingsManager.SETTING_PICTUREFORMAT,
-                context.getString(R.string.picture_format),
-                cameraUiWrapper.moduleHandler.PictureModules);*/
-
-
-            piclist.add(picformat);
+        else
+        {
+            picSize = new PreviewExpandableChild(context, group, context.getString(R.string.picture_size),appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE,cameraUiWrapper.moduleHandler.PictureModules);
         }
+        piclist.add(picSize);
 
-        if (parameterHandler.JpegQuality != null) {
-            ExpandableChild jpegquality = getNewChild(parameterHandler.JpegQuality,
-                    AppSettingsManager.SETTING_JPEGQUALITY, context.getString(R.string.jpeg_quality), cameraUiWrapper.moduleHandler.PictureModules);
-            piclist.add(jpegquality);
-        }
+        picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT,cameraUiWrapper.moduleHandler.PictureModules);
+        piclist.add(picformat);
+
+        jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY,cameraUiWrapper.moduleHandler.PictureModules);
+        piclist.add(jpegquality);
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(parameterHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);
             piclist.add(ae_bracket);
         }*/
 
-        if (parameterHandler.RedEye != null && parameterHandler.RedEye.IsSupported())
-        {
-            ExpandableChild redeye = getNewChild(parameterHandler.RedEye, AppSettingsManager.SETTING_REDEYE_MODE, context.getString(R.string.picture_redeyereduction), cameraUiWrapper.moduleHandler.PictureModules);
-            piclist.add(redeye);
-        }
+        redeye= new ExpandableChild(context, group, context.getString(R.string.picture_redeyereduction),appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE, cameraUiWrapper.moduleHandler.PictureModules);
+        piclist.add(redeye);
 
         group.setItems(piclist);
     }
@@ -115,53 +221,23 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        if (parameterHandler.ColorMode != null && parameterHandler.ColorMode.IsSupported()) {
-            ExpandableChild color = new ExpandableChild(context);
-            color.setName(context.getString(R.string.mode_color));
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(color);
-            color.setParameterHolder(parameterHandler.ColorMode, appSettingsManager, AppSettingsManager.SETTING_COLORMODE, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(color);
-        }
+        color = new ExpandableChild(context, group,context.getString(R.string.mode_color), appSettingsManager,AppSettingsManager.SETTING_COLORMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(color);
 
-        if (parameterHandler.IsoMode != null && parameterHandler.IsoMode.IsSupported()) {
-            ExpandableChild iso = new ExpandableChild(context);
-            iso.setName(context.getString(R.string.mode_iso));
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(iso);
-            iso.setParameterHolder(parameterHandler.IsoMode, appSettingsManager, AppSettingsManager.SETTING_ISOMODE, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(iso);
-        }
+        iso = new ExpandableChild(context, group, context.getString(R.string.mode_iso),appSettingsManager, AppSettingsManager.SETTING_ISOMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(iso);
 
-        if (parameterHandler.ExposureMode != null && parameterHandler.ExposureMode.IsSupported())
-        {
-            ExpandableChild exposure = new ExpandableChild(context);
-            exposure.setName(context.getString(R.string.mode_exposure));
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(exposure);
-            exposure.setParameterHolder(parameterHandler.ExposureMode,
-                    appSettingsManager,
-                    AppSettingsManager.SETTING_EXPOSUREMODE,
-                    cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(exposure);
-        }
+        exposureMode = new ExpandableChild(context, group, context.getString(R.string.mode_exposure), appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(exposureMode);
 
-        if (parameterHandler.WhiteBalanceMode != null && parameterHandler.WhiteBalanceMode.IsSupported())
-        {
-            ExpandableChild wb = getNewChild(parameterHandler.WhiteBalanceMode,
-                    AppSettingsManager.SETTING_WHITEBALANCEMODE,
-                    context.getString(R.string.mode_whitebalance), cameraUiWrapper.moduleHandler.AllModules);
-            wb.setName(context.getString(R.string.mode_whitebalance));
-            childlist.add(wb);
-        }
-        if (parameterHandler.SceneMode != null && parameterHandler.SceneMode.IsSupported())
-        {
-            ExpandableChild scen = getNewChild(parameterHandler.SceneMode, AppSettingsManager.SETTING_SCENEMODE, context.getString(R.string.mode_scene), cameraUiWrapper.moduleHandler.AllModules);
-            scen.setName(context.getString(R.string.mode_scene));
-            childlist.add(scen);
-        }
-        if (parameterHandler.FocusMode != null) {
-            ExpandableChild focus = getNewChild(parameterHandler.FocusMode, AppSettingsManager.SETTING_FOCUSMODE, context.getString(R.string.mode_focus), cameraUiWrapper.moduleHandler.AllModules);
-            focus.setName(context.getString(R.string.mode_focus));
-            childlist.add(focus);
-        }
+        whitebalanceMode =  new ExpandableChild(context, group,context.getString(R.string.mode_whitebalance),appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(whitebalanceMode);
+
+        sceneMode = new ExpandableChild(context, group , context.getString(R.string.mode_scene), appSettingsManager, AppSettingsManager.SETTING_SCENEMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(sceneMode);
+
+        focusMode = new ExpandableChild(context, group, context.getString(R.string.mode_focus), appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(focusMode);
 
         group.setItems(childlist);
     }
@@ -179,42 +255,27 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        if (parameterHandler.AntiBandingMode != null && parameterHandler.AntiBandingMode.IsSupported())
-        {
-            ExpandableChild antibanding = new ExpandableChild(context);
-            antibanding.setName(context.getString(R.string.antibanding));
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(antibanding);
-            antibanding.setParameterHolder(parameterHandler.AntiBandingMode, appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(antibanding);
-        }
-        if (parameterHandler.ImagePostProcessing != null && parameterHandler.ImagePostProcessing.IsSupported())
-        {
-            ExpandableChild ipp = new ExpandableChild(context);
-            ipp.setName(context.getString(R.string.image_post_processing));
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ipp);
-            ipp.setParameterHolder(parameterHandler.ImagePostProcessing, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(ipp);
-        }
-        if (parameterHandler.LensShade != null && parameterHandler.LensShade.IsSupported())
-        {
-            ExpandableChild lens = getNewChild(parameterHandler.LensShade, AppSettingsManager.SETTING_LENSSHADE_MODE, context.getString(R.string.quality_lensshade), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(lens);
-        }
+        antibandingMode = new ExpandableChild(context, group, context.getString(R.string.antibanding), appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(antibandingMode);
+
+        ippMode = new ExpandableChild(context, group, context.getString(R.string.image_post_processing), appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(ippMode);
+
+        lensShadeMode = new ExpandableChild(context, group, context.getString(R.string.quality_lensshade), appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(lensShadeMode);
+
         /*if (parameterHandler.ZSL.IsSupported())
         {
             ExpandableChild zsl = getNewChild(parameterHandler.ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(zsl);
         }*/
-        if (parameterHandler.SceneDetect != null && parameterHandler.SceneDetect.IsSupported())
-        {
-            ExpandableChild sd = getNewChild(parameterHandler.SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE, context.getString(R.string.quality_scenedetect), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(sd);
-        }
-        if (parameterHandler.Denoise != null && parameterHandler.Denoise.IsSupported())
-        {
-            ExpandableChild sd = getNewChild(parameterHandler.Denoise, AppSettingsManager.SETTING_DENOISE_MODE, context.getString(R.string.quality_denoise), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(sd);
-        }
+
+        sceneDectecMode = new ExpandableChild(context, group, context.getString(R.string.quality_scenedetect), appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(sceneDectecMode);
+
+        denoiseMode = new ExpandableChild(context, group, context.getString(R.string.quality_denoise), appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(denoiseMode);
+
         /*if (parameterHandler.DigitalImageStabilization.IsSupported())
         {
             ExpandableChild sd = getNewChild(parameterHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, context.getString(R.string.quality_digitalimagestab), cameraUiWrapper.moduleHandler.AllModules);
@@ -231,15 +292,10 @@ public class MenuCreator
             ExpandableChild sd = getNewChild(parameterHandler.SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE, context.getString(R.string.quality_skintone), cameraUiWrapper.moduleHandler.AllModules);
             childlist.add(sd);
         }*/
-        if (parameterHandler.NonZslManualMode != null && parameterHandler.NonZslManualMode.IsSupported())
-        {
-            ExpandableChild nzm = getNewChild(
-                    parameterHandler.NonZslManualMode,
-                    AppSettingsManager.SETTING_NONZSLMANUALMODE,
-                    context.getString(R.string.quality_nonmanualzsl),
-                    cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(nzm);
-        }
+
+        nonZSLMode = new ExpandableChild(context, group, context.getString(R.string.quality_nonmanualzsl), appSettingsManager,AppSettingsManager.SETTING_NONZSLMANUALMODE, cameraUiWrapper.moduleHandler.AllModules);
+        childlist.add(nonZSLMode);
+
         /*if(parameterHandler.Histogram.IsSupported())
         {
             ExpandableChild his = getNewChild(
@@ -249,9 +305,6 @@ public class MenuCreator
                     cameraUiWrapper.moduleHandler.AllModules );
             childlist.add(his);
         }*/
-
-
-
 
         group.setItems(childlist);
     }
@@ -267,24 +320,17 @@ public class MenuCreator
     private void createPreviewSettingsChilds(ExpandableGroup preview, SurfaceView surfaceView)
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
-        if (parameterHandler.PreviewSize != null)
-        {
-            PreviewExpandableChild size;
-            if (surfaceView instanceof ExtendedSurfaceView) {
-                size = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView);
-            }
-            else
-            {
-                size = new PreviewExpandableChild(context);
-            }
-            size.setName("Picture Size");
-            //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(size);
-            size.setParameterHolder(parameterHandler.PreviewSize, appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules, cameraUiWrapper);
-            childlist.add(size);
+
+        if (surfaceView instanceof ExtendedSurfaceView) {
+            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, "Picture Size", appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE, cameraUiWrapper.moduleHandler.LongeExpoModules);
         }
+        else
+        {
+            previewSize = new PreviewExpandableChild(context, preview, "Picture Size", appSettingsManager,  AppSettingsManager.SETTING_PREVIEWSIZE,cameraUiWrapper.moduleHandler.LongeExpoModules);
+        }
+        childlist.add(previewSize);
 
         //ExpandableChild size = getNewChild(parameterHandler.PreviewSize, AppSettingsManager.SETTING_PREVIEWSIZE, context.getString(R.string.preview_size), cameraUiWrapper.moduleHandler.AllModules);
-
 
         /*ExpandableChild fps = getNewChild(parameterHandler.PreviewFPS, AppSettingsManager.SETTING_PREVIEWFPS, context.getString(R.string.preview_fps), cameraUiWrapper.moduleHandler.AllModules);
         childlist.add(fps);
@@ -294,15 +340,8 @@ public class MenuCreator
 
         //ExpandableChild expotime = getNewChild(new LongExposureSetting(null,null,"",""),AppSettingsManager.SETTING_EXPOSURELONGTIME, "ExposureTime", cameraUiWrapper.moduleHandler.LongeExpoModules);
 
-        LongExposureChild child = new LongExposureChild(context);
-        child.setName("ExposureTime");
-        child.setParameterHolder(
-                new LongExposureSetting(null,null,"",""),
-                appSettingsManager,
-                AppSettingsManager.SETTING_EXPOSURELONGTIME,
-                cameraUiWrapper.moduleHandler.LongeExpoModules,
-                cameraUiWrapper);
-        childlist.add(child);
+        longExposureTime =  new LongExposureChild(context, preview, "ExposureTime", appSettingsManager, AppSettingsManager.SETTING_EXPOSURELONGTIME,cameraUiWrapper.moduleHandler.LongeExpoModules);
+        childlist.add(longExposureTime);
 
         preview.setItems(childlist);
     }
@@ -313,23 +352,6 @@ public class MenuCreator
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(group);
         group.setName(name);
         return group;
-    }
-
-    /**
-     *
-     * @param mode The camera parameter wich handels the input
-     * @param appsettingName THe name of the appsetting to get stored
-     * @param settingName the name wich gets displayed in menu
-     * @param modules on wich module event the child is shown.
-     * @return
-     */
-    private ExpandableChild getNewChild(I_ModeParameter mode, String appsettingName, String settingName, ArrayList<String> modules)
-    {
-        ExpandableChild child = new ExpandableChild(context);
-        child.setName(settingName);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(child);
-        child.setParameterHolder(mode,appSettingsManager,appsettingName, modules, cameraUiWrapper);
-        return child;
     }
 
     public ExpandableGroup CreateVideoSettings(SurfaceView surfaceView)
@@ -352,87 +374,43 @@ public class MenuCreator
                 cameraUiWrapper);
         childlist.add(videoSizeExpandableChild);*/
 
-        if (parameterHandler.VideoProfiles != null) {
-            VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context, cameraUiWrapper);
-            videoProfile.setName("Video Profile");
-
-            videoProfile.setParameterHolder(
-                    parameterHandler.VideoProfiles,
-                    appSettingsManager,
-                    AppSettingsManager.SETTING_VIDEPROFILE,
-                    cameraUiWrapper.moduleHandler.VideoModules,
-                    cameraUiWrapper);
-            childlist.add(videoProfile);
-
-            ExpandableChildNumber timelapseframes = new ExpandableChildNumber(context,appSettingsManager,AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
-            timelapseframes.setMinMax(0.01f, 30);
-            timelapseframes.setName("Timelapse FPS");
-            childlist.add(timelapseframes);
-            videoProfile.videoProfileChanged = timelapseframes;
-
-
-            video.setItems(childlist);
-        }
-        if (parameterHandler.VideoProfilesG3 != null && DeviceUtils.isLGADV())
+        if (surfaceView instanceof ExtendedSurfaceView)
         {
-            VideoProfileExpandableChild videoProfile = new VideoProfileExpandableChild(context, cameraUiWrapper);
-            videoProfile.setName("Video Profile");
-            videoProfile.setParameterHolder(
-                    parameterHandler.VideoProfilesG3,
-                    appSettingsManager,
-                    AppSettingsManager.SETTING_VIDEPROFILE,
-                    cameraUiWrapper.moduleHandler.VideoModules,
-                    cameraUiWrapper);
-            childlist.add(videoProfile);
-
-            ExpandableChildNumber timelapseframes = new ExpandableChildNumber(context,appSettingsManager,AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper);
-            timelapseframes.setMinMax(0.01f, 30);
-            timelapseframes.setName("Timelapse FPS");
-            childlist.add(timelapseframes);
-            videoProfile.videoProfileChanged = timelapseframes;
-
-
-            video.setItems(childlist);
+            videoProfile = new VideoProfileExpandableChild(context,(ExtendedSurfaceView)surfaceView, video, "Video Profile", appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE
+                    ,cameraUiWrapper.moduleHandler.VideoModules);
         }
-
-
-
-        if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
-            ExpandableChild videoHdr = new ExpandableChild(context);
-            videoHdr.setName("Video HDR");
-            videoHdr.setParameterHolder(
-                    parameterHandler.VideoHDR,
-                    appSettingsManager,
-                    AppSettingsManager.SETTING_VIDEOHDR,
-                    cameraUiWrapper.moduleHandler.VideoModules,
-                    cameraUiWrapper
-            );
-
-            childlist.add(videoHdr);
+        else
+        {
+            videoProfile = new VideoProfileExpandableChild(context, null, video, "Video Profile", appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE
+                    ,cameraUiWrapper.moduleHandler.VideoModules);
         }
+        childlist.add(videoProfile);
 
+        timelapseframes = new ExpandableChildNumber(context, video,appSettingsManager,"Timelapse FPS",AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, cameraUiWrapper.moduleHandler.VideoModules);
+        timelapseframes.setMinMax(0.01f, 30);
 
+        childlist.add(timelapseframes);
+        videoProfile.videoProfileChanged = timelapseframes;
+
+        video.setItems(childlist);
+
+        videoHdr = new ExpandableChild(context, video, "Video HDR", appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR,cameraUiWrapper.moduleHandler.VideoModules);
+        childlist.add(videoHdr);
 
     }
 
     public ExpandableGroup CreateSettings()
     {
-        ExpandableGroup preview = getNewGroup("Settings");
+        settingsGroup = getNewGroup("Settings");
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
-            SaveCamParasExpandableChild saveCamparas = new SaveCamParasExpandableChild(context);
-            saveCamparas.setParameterHolder(null, null, "Save Camparas", cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-            childlist.add(saveCamparas);
-        }
-
-        SwitchApiExpandableChild sonyExpandableChild = new SwitchApiExpandableChild(context);
-        sonyExpandableChild.setParameterHolder(null, appSettingsManager, AppSettingsManager.SETTING_SONYAPI, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        SwitchApiExpandableChild sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,"" ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI, cameraUiWrapper.moduleHandler.AllModules);
+        sonyExpandableChild.setParameterHolder(null);
         childlist.add(sonyExpandableChild);
 
-        preview.setItems(childlist);
+        settingsGroup.setItems(childlist);
 
-        return preview;
+        return settingsGroup;
     }
 
 
