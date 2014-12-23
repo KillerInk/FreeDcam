@@ -5,11 +5,14 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.view.SurfaceView;
 
+import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
+import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
@@ -40,7 +43,58 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     private SimpleCameraEventObserver mEventObserver;
 
-    private SimpleCameraEventObserver.ChangeListener mEventListener;
+    private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl() {
+
+        @Override
+        public void onShootModeChanged(String shootMode) {
+
+        }
+
+        @Override
+        public void onCameraStatusChanged(String status) {
+
+        }
+
+        @Override
+        public void onApiListModified(List<String> apis) {
+
+            synchronized (mAvailableCameraApiSet) {
+                mAvailableCameraApiSet.clear();
+                for (String api : apis) {
+                    mAvailableCameraApiSet.add(api);
+                }
+                ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
+                if (!mEventObserver.getLiveviewStatus() //
+                        && JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
+                    if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
+                        startLiveview();
+                    }
+                }
+                if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
+
+
+                } else {
+
+                }
+            }
+        }
+
+        @Override
+        public void onZoomPositionChanged(int zoomPosition)
+        {
+            ((ZoomManualSony)ParameterHandler.Zoom).setZoomsHasChanged(zoomPosition);
+        }
+
+        @Override
+        public void onLiveviewStatusChanged(boolean status) {
+
+        }
+
+        @Override
+        public void onStorageIdChanged(String storageId) {
+
+        }
+    };
 
     private SimpleRemoteApi mRemoteApi;
 
@@ -65,59 +119,9 @@ public class CameraHolderSony extends AbstractCameraHolder
         mRemoteApi = new SimpleRemoteApi(serverDevice);
         ParameterHandler.SetRemoteApi(mRemoteApi);
         mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
-
-        mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl() {
-
-            @Override
-            public void onShootModeChanged(String shootMode) {
-
-            }
-
-            @Override
-            public void onCameraStatusChanged(String status) {
-
-            }
-
-            @Override
-            public void onApiListModified(List<String> apis) {
-
-                synchronized (mAvailableCameraApiSet) {
-                    mAvailableCameraApiSet.clear();
-                    for (String api : apis) {
-                        mAvailableCameraApiSet.add(api);
-                    }
-                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
-                    if (!mEventObserver.getLiveviewStatus() //
-                            && JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
-                        if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
-                            startLiveview();
-                        }
-                    }
-                    if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
+        mEventObserver.activate();
 
 
-                    } else {
-
-                    }
-                }
-            }
-
-            @Override
-            public void onZoomPositionChanged(int zoomPosition)
-            {
-                ((AbstractManualParameter)ParameterHandler.Zoom).currentValueChanged(zoomPosition);
-            }
-
-            @Override
-            public void onLiveviewStatusChanged(boolean status) {
-
-            }
-
-            @Override
-            public void onStorageIdChanged(String storageId) {
-
-            }
-        };
         StartPreview();
         return false;
     }
@@ -151,8 +155,9 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
     @Override
-    public void StopPreview() {
-
+    public void StopPreview()
+    {
+        stopLiveview();
     }
 
 
@@ -412,29 +417,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
             @Override
             public void run() {
-                mEventObserver
-                        .setEventChangeListener(new SimpleCameraEventObserver.ChangeListenerTmpl() {
-
-                            @Override
-                            public void onCameraStatusChanged(String status) {
-                                Log.d(TAG, "onCameraStatusChanged:" + status);
-                                if ("IDLE".equals(status)) {
-                                    openConnection();
-                                }
-
-                            }
-
-                            @Override
-                            public void onShootModeChanged(String shootMode) {
-
-                            }
-
-                            @Override
-                            public void onStorageIdChanged(String storageId) {
-
-                            }
-                        });
-
+                mEventObserver.setEventChangeListener(mEventListener);
                 mEventObserver.start();
             }
         });
