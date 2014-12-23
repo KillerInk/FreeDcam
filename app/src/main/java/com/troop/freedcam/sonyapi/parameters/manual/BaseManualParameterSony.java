@@ -56,7 +56,7 @@ public abstract class BaseManualParameterSony extends AbstractManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-
+        super.SetValue(valueToSet);
     }
 
     @Override
