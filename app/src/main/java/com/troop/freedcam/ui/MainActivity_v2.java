@@ -140,7 +140,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
         cameraUiWrapper.SetCameraChangedListner(this);
 
-        initCameraStuff(cameraUiWrapper);
+        initCameraUIStuff(cameraUiWrapper);
 
 
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
@@ -158,7 +158,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     }
 
 
-    private void initCameraStuff(AbstractCameraUiWrapper cameraUiWrapper)
+    private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
         if (menuHandler == null)
             menuHandler = new MenuHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
