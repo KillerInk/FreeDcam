@@ -32,6 +32,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     TextView seekbarText;
     ManualMenuItem currentItem;
     AbstractParameterHandler parametersHandler;
+    boolean userIsSeeking= false;
 
     int realMin;
     int realMax;
@@ -158,6 +159,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     private void setTextValue(int value)
     {
         seekbarText.setText(currentItem.name + ": " + value);
+
     }
     private void setTextValue(String value)
     {
@@ -176,12 +178,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onStartTrackingTouch(SeekBar seekBar)
     {
-
+        userIsSeeking = true;
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+        userIsSeeking = false;
     }
 
 
@@ -282,5 +284,9 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     public void onCurrentValueChanged(int current)
     {
         setTextValue(current + realMin);
+        if (!userIsSeeking)
+        {
+            setSeekbarProgress(current);
+        }
     }
 }
