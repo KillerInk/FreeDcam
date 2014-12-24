@@ -81,7 +81,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        menuCreator.setCameraUiWrapper(cameraUiWrapper);
     }
 
 
@@ -136,12 +135,14 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     @Override
     public void ParametersLoaded()
     {
-        appSettingsManager.context.runOnUiThread(new Runnable() {
+        /*appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 fillMenu();
             }
-        });
+        });*/
+        //SetCameraUiWrapper(cameraUiWrapper);
+        menuCreator.setCameraUiWrapper(cameraUiWrapper);
     }
 
     private void fillMenu()
