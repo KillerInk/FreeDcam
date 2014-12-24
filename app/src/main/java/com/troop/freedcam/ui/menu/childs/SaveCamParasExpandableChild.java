@@ -21,22 +21,25 @@ import java.util.Arrays;
 /**
  * Created by Ingo on 02.11.2014.
  */
-public class SaveCamParasExpandableChild extends ExpandableChild
+public class SaveCamParasExpandableChild extends ExpandableChild implements I_ModeParameter
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
         super(context, group,name,appSettingsManager,settingsname);
+        this.parameterHolder = this;
     }
 
     public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
     {
-        super.setParameterHolder(parameterHolder, modulesToShow);
+        super.setParameterHolder(this, modulesToShow);
 
         this.cameraUiWrapper = cameraUiWrapper;
         nameTextView.setText("Save CamParameter");
         valueTextView.setText("");
     }
+
+
 
     public void SaveCamParameters()
     {
@@ -67,5 +70,29 @@ public class SaveCamParasExpandableChild extends ExpandableChild
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
+    }
+
+    @Override
+    public String GetValue() {
+        return null;
+    }
+
+    @Override
+    public String[] GetValues() {
+        return new String[0];
     }
 }

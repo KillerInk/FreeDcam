@@ -159,18 +159,10 @@ public class MenuCreator
         if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
             videoHdr.setParameterHolder(parameterHandler.VideoHDR,cameraUiWrapper.moduleHandler.VideoModules);
         }
-        if (saveCamparas != null && settingsGroup.getItems().contains(saveCamparas))
-            settingsGroup.getItems().remove(saveCamparas);
-        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
-        {
-            if (!settingsGroup.getItems().contains(saveCamparas))
-                settingsGroup.getItems().add(saveCamparas);
-        }
-        else
-        {
-            if (settingsGroup.getItems().contains(saveCamparas));
-                settingsGroup.getItems().remove(saveCamparas);
-        }
+        if (saveCamparas.getParameterHolder() != null && saveCamparas.IsSupported())
+            saveCamparas.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+        if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.IsSupported())
+            sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -408,10 +400,11 @@ public class MenuCreator
         settingsGroup = getNewGroup("Settings");
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,"" ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
+        sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,"Switch Api" ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
         childlist.add(sonyExpandableChild);
 
-        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",null, null);
+        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",appSettingsManager, null);
+        childlist.add(saveCamparas);
 
         settingsGroup.setItems(childlist);
 

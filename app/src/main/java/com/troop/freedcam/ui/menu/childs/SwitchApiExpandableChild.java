@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 
 import com.troop.androiddng.MainActivity;
+import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -24,6 +25,7 @@ public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeP
     public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
         this.context = context;
+        this.parameterHolder = this;
     }
 
 
@@ -31,10 +33,17 @@ public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeP
     @Override
     public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
-        super.setParameterHolder(parameterHolder, modulesToShow);
+        super.setParameterHolder(this, modulesToShow);
         nameTextView.setText("Switch Api");
         valueTextView.setText(Value());
 
+    }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+
+        return null;
     }
 
     @Override
