@@ -78,6 +78,10 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     public void setItems(ArrayList<ExpandableChild> Items)
     {
         this.Items = Items;
+        fillSubMenuItems();
+    }
+
+    private void fillSubMenuItems() {
         submenu.removeAllViews();
         for (ExpandableChild child:Items)
         {
@@ -87,13 +91,9 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     }
 
 
-
     @Override
     public String ModuleChanged(String module) {
-        if(modulesToShow.contains(module) || modulesToShow.contains(ModuleHandler.MODULE_ALL))
-            this.setVisibility(VISIBLE);
-        else
-            this.setVisibility(GONE);
+        fillSubMenuItems();
         return null;
     }
 

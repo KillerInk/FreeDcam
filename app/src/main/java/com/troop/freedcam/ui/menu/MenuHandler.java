@@ -206,6 +206,8 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                     grouplist.add(videoSettings);
             }
             fillMainMenu();
+            for(ExpandableGroup g : grouplist)
+                g.ModuleChanged(module);
             //ParametersLoaded();
         }
         return null;
