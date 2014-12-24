@@ -24,7 +24,7 @@ public class VideoSizeParameter extends BaseModeParameter
         List<Camera.Size> sizes = parameters.getSupportedVideoSizes();
         if (sizes == null || sizes.size() == 0)
             sizes = parameters.getSupportedPreviewSizes();
-        isSupported = true;
+        this.isSupported = true;
         List<String> stringList = new ArrayList<String>();
 
         for (int i = 0; i < sizes.size(); i++)
@@ -53,5 +53,10 @@ public class VideoSizeParameter extends BaseModeParameter
     @Override
     public String[] GetValues() {
         return sizeString;
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return this.isSupported;
     }
 }

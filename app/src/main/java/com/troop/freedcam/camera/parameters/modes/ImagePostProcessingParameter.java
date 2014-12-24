@@ -14,11 +14,16 @@ public class ImagePostProcessingParameter extends BaseModeParameter
         try {
             String ipps = parameters.get("ipp-values");
             if (!ipps.isEmpty())
-                isSupported = true;
+                this.isSupported = true;
         }
         catch (Exception ex)
         {
-
+            this.isSupported = false;
         }
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return this.isSupported;
     }
 }

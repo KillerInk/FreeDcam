@@ -35,7 +35,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     @Override
     public boolean IsSupported() {
-        return super.IsSupported();
+        return this.isSupported;
     }
 
     @Override

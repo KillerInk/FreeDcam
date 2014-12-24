@@ -150,10 +150,12 @@ public class MenuCreator
 
         if (parameterHandler.VideoProfiles != null)
         {
+            videoProfile.videoProfileChanged = timelapseframes;
             videoProfile.setParameterHolder(parameterHandler.VideoProfiles, cameraUiWrapper.moduleHandler.VideoModules);
         }
         if (parameterHandler.VideoProfilesG3 != null && DeviceUtils.isLGADV())
         {
+            videoProfile.videoProfileChanged = timelapseframes;
             videoProfile.setParameterHolder(parameterHandler.VideoProfilesG3,cameraUiWrapper.moduleHandler.VideoModules);
         }
         if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
@@ -386,7 +388,7 @@ public class MenuCreator
         timelapseframes.setMinMax(0.01f, 30);
 
         childlist.add(timelapseframes);
-        videoProfile.videoProfileChanged = timelapseframes;
+
 
         video.setItems(childlist);
 
