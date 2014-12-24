@@ -34,13 +34,12 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     ExpandableGroup group;
 
 
-    public ExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
+    public ExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context);
         this.group = group;
         this.Name = name;
         this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsname;
-        this.modulesToShow = modulesToShow;
         init(context);
     }
 
@@ -75,9 +74,10 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder(I_ModeParameter parameterHolder)
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
         this.parameterHolder = parameterHolder;
+        this.modulesToShow = modulesToShow;
 
         if (parameterHolder.IsSupported())
         {

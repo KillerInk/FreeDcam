@@ -16,13 +16,13 @@ import java.util.ArrayList;
  * Created by troop on 13.11.2014.
  */
 public class LongExposureChild extends ExpandableChild {
-    public LongExposureChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
-        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
+    public LongExposureChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context, group, name, appSettingsManager, settingsname);
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder) {
-        this.parameterHolder = parameterHolder;
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow) {
+        super.setParameterHolder(parameterHolder, modulesToShow);
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue.equals("")) {
             appSettingsManager.setString(settingsname, "1");

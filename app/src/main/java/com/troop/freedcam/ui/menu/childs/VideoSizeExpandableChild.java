@@ -16,8 +16,8 @@ import java.util.ArrayList;
  */
 public class VideoSizeExpandableChild extends ExpandableChild
 {
-    public VideoSizeExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
-        super(context,group, name, appSettingsManager,settingsname,modulesToShow);
+    public VideoSizeExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context,group, name, appSettingsManager,settingsname);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class VideoSizeExpandableChild extends ExpandableChild
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder) {
-        this.parameterHolder = parameterHolder;
+    public void setParameterHolder(I_ModeParameter parameterHolder,ArrayList<String> modulesToShow) {
+        super.setParameterHolder(parameterHolder, modulesToShow);
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue == null || settingValue == "") {

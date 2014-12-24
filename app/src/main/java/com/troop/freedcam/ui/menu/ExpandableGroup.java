@@ -81,7 +81,7 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         submenu.removeAllViews();
         for (ExpandableChild child:Items)
         {
-            child.getParameterHolder().IsSupported();
+            if(child.getParameterHolder() != null && child.getParameterHolder().IsSupported());
                 submenu.addView(child);
         }
     }

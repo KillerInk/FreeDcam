@@ -24,16 +24,16 @@ import java.util.Arrays;
 public class SaveCamParasExpandableChild extends ExpandableChild
 {
     AbstractCameraUiWrapper cameraUiWrapper;
-    public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow,
-    AbstractCameraUiWrapper cameraUiWrapper)
+    public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
-        super(context, group,name,appSettingsManager,settingsname,modulesToShow);
-        this.cameraUiWrapper = cameraUiWrapper;
+        super(context, group,name,appSettingsManager,settingsname);
     }
 
-    @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder) {
-        this.parameterHolder = parameterHolder;
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        super.setParameterHolder(parameterHolder, modulesToShow);
+
+        this.cameraUiWrapper = cameraUiWrapper;
         nameTextView.setText("Save CamParameter");
         valueTextView.setText("");
     }

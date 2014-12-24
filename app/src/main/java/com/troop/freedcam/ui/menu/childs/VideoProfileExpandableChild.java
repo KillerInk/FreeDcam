@@ -24,10 +24,9 @@ public class VideoProfileExpandableChild extends ExpandableChild
     AbstractCameraUiWrapper cameraUiWrapper;
     public I_VideoProfile videoProfileChanged;
 
-    public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,
-                                       ArrayList<String> modulesToShow)
+    public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
-        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
+        super(context, group, name, appSettingsManager, settingsname);
         this.previewSizeEvent = previewSizeEvent;
     }
 
@@ -73,11 +72,8 @@ public class VideoProfileExpandableChild extends ExpandableChild
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder) {
-        this.parameterHolder = parameterHolder;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
-        this.cameraUiWrapper = cameraUiWrapper;
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow) {
+        super.setParameterHolder(parameterHolder, modulesToShow);
         //String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue == null || settingValue == "") {

@@ -17,8 +17,8 @@ import java.util.ArrayList;
  * Created by troop on 20.10.2014.
  */
 public class PictureFormatExpandableChild extends ExpandableChild {
-    public PictureFormatExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname, ArrayList<String> modulesToShow) {
-        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
+    public PictureFormatExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context, group, name, appSettingsManager, settingsname);
     }
 
 

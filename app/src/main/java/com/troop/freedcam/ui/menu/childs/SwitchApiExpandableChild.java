@@ -21,15 +21,17 @@ public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeP
     MainActivity_v2 context;
 
 
-    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,ArrayList<String> modulesToShow) {
-        super(context, group, name, appSettingsManager, settingsname, modulesToShow);
+    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context, group, name, appSettingsManager, settingsname);
         this.context = context;
     }
 
 
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder) {
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
+    {
+        super.setParameterHolder(parameterHolder, modulesToShow);
         nameTextView.setText("Switch Api");
         valueTextView.setText(Value());
 

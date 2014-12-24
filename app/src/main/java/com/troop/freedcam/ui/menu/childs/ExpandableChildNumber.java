@@ -34,9 +34,9 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     I_VideoProfile videoProfile;
 
 
-    public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname, ArrayList<String> modulesToShow)
+    public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname)
     {
-        super(context,group,name, appSettingsManager, settingsname, modulesToShow);
+        super(context,group,name, appSettingsManager, settingsname);
         initt(context);
 
     }
@@ -152,9 +152,9 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder)
+    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
-        this.parameterHolder = parameterHolder;
+        super.setParameterHolder(parameterHolder, modulesToShow);
     }
 
     @Override

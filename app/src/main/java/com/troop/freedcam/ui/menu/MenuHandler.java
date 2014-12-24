@@ -62,8 +62,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         try
         {
             mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
-
-
             listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
             listView.setOnItemClickListener(this);
             scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
@@ -74,6 +72,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
         }
 
+        fillMenu();
 
     }
 
@@ -82,6 +81,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        menuCreator.setCameraUiWrapper(cameraUiWrapper);
     }
 
 
@@ -91,53 +91,23 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         grouplist.add(menuCreator.CreateModeSettings());
         grouplist.add(menuCreator.CreateQualitySettings());
         previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
+        grouplist.add(previewSettings);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
         {
-            grouplist.add(previewSettings);
+
         }
         picSettings = menuCreator.CreatePictureSettings(surfaceView);
+        grouplist.add(picSettings);
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
         {
-            grouplist.add(picSettings);
+
         }
         videoSettings = menuCreator.CreateVideoSettings(surfaceView);
-        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
-            grouplist.add(videoSettings);
+        grouplist.add(videoSettings);
+        //if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
+
         return grouplist;
     }
-
-    //Expendable LIstview click
-    /*@Override
-    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
-    {
-        //get the group
-        ExpandableGroup group = (ExpandableGroup)expandableListViewMenuAdapter.getGroup(groupPosition);
-        //get the child from group
-        selectedChild = group.getItems().get(childPosition);
-        if (!(selectedChild instanceof SaveCamParasExpandableChild))
-        {
-            //get values from child attached parameter
-            String[] values = selectedChild.getParameterHolder().GetValues();
-            if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
-            {
-                values = getPictureFormats();
-            }
-
-            //set values to the adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                    R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
-            //attach adapter to the listview and fill
-            listView.setAdapter(adapter);
-            hideMenuAndShowSubMenu();
-        }
-        else
-        {
-            SaveCamParasExpandableChild child = (SaveCamParasExpandableChild) selectedChild;
-            child.SaveCamParameters();
-            Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
-        }
-        return false;
-    }*/
 
     private String[] getPictureFormats() {
         String[] values;
@@ -172,9 +142,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                 fillMenu();
             }
         });
-        //fillMenu();
-
-
     }
 
     private void fillMenu()
