@@ -149,6 +149,10 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     {
 
         grouplist = createMenu();
+        fillMainMenu();
+    }
+
+    private void fillMainMenu() {
         mainMenuView.removeAllViews();
         for (ExpandableGroup g:grouplist)
         {
@@ -201,7 +205,8 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                 if (!grouplist.contains(videoSettings))
                     grouplist.add(videoSettings);
             }
-            ParametersLoaded();
+            fillMainMenu();
+            //ParametersLoaded();
         }
         return null;
     }
