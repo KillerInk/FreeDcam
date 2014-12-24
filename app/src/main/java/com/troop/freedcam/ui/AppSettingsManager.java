@@ -101,12 +101,26 @@ public class AppSettingsManager
 
     public void SetCurrentModule(String modulename)
     {
-        appSettings.edit().putString(SETTING_CURRENTMODULE, modulename).commit();
+        String newstring;
+        if (API_SONY.equals(camApiString))
+            newstring = SETTING_CURRENTMODULE + API_SONY;
+        else if(API_1.equals(camApiString))
+            newstring = SETTING_CURRENTMODULE;
+        else
+            newstring = SETTING_CURRENTMODULE + API_2;
+        appSettings.edit().putString(newstring, modulename).commit();
     }
 
     public String GetCurrentModule()
     {
-        return appSettings.getString(SETTING_CURRENTMODULE, ModuleHandler.MODULE_PICTURE);
+        String newstring;
+        if (API_SONY.equals(camApiString))
+            newstring = SETTING_CURRENTMODULE + API_SONY;
+        else if(API_1.equals(camApiString))
+            newstring = SETTING_CURRENTMODULE;
+        else
+            newstring = SETTING_CURRENTMODULE + API_2;
+        return appSettings.getString(newstring, ModuleHandler.MODULE_PICTURE);
     }
 
     public String getString(String valueToGet)
