@@ -27,6 +27,7 @@ import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
+import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
 import com.troop.freedcam.ui.menu.MenuHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
@@ -60,8 +61,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
-    I_error error;
-    ProgressDialog progress;
+    WorkHandler workHandler;
 
     boolean initDone = false;
 
@@ -80,6 +80,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
+        workHandler = new WorkHandler(this);
 
         loadCameraUiWrapper();
 
@@ -124,6 +125,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
             cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
             cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
             cameraUiWrapper.moduleHandler.moduleEventHandler = null;
+            cameraUiWrapper.moduleHandler.SetWorkListner(null);
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
 
@@ -139,6 +141,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
         cameraUiWrapper.SetCameraChangedListner(this);
+        cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
 
         initCameraUIStuff(cameraUiWrapper);
 

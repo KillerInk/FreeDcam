@@ -82,6 +82,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
     protected void takePicture()
     {
+        workstarted();
         this.isWorking = true;
         Log.d(TAG, "Start Taking Picture");
         try
@@ -157,6 +158,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                 if (!file.getAbsolutePath().endsWith(".dng")) {
                     saveBytesToFile(bytes, file);
                     eventHandler.WorkFinished(file);
+                    workfinished(true);
                     bytes = null;
                     file = null;
                 } else
@@ -167,6 +169,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                     int h = Integer.parseInt(raw[1]);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
                     eventHandler.WorkFinished(file);
+                    workfinished(true);
                 }
             }
             else
@@ -174,6 +177,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
                 file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
                 eventHandler.WorkFinished(file);
+                workfinished(true);
                 bytes = null;
                 file = null;
             }

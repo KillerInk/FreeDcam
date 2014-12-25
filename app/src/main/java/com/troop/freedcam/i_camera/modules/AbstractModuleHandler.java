@@ -15,6 +15,12 @@ import java.util.HashMap;
  */
 public abstract class AbstractModuleHandler implements I_ModuleHandler
 {
+    public interface I_worker
+    {
+        void onWorkStarted();
+        void onWorkFinished(boolean finished);
+    }
+
     String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
     public ArrayList<String> PictureModules;
@@ -25,6 +31,8 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
     AbstractCameraHolder cameraHolder;
+
+    protected I_worker workerListner;
 
     public static final String MODULE_VIDEO = "module_video";
     public static final String MODULE_PICTURE = "module_picture";
@@ -56,11 +64,15 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     @Override
     public void SetModule(String name)
     {
-        if (currentModule !=null)
+        if (currentModule !=null) {
             currentModule.UnloadNeededParameters();
+            currentModule.SetWorkerListner(null);
+
+        }
         currentModule = moduleList.get(name);
         currentModule.LoadNeededParameters();
         moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
+        currentModule.SetWorkerListner(workerListner);
         Log.d(TAG, "Set Module to " + name);
     }
 
@@ -86,6 +98,11 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         }
         else
             return false;
+    }
+
+    @Override
+    public void SetWorkListner(I_worker workerListner) {
+        this.workerListner = workerListner;
     }
 
     protected void initModules()

@@ -19,6 +19,7 @@ public abstract class AbstractModule implements I_Module
     public String name;
 
     protected ModuleEventHandler eventHandler;
+    protected AbstractModuleHandler.I_worker workerListner;
 
     public AbstractModule(){};
 
@@ -28,6 +29,23 @@ public abstract class AbstractModule implements I_Module
         this.Settings = Settings;
         this.eventHandler = eventHandler;
         this.ParameterHandler = baseCameraHolder.ParameterHandler;
+    }
+
+    public void SetWorkerListner(AbstractModuleHandler.I_worker workerListner)
+    {
+        this.workerListner = workerListner;
+    }
+
+    protected void workstarted()
+    {
+        if (this.workerListner != null)
+            workerListner.onWorkStarted();
+    }
+
+    protected void workfinished(boolean finish)
+    {
+        if (workerListner != null)
+            workerListner.onWorkFinished(finish);
     }
 
     @Override
