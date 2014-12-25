@@ -261,6 +261,21 @@
                 android:orientation="horizontal"
                 android:layout_width="@dimen/app_icon_size"
                 android:layout_height="@dimen/app_icon_size"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView_exposurelock"
+                    android:background="@drawable/button_clean" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:layout_marginTop="5dp">

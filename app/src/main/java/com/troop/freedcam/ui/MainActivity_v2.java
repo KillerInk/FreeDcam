@@ -22,6 +22,7 @@ import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
+import com.troop.freedcam.ui.handler.ExposureLockHandler;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
@@ -58,6 +59,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     ApiHandler apiHandler;
     TimerHandler timerHandler;
     PreviewHandler previewHandler;
+    ExposureLockHandler exposureLockHandler;
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
@@ -91,6 +93,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         hardwareKeyHandler = new HardwareKeyHandler(this);
         manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this);
+        exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
 
         loadCameraUiWrapper();
 
@@ -180,6 +183,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
     }
 
     @Override

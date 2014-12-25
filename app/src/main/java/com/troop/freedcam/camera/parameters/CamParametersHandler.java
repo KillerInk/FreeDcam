@@ -23,6 +23,7 @@ import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DenoiseParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
+import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
@@ -151,6 +152,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
         CameraMode = new HistogramModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
+
+        ExposureLock = new ExposureLockParameter(cameraParameters, this, "","");
 
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");

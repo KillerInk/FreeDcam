@@ -59,6 +59,7 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter NonZslManualMode;
     public I_ModeParameter AE_Bracket;
     public I_ModeParameter Histogram;
+    public I_ModeParameter ExposureLock;
 
     public I_ModeParameter VideoProfiles;
     public I_ModeParameter VideoProfilesG3;
