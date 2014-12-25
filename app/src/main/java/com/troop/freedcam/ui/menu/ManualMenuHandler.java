@@ -26,7 +26,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 {
     private final MainActivity_v2 activity;
     private final AppSettingsManager appSettingsManager;
-    private final AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     private final SeekBar manualSeekbar;
     private final LinearLayout manualMenu;
     TextView seekbarText;
@@ -40,22 +40,22 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     ArrayList<ManualMenuItem> manualItems;
 
-    public ManualMenuHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public ManualMenuHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
-        this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
-        this.parametersHandler = cameraUiWrapper.camParametersHandler;
-        parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         manualSeekbar = (SeekBar)activity.seekbarLayout.findViewById(R.id.seekBar_manual);
         seekbarText = (TextView)activity.seekbarLayout.findViewById(R.id.textView_seekbar);
         manualSeekbar.setOnSeekBarChangeListener(this);
         manualMenu = activity.manualSettingsLayout;
         manualItems = new ArrayList<ManualMenuItem>();
+    }
 
-
-
-
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.parametersHandler = cameraUiWrapper.camParametersHandler;
+        parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
 
     private void addToLists(ManualMenuItem item)

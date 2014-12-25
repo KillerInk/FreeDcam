@@ -32,19 +32,23 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     TextView moduleView;
     ListView listView;
 
-    public ModuleSwitchHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public ModuleSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
-        this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
-        this.moduleHandler = cameraUiWrapper.moduleHandler;
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
         moduleView.setOnClickListener(this);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         moduleView.setVisibility(View.GONE);
 
     }
 
+
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.moduleHandler = cameraUiWrapper.moduleHandler;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+    }
 
     //shows the popupmenu
     @Override

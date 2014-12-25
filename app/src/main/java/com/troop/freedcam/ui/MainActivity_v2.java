@@ -78,9 +78,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         activity = this;
         timerHandler = new TimerHandler(this);
 
+        //initUI
+        menuHandler = new MenuHandler(this, appSettingsManager);
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
         workHandler = new WorkHandler(this);
+        cameraSwitchHandler = new CameraSwitchHandler(this, appSettingsManager);
+        shutterHandler = new ShutterHandler(this);
+        moduleSwitchHandler = new ModuleSwitchHandler(this, appSettingsManager);
+        flashSwitchHandler = new FlashSwitchHandler(this, appSettingsManager);
+        nightModeSwitchHandler = new NightModeSwitchHandler(this, appSettingsManager);
+        hardwareKeyHandler = new HardwareKeyHandler(this);
+        manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
+        focusImageHandler = new FocusImageHandler(this);
 
         loadCameraUiWrapper();
 
@@ -113,8 +123,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             helpOverlayOpen = true;
         }
-
-
     }
 
     private void loadCameraUiWrapper()
@@ -163,27 +171,20 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        if (menuHandler == null) {
-            menuHandler = new MenuHandler(this, appSettingsManager, previewHandler.surfaceView);
-        }
-        menuHandler.SetCameraUiWrapper(cameraUiWrapper);
-
-        shutterHandler = new ShutterHandler(this, cameraUiWrapper);
-        cameraSwitchHandler = new CameraSwitchHandler(this, cameraUiWrapper, appSettingsManager, previewHandler.surfaceView);
-        moduleSwitchHandler = new ModuleSwitchHandler(this, cameraUiWrapper, appSettingsManager);
-        flashSwitchHandler = new FlashSwitchHandler(this, cameraUiWrapper, appSettingsManager);
-        nightModeSwitchHandler = new NightModeSwitchHandler(this, cameraUiWrapper, appSettingsManager);
-        hardwareKeyHandler = new HardwareKeyHandler(this, cameraUiWrapper);
-        manualMenuHandler = new ManualMenuHandler(this, cameraUiWrapper, appSettingsManager);
-        focusImageHandler = new FocusImageHandler(this, cameraUiWrapper);
+        menuHandler.SetCameraUiWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
+        moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        flashSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        nightModeSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
+        manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
+        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
     }
-
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
@@ -196,9 +197,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // .
-        // Add code if needed
-        // .
     }
 
     @Override
@@ -247,16 +245,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         return haskey;
     }
 
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         return super.onTouchEvent(event);
-
-
     }
-
 
     View.OnTouchListener surfaceTouche = new View.OnTouchListener() {
         @Override
@@ -264,7 +257,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             activity.onTouchEvent(event);
             return focusImageHandler.onTouchEvent(event);
-
         }
     };
 

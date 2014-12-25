@@ -21,16 +21,16 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 {
 
     private final MainActivity_v2 activity;
-    private final AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     ImageView shutterButton;
     String currentModule;
     LinearLayout flashScreen;
 
 
-    public ShutterHandler(MainActivity_v2 mainActivity, final AbstractCameraUiWrapper cameraUiWrapper)
+    public ShutterHandler(MainActivity_v2 mainActivity)
     {
         this.activity = mainActivity;
-        this.cameraUiWrapper = cameraUiWrapper;
+
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
         shutterButton.setOnClickListener(this);
         shutterButton.setOnLongClickListener(this);
@@ -38,9 +38,15 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 
         flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
         flashScreen.setVisibility(View.GONE);
+
+
+    }
+
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         this.currentModule = cameraUiWrapper.moduleHandler.GetCurrentModuleName();
-
     }
 
     @Override
