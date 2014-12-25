@@ -244,11 +244,11 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     public void SetFocusAREA(List<Camera.Area> focusAreas)
     {
         Camera.Parameters para = cameraParameters;
-        if (para.getMaxNumFocusAreas() > 0) {
+        if (para.getMaxNumFocusAreas() > 0 ) {
             para.setFocusAreas(focusAreas);
             //cameraHolder.SetCameraParameters(para);
         }
-        if (para.getMaxNumMeteringAreas() > 0) {
+        if (para.getMaxNumMeteringAreas() > 0 && !para.getAutoExposureLock()) {
             para.setMeteringAreas(focusAreas);
             //cameraHolder.SetCameraParameters(para);
         }
