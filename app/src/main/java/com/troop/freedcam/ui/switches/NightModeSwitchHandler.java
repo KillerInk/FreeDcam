@@ -34,6 +34,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
         this.appSettingsManager = appSettingsManager;
         textView = (TextView)activity.findViewById(R.id.textView_nightmode);
         textView.setOnClickListener(this);
+        textView.setVisibility(View.GONE);
 
     }
 

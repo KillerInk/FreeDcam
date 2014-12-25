@@ -31,7 +31,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
         this.appSettingsManager = appSettingsManager;
         textView = (TextView)activity.findViewById(R.id.textView_flashSwitch);
         textView.setOnClickListener(this);
-
+        textView.setVisibility(View.GONE);
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
