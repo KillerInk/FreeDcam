@@ -57,6 +57,10 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
             view.setVisibility(View.VISIBLE);
             setBitmap(val);
         }
+        else
+        {
+            view.setVisibility(View.GONE);
+        }
     }
 
     @Override
