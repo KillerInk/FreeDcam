@@ -14,6 +14,9 @@ import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ingo on 25.12.2014.
  */
@@ -46,6 +49,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
     }
 
     @Override
@@ -53,7 +57,10 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     {
         exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
         exposureLock.addEventListner(this);
-        if (exposureLock != null && exposureLock.IsSupported()) {
+        cameraUiWrapper.camParametersHandler.FocusMode.addEventListner(onFocusmodeChanged);
+
+        if (exposureLock != null && exposureLock.IsSupported() && !cameraUiWrapper.camParametersHandler.FocusMode.GetValue().contains("continuous")) {
+
 
             String val = exposureLock.GetValue();
             view.setVisibility(View.VISIBLE);
@@ -99,4 +106,22 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         exposureLock.SetValue(val, false);
         setBitmap(val);
     }
+
+    AbstractModeParameter.I_ModeParameterEvent onFocusmodeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onModeParameterChanged(String val)
+        {
+            exposureLock.SetValue("false", true);
+            setBitmap("false");
+            if (!val.contains("continuous"))
+                view.setVisibility(View.VISIBLE);
+            else
+            {
+                view.setVisibility(View.GONE);
+            }
+
+        }
+    };
+
+
 }

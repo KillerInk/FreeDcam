@@ -24,6 +24,7 @@ public class FocusModeParameter extends BaseModeParameter
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;
+        BackgroundValueHasChanged(valueToSet);
     }
 
     @Override
