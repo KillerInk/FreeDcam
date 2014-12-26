@@ -50,7 +50,6 @@ public class ExposureLockParameter extends BaseModeParameter {
 
     @Override
     public void BackgroundValueHasChanged(String value) {
-        if (!GetValue().equals(value))
             super.BackgroundValueHasChanged(value);
     }
 }

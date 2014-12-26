@@ -172,7 +172,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-        backGroundHandler.postDelayed(backgroundParametersListner, 500);
+        //backGroundHandler.postDelayed(backgroundParametersListner, 300);
 
     }
 

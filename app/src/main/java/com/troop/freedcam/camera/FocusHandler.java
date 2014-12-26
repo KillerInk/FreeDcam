@@ -60,6 +60,10 @@ public class FocusHandler extends AbstractFocusHandler implements Camera.AutoFoc
 
     public void StartTouchToFocus(Rect rect, int width, int height)
     {
+        if (cameraUiWrapper.camParametersHandler.ExposureLock.GetValue().equals("true")) {
+            cameraUiWrapper.camParametersHandler.ExposureLock.SetValue("false", true);
+            cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
+        }
         if (isFocusing) {
             cameraHolder.GetCamera().cancelAutoFocus();
             isFocusing =false;
