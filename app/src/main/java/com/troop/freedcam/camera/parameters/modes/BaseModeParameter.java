@@ -4,13 +4,13 @@ import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseModeParameter implements I_ModeParameter
-{
+public abstract class BaseModeParameter extends AbstractModeParameter {
     protected String value;
     protected String values;
     boolean isSupported = false;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
@@ -16,13 +17,13 @@ import com.troop.freedcam.ui.MainActivity_v2;
 /**
  * Created by Ingo on 25.12.2014.
  */
-public class ExposureLockHandler implements View.OnClickListener, I_ParametersLoaded
+public class ExposureLockHandler implements View.OnClickListener, I_ParametersLoaded, AbstractModeParameter.I_ModeParameterEvent
 {
     MainActivity_v2 activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
-    I_ModeParameter exposureLock;
+    AbstractModeParameter exposureLock;
     ImageView view;
     Bitmap[] bitmaps;
 
@@ -51,6 +52,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     public void ParametersLoaded()
     {
         exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
+        exposureLock.addEventListner(this);
         if (exposureLock != null && exposureLock.IsSupported()) {
 
             String val = exposureLock.GetValue();
@@ -84,5 +86,11 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
             view.setImageBitmap(bitmaps[1]);
         else
             view.setImageBitmap(bitmaps[0]);
+    }
+
+    @Override
+    public void onModeParameterChanged(String val) {
+        exposureLock.SetValue(val, false);
+        setBitmap(val);
     }
 }
