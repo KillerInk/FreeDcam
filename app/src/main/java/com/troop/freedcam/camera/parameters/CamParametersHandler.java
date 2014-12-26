@@ -23,6 +23,7 @@ import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DenoiseParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
+import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
@@ -152,6 +153,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
         CameraMode = new HistogramModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
 
+        ExposureLock = new ExposureLockParameter(cameraParameters, this, "","");
+
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
@@ -241,11 +244,11 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     public void SetFocusAREA(List<Camera.Area> focusAreas)
     {
         Camera.Parameters para = cameraParameters;
-        if (para.getMaxNumFocusAreas() > 0) {
+        if (para.getMaxNumFocusAreas() > 0 ) {
             para.setFocusAreas(focusAreas);
             //cameraHolder.SetCameraParameters(para);
         }
-        if (para.getMaxNumMeteringAreas() > 0) {
+        if (para.getMaxNumMeteringAreas() > 0 && !para.getAutoExposureLock()) {
             para.setMeteringAreas(focusAreas);
             //cameraHolder.SetCameraParameters(para);
         }

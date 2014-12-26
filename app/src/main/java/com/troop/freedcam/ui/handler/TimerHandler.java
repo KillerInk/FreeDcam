@@ -25,6 +25,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
         this.mainActivity_v2 = mainActivity_v2;
         this.timerText = (TextView) mainActivity_v2.findViewById(R.id.textView_RecCounter);
         timer = new MyTimer(timerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @Override

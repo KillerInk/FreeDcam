@@ -27,16 +27,14 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     int currentCamera;
     Bitmap[] bitmaps;
     SurfaceView surfaceView;
-    public CameraSwitchHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, SurfaceView surfaceView)
+    public CameraSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
-        this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
-        this.surfaceView = surfaceView;
         imageView = (ImageView)activity.findViewById(R.id.imageView_cameraSwitch);
         imageView.setOnClickListener(this);
         currentCamera = appSettingsManager.GetCurrentCamera();
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
         bitmaps = new Bitmap[3];
         Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.camera_back);
         bitmaps[0] = back;
@@ -45,6 +43,13 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.camera_back3d);
         bitmaps[2] = back3d;
 
+    }
+
+    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView view)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        this.surfaceView = view;
     }
 
     @Override

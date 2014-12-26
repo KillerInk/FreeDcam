@@ -14,15 +14,19 @@ import com.troop.freedcam.ui.MainActivity_v2;
 public class HardwareKeyHandler
 {
     private final MainActivity_v2 activity;
-    private final AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     boolean longKeyPress = false;
     String TAG = "freedcam.HardwareKeyHandler";
 
-    public HardwareKeyHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper)
+    public HardwareKeyHandler(MainActivity_v2 activity)
     {
         this.activity = activity;
-        this.cameraUiWrapper = cameraUiWrapper;
 
+    }
+
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     public boolean OnKeyUp(int keyCode, KeyEvent event)

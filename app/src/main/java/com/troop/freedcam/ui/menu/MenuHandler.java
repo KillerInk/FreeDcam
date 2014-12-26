@@ -51,14 +51,14 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, AppSettingsManager appSettingsManager, SurfaceView surfaceView)
+    public MenuHandler(MainActivity_v2 context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
 
         this.appSettingsManager = appSettingsManager;
-        this.surfaceView = surfaceView;
 
-        menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+
+
         try
         {
             mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
@@ -72,15 +72,18 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
         }
 
-        fillMenu();
+
 
     }
 
-    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        this.surfaceView = surfaceView;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
+        fillMenu();
     }
 
 

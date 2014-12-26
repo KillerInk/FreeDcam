@@ -31,6 +31,13 @@
         android:background="#ff0808ff"
         android:alpha="0.5"></LinearLayout>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadingspinner"
+        android:layout_centerInParent="true" />
+
     <ImageView
         android:layout_width="80dp"
         android:layout_height="60dp"
@@ -248,6 +255,21 @@
                     android:password="false"
                     android:textSize="@dimen/TextSizeSmall"
                     android:clickable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="@dimen/app_icon_size"
+                android:layout_height="@dimen/app_icon_size"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView_exposurelock"
+                    android:background="@drawable/button_clean" />
             </LinearLayout>
 
             <LinearLayout

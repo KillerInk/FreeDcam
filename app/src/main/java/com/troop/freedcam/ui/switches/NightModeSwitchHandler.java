@@ -27,13 +27,20 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
     AppSettingsManager appSettingsManager;
     ListView listView;
 
-    public NightModeSwitchHandler(MainActivity_v2 activity, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public NightModeSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
-        this.cameraUiWrapper = cameraUiWrapper;
+
         this.appSettingsManager = appSettingsManager;
         textView = (TextView)activity.findViewById(R.id.textView_nightmode);
         textView.setOnClickListener(this);
+        textView.setVisibility(View.GONE);
+
+    }
+
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
 
