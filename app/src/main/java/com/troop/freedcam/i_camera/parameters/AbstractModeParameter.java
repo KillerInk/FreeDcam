@@ -1,5 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,6 +9,10 @@ import java.util.List;
 public class AbstractModeParameter implements I_ModeParameter
 {
 
+    public AbstractModeParameter()
+    {
+        events = new ArrayList<I_ModeParameterEvent>();
+    }
     public interface I_ModeParameterEvent
     {
         void onModeParameterChanged(String val);

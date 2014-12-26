@@ -20,6 +20,7 @@ public abstract class BaseModeParameter extends AbstractModeParameter {
 
     public BaseModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
+        super();
         this.parameters = parameters;
         this.value = value;
         this.values = values;

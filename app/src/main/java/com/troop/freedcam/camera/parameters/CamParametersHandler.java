@@ -172,6 +172,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
+        backGroundHandler.postDelayed(backgroundParametersListner, 500);
 
     }
 
@@ -311,4 +312,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         cameraParameters.set(param, value);
         //cameraHolder.SetCameraParameters(cameraParameters);
     }
+
+    Runnable backgroundParametersListner =  new Runnable() {
+        @Override
+        public void run()
+        {
+            Camera.Parameters camparas = ((BaseCameraHolder)cameraHolder).GetCameraParameters();
+            ExposureLock.BackgroundValueHasChanged(Boolean.toString(camparas.getAutoExposureLock()));
+            backGroundHandler.postDelayed(backgroundParametersListner, 500);
+        }
+    };
 }
