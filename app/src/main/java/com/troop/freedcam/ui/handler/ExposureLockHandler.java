@@ -35,9 +35,9 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         view.setClickable(true);
         view.setOnClickListener(this);
         bitmaps = new Bitmap[2];
-        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.button_clean);
+        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.button_expolockfalse);
         bitmaps[0] = back;
-        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.button_clean);
+        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.button_expolocktrue);
         bitmaps[1] = front;
     }
 
@@ -81,8 +81,8 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     private void setBitmap(String value)
     {
         if (value.equals("true"))
-            view.setImageBitmap(bitmaps[0]);
-        else
             view.setImageBitmap(bitmaps[1]);
+        else
+            view.setImageBitmap(bitmaps[0]);
     }
 }
