@@ -6,8 +6,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -22,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ParameterEvent
+public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ManualParameterEvent
 {
     private final MainActivity_v2 activity;
     private final AppSettingsManager appSettingsManager;

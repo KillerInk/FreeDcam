@@ -9,12 +9,11 @@ import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
-import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ParameterEvent
+public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent
 {
     Context context;
     TextView textView;

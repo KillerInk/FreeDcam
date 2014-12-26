@@ -11,16 +11,16 @@ import java.util.List;
 public abstract class AbstractManualParameter implements I_ManualParameter
 {
 
-    private List<I_ParameterEvent> events;
+    private List<I_ManualParameterEvent> events;
     protected AbstractParameterHandler camParametersHandler;
 
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
-        events = new ArrayList<I_ParameterEvent>();
+        events = new ArrayList<I_ManualParameterEvent>();
     }
 
-    public interface I_ParameterEvent
+    public interface I_ManualParameterEvent
     {
         void onIsSupportedChanged(boolean value);
         void onMaxValueChanged(int max);
@@ -29,12 +29,12 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     }
 
 
-    public void addEventListner(I_ParameterEvent eventListner)
+    public void addEventListner(I_ManualParameterEvent eventListner)
     {
         if (!events.contains(eventListner))
             events.add(eventListner);
     }
-    public void removeEventListner(I_ParameterEvent parameterEvent)
+    public void removeEventListner(I_ManualParameterEvent parameterEvent)
     {
         if (events.contains(parameterEvent))
             events.remove(parameterEvent);
