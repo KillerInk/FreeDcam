@@ -25,7 +25,7 @@ public class PictureModuleThl5000 extends PictureModule
             //soundPlayer.PlayShutter();
             if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
                     || Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw")) {
-                parametersHandler.setTHL5000rawFilename(createFileName().getAbsolutePath());
+                parametersHandler.setTHL5000rawFilename(createFileName().getName());
                 baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
             } else
                 baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
