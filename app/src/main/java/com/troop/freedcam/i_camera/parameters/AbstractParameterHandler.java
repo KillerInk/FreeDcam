@@ -46,7 +46,7 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter PreviewFPS;
     public I_ModeParameter PreviewFormat;
     public I_ModeParameter SceneMode;
-    public I_ModeParameter FocusMode;
+    public AbstractModeParameter FocusMode;
     public I_ModeParameter RedEye;
     public I_ModeParameter LensShade;
     public I_ModeParameter ZSL;
