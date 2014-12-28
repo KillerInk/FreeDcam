@@ -16,8 +16,8 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent
 {
     Context context;
-    TextView textViewName;
-    TextView textViewValue;
+    public TextView textViewName;
+    public TextView textViewValue;
     private LinearLayout toggleButton;
     public final String name;
     ManualMenuHandler manualMenuHandler;
@@ -29,12 +29,14 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_menu_item, this);
-        textViewName = (TextView)findViewById(R.id.manual_item_Text);
-        textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
+        this.textViewName = (TextView)findViewById(R.id.manual_item_Text);
+        this.textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
         this.name = name;
         this.manualMenuHandler = manualMenuHandler;
         this.manualParameter = parameter;
         textViewName.setText(name);
+        //set int to textviews always as string or you will get and res not found ex!!
+        textViewValue.setText(parameter.GetValue() +"");
         toggleButton = (LinearLayout)findViewById(R.id.manual_item);
         toggleButton.setOnClickListener(this);
     }
@@ -70,6 +72,6 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
-        textViewValue.setText(current);
+
     }
 }

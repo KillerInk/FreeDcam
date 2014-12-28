@@ -69,10 +69,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             if (!item.name.equals(name)) {
                 item.DisableItem();
                 item.manualParameter.removeEventListner(this);
+
             }
             else
             {
                 item.manualParameter.addEventListner(this);
+
                 currentItem = item;
                 item.EnableItem();
                 //currentItem.manualParameter.RestartPreview();
@@ -282,6 +284,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     public void onCurrentValueChanged(int current)
     {
         setTextValue(current + realMin);
+        currentItem.textViewValue.setText(current +"");
         if (!userIsSeeking)
         {
             setSeekbarProgress(current);
