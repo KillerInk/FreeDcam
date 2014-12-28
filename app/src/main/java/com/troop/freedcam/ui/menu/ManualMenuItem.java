@@ -16,23 +16,26 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent
 {
     Context context;
-    TextView textView;
-    private ToggleButton toggleButton;
+    TextView textViewName;
+    TextView textViewValue;
+    private LinearLayout toggleButton;
     public final String name;
     ManualMenuHandler manualMenuHandler;
     public AbstractManualParameter manualParameter;
+    boolean isChecked = false;
 
     public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AbstractManualParameter parameter) {
         super(context);
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.toggle_control, this);
-        textView = (TextView)findViewById(R.id.toggle_textView);
+        inflater.inflate(R.layout.manual_menu_item, this);
+        textViewName = (TextView)findViewById(R.id.manual_item_Text);
+        textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
         this.name = name;
         this.manualMenuHandler = manualMenuHandler;
         this.manualParameter = parameter;
-        textView.setText(name);
-        toggleButton = (ToggleButton)findViewById(R.id.toggleButton);
+        textViewName.setText(name);
+        toggleButton = (LinearLayout)findViewById(R.id.manual_item);
         toggleButton.setOnClickListener(this);
     }
 
@@ -44,10 +47,10 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     public void DisableItem()
     {
-        toggleButton.setChecked(false);
+        isChecked = false;
     }
 
-    public void EnableItem() {toggleButton.setChecked(true);}
+    public void EnableItem() {isChecked = true;}
 
     @Override
     public void onIsSupportedChanged(boolean value) {
@@ -65,7 +68,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     }
 
     @Override
-    public void onCurrentValueChanged(int current) {
-
+    public void onCurrentValueChanged(int current)
+    {
+        textViewValue.setText(current);
     }
 }
