@@ -69,6 +69,10 @@ public class PictureFormatParameter extends BaseModeParameter
         if ((camParametersHandler.dngSupported && camParametersHandler.rawSupported && camParametersHandler.BayerMipiFormat != null)
                 || DeviceUtils.isXperiaL())
             return new String[]{"jpeg", "raw", "dng"};
+        else if (camParametersHandler.rawSupported)
+        {
+            return new String[]{"jpeg", "raw"};
+        }
         else
         {
             return parameters.get(values).split(",");
