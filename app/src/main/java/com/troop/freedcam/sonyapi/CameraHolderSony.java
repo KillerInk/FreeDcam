@@ -1,16 +1,21 @@
 package com.troop.freedcam.sonyapi;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.sonyapi.modules.I_PictureCallback;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
@@ -25,7 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -436,5 +444,72 @@ public class CameraHolderSony extends AbstractCameraHolder
                 mEventObserver.start();
             }
         });
+    }
+
+
+    public void TakePicture(final I_PictureCallback pictureCallback)
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.actTakePicture();
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
+                    String postImageUrl = null;
+                    if (1 <= imageUrlsObj.length()) {
+                        postImageUrl = imageUrlsObj.getString(0);
+                    }
+                    if (postImageUrl == null) {
+                        Log.w(TAG, "takeAndFetchPicture: post image URL is null.");
+
+                        return;
+                    }
+                    // Show progress indicator
+
+
+                    URL url = new URL(postImageUrl);
+                    pictureCallback.onPictureTaken(url);
+                    //InputStream istream = new BufferedInputStream(url.openStream());
+
+
+                } catch (IOException e) {
+                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
+
+                } catch (JSONException e) {
+                    Log.w(TAG, "JSONException while closing slicer");
+
+                } finally {
+
+                }
+            }
+        }.start();
+    }
+
+    public void SetShootMode(final String mode)
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.setShootMode(mode);
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    int resultCode = resultsObj.getInt(0);
+                    if (resultCode == 0) {
+                        // Success, but no refresh UI at the point.
+                        Log.v(TAG, "setShootMode: success.");
+                    } else {
+                        Log.w(TAG, "setShootMode: error: " + resultCode);
+
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                } catch (JSONException e) {
+                    Log.w(TAG, "setShootMode: JSON format error.");
+                }
+            }
+        }.start();
     }
 }

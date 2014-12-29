@@ -183,14 +183,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
     {
-        if (backGroundThread != null) {
+        /*if (backGroundThread != null) {
             backGroundHandler.post(new Runnable() {
                 @Override
-                public void run() {
-                    mCamera.takePicture(shutter, raw, picture);
-                }
+                public void run() {*/
+                    this.mCamera.takePicture(shutter, raw, picture);
+                /*}
             });
-        }
+        }*/
     }
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
