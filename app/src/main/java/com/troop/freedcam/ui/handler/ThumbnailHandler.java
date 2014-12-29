@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.transition.Scene;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -24,6 +28,9 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     Bitmap bitmap;
     File lastFile;
     boolean working = false;
+    ViewGroup.LayoutParams params;
+    boolean showThumb = false;
+    String TAG = ThumbnailHandler.class.getSimpleName();
 
     public ThumbnailHandler(final MainActivity_v2 activity)
     {
@@ -31,6 +38,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
         thumbView = (ImageView)activity.findViewById(R.id.imageView_Thumbnail);
         thumbView.setOnClickListener(this);
         thumbView.setAlpha(0f);
+        params = (ViewGroup.LayoutParams) thumbView.getLayoutParams();
 
     }
 
@@ -38,13 +46,32 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     public void onClick(View v) {
         if (lastFile != null)
         {
-            Uri uri = Uri.fromFile(lastFile);
-            Intent i=new Intent(Intent.ACTION_VIEW);
-            if (lastFile.getAbsolutePath().endsWith("mp4"))
-                i.setDataAndType(uri, "video/*");
+            if (lastFile.getName().endsWith(".jpg"))
+            {
+                if (showThumb)
+                {
+                    thumbView.setLayoutParams(params);
+                    showThumb = false;
+                    Log.d(TAG, "small thumbview");
+                }
+                else
+                {
+                    LinearLayout.LayoutParams layoutParams  = new LinearLayout.LayoutParams(activity.getWindowManager().getDefaultDisplay().getWidth(),activity.getWindowManager().getDefaultDisplay().getHeight());
+                    thumbView.setLayoutParams(layoutParams);
+                    showThumb = true;
+                    Log.d(TAG, "big thumbview");
+                }
+            }
             else
-                i.setDataAndType(uri, "image/*");
-            activity.startActivity(i);
+            {
+                Uri uri = Uri.fromFile(lastFile);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if (lastFile.getAbsolutePath().endsWith("mp4"))
+                    i.setDataAndType(uri, "video/*");
+                else
+                    i.setDataAndType(uri, "image/*");
+                activity.startActivity(i);
+            }
         }
     }
 
@@ -62,9 +89,11 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                     /*if (thumbView.getAlpha() == 1f)
                         hideThumb(filePath);
                     else*/
+                    Log.d(TAG, "Load Thumb " + filePath.getName());
                         showThumb(filePath);
                     working = false;
                 }
+                Log.d(TAG, "Start Media Scan " + filePath.getName());
                 MediaScannerManager.ScanMedia(activity, filePath);
             }
         });
@@ -80,6 +109,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
             options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
             options.inJustDecodeBounds = false;
             Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            Log.d(TAG, "Bitmap loaded");
             //options =null;
             return map;
         }
@@ -143,18 +173,30 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void showThumb(File filePath)
     {
-            if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw"))
-            {
-                if (bitmap != null) {
-                    bitmap.recycle();
-                    bitmap = null;
-                    System.gc();
-                }
-                bitmap = loadThumbViewImage(filePath);
-                thumbView.setImageBitmap(bitmap);
+        if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw"))
+        {
+            if (bitmap != null) {
+                bitmap.recycle();
+                bitmap = null;
+                System.gc();
             }
-            thumbView.animate().alpha(1f).setDuration(200).start();
-
+            bitmap = loadThumbViewImage(filePath);
+            thumbView.setImageBitmap(bitmap);
+            //LinearLayout.LayoutParams layoutParams  = new LinearLayout.LayoutParams(activity.getWindowManager().getDefaultDisplay().getWidth(),activity.getWindowManager().getDefaultDisplay().getHeight());
+            //thumbView.setLayoutParams(layoutParams);
+            showThumb = true;
+            thumbView.setAlpha(1F);
+            //thumbView.bringToFront();
+            //thumbView.postDelayed(restoreThumbSize, 2000);
+        }
 
     }
+
+    Runnable restoreThumbSize =new Runnable() {
+        @Override
+        public void run() {
+            thumbView.setLayoutParams(params);
+            showThumb = false;
+        }
+    };
 }
