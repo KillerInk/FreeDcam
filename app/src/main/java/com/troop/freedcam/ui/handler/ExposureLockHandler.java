@@ -55,20 +55,21 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void ParametersLoaded()
     {
-        exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
-        exposureLock.addEventListner(this);
-        cameraUiWrapper.camParametersHandler.FocusMode.addEventListner(onFocusmodeChanged);
+        if (cameraUiWrapper != null) {
+            exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
 
-        if (exposureLock != null && exposureLock.IsSupported() && !cameraUiWrapper.camParametersHandler.FocusMode.GetValue().contains("continuous")) {
+            if (cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.FocusMode != null)
+                cameraUiWrapper.camParametersHandler.FocusMode.addEventListner(onFocusmodeChanged);
 
+            if (exposureLock != null && exposureLock.IsSupported() && !cameraUiWrapper.camParametersHandler.FocusMode.GetValue().contains("continuous")) {
 
-            String val = exposureLock.GetValue();
-            view.setVisibility(View.VISIBLE);
-            setBitmap(val);
-        }
-        else
-        {
-            view.setVisibility(View.GONE);
+                exposureLock.addEventListner(this);
+                String val = exposureLock.GetValue();
+                view.setVisibility(View.VISIBLE);
+                setBitmap(val);
+            } else {
+                view.setVisibility(View.GONE);
+            }
         }
     }
 

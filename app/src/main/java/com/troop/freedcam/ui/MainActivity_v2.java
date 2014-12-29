@@ -192,7 +192,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
+        cameraUiWrapper.StopCamera();
         super.onPause();
         orientationHandler.Stop();
 
