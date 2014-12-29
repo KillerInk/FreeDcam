@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi;
 
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -11,6 +13,7 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
+import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -24,6 +27,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     ServerDevice serverDevice;
     CameraHolderSony cameraHolder;
     AppSettingsManager appSettingsManager;
+    WifiUtils wifiUtils;
+
 
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
         super(preview, appSettingsManager);
@@ -35,6 +40,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
+        wifiUtils = new WifiUtils(surfaceView.getContext());
     }
 
     @Override
@@ -46,6 +52,50 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     protected void startCamera()
     {
+        if (!wifiUtils.getConnectedNetworkSSID().contains("DIRECT"))
+        {
+            String[] configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
+            String confnet = "";
+            for (String s : configuredNetworks)
+            {
+                if (s.contains("DIRECT"))
+                {
+                    confnet = s;
+                    break;
+                }
+            }
+            if (confnet.equals(""))
+            {
+                onCameraError("No Sony Camera Device Configured in WifiSettings");
+                return;
+            }
+            String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
+            String foundnet = "";
+            for (String s : foundNetWorks)
+            {
+                if (confnet.equals(s))
+                {
+                    foundnet = s;
+                    break;
+                }
+            }
+            if (foundnet.equals(""))
+            {
+                onCameraError("Cant find Sony Camera WifiNetwork, Camera turned On?");
+                return;
+            }
+            wifiUtils.ConnectToSSID(foundnet);
+            while (!wifiUtils.getWifiConnected())
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
         mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
             @Override
             public void onDeviceFound(ServerDevice device) {
@@ -64,13 +114,13 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
             public void onFinished()
             {
                 if (serverDevice == null)
-                    onCameraError("");
+                    onCameraError("Cant find a sony remote Device");
 
             }
 
             @Override
             public void onErrorFinished() {
-                    onCameraError("");
+                    onCameraError("Error happend while searching for sony remote device");
             }
         });
         onCameraOpen("");

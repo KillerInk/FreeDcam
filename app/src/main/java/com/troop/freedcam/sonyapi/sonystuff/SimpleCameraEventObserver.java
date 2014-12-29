@@ -75,6 +75,8 @@ public class SimpleCameraEventObserver {
 
         // :
         // : add methods for Event data as necessary.
+
+        void onTimout();
     }
 
     /**
@@ -105,6 +107,11 @@ public class SimpleCameraEventObserver {
 
         @Override
         public void onStorageIdChanged(String storageId) {
+        }
+
+        public void onTimout()
+        {
+
         }
 
     }
@@ -266,6 +273,7 @@ public class SimpleCameraEventObserver {
                     } catch (IOException e) {
                         // Occurs when the server is not available now.
                         Log.d(TAG, "getEvent timeout by client trigger.");
+                        fireTimeoutListener();
                         break MONITORLOOP;
                     } catch (JSONException e) {
                         Log.w(TAG, "getEvent: JSON format error. " + e.getMessage());
@@ -382,6 +390,17 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onApiListModified(availableApis);
+                }
+            }
+        });
+    }
+
+    private void fireTimeoutListener() {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onTimout();
                 }
             }
         });

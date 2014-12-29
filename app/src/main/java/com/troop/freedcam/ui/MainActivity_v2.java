@@ -333,7 +333,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-            Toast.makeText(this, "Couldnt find RemoteDevice", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }

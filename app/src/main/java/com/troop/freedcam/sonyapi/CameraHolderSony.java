@@ -43,7 +43,8 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     private SimpleCameraEventObserver mEventObserver;
 
-    private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl() {
+    private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
+    {
 
         @Override
         public void onShootModeChanged(String shootMode) {
@@ -51,8 +52,15 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onCameraStatusChanged(String status) {
+        public void onCameraStatusChanged(String status)
+        {
 
+
+        }
+
+        @Override
+        public void onTimout() {
+            cameraChangedListner.onCameraError("Camera connection timed out");
         }
 
         @Override
@@ -94,6 +102,10 @@ public class CameraHolderSony extends AbstractCameraHolder
         public void onStorageIdChanged(String storageId) {
 
         }
+
+
+
+
     };
 
     private SimpleRemoteApi mRemoteApi;
@@ -104,6 +116,8 @@ public class CameraHolderSony extends AbstractCameraHolder
     private SimpleStreamSurfaceView mLiveviewSurface;
 
     public ParameterHandlerSony ParameterHandler;
+
+
 
     public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner,HandlerThread backGroundThread, Handler backGroundHandler,Handler UIHandler)
     {
@@ -213,6 +227,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     mRemoteApi.stopLiveview();
                 } catch (IOException e) {
                     Log.w(TAG, "stopLiveview IOException: " + e.getMessage());
+
                 }
             }
         }.start();
