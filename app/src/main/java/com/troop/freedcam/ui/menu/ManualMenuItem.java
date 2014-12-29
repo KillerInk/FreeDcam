@@ -24,7 +24,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public AbstractManualParameter manualParameter;
     boolean isChecked = false;
 
-    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AbstractManualParameter parameter) {
+    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
         super(context);
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,12 +33,18 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         this.textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
         this.name = name;
         this.manualMenuHandler = manualMenuHandler;
-        this.manualParameter = parameter;
+
         textViewName.setText(name);
         //set int to textviews always as string or you will get and res not found ex!!
-        textViewValue.setText(parameter.GetValue() +"");
+
         toggleButton = (LinearLayout)findViewById(R.id.manual_item);
         toggleButton.setOnClickListener(this);
+    }
+
+    public void SetAbstractManualParameter(AbstractManualParameter parameter)
+    {
+        this.manualParameter = parameter;
+        textViewValue.setText(parameter.GetValue() +"");
     }
 
     @Override
