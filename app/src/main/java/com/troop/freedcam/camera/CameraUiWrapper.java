@@ -99,7 +99,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-        StopPreview(); StopCamera();
+        //StopPreview(); StopCamera();
     }
 
     @Override
