@@ -133,7 +133,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
             isWorking = false;
-            baseCameraHolder.StartPreview();
+            //baseCameraHolder.StartPreview();
             return true;
         }
         else
