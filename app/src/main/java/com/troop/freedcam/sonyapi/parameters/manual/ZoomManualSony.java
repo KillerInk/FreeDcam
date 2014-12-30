@@ -23,8 +23,11 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public boolean IsSupported() {
-        return JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
+    public boolean IsSupported()
+    {
+        if (ParameterHandler.mAvailableCameraApiSet != null)
+            return JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
+        return false;
     }
 
     @Override

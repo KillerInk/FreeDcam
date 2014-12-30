@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 13.12.2014.
  */
-public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeParameter
+public class SwitchApiExpandableChild extends ExpandableChild
 {
     MainActivity_v2 context;
 
@@ -25,15 +26,15 @@ public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeP
     public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
         this.context = context;
-        this.parameterHolder = this;
+        this.parameterHolder = new simpleModeParam();
     }
 
 
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
-        super.setParameterHolder(this, modulesToShow);
+        super.setParameterHolder(this.parameterHolder, modulesToShow);
         nameTextView.setText("Switch Api");
         valueTextView.setText(Value());
 
@@ -64,32 +65,39 @@ public class SwitchApiExpandableChild extends ExpandableChild implements I_ModeP
     }
 
     @Override
-    public boolean IsSupported() {
-        return true;
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-
-    }
-
-    @Override
-    public String GetValue() {
-        return null;
-    }
-
-    @Override
-    public String[] GetValues()
-    {
-        if (Build.VERSION.SDK_INT  >= 21)
-            return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1, AppSettingsManager.API_2};
-        else
-            return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
-    }
-
-    @Override
     public String getName() {
         return "sonyconnect";
+    }
+
+
+
+    class simpleModeParam extends AbstractModeParameter
+    {
+        @Override
+        public boolean IsSupported() {
+            return true;
+        }
+
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
+
+
+        }
+
+        @Override
+        public String GetValue() {
+            return null;
+        }
+
+        @Override
+        public String[] GetValues()
+        {
+            if (Build.VERSION.SDK_INT  >= 21)
+                return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1, AppSettingsManager.API_2};
+            else
+                return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+        }
+
+
     }
 }

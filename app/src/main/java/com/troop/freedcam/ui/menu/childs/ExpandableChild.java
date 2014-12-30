@@ -12,6 +12,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
@@ -21,10 +22,10 @@ import java.util.ArrayList;
 /**
  * Created by troop on 18.08.2014.
  */
-public class ExpandableChild extends LinearLayout implements I_ModuleEvent
+public class ExpandableChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
 {
     protected String Name;
-    protected I_ModeParameter parameterHolder;
+    protected AbstractModeParameter parameterHolder;
     protected AppSettingsManager appSettingsManager;
     Context context;
     TextView nameTextView;
@@ -32,6 +33,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     protected String settingsname;
     protected ArrayList<String> modulesToShow;
     ExpandableGroup group;
+    boolean isVisible = false;
 
 
     public ExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
@@ -74,26 +76,19 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     }
 
     public I_ModeParameter getParameterHolder(){ return parameterHolder;}
-    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
         this.parameterHolder = parameterHolder;
         this.modulesToShow = modulesToShow;
+        if (parameterHolder != null)
+            parameterHolder.addEventListner(this);
+
 
         if (parameterHolder.IsSupported())
         {
             String campara = parameterHolder.GetValue();
-            String settingValue = appSettingsManager.getString(settingsname);
-            if (settingValue.equals("")) {
-                appSettingsManager.setString(settingsname, campara);
-                Log.d(getTAG(), "No appSetting set default " + Name + ":" + campara);
-            }
-            if (campara != null && !settingValue.equals(campara) && !settingValue.equals("") && !campara.equals("")) {
-                parameterHolder.SetValue(settingValue, false);
-                appSettingsManager.setString(settingsname, settingValue);
-                Log.d(getTAG(), "Load default appsetting " + Name + ":" + campara);
-            }
-            nameTextView.setText(Name);
-            valueTextView.setText(appSettingsManager.getString(settingsname));
+            onValueChanged(campara);
+            onIsSupportedChanged(true);
         }
     }
 
@@ -112,5 +107,50 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent
     protected String getTAG()
     {
         return "freedcam." + Name;
+    }
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        String settingValue = appSettingsManager.getString(settingsname);
+        if (settingValue.equals("")) {
+            appSettingsManager.setString(settingsname, val);
+            Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
+        }
+        if (!settingValue.equals(val))
+        {
+            parameterHolder.SetValue(settingValue, false);
+            appSettingsManager.setString(settingsname, settingValue);
+            val = settingValue;
+            Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
+        }
+        valueTextView.setText(val);
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported)
+    {
+        if (isSupported && !isVisible)
+        {
+            isVisible = true;
+            group.submenu.addView(this);
+        }
+        else if(!isSupported && isVisible)
+        {
+            isVisible = false;
+            group.submenu.removeView(this);
+        }
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported)
+    {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 }

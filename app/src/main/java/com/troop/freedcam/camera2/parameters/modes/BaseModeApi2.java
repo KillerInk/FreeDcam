@@ -9,13 +9,13 @@ import android.os.Build;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
 /**
  * Created by troop on 12.12.2014.
  */
-public class BaseModeApi2 implements I_ModeParameter
-{
+public class BaseModeApi2 extends AbstractModeParameter {
     BaseCameraHolderApi2 cameraHolder;
     boolean isSupported = false;
 

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 02.12.2014.
  */
-public class ExpandableChildNumber extends ExpandableChild implements I_VideoProfile, I_ModeParameter
+public class ExpandableChildNumber extends ExpandableChild implements I_VideoProfile
 {
 
     Button plus;
@@ -37,7 +38,6 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname)
     {
         super(context,group,name, appSettingsManager, settingsname);
-        this.parameterHolder =this;
         initt(context);
 
     }
@@ -157,14 +157,13 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
 
     @Override
     public I_ModeParameter getParameterHolder() {
-        return this;
+        return null;
     }
 
     @Override
-    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow)
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
-        this.parameterHolder = this;
-        this.modulesToShow = modulesToShow;
+        super.setParameterHolder(new simpleModeParam(), modulesToShow);
     }
 
     @Override
@@ -177,23 +176,28 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
         return super.getTAG();
     }
 
-    @Override
-    public boolean IsSupported() {
-        return true;
-    }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
 
-    }
+    class simpleModeParam extends AbstractModeParameter
+    {
+        @Override
+        public boolean IsSupported() {
+            return true;
+        }
 
-    @Override
-    public String GetValue() {
-        return null;
-    }
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
 
-    @Override
-    public String[] GetValues() {
-        return new String[0];
+        }
+
+        @Override
+        public String GetValue() {
+            return null;
+        }
+
+        @Override
+        public String[] GetValues() {
+            return new String[0];
+        }
     }
 }

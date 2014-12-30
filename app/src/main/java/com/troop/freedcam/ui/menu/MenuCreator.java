@@ -161,9 +161,9 @@ public class MenuCreator
         if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
             videoHdr.setParameterHolder(parameterHandler.VideoHDR,cameraUiWrapper.moduleHandler.VideoModules);
         }
-        if (saveCamparas.getParameterHolder() != null && saveCamparas.IsSupported())
+        if (saveCamparas.getParameterHolder() != null && saveCamparas.getParameterHolder().IsSupported())
             saveCamparas.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-        if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.IsSupported())
+        if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
     }
 

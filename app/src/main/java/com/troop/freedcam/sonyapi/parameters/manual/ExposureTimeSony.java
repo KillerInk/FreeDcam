@@ -22,8 +22,11 @@ public class ExposureTimeSony extends BaseManualParameterSony
     }
 
     @Override
-    public boolean IsSupported() {
-        return JsonUtils.isCameraApiAvailable("setShutterSpeed", ParameterHandler.mAvailableCameraApiSet);
+    public boolean IsSupported()
+    {
+        if (ParameterHandler.mAvailableCameraApiSet != null)
+            return JsonUtils.isCameraApiAvailable("setShutterSpeed", ParameterHandler.mAvailableCameraApiSet);
+        return false;
     }
 
     @Override

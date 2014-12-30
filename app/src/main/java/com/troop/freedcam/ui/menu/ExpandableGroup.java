@@ -25,7 +25,7 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     Context context;
     public ArrayList<String> modulesToShow;
     TextView textView;
-    LinearLayout submenu;
+    public LinearLayout submenu;
     LinearLayout groupcontainer;
     boolean submenuVisible = false;
     OnClickListener onChildclick;

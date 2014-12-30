@@ -103,14 +103,29 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     }
 
     @Override
-    public void onModeParameterChanged(String val) {
+    public void onValueChanged(String val) {
         exposureLock.SetValue(val, false);
         setBitmap(val);
     }
 
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
     AbstractModeParameter.I_ModeParameterEvent onFocusmodeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
-        public void onModeParameterChanged(String val)
+        public void onValueChanged(String val)
         {
             exposureLock.SetValue("false", true);
             setBitmap("false");
@@ -120,6 +135,21 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
             {
                 view.setVisibility(View.GONE);
             }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
 
         }
     };

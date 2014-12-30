@@ -66,14 +66,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
            /* }
         })*/
 
-        appSettingsManager.context.runOnUiThread(new Runnable() {
-            @Override
-            public void run()
-            {
-                Log.d(TAG, "Throw ParametersHasLoaded");
-                ParametersEventHandler.ParametersHasLoaded();
-            }
-        });
+
         //ParametersEventHandler.ParametersHasLoaded();
 
     }
@@ -88,6 +81,15 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         Zoom = new ZoomManualSony("","","", this);
         ManualShutter = new ExposureTimeSony("", "","", this);
         ManualFNumber = new FnumberManualSony("","","",this);
+
+        appSettingsManager.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run()
+            {
+                Log.d(TAG, "Throw ParametersHasLoaded");
+                ParametersEventHandler.ParametersHasLoaded();
+            }
+        });
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)

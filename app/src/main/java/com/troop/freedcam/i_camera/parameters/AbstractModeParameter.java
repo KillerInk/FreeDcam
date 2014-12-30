@@ -15,7 +15,10 @@ public class AbstractModeParameter implements I_ModeParameter
     }
     public interface I_ModeParameterEvent
     {
-        void onModeParameterChanged(String val);
+        void onValueChanged(String val);
+        void onIsSupportedChanged(boolean isSupported);
+        void onIsSetSupportedChanged(boolean isSupported);
+        void onValuesChanged(String[] values);
 
     }
 
@@ -63,7 +66,51 @@ public class AbstractModeParameter implements I_ModeParameter
 
             }
             else
-                events.get(i).onModeParameterChanged(value);
+                events.get(i).onValueChanged(value);
+        }
+    }
+    public void BackgroundValuesHasChanged(String[] value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onValuesChanged(value);
+        }
+    }
+
+    public void BackgroundIsSupportedChanged(boolean value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onIsSupportedChanged(value);
+        }
+    }
+
+    public void BackgroundSetIsSupportedHasChanged(boolean value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onIsSetSupportedChanged(value);
         }
     }
 }

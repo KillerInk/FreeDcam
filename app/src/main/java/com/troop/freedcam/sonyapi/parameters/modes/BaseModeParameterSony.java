@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
@@ -14,7 +15,7 @@ import java.util.Set;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
+public class BaseModeParameterSony extends AbstractModeParameter implements I_SonyApi
 {
 
     protected String VALUE_TO_GET = "";
@@ -43,7 +44,10 @@ public class BaseModeParameterSony implements I_SonyApi, I_ModeParameter
     @Override
     public boolean IsSupported()
     {
-        return JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+        if (mAvailableCameraApiSet != null) {
+            return JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+        }else
+            return false;
     }
 
     @Override

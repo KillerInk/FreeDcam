@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
@@ -21,18 +22,18 @@ import java.util.Arrays;
 /**
  * Created by Ingo on 02.11.2014.
  */
-public class SaveCamParasExpandableChild extends ExpandableChild implements I_ModeParameter
+public class SaveCamParasExpandableChild extends ExpandableChild
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
-        super(context, group,name,appSettingsManager,settingsname);
-        this.parameterHolder = this;
+        super(context, group, name, appSettingsManager, settingsname);
+
     }
 
-    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
     {
-        super.setParameterHolder(this, modulesToShow);
+        super.setParameterHolder(new simpleModeParam(), modulesToShow);
 
         this.cameraUiWrapper = cameraUiWrapper;
         nameTextView.setText("Save CamParameter");
@@ -72,27 +73,32 @@ public class SaveCamParasExpandableChild extends ExpandableChild implements I_Mo
         }
     }
 
-    @Override
-    public boolean IsSupported()
+
+
+    class simpleModeParam extends AbstractModeParameter
     {
-        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
-            return true;
-        else
-            return false;
-    }
+        @Override
+        public boolean IsSupported()
+        {
+            if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+                return true;
+            else
+                return false;
+        }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
 
-    }
+        }
 
-    @Override
-    public String GetValue() {
-        return null;
-    }
+        @Override
+        public String GetValue() {
+            return null;
+        }
 
-    @Override
-    public String[] GetValues() {
-        return new String[0];
+        @Override
+        public String[] GetValues() {
+            return new String[0];
+        }
     }
 }

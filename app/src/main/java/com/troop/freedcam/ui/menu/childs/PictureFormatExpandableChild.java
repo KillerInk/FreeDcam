@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
@@ -42,7 +43,7 @@ public class PictureFormatExpandableChild extends ExpandableChild {
     }
 
 
-    public void setParameterHolder(I_ModeParameter parameterHolder, ArrayList<String> modulesToShow) {
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow) {
         this.parameterHolder = parameterHolder;
         String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
