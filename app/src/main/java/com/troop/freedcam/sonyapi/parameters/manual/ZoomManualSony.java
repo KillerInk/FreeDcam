@@ -141,4 +141,11 @@ public class ZoomManualSony extends BaseManualParameterSony
         else
             return false;
     }
+
+    public String GetStringValue()
+    {
+
+        return currentzoomPos + "%";
+
+    }
 }
