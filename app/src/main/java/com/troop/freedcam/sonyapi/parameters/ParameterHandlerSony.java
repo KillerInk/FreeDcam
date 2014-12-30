@@ -1,6 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -8,6 +9,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
+import com.troop.freedcam.sonyapi.parameters.manual.FnumberManualSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
@@ -25,6 +27,7 @@ import java.util.Set;
  */
 public class ParameterHandlerSony extends AbstractParameterHandler
 {
+    String TAG = ParameterHandlerSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
@@ -48,6 +51,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
             @Override
             public void run()
             {*/
+        Log.d(TAG, "Throw parametersChanged");
                 for (int i = 0; i < parametersChangedList.size(); i++)
                 {
                     if (parametersChangedList.get(i) == null)
@@ -64,7 +68,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
+                Log.d(TAG, "Throw ParametersHasLoaded");
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
@@ -81,6 +87,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         Zoom = new ZoomManualSony("","","", this);
         ManualShutter = new ExposureTimeSony("", "","", this);
+        ManualFNumber = new FnumberManualSony("","","",this);
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)

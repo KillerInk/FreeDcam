@@ -27,6 +27,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter ManualConvergence;
     public AbstractManualParameter ManualFocus;
     public AbstractManualParameter ManualShutter;
+    public AbstractManualParameter ManualFNumber;
     public AbstractManualParameter CCT;
     public AbstractManualParameter FX;
     public AbstractManualParameter ISOManual;
