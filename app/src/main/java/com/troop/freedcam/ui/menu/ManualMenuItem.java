@@ -1,6 +1,8 @@
 package com.troop.freedcam.ui.menu;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,6 +11,7 @@ import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 
 /**
  * Created by troop on 01.09.2014.
@@ -25,6 +28,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     boolean isChecked = false;
     boolean isVisibile = false;
     boolean isSetSupported = false;
+    int btncolor;
+    int txtcolor;
 
     public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
         super(context);
@@ -35,11 +40,15 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         this.textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
         this.name = name;
         this.manualMenuHandler = manualMenuHandler;
+        txtcolor = textViewName.getCurrentTextColor();
 
         textViewName.setText(name);
         //set int to textviews always as string or you will get and res not found ex!!
 
         toggleButton = (LinearLayout)findViewById(R.id.manual_item);
+        Drawable background = toggleButton.getBackground();
+        if (background instanceof ColorDrawable)
+            btncolor = ((ColorDrawable) background).getColor();
 
     }
 
@@ -93,12 +102,20 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onIsSetSupportedChanged(boolean supported)
     {
-        if (supported) {
+        if (supported)
+        {
+            toggleButton.setBackgroundColor(btncolor);
+            textViewName.setTextColor(txtcolor);
+            textViewValue.setTextColor(txtcolor);
             toggleButton.setClickable(true);
             toggleButton.setOnClickListener(this);
             isSetSupported = true;
         }
-        else {
+        else
+        {
+            toggleButton.setBackgroundColor(txtcolor);
+            textViewName.setTextColor(btncolor);
+            textViewValue.setTextColor(btncolor);
             toggleButton.setOnClickListener(null);
             toggleButton.setClickable(false);
             isSetSupported = false;
@@ -119,7 +136,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
-        textViewValue.setText(current + "");
+        if (manualParameter instanceof BaseManualParameterSony)
+            textViewValue.setText(((BaseManualParameterSony) manualParameter).GetStringValue());
     }
 
     //
