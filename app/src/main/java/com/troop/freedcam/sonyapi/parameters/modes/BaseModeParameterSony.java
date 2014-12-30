@@ -44,6 +44,11 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
+        {
+            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+            BackgroundIsSupportedChanged(isSupported);
+        }
 
     }
 

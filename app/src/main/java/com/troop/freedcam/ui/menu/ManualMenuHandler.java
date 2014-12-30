@@ -11,7 +11,7 @@ import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
+import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -26,7 +26,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     private final AppSettingsManager appSettingsManager;
     private AbstractCameraUiWrapper cameraUiWrapper;
     private final SeekBar manualSeekbar;
-    private final LinearLayout manualMenu;
+    public final LinearLayout manualMenu;
     TextView seekbarText;
     ManualMenuItem currentItem;
     AbstractParameterHandler parametersHandler;
@@ -48,6 +48,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem shutter;
     ManualMenuItem iso;
     ManualMenuItem zoom;
+    ManualMenuItem fnumber;
 
     public ManualMenuHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
@@ -60,15 +61,27 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         manualItems = new ArrayList<ManualMenuItem>();
 
         brightnes = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this);
+        addToLists(brightnes);
         contrast = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_contrast), this);
+        addToLists(contrast);
         convergence = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_convergence), this);
+        addToLists(convergence);
         exposure = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_exposure), this);
+        addToLists(exposure);
         focus = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_focus), this);
+        addToLists(focus);
         saturation = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_saturation), this);
+        addToLists(saturation);
         sharp = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_sharpness), this);
+        addToLists(sharp);
         shutter = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_shutter), this);
+        addToLists(shutter);
         iso = new ManualMenuItem(activity, "iso" , this);
+        addToLists(iso);
         zoom = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_zoom), this);
+        addToLists(zoom);
+        fnumber = new ManualMenuItem(activity, "FNumber",this);
+        addToLists(fnumber);
 
     }
 
@@ -82,33 +95,134 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     private void addToLists(ManualMenuItem item)
     {
         manualItems.add(item);
-        manualMenu.addView(item);
     }
 
     public void DisableOtherItems(String name)
     {
         for(ManualMenuItem item : manualItems)
         {
-            if (!item.name.equals(name)) {
-                item.DisableItem();
-                item.manualParameter.removeEventListner(this);
+            if (item.manualParameter != null)
+            {
+                if (!item.name.equals(name)) {
+                    item.DisableItem();
+                    item.manualParameter.removeEventListner(this);
 
+                } else {
+                    item.manualParameter.addEventListner(this);
+
+                    currentItem = item;
+                    item.EnableItem();
+                    //currentItem.manualParameter.RestartPreview();
+                    int min = item.manualParameter.GetMinValue();
+                    int max = item.manualParameter.GetMaxValue();
+                    setSeekbar_Min_Max(min, max);
+                    setSeekbarProgress(item.manualParameter.GetValue());
+                    setTextValue(item.manualParameter.GetValue());
+                }
             }
             else
-            {
-                item.manualParameter.addEventListner(this);
-
-                currentItem = item;
-                item.EnableItem();
-                //currentItem.manualParameter.RestartPreview();
-                int min = item.manualParameter.GetMinValue();
-                int max = item.manualParameter.GetMaxValue();
-                setSeekbar_Min_Max(min, max);
-                setSeekbarProgress(item.manualParameter.GetValue());
-                setTextValue(item.manualParameter.GetValue());
-            }
+                item.onIsSupportedChanged(false);
         }
     }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        if (parametersHandler.ManualBrightness != null)
+        {
+            brightnes.SetAbstractManualParameter(parametersHandler.ManualBrightness);
+        }
+        else
+            brightnes.onIsSupportedChanged(false);
+        if (parametersHandler.ManualContrast != null)
+        {
+            contrast.SetAbstractManualParameter(parametersHandler.ManualContrast);
+        }
+        else contrast.onIsSupportedChanged(false);
+        if (parametersHandler.ManualConvergence != null)
+        {
+            convergence.SetAbstractManualParameter(parametersHandler.ManualConvergence);
+        }
+        else convergence.onIsSupportedChanged(false);
+        if (parametersHandler.ManualExposure != null)
+        {
+            exposure.SetAbstractManualParameter(parametersHandler.ManualExposure);
+        }
+        else exposure.onIsSupportedChanged(false);
+        if (parametersHandler.ManualFocus !=null)
+        {
+            focus.SetAbstractManualParameter(parametersHandler.ManualFocus);
+        }
+        else focus.onIsSupportedChanged(false);
+        if (parametersHandler.ManualSaturation != null)
+        {
+            saturation.SetAbstractManualParameter(parametersHandler.ManualSaturation);
+        }
+        else saturation.onIsSupportedChanged(false);
+        if (parametersHandler.ManualSharpness != null)
+        {
+            sharp.SetAbstractManualParameter(parametersHandler.ManualSharpness);
+        }
+        else sharp.onIsSupportedChanged(false);
+        if (parametersHandler.ManualShutter != null)
+        {
+            shutter.SetAbstractManualParameter(parametersHandler.ManualShutter);
+        }
+        else shutter.onIsSupportedChanged(false);
+        if (parametersHandler.ISOManual != null)
+        {
+            iso.SetAbstractManualParameter(parametersHandler.ISOManual);
+        }
+        else iso.onIsSupportedChanged(false);
+        if (parametersHandler.ManualFNumber != null)
+        {
+            fnumber.SetAbstractManualParameter(parametersHandler.ManualFNumber);
+        }
+        else fnumber.onIsSupportedChanged(false);
+        if (parametersHandler.Zoom != null)
+        {
+            zoom.SetAbstractManualParameter(parametersHandler.Zoom);
+            zoom.EnableItem();
+            DisableOtherItems(zoom.name);
+        }
+        else zoom.onIsSupportedChanged(false);
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current)
+    {
+        setTextValue(current + realMin);
+        if (!userIsSeeking)
+        {
+            setSeekbarProgress(current);
+        }
+    }
+
+    /**
+     * SEEKBARSTUFF##################################
+     * SEEKBARSTUFF##################################
+     */
 
     private void setSeekbar_Min_Max(int min, int max)
     {
@@ -164,8 +278,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     ShutterManualParameter shutterManualParameter = (ShutterManualParameter) currentItem.manualParameter;
                     setTextValue(shutterManualParameter.GetStringValue());
                 }
-                if(currentItem.manualParameter instanceof ExposureTimeSony) {
-                    ExposureTimeSony shutterManualParameter = (ExposureTimeSony) currentItem.manualParameter;
+                if(currentItem.manualParameter instanceof BaseManualParameterSony) {
+                    BaseManualParameterSony shutterManualParameter = (BaseManualParameterSony) currentItem.manualParameter;
                     setTextValue(shutterManualParameter.GetStringValue());
                 }
                 //cameraUiWrapper.cameraHolder.StartPreview();
@@ -225,92 +339,6 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             setSeekbarProgress(manualSeekbar.getProgress() - 1);
             setValueToParameters(manualSeekbar.getProgress());
-        }
-    }
-
-    @Override
-    public void ParametersLoaded()
-    {
-        manualMenu.removeAllViews();
-        manualItems.clear();
-        if (parametersHandler.ManualBrightness != null && parametersHandler.ManualBrightness.IsSupported())
-        {
-            brightnes.SetAbstractManualParameter(parametersHandler.ManualBrightness);
-            addToLists(brightnes);
-        }
-        if (parametersHandler.ManualContrast != null && parametersHandler.ManualContrast.IsSupported())
-        {
-            contrast.SetAbstractManualParameter(parametersHandler.ManualContrast);
-            addToLists(contrast);
-        }
-        if (parametersHandler.ManualConvergence != null && parametersHandler.ManualConvergence.IsSupported())
-        {
-            convergence.SetAbstractManualParameter(parametersHandler.ManualConvergence);
-            addToLists(convergence);
-        }
-        if (parametersHandler.ManualExposure != null && parametersHandler.ManualExposure.IsSupported())
-        {
-            exposure.SetAbstractManualParameter(parametersHandler.ManualExposure);
-            addToLists(exposure);
-        }
-        if (parametersHandler.ManualFocus !=null && parametersHandler.ManualFocus.IsSupported())
-        {
-            focus.SetAbstractManualParameter(parametersHandler.ManualFocus);
-            addToLists(focus);
-        }
-        if (parametersHandler.ManualSaturation != null && parametersHandler.ManualSaturation.IsSupported())
-        {
-            saturation.SetAbstractManualParameter(parametersHandler.ManualSaturation);
-            addToLists(saturation);
-        }
-        if (parametersHandler.ManualSharpness != null && parametersHandler.ManualSharpness.IsSupported())
-        {
-            sharp.SetAbstractManualParameter(parametersHandler.ManualSharpness);
-            addToLists(sharp);
-        }
-        if (parametersHandler.ManualShutter != null && parametersHandler.ManualShutter.IsSupported())
-        {
-            shutter.SetAbstractManualParameter(parametersHandler.ManualShutter);
-            addToLists(shutter);
-        }
-        if (parametersHandler.ISOManual != null && parametersHandler.ISOManual.IsSupported())
-        {
-            iso.SetAbstractManualParameter(parametersHandler.ISOManual);
-            addToLists(iso);
-        }
-        if (parametersHandler.Zoom != null && parametersHandler.Zoom.IsSupported())
-        {
-            zoom.SetAbstractManualParameter(parametersHandler.Zoom);
-            addToLists(zoom);
-            zoom.EnableItem();
-            DisableOtherItems(zoom.name);
-        }
-
-    }
-
-    @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onMaxValueChanged(int max) {
-
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-
-    }
-
-    @Override
-    public void onCurrentValueChanged(int current)
-    {
-        setTextValue(current + realMin);
-        currentItem.textViewValue.setText(current +"");
-        if (!userIsSeeking)
-        {
-            setSeekbarProgress(current);
         }
     }
 }

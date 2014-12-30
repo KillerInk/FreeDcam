@@ -23,6 +23,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     public interface I_ManualParameterEvent
     {
         void onIsSupportedChanged(boolean value);
+        void onIsSetSupportedChanged(boolean value);
         void onMaxValueChanged(int max);
         void onMinValueChanged(int min);
         void onCurrentValueChanged(int current);
@@ -52,6 +53,35 @@ public abstract class AbstractManualParameter implements I_ManualParameter
             }
             else
                 events.get(i).onCurrentValueChanged(current);
+        }
+    }
+
+    public void BackgroundIsSupportedChanged(boolean value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onIsSupportedChanged(value);
+        }
+    }
+    public void BackgroundIsSetSupportedChanged(boolean value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onIsSetSupportedChanged(value);
         }
     }
 

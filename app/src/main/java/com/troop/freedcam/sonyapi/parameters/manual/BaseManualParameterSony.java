@@ -1,45 +1,120 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
+import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by troop on 15.12.2014.
  */
-public abstract class BaseManualParameterSony extends AbstractManualParameter
+public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi
 {
-    protected String MAX_TO_GET;
-    protected String MIN_TO_GET;
-    protected String CURRENT_TO_GET;
+    protected String VALUE_TO_GET;
+    protected String VALUES_TO_GET;
+    protected String VALUE_TO_SET;
     protected ParameterHandlerSony ParameterHandler;
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
+    boolean isSupported = false;
+    boolean isSetSupported = false;
+    String[] values;
+    int val = 0;
 
-    public BaseManualParameterSony(String MAX_TO_GET, String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony)
+    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony)
     {
         super(parameterHandlerSony);
-        this.MAX_TO_GET = MAX_TO_GET;
-        this.MIN_TO_GET = MIN_TO_GET;
-        this.CURRENT_TO_GET = CURRENT_TO_GET;
+        this.VALUE_TO_GET = VALUE_TO_GET;
+        this.VALUES_TO_GET = VALUES_TO_GET;
+        this.VALUE_TO_SET = VALUE_TO_SET;
         this.ParameterHandler = parameterHandlerSony;
 
     }
 
+
     @Override
-    public boolean IsSupported() {
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
+    {
+        this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
+        {
+            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+            BackgroundIsSupportedChanged(isSupported);
+        }
+        if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
+        {
+            isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
+            BackgroundIsSetSupportedChanged(isSetSupported);
+        }
+
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
+        if (ParameterHandler.mAvailableCameraApiSet != null)
+            return JsonUtils.isCameraApiAvailable(VALUE_TO_GET, ParameterHandler.mAvailableCameraApiSet);
         return false;
     }
 
     @Override
     public int GetMaxValue()
     {
-        return 100;
+        if(values == null)
+        {
+            getValues();
+        }
+
+        return values.length;
+    }
+
+    public String[] getValues()
+    {
+        if (values == null)
+        {
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try {
+                        JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONArray array = object.getJSONArray("result");
+                        JSONArray subarray = array.getJSONArray(1);
+                        values = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        values = new String[0];
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        values = new String[0];
+                    }
+                }
+            }).start();
+            while (values == null)
+            {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return values;
+
     }
 
     @Override
@@ -50,17 +125,72 @@ public abstract class BaseManualParameterSony extends AbstractManualParameter
     @Override
     public int GetValue()
     {
-        return 0;
+        val = -1;
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                    JSONArray array = object.getJSONArray("result");
+                    String res = JsonUtils.ConvertJSONArrayToStringArray(array)[0];
+                    if (values == null)
+                        getValues();
+                    for (int i = 0; i < values.length; i++)
+                    {
+                        if (values[i].equals(res)) {
+                            val = i;
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    val = 0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    val = 0;
+                }
+            }
+        }).start();
+        while (val == -1)
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        return val;
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(final int valueToSet)
     {
-        super.SetValue(valueToSet);
+        this.val = valueToSet;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String val = values[valueToSet];
+                JSONArray array = null;
+                try {
+                    array = new JSONArray().put(0, val);
+                    JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
     public void RestartPreview() {
 
     }
+
+    public String GetStringValue()
+    {
+        return values[val];
+    }
+
+
 }

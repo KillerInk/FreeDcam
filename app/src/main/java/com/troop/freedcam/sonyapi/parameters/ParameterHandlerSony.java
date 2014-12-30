@@ -8,8 +8,7 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
-import com.troop.freedcam.sonyapi.parameters.manual.ExposureTimeSony;
-import com.troop.freedcam.sonyapi.parameters.manual.FnumberManualSony;
+import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
@@ -79,8 +78,13 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
         Zoom = new ZoomManualSony("","","", this);
-        ManualShutter = new ExposureTimeSony("", "","", this);
-        ManualFNumber = new FnumberManualSony("","","",this);
+        parametersChangedList.add((ZoomManualSony)Zoom);
+        ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
+        parametersChangedList.add((BaseManualParameterSony) ManualShutter);
+        ManualFNumber = new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber",this);
+        parametersChangedList.add((BaseManualParameterSony) ManualFNumber);
+        ISOManual = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
+        parametersChangedList.add((BaseManualParameterSony) ISOManual);
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override

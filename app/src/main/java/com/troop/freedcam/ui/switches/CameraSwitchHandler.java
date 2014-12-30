@@ -12,6 +12,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
@@ -49,9 +50,17 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView view)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        this.surfaceView = view;
+        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+        {
+            imageView.setVisibility(View.GONE);
+        }
+        else
+        {
+            imageView.setVisibility(View.VISIBLE);
+            this.cameraUiWrapper = cameraUiWrapper;
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+            this.surfaceView = view;
+        }
     }
 
     @Override

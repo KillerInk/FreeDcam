@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Created by troop on 15.12.2014.
@@ -23,6 +24,17 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
+    {
+        this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+        if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
+        {
+            isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
+            BackgroundIsSupportedChanged(isSupported);
+        }
+    }
+
+    @Override
     public boolean IsSupported()
     {
         if (ParameterHandler.mAvailableCameraApiSet != null)
@@ -32,12 +44,12 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     @Override
     public int GetMaxValue() {
-        return super.GetMaxValue();
+        return 100;
     }
 
     @Override
     public int GetMinValue() {
-        return super.GetMinValue();
+        return 0;
     }
 
     @Override

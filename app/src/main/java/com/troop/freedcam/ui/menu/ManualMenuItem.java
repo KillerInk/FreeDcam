@@ -23,6 +23,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     ManualMenuHandler manualMenuHandler;
     public AbstractManualParameter manualParameter;
     boolean isChecked = false;
+    boolean isVisibile = false;
+    boolean isSetSupported = false;
 
     public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
         super(context);
@@ -38,19 +40,27 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         //set int to textviews always as string or you will get and res not found ex!!
 
         toggleButton = (LinearLayout)findViewById(R.id.manual_item);
-        toggleButton.setOnClickListener(this);
+
     }
 
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
     {
         this.manualParameter = parameter;
-        textViewValue.setText(parameter.GetValue() +"");
+        manualParameter.addEventListner(this);
+        if (manualParameter.IsSupported())
+        {
+            textViewValue.setText(parameter.GetValue() + "");
+            toggleButton.setOnClickListener(this);
+            isSetSupported = true;
+            onIsSupportedChanged(true);
+        }
     }
 
     @Override
     public void onClick(View v)
     {
-        manualMenuHandler.DisableOtherItems(name);
+        if (isSetSupported)
+            manualMenuHandler.DisableOtherItems(name);
     }
 
     public void DisableItem()
@@ -60,8 +70,39 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     public void EnableItem() {isChecked = true;}
 
+
+
+    //**
+    // AbstractManualParameter.I_ManualParameterEvent
+    // AbstractManualParameter.I_ManualParameterEvent
     @Override
-    public void onIsSupportedChanged(boolean value) {
+    public void onIsSupportedChanged(boolean supported)
+    {
+        if (supported && !isVisibile)
+        {
+            manualMenuHandler.manualMenu.addView(this);
+            isVisibile =true;
+        }
+        if (!supported && isVisibile) {
+            manualMenuHandler.manualMenu.removeView(this);
+            isVisibile =false;
+        }
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean supported)
+    {
+        if (supported) {
+            toggleButton.setClickable(true);
+            toggleButton.setOnClickListener(this);
+            isSetSupported = true;
+        }
+        else {
+            toggleButton.setOnClickListener(null);
+            toggleButton.setClickable(false);
+            isSetSupported = false;
+        }
 
     }
 
@@ -78,6 +119,11 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
-
+        textViewValue.setText(current + "");
     }
+
+    //
+    // AbstractManualParameter.I_ManualParameterEvent
+    // AbstractManualParameter.I_ManualParameterEvent
+    //**
 }

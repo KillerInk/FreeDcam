@@ -25,11 +25,7 @@ public class ExposureModeSony extends BaseModeParameterSony {
     @Override
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet) {
         super.SonyApiChanged(mAvailableCameraApiSet);
-        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
-        {
-            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            BackgroundIsSupportedChanged(isSupported);
-        }
+
     }
 
 
