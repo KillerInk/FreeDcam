@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Set;
+
 /**
  * Created by troop on 17.12.2014.
  */
@@ -18,6 +20,16 @@ public class ExposureModeSony extends BaseModeParameterSony {
     @Override
     protected void processValuesToSet(String valueToSet) {
         super.processValuesToSet(valueToSet);
+    }
+
+    @Override
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet) {
+        super.SonyApiChanged(mAvailableCameraApiSet);
+        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
+        {
+            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+            BackgroundIsSupportedChanged(isSupported);
+        }
     }
 
 

@@ -95,7 +95,7 @@ public class MenuCreator
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(iso);
             iso.setParameterHolder(parameterHandler.IsoMode, cameraUiWrapper.moduleHandler.AllModules);
         }
-        if (parameterHandler.ExposureMode != null && parameterHandler.ExposureMode.IsSupported())
+        if (parameterHandler.ExposureMode != null)
         {
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(exposureMode);
             exposureMode.setParameterHolder(parameterHandler.ExposureMode, cameraUiWrapper.moduleHandler.AllModules);

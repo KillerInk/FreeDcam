@@ -27,6 +27,11 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     protected Set<String> mSupportedApiSet;
     JSONObject jsonObject;
 
+    protected boolean isSupported =false;
+    protected boolean isSetSupported = false;
+    protected String value;
+    protected String[] values;
+
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
         this.VALUE_TO_GET = VALUE_TO_GET;
@@ -39,7 +44,9 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+
     }
+
 
     @Override
     public boolean IsSupported()
