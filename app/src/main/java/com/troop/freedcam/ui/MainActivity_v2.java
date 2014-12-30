@@ -200,9 +200,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onPause()
     {
-        Log.d(TAG, "ActivityPause, StopCamera");
-        //cameraUiWrapper.StopCamera();
+
         super.onPause();
+
         orientationHandler.Stop();
 
     }
@@ -229,6 +229,14 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         super.onWindowFocusChanged(hasFocus);
 
 
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        Log.d(TAG, "ActivityDestroy, StopCamera");
+        cameraUiWrapper.StopCamera();
+        super.onDestroy();
     }
 
     @Override
