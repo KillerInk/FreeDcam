@@ -52,6 +52,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.expandable_childs, this);
         nameTextView = (TextView)findViewById(R.id.tvChild);
+        nameTextView.setText(Name);
         valueTextView = (TextView)findViewById(R.id.tvChildValue);
         modulesToShow = new ArrayList<String>();
     }

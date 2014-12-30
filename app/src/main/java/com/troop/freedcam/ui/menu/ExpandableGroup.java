@@ -82,13 +82,12 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     }
 
     private void fillSubMenuItems() {
-        submenu.removeAllViews();
+        //submenu.removeAllViews();
         for (ExpandableChild child:Items)
         {
             if(child.getParameterHolder() != null)
             {
-                if (child.getParameterHolder().IsSupported())
-                    submenu.addView(child);
+                child.onIsSupportedChanged(child.getParameterHolder().IsSupported());
             }
         }
     }

@@ -150,9 +150,8 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
     private void fillMenu()
     {
-
         grouplist = createMenu();
-        fillMainMenu();
+
     }
 
     private void fillMainMenu() {
