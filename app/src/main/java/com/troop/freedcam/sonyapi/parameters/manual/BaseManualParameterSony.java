@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi
+public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi, AbstractManualParameter.I_ManualParameterEvent
 {
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
@@ -40,6 +40,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.ParameterHandler = parameterHandlerSony;
+        this.mRemoteApi = parameterHandlerSony.mRemoteApi;
+        addEventListner(this);
 
     }
 
@@ -51,13 +53,14 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            BackgroundIsSupportedChanged(isSupported);
         }
+        BackgroundIsSupportedChanged(isSupported);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-            BackgroundIsSetSupportedChanged(isSetSupported);
         }
+        BackgroundIsSetSupportedChanged(isSetSupported);
+
 
     }
 
@@ -189,8 +192,46 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     public String GetStringValue()
     {
-        return values[val];
+        if (this.values == null)
+        {
+            this.values = getValues();
+
+        }
+        if (values.length > 0)
+            return values[val];
+        return "";
+
     }
 
 
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current) {
+        val = current;
+    }
+
+    @Override
+    public void onValuesChanged(String[] values)
+    {
+        this.values = values;
+    }
 }
