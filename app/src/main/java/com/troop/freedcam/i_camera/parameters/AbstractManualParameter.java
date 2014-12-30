@@ -27,6 +27,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         void onMaxValueChanged(int max);
         void onMinValueChanged(int min);
         void onCurrentValueChanged(int current);
+        void onValuesChanged(String[] values);
     }
 
 
@@ -82,6 +83,21 @@ public abstract class AbstractManualParameter implements I_ManualParameter
             }
             else
                 events.get(i).onIsSetSupportedChanged(value);
+        }
+    }
+
+    public void BackgroundValuesChanged(String[] value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onValuesChanged(value);
         }
     }
 
