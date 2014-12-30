@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.switches;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     int currentCamera;
     Bitmap[] bitmaps;
     SurfaceView surfaceView;
+    String TAG = CameraSwitchHandler.class.getSimpleName();
     public CameraSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
@@ -65,6 +67,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
             currentCamera = 0;
         imageView.setImageBitmap(bitmaps[currentCamera]);
         appSettingsManager.SetCurrentCamera(currentCamera);
+        Log.d(TAG, "Stop Preview and Camera");
         cameraUiWrapper.StopPreview();
         cameraUiWrapper.StopCamera();
         if (surfaceView instanceof ExtendedSurfaceView)

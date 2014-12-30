@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -42,6 +44,8 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
  */
 public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, I_CameraChangedListner
 {
+
+    String TAG = MainActivity_v2.class.getSimpleName();
     //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
@@ -130,8 +134,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     private void loadCameraUiWrapper()
     {
+
         if (cameraUiWrapper != null)
         {
+            Log.d(TAG, "loading new cameraUIWrapper, Destroying Old");
             cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
             cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
             cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
@@ -194,7 +200,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onPause()
     {
-        cameraUiWrapper.StopCamera();
+        Log.d(TAG, "ActivityPause, StopCamera");
+        //cameraUiWrapper.StopCamera();
         super.onPause();
         orientationHandler.Stop();
 

@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
@@ -17,8 +18,11 @@ public class ApiHandler
 {
     public AbstractCameraUiWrapper getCameraUiWrapper(Context context, PreviewHandler preview, AppSettingsManager appSettingsManager, I_error errorHandler, AbstractCameraUiWrapper ret)
     {
+
+        String TAG = ApiHandler.class.getSimpleName();
         if (ret != null)
         {
+            Log.d(TAG, "Stop preview and cam");
             ret.StopPreview();
             ret.StopCamera();
             ret = null;
