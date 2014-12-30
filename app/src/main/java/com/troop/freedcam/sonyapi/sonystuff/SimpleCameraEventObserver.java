@@ -77,6 +77,10 @@ public class SimpleCameraEventObserver {
         // : add methods for Event data as necessary.
 
         void onTimout();
+
+        void onIsoChanged(int iso);
+
+        void onIsoValuesChanged(String[] isovals);
     }
 
     /**
@@ -113,6 +117,10 @@ public class SimpleCameraEventObserver {
         {
 
         }
+        public void onIsoChanged(int iso)
+        {
+
+        }
 
     }
 
@@ -140,6 +148,10 @@ public class SimpleCameraEventObserver {
 
     // Current Storage Id value.
     private String mStorageId;
+
+    private String iso;
+
+    String[] mIsovals;
 
     // :
     // : add attributes for Event data as necessary.
@@ -265,6 +277,29 @@ public class SimpleCameraEventObserver {
                         if (storageId != null && !storageId.equals(mStorageId)) {
                             mStorageId = storageId;
                             fireStorageIdChangeListener(storageId);
+                        }
+
+                        String[] isovals = findStringArrayInformation(replyJson, 29, "type", "isoSpeedRateCandidates");
+                        if (mIsovals != null && !mIsovals.equals(isovals))
+                        {
+                            mIsovals = isovals;
+                            fireIsoValuesChangeListener(mIsovals);
+                        }
+
+                        String isoval = findStringInformation(replyJson,29, "type", "currentIsoSpeedRate");
+                        if (iso != null && !iso.equals(isoval))
+                        {
+                            int ret = 0;
+                            for (int i = 0; i<isovals.length; i++)
+                            {
+                                if (isovals[i].equals(isoval))
+                                {
+                                    ret = i;
+                                    break;
+                                }
+                            }
+                            iso = isoval;
+                            fireIsoChangeListener(ret);
                         }
 
                         // :
@@ -491,6 +526,28 @@ public class SimpleCameraEventObserver {
         });
     }
 
+    private void fireIsoChangeListener(final int iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onIsoChanged(iso);
+                }
+            }
+        });
+    }
+
+    private void fireIsoValuesChangeListener(final String[] iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onIsoValuesChanged(iso);
+                }
+            }
+        });
+    }
+
     /**
      * Finds and extracts an error code from reply JSON data.
      * 
@@ -628,6 +685,40 @@ public class SimpleCameraEventObserver {
             }
         }
         return zoomPosition;
+    }
+
+
+    private static String findStringInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+        String value = "";
+
+        JSONArray resultsObj = replyJson.getJSONArray("result");
+        if (!resultsObj.isNull(indexpos)) {
+            JSONObject InformationObj = resultsObj.getJSONObject(indexpos);
+            String type = InformationObj.getString("type");
+            if (typeS.equals(type)) {
+                value = InformationObj.getString(subtype);
+            } else {
+                Log.w(TAG, "Event reply: Illegal Index (2: zoomInformation) " + type);
+            }
+        }
+        return value;
+    }
+
+    private static String[] findStringArrayInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+        ArrayList<String> values = new ArrayList<String>();
+
+        JSONArray resultsObj = replyJson.getJSONArray("result");
+        if (!resultsObj.isNull(indexpos)) {
+            JSONObject InformationObj = resultsObj.getJSONObject(indexpos);
+            String type = InformationObj.getString("type");
+            if (typeS.equals(type))
+            {
+                JSONArray array = InformationObj.getJSONArray(subtype);
+                for (int i = 0; i<array.length();i++)
+                    values.add(array.getString(i));
+            }
+        }
+        return values.toArray(new String[values.size()]);
     }
 
     /**
