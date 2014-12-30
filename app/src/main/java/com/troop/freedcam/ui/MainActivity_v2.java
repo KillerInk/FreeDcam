@@ -192,43 +192,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause()
-    {
-
-        super.onPause();
-
-        orientationHandler.Stop();
-
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        orientationHandler.Start();
         initDone = true;
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-
     }
 
     @Override
@@ -236,6 +204,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         Log.d(TAG, "ActivityDestroy, StopCamera");
         cameraUiWrapper.StopCamera();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 
