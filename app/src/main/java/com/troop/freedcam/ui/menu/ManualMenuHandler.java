@@ -219,6 +219,11 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         }
     }
 
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
     /**
      * SEEKBARSTUFF##################################
      * SEEKBARSTUFF##################################
