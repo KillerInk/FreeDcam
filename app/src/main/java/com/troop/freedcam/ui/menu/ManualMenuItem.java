@@ -163,9 +163,15 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
-        String txt = getStringValue(current);
+        final String txt = getStringValue(current);
         if (txt != null && !txt.equals(""))
-            textViewValue.setText(txt);
+            textViewValue.post(new Runnable() {
+                @Override
+                public void run() {
+                    textViewValue.setText(txt);
+                }
+            });
+
         else
             textViewValue.setText(txt);
 
@@ -183,6 +189,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     public String getStringValue(int pos)
     {
+        if(stringValues == null)
+            stringValues = manualParameter.getStringValues();
         if (stringValues != null && stringValues.length > 0)
         {
             return stringValues[pos];
@@ -213,6 +221,15 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public String GetStringValue() {
         return manualParameter.GetStringValue();
+    }
+
+    @Override
+    public String[] getStringValues()
+    {
+        if (stringValues != null || stringValues.length > 0 )
+            return stringValues;
+        stringValues = manualParameter.getStringValues();
+        return stringValues;
     }
 
     @Override

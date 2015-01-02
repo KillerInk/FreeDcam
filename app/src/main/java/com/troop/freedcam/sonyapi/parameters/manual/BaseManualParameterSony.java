@@ -77,13 +77,13 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         if(values == null)
         {
-            getValues();
+            getStringValues();
         }
 
         return values.length -1;
     }
 
-    public String[] getValues()
+    public String[] getStringValues()
     {
         if (values == null)
         {
@@ -138,7 +138,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     JSONArray array = object.getJSONArray("result");
                     String res = JsonUtils.ConvertJSONArrayToStringArray(array)[0];
                     if (values == null)
-                        getValues();
+                        getStringValues();
                     for (int i = 0; i < values.length; i++)
                     {
                         if (values[i].equals(res)) {
@@ -198,7 +198,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         if (this.values == null)
         {
-            this.values = getValues();
+            this.values = getStringValues();
 
         }
         if (values.length > 0)

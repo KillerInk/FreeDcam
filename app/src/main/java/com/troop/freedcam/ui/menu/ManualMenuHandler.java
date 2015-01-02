@@ -285,9 +285,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         seekbarText.setText(currentItem.name + ": " + value);
 
     }
-    private void setTextValue(String value)
+    private void setTextValue(final String value)
     {
-        seekbarText.setText(currentItem.name + ": " + value);
+        seekbarText.post(new Runnable() {
+            @Override
+            public void run() {
+                seekbarText.setText(currentItem.name + ": " + value);
+            }
+        });
+
     }
 
     @Override
@@ -295,7 +301,6 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-
             seekbarText.setText(currentItem.getStringValue(progress));
         }
     }

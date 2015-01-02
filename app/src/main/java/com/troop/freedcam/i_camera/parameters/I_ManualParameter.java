@@ -13,6 +13,7 @@ public interface I_ManualParameter
 
     public int GetValue();
     public String GetStringValue();
+    String[] getStringValues();
 
     public void SetValue(int valueToSet);
     public void RestartPreview();

@@ -126,6 +126,8 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         return null;
     }
 
+    public String[] getStringValues() { return  null;}
+
     @Override
     public void SetValue(int valueToSet)
     {
