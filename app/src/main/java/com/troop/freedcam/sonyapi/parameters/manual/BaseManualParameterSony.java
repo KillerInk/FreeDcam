@@ -80,7 +80,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             getValues();
         }
 
-        return values.length;
+        return values.length -1;
     }
 
     public String[] getValues()
@@ -170,12 +170,16 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         this.val = valueToSet;
         new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
+                if (valueToSet == values.length || valueToSet < 0)
+                    return;
                 String val = values[valueToSet];
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, val);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    currentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

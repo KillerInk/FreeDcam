@@ -279,26 +279,25 @@ public class SimpleCameraEventObserver {
                             fireStorageIdChangeListener(storageId);
                         }
 
-                        String[] isovals = findStringArrayInformation(replyJson, 29, "type", "isoSpeedRateCandidates");
-                        if (mIsovals != null && !mIsovals.equals(isovals))
+                        String[] isovals = findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
+                        if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
                         {
                             mIsovals = isovals;
                             fireIsoValuesChangeListener(mIsovals);
                         }
 
-                        String isoval = findStringInformation(replyJson,29, "type", "currentIsoSpeedRate");
-                        if (iso != null && !iso.equals(isoval))
+                        String isoval = findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
+                        if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
                         {
                             int ret = 0;
-                            for (int i = 0; i<isovals.length; i++)
+                            for (int i = 0; i < mIsovals.length; i++)
                             {
-                                if (isovals[i].equals(isoval))
-                                {
+                                if (mIsovals[i].equals(isoval))
                                     ret = i;
-                                    break;
-                                }
+
                             }
                             iso = isoval;
+                            Log.d(TAG, "getEvent isoVal:" + iso);
                             fireIsoChangeListener(ret);
                         }
 
@@ -698,7 +697,7 @@ public class SimpleCameraEventObserver {
             if (typeS.equals(type)) {
                 value = InformationObj.getString(subtype);
             } else {
-                Log.w(TAG, "Event reply: Illegal Index (2: zoomInformation) " + type);
+                Log.w(TAG, "Event reply: Illegal Index " + indexpos + subtype + type);
             }
         }
         return value;
