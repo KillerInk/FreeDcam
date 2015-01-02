@@ -72,7 +72,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         {
             writeLog("is supported");
             String txt = manualParameter.GetStringValue();
-            if (txt != null && txt.equals("")) {
+            if (txt != null && !txt.equals("")) {
                 textViewValue.setText(txt);
                 writeLog("GetStringValue: set text to " + txt);
             }
@@ -146,6 +146,11 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
             toggleButton.setOnClickListener(null);
             toggleButton.setClickable(false);
             isSetSupported = false;
+        }
+        String txt = manualParameter.GetStringValue();
+        if (txt != null && !txt.equals("")) {
+            textViewValue.setText(txt);
+            writeLog("GetStringValue: set text to " + txt);
         }
 
     }
