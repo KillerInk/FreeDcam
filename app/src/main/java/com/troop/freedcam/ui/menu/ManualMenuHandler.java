@@ -31,6 +31,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem currentItem;
     AbstractParameterHandler parametersHandler;
     boolean userIsSeeking= false;
+    int current = 0;
 
     int realMin;
     int realMax;
@@ -117,7 +118,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     int max = item.manualParameter.GetMaxValue();
                     setSeekbar_Min_Max(min, max);
                     setSeekbarProgress(item.manualParameter.GetValue());
-                    setTextValue(item.manualParameter.GetValue());
+                    seekbarText.setText(currentItem.getStringValue(manualSeekbar.getProgress()));
                 }
             }
             else
@@ -183,6 +184,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             zoom.SetAbstractManualParameter(parametersHandler.Zoom);
             zoom.EnableItem();
+            zoom.onIsSetSupportedChanged(true);
             DisableOtherItems(zoom.name);
         }
         else zoom.onIsSupportedChanged(false);
@@ -212,8 +214,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onCurrentValueChanged(int current)
     {
-        setTextValue(current + realMin);
-        if (!userIsSeeking)
+        setTextValue(currentItem.GetStringValue());
+        if (!userIsSeeking && currentItem.name.equals("Zoom"))
         {
             setSeekbarProgress(current);
         }
@@ -260,40 +262,20 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (realMin < 0)
         {
-            currentItem.manualParameter.SetValue(value + realMin);
+            currentItem.SetValue(value + realMin);
             //setTextValue(value + realMin);
         }
         else
         {
-
-            if (currentItem.name.equals(activity.getString(R.string.manualmenu_shutter)))
-            {
-                try
-                {
-                    currentItem.manualParameter.SetValue(value);
-                    Toast.makeText(activity, "Manual Shutter set to:" + value, Toast.LENGTH_LONG);
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(activity, "Error Set Manual Shutter", Toast.LENGTH_LONG);
-                }
-
-                //cameraUiWrapper.camParametersHandler.SetParametersToCamera();
-                if(currentItem.manualParameter instanceof ShutterManualParameter) {
-                    ShutterManualParameter shutterManualParameter = (ShutterManualParameter) currentItem.manualParameter;
-                    setTextValue(shutterManualParameter.GetStringValue());
-                }
-                if(currentItem.manualParameter instanceof BaseManualParameterSony) {
-                    BaseManualParameterSony shutterManualParameter = (BaseManualParameterSony) currentItem.manualParameter;
-                    setTextValue(shutterManualParameter.GetStringValue());
-                }
-                //cameraUiWrapper.cameraHolder.StartPreview();
-            }
+            currentItem.SetValue(value);
+            String txt = currentItem.GetStringValue();
+            if (txt != null && !txt.equals(""))
+                setTextValue(txt);
             else
             {
-                currentItem.manualParameter.SetValue(value);
                 setTextValue(value + realMin);
             }
+
         }
 
     }
@@ -313,7 +295,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-            setValueToParameters(progress);
+
+            seekbarText.setText(currentItem.getStringValue(progress));
         }
     }
 
@@ -326,6 +309,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         userIsSeeking = false;
+        setValueToParameters(seekBar.getProgress());
     }
 
 

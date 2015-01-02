@@ -70,4 +70,9 @@ public class BrightnessManualParameter extends BaseManualParameter
             return min;
         else return 0;
     }
+
+    @Override
+    public String GetStringValue() {
+        return null;
+    }
 }

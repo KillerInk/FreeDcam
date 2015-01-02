@@ -12,6 +12,7 @@ public interface I_ManualParameter
     public  int GetMinValue();
 
     public int GetValue();
+    public String GetStringValue();
 
     public void SetValue(int valueToSet);
     public void RestartPreview();

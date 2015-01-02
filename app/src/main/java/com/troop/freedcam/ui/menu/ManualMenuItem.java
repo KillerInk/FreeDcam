@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.menu;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,13 +12,16 @@ import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent
+public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent, I_ManualParameter
 {
+
+    final static String TAG = ManualMenuItem.class.getSimpleName();
     Context context;
     public TextView textViewName;
     public TextView textViewValue;
@@ -30,6 +34,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     boolean isSetSupported = false;
     int btncolor;
     int txtcolor;
+    String[] stringValues;
 
     public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
         super(context);
@@ -43,6 +48,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         txtcolor = textViewName.getCurrentTextColor();
 
         textViewName.setText(name);
+        writeLog("created");
+
         //set int to textviews always as string or you will get and res not found ex!!
 
         toggleButton = (LinearLayout)findViewById(R.id.manual_item);
@@ -52,24 +59,44 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     }
 
+    private void writeLog(String txt)
+    {
+        Log.d(TAG, name + ": " + txt);
+    }
+
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
     {
         this.manualParameter = parameter;
         manualParameter.addEventListner(this);
         if (manualParameter.IsSupported())
         {
-            textViewValue.setText(parameter.GetValue() + "");
+            writeLog("is supported");
+            String txt = manualParameter.GetStringValue();
+            if (txt != null && txt.equals("")) {
+                textViewValue.setText(txt);
+                writeLog("GetStringValue: set text to " + txt);
+            }
+            else
+            {
+                textViewValue.setText(parameter.GetValue() + "");
+                writeLog("loading int value: " + textViewValue.getText());
+            }
             toggleButton.setOnClickListener(this);
             isSetSupported = true;
             onIsSupportedChanged(true);
         }
+        else
+            writeLog("is not supported");
     }
 
     @Override
     public void onClick(View v)
     {
         if (isSetSupported)
+        {
+            writeLog("onclick");
             manualMenuHandler.DisableOtherItems(name);
+        }
     }
 
     public void DisableItem()
@@ -136,12 +163,68 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
-        if (manualParameter instanceof BaseManualParameterSony)
-            textViewValue.setText(((BaseManualParameterSony) manualParameter).GetStringValue());
+        String txt = getStringValue(current);
+        if (txt != null && !txt.equals(""))
+            textViewValue.setText(txt);
+        else
+            textViewValue.setText(txt);
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+        stringValues = values;
     }
 
     //
     // AbstractManualParameter.I_ManualParameterEvent
     // AbstractManualParameter.I_ManualParameterEvent
     //**
+
+    public String getStringValue(int pos)
+    {
+        if (stringValues != null && stringValues.length > 0)
+        {
+            return stringValues[pos];
+        }
+        return pos + "";
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return manualParameter.IsSupported();
+    }
+
+    @Override
+    public int GetMaxValue() {
+        return manualParameter.GetMaxValue();
+    }
+
+    @Override
+    public int GetMinValue() {
+        return manualParameter.GetMinValue();
+    }
+
+    @Override
+    public int GetValue() {
+        return manualParameter.GetValue();
+    }
+
+    @Override
+    public String GetStringValue() {
+        return manualParameter.GetStringValue();
+    }
+
+    @Override
+    public void SetValue(int valueToSet)
+    {
+        manualParameter.SetValue(valueToSet);
+        onCurrentValueChanged(valueToSet);
+    }
+
+    @Override
+    public void RestartPreview()
+    {
+        manualParameter.RestartPreview();
+    }
 }

@@ -122,10 +122,15 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     }
 
     @Override
+    public String GetStringValue() {
+        return null;
+    }
+
+    @Override
     public void SetValue(int valueToSet)
     {
         setvalue(valueToSet);
-        currentValueChanged(valueToSet);
+        //currentValueChanged(valueToSet);
     }
 
     @Override

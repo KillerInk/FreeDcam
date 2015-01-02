@@ -67,6 +67,11 @@ public class CCTManualParameter extends BaseManualParameter {
     }
 
     @Override
+    public String GetStringValue() {
+        return null;
+    }
+
+    @Override
     protected void setvalue(int valueToSet)
     {   if (DeviceUtils.isZTEADV())
         //parameters.setWhiteBalance("manual-cct");
