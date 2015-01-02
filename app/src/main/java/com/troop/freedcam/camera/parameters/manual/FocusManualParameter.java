@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
@@ -29,7 +30,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
+        if ((DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
             return true;
         else
             return false;
@@ -39,8 +40,10 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         try {
-            if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV())
+            if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV())
                 return 79;
+            /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+                return parameters.getInt("max-focus-pos-index");*/
             if (DeviceUtils.isHTC_M8())
                 return Integer.parseInt(parameters.get("max-focus"));
             else return 0;
@@ -56,6 +59,8 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMinValue() {
     	if (DeviceUtils.isHTC_M8())
             return Integer.parseInt(parameters.get("min-focus"));
+        /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+            return parameters.getInt("min-focus-pos-index");*/
         return 0;
     }
 //m8 Step Value
@@ -64,8 +69,10 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         int i = 0;
         try {
-            if (DeviceUtils.isLGADV())
+            if (DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21)
                 i = parameters.getInt("manualfocus_step");
+            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+                i=  parameters.getInt("focus-pos");
             if (DeviceUtils.isZTEADV());
                 i = parameters.getInt("maf_key");
             if (DeviceUtils.isHTC_M8())
@@ -90,13 +97,19 @@ public class FocusManualParameter extends  BaseManualParameter
         }*/
         //parameters.set("manual", 0);
         //parameters.setFocusAreas(null);
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
         {
             parameters.setFocusAreas(null);
             parameters.setFocusMode("normal");
+
             //baseCameraHolder.GetCamera().setParameters(parameters);
             parameters.set("manualfocus_step", valueToSet);
             //baseCameraHolder.GetCamera().setParameters(parameters);
+        }
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+        {
+            parameters.setFocusMode("manual");
+            parameters.set("focus-pos", valueToSet);
         }
         if (DeviceUtils.isZTEADV())
         {

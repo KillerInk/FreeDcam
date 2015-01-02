@@ -42,9 +42,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
+
         try {
-            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) {
+            if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/) {
                 lgCamera = new LGCamera(camera);
+                /*lgCamera.setProxyDataListener(new LGCamera.ProxyDataListener() {
+                    @Override
+                    public void onDataListen(LGCamera.ProxyData proxyData, Camera camera) {
+                        LGCamera.ProxyData data = proxyData;
+
+                    }
+                });*/
                 mCamera = lgCamera.getCamera();
                 lgParameters = lgCamera.getLGParameters();
             } else {
@@ -115,7 +123,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try{
 
-            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
+            if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 lgParameters.setParameters(parameters);
             }
@@ -195,29 +203,22 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        if (backGroundThread != null)
+        /*if (backGroundThread != null)
         {
             backGroundHandler.post(new Runnable() {
                 @Override
-                public void run() {
+                public void run() {*/
 
                     mCamera.setPreviewCallback(previewCallback);
-                }
+                /*}
             });
-        }
+        }*/
     }
 
     public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
     {
-        if (backGroundThread != null)
-        {
-            backGroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mCamera.autoFocus(autoFocusCallback);
-                }
-            });
-        }
+        mCamera.autoFocus(autoFocusCallback);
+
     }
 
 }
