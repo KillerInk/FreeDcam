@@ -115,6 +115,16 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onFnumberValuesChanged(String[] fnumbervals) {
+            ((BaseManualParameterSony)ParameterHandler.ManualFNumber).BackgroundValuesChanged(fnumbervals);
+        }
+
+        @Override
+        public void onFnumberChanged(int fnumber) {
+            ((BaseManualParameterSony)ParameterHandler.ManualFNumber).currentValueChanged(fnumber);
+        }
+
+        @Override
         public void onLiveviewStatusChanged(boolean status) {
 
         }

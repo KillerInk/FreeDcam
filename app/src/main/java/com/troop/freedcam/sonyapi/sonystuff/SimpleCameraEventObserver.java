@@ -81,6 +81,9 @@ public class SimpleCameraEventObserver {
         void onIsoChanged(int iso);
 
         void onIsoValuesChanged(String[] isovals);
+        public void onFnumberChanged(int fnumber);
+        public void onFnumberValuesChanged(String[]  fnumbervals);
+
     }
 
     /**
@@ -122,13 +125,18 @@ public class SimpleCameraEventObserver {
 
         }
 
+        public void onFnumberChanged(int fnumber)
+        {
+
+        }
+
     }
 
-    private final Handler mUiHandler;
+    protected final Handler mUiHandler;
 
     private SimpleRemoteApi mRemoteApi;
 
-    private ChangeListener mListener;
+    protected ChangeListener mListener;
 
     private boolean mWhileEventMonitoring = false;
 
@@ -152,6 +160,9 @@ public class SimpleCameraEventObserver {
     private String iso;
 
     String[] mIsovals;
+
+    private String fnumber;
+    String[] mFnumbervals;
 
     // :
     // : add attributes for Event data as necessary.
@@ -234,75 +245,7 @@ public class SimpleCameraEventObserver {
                                 break MONITORLOOP; // end monitoring.
                         }
 
-                        List<String> availableApis = findAvailableApiList(replyJson);
-                        if (!availableApis.isEmpty()) {
-                            fireApiListModifiedListener(availableApis);
-                        }
-
-                        // CameraStatus
-                        String cameraStatus = findCameraStatus(replyJson);
-                        Log.d(TAG, "getEvent cameraStatus: " + cameraStatus);
-                        if (cameraStatus != null && !cameraStatus.equals(mCameraStatus)) {
-                            mCameraStatus = cameraStatus;
-                            fireCameraStatusChangeListener(cameraStatus);
-                        }
-
-                        // LiveviewStatus
-                        Boolean liveviewStatus = findLiveviewStatus(replyJson);
-                        Log.d(TAG, "getEvent liveviewStatus: " + liveviewStatus);
-                        if (liveviewStatus != null && !liveviewStatus.equals(mLiveviewStatus)) {
-                            mLiveviewStatus = liveviewStatus;
-                            fireLiveviewStatusChangeListener(liveviewStatus);
-                        }
-
-                        // ShootMode
-                        String shootMode = findShootMode(replyJson);
-                        Log.d(TAG, "getEvent shootMode: " + shootMode);
-                        if (shootMode != null && !shootMode.equals(mShootMode)) {
-                            mShootMode = shootMode;
-                            fireShootModeChangeListener(shootMode);
-                        }
-
-                        // zoomPosition
-                        int zoomPosition = findZoomInformation(replyJson);
-                        Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
-                        if (zoomPosition != -1) {
-                            mZoomPosition = zoomPosition;
-                            fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
-                        }
-
-                        // storageId
-                        String storageId = findStorageId(replyJson);
-                        Log.d(TAG, "getEvent storageId:" + storageId);
-                        if (storageId != null && !storageId.equals(mStorageId)) {
-                            mStorageId = storageId;
-                            fireStorageIdChangeListener(storageId);
-                        }
-
-                        String[] isovals = findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
-                        if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
-                        {
-                            mIsovals = isovals;
-                            fireIsoValuesChangeListener(mIsovals);
-                        }
-
-                        String isoval = findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
-                        if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
-                        {
-                            int ret = 0;
-                            for (int i = 0; i < mIsovals.length; i++)
-                            {
-                                if (mIsovals[i].equals(isoval))
-                                    ret = i;
-
-                            }
-                            iso = isoval;
-                            Log.d(TAG, "getEvent isoVal:" + iso);
-                            fireIsoChangeListener(ret);
-                        }
-
-                        // :
-                        // : add implementation for Event data as necessary.
+                        processEvents(replyJson);
 
                     } catch (IOException e) {
                         // Occurs when the server is not available now.
@@ -319,9 +262,109 @@ public class SimpleCameraEventObserver {
 
                 mWhileEventMonitoring = false;
             }
+
+
         }.start();
 
         return true;
+    }
+
+    protected void processEvents(JSONObject replyJson) throws JSONException {
+        List<String> availableApis = findAvailableApiList(replyJson);
+        if (!availableApis.isEmpty()) {
+            fireApiListModifiedListener(availableApis);
+        }
+
+        // CameraStatus
+        String cameraStatus = findCameraStatus(replyJson);
+        Log.d(TAG, "getEvent cameraStatus: " + cameraStatus);
+        if (cameraStatus != null && !cameraStatus.equals(mCameraStatus)) {
+            mCameraStatus = cameraStatus;
+            fireCameraStatusChangeListener(cameraStatus);
+        }
+
+        // LiveviewStatus
+        Boolean liveviewStatus = findLiveviewStatus(replyJson);
+        Log.d(TAG, "getEvent liveviewStatus: " + liveviewStatus);
+        if (liveviewStatus != null && !liveviewStatus.equals(mLiveviewStatus)) {
+            mLiveviewStatus = liveviewStatus;
+            fireLiveviewStatusChangeListener(liveviewStatus);
+        }
+
+        // ShootMode
+        String shootMode = findShootMode(replyJson);
+        Log.d(TAG, "getEvent shootMode: " + shootMode);
+        if (shootMode != null && !shootMode.equals(mShootMode)) {
+            mShootMode = shootMode;
+            fireShootModeChangeListener(shootMode);
+        }
+
+        // zoomPosition
+        int zoomPosition = findZoomInformation(replyJson);
+        Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
+        if (zoomPosition != -1) {
+            mZoomPosition = zoomPosition;
+            fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
+        }
+
+        // storageId
+        String storageId = findStorageId(replyJson);
+        Log.d(TAG, "getEvent storageId:" + storageId);
+        if (storageId != null && !storageId.equals(mStorageId)) {
+            mStorageId = storageId;
+            fireStorageIdChangeListener(storageId);
+        }
+
+        String[] isovals = findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
+        if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
+        {
+            mIsovals = isovals;
+            fireIsoValuesChangeListener(mIsovals);
+        }
+
+        String isoval = findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
+        if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
+        {
+            int ret = 0;
+            for (int i = 0; i < mIsovals.length; i++)
+            {
+                if (mIsovals[i].equals(isoval)) {
+                    ret = i;
+                    break;
+                }
+
+            }
+            iso = isoval;
+            Log.d(TAG, "getEvent isoVal:" + iso);
+            fireIsoChangeListener(ret);
+        }
+
+        String[] fnumbervals = findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
+        if (fnumbervals != null && !fnumbervals.equals(mIsovals) && fnumbervals.length > 0)
+        {
+            mFnumbervals = fnumbervals;
+            fireFnumberValuesChangeListener(mFnumbervals);
+        }
+
+        String fnumberv = findStringInformation(replyJson,29, "fNumber", "currentFNumber");
+        if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber) && mFnumbervals != null)
+        {
+            int ret = 0;
+            for (int i = 0; i < mFnumbervals.length; i++)
+            {
+                if (mFnumbervals[i].equals(fnumberv)) {
+                    ret = i;
+                    break;
+                }
+
+            }
+            fnumber = fnumberv;
+            Log.d(TAG, "getEvent fnumber:" + fnumber);
+            fireFNumberChangeListener(ret);
+        }
+
+        // :
+        // : add implementation for Event data as necessary.
     }
 
     /**
@@ -411,6 +454,28 @@ public class SimpleCameraEventObserver {
      */
     public String getStorageId() {
         return mStorageId;
+    }
+
+    private void fireFNumberChangeListener(final int iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onFnumberChanged(iso);
+                }
+            }
+        });
+    }
+
+    private void fireFnumberValuesChangeListener(final String[] iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onFnumberValuesChanged(iso);
+                }
+            }
+        });
     }
 
     /**
@@ -687,7 +752,7 @@ public class SimpleCameraEventObserver {
     }
 
 
-    private static String findStringInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+    public static String findStringInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
         String value = "";
 
         JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -703,7 +768,7 @@ public class SimpleCameraEventObserver {
         return value;
     }
 
-    private static String[] findStringArrayInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+    public static String[] findStringArrayInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
         ArrayList<String> values = new ArrayList<String>();
 
         JSONArray resultsObj = replyJson.getJSONArray("result");
