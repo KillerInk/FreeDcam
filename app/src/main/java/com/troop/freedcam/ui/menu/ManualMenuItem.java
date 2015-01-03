@@ -59,10 +59,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     }
 
-    private void writeLog(String txt)
-    {
-        Log.d(TAG, name + ": " + txt);
-    }
+
 
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
     {
@@ -73,12 +70,12 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
             writeLog("is supported");
             String txt = manualParameter.GetStringValue();
             if (txt != null && !txt.equals("")) {
-                textViewValue.setText(txt);
+                setTextToTextView(txt);
                 writeLog("GetStringValue: set text to " + txt);
             }
             else
             {
-                textViewValue.setText(parameter.GetValue() + "");
+                setTextToTextView(parameter.GetValue() + "");
                 writeLog("loading int value: " + textViewValue.getText());
             }
             toggleButton.setOnClickListener(this);
@@ -114,6 +111,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onIsSupportedChanged(boolean supported)
     {
+        writeLog("on is suported changed " + supported);
         if (supported && !isVisibile)
         {
             manualMenuHandler.manualMenu.addView(this);
@@ -149,7 +147,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         }
         String txt = manualParameter.GetStringValue();
         if (txt != null && !txt.equals("")) {
-            textViewValue.setText(txt);
+            setTextToTextView(txt);
             writeLog("GetStringValue: set text to " + txt);
         }
 
@@ -173,12 +171,12 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
             textViewValue.post(new Runnable() {
                 @Override
                 public void run() {
-                    textViewValue.setText(txt);
+                    setTextToTextView(txt);
                 }
             });
 
         else
-            textViewValue.setText(txt);
+            setTextToTextView(current + "");
 
     }
 
@@ -224,7 +222,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     }
 
     @Override
-    public String GetStringValue() {
+    public String GetStringValue()
+    {
         return manualParameter.GetStringValue();
     }
 
@@ -232,14 +231,22 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public String[] getStringValues()
     {
         if (stringValues != null || stringValues.length > 0 )
+        {
+            writeLog("have values returned:  " + stringValues);
             return stringValues;
+        }
         stringValues = manualParameter.getStringValues();
-        return stringValues;
+        writeLog("had no values loaded it:  " + stringValues);
+        if (stringValues != null || stringValues.length > 0 )
+            return stringValues;
+        writeLog("String values are null ");
+        return null;
     }
 
     @Override
     public void SetValue(int valueToSet)
     {
+        writeLog("set value to: " + valueToSet);
         manualParameter.SetValue(valueToSet);
         onCurrentValueChanged(valueToSet);
     }
@@ -248,5 +255,21 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public void RestartPreview()
     {
         manualParameter.RestartPreview();
+    }
+
+    private void setTextToTextView(final String txt)
+    {
+        writeLog("set text value: " +txt);
+        textViewValue.post(new Runnable() {
+            @Override
+            public void run() {
+                textViewValue.setText(txt);
+            }
+        });
+    }
+
+    private void writeLog(String txt)
+    {
+        Log.d(TAG, name + ": " + txt);
     }
 }

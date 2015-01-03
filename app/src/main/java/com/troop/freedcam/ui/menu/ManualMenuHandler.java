@@ -118,7 +118,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     int max = item.manualParameter.GetMaxValue();
                     setSeekbar_Min_Max(min, max);
                     setSeekbarProgress(item.manualParameter.GetValue());
-                    seekbarText.setText(currentItem.getStringValue(manualSeekbar.getProgress()));
+                    setValueToTextBox(manualSeekbar.getProgress());
                 }
             }
             else
@@ -214,7 +214,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onCurrentValueChanged(int current)
     {
-        setTextValue(currentItem.GetStringValue());
+        setValueToTextBox(current);
         if (!userIsSeeking && currentItem.name.equals("Zoom"))
         {
             setSeekbarProgress(current);
@@ -261,30 +261,25 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     private void setValueToParameters(int value)
     {
         if (realMin < 0)
-        {
             currentItem.SetValue(value + realMin);
-            //setTextValue(value + realMin);
-        }
+        else
+            currentItem.SetValue(value);
+        setValueToTextBox(value);
+    }
+
+    private void setValueToTextBox(int value) {
+        String txt = currentItem.GetStringValue();
+        if (txt != null && !txt.equals("") && !txt.equals("null"))
+            setTextValue(txt);
         else
         {
-            currentItem.SetValue(value);
-            String txt = currentItem.GetStringValue();
-            if (txt != null && !txt.equals(""))
-                setTextValue(txt);
+            if (realMin < 0)
+                setTextValue((value + realMin) +"");
             else
-            {
-                setTextValue(value + realMin);
-            }
-
+                setTextValue((value) +"");
         }
-
     }
 
-    private void setTextValue(int value)
-    {
-        seekbarText.setText(currentItem.name + ": " + value);
-
-    }
     private void setTextValue(final String value)
     {
         seekbarText.post(new Runnable() {
@@ -301,7 +296,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-            seekbarText.setText(currentItem.getStringValue(progress));
+              setValueToTextBox(progress);
         }
     }
 
