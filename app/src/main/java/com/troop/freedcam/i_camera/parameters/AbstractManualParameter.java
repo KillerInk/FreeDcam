@@ -101,6 +101,35 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
+    public void BackgroundMinValueChanged(int value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onMinValueChanged(value);
+        }
+    }
+    public void BackgroundMaxValueChanged(int value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onMaxValueChanged(value);
+        }
+    }
+
     @Override
     public boolean IsSupported() {
         return false;
