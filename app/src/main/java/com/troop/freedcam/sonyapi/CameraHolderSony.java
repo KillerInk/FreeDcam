@@ -120,6 +120,16 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onExposureCompensationMaxChanged(int epxosurecompmax) {
+            ((BaseManualParameterSony)ParameterHandler.ManualExposure).BackgroundMaxValueChanged(epxosurecompmax);
+        }
+
+        @Override
+        public void onExposureCompensationMinChanged(int epxosurecompmin) {
+            ((BaseManualParameterSony)ParameterHandler.ManualExposure).BackgroundMinValueChanged(epxosurecompmin);
+        }
+
+        @Override
         public void onFnumberChanged(int fnumber) {
             ((BaseManualParameterSony)ParameterHandler.ManualFNumber).currentValueChanged(fnumber);
         }

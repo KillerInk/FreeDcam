@@ -83,6 +83,9 @@ public class SimpleCameraEventObserver {
         void onIsoValuesChanged(String[] isovals);
         public void onFnumberChanged(int fnumber);
         public void onFnumberValuesChanged(String[]  fnumbervals);
+        void onExposureCompensationChanged(int epxosurecomp);
+        void onExposureCompensationMaxChanged(int epxosurecompmax);
+        void onExposureCompensationMinChanged(int epxosurecompmin);
 
     }
 
@@ -129,6 +132,7 @@ public class SimpleCameraEventObserver {
         {
 
         }
+        public void onExposureCompensationChanged(int epxosurecomp){};
 
     }
 
@@ -163,6 +167,10 @@ public class SimpleCameraEventObserver {
 
     private String fnumber;
     String[] mFnumbervals;
+
+    int mExposureComp;
+    int mExposureCompMax;
+    int mExposureCompMin;
 
     // :
     // : add attributes for Event data as necessary.
@@ -219,7 +227,7 @@ public class SimpleCameraEventObserver {
                         JSONObject replyJson = mRemoteApi.getEvent(longPolling);
 
                         // Check error code at first.
-                        int errorCode = findErrorCode(replyJson);
+                        int errorCode = JsonUtils.findErrorCode(replyJson);
                         Log.d(TAG, "getEvent errorCode: " + errorCode);
                         switch (errorCode) {
                             case 0: // no error
@@ -270,13 +278,13 @@ public class SimpleCameraEventObserver {
     }
 
     protected void processEvents(JSONObject replyJson) throws JSONException {
-        List<String> availableApis = findAvailableApiList(replyJson);
+        List<String> availableApis = JsonUtils.findAvailableApiList(replyJson);
         if (!availableApis.isEmpty()) {
             fireApiListModifiedListener(availableApis);
         }
 
         // CameraStatus
-        String cameraStatus = findCameraStatus(replyJson);
+        String cameraStatus = JsonUtils.findCameraStatus(replyJson);
         Log.d(TAG, "getEvent cameraStatus: " + cameraStatus);
         if (cameraStatus != null && !cameraStatus.equals(mCameraStatus)) {
             mCameraStatus = cameraStatus;
@@ -284,7 +292,7 @@ public class SimpleCameraEventObserver {
         }
 
         // LiveviewStatus
-        Boolean liveviewStatus = findLiveviewStatus(replyJson);
+        Boolean liveviewStatus = JsonUtils.findLiveviewStatus(replyJson);
         Log.d(TAG, "getEvent liveviewStatus: " + liveviewStatus);
         if (liveviewStatus != null && !liveviewStatus.equals(mLiveviewStatus)) {
             mLiveviewStatus = liveviewStatus;
@@ -292,7 +300,7 @@ public class SimpleCameraEventObserver {
         }
 
         // ShootMode
-        String shootMode = findShootMode(replyJson);
+        String shootMode = JsonUtils.findShootMode(replyJson);
         Log.d(TAG, "getEvent shootMode: " + shootMode);
         if (shootMode != null && !shootMode.equals(mShootMode)) {
             mShootMode = shootMode;
@@ -300,29 +308,49 @@ public class SimpleCameraEventObserver {
         }
 
         // zoomPosition
-        int zoomPosition = findZoomInformation(replyJson);
+        int zoomPosition = JsonUtils.findZoomInformation(replyJson);
         Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
         if (zoomPosition != -1) {
             mZoomPosition = zoomPosition;
             fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
         }
 
+        int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
+        if (minexpo != -1 && minexpo != mExposureCompMin)
+        {
+            mExposureCompMin = minexpo;
+            fireExposurCompMinChangeListener(minexpo);
+        }
+        int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
+        if (maxexpo != -1 && maxexpo != mExposureCompMax)
+        {
+            mExposureCompMax = maxexpo;
+            fireExposurCompMaxChangeListener(maxexpo);
+        }
+
+        int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
+        if (cexpo != -1 && cexpo != mExposureComp)
+        {
+            mExposureComp = cexpo;
+            fireExposurCompChangeListener(cexpo);
+        }
+
         // storageId
-        String storageId = findStorageId(replyJson);
+        String storageId = JsonUtils.findStorageId(replyJson);
         Log.d(TAG, "getEvent storageId:" + storageId);
         if (storageId != null && !storageId.equals(mStorageId)) {
             mStorageId = storageId;
             fireStorageIdChangeListener(storageId);
         }
 
-        String[] isovals = findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
+        String[] isovals = JsonUtils.findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
         if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
         {
             mIsovals = isovals;
             fireIsoValuesChangeListener(mIsovals);
         }
 
-        String isoval = findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
+        String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
         if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
         {
             int ret = 0;
@@ -339,14 +367,14 @@ public class SimpleCameraEventObserver {
             fireIsoChangeListener(ret);
         }
 
-        String[] fnumbervals = findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
+        String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
         if (fnumbervals != null && !fnumbervals.equals(mIsovals) && fnumbervals.length > 0)
         {
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
 
-        String fnumberv = findStringInformation(replyJson,29, "fNumber", "currentFNumber");
+        String fnumberv = JsonUtils.findStringInformation(replyJson,29, "fNumber", "currentFNumber");
         if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber) && mFnumbervals != null)
         {
             int ret = 0;
@@ -454,6 +482,39 @@ public class SimpleCameraEventObserver {
      */
     public String getStorageId() {
         return mStorageId;
+    }
+
+    private void fireExposurCompMinChangeListener(final int iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onExposureCompensationMinChanged(iso);
+                }
+            }
+        });
+    }
+
+    private void fireExposurCompMaxChangeListener(final int iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onExposureCompensationMaxChanged(iso);
+                }
+            }
+        });
+    }
+
+    private void fireExposurCompChangeListener(final int iso) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onExposureCompensationChanged(iso);
+                }
+            }
+        });
     }
 
     private void fireFNumberChangeListener(final int iso) {
@@ -612,204 +673,5 @@ public class SimpleCameraEventObserver {
         });
     }
 
-    /**
-     * Finds and extracts an error code from reply JSON data.
-     * 
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static int findErrorCode(JSONObject replyJson) throws JSONException {
-        int code = 0; // 0 means no error.
-        if (replyJson.has("error")) {
-            JSONArray errorObj = replyJson.getJSONArray("error");
-            code = errorObj.getInt(0);
-        }
-        return code;
-    }
 
-    /**
-     * Finds and extracts a list of available APIs from reply JSON data. As for
-     * getEvent v1.0, results[0] => "availableApiList"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static List<String> findAvailableApiList(JSONObject replyJson) throws JSONException {
-        List<String> availableApis = new ArrayList<String>();
-        int indexOfAvailableApiList = 0;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfAvailableApiList)) {
-            JSONObject availableApiListObj = resultsObj.getJSONObject(indexOfAvailableApiList);
-            String type = availableApiListObj.getString("type");
-            if ("availableApiList".equals(type)) {
-                JSONArray apiArray = availableApiListObj.getJSONArray("names");
-                for (int i = 0; i < apiArray.length(); i++) {
-                    availableApis.add(apiArray.getString(i));
-                }
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index (0: AvailableApiList) " + type);
-            }
-        }
-        return availableApis;
-    }
-
-    /**
-     * Finds and extracts a value of Camera Status from reply JSON data. As for
-     * getEvent v1.0, results[1] => "cameraStatus"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static String findCameraStatus(JSONObject replyJson) throws JSONException {
-        String cameraStatus = null;
-        int indexOfCameraStatus = 1;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfCameraStatus)) {
-            JSONObject cameraStatusObj = resultsObj.getJSONObject(indexOfCameraStatus);
-            String type = cameraStatusObj.getString("type");
-            if ("cameraStatus".equals(type)) {
-                cameraStatus = cameraStatusObj.getString("cameraStatus");
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index (1: CameraStatus) " + type);
-            }
-        }
-        return cameraStatus;
-    }
-
-    /**
-     * Finds and extracts a value of Liveview Status from reply JSON data. As
-     * for getEvent v1.0, results[3] => "liveviewStatus"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static Boolean findLiveviewStatus(JSONObject replyJson) throws JSONException {
-        Boolean liveviewStatus = null;
-        int indexOfLiveviewStatus = 3;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfLiveviewStatus)) {
-            JSONObject liveviewStatusObj = resultsObj.getJSONObject(indexOfLiveviewStatus);
-            String type = liveviewStatusObj.getString("type");
-            if ("liveviewStatus".equals(type)) {
-                liveviewStatus = liveviewStatusObj.getBoolean("liveviewStatus");
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index (3: LiveviewStatus) " + type);
-            }
-        }
-        return liveviewStatus;
-    }
-
-    /**
-     * Finds and extracts a value of Shoot Mode from reply JSON data. As for
-     * getEvent v1.0, results[21] => "shootMode"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static String findShootMode(JSONObject replyJson) throws JSONException {
-        String shootMode = null;
-        int indexOfShootMode = 21;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfShootMode)) {
-            JSONObject shootModeObj = resultsObj.getJSONObject(indexOfShootMode);
-            String type = shootModeObj.getString("type");
-            if ("shootMode".equals(type)) {
-                shootMode = shootModeObj.getString("currentShootMode");
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index (21: ShootMode) " + type);
-            }
-        }
-        return shootMode;
-    }
-
-    /**
-     * Finds and extracts a value of Zoom Information from reply JSON data. As
-     * for getEvent v1.0, results[2] => "zoomInformation"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static int findZoomInformation(JSONObject replyJson) throws JSONException {
-        int zoomPosition = -1;
-        int indexOfZoomInformation = 2;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfZoomInformation)) {
-            JSONObject zoomInformationObj = resultsObj.getJSONObject(indexOfZoomInformation);
-            String type = zoomInformationObj.getString("type");
-            if ("zoomInformation".equals(type)) {
-                zoomPosition = zoomInformationObj.getInt("zoomPosition");
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index (2: zoomInformation) " + type);
-            }
-        }
-        return zoomPosition;
-    }
-
-
-    public static String findStringInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
-        String value = "";
-
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexpos)) {
-            JSONObject InformationObj = resultsObj.getJSONObject(indexpos);
-            String type = InformationObj.getString("type");
-            if (typeS.equals(type)) {
-                value = InformationObj.getString(subtype);
-            } else {
-                Log.w(TAG, "Event reply: Illegal Index " + indexpos + subtype + type);
-            }
-        }
-        return value;
-    }
-
-    public static String[] findStringArrayInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
-        ArrayList<String> values = new ArrayList<String>();
-
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexpos)) {
-            JSONObject InformationObj = resultsObj.getJSONObject(indexpos);
-            String type = InformationObj.getString("type");
-            if (typeS.equals(type))
-            {
-                JSONArray array = InformationObj.getJSONArray(subtype);
-                for (int i = 0; i<array.length();i++)
-                    values.add(array.getString(i));
-            }
-        }
-        return values.toArray(new String[values.size()]);
-    }
-
-    /**
-     * Finds and extracts value of Storage Id from reply JSON data. As for
-     * getEvent v1.0, results[10] => "storageInformation"
-     *
-     * @param replyJson
-     * @return
-     * @throws org.json.JSONException
-     */
-    private static String findStorageId(JSONObject replyJson) throws JSONException {
-        String storageId = null;
-        int indexOfStorageInfomation = 10;
-        JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexOfStorageInfomation)) {
-            JSONArray storageInformationArray = resultsObj.getJSONArray(indexOfStorageInfomation);
-            if (!storageInformationArray.isNull(0)) {
-                JSONObject storageInformationObj = storageInformationArray.getJSONObject(0);
-                String type = storageInformationObj.getString("type");
-                if ("storageInformation".equals(type)) {
-                    storageId = storageInformationObj.getString("storageID");
-                } else {
-                    Log.w(TAG, "Event reply: Illegal Index (11: storageInformation) " + type);
-                }
-            }
-        }
-
-        return storageId;
-    }
 }
