@@ -49,13 +49,13 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         String settingValue = appSettingsManager.getString(settingsname);
         //TODO code design fail
         //process raw supported devices
-        settingValue = setDeviceSettings(parameterHolder, appSettingsManager, settingsname, settingValue);
+        settingValue = setDeviceSettings(appSettingsManager, settingsname, settingValue);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
         appSettingsManager.setString(settingsname, settingValue);
     }
 
-    private String setDeviceSettings(I_ModeParameter parameterHolder, AppSettingsManager appSettingsManager, String settingsname, String settingValue) {
+    private String setDeviceSettings(AppSettingsManager appSettingsManager, String settingsname, String settingValue) {
         if (settingValue.equals(""))
         {
             appSettingsManager.setString(settingsname, "jpeg");
