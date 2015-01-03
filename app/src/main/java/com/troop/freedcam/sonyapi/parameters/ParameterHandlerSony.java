@@ -9,6 +9,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
+import com.troop.freedcam.sonyapi.parameters.manual.ExposureCompManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
@@ -85,6 +86,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         parametersChangedList.add((BaseManualParameterSony) ManualFNumber);
         ISOManual = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
         parametersChangedList.add((BaseManualParameterSony) ISOManual);
+
+        ManualExposure = new ExposureCompManualParameterSony("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", this);
+        parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
