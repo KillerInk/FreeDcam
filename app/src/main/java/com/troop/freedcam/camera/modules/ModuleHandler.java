@@ -54,7 +54,7 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(pictureModule.ModuleName(), pictureModule);
         }
 
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21 ) {
+        if (DeviceUtils.isLGADV() ) {
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }

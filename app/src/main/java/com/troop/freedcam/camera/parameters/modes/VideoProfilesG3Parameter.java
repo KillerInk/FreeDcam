@@ -59,7 +59,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     private void loadProfiles()
     {
 
-        if (supportedProfiles == null) {
+        if (supportedProfiles == null)
+        {
             int CAMCORDER_QUALITY_4kUHD = 12;
             int CAMCORDER_QUALITY_4kDCI = 13;
             int CAMCORDER_QUALITY_TIME_LAPSE_4kUHD = 1012;
@@ -67,6 +68,18 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             int CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P = 1016;
             int CAMCORDER_QUALITY_1080p_HFR = 16;
             int CAMCORDER_QUALITY_720p_HFR = 17;
+            //g3 new with lolipop
+            int QUALITY_HEVC1080P = 15;
+            int QUALITY_HEVC4kDCI = 17;
+            int QUALITY_HEVC4kUHD = 16;
+            int QUALITY_HEVC720P = 14;
+            int QUALITY_HFR720P = 2003;
+            int QUALITY_HIGH_SPEED_1080P = 2004;
+            int QUALITY_HIGH_SPEED_480P = 2002;
+            int QUALITY_HIGH_SPEED_720P = 2003;
+            int QUALITY_HIGH_SPEED_HIGH = 2001;
+            int QUALITY_4kDCI = 13;
+            int QUALITY_4kUHD = 8;
             String current;
 
             supportedProfiles = new HashMap<String, CamcorderProfileEx>();
@@ -183,6 +196,15 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 e.printStackTrace();
             }
             try {
+                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_4kUHD))
+                {
+                    CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_4kUHD);
+                    supportedProfiles.put("4kUHD", (CamcorderProfileEx) fourk);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI))
                     supportedProfiles.put("Timelapse4kDCI", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI));
             } catch (Exception e) {
@@ -207,8 +229,20 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 e.printStackTrace();
             }
             try {
+                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HFR720P))
+                    supportedProfiles.put("720pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HFR720P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P))
-                    supportedProfiles.put("720pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P));
+                    supportedProfiles.put("TimelapseHfr1080p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P))
+                    supportedProfiles.put("1080pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P));
             } catch (Exception e) {
                 e.printStackTrace();
             }

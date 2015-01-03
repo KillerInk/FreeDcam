@@ -159,7 +159,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
 
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
+        if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
