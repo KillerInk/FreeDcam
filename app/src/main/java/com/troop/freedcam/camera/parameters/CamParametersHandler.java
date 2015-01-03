@@ -228,7 +228,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
             cameraHolder.SetCameraParameters(cameraParameters);
             try {
                 //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -284,6 +284,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         return cameraParameters.get("raw-size");
     }
 
+    //rawsave-mode=2
     public void setTHL5000Raw(boolean raw)
     {
         Log.d(TAG, "THL5000 try to set mode");
@@ -294,13 +295,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         }
         else
         {
-            cameraParameters.set("rawsave-mode", 1);
+            cameraParameters.set("rawsave-mode", 2);
             cameraParameters.set("isp-mode", 1);
             Log.d(TAG, "THL5000 set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
     }
 
+    //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;
     public void setTHL5000rawFilename(String filename)
     {
         cameraParameters.set("rawfname", filename);
