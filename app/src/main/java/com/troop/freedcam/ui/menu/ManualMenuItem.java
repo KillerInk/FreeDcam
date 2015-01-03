@@ -83,7 +83,10 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
             onIsSupportedChanged(true);
         }
         else
+        {
+            onIsSupportedChanged(false);
             writeLog("is not supported");
+        }
     }
 
     @Override
@@ -111,7 +114,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onIsSupportedChanged(boolean supported)
     {
-        writeLog("on is suported changed " + supported);
+        writeLog("on is supported changed " + supported);
         if (supported && !isVisibile)
         {
             manualMenuHandler.manualMenu.addView(this);
@@ -127,6 +130,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onIsSetSupportedChanged(boolean supported)
     {
+        writeLog("on is SET supported changed " + supported);
         if (supported)
         {
             toggleButton.setBackgroundColor(btncolor);
@@ -166,15 +170,12 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void onCurrentValueChanged(int current)
     {
+        writeLog("onCurrentValueChanged" + current);
         final String txt = getStringValue(current);
-        if (txt != null && !txt.equals(""))
-            textViewValue.post(new Runnable() {
-                @Override
-                public void run() {
-                    setTextToTextView(txt);
-                }
-            });
-
+        writeLog("onCurrentValueChanged" + txt);
+        if (txt != null && !txt.equals("") && !txt.equals("null")) {
+            setTextToTextView(txt);
+        }
         else
             setTextToTextView(current + "");
 

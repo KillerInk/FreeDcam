@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 
@@ -16,6 +18,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     int min = -1;
     int max = -1;
+    String TAG = ExposureCompManualParameterSony.class.getSimpleName();
     public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
@@ -24,7 +27,10 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public int GetMaxValue()
     {
         if (max == -1)
+        {
+            Log.d(TAG, "GetMaxValue() max not loaded loading it");
             getMinMaxValues();
+        }
         return max;
     }
 
@@ -32,7 +38,10 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public int GetMinValue()
     {
         if (min == -1)
+        {
+            Log.d(TAG, "GetMinValue() min not loaded loading it");
             getMinMaxValues();
+        }
         return min;
     }
 
@@ -47,12 +56,16 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 //String val = valueToSet +"";
                 JSONArray array = null;
                 try {
+                    Log.d(TAG, "SetValue " + valueToSet);
                     array = new JSONArray().put(0, valueToSet);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     currentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                    Log.e(TAG, "Error SetValue " + valueToSet);
+                } catch (IOException e)
+                {
+                    Log.e(TAG, "Error SetValue " + valueToSet);
                     e.printStackTrace();
                 }
             }
@@ -69,23 +82,31 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 public void run()
                 {
                     try {
+                        Log.d(TAG, "try get min max values ");
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         min = array.getInt(2);
                         max = array.getInt(1);
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
+                        max = -2;
+                        Log.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
-                    } catch (JSONException e) {
+                    } catch (JSONException e)
+                    {
+                        max = -2;
+                        Log.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
                     }
                 }
             }).start();
-            while (max == -1)
+            while (max == -1 && min == -1)
             {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
+                    Log.d(TAG, "Wait for getMinMaxValues");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -96,7 +117,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        val = -1;
+        val = -200;
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -105,20 +126,21 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                     JSONArray array = object.getJSONArray("result");
                     val = array.getInt(0);
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "Error GetValue() ");
                     val = 0;
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "Error GetValue() ");
                     val = 0;
                 }
             }
         }).start();
-        while (val == -1)
+        while (val == -200)
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
+                Log.d(TAG, "Wait for getValues");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

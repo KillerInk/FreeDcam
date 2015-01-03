@@ -316,12 +316,14 @@ public class SimpleCameraEventObserver {
         }
 
         int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
+        Log.d(TAG, "getEvent minExposure: " + minexpo);
         if (minexpo != -1 && minexpo != mExposureCompMin)
         {
             mExposureCompMin = minexpo;
             fireExposurCompMinChangeListener(minexpo);
         }
         int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
+        Log.d(TAG, "getEvent maxExposure: " + maxexpo);
         if (maxexpo != -1 && maxexpo != mExposureCompMax)
         {
             mExposureCompMax = maxexpo;
@@ -329,6 +331,7 @@ public class SimpleCameraEventObserver {
         }
 
         int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
+        Log.d(TAG, "getEvent currentExposure: " + cexpo);
         if (cexpo != -1 && cexpo != mExposureComp)
         {
             mExposureComp = cexpo;
@@ -344,6 +347,7 @@ public class SimpleCameraEventObserver {
         }
 
         String[] isovals = JsonUtils.findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
+        Log.d(TAG, "getEvent isovalues: " + isovals);
         if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
         {
             mIsovals = isovals;
@@ -351,6 +355,7 @@ public class SimpleCameraEventObserver {
         }
 
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
+        Log.d(TAG, "getEvent isoval: " + isoval);
         if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
         {
             int ret = 0;
@@ -368,13 +373,15 @@ public class SimpleCameraEventObserver {
         }
 
         String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
+        Log.d(TAG, "getEvent fnumber vals: " + fnumbervals);
         if (fnumbervals != null && !fnumbervals.equals(mIsovals) && fnumbervals.length > 0)
         {
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
 
-        String fnumberv = JsonUtils.findStringInformation(replyJson,29, "fNumber", "currentFNumber");
+        String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
+        Log.d(TAG, "getEvent fnumber: " + fnumberv);
         if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber) && mFnumbervals != null)
         {
             int ret = 0;

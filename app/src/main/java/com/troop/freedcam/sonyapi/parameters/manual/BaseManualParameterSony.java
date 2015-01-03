@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
@@ -32,6 +34,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     boolean isSetSupported = false;
     String[] values;
     int val = 0;
+
+    String TAG = BaseManualParameterSony.class.getSimpleName() + VALUE_TO_SET;
 
     public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony)
     {
@@ -67,9 +71,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public boolean IsSupported()
     {
-        if (ParameterHandler.mAvailableCameraApiSet != null)
-            return JsonUtils.isCameraApiAvailable(VALUE_TO_GET, ParameterHandler.mAvailableCameraApiSet);
-        return false;
+        return isSupported;
     }
 
     @Override
@@ -92,7 +94,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 @Override
                 public void run()
                 {
-                    try {
+                    try
+                    {
+                        Log.d(TAG, "Trying to get String Values from: " +VALUES_TO_GET);
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
@@ -100,9 +104,11 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Log.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
                         values = new String[0];
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         values = new String[0];
                     }
                 }
@@ -116,6 +122,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 }
             }
         }
+        Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
         return values;
 
     }
@@ -201,21 +208,26 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             this.values = getStringValues();
 
         }
-        if (values != null && values.length > 1)
+        if (values != null && values.length > 0)
+        {
+            Log.d(TAG, "GetStringValue() = " +values[val] );
             return values[val];
+        }
         return null;
 
     }
 
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-
+    public void onIsSupportedChanged(boolean value)
+    {
+        isSupported = value;
     }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
-
+    public void onIsSetSupportedChanged(boolean value)
+    {
+        isSetSupported = value;
     }
 
     @Override
@@ -229,13 +241,16 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
-    public void onCurrentValueChanged(int current) {
-        val = current;
+    public void onCurrentValueChanged(int current)
+    {
+        Log.d(TAG, "onCurrentValueChanged = "  +current);
+        this.val = current;
     }
 
     @Override
     public void onValuesChanged(String[] values)
     {
+        Log.d(TAG, "onValueSChanged = "  +values.toString());
         this.values = values;
     }
 }

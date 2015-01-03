@@ -268,7 +268,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     }
 
     private void setValueToTextBox(int value) {
-        String txt = currentItem.GetStringValue();
+        String txt = currentItem.getStringValue(value);
         if (txt != null && !txt.equals("") && !txt.equals("null"))
             setTextValue(txt);
         else
