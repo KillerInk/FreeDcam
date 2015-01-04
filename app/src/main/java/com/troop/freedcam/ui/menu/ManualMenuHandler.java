@@ -118,7 +118,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     int max = item.manualParameter.GetMaxValue();
                     setSeekbar_Min_Max(min, max);
                     setSeekbarProgress(item.manualParameter.GetValue());
-                    setValueToTextBox(manualSeekbar.getProgress());
+                    if (realMin < 0)
+                        setValueToTextBox(manualSeekbar.getProgress() + realMin);
+                    else
+                        setValueToTextBox(manualSeekbar.getProgress());
                 }
             }
             else
@@ -264,7 +267,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             currentItem.SetValue(value + realMin);
         else
             currentItem.SetValue(value);
-        setValueToTextBox(value);
+        //setValueToTextBox(value);
     }
 
     private void setValueToTextBox(int value) {
@@ -273,10 +276,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             setTextValue(txt);
         else
         {
-            if (realMin < 0)
-                setTextValue((value + realMin) +"");
-            else
-                setTextValue((value) +"");
+            setTextValue((value) +"");
         }
     }
 
@@ -296,7 +296,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-              setValueToTextBox(progress);
+            if (realMin < 0)
+                setValueToTextBox(progress + realMin);
+            else
+                setValueToTextBox(progress);
         }
     }
 

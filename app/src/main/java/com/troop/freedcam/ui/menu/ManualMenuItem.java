@@ -199,7 +199,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         {
             return stringValues[pos];
         }
-        return pos + "";
+
+        return null;
     }
 
     @Override
