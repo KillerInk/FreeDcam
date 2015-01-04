@@ -125,7 +125,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         String ret = "";
         for (Map.Entry s : parameters.entrySet())
         {
-            ret += s.getKey() + "=" + s.getValue()+",";
+            ret += s.getKey() + "=" + s.getValue()+";";
         }
         try{
 
@@ -198,12 +198,21 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public HashMap<String, String> GetCameraParameters()
     {
-        String[] split = mCamera.getParameters().flatten().split(",");
+        String[] split = mCamera.getParameters().flatten().split(";");
         HashMap<String, String> map = new HashMap<>();
         for (String s: split)
         {
             String[] valSplit = s.split("=");
-            map.put(valSplit[0], valSplit[1]);
+            boolean sucess = false;
+            try
+            {
+                map.put(valSplit[0], valSplit[1]);
+            }
+            catch (Exception ex)
+            {
+                map.put(valSplit[0], "");
+            }
+
         }
 
         return map;
