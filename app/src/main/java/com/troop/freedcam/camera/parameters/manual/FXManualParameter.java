@@ -7,15 +7,17 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
+import java.util.HashMap;
+
 public class FXManualParameter extends BaseManualParameter {
 	
 	BaseCameraHolder baseCameraHolder;
-    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
@@ -63,7 +65,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {   
-    	parameters.set("morpho_effect_type", valueToSet);
+    	parameters.put("morpho_effect_type", valueToSet+"");
         camParametersHandler.SetParametersToCamera();
 
     }

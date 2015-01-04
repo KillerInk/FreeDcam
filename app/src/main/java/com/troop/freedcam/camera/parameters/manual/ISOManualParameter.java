@@ -7,15 +7,17 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
+import java.util.HashMap;
+
 public class ISOManualParameter extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
-    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public ISOManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
@@ -52,7 +54,7 @@ public class ISOManualParameter extends BaseManualParameter {
     {
         int i = 400;
         try {
-                i = parameters.getInt("iso-st");
+                i = Integer.parseInt(parameters.get("iso-st"));
 
         }
         catch (Exception ex)
@@ -65,7 +67,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {   	if (DeviceUtils.isHTC_M8())
-        parameters.set("iso-st", valueToSet);
+        parameters.put("iso-st", valueToSet+"");
 
     }
 

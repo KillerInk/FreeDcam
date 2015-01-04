@@ -6,7 +6,10 @@ import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.utils.DeviceUtils;
+
+import java.util.HashMap;
 
 /**
  * Created by troop on 17.08.2014.
@@ -50,7 +53,7 @@ public class ShutterManualParameter extends BaseManualParameter
         //TODO add missing logic
     }*/
 
-    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -81,7 +84,7 @@ public class ShutterManualParameter extends BaseManualParameter
     	/*if (DeviceUtils.isSonyADV())
         return Integer.parseInt(parameters.get("sony-min-shutter-speed"));*/
         if (DeviceUtils.isLGADV())
-           return parameters.getInt("max-exposure-time");
+           return Integer.parseInt(parameters.get("max-exposure-time"));
         else
             return shutterValues.length-1;
     }
@@ -91,7 +94,7 @@ public class ShutterManualParameter extends BaseManualParameter
     	/*if (DeviceUtils.isSonyADV())
         return Integer.parseInt(parameters.get("sony-max-shutter-speed"));*/
     	if (DeviceUtils.isLGADV())
-            return parameters.getInt("min-exposure-time");
+            return Integer.parseInt(parameters.get("min-exposure-time"));
         return 0;
     }
 
@@ -112,7 +115,8 @@ public class ShutterManualParameter extends BaseManualParameter
     		parameters.set("sony-shutter-speed", valueToSet);
     		
         }*/
-        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()) {
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV())
+        {
             current = valueToSet;
             String shutterstring = shutterValues[current];
             if (shutterstring.contains("/")) {
@@ -123,14 +127,14 @@ public class ShutterManualParameter extends BaseManualParameter
             }
             shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
             if (DeviceUtils.isZTEADV())
-                parameters.set("slow_shutter", shutterstring);
+                parameters.put("slow_shutter", shutterstring);
             if (DeviceUtils.isHTC_M8())
-                parameters.set("shutter", shutterstring);
+                parameters.put("shutter", shutterstring);
             Log.e(TAG, shutterstring);
         }
         else
         {
-            parameters.set("exposure-time", valueToSet);
+            parameters.put("exposure-time", valueToSet+"");
         }
         camParametersHandler.SetParametersToCamera();
        
@@ -164,14 +168,14 @@ public class ShutterManualParameter extends BaseManualParameter
             //parameters.set("shutter-threshold", "0.2");
         }*/
         if (DeviceUtils.isZTEADV()) {
-            parameters.set("slow_shutter_addition", 0);
+            parameters.put("slow_shutter_addition", 0+"");
             baseCameraHolder.SetCameraParameters(parameters);
         }
-        if (DeviceUtils.isLGADV())
+        /*if (DeviceUtils.isLGADV())
         {
-            parameters.set("long-shot", "on");
+            parameters.put("long-shot", "on");
             baseCameraHolder.SetCameraParameters(parameters);
-        }
+        }*/
         //baseCameraHolder.StartPreview();
     }
 }

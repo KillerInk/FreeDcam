@@ -5,24 +5,31 @@ import android.hardware.Camera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 01.09.2014.
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public ZoomManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        this.value = "zoom";
     }
 
     @Override
     public boolean IsSupported()
     {
-        return parameters.isZoomSupported();
+        if (parameters.containsKey("zoom-supported"))
+            if (parameters.get("zoom-supported").equals("true"))
+                return true;
+        return false;
     }
 
     @Override
-    public int GetMaxValue() {
-        return parameters.getMaxZoom();
+    public int GetMaxValue()
+    {
+        return Integer.parseInt(parameters.get("max-zoom"));
     }
 
     @Override
@@ -32,12 +39,12 @@ public class ZoomManualParameter extends  BaseManualParameter
 
     @Override
     public int GetValue() {
-        return parameters.getZoom();
+        return Integer.parseInt(parameters.get("zoom"));
     }
 
     @Override
     protected void setvalue(int valueToset) {
-        parameters.setZoom(valueToset);
+        parameters.put(value, valueToset+"");
         camParametersHandler.SetParametersToCamera();
     }
 }

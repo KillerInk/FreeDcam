@@ -113,7 +113,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
         ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this);
-        ManualExposure = new ExposureManualParameter(cameraParameters,"","","", this);
+        ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
         ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);

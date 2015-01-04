@@ -8,6 +8,8 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 17.08.2014.
  */
@@ -15,12 +17,12 @@ public class FocusManualParameter extends  BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
     String TAG ="freedcam.ManualFocus";
-    public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         //TODO add missing logic
     }
-    public FocusManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
@@ -70,13 +72,13 @@ public class FocusManualParameter extends  BaseManualParameter
         int i = 0;
         try {
             if (DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21)
-                i = parameters.getInt("manualfocus_step");
+                i = Integer.parseInt(parameters.get("manualfocus_step"));
             if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
-                i=  parameters.getInt("focus-pos");
+                i=  Integer.parseInt(parameters.get("focus-pos"));
             if (DeviceUtils.isZTEADV());
-                i = parameters.getInt("maf_key");
+                i = Integer.parseInt(parameters.get("maf_key"));
             if (DeviceUtils.isHTC_M8())
-                i = parameters.getInt("focus");
+                i = Integer.parseInt(parameters.get("focus"));
         }
         catch (Exception ex)
         {
@@ -89,36 +91,23 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        //baseCameraHolder.GetCamera().cancelAutoFocus();
-        /*if (!parameters.getFocusMode().equals("manual-focus"))
-        {
-            parameters.set("manual-focus", 0);
-            parameters.setFocusMode("normal");
-        }*/
-        //parameters.set("manual", 0);
-        //parameters.setFocusAreas(null);
         if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
         {
-            parameters.setFocusAreas(null);
-            parameters.setFocusMode("normal");
-
-            //baseCameraHolder.GetCamera().setParameters(parameters);
-            parameters.set("manualfocus_step", valueToSet);
-            //baseCameraHolder.GetCamera().setParameters(parameters);
+            camParametersHandler.FocusMode.SetValue("normal", true);
         }
         if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
         {
-            parameters.setFocusMode("manual");
-            parameters.set("focus-pos", valueToSet);
+            camParametersHandler.FocusMode.SetValue("manual", true);
+            parameters.put("focus-pos", valueToSet+"");
         }
         if (DeviceUtils.isZTEADV())
         {
             //parameters.setFocusMode("macro");
-            parameters.set("maf_key", valueToSet);
+            parameters.put("maf_key", valueToSet+"");
         }
         if (DeviceUtils.isHTC_M8())
         {
-            parameters.set("focus", valueToSet);
+            parameters.put("focus", valueToSet+"");
         }
         camParametersHandler.SetParametersToCamera();
 
