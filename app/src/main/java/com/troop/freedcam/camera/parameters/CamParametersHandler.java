@@ -56,6 +56,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,8 +67,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     String TAG = "freedcam.CameraParametersHandler";
 
-    Camera.Parameters cameraParameters;
-    public Camera.Parameters getParameters(){return cameraParameters;}
+    HashMap<String, String> cameraParameters;
+    public HashMap<String, String> getParameters(){return cameraParameters;}
 
     boolean moreParametersToSet = false;
 

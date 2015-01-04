@@ -14,6 +14,8 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by troop on 15.08.2014.
@@ -119,16 +121,27 @@ public class BaseCameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(final Camera.Parameters parameters)
+    public boolean SetCameraParameters(final HashMap<String, String> parameters)
     {
+        String ret = "";
+        for (Map.Entry s : parameters.entrySet())
+        {
+            ret += s.getKey() + "=" + s.getValue()+",";
+        }
         try{
 
             if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
             {
-                lgParameters.setParameters(parameters);
+                Camera.Parameters p = lgParameters.getParameters();
+                p.unflatten(ret);
+                lgParameters.setParameters(p);
             }
             else
-                mCamera.setParameters(parameters);
+            {
+                Camera.Parameters p = mCamera.getParameters();
+                p.unflatten(ret);
+                mCamera.setParameters(p);
+            }
 
 
             return true;
@@ -184,9 +197,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
-    public Camera.Parameters GetCameraParameters()
+    public HashMap<String, String> GetCameraParameters()
     {
-        return mCamera.getParameters();
+        String[] split = mCamera.getParameters().flatten().split(",");
+        HashMap<String, String> map = new HashMap<>();
+        for (String s: split)
+        {
+            String[] valSplit = s.split("=");
+            map.put(valSplit[0], valSplit[1]);
+        }
+
+        return map;
     }
 
     public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)

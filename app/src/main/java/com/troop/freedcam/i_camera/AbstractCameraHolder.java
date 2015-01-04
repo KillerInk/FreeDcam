@@ -9,6 +9,8 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 12.12.2014.
  */
@@ -61,7 +63,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(Camera.Parameters parameters) {
+    public boolean SetCameraParameters(HashMap<String, String> parameters) {
         return false;
     }
 

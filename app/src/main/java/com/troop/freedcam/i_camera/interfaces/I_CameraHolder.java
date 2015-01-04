@@ -3,6 +3,8 @@ package com.troop.freedcam.i_camera.interfaces;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 15.08.2014.
  */
@@ -13,7 +15,7 @@ public interface I_CameraHolder
     public Camera GetCamera();
     public int CameraCout();
     public boolean IsRdy();
-    public boolean SetCameraParameters(Camera.Parameters parameters);
+    public boolean SetCameraParameters(HashMap<String, String> parameters);
     public boolean SetSurface(SurfaceHolder texture);
     public void StartPreview();
     public void StopPreview();
