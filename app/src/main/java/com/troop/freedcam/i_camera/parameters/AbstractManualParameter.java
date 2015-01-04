@@ -115,6 +115,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
                 events.get(i).onMinValueChanged(value);
         }
     }
+
     public void BackgroundMaxValueChanged(int value)
     {
         for (int i= 0; i< events.size(); i ++)
@@ -130,31 +131,55 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
+    /**
+     *
+     * @return true if the parameter is supported
+     */
     @Override
     public boolean IsSupported() {
         return false;
     }
 
+    /**
+     *
+     * @return returns the max value as int
+     */
     @Override
     public int GetMaxValue() {
         return 0;
     }
 
+    /**
+     *
+     * @return returns the min value as int
+     */
     @Override
     public int GetMinValue() {
         return 0;
     }
 
+    /**
+     *
+     * @return returns the current value as int
+     */
     @Override
     public int GetValue() {
         return 0;
     }
 
+    /**
+     *
+     * @return returns the current value as string
+     */
     @Override
     public String GetStringValue() {
         return null;
     }
 
+    /**
+     *
+     * @return returns all values possible vales as StringArray
+     */
     public String[] getStringValues() { return  null;}
 
     @Override

@@ -7,19 +7,46 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseManualParameter extends AbstractManualParameter {
-    Camera.Parameters parameters;
+public abstract class BaseManualParameter extends AbstractManualParameter
+{
+    /**
+     * Holds the list of Supported parameters
+     */
+    HashMap<String, String> parameters;
+    /*
+     * The name of the current value to get like brightness
+     */
     protected String value;
+
+    /**
+     * The name of the current value to get like brightness-max
+     */
     protected String max_value;
+    /**
+     * The name of the current value to get like brightness-min
+     */
     protected String  min_value;
 
+    /**
+     * holds the state if the parameter is supported
+     */
     boolean isSupported = false;
 
 
-    public BaseManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    /**
+     *
+     * @param @parameters
+     * @param @value
+     * @param @max_value
+     * @param @min_value
+     * @param @camParametersHandler
+     */
+    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(camParametersHandler);
         this.parameters = parameters;
@@ -28,6 +55,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
         this.min_value = MinValue;
     }
 
+
     public boolean IsSupported()
     {
         return isSupported;
@@ -35,14 +63,14 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
 
     public int GetMaxValue()
     {
-        return parameters.getInt(max_value);
+        return Integer.parseInt(parameters.get(max_value));
     }
 
     public  int GetMinValue()
     {
         int ret = 0;
         try {
-            ret = parameters.getInt(min_value);
+            ret = Integer.parseInt(parameters.get(min_value));
         }
         catch (Exception ex)
         {
@@ -53,12 +81,13 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
 
     public int GetValue()
     {
-        return parameters.getInt(value);
+        return Integer.parseInt(parameters.get(value));
     }
 
     @Override
-    protected void setvalue(int valueToset) {
-        parameters.set(value, valueToset);
+    protected void setvalue(int valueToset)
+    {
+        parameters.put(value, valueToset +"");
         camParametersHandler.SetParametersToCamera();
     }
 
@@ -66,8 +95,10 @@ public abstract class BaseManualParameter extends AbstractManualParameter {
     {
         try
         {
-            parameters.getInt(value);
-            isSupported = true;
+            if (parameters.containsKey(value))
+                isSupported = true;
+            else
+                isSupported = false;
         }
         catch (Exception ex)
         {
