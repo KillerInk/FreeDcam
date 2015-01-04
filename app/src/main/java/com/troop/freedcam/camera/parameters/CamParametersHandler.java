@@ -58,6 +58,7 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by troop on 17.08.2014.
@@ -99,12 +100,15 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         initParameters();
     }
 
-    private void logParameters(Camera.Parameters parameters)
+    private void logParameters(HashMap<String, String> parameters)
     {
-        String[] paras =  parameters.flatten().split(";");
-        for(int i = 0; i < paras.length; i++)
-            Log.d(TAG, paras[i]);
-        Log.d(TAG, Build.MODEL) ;
+        Log.d(TAG, "Manufactur:" + Build.MANUFACTURER);
+        Log.d(TAG, "Model:" + Build.MODEL);
+        Log.d(TAG, "Product:" + Build.PRODUCT);
+        for(Map.Entry e : parameters.entrySet())
+        {
+            Log.d(TAG, e.getKey() + "=" + e.getValue());
+        }
     }
 
     private void initParameters()
