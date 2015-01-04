@@ -87,6 +87,7 @@
     <orderEntry type="library" exported="" name="HTCSDK" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="com.lge.frameworks" level="project" />
+    <orderEntry type="library" exported="" name="seccamera" level="project" />
     <orderEntry type="library" exported="" name="real3d" level="project" />
   </component>
 </module>
