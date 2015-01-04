@@ -131,6 +131,24 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         }
     }
 
+    private class Size
+    {
+        public int width;
+        public int height;
+        public Size(int w, int h)
+        {
+            this.height = h;
+            this.width = w;
+        }
+        public Size(String s)
+        {
+            String[] split = s.split("x");
+            this.height = Integer.parseInt(split[1]);
+            this.width = Integer.parseInt(split[0]);;
+        }
+
+    }
+
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
@@ -139,7 +157,13 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
         {
             PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)ParametersHandler.PreviewSize;
-            Camera.Size size = getOptimalPreviewSize(previewSizeParameter.GetSizes(),w, h );
+            List<Size> sizes = new ArrayList<Size>();
+            String[] stringsSizes = previewSizeParameter.GetValues();
+            for (String s : stringsSizes)
+            {
+                sizes.add(new Size(s));
+            }
+            Size size = getOptimalPreviewSize(sizes,w, h );
             ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
             setPreviewToDisplay(size.width, size.height);
 
@@ -155,15 +179,15 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     }
 
-    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.2;
         double targetRatio = (double) w / h;
         if (sizes == null) return null;
-        Camera.Size optimalSize = null;
+        Size optimalSize = null;
         double minDiff = Double.MAX_VALUE;
         int targetHeight = h;
         // Try to find an size match aspect ratio and size
-        for (Camera.Size size : sizes) {
+        for (Size size : sizes) {
             double ratio = (double) size.width / size.height;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
             if (Math.abs(size.height - targetHeight) < minDiff) {
@@ -174,7 +198,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         // Cannot find the one match the aspect ratio, ignore the requirement
         if (optimalSize == null) {
             minDiff = Double.MAX_VALUE;
-            for (Camera.Size size : sizes) {
+            for (Size size : sizes) {
                 if (Math.abs(size.height - targetHeight) < minDiff) {
                     optimalSize = size;
                     minDiff = Math.abs(size.height - targetHeight);
