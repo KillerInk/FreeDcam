@@ -46,29 +46,19 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        /*appSettingsManager.context.runOnUiThread(new Runnable()
-        {
-            @Override
-            public void run()
-            {*/
+
         Log.d(TAG, "Throw parametersChanged");
-                for (int i = 0; i < parametersChangedList.size(); i++)
-                {
-                    if (parametersChangedList.get(i) == null)
-                    {
-                        parametersChangedList.remove(i);
-                        i--;
-                    }
-                    else
-                        parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
+        for (int i = 0; i < parametersChangedList.size(); i++)
+        {
+            if (parametersChangedList.get(i) == null)
+            {
+                parametersChangedList.remove(i);
+                i--;
+            }
+            else
+                parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
 
-                }
-           /* }
-        })*/
-
-
-        //ParametersEventHandler.ParametersHasLoaded();
-
+        }
     }
 
     private void createParameters()
