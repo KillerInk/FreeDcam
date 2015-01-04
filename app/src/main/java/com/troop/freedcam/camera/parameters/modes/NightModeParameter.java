@@ -5,12 +5,14 @@ import android.hardware.Camera;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 26.09.2014.
  */
 public class NightModeParameter extends BaseModeParameter
 {
-    public NightModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public NightModeParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
@@ -25,7 +27,7 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        parameters.set("night_key", valueToSet);
+        parameters.put("night_key", valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         firststart = false;

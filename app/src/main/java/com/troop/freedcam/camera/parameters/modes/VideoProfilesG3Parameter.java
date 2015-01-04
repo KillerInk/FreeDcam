@@ -21,7 +21,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     HashMap<String, CamcorderProfileEx> supportedProfiles;
     BaseCameraHolder cameraHolder;
 
-    public VideoProfilesG3Parameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
+    public VideoProfilesG3Parameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
         this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
         this.isSupported =true;

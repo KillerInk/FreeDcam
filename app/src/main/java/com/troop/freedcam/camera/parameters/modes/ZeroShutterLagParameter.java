@@ -5,17 +5,19 @@ import android.hardware.Camera;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 05.09.2014.
  */
 public class ZeroShutterLagParameter extends BaseModeParameter
 {
     I_CameraHolder baseCameraHolder;
-    public ZeroShutterLagParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public ZeroShutterLagParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public ZeroShutterLagParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+    public ZeroShutterLagParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = baseCameraHolder;
 

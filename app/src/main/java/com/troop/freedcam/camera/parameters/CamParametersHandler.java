@@ -20,6 +20,7 @@ import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
+import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DenoiseParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
@@ -128,13 +129,13 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
 
 
-        ColorMode = new ColorModeParameter(cameraParameters,this, "", "");
+        ColorMode = new ColorModeParameter(cameraParameters,this, "effect", "effect-values");
         ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
-        FlashMode = new FlashModeParameter(cameraParameters,this,"","");
+        FlashMode = new FlashModeParameter(cameraParameters,this,"flash-mode","flash-mode-values");
         IsoMode = new IsoModeParameter(cameraParameters,this,"","", cameraHolder);
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
-        PictureSize = new PictureSizeParameter(cameraParameters,this, "", "");
+        PictureSize = new PictureSizeParameter(cameraParameters,this, "picture-size", "picture-size-values");
         PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
@@ -143,20 +144,20 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);*/
         PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
 
-        SceneMode =  new SceneModeParameter(cameraParameters, this, "","");
-        FocusMode = new FocusModeParameter(cameraParameters, this,"","");
-        RedEye = new RedEyeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
-        LensShade = new LensshadeParameter(cameraParameters, this, "lensshade", "lensshade-values");
+        SceneMode =  new BaseModeParameter(cameraParameters, this, "scene-mode","scene-mode-values");
+        FocusMode = new FocusModeParameter(cameraParameters, this,"focus-mode","focus-mode-values");
+        RedEye = new BaseModeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
+        LensShade = new BaseModeParameter(cameraParameters, this, "lensshade", "lensshade-values");
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "", "", cameraHolder);
-        SceneDetect = new SceneDetectParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
-        Denoise = new DenoiseParameter(cameraParameters, this, "denoise", "denoise-values");
+        SceneDetect = new BaseModeParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
+        Denoise = new BaseModeParameter(cameraParameters, this, "denoise", "denoise-values");
         DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
-        MemoryColorEnhancement = new MemoryColorEnhancementParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
-        SkinToneEnhancment = new SkinToneParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
+        MemoryColorEnhancement = new DigitalImageStabilizationParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
+        SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
-        Histogram = new HistogramModeParameter(cameraParameters,this, "histogram", "histogram-values");
-        CameraMode = new HistogramModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
+        Histogram = new BaseModeParameter(cameraParameters,this, "histogram", "histogram-values");
+        CameraMode = new BaseModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
 
         ExposureLock = new ExposureLockParameter(cameraParameters, this, "","");
 

@@ -7,6 +7,8 @@ import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 05.10.2014.
  */
@@ -14,11 +16,11 @@ public class NonZslManualModeParameter extends BaseModeParameter
 {
     BaseCameraHolder baseCameraHolder;
 
-    public NonZslManualModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public NonZslManualModeParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public NonZslManualModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+    public NonZslManualModeParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
     }

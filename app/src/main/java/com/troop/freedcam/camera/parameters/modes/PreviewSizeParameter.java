@@ -6,6 +6,7 @@ import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,12 +16,12 @@ public class PreviewSizeParameter extends BaseModeParameter
 {
     AbstractCameraHolder baseCameraHolder;
 
-    public PreviewSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
+    public PreviewSizeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
         super(parameters, parameterChanged, value, values);
     }
 
-    public PreviewSizeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, AbstractCameraHolder cameraHolder)
+    public PreviewSizeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, AbstractCameraHolder cameraHolder)
     {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = cameraHolder;
@@ -31,39 +32,12 @@ public class PreviewSizeParameter extends BaseModeParameter
     {
         //if (baseCameraHolder.IsPreviewRunning())
             baseCameraHolder.StopPreview();
-        String[] widthHeight = valueToSet.split("x");
-        int w = Integer.parseInt(widthHeight[0]);
-        int h = Integer.parseInt(widthHeight[1]);
-        parameters.setPreviewSize(w,h);
+
+        parameters.put(value, valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
         //baseCameraHolder.SetCameraParameters(parameters);
         //if (!baseCameraHolder.IsPreviewRunning())
             baseCameraHolder.StartPreview();
-    }
-
-    @Override
-    public String GetValue() {
-        return super.GetValue();
-    }
-
-    @Override
-    public String[] GetValues() {
-        return super.GetValues();
-    }
-
-    public List<Camera.Size> GetSizes()
-    {
-        return parameters.getSupportedPreviewSizes();
-    }
-
-    public int GetWidth()
-    {
-        return  parameters.getPreviewSize().width;
-    }
-
-    public int GetHeight()
-    {
-        return parameters.getPreviewSize().height;
     }
 }

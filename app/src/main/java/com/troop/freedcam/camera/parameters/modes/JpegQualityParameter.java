@@ -4,11 +4,13 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 24.08.2014.
  */
 public class JpegQualityParameter extends BaseModeParameter {
-    public JpegQualityParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public JpegQualityParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 

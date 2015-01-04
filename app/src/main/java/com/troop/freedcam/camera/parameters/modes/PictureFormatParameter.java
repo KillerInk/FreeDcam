@@ -8,6 +8,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by troop on 24.08.2014.
@@ -16,7 +17,7 @@ public class PictureFormatParameter extends BaseModeParameter
 {
     CamParametersHandler camParametersHandler;
     AppSettingsManager appSettingsManager;
-    public PictureFormatParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
+    public PictureFormatParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
         super(parameters, parameterChanged, value, values);
         this.camParametersHandler = camParametersHandler;
         this.appSettingsManager = appSettingsManager;

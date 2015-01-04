@@ -4,19 +4,26 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Ingo on 25.12.2014.
  */
 public class ExposureLockParameter extends BaseModeParameter {
-    public ExposureLockParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public ExposureLockParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
     @Override
     public boolean IsSupported() {
-        if (parameters.isAutoExposureLockSupported())
-            return true;
-        else
+        if (parameters.containsKey("auto-exposure-lock-supported"))
+        {
+            if (parameters.get("auto-exposure-lock-supported").equals("true"))
+            {
+                return true;
+            }
+        }
             return false;
     }
 
@@ -26,10 +33,10 @@ public class ExposureLockParameter extends BaseModeParameter {
         boolean toset = false;
         if (valueToSet.equals("true"))
             toset = true;
-        if (parameters.isAutoExposureLockSupported())
-            parameters.setAutoExposureLock(toset);
-        if (parameters.isAutoWhiteBalanceLockSupported())
-            parameters.setAutoWhiteBalanceLock(toset);
+        if (parameters.get("auto-exposure-lock-supported").equals("true"))
+            parameters.put("auto-exposure-lock", setToCam+"");
+        if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
+            parameters.put("auto-whitebalance-lock", setToCam+"");
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
     }
@@ -37,10 +44,7 @@ public class ExposureLockParameter extends BaseModeParameter {
     @Override
     public String GetValue()
     {
-        if (parameters.getAutoExposureLock())
-            return "true";
-        else
-            return "false";
+        return parameters.get("auto-exposure-lock");
     }
 
     @Override

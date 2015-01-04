@@ -7,18 +7,20 @@ import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseModeParameter extends AbstractModeParameter {
+public class BaseModeParameter extends AbstractModeParameter {
     protected String value;
     protected String values;
     boolean isSupported = false;
-    Camera.Parameters parameters;
+    HashMap<String, String> parameters;
     I_ParameterChanged throwParameterChanged;
     protected boolean firststart = true;
 
-    public BaseModeParameter(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values)
+    public BaseModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
         super();
         this.parameters = parameters;
@@ -45,7 +47,7 @@ public abstract class BaseModeParameter extends AbstractModeParameter {
 
     public void SetValue(String valueToSet,  boolean setToCam)
     {
-        parameters.set(value, valueToSet);
+        parameters.put(value, valueToSet);
         Log.d("freedcam.BaseModeParameter", "set "+value+" to "+ valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
