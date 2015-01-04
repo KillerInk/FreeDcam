@@ -1,12 +1,10 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -134,7 +132,7 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else
         {
-            parameters.put("exposure-time", valueToSet+"");
+            parameters.put("exposure-time", valueToSet + "");
         }
         camParametersHandler.SetParametersToCamera();
        
@@ -168,7 +166,7 @@ public class ShutterManualParameter extends BaseManualParameter
             //parameters.set("shutter-threshold", "0.2");
         }*/
         if (DeviceUtils.isZTEADV()) {
-            parameters.put("slow_shutter_addition", 0+"");
+            parameters.put("slow_shutter_addition", 0 + "");
             baseCameraHolder.SetCameraParameters(parameters);
         }
         /*if (DeviceUtils.isLGADV())

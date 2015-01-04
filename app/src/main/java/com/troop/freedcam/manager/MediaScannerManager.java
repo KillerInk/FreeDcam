@@ -2,10 +2,7 @@ package com.troop.freedcam.manager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.File;
 

@@ -1,20 +1,10 @@
 package com.troop.freedcam.camera.modules;
 
-import android.os.Build;
-import android.util.Log;
-
 import com.troop.freedcam.camera.BaseCameraHolder;
-
-
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
-import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by troop on 16.08.2014.

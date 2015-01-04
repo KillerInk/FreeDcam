@@ -25,16 +25,17 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -154,7 +155,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(Camera.Parameters parameters) {
+    public boolean SetCameraParameters(HashMap<String,String> parameters) {
         return  false;
     }
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.transition.Scene;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.camera.modules.I_WorkEvent;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 import java.io.File;

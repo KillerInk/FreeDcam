@@ -3,7 +3,6 @@ package com.troop.freedcam.ui.handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.ui.MainActivity_v2;

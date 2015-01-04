@@ -1,7 +1,5 @@
 package com.troop.freedcam.ui;
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -13,13 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
-
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
@@ -29,11 +25,11 @@ import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
+import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
 import com.troop.freedcam.ui.menu.MenuHandler;
-import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.switches.CameraSwitchHandler;
 import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;

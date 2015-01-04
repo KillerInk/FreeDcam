@@ -12,7 +12,6 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
@@ -27,8 +26,6 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-
-import static android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 
 /**
  * Created by troop on 12.12.2014.

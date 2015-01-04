@@ -1,16 +1,12 @@
 package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.util.Log;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 

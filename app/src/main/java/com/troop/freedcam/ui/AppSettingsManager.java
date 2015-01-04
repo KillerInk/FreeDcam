@@ -1,10 +1,8 @@
 package com.troop.freedcam.ui;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
 
 /**
  * Created by troop on 19.08.2014.

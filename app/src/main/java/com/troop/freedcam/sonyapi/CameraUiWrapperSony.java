@@ -1,13 +1,10 @@
 package com.troop.freedcam.sonyapi;
 
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.troop.freedcam.i_camera.interfaces.I_Module;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
@@ -15,8 +12,6 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 import com.troop.freedcam.ui.AppSettingsManager;
-
-import java.util.List;
 
 /**
  * Created by troop on 11.12.2014.

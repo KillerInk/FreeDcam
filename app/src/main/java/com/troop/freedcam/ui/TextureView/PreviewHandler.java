@@ -1,26 +1,14 @@
 package com.troop.freedcam.ui.TextureView;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.hardware.Camera;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
-import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
-
-import java.util.List;
 
 /**
  * Created by troop on 21.11.2014.

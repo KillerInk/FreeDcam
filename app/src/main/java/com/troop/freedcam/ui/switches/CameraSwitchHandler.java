@@ -7,9 +7,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 
-
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;

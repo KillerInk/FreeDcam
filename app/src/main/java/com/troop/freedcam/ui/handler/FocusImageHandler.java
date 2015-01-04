@@ -8,10 +8,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
 /**

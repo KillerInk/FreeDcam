@@ -7,7 +7,6 @@ import android.util.Log;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

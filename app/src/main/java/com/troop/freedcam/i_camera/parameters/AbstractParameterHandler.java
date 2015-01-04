@@ -5,7 +5,6 @@ import android.os.HandlerThread;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**

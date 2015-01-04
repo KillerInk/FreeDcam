@@ -1,11 +1,8 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import android.hardware.Camera;
-
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Ingo on 25.12.2014.

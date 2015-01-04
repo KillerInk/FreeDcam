@@ -6,8 +6,6 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.util.Log;
 
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

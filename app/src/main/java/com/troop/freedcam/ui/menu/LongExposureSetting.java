@@ -5,12 +5,14 @@ import android.hardware.Camera;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 27.10.2014.
  */
 public class LongExposureSetting extends BaseModeParameter
 {
-    public LongExposureSetting(Camera.Parameters parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public LongExposureSetting(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 

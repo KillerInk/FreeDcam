@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import android.hardware.Camera;
-
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;

@@ -16,15 +16,13 @@ import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

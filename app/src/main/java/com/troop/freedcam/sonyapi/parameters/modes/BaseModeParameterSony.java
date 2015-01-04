@@ -1,7 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 

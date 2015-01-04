@@ -1,21 +1,13 @@
 package com.troop.freedcam.sonyapi;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.View;
 
-import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.modules.I_PictureCallback;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
@@ -32,9 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;

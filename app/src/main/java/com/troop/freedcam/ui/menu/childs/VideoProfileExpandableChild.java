@@ -2,9 +2,7 @@ package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.AttributeSet;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoModuleG3;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;

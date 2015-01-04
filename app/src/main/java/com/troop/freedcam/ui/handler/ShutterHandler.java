@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.BurstModule;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;

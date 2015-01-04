@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
@@ -98,16 +97,16 @@ public class FocusManualParameter extends  BaseManualParameter
         if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
         {
             camParametersHandler.FocusMode.SetValue("manual", true);
-            parameters.put("focus-pos", valueToSet+"");
+            parameters.put("focus-pos", valueToSet + "");
         }
         if (DeviceUtils.isZTEADV())
         {
             //parameters.setFocusMode("macro");
-            parameters.put("maf_key", valueToSet+"");
+            parameters.put("maf_key", valueToSet + "");
         }
         if (DeviceUtils.isHTC_M8())
         {
-            parameters.put("focus", valueToSet+"");
+            parameters.put("focus", valueToSet + "");
         }
         camParametersHandler.SetParametersToCamera();
 

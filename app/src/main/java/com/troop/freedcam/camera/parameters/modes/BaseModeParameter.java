@@ -1,11 +1,9 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import android.hardware.Camera;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
 import java.util.HashMap;
 

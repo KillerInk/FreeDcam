@@ -2,15 +2,11 @@ package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 
 /**
  * Created by troop on 12.12.2014.

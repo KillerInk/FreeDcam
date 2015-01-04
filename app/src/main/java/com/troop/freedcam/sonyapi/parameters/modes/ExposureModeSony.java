@@ -1,11 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
-import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Set;
 

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;

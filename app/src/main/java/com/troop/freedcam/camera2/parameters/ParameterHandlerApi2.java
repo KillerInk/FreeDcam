@@ -14,7 +14,6 @@ import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 

@@ -1,14 +1,10 @@
 package com.troop.freedcam.ui.menu.childs;
 
 import android.content.Context;
-import android.util.AttributeSet;
 
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.I_PreviewSizeEvent;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
-import com.troop.freedcam.ui.menu.childs.ExpandableChild;
-
-import java.util.ArrayList;
 
 /**
  * Created by troop on 06.09.2014.

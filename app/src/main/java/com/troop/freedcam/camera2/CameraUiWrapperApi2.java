@@ -2,11 +2,9 @@ package com.troop.freedcam.camera2;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
 import android.util.Log;
 import android.view.TextureView;
 
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;

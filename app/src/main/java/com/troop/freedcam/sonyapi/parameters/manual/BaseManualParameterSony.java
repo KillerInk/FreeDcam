@@ -3,10 +3,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
@@ -16,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -1,22 +1,12 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
-import android.view.View;
 
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;

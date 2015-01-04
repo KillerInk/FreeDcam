@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 24.11.2014.

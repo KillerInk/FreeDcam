@@ -3,21 +3,18 @@ package com.troop.freedcam.ui.menu;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.R;
-
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.menu.childs.SwitchApiExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.ui.menu.childs.SwitchApiExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoProfileExpandableChild;
 import com.troop.freedcam.utils.DeviceUtils;
 

@@ -1,11 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
-
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 
 import java.util.HashMap;
 
@@ -87,7 +83,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     @Override
     protected void setvalue(int valueToset)
     {
-        parameters.put(value, valueToset +"");
+        parameters.put(value, valueToset + "");
         camParametersHandler.SetParametersToCamera();
     }
 

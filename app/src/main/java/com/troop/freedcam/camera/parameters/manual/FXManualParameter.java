@@ -1,11 +1,8 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
-
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
 
@@ -65,7 +62,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {   
-    	parameters.put("morpho_effect_type", valueToSet+"");
+    	parameters.put("morpho_effect_type", valueToSet + "");
         camParametersHandler.SetParametersToCamera();
 
     }

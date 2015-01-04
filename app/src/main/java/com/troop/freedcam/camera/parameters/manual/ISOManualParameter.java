@@ -1,11 +1,8 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
-
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
 
@@ -67,7 +64,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {   	if (DeviceUtils.isHTC_M8())
-        parameters.put("iso-st", valueToSet+"");
+        parameters.put("iso-st", valueToSet + "");
 
     }
 

@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 
 import com.lge.media.CamcorderProfileEx;
@@ -9,11 +8,6 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by troop on 18.11.2014.

@@ -1,7 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
-import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 

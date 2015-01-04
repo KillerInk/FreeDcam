@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
-
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -77,9 +75,9 @@ public class CCTManualParameter extends BaseManualParameter {
     protected void setvalue(int valueToSet)
     {   if (DeviceUtils.isZTEADV())
         //parameters.setWhiteBalance("manual-cct");
-        parameters.put("wb-manual-cct", valueToSet+"");
+        parameters.put("wb-manual-cct", valueToSet + "");
         if (DeviceUtils.isHTC_M8())
-            parameters.put("wb-ct", valueToSet+"");
+            parameters.put("wb-ct", valueToSet + "");
         camParametersHandler.SetParametersToCamera();
 
     }

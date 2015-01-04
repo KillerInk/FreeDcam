@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
-import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 
 /**
  * Created by troop on 01.09.2014.
