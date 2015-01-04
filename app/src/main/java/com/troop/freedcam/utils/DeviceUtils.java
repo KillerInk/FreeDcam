@@ -97,10 +97,10 @@ public class DeviceUtils
         return s.equals("Aries") || s.equals("cNexus 10");
     }
 
+    static String samsung = "SM-G900V,SM-G900,SM-G900H";
     public static boolean isSamsungADV()
     {
-        String s = Build.MODEL;
-        return s.equals("SM-G900") || s.equals("SM-G900H");
+        return samsung.contains(Build.MODEL);
     }
 
     public static boolean isForcedDragon()
