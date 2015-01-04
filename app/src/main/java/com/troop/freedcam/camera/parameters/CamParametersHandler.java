@@ -254,14 +254,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     public void SetPictureOrientation(int orientation)
     {
-        try {
+        /*try {
             cameraParameters.setRotation(orientation);
             cameraHolder.SetCameraParameters(cameraParameters);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -269,10 +269,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
-        if (cameraParameters.isAutoExposureLockSupported())
-            cameraParameters.setAutoExposureLock(value);
-        if (cameraParameters.isAutoWhiteBalanceLockSupported())
-            cameraParameters.setAutoWhiteBalanceLock(value);
+        if (ExposureLock.IsSupported())
+            ExposureLock.SetValue(value+"", false);
         SetParametersToCamera();
     }
 
@@ -286,14 +284,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     {
         Log.d(TAG, "THL5000 try to set mode");
         if (!raw) {
-            cameraParameters.set("rawsave-mode", 0);
-            cameraParameters.set("isp-mode", 0);
+            cameraParameters.put("rawsave-mode", 0+"");
+            cameraParameters.put("isp-mode", 0+"");
             Log.d(TAG, "THL5000 set mode to jpeg");
         }
         else
         {
-            cameraParameters.set("rawsave-mode", 2);
-            cameraParameters.set("isp-mode", 1);
+            cameraParameters.put("rawsave-mode", 2+"");
+            cameraParameters.put("isp-mode", 1+"");
             Log.d(TAG, "THL5000 set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
@@ -302,23 +300,14 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;
     public void setTHL5000rawFilename(String filename)
     {
-        cameraParameters.set("rawfname", filename);
+        cameraParameters.put("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
     }
 
     public void setString(String param, String value)
     {
-        cameraParameters.set(param, value);
+        cameraParameters.put(param, value);
         //cameraHolder.SetCameraParameters(cameraParameters);
     }
 
-    Runnable backgroundParametersListner =  new Runnable() {
-        @Override
-        public void run()
-        {
-            Camera.Parameters camparas = ((BaseCameraHolder)cameraHolder).GetCameraParameters();
-            ExposureLock.BackgroundValueHasChanged(Boolean.toString(camparas.getAutoExposureLock()));
-            backGroundHandler.postDelayed(backgroundParametersListner, 500);
-        }
-    };
 }
