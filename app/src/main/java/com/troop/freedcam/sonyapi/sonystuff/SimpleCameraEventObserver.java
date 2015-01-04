@@ -374,7 +374,7 @@ public class SimpleCameraEventObserver {
 
         String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
         Log.d(TAG, "getEvent fnumber vals: " + fnumbervals);
-        if (fnumbervals != null && !fnumbervals.equals(mIsovals) && fnumbervals.length > 0)
+        if (fnumbervals != null && !fnumbervals.equals(mFnumbervals) && fnumbervals.length > 0)
         {
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
@@ -491,56 +491,56 @@ public class SimpleCameraEventObserver {
         return mStorageId;
     }
 
-    private void fireExposurCompMinChangeListener(final int iso) {
+    private void fireExposurCompMinChangeListener(final int ex) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onExposureCompensationMinChanged(iso);
+                    mListener.onExposureCompensationMinChanged(ex);
                 }
             }
         });
     }
 
-    private void fireExposurCompMaxChangeListener(final int iso) {
+    private void fireExposurCompMaxChangeListener(final int ex) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onExposureCompensationMaxChanged(iso);
+                    mListener.onExposureCompensationMaxChanged(ex);
                 }
             }
         });
     }
 
-    private void fireExposurCompChangeListener(final int iso) {
+    private void fireExposurCompChangeListener(final int ex) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onExposureCompensationChanged(iso);
+                    mListener.onExposureCompensationChanged(ex);
                 }
             }
         });
     }
 
-    private void fireFNumberChangeListener(final int iso) {
+    private void fireFNumberChangeListener(final int pfnum) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onFnumberChanged(iso);
+                    mListener.onFnumberChanged(pfnum);
                 }
             }
         });
     }
 
-    private void fireFnumberValuesChangeListener(final String[] iso) {
+    private void fireFnumberValuesChangeListener(final String[] pfnum) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onFnumberValuesChanged(iso);
+                    mListener.onFnumberValuesChanged(pfnum);
                 }
             }
         });
