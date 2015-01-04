@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters;
 
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
@@ -239,15 +240,15 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         }
     }
 
-    public void SetFocusAREA(List<Camera.Area> focusAreas)
+    //focus-areas=(0, 0, 0, 0, 0)
+    public void SetFocusAREA(Rect focusAreas, int weight)
     {
-        Camera.Parameters para = cameraParameters;
-        if (para.getMaxNumFocusAreas() > 0 ) {
-            para.setFocusAreas(focusAreas);
+        if (Integer.parseInt(cameraParameters.get("max-num-focus-areas")) > 0 ) {
+            cameraParameters.put("focus-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
             //cameraHolder.SetCameraParameters(para);
         }
-        if (para.getMaxNumMeteringAreas() > 0 && !para.getAutoExposureLock()) {
-            para.setMeteringAreas(focusAreas);
+        if (Integer.parseInt(cameraParameters.get("max-num-metering-areas")) > 0 ) {
+            cameraParameters.put("metering-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
             //cameraHolder.SetCameraParameters(para);
         }
     }
