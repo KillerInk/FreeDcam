@@ -92,8 +92,10 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         count = 0;
         //get width and height from the preview
         PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
-        width = previewSizeParameter.GetWidth();
-        height = previewSizeParameter.GetHeight();
+        String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
+
+        width = Integer.parseInt(split[0]);
+        height = Integer.parseInt(split[1]);
         if (nativeYuvMerge == null)
             nativeYuvMerge = new Merge();
 
