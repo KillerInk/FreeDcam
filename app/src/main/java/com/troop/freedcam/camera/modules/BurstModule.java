@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * Created by troop on 26.08.2014.
  */
-public class BurstModule extends AbstractModule implements Camera.PreviewCallback
+public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
     static String TAG = "freedcam.BurstModule";
     boolean doBurst = false;
@@ -53,7 +53,7 @@ public class BurstModule extends AbstractModule implements Camera.PreviewCallbac
     }
 
     @Override
-    public void onPreviewFrame(byte[] data, Camera camera)
+    public void onPreviewFrame(byte[] data)
     {
         if (doBurst)
         {

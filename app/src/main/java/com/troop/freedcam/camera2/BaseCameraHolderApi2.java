@@ -129,11 +129,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
     @Override
-    public Camera GetCamera() {
-        return null;
-    }
-
-    @Override
     public int CameraCout() {
         return CameraCountId().length;
     }

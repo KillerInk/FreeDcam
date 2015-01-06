@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.sec.android.seccamera.SecCamera;
+import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -101,15 +102,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         cameraChangedListner.onCameraClose("");
     }
 
-    /**
-     * Check if the camera isrdy bevor calling this
-     * @return returns the CameraObject
-     */
 
-    @Override
-    public Camera GetCamera() {
-        return mCamera;
-    }
 
     @Override
     public int CameraCout() {
@@ -350,10 +343,80 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
-    public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
+    public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
     {
-        mCamera.autoFocus(autoFocusCallback);
-
+        if (DeviceUtils.isSamsungADV())
+        {
+            samsungCamera.setErrorCallback(new SecCamera.ErrorCallback() {
+                @Override
+                public void onError(int i, SecCamera secCamera) {
+                    errorCallback.onError(i);
+                }
+            });
+        }
+        else
+        {
+            mCamera.setErrorCallback(new Camera.ErrorCallback() {
+                @Override
+                public void onError(int error, Camera camera) {
+                    errorCallback.onError(error);
+                }
+            });
+        }
     }
+
+    public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
+    {
+
+        if (DeviceUtils.isSamsungADV())
+        {
+            samsungCamera.autoFocus(new SecCamera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(int i, SecCamera secCamera)
+                {
+                    CameraFocusEvent focusEvent = new CameraFocusEvent();
+                    focusEvent.samsungCamera = secCamera;
+                    if (i == 1) //no idea if this correct
+                        focusEvent.success = true;
+                    else
+                        focusEvent.success = false;
+                    autoFocusCallback.onAutoFocus(focusEvent);
+                }
+            });
+        }
+        else
+        {
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera)
+                {
+                    CameraFocusEvent focusEvent = new CameraFocusEvent();
+                    focusEvent.camera = camera;
+                    focusEvent.success = success;
+                    autoFocusCallback.onAutoFocus(focusEvent);
+                }
+            });
+        }
+    }
+
+    public void CancelFocus()
+    {
+        if (DeviceUtils.isSamsungADV())
+        {
+            samsungCamera.cancelAutoFocus();
+        }
+        else
+        {
+            mCamera.cancelAutoFocus();
+        }
+    }
+
+    public Camera GetCamera() {
+        return mCamera;
+    }
+    public SecCamera GetSamsungCamera() {
+        return samsungCamera;
+    }
+
 
 }

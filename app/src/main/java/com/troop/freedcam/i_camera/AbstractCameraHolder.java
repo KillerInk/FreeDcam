@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.view.SurfaceHolder;
 
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -48,11 +49,6 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public Camera GetCamera() {
-        return null;
-    }
-
-    @Override
     public int CameraCout() {
         return 0;
     }
@@ -88,4 +84,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public boolean IsPreviewRunning() {
         return isPreviewRunning;
     }
+
+    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback){};
+    public void CancelFocus(){};
 }

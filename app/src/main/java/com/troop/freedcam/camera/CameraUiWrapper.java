@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
@@ -17,12 +18,13 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, Camera.ErrorCallback
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, I_Callbacks.ErrorCallback
 {
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
     public AppSettingsManager appSettingsManager;
     String TAG = CameraUiWrapper.class.getSimpleName();
+    BaseCameraHolder cameraHolder;
 
     public CameraUiWrapper(){};
 
@@ -35,17 +37,17 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = errorHandler;
-        BaseCameraHolder baseCameraHolder = new BaseCameraHolder(this, backGroundThread, backGroundHandler, uiHandler);
-        cameraHolder = baseCameraHolder;
-        baseCameraHolder.errorHandler = errorHandler;
+        this.cameraHolder = new BaseCameraHolder(this, backGroundThread, backGroundHandler, uiHandler);
+
+        this.cameraHolder.errorHandler = errorHandler;
         camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
-        baseCameraHolder.ParameterHandler = camParametersHandler;
+        this.cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
 
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
         Focus = new FocusHandler(this);
-        baseCameraHolder.Focus = Focus;
+        this.cameraHolder.Focus = Focus;
         Log.d(TAG, "Ctor done");
 
 
@@ -108,7 +110,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
     @Override
-    public void onError(int i, Camera camera)
+    public void onError(int i)
     {
         errorHandler.OnError("Got Error from camera: " + i);
         try
@@ -126,7 +128,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void onCameraOpen(String message)
     {
         super.onCameraOpen(message);
-        cameraHolder.GetCamera().setErrorCallback(this);
+        cameraHolder.SetErrorCallback(this);
         super.onCameraOpen(message);
         cameraHolder.SetSurface(preview.getHolder());
         while (!PreviewSurfaceRdy)

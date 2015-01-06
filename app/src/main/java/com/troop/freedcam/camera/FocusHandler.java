@@ -3,7 +3,10 @@ package com.troop.freedcam.camera;
 import android.graphics.Rect;
 import android.hardware.Camera;
 
+import com.troop.freedcam.camera.modules.CameraFocusEvent;
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
@@ -15,10 +18,10 @@ import java.util.List;
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler extends AbstractFocusHandler implements Camera.AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
 
-    private final I_CameraHolder cameraHolder;
+    private final AbstractCameraHolder cameraHolder;
     private final AbstractCameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
 
@@ -34,18 +37,18 @@ public class FocusHandler extends AbstractFocusHandler implements Camera.AutoFoc
     }
 
     @Override
-    public void onAutoFocus(boolean success, Camera camera)
+    public void onAutoFocus(CameraFocusEvent event)
     {
         //camera.cancelAutoFocus();
         isFocusing = false;
         if (focusEvent != null)
-            focusEvent.FocusFinished(success);
+            focusEvent.FocusFinished(event.success);
     }
 
     public void StartFocus()
     {
         if (isFocusing) {
-            cameraHolder.GetCamera().cancelAutoFocus();
+            cameraHolder.StartFocus(this);
             isFocusing =false;
         }
 
@@ -65,7 +68,7 @@ public class FocusHandler extends AbstractFocusHandler implements Camera.AutoFoc
             cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
         }
         if (isFocusing) {
-            cameraHolder.GetCamera().cancelAutoFocus();
+            cameraHolder.CancelFocus();
             isFocusing =false;
         }
 

@@ -17,9 +17,11 @@ public class VideoModuleG3 extends VideoModule
     protected MediaRecorderEx recorder;
     CamParametersHandler camParametersHandler;
 
+
     public VideoModuleG3(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         camParametersHandler = (CamParametersHandler) ParameterHandler;
+
     }
 
     protected MediaRecorder initRecorder()

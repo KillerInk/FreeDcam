@@ -178,11 +178,6 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
     @Override
-    public Camera GetCamera() {
-        return null;
-    }
-
-    @Override
     public int CameraCout() {
         return 0;
     }

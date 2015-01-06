@@ -23,10 +23,12 @@ public class VideoModule extends AbstractModule
 
     protected MediaRecorder recorder;
     String mediaSavePath;
+    BaseCameraHolder baseCameraHolder;
 
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
+        this.baseCameraHolder = cameraHandler;
     }
 
 

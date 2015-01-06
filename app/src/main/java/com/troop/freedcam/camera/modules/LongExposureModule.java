@@ -26,7 +26,7 @@ import java.util.Date;
 /**
  * Created by troop on 27.10.2014.
  */
-public class LongExposureModule extends AbstractModule implements Camera.PreviewCallback
+public class LongExposureModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
     BaseCameraHolder baseCameraHolder;
 
@@ -114,7 +114,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
     }
 
     @Override
-    public void onPreviewFrame(final byte[] data, Camera camera)
+    public void onPreviewFrame(final byte[] data)
     {
         if (doWork && !hasWork)
         {
@@ -122,7 +122,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
             mergeYuv = data;
             if (mergeYuv != null)
             {
-                baseCameraHolder.GetCamera().setPreviewCallback(null);
+                baseCameraHolder.SetPreviewCallback(null);
                 handler.post(runnable);
             }
         }
@@ -143,7 +143,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
                 }
             }
             //remove the previewcallback
-            baseCameraHolder.GetCamera().setPreviewCallback(null);
+            baseCameraHolder.SetPreviewCallback(null);
 
             File file = createFilename();
             if (!file.exists())
@@ -209,7 +209,7 @@ public class LongExposureModule extends AbstractModule implements Camera.Preview
         Log.d(TAG, "Frame Processed:" + count);
 
         this.hasWork = false;
-        baseCameraHolder.GetCamera().setPreviewCallback(this);
+        baseCameraHolder.SetPreviewCallback(this);
     }
 
 

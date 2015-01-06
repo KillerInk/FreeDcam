@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,14 +42,25 @@ public class SaveCamParasExpandableChild extends ExpandableChild
 
     public void SaveCamParameters()
     {
-        String[] paras = cameraUiWrapper.cameraHolder.GetCamera().getParameters().flatten().split(";");
+        String[] paras = null;
+        if (DeviceUtils.isSamsungADV())
+        {
+            paras = ((BaseCameraHolder)cameraUiWrapper.cameraHolder).GetSamsungCamera().getParameters().flatten().split(";");
+        }
+        else
+        {
+            paras = ((BaseCameraHolder)cameraUiWrapper.cameraHolder).GetCamera().getParameters().flatten().split(";");
+        }
+
         Arrays.sort(paras);
 
         FileOutputStream outputStream;
 
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/CameraParameters.txt");
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             try {
+                file.mkdirs();
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
