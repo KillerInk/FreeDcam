@@ -25,7 +25,7 @@ import static android.hardware.Camera.ShutterCallback;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements Camera.PictureCallback {
+public class PictureModule extends AbstractModule implements I_Callbacks.PictureCallback {
 
     public final String TAG = "freedcam.PictureModule";
 
@@ -99,7 +99,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     }
 
 
-    ShutterCallback shutterCallback = new ShutterCallback() {
+    I_Callbacks.ShutterCallback shutterCallback = new I_Callbacks.ShutterCallback() {
         @Override
         public void onShutter()
         {
@@ -107,8 +107,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
     };
 
-    public Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
-        public void onPictureTaken(byte[] data, Camera camera)
+    public I_Callbacks.PictureCallback rawCallback = new I_Callbacks.PictureCallback() {
+        public void onPictureTaken(byte[] data)
         {
             if (data!= null)
             {
@@ -120,7 +120,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     };
 
 
-    public void onPictureTaken(byte[] data, Camera camera)
+    public void onPictureTaken(byte[] data)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
 

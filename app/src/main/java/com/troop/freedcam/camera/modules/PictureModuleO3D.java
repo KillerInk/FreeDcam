@@ -39,7 +39,7 @@ public class PictureModuleO3D extends PictureModule
     }
 
     @Override
-    public void onPictureTaken(byte[] data, Camera camera) {
+    public void onPictureTaken(byte[] data) {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
                 || Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))

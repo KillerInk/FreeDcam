@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.sec.android.seccamera.SecCamera;
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -28,6 +29,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     final  String TAG = "freedcam.BaseCameraHolder";
     public I_error errorHandler;
     SecCamera samsungCamera;
+    I_Callbacks.PictureCallback pictureCallback;
+    I_Callbacks.PictureCallback rawCallback;
+    I_Callbacks.ShutterCallback shutterCallback;
 
 
     public int CurrentCamera;
@@ -230,21 +234,95 @@ public class BaseCameraHolder extends AbstractCameraHolder
         return map;
     }
 
-    public void TakePicture(final Camera.ShutterCallback shutter, final Camera.PictureCallback raw, final Camera.PictureCallback picture)
+    public void TakePicture(final I_Callbacks.ShutterCallback shutter, final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
     {
-        /*if (backGroundThread != null) {
-            backGroundHandler.post(new Runnable() {
+        this.pictureCallback = picture;
+        this.shutterCallback = shutter;
+        this.rawCallback = raw;
+        if (DeviceUtils.isSamsungADV())
+        {
+            takeSamsungPicture();
+        }
+        else
+        {
+            takePicture();
+        }
+
+    }
+
+    private void takePicture() {
+        Camera.ShutterCallback sh = null;
+        if (shutterCallback != null)
+        {
+            sh = new Camera.ShutterCallback() {
                 @Override
-                public void run() {*/
-                    this.mCamera.takePicture(shutter, raw, picture);
-                /*}
-            });
-        }*/
+                public void onShutter() {
+                    shutterCallback.onShutter();
+                }
+            };
+        }
+        Camera.PictureCallback r = null;
+        if (rawCallback != null)
+        {
+            r = new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] bytes, Camera secCamera) {
+                    rawCallback.onPictureTaken(bytes);
+                }
+            };
+        }
+        if (pictureCallback == null)
+            return;
+        Camera.PictureCallback pic = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes, Camera secCamera) {
+                pictureCallback.onPictureTaken(bytes);
+                rawCallback = null;
+                shutterCallback = null;
+                pictureCallback = null;
+            }
+        };
+        this.mCamera.takePicture(sh, r, pic);
+    }
+
+    private void takeSamsungPicture() {
+        SecCamera.ShutterCallback sh = null;
+        if (shutterCallback != null)
+        {
+            sh = new SecCamera.ShutterCallback() {
+                @Override
+                public void onShutter() {
+                    shutterCallback.onShutter();
+                }
+            };
+        }
+        SecCamera.PictureCallback r = null;
+        if (rawCallback != null)
+        {
+            r = new SecCamera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] bytes, SecCamera secCamera) {
+                    rawCallback.onPictureTaken(bytes);
+                }
+            };
+        }
+        if (pictureCallback == null)
+            return;
+        SecCamera.PictureCallback pic = new SecCamera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes, SecCamera secCamera) {
+                pictureCallback.onPictureTaken(bytes);
+                rawCallback = null;
+                shutterCallback = null;
+                pictureCallback = null;
+            }
+        };
+        samsungCamera.takePicture(sh,r,pic);
     }
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        
+
         mCamera.setPreviewCallback(previewCallback);
     }
 
