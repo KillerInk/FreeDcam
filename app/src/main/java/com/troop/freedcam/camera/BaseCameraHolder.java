@@ -32,6 +32,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     I_Callbacks.PictureCallback pictureCallback;
     I_Callbacks.PictureCallback rawCallback;
     I_Callbacks.ShutterCallback shutterCallback;
+    I_Callbacks.PreviewCallback previewCallback;
 
 
     public int CurrentCamera;
@@ -320,10 +321,33 @@ public class BaseCameraHolder extends AbstractCameraHolder
         samsungCamera.takePicture(sh,r,pic);
     }
 
-    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
+    public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
-
-        mCamera.setPreviewCallback(previewCallback);
+        this.previewCallback = previewCallback;
+        if (DeviceUtils.isSamsungADV())
+        {
+            if (previewCallback == null)
+                samsungCamera.setPreviewCallback(null);
+            else
+                samsungCamera.setPreviewCallback(new SecCamera.PreviewCallback() {
+                    @Override
+                    public void onPreviewFrame(byte[] bytes, SecCamera secCamera) {
+                        previewCallback.onPreviewFrame(bytes);
+                    }
+                });
+        }
+        else
+        {
+            if (previewCallback == null)
+                mCamera.setPreviewCallback(null);
+            else
+                mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+                    @Override
+                    public void onPreviewFrame(byte[] data, Camera camera) {
+                        previewCallback.onPreviewFrame(data);
+                    }
+                });
+        }
     }
 
     public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
