@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
+import com.sec.android.seccamera.SecCamera;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -26,6 +27,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     LGCamera.LGParameters lgParameters;
     final  String TAG = "freedcam.BaseCameraHolder";
     public I_error errorHandler;
+    SecCamera samsungCamera;
 
 
     public int CurrentCamera;
@@ -44,16 +46,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public boolean OpenCamera(final int camera)
     {
 
-        try {
-            if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/) {
+        try
+        {
+            if (DeviceUtils.isSamsungADV())
+                samsungCamera = SecCamera.open(camera);
+            else if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/) {
                 lgCamera = new LGCamera(camera);
-                /*lgCamera.setProxyDataListener(new LGCamera.ProxyDataListener() {
-                    @Override
-                    public void onDataListen(LGCamera.ProxyData proxyData, Camera camera) {
-                        LGCamera.ProxyData data = proxyData;
-
-                    }
-                });*/
                 mCamera = lgCamera.getCamera();
                 lgParameters = lgCamera.getLGParameters();
             } else {
@@ -75,7 +73,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void CloseCamera()
     {
         Log.d(TAG, "Try to close Camera");
-        if (mCamera != null)
+        if (samsungCamera != null)
+        {
+            samsungCamera.release();
+            samsungCamera = null;
+        }
+        else if (mCamera != null)
         {
             try
             {
@@ -85,17 +88,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 ex.printStackTrace();
             }
+            finally {
+                mCamera = null;
+            }
         }
-
-        /*try {
-            backGroundThread.quit();
-            backGroundThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         isRdy = false;
-
-        mCamera = null;
         cameraChangedListner.onCameraClose("");
     }
 
@@ -129,7 +126,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         try{
 
-            if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
+            if (DeviceUtils.isSamsungADV())
+            {
+                SecCamera.Parameters p = samsungCamera.getParameters();
+                p.unflatten(ret);
+                samsungCamera.setParameters(p);
+            }
+            else if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
@@ -157,7 +160,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             while (!isRdy)
                 Thread.sleep(10);
-            mCamera.setPreviewDisplay(surfaceHolder);
+            if(DeviceUtils.isSamsungADV())
+                samsungCamera.setPreviewDisplay(surfaceHolder);
+            else
+                mCamera.setPreviewDisplay(surfaceHolder);
             this.surfaceHolder = surfaceHolder;
             return  true;
         } catch (IOException e) {
@@ -172,7 +178,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        mCamera.startPreview();
+        if (DeviceUtils.isSamsungADV())
+            samsungCamera.startPreview();
+        else
+            mCamera.startPreview();
         isPreviewRunning = true;
         Log.d(TAG, "PreviewStarted");
         cameraChangedListner.onPreviewOpen("");
@@ -181,10 +190,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
-        if (mCamera == null)
+        if (mCamera == null && samsungCamera == null)
             return;
         try {
-            mCamera.stopPreview();
+            if (DeviceUtils.isSamsungADV())
+                samsungCamera.stopPreview();
+            else
+                mCamera.stopPreview();
             isPreviewRunning = false;
             Log.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
@@ -232,16 +244,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        /*if (backGroundThread != null)
-        {
-            backGroundHandler.post(new Runnable() {
-                @Override
-                public void run() {*/
-
-                    mCamera.setPreviewCallback(previewCallback);
-                /*}
-            });
-        }*/
+        
+        mCamera.setPreviewCallback(previewCallback);
     }
 
     public void StartFocus(final Camera.AutoFocusCallback autoFocusCallback)
