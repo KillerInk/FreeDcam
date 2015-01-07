@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -88,5 +89,5 @@ public abstract class AbstractParameterHandler
     public void SetParametersToCamera() {};
     public void LockExposureAndWhiteBalance(boolean lock){};
 
-    public void SetFocusAREA(Rect focusAreas, int weight){};
+    public void SetFocusAREA(FocusRect focusAreas, int weight){};
 }

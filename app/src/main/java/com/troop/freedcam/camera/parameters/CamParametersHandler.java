@@ -241,16 +241,33 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     }
 
     //focus-areas=(0, 0, 0, 0, 0)
-    public void SetFocusAREA(Rect focusAreas, int weight)
+    public void SetFocusAREA(FocusRect focusAreas, int weight)
     {
-        if (Integer.parseInt(cameraParameters.get("max-num-focus-areas")) > 0 ) {
-            cameraParameters.put("focus-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
-            //cameraHolder.SetCameraParameters(para);
-        }
+        HashMap<String, String> tmp = (HashMap<String, String>)cameraParameters.clone();
         if (Integer.parseInt(cameraParameters.get("max-num-metering-areas")) > 0 ) {
-            cameraParameters.put("metering-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
+            tmp.put("metering-areas", "("+focusAreas.left+","+focusAreas.right+","+focusAreas.top+","+focusAreas.bottom+","+weight + ")");
+
+            Log.d(TAG, "SetMeteringAreas");
             //cameraHolder.SetCameraParameters(para);
         }
+        if (Integer.parseInt(cameraParameters.get("max-num-focus-areas")) > 0 )
+        {
+            if (focusAreas.left < -1000)
+                focusAreas.left = -1000;
+            if (focusAreas.right > 1000)
+                focusAreas.right = 1000;
+            if (focusAreas.top < -1000)
+                focusAreas.top = -1000;
+            if (focusAreas.bottom > 1000)
+                focusAreas.bottom = 1000;
+
+            tmp.put("focus-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
+            //cameraHolder.SetCameraParameters(tmp);
+            Log.d(TAG, "SetFocusAreas");
+
+        }
+        cameraHolder.SetCameraParameters(tmp);
+
     }
 
     public void SetPictureOrientation(int orientation)

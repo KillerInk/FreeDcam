@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
@@ -61,32 +62,26 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         isFocusing = true;
     }
 
-    public void StartTouchToFocus(Rect rect, int width, int height)
+    public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
+        cameraHolder.CancelFocus();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         if (cameraUiWrapper.camParametersHandler.ExposureLock.GetValue().equals("true")) {
             cameraUiWrapper.camParametersHandler.ExposureLock.SetValue("false", true);
             cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
         }
-        if (isFocusing) {
-            cameraHolder.CancelFocus();
-            isFocusing =false;
-        }
-
         String focusmode = parametersHandler.FocusMode.GetValue();
-        if (focusmode.equals("auto")
-                || focusmode.equals("macro")
-                || focusmode.equals("normal"))
+        if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            if (focusmode.equals("normal"))
-            {
-                parametersHandler.ManualFocus.SetValue(-1);
-                parametersHandler.FocusMode.SetValue("auto", true);
-
-            }
-            final Rect targetFocusRect = new Rect(
+            final FocusRect targetFocusRect = new FocusRect(
                     rect.left * 2000 / width - 1000,
-                    rect.top * 2000 / height - 1000,
                     rect.right * 2000 / width - 1000,
+                    rect.top * 2000 / height - 1000,
                     rect.bottom * 2000 / height - 1000);
             //check if stuff is to big or to small and set it to min max value
             if (targetFocusRect.left < -1000)
@@ -118,11 +113,17 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
                     && targetFocusRect.bottom <= 1000
-                    && targetFocusRect.right <= 1000) {
+                    && targetFocusRect.right <= 1000)
+            {
 
                 parametersHandler.SetFocusAREA(targetFocusRect, 300);
 
 
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (cameraHolder != null)
                     cameraHolder.StartFocus(this);
                 isFocusing = true;

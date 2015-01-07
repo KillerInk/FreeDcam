@@ -39,8 +39,8 @@
         android:layout_centerInParent="true" />
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/crosshairwidth"
+        android:layout_height="@dimen/crosshair_height"
         android:id="@+id/imageView_Crosshair"
         android:background="@drawable/crosshair_normal" />
 

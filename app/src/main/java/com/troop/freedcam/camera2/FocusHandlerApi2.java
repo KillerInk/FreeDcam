@@ -4,6 +4,7 @@ import android.graphics.Rect;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 /**
@@ -28,7 +29,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     }
 
     @Override
-    public void StartTouchToFocus(Rect rect, int width, int height) {
+    public void StartTouchToFocus(FocusRect rect, int width, int height) {
         super.StartTouchToFocus(rect, width, height);
     }
 }

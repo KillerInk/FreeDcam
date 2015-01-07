@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.TouchHandler;
@@ -24,6 +25,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
+    int recthalf;
 
     SurfaceView surfaceView;
 
@@ -31,6 +33,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         this.activity = activity;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
+        recthalf = activity.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
         imageView.setVisibility(View.GONE);
 
     }
@@ -44,7 +47,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     }
 
     @Override
-    public void FocusStarted(Rect rect)
+    public void FocusStarted(FocusRect rect)
     {
         disWidth = surfaceView.getLayoutParams().width;
         disHeight = surfaceView.getLayoutParams().height;
@@ -55,7 +58,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         int halfheight = disHeight /2;
         if (rect == null)
         {
-            rect = new Rect(halfwidth - recthalf, halfheight -recthalf, halfwidth + recthalf, halfheight + recthalf);
+            rect = new FocusRect(halfwidth - recthalf, halfheight -recthalf, halfwidth + recthalf, halfheight + recthalf);
         }
         RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         mParams.leftMargin = rect.left + margineleft;
@@ -102,8 +105,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         disWidth = surfaceView.getWidth();
         disHeight = surfaceView.getHeight();
-        int recthalf = imageView.getWidth()/2;
-        Rect rect = new Rect(x - recthalf, y -recthalf, x +recthalf, y +recthalf);
+
+        FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
         if (wrapper.Focus != null)
             wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
     }
