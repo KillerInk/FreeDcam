@@ -44,6 +44,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -143,8 +144,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "", "", cameraHolder);
         SceneDetect = new BaseModeParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new BaseModeParameter(cameraParameters, this, "denoise", "denoise-values");
-        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, this, "dis", "dis-values", cameraHolder);
-        MemoryColorEnhancement = new DigitalImageStabilizationParameter(cameraParameters, this, "mce", "mce-values", cameraHolder);
+        DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "dis", "dis-values");
+        MemoryColorEnhancement = new BaseModeParameter(cameraParameters, this, "mce", "mce-values");
         SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
@@ -189,6 +190,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                 BayerMipiFormat = s;
                 if (DeviceUtils.isHTC_M8())
                     BayerMipiFormat = StringUtils.BayerMipiGRBG();
+                if (DeviceUtils.isLGADV())
+                    BayerMipiFormat = StringUtils.BayerMipiBGGR();
             }
         }
         /*if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
