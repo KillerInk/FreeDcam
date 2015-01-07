@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
@@ -10,6 +12,8 @@ import java.util.HashMap;
  */
 public abstract class BaseManualParameter extends AbstractManualParameter
 {
+
+    final String TAG = BaseManualParameter.class.getSimpleName();
     /**
      * Holds the list of Supported parameters
      */
@@ -59,30 +63,36 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
     public int GetMaxValue()
     {
+        Log.d(TAG, "get " + max_value + " to " + parameters.get(max_value));
         return Integer.parseInt(parameters.get(max_value));
     }
 
     public  int GetMinValue()
     {
         int ret = 0;
-        try {
+        try
+        {
+            Log.d(TAG, "get " + min_value + " to " + parameters.get(min_value));
             ret = Integer.parseInt(parameters.get(min_value));
         }
         catch (Exception ex)
         {
             ret = 0;
+            Log.d(TAG, "get " + min_value + " to " + 0);
         }
         return ret;
     }
 
     public int GetValue()
     {
+        Log.d(TAG, "get " + value + ": " +parameters.get(value));
         return Integer.parseInt(parameters.get(value));
     }
 
     @Override
     protected void setvalue(int valueToset)
     {
+        Log.d(TAG, "set " + value + " to " + valueToset);
         parameters.put(value, valueToset + "");
         camParametersHandler.SetParametersToCamera();
     }
@@ -100,6 +110,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         {
             isSupported = false;
         }
+        Log.d(TAG, "issupported " + value + ": " + isSupported);
         return isSupported;
     }
 
