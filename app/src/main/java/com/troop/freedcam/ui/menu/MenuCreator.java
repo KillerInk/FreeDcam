@@ -48,6 +48,8 @@ public class MenuCreator
     ExpandableChild sceneDectecMode;
     ExpandableChild denoiseMode;
     ExpandableChild nonZSLMode;
+    ExpandableChild digitalImageStabilization;
+    ExpandableChild mce;
     PreviewExpandableChild previewSize;
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
@@ -137,6 +139,15 @@ public class MenuCreator
         {
             nonZSLMode.setParameterHolder(parameterHandler.NonZslManualMode, cameraUiWrapper.moduleHandler.AllModules);
         }
+        if (parameterHandler.DigitalImageStabilization !=null && parameterHandler.DigitalImageStabilization.IsSupported())
+        {
+            digitalImageStabilization.setParameterHolder(parameterHandler.DigitalImageStabilization, cameraUiWrapper.moduleHandler.AllModules);
+        }
+        if (parameterHandler.MemoryColorEnhancement != null && parameterHandler.MemoryColorEnhancement.IsSupported())
+        {
+            mce.setParameterHolder(parameterHandler.MemoryColorEnhancement, cameraUiWrapper.moduleHandler.AllModules);
+        }
+
         //used for longexposuremodule
         if (parameterHandler.PreviewSize != null)
         {
@@ -273,16 +284,13 @@ public class MenuCreator
         denoiseMode = new ExpandableChild(context, group, context.getString(R.string.quality_denoise), appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
         childlist.add(denoiseMode);
 
-        /*if (parameterHandler.DigitalImageStabilization.IsSupported())
-        {
-            ExpandableChild sd = getNewChild(parameterHandler.DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE, context.getString(R.string.quality_digitalimagestab), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(sd);
-        }*/
-        /*if (parameterHandler.MemoryColorEnhancement.IsSupported())
-        {
-            ExpandableChild sd = getNewChild(parameterHandler.MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE, context.getString(R.string.quality_mce), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(sd);
-        }*/
+        digitalImageStabilization = new ExpandableChild(context,group,context.getString(R.string.quality_digitalimagestab),appSettingsManager, AppSettingsManager.SETTING_DIS_MODE);
+        childlist.add(digitalImageStabilization);
+
+        mce = new ExpandableChild(context,group,context.getString(R.string.quality_mce), appSettingsManager, AppSettingsManager.SETTING_MCE_MODE);
+        childlist.add(mce);
+
+
 
         /*if (parameterHandler.SkinToneEnhancment.IsSupported())
         {
