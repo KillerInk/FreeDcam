@@ -1,5 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.HandlerThread;
 
@@ -86,4 +87,6 @@ public abstract class AbstractParameterHandler
 
     public void SetParametersToCamera() {};
     public void LockExposureAndWhiteBalance(boolean lock){};
+
+    public void SetFocusAREA(Rect focusAreas, int weight){};
 }

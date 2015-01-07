@@ -21,15 +21,15 @@ import java.util.List;
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
 
-    private final AbstractCameraHolder cameraHolder;
-    private final AbstractCameraUiWrapper cameraUiWrapper;
+    private final BaseCameraHolder cameraHolder;
+    private final CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
 
     int count;
     List<Camera.Area> areas;
     boolean isFocusing = false;
 
-    public FocusHandler(AbstractCameraUiWrapper cameraUiWrapper)
+    public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
@@ -119,11 +119,12 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                     && targetFocusRect.top >= -1000
                     && targetFocusRect.bottom <= 1000
                     && targetFocusRect.right <= 1000) {
-                CamParametersHandler camParametersHandler = (CamParametersHandler) parametersHandler;
-                camParametersHandler.SetFocusAREA(targetFocusRect, 300);
 
-                BaseCameraHolder baseCameraHolder = (BaseCameraHolder)cameraHolder;
-                baseCameraHolder.StartFocus(this);
+                parametersHandler.SetFocusAREA(targetFocusRect, 300);
+
+
+                if (cameraHolder != null)
+                    cameraHolder.StartFocus(this);
                 isFocusing = true;
                 if (focusEvent != null)
                     focusEvent.FocusStarted(rect);
