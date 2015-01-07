@@ -71,7 +71,7 @@ public class VideoModule extends AbstractModule
         eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
     }
 
-    private void stopRecording()
+    protected void stopRecording()
     {
         try {
             recorder.stop();
@@ -93,7 +93,7 @@ public class VideoModule extends AbstractModule
         }
     }
 
-    private void prepareRecorder()
+    protected void prepareRecorder()
     {
         try
         {

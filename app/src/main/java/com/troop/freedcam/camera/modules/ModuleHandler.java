@@ -48,6 +48,10 @@ public class ModuleHandler extends AbstractModuleHandler
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
+        else if(DeviceUtils.isSamsungADV()) {
+            VideoModuleSamsung videoModuleSamsung = new VideoModuleSamsung(this.cameraHolder, appSettingsManager, moduleEventHandler);
+            moduleList.put(videoModuleSamsung.ModuleName(), videoModuleSamsung);
+        }
         else
         {
             VideoModule videoModule = new VideoModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
