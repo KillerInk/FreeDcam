@@ -211,7 +211,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
         String[] split = null;
         if (DeviceUtils.isSamsungADV())
             split = samsungCamera.getParameters().flatten().split(";");
-        else 
+        else if (DeviceUtils.isLGADV())
+            split = lgCamera.getLGParameters().getParameters().flatten().split(";");
+        else
             split = mCamera.getParameters().flatten().split(";");
         HashMap<String, String> map = new HashMap<>();
         for (String s: split)
