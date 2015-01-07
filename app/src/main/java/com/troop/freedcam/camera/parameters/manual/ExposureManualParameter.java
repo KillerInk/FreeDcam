@@ -11,6 +11,7 @@ public class ExposureManualParameter extends BaseManualParameter
 {
     public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        hasSupport();
     }
 
 
