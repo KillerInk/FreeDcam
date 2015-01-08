@@ -28,7 +28,7 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (DeviceUtils.isMediaTekTHL5000())
+        if (DeviceUtils.isMediaTekDevice())
         {
             PictureModuleThl5000 thl5000 = new PictureModuleThl5000(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);

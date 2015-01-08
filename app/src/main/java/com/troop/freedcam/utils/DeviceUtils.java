@@ -110,14 +110,14 @@ public class DeviceUtils
     }
 
     static String MTK = "P6Life,thl 5000";
-    public static boolean isMediaTekTHL5000()
+    public static boolean isMediaTekDevice()
     {
         return MTK.contains(Build.MODEL);
     }
 
     public static boolean isRawSupported()
     {
-        return isLGADV() || isHTC_M8() || isZTEADV() || isMediaTekTHL5000();
+        return isLGADV() || isHTC_M8() || isZTEADV() || isMediaTekDevice();
     }
 
 

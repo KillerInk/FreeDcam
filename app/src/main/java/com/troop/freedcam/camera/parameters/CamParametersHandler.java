@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters;
 
-import android.graphics.Rect;
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -51,7 +49,6 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -198,7 +195,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         {
             BayerMipiFormat = "bayer-qcom-10bggr";
         }*/
-        if (DeviceUtils.isMediaTekTHL5000())
+        if (DeviceUtils.isMediaTekDevice())
         {
             rawSupported =true;
         }
