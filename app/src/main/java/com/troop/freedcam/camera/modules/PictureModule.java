@@ -263,8 +263,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
             //ParameterHandler.CameraMode.SetValue("0", true);
-        if (ParameterHandler.ZSL.IsSupported() && !ParameterHandler.ZSL.GetValue().equals("off"))
-            ParameterHandler.ZSL.SetValue("off", true);
+        //if (ParameterHandler.ZSL.IsSupported() && !ParameterHandler.ZSL.GetValue().equals("off"))
+            //ParameterHandler.ZSL.SetValue("off", true);
         //if(ParameterHandler.MemoryColorEnhancement.IsSupported() && ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
             //ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))

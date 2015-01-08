@@ -50,6 +50,7 @@ public class MenuCreator
     ExpandableChild nonZSLMode;
     ExpandableChild digitalImageStabilization;
     ExpandableChild mce;
+    ExpandableChild zsl;
     PreviewExpandableChild previewSize;
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
@@ -146,6 +147,10 @@ public class MenuCreator
         if (parameterHandler.MemoryColorEnhancement != null && parameterHandler.MemoryColorEnhancement.IsSupported())
         {
             mce.setParameterHolder(parameterHandler.MemoryColorEnhancement, cameraUiWrapper.moduleHandler.AllModules);
+        }
+        if (parameterHandler.ZSL != null && parameterHandler.ZSL.IsSupported())
+        {
+            zsl.setParameterHolder(parameterHandler.ZSL, cameraUiWrapper.moduleHandler.AllModules);
         }
 
         //used for longexposuremodule
@@ -272,12 +277,6 @@ public class MenuCreator
         lensShadeMode = new ExpandableChild(context, group, context.getString(R.string.quality_lensshade), appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE);
         childlist.add(lensShadeMode);
 
-        /*if (parameterHandler.ZSL.IsSupported())
-        {
-            ExpandableChild zsl = getNewChild(parameterHandler.ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE, context.getString(R.string.quality_zsl), cameraUiWrapper.moduleHandler.AllModules);
-            childlist.add(zsl);
-        }*/
-
         sceneDectecMode = new ExpandableChild(context, group, context.getString(R.string.quality_scenedetect), appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         childlist.add(sceneDectecMode);
 
@@ -290,7 +289,8 @@ public class MenuCreator
         mce = new ExpandableChild(context,group,context.getString(R.string.quality_mce), appSettingsManager, AppSettingsManager.SETTING_MCE_MODE);
         childlist.add(mce);
 
-
+        zsl = new ExpandableChild(context, group, context.getString(R.string.quality_zsl), appSettingsManager, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
+        childlist.add(zsl);
 
         /*if (parameterHandler.SkinToneEnhancment.IsSupported())
         {
