@@ -58,5 +58,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    provided files('libs/samsung.jar')
+    provided files('libs/com.lge.frameworks.jar')
+    compile files('libs/android-support-v4.jar')
+    provided files('libs/real3d.jar')
 }
