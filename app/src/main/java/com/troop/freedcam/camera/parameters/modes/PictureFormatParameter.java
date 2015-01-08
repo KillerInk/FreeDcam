@@ -21,94 +21,41 @@ public class PictureFormatParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
-        //TODO this is ugly need to find a different way.. class design fail
-        if (camParametersHandler.rawSupported)
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        if (DeviceUtils.isMediaTekDevice())
         {
-            if (valueToSet.equals("raw") || valueToSet.equals("dng"))
-            {
-                //galaxy nexus and atrix2
-                if (DeviceUtils.isOmap() && !DeviceUtils.isO3d())
-                {
-                    super.SetValue("raw", true);
-                }
-                else if (DeviceUtils.isMediaTekTHL5000())
-                {
-                    //set raw
-                    camParametersHandler.setTHL5000Raw(true);
-                }
-                else if (camParametersHandler.BayerMipiFormat != null)
-                    super.SetValue(camParametersHandler.BayerMipiFormat, true);
-                else if (DeviceUtils.isXperiaL())
-                    super.SetValue("raw", true);
-                else
-                {
-                    super.SetValue(valueToSet, false);
-                }
-            }
+            if (valueToSet.equals("raw"))
+                camParametersHandler.setTHL5000Raw(true);
             else
-            {
-                if (DeviceUtils.isMediaTekTHL5000())
-                {
-                    //set jpeg
-                    camParametersHandler.setTHL5000Raw(false);
-                }
-                else
-                    super.SetValue(valueToSet, true);
-            }
+                camParametersHandler.setTHL5000Raw(false);
         }
         else
+        {
             super.SetValue(valueToSet, true);
+        }
+
     }
 
     @Override
     public String[] GetValues()
     {
-        if ((camParametersHandler.dngSupported && camParametersHandler.rawSupported && camParametersHandler.BayerMipiFormat != null)
-                || DeviceUtils.isXperiaL())
-            return new String[]{"jpeg", "raw", "dng"};
-        else if (camParametersHandler.rawSupported)
-        {
+        if (DeviceUtils.isMediaTekDevice())
             return new String[]{"jpeg", "raw"};
-        }
         else
-        {
-            return parameters.get(values).split(",");
-        }
+            return super.GetValues();
+
     }
 
     @Override
     public String GetValue()
     {
-        String settingValue = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
-        if (camParametersHandler.rawSupported)
+        if (DeviceUtils.isMediaTekDevice())
         {
-
-            if (settingValue.equals("raw") || settingValue.equals("dng"))
-            {
-                if (DeviceUtils.isMediaTekTHL5000())
-                {
-                    camParametersHandler.setTHL5000Raw(true);
-                }
-                else
-                {
-                    //BayerMipiFormat is null if its not in the picture-formats
-                    if (camParametersHandler.BayerMipiFormat != null)
-                        super.SetValue(camParametersHandler.BayerMipiFormat, false);
-                    else
-                    {
-                        super.SetValue(settingValue, false);
-                    }
-                }
-            }
+            return appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         }
-        //process all other devices
         else
-        {
-            if (settingValue.equals(""))
-                appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, super.GetValue());
-            super.SetValue(settingValue, false);
-        }
-        return settingValue;
+            return super.GetValue();
+
     }
 }
