@@ -129,11 +129,13 @@
         android:id="@+id/v2_settings_menu"
         android:focusable="false"
 
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/loadingspinner"
+        android:layout_alignParentEnd="false">
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="180dp"
+            android:layout_width="@dimen/menuwidth"
             android:layout_height="fill_parent"
             android:id="@+id/settings_menuHolder">
 
