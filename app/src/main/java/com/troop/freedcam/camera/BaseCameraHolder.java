@@ -55,7 +55,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Has Samsung Framework");
             hasSamsungFrameWork = true;
 
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
 
             hasSamsungFrameWork = false;
             Log.d(TAG, "No Samsung Framework");
@@ -70,7 +70,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Has Lg Framework");
             hasLGFrameWork = true;
 
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
 
             hasLGFrameWork = false;
             Log.d(TAG, "No LG Framework");
