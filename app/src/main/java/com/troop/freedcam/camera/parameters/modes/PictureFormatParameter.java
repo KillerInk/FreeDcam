@@ -5,6 +5,7 @@ import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -43,7 +44,16 @@ public class PictureFormatParameter extends BaseModeParameter
         if (DeviceUtils.isMediaTekDevice())
             return new String[]{"jpeg", "raw"};
         else
-            return super.GetValues();
+        {
+            String[] supervals = super.GetValues();
+            ArrayList<String> list = new ArrayList<String>();
+            for (String s : supervals)
+            {
+                if (s.contains("bayer") || s.contains("jpeg") || s.contains("jps") || s.contains("raw"))
+                    list.add(s);
+            }
+            return list.toArray(new String[list.size()]);
+        }
 
     }
 

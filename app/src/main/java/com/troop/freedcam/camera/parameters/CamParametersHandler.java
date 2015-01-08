@@ -160,7 +160,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
 
-        checkRawSupport();
+        //checkRawSupport();
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
@@ -172,7 +172,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     }
 
-    private void checkRawSupport()
+    /*private void checkRawSupport()
     {
         String rawFormats[] = cameraParameters.get("picture-format-values").split(",");
 
@@ -191,15 +191,15 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                     BayerMipiFormat = StringUtils.BayerMipiBGGR();
             }
         }
-        /*if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
+        *//*if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
         {
             BayerMipiFormat = "bayer-qcom-10bggr";
-        }*/
+        }*//*
         if (DeviceUtils.isMediaTekDevice())
         {
             rawSupported =true;
         }
-    }
+    }*/
 
 
     Handler handler = new Handler();

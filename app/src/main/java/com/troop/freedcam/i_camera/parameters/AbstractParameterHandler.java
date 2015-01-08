@@ -70,10 +70,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter CameraMode;
 
     public boolean isExposureAndWBLocked = false;
-
-    public boolean rawSupported;
-    public boolean dngSupported;
-    public String BayerMipiFormat;
+    public boolean isDngActive = false;
 
     public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;

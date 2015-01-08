@@ -230,26 +230,23 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         if (!file.exists())
             file.mkdirs();
         Date date = new Date();
-        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        String s = (new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date);
         return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
     }
 
     protected File getFileAndChooseEnding(String s1)
     {
         String pictureFormat = ParameterHandler.PictureFormat.GetValue();
-        if (parametersHandler.dngSupported)
+        if (rawFormats.contains(pictureFormat))
         {
-            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
-                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".dng").toString());
-            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
-                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
-            if(Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
-                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+            if (pictureFormat.contains("bayer-mipi") && parametersHandler.isDngActive)
+                return new File(s1 +"_" + pictureFormat +".dng");
+            else
+                return new File(s1 + "_" + pictureFormat + ".raw");
+
         }
         else
         {
-            if (rawFormats.contains(pictureFormat))
-                return new File((new StringBuilder(String.valueOf(s1))).append("_" + pictureFormat).append(".raw").toString());
             if (jpegFormat.contains(pictureFormat))
                 return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
             if (jpsFormat.contains(pictureFormat))
