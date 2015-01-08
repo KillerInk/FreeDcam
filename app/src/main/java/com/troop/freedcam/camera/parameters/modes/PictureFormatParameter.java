@@ -49,7 +49,7 @@ public class PictureFormatParameter extends BaseModeParameter
             ArrayList<String> list = new ArrayList<String>();
             for (String s : supervals)
             {
-                if (s.contains("bayer") || s.contains("jpeg") || s.contains("jps") || s.contains("raw"))
+                //if (s.contains("bayer") || s.contains("jpeg") || s.contains("jps") || s.contains("raw"))
                     list.add(s);
             }
             return list.toArray(new String[list.size()]);
