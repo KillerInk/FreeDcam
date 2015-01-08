@@ -63,6 +63,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     public HashMap<String, String> getParameters(){return cameraParameters;}
 
     boolean moreParametersToSet = false;
+    BaseCameraHolder baseCameraHolder;
 
     SetParameterRunner setParameterRunner;
 
@@ -70,11 +71,11 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     {
         super(cameraHolder,appSettingsManager, backGroundHandler, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler();
+        baseCameraHolder = (BaseCameraHolder) cameraHolder;
     }
 
     public void GetParametersFromCamera()
     {
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
         cameraParameters = baseCameraHolder.GetCameraParameters();
     }
 
@@ -85,7 +86,6 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     public void LoadParametersFromCamera()
     {
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
         cameraParameters = baseCameraHolder.GetCameraParameters();
         setParameterRunner = new SetParameterRunner();
         initParameters();
@@ -155,7 +155,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
 
-        if (DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/)
+        if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);

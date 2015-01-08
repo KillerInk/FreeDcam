@@ -257,8 +257,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     @Override
     public void LoadNeededParameters() {
-        if (ParameterHandler.AE_Bracket.IsSupported())
-            ParameterHandler.AE_Bracket.SetValue("Off", true);
+        //if (ParameterHandler.AE_Bracket.IsSupported())
+            //ParameterHandler.AE_Bracket.SetValue("Off", true);
         if (ParameterHandler.VideoHDR.IsSupported());
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))

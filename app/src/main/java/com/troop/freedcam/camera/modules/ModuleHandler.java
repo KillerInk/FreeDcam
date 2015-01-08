@@ -44,11 +44,11 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(pictureModule.ModuleName(), pictureModule);
         }
 
-        if (DeviceUtils.isLGADV() ) {
+        if (cameraHolder.hasLGFrameWork) {
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
-        else if(DeviceUtils.isSamsungADV()) {
+        else if(cameraHolder.hasSamsungFrameWork) {
             VideoModuleSamsung videoModuleSamsung = new VideoModuleSamsung(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModuleSamsung.ModuleName(), videoModuleSamsung);
         }
