@@ -94,16 +94,10 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         grouplist.add(menuCreator.CreateQualitySettings());
         previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
         grouplist.add(previewSettings);
-        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
-        {
 
-        }
         picSettings = menuCreator.CreatePictureSettings(surfaceView);
         grouplist.add(picSettings);
-        if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE))
-        {
 
-        }
         videoSettings = menuCreator.CreateVideoSettings(surfaceView);
         grouplist.add(videoSettings);
         //if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))

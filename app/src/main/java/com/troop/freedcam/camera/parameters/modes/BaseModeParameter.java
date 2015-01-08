@@ -40,15 +40,19 @@ public class BaseModeParameter extends AbstractModeParameter {
         {
             isSupported = false;
         }
+        BackgroundSetIsSupportedHasChanged(isSupported);
         return isSupported;
     }
 
     public void SetValue(String valueToSet,  boolean setToCam)
     {
+        if (valueToSet == null)
+            return;
         parameters.put(value, valueToSet);
         Log.d("freedcam.BaseModeParameter", "set "+value+" to "+ valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
+
         firststart = false;
     }
 

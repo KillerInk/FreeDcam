@@ -85,8 +85,9 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameterHolder.IsSupported())
         {
             String campara = parameterHolder.GetValue();
-            onValueChanged(campara);
-            onIsSupportedChanged(true);
+            if (campara != null)
+                onValueChanged(campara);
+            //onIsSupportedChanged(true);
         }
     }
 
@@ -104,7 +105,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
 
     protected String getTAG()
     {
-        return "freedcam." + Name;
+        return ExpandableChild.class.getSimpleName() + " " + Name;
     }
 
     @Override
@@ -113,16 +114,16 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue.equals("")) {
             appSettingsManager.setString(settingsname, val);
+            settingValue = val;
             Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
         }
         if (!settingValue.equals(val))
         {
             parameterHolder.SetValue(settingValue, false);
             appSettingsManager.setString(settingsname, settingValue);
-            val = settingValue;
             Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
         }
-        valueTextView.setText(val);
+        valueTextView.setText(settingValue);
 
     }
 
@@ -131,7 +132,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         if (isSupported && !isVisible)
         {
-            onValueChanged(parameterHolder.GetValue());
+            //onValueChanged(parameterHolder.GetValue());
             isVisible = true;
             group.submenu.addView(this);
         }
