@@ -328,4 +328,10 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         //cameraHolder.SetCameraParameters(cameraParameters);
     }
 
+    public void setRawSize(String size)
+    {
+        cameraParameters.put("raw-size", size);
+        cameraHolder.SetCameraParameters(cameraParameters);
+    }
+
 }

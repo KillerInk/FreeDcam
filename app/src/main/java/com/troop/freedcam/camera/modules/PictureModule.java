@@ -257,7 +257,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     }
 
     @Override
-    public void LoadNeededParameters() {
+    public void LoadNeededParameters()
+    {
+        if (DeviceUtils.isHTC_M8())
+        {
+            Log.d(TAG, "set m8 raw-size");
+            ((CamParametersHandler)ParameterHandler).setRawSize("2576x1936");
+            Log.d(TAG, "is set m8 raw-size");
+        }
         //if (ParameterHandler.AE_Bracket.IsSupported())
             //ParameterHandler.AE_Bracket.SetValue("Off", true);
         if (ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
