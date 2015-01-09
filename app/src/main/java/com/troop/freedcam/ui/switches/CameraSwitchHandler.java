@@ -14,6 +14,7 @@ import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 20.08.2014.
@@ -27,7 +28,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     int currentCamera;
     Bitmap[] bitmaps;
     SurfaceView surfaceView;
-    String TAG = CameraSwitchHandler.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + CameraSwitchHandler.class.getSimpleName();
     public CameraSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;

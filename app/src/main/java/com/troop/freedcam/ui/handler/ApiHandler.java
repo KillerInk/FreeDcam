@@ -16,10 +16,11 @@ import com.troop.freedcam.ui.TextureView.PreviewHandler;
  */
 public class ApiHandler
 {
+    private static String TAG = ApiHandler.class.getSimpleName();
     public AbstractCameraUiWrapper getCameraUiWrapper(Context context, PreviewHandler preview, AppSettingsManager appSettingsManager, I_error errorHandler, AbstractCameraUiWrapper ret)
     {
 
-        String TAG = ApiHandler.class.getSimpleName();
+
         if (ret != null)
         {
             Log.d(TAG, "Stop preview and cam");

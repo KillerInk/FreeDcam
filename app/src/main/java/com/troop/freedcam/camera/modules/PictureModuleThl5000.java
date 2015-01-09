@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
@@ -13,6 +14,7 @@ import java.io.File;
  */
 public class PictureModuleThl5000 extends PictureModule
 {
+    private static String TAG = StringUtils.TAG + PictureModuleThl5000.class.getSimpleName();
     String lastFile;
     public PictureModuleThl5000(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {

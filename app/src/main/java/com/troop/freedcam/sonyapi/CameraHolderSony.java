@@ -19,6 +19,7 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.SonyUtils;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ import java.util.Set;
  */
 public class CameraHolderSony extends AbstractCameraHolder
 {
-    final static String TAG = CameraHolderSony.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + CameraHolderSony.class.getSimpleName();
 
     MainActivity_v2 context;
 

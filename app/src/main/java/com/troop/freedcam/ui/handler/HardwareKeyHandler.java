@@ -15,7 +15,7 @@ public class HardwareKeyHandler
     private final MainActivity_v2 activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
     boolean longKeyPress = false;
-    String TAG = "freedcam.HardwareKeyHandler";
+    private static String TAG = "freedcam.HardwareKeyHandler";
 
     public HardwareKeyHandler(MainActivity_v2 activity)
     {

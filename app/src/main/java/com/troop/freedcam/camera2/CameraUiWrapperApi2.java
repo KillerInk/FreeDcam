@@ -10,6 +10,7 @@ import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 07.12.2014.
@@ -21,7 +22,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     AppSettingsManager appSettingsManager;
     TextureView preview;
 
-    String TAG = CameraUiWrapperApi2.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
 
     public CameraUiWrapperApi2()
     {

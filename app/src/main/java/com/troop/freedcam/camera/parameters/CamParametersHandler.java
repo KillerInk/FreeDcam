@@ -57,7 +57,7 @@ import java.util.Map;
 public class CamParametersHandler extends AbstractParameterHandler implements I_ParameterChanged
 {
 
-    String TAG = "freedcam.CameraParametersHandler";
+    private static String TAG = "freedcam.CameraParametersHandler";
 
     HashMap<String, String> cameraParameters;
     public HashMap<String, String> getParameters(){return cameraParameters;}

@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class BaseCameraHolderApi2 extends AbstractCameraHolder
 {
-    final static String TAG = "freedcam.BaseCameraHolderApi2";
+    private static String TAG = "freedcam.BaseCameraHolderApi2";
 
     Context context;
     public I_error errorHandler;

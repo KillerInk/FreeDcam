@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class BrightnessManualParameter extends BaseManualParameter
 {
-    final  String TAG = "freedcam.ManualBrightnessParameter";
+    private static  String TAG = "freedcam.ManualBrightnessParameter";
 
     public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {

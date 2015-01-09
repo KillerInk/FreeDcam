@@ -2,6 +2,8 @@ package com.troop.yuv;
 
 import android.util.Log;
 
+import com.troop.freedcam.utils.StringUtils;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -13,7 +15,7 @@ public class Merge
     {
         nativeHandler = null;
     }
-    static String TAG = "YuvMerge";
+    private static String TAG = StringUtils.TAG +"YuvMerge";
 
     static
     {

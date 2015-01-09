@@ -12,6 +12,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,8 @@ import java.util.Date;
 public class VideoModuleSamsung extends VideoModule
 {
     SecMediaRecorder recorder;
+
+    private static String TAG = StringUtils.TAG + VideoModuleSamsung.class.getSimpleName();
 
     public VideoModuleSamsung(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);

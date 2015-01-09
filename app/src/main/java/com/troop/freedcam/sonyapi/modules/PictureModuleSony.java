@@ -7,6 +7,7 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -22,7 +23,7 @@ import java.util.Date;
  */
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback
 {
-    String TAG = PictureModuleSony.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + PictureModuleSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
     public PictureModuleSony() {
         super();

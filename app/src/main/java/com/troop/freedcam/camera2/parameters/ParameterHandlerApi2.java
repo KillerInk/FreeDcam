@@ -16,6 +16,7 @@ import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
-    public static String TAG = ParameterHandlerApi2.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
 
     BaseCameraHolderApi2 cameraHolder;
 

@@ -34,6 +34,7 @@ import com.troop.freedcam.ui.switches.CameraSwitchHandler;
 import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;
 import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 18.08.2014.
@@ -41,7 +42,7 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
 public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, I_CameraChangedListner
 {
 
-    String TAG = MainActivity_v2.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;

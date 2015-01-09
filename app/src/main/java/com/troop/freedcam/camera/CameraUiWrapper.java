@@ -14,6 +14,7 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 16.08.2014.
@@ -23,7 +24,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
     public AppSettingsManager appSettingsManager;
-    String TAG = CameraUiWrapper.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + CameraUiWrapper.class.getSimpleName();
     BaseCameraHolder cameraHolder;
 
     public CameraUiWrapper(){};

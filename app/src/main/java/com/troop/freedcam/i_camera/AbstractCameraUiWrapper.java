@@ -10,13 +10,14 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 09.12.2014.
  */
 public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_CameraChangedListner
 {
-    public String TAG = AbstractCameraUiWrapper.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + AbstractCameraUiWrapper.class.getSimpleName();
     public AbstractModuleHandler moduleHandler;
     public AbstractParameterHandler camParametersHandler;
     public AbstractCameraHolder cameraHolder;

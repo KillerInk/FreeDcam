@@ -17,6 +17,7 @@ import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +34,7 @@ import java.util.Date;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
-    final static String TAG = PictureModuleApi2.class.getSimpleName();
+    private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
     BaseCameraHolderApi2 cameraHolder;
     /**
      * An {@link android.media.ImageReader} that handles still image capture.
@@ -44,6 +45,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
+        this.Settings = Settings;
         name = ModuleHandler.MODULE_PICTURE;
     }
 
@@ -65,8 +67,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int width = Integer.parseInt(split[0]);
         int height = Integer.parseInt(split[1]);
         //create new ImageReader with the size and format for the image
-        mImageReader = ImageReader.newInstance(width,height,
-                ImageFormat.RAW10, /*maxImages*/2);
+        mImageReader = ImageReader.newInstance(width,height,ImageFormat.JPEG, /*maxImages*/2);
         //this returns the image data finaly
         mImageReader.setOnImageAvailableListener(
                 mOnImageAvailableListener, null);

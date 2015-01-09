@@ -14,6 +14,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_WorkEvent;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
@@ -29,7 +30,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     boolean working = false;
     ViewGroup.LayoutParams params;
     boolean showThumb = false;
-    String TAG = ThumbnailHandler.class.getSimpleName();
+    private static String TAG = StringUtils.TAG +ThumbnailHandler.class.getSimpleName();
 
     public ThumbnailHandler(final MainActivity_v2 activity)
     {

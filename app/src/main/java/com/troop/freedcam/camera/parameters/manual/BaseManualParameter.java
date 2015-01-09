@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public abstract class BaseManualParameter extends AbstractManualParameter
 {
 
-    final String TAG = BaseManualParameter.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + BaseManualParameter.class.getSimpleName();
     /**
      * Holds the list of Supported parameters
      */

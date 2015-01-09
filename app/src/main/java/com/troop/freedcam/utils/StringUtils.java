@@ -43,4 +43,6 @@ public class StringUtils
 
         return stringList.toArray(new String[sizes.size()]);
     }
+
+    public static String TAG = "freedcam.";
 }

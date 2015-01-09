@@ -32,7 +32,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
-    final String TAG = "freedcam.ExtendedTextureView";
+    private static String TAG = "freedcam.ExtendedTextureView";
     Context context;
 
     public SurfaceHolder mHolder;

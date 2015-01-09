@@ -25,7 +25,7 @@ import java.util.Date;
  */
 public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
-    static String TAG = "freedcam.BurstModule";
+    private static String TAG = "freedcam.BurstModule";
     boolean doBurst = false;
     String currentBurstFolder;
     int count;

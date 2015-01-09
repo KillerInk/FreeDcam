@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class VideoModule extends AbstractModule
 {
-    public final String TAG = "freedcam.VideoModule";
+    private static String TAG = "freedcam.VideoModule";
 
     protected MediaRecorder recorder;
     String mediaSavePath;

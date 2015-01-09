@@ -27,7 +27,7 @@ import static android.hardware.Camera.ShutterCallback;
  */
 public class PictureModule extends AbstractModule implements I_Callbacks.PictureCallback {
 
-    public final String TAG = "freedcam.PictureModule";
+    private static String TAG = StringUtils.TAG + PictureModule.class.getSimpleName();
 
     private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg";
     private String jpegFormat = "jpeg";
@@ -70,6 +70,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
+        Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
             takePicture();
     }
@@ -259,7 +260,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void LoadNeededParameters() {
         //if (ParameterHandler.AE_Bracket.IsSupported())
             //ParameterHandler.AE_Bracket.SetValue("Off", true);
-        if (ParameterHandler.VideoHDR.IsSupported());
+        if (ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
             //ParameterHandler.CameraMode.SetValue("0", true);

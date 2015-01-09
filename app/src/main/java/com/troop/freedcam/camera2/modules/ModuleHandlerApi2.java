@@ -13,17 +13,19 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
 
     BaseCameraHolderApi2 cameraHolder;
 
-    final String TAG = "freedcam.ModuleHandler";
+    private static String TAG = "freedcam.ModuleHandler";
+    AppSettingsManager appSettingsManager;
 
     public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
-        initModules();
+        this.appSettingsManager = appSettingsManager;
+        initModules(appSettingsManager);
     }
 
 
-    protected void initModules()
+    protected void initModules(AppSettingsManager appSettingsManager)
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);

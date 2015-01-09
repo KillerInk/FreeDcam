@@ -15,7 +15,7 @@ import java.io.File;
  */
 public class HdrModule extends PictureModule
 {
-    String TAG = "freedcam.HdrModule";
+    private static String TAG = "freedcam.HdrModule";
 
     int hdrCount = 0;
     boolean aeBrackethdr = false;

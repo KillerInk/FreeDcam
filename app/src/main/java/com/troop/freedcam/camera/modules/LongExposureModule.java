@@ -66,7 +66,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     Handler handler;
     Handler frameHandler;
     HandlerThread frameThread;
-    static String TAG = "freedcam.LongExposure";
+    private static String TAG = "freedcam.LongExposure";
     int count;
 
     Merge nativeYuvMerge;

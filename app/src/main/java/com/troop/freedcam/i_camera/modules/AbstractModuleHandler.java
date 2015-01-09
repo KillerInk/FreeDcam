@@ -6,6 +6,7 @@ import com.troop.freedcam.camera.modules.ModuleEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         void onWorkFinished(boolean finished);
     }
 
-    String TAG = AbstractModuleHandler.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
     public ArrayList<String> PictureModules;
     public ArrayList<String> LongeExpoModules;

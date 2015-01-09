@@ -14,6 +14,7 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     Camera mCamera;
     LGCamera lgCamera;
     LGCamera.LGParameters lgParameters;
-    final  String TAG = "freedcam.BaseCameraHolder";
+    private static String TAG = StringUtils.TAG + BaseCameraHolder.class.getSimpleName();
     public I_error errorHandler;
     SecCamera samsungCamera;
     I_Callbacks.PictureCallback pictureCallback;
