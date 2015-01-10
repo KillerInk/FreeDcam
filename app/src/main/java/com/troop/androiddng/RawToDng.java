@@ -10,6 +10,59 @@ public class RawToDng
     {
 		System.loadLibrary("RawToDng");
     }
+
+    enum SupportedDevices
+    {
+        //tightraws
+        G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   g3_rowSizeKitKat),
+        G3_Mipi_LL(             16224256, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3082, true,   getG3_rowSizeL),
+        ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
+        OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
+        //looseraws
+        XperiaL(                10788864, "Sony XperiaL",           0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  XperiaL_rowSize),
+        OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
+        HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
+        HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
+
+
+        private final int filesize;
+        private final String Name;
+        private final int blacklvl;
+        private final float[] colormatrix1;
+        private final float[] colormatrix2;
+        private final float[] neutralmatrix;
+        private final String imageformat;
+        private final int width;
+        private final int height;
+        private final boolean tightraw;
+        //if rowsize = 0calculate it!
+        private final int rowsize;
+
+        private SupportedDevices(int filesize,
+                                 String Name,
+                                 int blacklvl,
+                                 float[] colormatrix1,
+                                 float[] colormatrix2,
+                                 float[] neutralmatrix,
+                                 String imageformat,
+                                 int width,
+                                 int height,
+                                 boolean tightraw,
+                                 int rowsize)
+        {
+            this.filesize = filesize;
+            this.Name = Name;
+            this.blacklvl = blacklvl;
+            this.colormatrix1 = colormatrix1;
+            this.colormatrix2 = colormatrix2;
+            this.neutralmatrix = neutralmatrix;
+            this.imageformat = imageformat;
+            this.width = width;
+            this.height = height;
+            this.tightraw = tightraw;
+            this.rowsize = rowsize;
+        }
+    }
 	
 	public static native void convertRawBytesToDng(
 			byte[] data, 
@@ -47,8 +100,8 @@ public class RawToDng
 		(float) -0.05432224274, (float) 0.2319784164, (float) 0.2338542938
 	};
 	
-	//Color Matrix 1                  : 0.9218606949 0.0263967514 -0.1110496521 -0.333
-	//1432343 1.179347992 0.1260938644 -0.05432224274 0.2319784164 0.2338542938
+	//Color Matrix 1                  : 0.9218606949 0.0263967514 -0.1110496521 -0.3331432343 1.179347992 0.1260938644 -0.05432224274 0.2319784164 0.2338542938
+	//
 	
 	public static  float[] g3_color2 =
 	{
@@ -64,7 +117,9 @@ public class RawToDng
 	
 	public static int g3_blacklevel = 64;
 
+    //16424960,4208,3120
     public static int g3_rowSizeKitKat = 5200;
+    //16224256,4152,3072
     public static int getG3_rowSizeL = 5264;
 	
 	
