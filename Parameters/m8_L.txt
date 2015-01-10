@@ -1,0 +1,335 @@
+01-09 13:54:27.898 22162 22215 D freedcam.CameraParametersHandler: Manufactur:HTC
+
+01-09 13:54:27.898 22162 22215 D freedcam.CameraParametersHandler: Model:HTC One_M8
+
+01-09 13:54:27.898 22162 22215 D freedcam.CameraParametersHandler: Product:m8_google
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: qc-max-num-requested-faces=5
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: iso-values=auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: max-sharpness=36
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: contrast-step=1
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: flash-mode=off
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: face-detection-values=off,on
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: snapshot-picture-flip=off
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: touch-af-aec-values=touch-off,touch-on
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: zsl=on
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: ae-bracket-hdr-values=Off,AE-Bracket
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: camera-mode=0
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: sharpness=18
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: flash-calibration-check=success
+
+01-09 13:54:27.899 22162 22215 D freedcam.CameraParametersHandler: sub_luma=111
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: min-exposure=0
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: max-focus=20
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: min-sce-factor=-100
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: max-sce-factor=100
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: focal-length=3.82
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: video-1080p60fps-supported=true
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: hdr-supported=true
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: focus-distances=Infinity,Infinity,Infinity
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: video-hdr-values=off,on
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: video-size=1920x1088
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: preview-frame-rate=40
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: max-exposure-compensation=12
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: scene-mode=auto
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: picture-size=320x240
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: histogram-values=enable,disable
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: contrast=5
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: selectable-zone-af-values=auto,spot-metering,center-weighted,frame-average
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: sce-factor-step=10
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: redeye-reduction=disable
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: shutter-threshold=0.200000
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: antibanding=off
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: zoe-picture-size-values=2688x1520
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: video-frame-format=yuv420sp
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: jpeg-quality=95
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: whitebalance=auto
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: main_luma=113
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: auto-exposure-lock=false
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: scene-mode-values=auto,asd,landscape,snow,beach,sunset,night,portrait,backlight,sports,steadyphoto,flowers,candlelight,fireworks,party,night-portrait,theatre,action,AR,hdr,text,zoe,panorama,burst,manual,panorama360,underwater
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: skinToneEnhancement=0
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: whitebalance-values=auto,incandescent,fluorescent,warm-fluorescent,daylight,cloudy-daylight,twilight,shade
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: max-exposure=392
+
+01-09 13:54:27.900 22162 22215 D freedcam.CameraParametersHandler: focus-mode-values=auto,infinity,macro,continuous-video,continuous-picture
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: qc-camera-features=1919
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: min-sharpness=0
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: lsc-calibration-check=main(ok), sub(ok), dual cal(ok)
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: metering-areas=(0,0,0,0,0)
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: dis=disable
+
+01-09 13:54:27.901   507 22313 I QCameraHWI_Mem: int qcamera::QCameraMemory::allocOneBuffer(qcamera::QCameraMemory::QCameraMemInfo&, int, int): fd=390 size=1474560
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: hfr-size-values=2120x1196,1280x720
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: focus-areas=(0,0,0,0,0)
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: video-hfr=off
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: auto-whitebalance-lock=false
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: video-stabilization=true
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: awb-calibration-check=main(ok, AEC ok), sub(ok, AEC ok)
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: scene-detect-values=off,on
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: exp_time=80
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: saturation-step=1
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: sharpness-step=6
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: preview-frame-rate-values=11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: preview-format-values=yuv420sp,yuv420p,nv12-venus
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: preferred-preview-size-for-video=1920x1088
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: min-contrast=0
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: smileinfo-byface-supported=1
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: jpeg-thumbnail-height=288
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: non-zsl-manual-mode=true
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: max-num-focus-areas=1
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: auto-exposure=smart-metering
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: skinToneEnhancement-values=enable,disable
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: denoise=denoise-on
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: slow-motion-x=4
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: focus_distance=21
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: effect-values=none,mono,negative,solarize,sepia,posterize,whiteboard,blackboard,aqua,emboss,sketch,neon
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: flash-mode-values=off,auto,on,torch
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: supported-live-snapshot-sizes=2688x1520,1920x1080,1600x1200,1280x768,1280x720,1024x768,800x600,864x480,800x480,768x432,720x480,640x480,352x288,320x240,176x144
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: min-wb-ct=2300
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: face-detection=off
+
+01-09 13:54:27.901 22162 22215 D freedcam.CameraParametersHandler: min-focus=0
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: num-snaps-per-shutter=1
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: exposure-compensation=0
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: preview-size=1920x1088
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: near_vcm=5128
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: confidence_level=25
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: max-num-detected-faces-hw=10
+
+01-09 13:54:27.902   523 22252 E mm-camera-CORE: awb_set_parameters: paramt type =17
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: preview-fps-range=10200,40490
+
+01-09 13:54:27.902 22162 22215 D freedcam.CameraParametersHandler: lensshade=enable
+
+01-09 13:54:27.903   507 22249 E QCamera2HWI: static void* qcamera::QCameraCbNotifier::cbNotifyRoutine(void*) : cb message type 8192 not enabled!
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: jpeg-thumbnail-size-values=512x288,480x288,256x154,432x288,320x240,176x144,288x288,0x0
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: flash_status=0
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: contiburst-support-mode=take
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: min-saturation=0
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: picture-format-values=jpeg,bayer-mipi-10grbg,bayer-ideal-qcom-10grbg,bayer-qcom-10grbg,yuv422sp
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: lensshade-values=enable,disable
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: exposure-step=10
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: selected-auto-scene=Normal
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: mce-values=enable,disable
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: current_vcm=20
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: zoom-supported=true
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: video-flip=off
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: selectable-zone-af=auto
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: max-zoom=59
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: wb-ct-step=10
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: zoom=0
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: zoe-supported=true
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: redeye-reduction-values=enable,disable
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: jpeg-thumbnail-quality=95
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: video-hfr-values=60,120,off
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: focus-step=1
+
+01-09 13:54:27.904 22162 22215 D freedcam.CameraParametersHandler: exposure-compensation-step=0.166667
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: scene-detect=on
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: zoe-support-mode=auto
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: effect=none
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: jpeg-thumbnail-width=512
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: slow-motion-res=1280x720
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: video-hdr-supported=true
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: video-size-values=1920x1088,1920x1080,1280x720,960x544,864x480,800x480,768x432,720x480,640x480,480x320,352x288,320x240,176x144
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: preview-fps-range-values=(15000,15000),(10200,40490)
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: preview-format=yuv420sp
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: saturation=5
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: iso_value=800
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: flip-mode-values=off,flip-v,flip-h,flip-vh
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: max-wb-ct=7500
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: vcm_step=0
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: dual-camera-supported=true
+
+01-09 13:54:27.905   507 22313 I QCameraHWI_Mem: int qcamera::QCameraMemory::allocOneBuffer(qcamera::QCameraMemory::QCameraMemInfo&, int, int): fd=392 size=1474560
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: denoise-values=denoise-off,denoise-on
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: max-num-metering-areas=10
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: vertical-view-angle=43
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: auto-exposure-lock-supported=true
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: raw-size=2688x1520
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: max-num-detected-faces-sw=0
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: zoom-ratios=100,102,104,107,109,112,114,117,120,123,125,128,131,135,138,141,144,148,151,155,158,162,166,170,174,178,182,186,190,195,200,204,209,214,219,224,229,235,240,246,251,257,263,270,276,282,289,296,303,310,317,324,332,340,348,356,364,373,381,390
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: iso=auto
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: picture-size-values=2688x1520,2592x1472,2560x1440,2048x1520,2048x1216,2048x1152,1952x1456,1920x1088,1920x1080,1600x1200,1600x1184,1600x896,1520x1520,1456x1088,1456x1456,1456x880,1456x832,1440x1088,1280x960,1280x768,1280x720,1184x1184,1088x1088,1024x768,800x600,800x480,768x432,720x720,720x480,640x480,640x384,640x368,352x288,320x240
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: dis-values=enable,disable
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: zsl-values=off,on
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: avtimer=disable
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: ae-bracket-hdr=Off
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: horizontal-view-angle=69.6
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: antibanding-values=off,60hz,50hz,auto
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: hand_cover=0
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: video-hdr=off
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: min-exposure-compensation=-12
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: max-contrast=10
+
+01-09 13:54:27.905 22162 22215 D freedcam.CameraParametersHandler: current-focus-step=20
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: smooth-zoom-supported=false
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: video-stabilization-supported=true
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: mce=enable
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: max-saturation=10
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: histogram=disable
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: focus-mode=auto
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: video-snapshot-supported=true
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: auto-exposure-values=frame-average,center-weighted,spot-metering,center-weighted,spot-metering-adv,center-weighted-adv
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: preview-flip=off
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: video-slow-motion-supported=true
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: angle_sensor_data=53
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: picture-format=jpeg
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: video-720p60fps-supported=true
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: preview-size-values=1920x1088,1920x1080,1808x1080,1440x1088,1280x720,1088x1088,960x720,864x480,800x480,768x432,720x720,720x480,640x360,640x480,576x432,480x320,384x288,352x288,320x240,240x160,176x144
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: touch-af-aec=touch-off
+
+01-09 13:54:27.906 22162 22215 D freedcam.CameraParametersHandler: auto-whitebalance-lock-supported=true
