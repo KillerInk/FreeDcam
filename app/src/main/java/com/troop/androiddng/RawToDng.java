@@ -62,6 +62,17 @@ public class RawToDng
             this.tightraw = tightraw;
             this.rowsize = rowsize;
         }
+
+        public static SupportedDevices GetValue(int _id)
+        {
+            SupportedDevices[] As = SupportedDevices.values();
+            for(int i = 0; i < As.length; i++)
+            {
+                if(As[i].filesize == _id)
+                    return As[i];
+            }
+            return null;
+        }
     }
 	
 	public static native void convertRawBytesToDng(
@@ -85,12 +96,26 @@ public class RawToDng
     {
         if (DeviceUtils.isHTC_M8())
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize);
-        else if (DeviceUtils.isXperiaL())
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.XperiaL_rowSize);
-        else if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
-            convertRawBytesToDng(data, fileToSave, width, 3080, g3_color1, g3_color2, g3_neutral, g3_blacklevel, BGGR, getG3_rowSizeL);
         else
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, g3_blacklevel, BGGR, Calculate_rowSize(data.length, height));
+        {
+            SupportedDevices device = SupportedDevices.GetValue(data.length);
+            if (device!= null)
+            {
+                if (device.rowsize == 0)
+                {
+                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
+                            device.colormatrix1, device.colormatrix2, device.neutralmatrix,
+                            device.blacklvl, device.imageformat, Calculate_rowSize(data.length, device.height));
+                }
+                else
+                {
+                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
+                            device.colormatrix1, device.colormatrix2, device.neutralmatrix,
+                            device.blacklvl, device.imageformat, device.rowsize);
+                }
+            }
+
+        }
     }
 	
 	public static float[] g3_color1 =
