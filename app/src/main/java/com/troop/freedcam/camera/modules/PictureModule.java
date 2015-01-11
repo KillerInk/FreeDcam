@@ -259,12 +259,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        if (DeviceUtils.isHTC_M8())
+        if (parametersHandler.DualMode.IsSupported() && parametersHandler.DualMode.GetValue().equals("0"))
         {
-            Log.d(TAG, "set m8 raw-size");
-            ((CamParametersHandler)ParameterHandler).setRawSize("2576x1936");
-            Log.d(TAG, "is set m8 raw-size");
+            Log.d(TAG, "SetDualMode to 1");
+            parametersHandler.DualMode.SetValue("1", true);
+            Log.d(TAG, "DualMode is set");
         }
+
         //if (ParameterHandler.AE_Bracket.IsSupported())
             //ParameterHandler.AE_Bracket.SetValue("Off", true);
         if (ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));

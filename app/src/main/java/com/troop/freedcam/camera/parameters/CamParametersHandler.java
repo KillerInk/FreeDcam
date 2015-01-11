@@ -64,6 +64,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
     boolean moreParametersToSet = false;
     BaseCameraHolder baseCameraHolder;
+    public BaseModeParameter DualMode;
 
     SetParameterRunner setParameterRunner;
 
@@ -148,6 +149,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
         Histogram = new BaseModeParameter(cameraParameters,this, "histogram", "histogram-values");
         CameraMode = new BaseModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
+        DualMode = new BaseModeParameter(cameraParameters,this, "dual_mode", "");
 
         ExposureLock = new ExposureLockParameter(cameraParameters, this, "","");
 
