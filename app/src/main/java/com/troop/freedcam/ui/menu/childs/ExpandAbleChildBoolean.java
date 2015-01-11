@@ -7,6 +7,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -88,16 +89,24 @@ public class ExpandAbleChildBoolean extends ExpandableChildNumber
     {
         if (videoProfile.contains("bayer-mipi"))
         {
-            if (!group.getItems().contains(this))
+            if (!isVisible)
             {
-                group.getItems().add(this);
+                isVisible = true;
+                group.submenu.addView(this);
 
             }
+            ((SimpleModeParameter)parameterHolder).setIsSupported(true);
         }
         else
         {
-            if (group.getItems().contains(this))
-                group.getItems().remove(this);
+            if (isVisible)
+            {
+                isVisible =false;
+                group.submenu.removeView(this);
+
+
+            }
+            ((SimpleModeParameter)parameterHolder).setIsSupported(false);
         }
         //reload this way subitems
         group.ModuleChanged("");

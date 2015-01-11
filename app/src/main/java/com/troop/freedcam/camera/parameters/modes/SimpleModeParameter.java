@@ -7,21 +7,27 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
  */
 public class SimpleModeParameter extends AbstractModeParameter
 {
+    boolean isSupported;
 
-        public boolean IsSupported() {
-            return true;
-        }
+    public boolean IsSupported()
+    {
+        return isSupported;
+    }
+    public void setIsSupported(boolean s)
+    {
+        this.isSupported = s;
+    }
 
-        public void SetValue(String valueToSet, boolean setToCamera) {
+    public void SetValue(String valueToSet, boolean setToCamera) {
 
-        }
+    }
 
-        public String GetValue() {
-            return null;
-        }
+    public String GetValue() {
+        return null;
+    }
 
-        public String[] GetValues() {
-            return new String[0];
-        }
+    public String[] GetValues() {
+        return new String[0];
+    }
 
 }
