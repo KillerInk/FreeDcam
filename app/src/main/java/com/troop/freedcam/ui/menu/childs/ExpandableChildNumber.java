@@ -44,7 +44,8 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
 
     }
 
-    private void initt(Context context)
+    protected
+    void initt(Context context)
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -154,13 +155,13 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
 
     @Override
     public I_ModeParameter getParameterHolder() {
-        return null;
+        return super.getParameterHolder();
     }
 
     @Override
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
-        super.setParameterHolder(new simpleModeParam(), modulesToShow);
+        super.setParameterHolder(parameterHolder, modulesToShow);
     }
 
     @Override
@@ -175,26 +176,5 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
 
 
 
-    class simpleModeParam extends AbstractModeParameter
-    {
-        @Override
-        public boolean IsSupported() {
-            return true;
-        }
 
-        @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
-
-        }
-
-        @Override
-        public String GetValue() {
-            return null;
-        }
-
-        @Override
-        public String[] GetValues() {
-            return new String[0];
-        }
-    }
 }

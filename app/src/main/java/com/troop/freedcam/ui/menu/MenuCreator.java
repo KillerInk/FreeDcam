@@ -3,11 +3,13 @@ package com.troop.freedcam.ui.menu;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.childs.ExpandAbleChildBoolean;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -58,6 +60,7 @@ public class MenuCreator
     ExpandableChildNumber timelapseframes;
     SaveCamParasExpandableChild saveCamparas;
     SwitchApiExpandableChild sonyExpandableChild;
+    ExpandAbleChildBoolean dngSwitch;
 
     public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
@@ -75,8 +78,11 @@ public class MenuCreator
         {
             picSize.setParameterHolder(parameterHandler.PictureSize,cameraUiWrapper.moduleHandler.PictureModules);
         }
+        if (dngSwitch != null)
+            dngSwitch.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.PictureModules, parameterHandler);
         if (parameterHandler.PictureFormat != null)
         {
+            picformat.PictureFormatChangedHandler = dngSwitch;
             picformat.setParameterHolder(parameterHandler.PictureFormat,cameraUiWrapper.moduleHandler.PictureModules);
         }
         if (parameterHandler.JpegQuality != null) {
@@ -160,6 +166,7 @@ public class MenuCreator
         }
 
         longExposureTime.setParameterHolder(new LongExposureSetting(null,null,"",""), cameraUiWrapper.moduleHandler.LongeExpoModules);
+        timelapseframes.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.VideoModules);
 
         if (parameterHandler.VideoProfiles != null)
         {
@@ -175,7 +182,7 @@ public class MenuCreator
             videoHdr.setParameterHolder(parameterHandler.VideoHDR,cameraUiWrapper.moduleHandler.VideoModules);
         }
         if (saveCamparas.getParameterHolder() != null && saveCamparas.getParameterHolder().IsSupported())
-            saveCamparas.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+            saveCamparas.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
     }
@@ -209,6 +216,9 @@ public class MenuCreator
 
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
+
+        dngSwitch = new ExpandAbleChildBoolean(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
+        piclist.add(dngSwitch);
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(parameterHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);

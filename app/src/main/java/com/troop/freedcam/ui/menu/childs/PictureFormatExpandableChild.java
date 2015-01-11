@@ -13,7 +13,9 @@ import java.util.ArrayList;
 /**
  * Created by troop on 20.10.2014.
  */
-public class PictureFormatExpandableChild extends ExpandableChild {
+public class PictureFormatExpandableChild extends ExpandableChild
+{
+    public I_VideoProfile PictureFormatChangedHandler;
     public PictureFormatExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
     }
@@ -26,6 +28,8 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         valueTextView.setText(value);
         appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
+        if (PictureFormatChangedHandler != null)
+            PictureFormatChangedHandler.VideoProfileChanged(value);
     }
 
     @Override
@@ -49,6 +53,8 @@ public class PictureFormatExpandableChild extends ExpandableChild {
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
         appSettingsManager.setString(settingsname, settingValue);
+        if (PictureFormatChangedHandler != null)
+            PictureFormatChangedHandler.VideoProfileChanged(settingValue);
     }
 
     private String setDeviceSettings(AppSettingsManager appSettingsManager, String settingsname, String settingValue) {

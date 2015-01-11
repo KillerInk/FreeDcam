@@ -49,6 +49,7 @@ public class AppSettingsManager
     public static String SETTING_VIDEOHDR = "videohdr";
     public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     public static String SETTING_SONYAPI = "sonyapi";
+    public static String SETTING_DNG = "dng";
 
     public static String API_SONY = "sony";
     public static String API_1 = "api1";
