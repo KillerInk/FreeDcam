@@ -22,21 +22,52 @@ extern "C"
 			jfloatArray neutralColor,
 			jint blacklevel,
 			jstring bayerformat,
-			jint rowSize);
+			jint rowSize,
+			jstring devicename,
+			jboolean tight);
 
-	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDngM8(JNIEnv *env, jobject thiz,
-				jbyteArray filein,
-				jstring fileout,
-				jint width,
-				jint height,
-				jfloatArray colorMatrix1,
-				jfloatArray colorMatrix2,
-				jfloatArray neutralColor,
-				jint blacklevel,
-				jstring bayerformat,
-				jint rowSize);
 }
 
+
+void processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsigned char *strfile, int rowSize, int width, int height)
+{
+    int status=1, i, j, row, col, b;
+    unsigned char split;
+    j=0;
+	for (row=0; row < height; row ++)
+	{
+
+		//LOGD("read row: %d", row);
+		i = 0;
+		for(b = row * rowSize; b < row * rowSize + rowSize; b++)
+			buffer[i++] = strfile[b];
+
+		// offset into buffer
+		j = 0;
+		/*
+		 * get 5 bytes from buffer and move first 4bytes to 16bit
+		 * split the 5th byte and add the value to the first 4 bytes
+		 * */
+		for (col = 0; col < width; col+= 4) { // iterate over pixel columns
+			pixel[col+0] = buffer[j++] << 8;
+			pixel[col+1] = buffer[j++] << 8;
+			pixel[col+2] = buffer[j++] << 8;
+			pixel[col+3] = buffer[j++] << 8;
+			//LOGD("Unpacked 4bytes");
+			split = buffer[j++]; // low-order packed bits from previous 4 pixels
+			//LOGD("Unpack 5th byte and move to last 4bytes pixel %d", col + 5);
+			pixel[col+0] += (split & 0b11000000); // unpack them bits, add to 16-bit values, left-justified
+			pixel[col+1] += (split & 0b00110000)<<2;
+			pixel[col+2] += (split & 0b00001100)<<4;
+			pixel[col+3] += (split & 0b00000011)<<6;
+			//LOGD("Unpacked 5thbyte and moved");
+		}
+		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+		LOGD("Error writing TIFF scanline.");
+		}
+
+	}
+}
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(JNIEnv *env, jobject thiz,
 		jbyteArray filein,
@@ -48,7 +79,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 		jfloatArray neutralColor,
 		jint blacklevel,
 		jstring bayerformat,
-		jint rowSize)
+		jint rowSize,
+		jstring devicename,
+		jboolean tight)
 {
 	LOGD("Start Converting");
 	//load the rawdata into chararray
@@ -103,7 +136,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
 	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "LG G3");
+	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, devicename);
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
 	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
 	LOGD("bayerformat = %s", bayer);
@@ -111,7 +144,13 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
 	if(0 == strcmp(bayer , "grbg"))
 		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+	if(0 == strcmp(bayer , "rggb"))
+    		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+    if(0 == strcmp(bayer , "gbrg"))
+        	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+
 	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+
 
 
 	//LOGD("write whitelvl");
@@ -125,44 +164,15 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	LOGD("write colormatrix2");
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colormatrix2);
 
-	LOGD("Processing RAW data...");
+
 
 	buffer =(unsigned char *)malloc(rowSize);
 
-	j=0;
-	for (row=0; row < height; row ++)
-	{
+    //processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsigned char *strfile, int rowSize, int width, int height)
+    LOGD("Processing tight RAW data...");
+    processTightRaw(tif, pixel, buffer, strfile, rowSize, width, height);
+    LOGD("Done tight RAW data...");
 
-		//LOGD("read row: %d", row);
-		i = 0;
-		for(b = row * rowSize; b < row * rowSize + rowSize; b++)
-			buffer[i++] = strfile[b];
-
-		// offset into buffer
-		j = 0;
-		/*
-		 * get 5 bytes from buffer and move first 4bytes to 16bit
-		 * split the 5th byte and add the value to the first 4 bytes
-		 * */
-		for (col = 0; col < width; col+= 4) { // iterate over pixel columns
-			pixel[col+0] = buffer[j++] << 8;
-			pixel[col+1] = buffer[j++] << 8;
-			pixel[col+2] = buffer[j++] << 8;
-			pixel[col+3] = buffer[j++] << 8;
-			//LOGD("Unpacked 4bytes");
-			split = buffer[j++]; // low-order packed bits from previous 4 pixels
-			//LOGD("Unpack 5th byte and move to last 4bytes pixel %d", col + 5);
-			pixel[col+0] += (split & 0b11000000); // unpack them bits, add to 16-bit values, left-justified
-			pixel[col+1] += (split & 0b00110000)<<2;
-			pixel[col+2] += (split & 0b00001100)<<4;
-			pixel[col+3] += (split & 0b00000011)<<6;
-			//LOGD("Unpacked 5thbyte and moved");
-		}
-		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
-		LOGD("Error writing TIFF scanline.");
-		}
-
-	}
 	TIFFWriteDirectory (tif);
 
 	LOGD("work finished");
