@@ -327,7 +327,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     public void setString(String param, String value)
     {
         cameraParameters.put(param, value);
-        //cameraHolder.SetCameraParameters(cameraParameters);
+        cameraHolder.SetCameraParameters(cameraParameters);
     }
 
     public void setRawSize(String size)
