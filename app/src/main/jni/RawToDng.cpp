@@ -10,6 +10,8 @@
 #define  LOG_TAG    "DEBUG"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
+typedef unsigned long long UINT64;
+
 extern "C"
 {
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(JNIEnv *env, jobject thiz,
@@ -28,10 +30,63 @@ extern "C"
 
 }
 
+/*void CLASS android_loose_load_raw()
+{
+  uchar *data, *dp;
+  int bwide, row, col, c;
+  UINT64 bitbuf=0;
+
+  bwide = (raw_width+5)/6 << 3;
+  data = (uchar *) malloc (bwide);
+  merror (data, "android_loose_load_raw()");
+  for (row=0; row < raw_height; row++) {
+    if (fread (data, 1, bwide, ifp) < bwide) derror();
+    for (dp=data, col=0; col < raw_width; dp+=8, col+=6) {
+      FORC(8) bitbuf = (bitbuf << 8) | dp[c^7];
+      FORC(6) RAW(row,col+c) = (bitbuf >> c*10) & 0x3ff;
+    }
+  }
+  free (data);
+}*/
+
+void processLooseRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsigned char *strfile, int rowSize, int width, int height)
+{
+    int i, j, row, col, b;
+    unsigned char split;
+    rowSize = (width+5)/6 << 3;
+    UINT64 bitbuf=0;
+    for (row=0; row < height; row ++)
+    {
+        //LOGD("read row: %d", row);
+        i = 0;
+        for(b = row * rowSize; b < row * rowSize + rowSize; b++)
+        	buffer[i++] = strfile[b];
+
+        j = 0;
+
+        for (col = 0; col < width; col+= 6)
+        {
+            for(int c = 0; c < 8; c++)
+            {
+                bitbuf = (bitbuf << 8) | buffer[c^7];
+            }
+            for(int c = 0; c < 6; c++)
+            {
+                pixel[col+c] = (bitbuf >> c*10) & 0x3ff;
+            }
+
+        }
+        if (TIFFWriteScanline (tif, pixel, row, 0) != 1)
+        {
+        	LOGD("Error writing TIFF scanline.");
+        }
+    }
+}
+
 
 void processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsigned char *strfile, int rowSize, int width, int height)
 {
-    int status=1, i, j, row, col, b;
+    int i, j, row, col, b;
     unsigned char split;
     j=0;
 	for (row=0; row < height; row ++)
@@ -97,6 +152,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	jfloat *colormatrix2 = env->GetFloatArrayElements(colorMatrix2, 0);
 	jfloat *neutral = env->GetFloatArrayElements(neutralColor, 0);
 	LOGD("Matrixes set");
+	float blackval;
 
 	/*
 	 * i seems the input=1024 is a long but need to converted *16 to a floatvalue??
@@ -107,7 +163,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 		//blacklevel =short
 		//blacklevel *4 = long??
 		//blacklevel * 16 = float??
-	float blackval = (blacklevel *4) *16;
+    if(blacklevel != 0)
+	    blackval = (blacklevel *4) *16;
 	static const float black[] = {blackval, blackval, blackval , blackval};
 	static const short CFARepeatPatternDim[] = { 2,2 };
 	int status=1, i, j, row, col, b;
@@ -169,9 +226,18 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	buffer =(unsigned char *)malloc(rowSize);
 
     //processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsigned char *strfile, int rowSize, int width, int height)
-    LOGD("Processing tight RAW data...");
-    processTightRaw(tif, pixel, buffer, strfile, rowSize, width, height);
-    LOGD("Done tight RAW data...");
+    if(tight == true)
+    {
+        LOGD("Processing tight RAW data...");
+        processTightRaw(tif, pixel, buffer, strfile, rowSize, width, height);
+        LOGD("Done tight RAW data...");
+    }
+    else
+    {
+        LOGD("Processing loose RAW data...");
+        processLooseRaw(tif, pixel, buffer, strfile, rowSize, width, height);
+        LOGD("Done loose RAW data...");
+    }
 
 	TIFFWriteDirectory (tif);
 
