@@ -12,6 +12,7 @@ import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
+import com.troop.freedcam.ui.menu.childs.ExpandbleChildAeBracket;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
@@ -61,6 +62,7 @@ public class MenuCreator
     SaveCamParasExpandableChild saveCamparas;
     SwitchApiExpandableChild sonyExpandableChild;
     ExpandableChildDngSupport dngSwitch;
+    ExpandbleChildAeBracket aeBracketSwitch;
 
     public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
@@ -185,6 +187,11 @@ public class MenuCreator
             saveCamparas.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
+
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
+        aeBracketSwitch.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
+
+
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -217,8 +224,7 @@ public class MenuCreator
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
 
-        dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
-        piclist.add(dngSwitch);
+
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(parameterHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);
@@ -227,6 +233,12 @@ public class MenuCreator
 
         redeye= new ExpandableChild(context, group, context.getString(R.string.picture_redeyereduction),appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
         piclist.add(redeye);
+
+        dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
+        piclist.add(dngSwitch);
+
+        aeBracketSwitch = new ExpandbleChildAeBracket(context, group, appSettingsManager, "HDR AeBracket", AppSettingsManager.SETTING_AEBRACKETACTIVE);
+        piclist.add(aeBracketSwitch);
 
         group.setItems(piclist);
     }

@@ -6,6 +6,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -15,15 +16,14 @@ import com.troop.freedcam.ui.menu.ExpandableGroup;
 import java.util.ArrayList;
 
 /**
- * Created by troop on 08.01.2015.
+ * Created by troop on 13.01.2015.
  */
-public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
+public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
 {
 
-    protected Switch aSwitch;
-    protected AbstractParameterHandler parameterHandler;
+    SimpleModeParameter simpleModeParameter;
 
-    public ExpandableChildDngSupport(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname) {
+    public ExpandbleChildAeBracket(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname) {
         super(context, group, appSettingsManager, name, settingsname);
     }
 
@@ -39,7 +39,7 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 appSettingsManager.setString(settingsname, isChecked +"");
-                parameterHandler.isDngActive = isChecked;
+                parameterHandler.isAeBracketActive = isChecked;
             }
         });
 
@@ -59,54 +59,39 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow,AbstractParameterHandler parameterHandler)
     {
         super.setParameterHolder(parameterHolder, modulesToShow);
-        String dng  = appSettingsManager.getString(AppSettingsManager.SETTING_DNG);
+        this.simpleModeParameter = (SimpleModeParameter)parameterHolder;
+        String dng  = appSettingsManager.getString(AppSettingsManager.SETTING_AEBRACKETACTIVE);
         this.parameterHandler = parameterHandler;
         if (dng.equals(""))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
+            appSettingsManager.setString(AppSettingsManager.SETTING_AEBRACKETACTIVE, "false");
             dng = "false";
         }
         if (dng.equals("false")) {
             aSwitch.setChecked(false);
-            parameterHandler.isDngActive = false;
+            parameterHandler.isAeBracketActive = false;
         }
         else
         {
-            parameterHandler.isDngActive = true;
+            parameterHandler.isAeBracketActive = true;
             aSwitch.setChecked(true);
         }
+
     }
-
-
 
     @Override
-    public void VideoProfileChanged(String videoProfile)
+    public String ModuleChanged(String module)
     {
-        if (videoProfile.contains("bayer-mipi"))
+        if (modulesToShow.contains(module) )
         {
-            if (!isVisible)
-            {
-                isVisible = true;
-                group.submenu.addView(this);
-
-            }
-            ((SimpleModeParameter)parameterHolder).setIsSupported(true);
+            if (!isVisible && parameterHandler.AE_Bracket != null && parameterHandler.AE_Bracket.IsSupported())
+             group.submenu.addView(this);
         }
-        else
+        else if (isVisible && !modulesToShow.contains(module))
         {
-            if (isVisible)
-            {
-                isVisible =false;
-                group.submenu.removeView(this);
-
-
-            }
-            ((SimpleModeParameter)parameterHolder).setIsSupported(false);
+            group.submenu.removeView(this);
         }
-        //reload this way subitems
-        group.ModuleChanged("");
 
+        return super.ModuleChanged(module);
     }
-
-
 }

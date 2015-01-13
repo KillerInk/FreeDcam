@@ -28,6 +28,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public ArrayList<String> LongeExpoModules;
     public ArrayList<String> VideoModules;
     public ArrayList<String> AllModules;
+    public ArrayList<String> HDRModule;
     public HashMap<String, AbstractModule> moduleList;
     protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
@@ -59,6 +60,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         AllModules.add(MODULE_ALL);
         LongeExpoModules = new ArrayList<String>();
         LongeExpoModules.add(MODULE_LONGEXPO);
+
+        HDRModule = new ArrayList<String>();
+        HDRModule.add(MODULE_HDR);
 
     }
 

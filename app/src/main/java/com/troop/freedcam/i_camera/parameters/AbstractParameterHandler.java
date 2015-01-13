@@ -71,6 +71,7 @@ public abstract class AbstractParameterHandler
 
     public boolean isExposureAndWBLocked = false;
     public boolean isDngActive = false;
+    public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;
