@@ -44,25 +44,19 @@ public class PictureFormatExpandableChild extends ExpandableChild
 
 
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow) {
-        this.parameterHolder = parameterHolder;
-        String campara = parameterHolder.GetValue();
-        String settingValue = appSettingsManager.getString(settingsname);
-        //TODO code design fail
-        //process raw supported devices
-        settingValue = setDeviceSettings(appSettingsManager, settingsname, settingValue);
-        nameTextView.setText(Name);
-        valueTextView.setText(appSettingsManager.getString(settingsname));
-        appSettingsManager.setString(settingsname, settingValue);
-        if (PictureFormatChangedHandler != null)
-            PictureFormatChangedHandler.VideoProfileChanged(settingValue);
+       super.setParameterHolder(parameterHolder,modulesToShow);
+
     }
 
-    private String setDeviceSettings(AppSettingsManager appSettingsManager, String settingsname, String settingValue) {
-        if (settingValue.equals(""))
+    @Override
+    public void onValueChanged(String val)
+    {
+        if (appSettingsManager.getString(settingsname).equals(""))
         {
             appSettingsManager.setString(settingsname, "jpeg");
-            settingValue = "jpeg";
         }
-        return settingValue;
+        super.onValueChanged(val);
+        if (PictureFormatChangedHandler != null)
+            PictureFormatChangedHandler.VideoProfileChanged(val);
     }
 }
