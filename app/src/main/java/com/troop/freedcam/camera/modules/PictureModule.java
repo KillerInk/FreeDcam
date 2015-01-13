@@ -263,17 +263,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        if (parametersHandler.DualMode.IsSupported() && parametersHandler.DualMode.GetValue().equals("0"))
-        {
-            Log.d(TAG, "SetDualMode to 1");
-            parametersHandler.DualMode.SetValue("1", true);
-            Log.d(TAG, "DualMode is set");
-
-
-        }
-        if (baseCameraHolder.hasSamsungFrameWork)
-            baseCameraHolder.setShootmode(1014);
-
+        
         //if (ParameterHandler.AE_Bracket.IsSupported())
             //ParameterHandler.AE_Bracket.SetValue("Off", true);
         if (ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
