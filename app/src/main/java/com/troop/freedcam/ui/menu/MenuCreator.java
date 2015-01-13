@@ -188,8 +188,11 @@ public class MenuCreator
         if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
 
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
-        aeBracketSwitch.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
+        if (parameterHandler.AE_Bracket != null && parameterHandler.AE_Bracket.IsSupported())
+        {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
+            aeBracketSwitch.setParameterHolder(parameterHandler.AE_Bracket, cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
+        }
 
 
     }

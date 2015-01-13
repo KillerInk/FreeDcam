@@ -171,7 +171,8 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
         super.setParameterHolder(parameterHolder, modulesToShow);
-        this.parameterHolder = (SimpleModeParameter)parameterHolder;
+        if (parameterHolder instanceof SimpleModeParameter)
+            this.parameterHolder = (SimpleModeParameter)parameterHolder;
     }
 
     @Override

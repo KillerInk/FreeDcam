@@ -58,7 +58,7 @@ public class HdrModule extends PictureModule
     @Override
     public void LoadNeededParameters()
     {
-        if (ParameterHandler.AE_Bracket.IsSupported())
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && ParameterHandler.isAeBracketActive)
         {
             aeBrackethdr = true;
             ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
@@ -68,9 +68,9 @@ public class HdrModule extends PictureModule
     @Override
     public void UnloadNeededParameters()
     {
-        if (ParameterHandler.AE_Bracket.IsSupported())
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
-            aeBrackethdr = true;
+            aeBrackethdr = false;
             ParameterHandler.AE_Bracket.SetValue("Off", true);
         }
     }

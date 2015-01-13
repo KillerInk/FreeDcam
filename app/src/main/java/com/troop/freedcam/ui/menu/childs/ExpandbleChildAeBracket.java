@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
 {
 
-    SimpleModeParameter simpleModeParameter;
 
     public ExpandbleChildAeBracket(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname) {
         super(context, group, appSettingsManager, name, settingsname);
@@ -40,6 +39,7 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
             {
                 appSettingsManager.setString(settingsname, isChecked +"");
                 parameterHandler.isAeBracketActive = isChecked;
+                setAeBracketValue(parameterHandler, isChecked +"");
             }
         });
 
@@ -59,7 +59,7 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow,AbstractParameterHandler parameterHandler)
     {
         super.setParameterHolder(parameterHolder, modulesToShow);
-        this.simpleModeParameter = (SimpleModeParameter)parameterHolder;
+
         String dng  = appSettingsManager.getString(AppSettingsManager.SETTING_AEBRACKETACTIVE);
         this.parameterHandler = parameterHandler;
         if (dng.equals(""))
@@ -67,16 +67,22 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
             appSettingsManager.setString(AppSettingsManager.SETTING_AEBRACKETACTIVE, "false");
             dng = "false";
         }
+        setAeBracketValue(parameterHandler, dng);
+
+    }
+
+    private void setAeBracketValue(AbstractParameterHandler parameterHandler, String dng) {
         if (dng.equals("false")) {
             aSwitch.setChecked(false);
             parameterHandler.isAeBracketActive = false;
+            parameterHandler.AE_Bracket.SetValue(false+"", true);
         }
         else
         {
             parameterHandler.isAeBracketActive = true;
             aSwitch.setChecked(true);
+            parameterHandler.AE_Bracket.SetValue(true+"", true);
         }
-
     }
 
     @Override

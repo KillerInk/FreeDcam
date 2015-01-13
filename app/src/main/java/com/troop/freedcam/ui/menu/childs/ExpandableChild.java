@@ -123,7 +123,8 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
             appSettingsManager.setString(settingsname, settingValue);
             Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
         }
-        valueTextView.setText(settingValue);
+        if (valueTextView != null)
+            valueTextView.setText(settingValue);
 
     }
 
