@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -30,6 +31,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     final float mover = 0.1f;
     final float bigmover = 1;
     I_VideoProfile videoProfile;
+    SimpleModeParameter parameterHolder;
 
 
     public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname)
@@ -124,15 +126,22 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     {
         if (videoProfile.contains("Timelapse"))
         {
-            if (!group.getItems().contains(this))
+            if (!isVisible)
             {
-                group.getItems().add(this);
+                isVisible =true;
+                group.submenu.addView(this);
+                parameterHolder.setIsSupported(true);
             }
         }
         else
         {
-            if (group.getItems().contains(this))
+            if (isVisible)
+            {
+                isVisible = false;
                 group.getItems().remove(this);
+                parameterHolder.setIsSupported(false);
+            }
+
         }
         //reload this way subitems
         group.ModuleChanged("");
@@ -162,6 +171,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
     {
         super.setParameterHolder(parameterHolder, modulesToShow);
+        this.parameterHolder = (SimpleModeParameter)parameterHolder;
     }
 
     @Override
