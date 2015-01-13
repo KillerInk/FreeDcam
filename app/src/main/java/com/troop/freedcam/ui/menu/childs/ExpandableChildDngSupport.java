@@ -4,31 +4,26 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
 
-import static com.troop.freedcam.ui.menu.childs.ExpandableChildNumber.*;
-
 /**
  * Created by troop on 08.01.2015.
  */
-public class ExpandAbleChildBoolean extends ExpandableChildNumber
+public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
 {
 
     Switch aSwitch;
     AbstractParameterHandler parameterHandler;
 
-    public ExpandAbleChildBoolean(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname) {
+    public ExpandableChildDngSupport(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname) {
         super(context, group, appSettingsManager, name, settingsname);
     }
 

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 02.12.2014.
  */
-public class ExpandableChildNumber extends ExpandableChild implements I_VideoProfile
+public class ExpandableChildTimelapseFps extends ExpandableChild implements I_VideoProfile
 {
 
     Button plus;
@@ -34,7 +34,7 @@ public class ExpandableChildNumber extends ExpandableChild implements I_VideoPro
     SimpleModeParameter parameterHolder;
 
 
-    public ExpandableChildNumber(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name,String settingsname)
+    public ExpandableChildTimelapseFps(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname)
     {
         super(context,group,name, appSettingsManager, settingsname);
         initt(context);

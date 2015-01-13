@@ -9,9 +9,9 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.menu.childs.ExpandAbleChildBoolean;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
-import com.troop.freedcam.ui.menu.childs.ExpandableChildNumber;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
 import com.troop.freedcam.ui.menu.childs.PictureFormatExpandableChild;
 import com.troop.freedcam.ui.menu.childs.PreviewExpandableChild;
@@ -57,10 +57,10 @@ public class MenuCreator
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
     ExpandableChild videoHdr;
-    ExpandableChildNumber timelapseframes;
+    ExpandableChildTimelapseFps timelapseframes;
     SaveCamParasExpandableChild saveCamparas;
     SwitchApiExpandableChild sonyExpandableChild;
-    ExpandAbleChildBoolean dngSwitch;
+    ExpandableChildDngSupport dngSwitch;
 
     public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
@@ -217,7 +217,7 @@ public class MenuCreator
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
 
-        dngSwitch = new ExpandAbleChildBoolean(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
+        dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
         piclist.add(dngSwitch);
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
@@ -399,7 +399,7 @@ public class MenuCreator
         }
         childlist.add(videoProfile);
 
-        timelapseframes = new ExpandableChildNumber(context, video,appSettingsManager,"Timelapse FPS",AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+        timelapseframes = new ExpandableChildTimelapseFps(context, video,appSettingsManager,"Timelapse FPS",AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
         timelapseframes.setMinMax(0.01f, 30);
 
         childlist.add(timelapseframes);
