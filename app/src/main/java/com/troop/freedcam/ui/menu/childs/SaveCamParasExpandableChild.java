@@ -5,6 +5,9 @@ import android.os.Build;
 import android.os.Environment;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -22,7 +25,8 @@ import java.util.Arrays;
  */
 public class SaveCamParasExpandableChild extends ExpandableChild
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
+    CameraUiWrapper cameraUiWrapper;
+    SimpleModeParameter parameterHolder;
     public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
         super(context, group, name, appSettingsManager, settingsname);
@@ -31,25 +35,54 @@ public class SaveCamParasExpandableChild extends ExpandableChild
 
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)
     {
-        super.setParameterHolder(new simpleModeParam(), modulesToShow);
+        this.parameterHolder = (SimpleModeParameter)parameterHolder;
 
-        this.cameraUiWrapper = cameraUiWrapper;
+        super.setParameterHolder(this.parameterHolder, modulesToShow);
+
+        this.cameraUiWrapper = (CameraUiWrapper)cameraUiWrapper;
         nameTextView.setText("Save CamParameter");
         valueTextView.setText("");
+        onValueChanged("");
     }
 
-
+    @Override
+    public void onValueChanged(String val) {
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+        {
+            if (!isVisible)
+            {
+                group.submenu.addView(this);
+                isVisible = true;
+                this.parameterHolder.setIsSupported(true);
+            }
+        }
+        else
+        {
+            if (isVisible)
+            {
+                group.submenu.removeView(this);
+                isVisible = false;
+                this.parameterHolder.setIsSupported(false);
+            }
+        }
+        group.ModuleChanged("");
+    }
 
     public void SaveCamParameters()
     {
         String[] paras = null;
-        if (DeviceUtils.isSamsungADV())
+        BaseCameraHolder holder = (BaseCameraHolder)cameraUiWrapper.cameraHolder;
+        if (holder.hasSamsungFrameWork)
         {
-            paras = ((BaseCameraHolder)cameraUiWrapper.cameraHolder).GetSamsungCamera().getParameters().flatten().split(";");
+            paras = holder.GetSamsungCamera().getParameters().flatten().split(";");
+        }
+        else if (holder.hasLGFrameWork)
+        {
+            paras = holder.getLgParameters().split(";");
         }
         else
         {
-            paras = ((BaseCameraHolder)cameraUiWrapper.cameraHolder).GetCamera().getParameters().flatten().split(";");
+            paras = holder.GetCamera().getParameters().flatten().split(";");
         }
 
         Arrays.sort(paras);
@@ -79,35 +112,6 @@ public class SaveCamParasExpandableChild extends ExpandableChild
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-
-
-    class simpleModeParam extends AbstractModeParameter
-    {
-        @Override
-        public boolean IsSupported()
-        {
-            if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
-                return true;
-            else
-                return false;
-        }
-
-        @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
-
-        }
-
-        @Override
-        public String GetValue() {
-            return null;
-        }
-
-        @Override
-        public String[] GetValues() {
-            return new String[0];
         }
     }
 }

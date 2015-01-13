@@ -25,7 +25,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected I_error errorHandler;
     public AppSettingsManager appSettingsManager;
     private static String TAG = StringUtils.TAG + CameraUiWrapper.class.getSimpleName();
-    BaseCameraHolder cameraHolder;
+    public BaseCameraHolder cameraHolder;
 
     public CameraUiWrapper(){};
 

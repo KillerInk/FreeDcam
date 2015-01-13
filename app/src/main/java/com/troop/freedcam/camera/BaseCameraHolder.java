@@ -468,6 +468,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public Camera GetCamera() {
         return mCamera;
     }
+
+    public String getLgParameters()
+    {
+        return lgParameters.getParameters().flatten();
+    }
+
     public SecCamera GetSamsungCamera() {
         return samsungCamera;
     }
