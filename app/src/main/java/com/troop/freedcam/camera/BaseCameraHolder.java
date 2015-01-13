@@ -56,7 +56,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Has Samsung Framework");
             hasSamsungFrameWork = true;
 
-            /*try {
+            try {
                 Class r = Class.forName("com.sec.android.secmediarecorder.SecMediaRecorder");
                 Log.d(TAG, "Has SamsungMediaRecorder Framework");
                 hasSamsungFrameWork = true;
@@ -65,7 +65,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
                 hasSamsungFrameWork = false;
                 Log.d(TAG, "No SamsungMediaRecorder Framework");
-            }*/
+            }
 
         } catch (Exception e) {
 
