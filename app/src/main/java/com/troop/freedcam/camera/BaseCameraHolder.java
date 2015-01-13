@@ -314,8 +314,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             r = new Camera.PictureCallback() {
                 @Override
-                public void onPictureTaken(byte[] bytes, Camera secCamera) {
-                    rawCallback.onPictureTaken(bytes);
+                public void onPictureTaken(byte[] bytes, Camera secCamera)
+                {
+                    if (rawCallback != null)
+                        rawCallback.onPictureTaken(bytes);
                 }
             };
         }
@@ -325,9 +327,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             @Override
             public void onPictureTaken(byte[] bytes, Camera secCamera) {
                 pictureCallback.onPictureTaken(bytes);
-                rawCallback = null;
-                shutterCallback = null;
-                pictureCallback = null;
+                
             }
         };
         this.mCamera.takePicture(sh, r, pic);

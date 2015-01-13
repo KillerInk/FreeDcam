@@ -61,7 +61,7 @@ public class HdrModule extends PictureModule
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && ParameterHandler.isAeBracketActive)
         {
             aeBrackethdr = true;
-            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+            ParameterHandler.AE_Bracket.SetValue("true", true);
         }
     }
 
@@ -71,7 +71,7 @@ public class HdrModule extends PictureModule
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
             aeBrackethdr = false;
-            ParameterHandler.AE_Bracket.SetValue("Off", true);
+            ParameterHandler.AE_Bracket.SetValue("false", true);
         }
     }
 
@@ -94,7 +94,7 @@ public class HdrModule extends PictureModule
         }
     }
 
-    public void onPictureTaken(byte[] data, Camera camera)
+    public void onPictureTaken(byte[] data)
     {
         if (processCallbackData(data)) return;
         if (hdrCount == 2)
