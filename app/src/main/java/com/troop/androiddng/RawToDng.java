@@ -16,6 +16,7 @@ public class RawToDng
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
         G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   g3_rowSizeKitKat),
         G3_Mipi_LL(             16224256, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3082, true,   getG3_rowSizeL),
+        G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
         OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
         //looseraws
@@ -147,7 +148,7 @@ public class RawToDng
 	public static int g3_blacklevel = 64;
 
     //16424960,4208,3120
-    public static int g3_rowSizeKitKat = 5200;
+    public static int g3_rowSizeKitKat = 5264;
     //16224256,4152,3072
     public static int getG3_rowSizeL = 5264;
 	
