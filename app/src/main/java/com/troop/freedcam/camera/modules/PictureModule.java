@@ -125,7 +125,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
 
-        if (processCallbackData(data)) return;
+        if (processCallbackData(data))
+            return;
+
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         baseCameraHolder.StartPreview();
     }
 
@@ -143,6 +150,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }
         file = createFileName();
         bytes = data;
+        //new Thread(saveFileRunner).start();
         saveFileRunner.run();
         isWorking = false;
         if (ParameterHandler.isExposureAndWBLocked)
@@ -158,29 +166,24 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 if (!file.getAbsolutePath().endsWith(".dng")) {
                     saveBytesToFile(bytes, file);
-                    eventHandler.WorkFinished(file);
                     workfinished(true);
-                    bytes = null;
-                    file = null;
+
                 } else
                 {
                     String raw[] = getRawSize();
-
                     int w = Integer.parseInt(raw[0]);
                     int h = Integer.parseInt(raw[1]);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
-                    eventHandler.WorkFinished(file);
                     workfinished(true);
+
                 }
             }
             else
             {
                 file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
-                eventHandler.WorkFinished(file);
+
                 workfinished(true);
-                bytes = null;
-                file = null;
             }
         }
     };
@@ -264,8 +267,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void LoadNeededParameters()
     {
         
-        //if (ParameterHandler.AE_Bracket.IsSupported())
-            //ParameterHandler.AE_Bracket.SetValue("Off", true);
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+            ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
