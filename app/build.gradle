@@ -62,4 +62,5 @@ dependencies {
     provided files('libs/com.lge.frameworks.jar')
     compile files('libs/android-support-v4.jar')
     provided files('libs/real3d.jar')
+    compile files('libs/metadata-extractor-2.7.0.jar')
 }

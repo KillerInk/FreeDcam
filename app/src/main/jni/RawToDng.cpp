@@ -26,7 +26,9 @@ extern "C"
 			jstring bayerformat,
 			jint rowSize,
 			jstring devicename,
-			jboolean tight);
+			jboolean tight,
+			jint iso,
+			jfloat expo);
 
 }
 
@@ -136,7 +138,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 		jstring bayerformat,
 		jint rowSize,
 		jstring devicename,
-		jboolean tight)
+		jboolean tight,
+        jint iso,
+        jfloat expo)
 {
 	LOGD("Start Converting");
 	//load the rawdata into chararray
@@ -196,6 +200,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, devicename);
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
 	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+	TIFFSetField(tif, EXIFTAG_ISOSPEEDRATINGS, iso);
+	TIFFSetField(tif, EXIFTAG_EXPOSURETIME, expo);
 	LOGD("bayerformat = %s", bayer);
 	if(0 == strcmp(bayer,"bggr"))
 		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White

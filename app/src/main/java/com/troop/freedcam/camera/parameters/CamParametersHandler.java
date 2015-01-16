@@ -208,12 +208,12 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     @Override
     public void ParameterChanged()
     {
-        //cameraHolder.SetCameraParameters(cameraParameters);
-        if (!setParameterRunner.isRunning)
+
+        cameraHolder.SetCameraParameters(cameraParameters);
+        /*if (!setParameterRunner.isRunning)
             handler.post(setParameterRunner);
-            //setParameterRunner.run();
         else
-            moreParametersToSet = true;
+            moreParametersToSet = true;*/
 
     }
 

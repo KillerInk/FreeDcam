@@ -85,6 +85,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="com.lge.frameworks" level="project" />
+    <orderEntry type="library" exported="" name="metadata-extractor-2.7.0" level="project" />
     <orderEntry type="library" exported="" name="real3d" level="project" />
     <orderEntry type="library" exported="" name="samsung" level="project" />
   </component>

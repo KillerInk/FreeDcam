@@ -14,24 +14,20 @@ public class RawToDng
     enum SupportedDevices
     {
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
-        G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   g3_rowSizeKitKat),
-        G3_Mipi_LL(             16224256, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3082, true,   getG3_rowSizeL),
-        G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
-        ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
-        OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
+        //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
+        G3_Mipi_LL(             16224256, g3_blacklevel, "bggr",4208,3082, true, getG3_rowSizeL),
+        //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
+        //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
+        //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
         //looseraws
-        XperiaL(                10788864, "Sony XperiaL",           0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  XperiaL_rowSize),
-        OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
-        HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
-        HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
+        XperiaL(                10788864 , 0,  "grbg",3282,2448, false,  XperiaL_rowSize);
+        //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
+        //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
+        //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
 
 
         private final int filesize;
-        private final String Name;
         private final int blacklvl;
-        private final float[] colormatrix1;
-        private final float[] colormatrix2;
-        private final float[] neutralmatrix;
         private final String imageformat;
         private final int width;
         private final int height;
@@ -40,11 +36,7 @@ public class RawToDng
         private final int rowsize;
 
         private SupportedDevices(int filesize,
-                                 String Name,
                                  int blacklvl,
-                                 float[] colormatrix1,
-                                 float[] colormatrix2,
-                                 float[] neutralmatrix,
                                  String imageformat,
                                  int width,
                                  int height,
@@ -52,11 +44,7 @@ public class RawToDng
                                  int rowsize)
         {
             this.filesize = filesize;
-            this.Name = Name;
             this.blacklvl = blacklvl;
-            this.colormatrix1 = colormatrix1;
-            this.colormatrix2 = colormatrix2;
-            this.neutralmatrix = neutralmatrix;
             this.imageformat = imageformat;
             this.width = width;
             this.height = height;
@@ -88,36 +76,41 @@ public class RawToDng
 			String bayerformat,
 			int rowSize,
             String deviceName,
-            boolean tightraw);
+            boolean tightraw,
+            int iso,
+            float exposuretime);
 
     public static void ConvertRawBytesToDng(
             byte[] data,
             String fileToSave,
             int width,
-            int height
+            int height,
+            String Name,
+            int iso,
+            float exposure,
+            String format
     )
     {
         if (DeviceUtils.isHTC_M8())
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", false);
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
         else
         {
             SupportedDevices device = SupportedDevices.GetValue(data.length);
             if (device!= null)
             {
-                if (device.rowsize == 0)
-                {
-                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
-                            device.colormatrix1, device.colormatrix2, device.neutralmatrix,
-                            device.blacklvl, device.imageformat, Calculate_rowSize(data.length, device.height),
-                            device.Name, device.tightraw);
-                }
-                else
-                {
-                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
-                            device.colormatrix1, device.colormatrix2, device.neutralmatrix,
-                            device.blacklvl, device.imageformat, device.rowsize,
-                            device.Name, device.tightraw);
-                }
+
+                convertRawBytesToDng(data, fileToSave, device.width, device.height,
+                        g3_color1, g3_color2, g3_neutral,
+                        device.blacklvl, device.imageformat, device.rowsize,
+                        Name, device.tightraw,iso, exposure);
+
+            }
+            else
+            {
+                convertRawBytesToDng(data, fileToSave, width, height,
+                        g3_color1, g3_color2, g3_neutral,
+                        0, format, Calculate_rowSize(data.length, height),
+                        Name, true,iso, exposure);
             }
 
         }

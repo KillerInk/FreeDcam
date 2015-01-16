@@ -1,10 +1,19 @@
 package com.troop.freedcam.camera.modules;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.ExifSubIFDDescriptor;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -13,12 +22,15 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static android.hardware.Camera.ShutterCallback;
 
@@ -33,9 +45,15 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
+    private String lastBayerFormat;
+    private String lastPicSize;
+    private int iso;
+    private float expo;
+
     public String OverRidePath = "";
     CamParametersHandler parametersHandler;
     BaseCameraHolder baseCameraHolder;
+    boolean dngJpegShot = false;
 
     Handler handler;
     File file;
@@ -72,7 +90,18 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     {
         Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
+        {
+            if (baseCameraHolder.ParameterHandler.isDngActive)
+            {
+                lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+                baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
+                String sizes[] = baseCameraHolder.ParameterHandler.PictureSize.GetValues();
+                lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
+                baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
+                dngJpegShot = true;
+            }
             takePicture();
+        }
     }
 
     @Override
@@ -88,6 +117,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "Start Taking Picture");
         try
         {
+
             baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
 
@@ -124,16 +154,45 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void onPictureTaken(byte[] data)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
+        if (dngJpegShot)
+        {
+            try
+            {
+                final Metadata metadata = ImageMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
+                Iterable<Directory> dirs = metadata.getDirectories();
+                Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+                try
+                {
+                    iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
+                    expo = exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+                } catch (MetadataException e) {
+                    e.printStackTrace();
+                }
+            } catch (ImageProcessingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        if (processCallbackData(data))
-            return;
+            baseCameraHolder.ParameterHandler.PictureFormat.SetValue(lastBayerFormat, true);
+            baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
+            dngJpegShot = false;
+            baseCameraHolder.StartPreview();
+            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
+        }
+        else
+        {
+
+            if (processCallbackData(data))
+                return;
 
         /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        baseCameraHolder.StartPreview();
+            baseCameraHolder.StartPreview();
+        }
     }
 
     protected boolean processCallbackData(byte[] data) {
@@ -173,7 +232,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     String raw[] = getRawSize();
                     int w = Integer.parseInt(raw[0]);
                     int h = Integer.parseInt(raw[1]);
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h);
+                    String l = lastBayerFormat.substring(lastBayerFormat.length() -4);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, expo, l);
                     workfinished(true);
 
                 }
