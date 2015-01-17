@@ -7,7 +7,7 @@
 #include <time.h>
 #include <math.h>
 #include <android/log.h>
-#define  LOG_TAG    "DEBUG"
+#define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 typedef unsigned long long UINT64;
@@ -158,6 +158,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	LOGD("Matrixes set");
 	float blackval;
 
+	short miso = iso;
+
 	/*
 	 * i seems the input=1024 is a long but need to converted *16 to a floatvalue??
 	 */
@@ -188,20 +190,35 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 	LOGD("write tiffheader");
 	TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+	LOGD("wrote SUbIT");
 	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
+	LOGD("wrote width");
 	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height);
+	LOGD("wrote height");
 	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 16);
+	LOGD("wrote bitspersample");
 	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
+	LOGD("wrote photmetric cfa");
 	TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+	LOGD("wrote compression");
 	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+	LOGD("wrote samplesperpixel");
 	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	LOGD("wrote planaerconfig");
 	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+	LOGD("wrote dngversion");
 	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+	LOGD("wrote dngbackversion");
 	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, devicename);
+	LOGD("wrote cameraModel");
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
+	LOGD("wrote colormatrix1");
 	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
-	TIFFSetField(tif, EXIFTAG_ISOSPEEDRATINGS, iso);
-	TIFFSetField(tif, EXIFTAG_EXPOSURETIME, expo);
+	LOGD("wrote neutralmatrix");
+	TIFFSetField(tif, EXIFTAG_ISOSPEEDRATINGS, miso);
+	LOGD("wrote isoSpeed");
+	TIFFSetField(tif, EXIFTAG_EXPOSURETIME,2, expo);
+	LOGD("wrote exposuretime");
 	LOGD("bayerformat = %s", bayer);
 	if(0 == strcmp(bayer,"bggr"))
 		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
@@ -211,15 +228,22 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
     		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
     if(0 == strcmp(bayer , "gbrg"))
         	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    LOGD("wrote Bayerformat");
 
 	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+	LOGD("wrote cfa pattern");
 
 
 
 	//LOGD("write whitelvl");
 	//TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
-	TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
-	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+	if(blacklevel != 0)
+	{
+	    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
+	    LOGD("wrote blacklevel");
+
+	    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+	}
 	LOGD("write CALIBRATIONILLUMINANT1");
 	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
 	LOGD("write CALIBRATIONILLUMINANT2");

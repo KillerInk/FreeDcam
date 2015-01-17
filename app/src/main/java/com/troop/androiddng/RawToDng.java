@@ -1,8 +1,10 @@
 package com.troop.androiddng;
 
 import android.os.Build;
+import android.util.Log;
 
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 public class RawToDng 
 {
@@ -10,6 +12,8 @@ public class RawToDng
     {
 		System.loadLibrary("RawToDng");
     }
+
+    private static String TAG = StringUtils.TAG + RawToDng.class.getSimpleName();
 
     enum SupportedDevices
     {
@@ -91,14 +95,24 @@ public class RawToDng
             String format
     )
     {
+        Log.d(TAG, "Start Converting to DNG");
+        Log.d(TAG, "filesize:" + data.length);
+        Log.d(TAG, "W x H : "+ width + "x" +height);
+        Log.d(TAG, "iso:"+iso);
+        Log.d(TAG, "exposuretime:"+ exposure);
+        Log.d(TAG, "Looking for RawConverting");
         if (DeviceUtils.isHTC_M8())
+        {
+            Log.d(TAG, "is htc m8 raw");
             convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
+        }
         else
         {
+
             SupportedDevices device = SupportedDevices.GetValue(data.length);
             if (device!= null)
             {
-
+                Log.d(TAG, "is Hardcoded format: " + device.toString());
                 convertRawBytesToDng(data, fileToSave, device.width, device.height,
                         g3_color1, g3_color2, g3_neutral,
                         device.blacklvl, device.imageformat, device.rowsize,
@@ -107,6 +121,8 @@ public class RawToDng
             }
             else
             {
+                Log.d(TAG, "is default bayer format do calc the row size");
+                Log.d(TAG, "rowsize :"+Calculate_rowSize(data.length, height));
                 convertRawBytesToDng(data, fileToSave, width, height,
                         g3_color1, g3_color2, g3_neutral,
                         0, format, Calculate_rowSize(data.length, height),
