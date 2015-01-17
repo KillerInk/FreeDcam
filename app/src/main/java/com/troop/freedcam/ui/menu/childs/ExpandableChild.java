@@ -119,7 +119,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         }
         if (!settingValue.equals(val))
         {
-            parameterHolder.SetValue(settingValue, false);
+            parameterHolder.SetValue(settingValue, true);
             appSettingsManager.setString(settingsname, settingValue);
             Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
         }

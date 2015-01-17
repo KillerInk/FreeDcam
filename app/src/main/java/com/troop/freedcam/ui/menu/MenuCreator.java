@@ -238,11 +238,11 @@ public class MenuCreator
         piclist.add(redeye);
 
         dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
-        piclist.add(dngSwitch);
+
 
         aeBracketSwitch = new ExpandbleChildAeBracket(context, group, appSettingsManager, "HDR AeBracket", AppSettingsManager.SETTING_AEBRACKETACTIVE);
         piclist.add(aeBracketSwitch);
-
+        piclist.add(dngSwitch);
         group.setItems(piclist);
     }
 
