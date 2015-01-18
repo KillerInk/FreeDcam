@@ -218,6 +218,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 if (!file.getAbsolutePath().endsWith(".dng")) {
                     saveBytesToFile(bytes, file);
+                    eventHandler.WorkFinished(file);
                     workfinished(true);
 
                 } else
@@ -227,6 +228,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     int h = Integer.parseInt(raw[1]);
                     String l = lastBayerFormat.substring(lastBayerFormat.length() -4);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, expo, l);
+                    eventHandler.WorkFinished(file);
                     workfinished(true);
 
                 }
@@ -235,7 +237,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
-
+                
                 workfinished(true);
             }
         }
