@@ -113,11 +113,20 @@ public class RawToDng
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
-                convertRawBytesToDng(data, fileToSave, device.width, device.height,
-                        g3_color1, g3_color2, g3_neutral,
-                        device.blacklvl, device.imageformat, device.rowsize,
-                        Name, device.tightraw,iso, exposure);
-
+                if (Build.MODEL.equals("Lenovo K910"))
+                {
+                    convertRawBytesToDng(data, fileToSave, device.width, 3120,
+                            g3_color1, g3_color2, g3_neutral,
+                            device.blacklvl, device.imageformat, device.rowsize,
+                            Name, device.tightraw,iso, exposure);
+                }
+                else
+                {
+                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
+                            g3_color1, g3_color2, g3_neutral,
+                            device.blacklvl, device.imageformat, device.rowsize,
+                            Name, device.tightraw,iso, exposure);
+                }
             }
             else
             {
