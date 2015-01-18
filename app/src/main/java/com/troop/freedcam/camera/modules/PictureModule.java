@@ -6,14 +6,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.Tag;
-import com.drew.metadata.exif.ExifSubIFDDescriptor;
-import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -91,7 +83,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
         {
-            if (baseCameraHolder.ParameterHandler.isDngActive)
+            lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+            /*if (baseCameraHolder.ParameterHandler.isDngActive)
             {
                 lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
                 baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
@@ -99,7 +92,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
                 baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
                 dngJpegShot = true;
-            }
+            }*/
             takePicture();
         }
     }
@@ -154,7 +147,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void onPictureTaken(byte[] data)
     {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
-        if (dngJpegShot)
+        /*if (dngJpegShot)
         {
             try
             {
@@ -181,7 +174,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
         }
         else
-        {
+        {*/
 
             if (processCallbackData(data))
                 return;
@@ -192,7 +185,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             e.printStackTrace();
         }*/
             baseCameraHolder.StartPreview();
-        }
+        //}
     }
 
     protected boolean processCallbackData(byte[] data) {
