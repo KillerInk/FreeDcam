@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
@@ -294,7 +295,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-            if (currentItem.manualParameter instanceof FocusManualParameter)
+            if (currentItem.manualParameter instanceof FocusManualParameter ||
+                    currentItem.manualParameter instanceof ExposureManualParameter)
                 setValueToParameters(seekBar.getProgress());
             if (realMin < 0)
                 setValueToTextBox(progress + realMin);
