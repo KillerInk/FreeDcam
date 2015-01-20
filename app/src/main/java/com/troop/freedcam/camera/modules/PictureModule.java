@@ -226,7 +226,11 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     String raw[] = getRawSize();
                     int w = Integer.parseInt(raw[0]);
                     int h = Integer.parseInt(raw[1]);
-                    String l = lastBayerFormat.substring(lastBayerFormat.length() -4);
+                    String l;
+                    if(lastBayerFormat != null)
+                        l = lastBayerFormat.substring(lastBayerFormat.length() -4);
+                    else
+                        l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, expo, l);
                     eventHandler.WorkFinished(file);
                     workfinished(true);
