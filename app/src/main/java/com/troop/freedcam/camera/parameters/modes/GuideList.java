@@ -42,7 +42,9 @@ public class GuideList extends BaseModeParameter {
     }
 
     @Override
-    public void SetValue(final String valueToSet, boolean setToCam) {
+    public void SetValue(final String valueToSet, boolean setToCam)
+    {
+        BackgroundValueHasChanged(valueToSet);
 
         //appSettingsManager.setString(AppSettingsManager.SETTING_GUIDE, valueToSet);
        // ImageView imageView1 = (ImageView)context.findViewById(R.id.GuideView);
@@ -55,4 +57,7 @@ public class GuideList extends BaseModeParameter {
 
         return new String[]{"Instagram 1:1","Instagram 4:3","Instagram 16:9","Diagonal","Golden Ratio","Golden Spiral","Rule Of Thirds"};
     }
+
+
+
 }

@@ -12,15 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends LinearLayout {
+public class GuideHandler extends LinearLayout implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded {
     LinearLayout linearLayout;
     ImageView img;
     Context contextt;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public GuideHandler(Context context) {
 
@@ -42,6 +46,13 @@ public class GuideHandler extends LinearLayout {
         alignment();
     }
 
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
+    }
+
 
 
     private void init(Context context)
@@ -57,12 +68,12 @@ public class GuideHandler extends LinearLayout {
 
         System.out.println("defcomg "+ "fuck");
 
-        if(str == "Golden Spiral"){
+        if(str.equals("Golden Spiral")){
 
             img.setImageResource(R.drawable.ic_guide_golden_spiral);
         }
 
-        if(str == "Rule of Thirds"){
+        if(str.equals("Rule Of Thirds")){
             //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
             img.setImageResource(R.drawable.ic_guide_3rd);
         }
@@ -90,4 +101,28 @@ public class GuideHandler extends LinearLayout {
 
     }
 
+    @Override
+    public void onValueChanged(String val) {
+        SetViewG(val);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
+    }
 }

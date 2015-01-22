@@ -111,7 +111,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         focusImageHandler = new FocusImageHandler(this);
         exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
 
-        loadCameraUiWrapper();
+
 
         exitButton = (TextView)findViewById(R.id.textView_Exit);
 
@@ -143,7 +143,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         timerHandler = new TimerHandler(this);
 
-
+        loadCameraUiWrapper();
 
         if (appSettingsManager.getShowHelpOverlay() == false)
         {
@@ -328,6 +328,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
+        guideHandler.setCameraUiWrapper(cameraUiWrapper);
     }
 
 

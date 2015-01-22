@@ -11,6 +11,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildGuide;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
 import com.troop.freedcam.ui.menu.childs.ExpandbleChildAeBracket;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -240,7 +241,7 @@ public class MenuCreator
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
 
-        guide = new ExpandableChild(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+        guide = new ExpandableChildGuide(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         piclist.add(guide);
 
 
