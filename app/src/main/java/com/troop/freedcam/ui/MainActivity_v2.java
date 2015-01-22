@@ -189,7 +189,15 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
                             public void run() {
                                 trySet();
                                 Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
-                                FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+                                if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
+                                {
+                                    if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+                                        FormatTextL.setText("DNG");
+                                    else
+                                        FormatTextL.setText("RAW");
+                                }
+                                else
+                                    FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
 
                             }
                         });
@@ -209,7 +217,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     public void trySet()
     {
         try {
-            Storage.setText(Avail4PIC());
+            Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
         }
         catch (Exception ex)
         {
@@ -234,7 +242,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         done = (long) Calc();
         long a = SDspace() / done;
 
-        return String.valueOf(a);
+        return StringUtils.readableFileSize(a);
 
     }
     private double Calc()

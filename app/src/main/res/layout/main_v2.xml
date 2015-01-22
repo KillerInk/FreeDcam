@@ -101,82 +101,69 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true">
 
-        <ImageView
-            android:layout_width="@dimen/appiconsizedouble"
-            android:layout_height="@dimen/appiconsizedouble"
-            android:id="@+id/imageView_Thumbnail"
-            android:layout_gravity="bottom|left"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true" />
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textClock"
+            android:textColor="#ffc8c8c8"
+            android:shadowColor="#ffffffff"
+            android:phoneNumber="false"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="1000"
+            android:id="@+id/txtViewRemainingStorage"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="100%"
+            android:id="@+id/txtViewBattLevel"
+            android:singleLine="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="DNG"
+            android:id="@+id/textViewFormat"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="4208x3120"
+            android:id="@+id/textViewRes"
+            android:singleLine="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="@dimen/appiconsizedouble"
+                android:layout_height="@dimen/appiconsizedouble"
+                android:id="@+id/imageView_Thumbnail"
+                android:layout_gravity="bottom|left"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentLeft="true" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="4208x3120"
-        android:id="@+id/textViewRes"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="160dp"
-        android:singleLine="true"
-        android:rotation="270"
-        android:layout_marginLeft="39dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="DNG"
-        android:id="@+id/textViewFormat"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="80dp"
-        android:singleLine="true"
-        android:rotation="270"
-        android:layout_marginLeft="60dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="100%"
-        android:id="@+id/txtViewBattLevel"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="329dp"
-        android:singleLine="false"
-        android:rotation="270"
-        android:layout_marginLeft="51dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="1000"
-        android:id="@+id/txtViewRemainingStorage"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="330dp"
-        android:singleLine="true"
-        android:rotation="270"
-        android:layout_marginLeft="25dp" />
-
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textClock"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="320dp"
-        android:rotation="270"
-        android:textColor="#ffc8c8c8"
-        android:shadowColor="#ffffffff"
-        android:phoneNumber="false"
-        android:layout_marginLeft="-13dp"
-        android:typeface="monospace" />
 
     <LinearLayout
         android:orientation="horizontal"
