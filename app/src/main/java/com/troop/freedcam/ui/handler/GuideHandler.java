@@ -72,16 +72,24 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
 
             img.setImageResource(R.drawable.ic_guide_golden_spiral);
         }
-
-        if(str.equals("Rule Of Thirds")){
+        else if(str.equals("Rule Of Thirds")){
             //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
             img.setImageResource(R.drawable.ic_guide_3rd);
         }
-
-        if(str.equals("Instagram 1:1")){
+        else if(str.equals("Instagram 1:1")){
             //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
             img.setImageResource(R.drawable.ic_guide_insta_1_1);
         }
+        else if (str.equals("Instagram 4:3"))
+            img.setImageResource(R.drawable.ic_guide_insta_4_3);
+        else if (str.equals("Instagram 16:9"))
+            img.setImageResource(R.drawable.ic_guide_insta_16_9);
+        else if (str.equals("Diagonal"))
+            img.setImageResource(R.drawable.ic_guide_diagononal);
+        else if (str.equals("Golden Ratio"))
+            img.setImageResource(R.drawable.ic_guide_gold_ratio);
+        else if (str.equals("None"))
+            img.setImageBitmap(null);
 
 
     }
@@ -124,5 +132,6 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
     @Override
     public void ParametersLoaded() {
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
+        onValueChanged(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
     }
 }

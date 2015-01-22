@@ -16,10 +16,12 @@ import java.util.HashMap;
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideList extends BaseModeParameter {
+public class GuideList extends BaseModeParameter
+{
 
     MainActivity_v2 context;
     AppSettingsManager appSettingsManager;
+    String value;
 
     public GuideList(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values,AppSettingsManager appSettingsManager,MainActivity_v2 context) {
         super(parameters,parameterChanged, value, values);
@@ -44,6 +46,7 @@ public class GuideList extends BaseModeParameter {
     @Override
     public void SetValue(final String valueToSet, boolean setToCam)
     {
+        value = valueToSet;
         BackgroundValueHasChanged(valueToSet);
 
         //appSettingsManager.setString(AppSettingsManager.SETTING_GUIDE, valueToSet);
@@ -52,10 +55,19 @@ public class GuideList extends BaseModeParameter {
     }
 
     @Override
+    public String GetValue()
+    {
+        if (value.equals(""))
+            return "Golden Spiral";
+        else
+            return value;
+    }
+
+    @Override
     public String[] GetValues()
     {
 
-        return new String[]{"Instagram 1:1","Instagram 4:3","Instagram 16:9","Diagonal","Golden Ratio","Golden Spiral","Rule Of Thirds"};
+        return new String[]{"Instagram 1:1","Instagram 4:3","Instagram 16:9","Diagonal","Golden Ratio","Golden Spiral","Rule Of Thirds", "None"};
     }
 
 
