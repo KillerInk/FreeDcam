@@ -54,6 +54,7 @@ public class MenuCreator
     ExpandableChild digitalImageStabilization;
     ExpandableChild mce;
     ExpandableChild zsl;
+    ExpandableChild guide;
     PreviewExpandableChild previewSize;
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
@@ -90,6 +91,12 @@ public class MenuCreator
         if (parameterHandler.JpegQuality != null) {
             jpegquality.setParameterHolder(parameterHandler.JpegQuality,cameraUiWrapper.moduleHandler.PictureModules);
         }
+        //defcomg was here
+        if(parameterHandler.GuideList != null)
+        {
+            guide.setParameterHolder(parameterHandler.GuideList,cameraUiWrapper.moduleHandler.PictureModules);
+        }
+        //
         if (parameterHandler.RedEye != null && parameterHandler.RedEye.IsSupported())
         {
             redeye.setParameterHolder(parameterHandler.RedEye,cameraUiWrapper.moduleHandler.PictureModules);
@@ -221,11 +228,20 @@ public class MenuCreator
         }
         piclist.add(picSize);
 
-        picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
-        piclist.add(picformat);
+        if(DeviceUtils.isSonyADV())
+        {
+            picformat = new PictureFormatExpandableChild(context, group, "PostView Format", appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+            piclist.add(picformat);
+        }
+        else
+            picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+            piclist.add(picformat);
 
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
+
+        guide = new ExpandableChild(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+        piclist.add(guide);
 
 
 
@@ -434,6 +450,10 @@ public class MenuCreator
 
         sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,"Switch Api" ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
         childlist.add(sonyExpandableChild);
+
+        //defcomg was here
+
+
 
         saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",appSettingsManager, null);
         childlist.add(saveCamparas);

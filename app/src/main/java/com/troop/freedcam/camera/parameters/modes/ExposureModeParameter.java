@@ -40,5 +40,16 @@ public class ExposureModeParameter extends BaseModeParameter {
 
             }
         }
+        if(!isSupported)
+        {
+            try {
+                String tmp = parameters.get("sony-ae-mode-values");
+                if (tmp != null && !tmp.equals("")) {
+                    this.value = "sony-ae-mode";
+                    this.values = "sony-ae-mode-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 }

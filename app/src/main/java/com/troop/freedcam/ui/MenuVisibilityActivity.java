@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.I_swipe;
@@ -42,6 +43,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     int flags2;
 
     protected HelpOverlayHandler helpOverlayHandler;
+    protected GuideHandler guideHandler;
     int helplayoutrot;
 
     private final int animationtime = 300;

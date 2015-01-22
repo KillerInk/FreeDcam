@@ -4,8 +4,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
+import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ContrastManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ConvergenceManualParameter;
@@ -26,6 +28,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
+import com.troop.freedcam.camera.parameters.modes.GuideList;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -115,8 +118,15 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder, this);
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
+
         FX = new FXManualParameter(cameraParameters,"","","", this);
+
+        Burst = new BurstManualParam(cameraParameters,"","","",this);
+       /* if (DeviceUtils.isSonyADV()) {
+            ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
+        }*/
         ISOManual = new ISOManualParameter(cameraParameters,"","","", this);
+
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
 
 
@@ -127,8 +137,18 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "picture-size", "picture-size-values");
-        PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
+        if(DeviceUtils.isSonyADV())
+
+            PictureFormat = new PictureFormatParameter(cameraParameters, this, "sony-postview-format", "sony-postview-format-values", this, appSettingsManager);
+
+        if(!DeviceUtils.isSonyADV())
+            PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
+
+
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
+        //defcomg was here
+        GuideList = new GuideList(cameraParameters, this,"","",null, null);
+
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
@@ -142,7 +162,12 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         ZSL = new ZeroShutterLagParameter(cameraParameters, this, "", "", cameraHolder);
         SceneDetect = new BaseModeParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
         Denoise = new BaseModeParameter(cameraParameters, this, "denoise", "denoise-values");
-        DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "dis", "dis-values");
+//sony-is for images sony-vs for video
+        if(DeviceUtils.isSonyADV())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "sony-vs", "sony-vs-values");
+        if(!DeviceUtils.isSonyADV())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "dis", "dis-values");
+
         MemoryColorEnhancement = new BaseModeParameter(cameraParameters, this, "mce", "mce-values");
         SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
         NightMode = new NightModeParameter(cameraParameters, this,"","");
@@ -155,7 +180,10 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
 
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
-        VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
+        if(DeviceUtils.isSonyADV())
+            VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "sony-video-hdr", "sony-video-hdr-values", cameraHolder);
+        if(!DeviceUtils.isSonyADV())
+            VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);

@@ -36,10 +36,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     ArrayList<ManualMenuItem> manualItems;
 
+    ManualMenuItem burst;
     ManualMenuItem brightnes;
+    ManualMenuItem cct;
     ManualMenuItem contrast;
     ManualMenuItem convergence;
     ManualMenuItem exposure;
+    ManualMenuItem fx;
     ManualMenuItem focus;
     ManualMenuItem saturation;
     ManualMenuItem sharp;
@@ -60,6 +63,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
         brightnes = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this);
         addToLists(brightnes);
+
+        burst = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_burst), this);
+        addToLists(burst);
+
+        cct = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_cct), this);
+        addToLists(cct);
+
         contrast = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_contrast), this);
         addToLists(contrast);
         convergence = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_convergence), this);
@@ -68,6 +78,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         addToLists(exposure);
         focus = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_focus), this);
         addToLists(focus);
+
+        fx = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_fx), this);
+        addToLists(fx);
+
         saturation = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_saturation), this);
         addToLists(saturation);
         sharp = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_sharpness), this);
@@ -135,6 +149,21 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         }
         else
             brightnes.onIsSupportedChanged(false);
+
+        if (parametersHandler.Burst != null)
+        {
+            burst.SetAbstractManualParameter(parametersHandler.Burst);
+        }
+        else
+            burst.onIsSupportedChanged(false);
+
+        if (parametersHandler.CCT != null)
+        {
+            cct.SetAbstractManualParameter(parametersHandler.CCT);
+        }
+        else
+            cct.onIsSupportedChanged(false);
+
         if (parametersHandler.ManualContrast != null)
         {
             contrast.SetAbstractManualParameter(parametersHandler.ManualContrast);
@@ -155,6 +184,14 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             focus.SetAbstractManualParameter(parametersHandler.ManualFocus);
         }
         else focus.onIsSupportedChanged(false);
+        //defcomg
+        if (parametersHandler.FX != null)
+        {
+            fx.SetAbstractManualParameter(parametersHandler.FX);
+        }
+        else
+            fx.onIsSupportedChanged(false);
+
         if (parametersHandler.ManualSaturation != null)
         {
             saturation.SetAbstractManualParameter(parametersHandler.ManualSaturation);

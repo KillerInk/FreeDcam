@@ -29,12 +29,16 @@
     <string name="quality_mce">MemoryColorEnhancement</string>
     <string name="quality_skintone">Skintone</string>
     <string name="quality_nonmanualzsl">Non Manual ZSL</string>
+    <string name="picture_composit">Guide</string>
 
 
     <string name="manualmenu_brightness">Brightness</string>
+    <string name="manualmenu_burst">Burst</string>
+    <string name="manualmenu_cct">CCT</string>
     <string name="manualmenu_contrast">Contrast</string>
     <string name="manualmenu_convergence">Convergence</string>
     <string name="manualmenu_exposure">Exposure</string>
+    <string name="manualmenu_fx">FX</string>
     <string name="manualmenu_focus">Focus</string>
     <string name="manualmenu_saturation">Saturation</string>
     <string name="manualmenu_sharpness">Sharpness</string>

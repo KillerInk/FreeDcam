@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:baselineAligned="false">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/toggle_textView"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ff000000"
+        android:singleLine="true"
+        android:textSize="7dp" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/toggleButton"
+        android:layout_gravity="center_horizontal"
+        android:textSize="5dp"
+        android:textOn="+"
+        android:textOff="-" />
+</LinearLayout>

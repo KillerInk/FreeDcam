@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffeaeaea"
+    android:id="@+id/GroupContainer">
+
+
+    <TextView
+        android:id="@+id/tvGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:text="Group Test"
+        android:textColor="#ff000000"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GroupSubMenu"
+        android:background="#a4a0a0a0">
+
+    </LinearLayout>
+</LinearLayout>

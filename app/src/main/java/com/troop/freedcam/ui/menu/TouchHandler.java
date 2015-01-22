@@ -13,6 +13,10 @@ public class TouchHandler
     public int currentX;
     public int currentY;
     boolean swipe = false;
+    long start;
+    long duration;
+    static final int MAX_DURATION = 3500;
+
 
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -24,13 +28,20 @@ public class TouchHandler
                 startY = (int) event.getY();
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
+                start = System.currentTimeMillis();
+
                 break;
+           // case MotionEvent.A
             case MotionEvent.ACTION_MOVE:
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
                 detectSwipeDirection();
                 break;
             case MotionEvent.ACTION_UP:
+                long time = System.currentTimeMillis() - start;
+                duration = duration+time;
+                if (duration >= MAX_DURATION)
+                    System.out.println("Long Press Time: "+ duration);
                 if (swipe == false)
                 {
                     OnClick((int)event.getX(), (int)event.getY());

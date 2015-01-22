@@ -101,8 +101,9 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (DeviceUtils.isZTEADV())
         {
-            //parameters.setFocusMode("macro");
-            parameters.put("maf_key", valueToSet + "");
+            camParametersHandler.FocusMode.SetValue("manual", true);
+            parameters.put("manual-focus-pos-type", "1");
+            parameters.put("manual-focus-position", String.valueOf(valueToSet));
         }
         if (DeviceUtils.isHTC_M8())
         {

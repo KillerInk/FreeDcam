@@ -1,12 +1,20 @@
 package com.troop.freedcam.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +32,7 @@ import com.troop.freedcam.ui.handler.ExposureLockHandler;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
+import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -64,6 +73,12 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
+    private BroadcastReceiver rec;
+
+    TextView Storage;
+    TextView BattL;
+    TextView Restext;
+    TextView FormatTextL;
     WorkHandler workHandler;
 
     boolean initDone = false;
@@ -116,6 +131,20 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         }
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
+
+        guideHandler = (GuideHandler)findViewById(R.id.GuideView);
+
+        Storage = (TextView)findViewById(R.id.txtViewRemainingStorage);
+        BattL = (TextView)findViewById(R.id.txtViewBattLevel);
+
+        Restext = (TextView)findViewById(R.id.textViewRes);
+
+        FormatTextL = (TextView)findViewById(R.id.textViewFormat);
+
+        timerHandler = new TimerHandler(this);
+
+
+
         if (appSettingsManager.getShowHelpOverlay() == false)
         {
             RelativeLayout view = (RelativeLayout) helpOverlayHandler.getParent();
@@ -127,7 +156,112 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             helpOverlayOpen = true;
         }
+
+        rec = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                context.unregisterReceiver(this);
+                int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
+                int level = -1;
+                if(currentLevel >= 0 && scale > 0)
+                {
+                    level = (currentLevel * 100) / scale;
+                }
+                BattL.setText(level+"%");
+            }
+        };
+        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(rec, batteryLevelFilter);
+
+
+        Thread t = new Thread()
+        {
+            @Override
+            public  void run() {
+                try {
+                    while (!isInterrupted()) {
+
+
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                trySet();
+                                Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
+                                FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+
+                            }
+                        });
+                    }
+                }
+                catch (InterruptedException e)
+                {
+
+                }
+            }
+        };
+        t.start();
+
     }
+
+    //defcomg was here this should go into some handler class that handles module change
+    public void trySet()
+    {
+        try {
+            Storage.setText(Avail4PIC());
+        }
+        catch (Exception ex)
+        {
+            Storage.setText("error");
+        }
+    }
+
+
+
+    private  String Avail4PIC()
+    {
+
+        // double calc;
+        long done;
+
+
+
+
+
+
+
+        done = (long) Calc();
+        long a = SDspace() / done;
+
+        return String.valueOf(a);
+
+    }
+    private double Calc()
+    {
+        double calc;
+        String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.2;
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
+            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
+            return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
+
+        return 1;
+    }
+
+    private static long SDspace()
+    {
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        stat.restat(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
+        return bytesAvailable;
+    }
+
+    //End defcomg
+
 
     private void loadCameraUiWrapper()
     {
@@ -182,7 +316,14 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
         moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
         flashSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-        nightModeSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        try {
+
+            nightModeSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        }
+        catch (Exception ex)
+        {
+
+        }
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);

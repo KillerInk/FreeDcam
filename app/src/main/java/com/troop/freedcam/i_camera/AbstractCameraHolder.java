@@ -22,6 +22,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public boolean isPreviewRunning = false;
     public AbstractParameterHandler ParameterHandler;
     public AbstractFocusHandler Focus;
+    public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
     protected I_CameraChangedListner cameraChangedListner;
     protected HandlerThread backGroundThread;

@@ -65,7 +65,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
         }
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21 || DeviceUtils.isSonyADV())
         {
             this.isSupported = true;
         }
@@ -79,8 +79,8 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMaxValue() {
-    	/*if (DeviceUtils.isSonyADV())
-        return Integer.parseInt(parameters.get("sony-min-shutter-speed"));*/
+    	if (DeviceUtils.isSonyADV())
+        return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         if (DeviceUtils.isLGADV())
            return Integer.parseInt(parameters.get("max-exposure-time"));
         else
@@ -89,8 +89,8 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMinValue() {
-    	/*if (DeviceUtils.isSonyADV())
-        return Integer.parseInt(parameters.get("sony-max-shutter-speed"));*/
+    	if (DeviceUtils.isSonyADV())
+        return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
     	if (DeviceUtils.isLGADV())
             return Integer.parseInt(parameters.get("min-exposure-time"));
         return 0;
@@ -107,12 +107,13 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-    	/*if(DeviceUtils.isSonyADV())
+    	if(DeviceUtils.isSonyADV())
         {
-        	parameters.set("sony-ae-mode", "manual");
-    		parameters.set("sony-shutter-speed", valueToSet);
+        	parameters.put("sony-ae-mode", "manual");
+    		parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
     		
-        }*/
+        }
+
         if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV())
         {
             current = valueToSet;

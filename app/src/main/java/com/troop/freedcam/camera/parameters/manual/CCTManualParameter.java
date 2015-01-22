@@ -75,6 +75,7 @@ public class CCTManualParameter extends BaseManualParameter {
     protected void setvalue(int valueToSet)
     {   if (DeviceUtils.isZTEADV())
         //parameters.setWhiteBalance("manual-cct");
+        camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
         parameters.put("wb-manual-cct", valueToSet + "");
         if (DeviceUtils.isHTC_M8())
             parameters.put("wb-ct", valueToSet + "");

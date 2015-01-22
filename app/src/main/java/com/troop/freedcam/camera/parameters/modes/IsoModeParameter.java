@@ -59,6 +59,17 @@ public class IsoModeParameter extends BaseModeParameter
                 }
             } catch (Exception ex) {}
         }
+        if(!isSupported)
+        {
+            try {
+                String isomodes = parameters.get("sony-iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "sony-iso";
+                    this.values = "sony-iso-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 
     @Override

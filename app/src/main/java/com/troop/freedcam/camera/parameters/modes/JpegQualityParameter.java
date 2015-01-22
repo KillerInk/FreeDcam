@@ -1,5 +1,5 @@
 package com.troop.freedcam.camera.parameters.modes;
-
+//defcomg was here
 import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 
 import java.util.HashMap;

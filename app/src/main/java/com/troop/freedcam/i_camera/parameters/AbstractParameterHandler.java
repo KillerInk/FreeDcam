@@ -29,6 +29,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter ManualFocus;
     public AbstractManualParameter ManualShutter;
     public AbstractManualParameter ManualFNumber;
+    public AbstractManualParameter Burst;
     public AbstractManualParameter CCT;
     public AbstractManualParameter FX;
     public AbstractManualParameter ISOManual;
@@ -43,6 +44,9 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter PictureSize;
     public AbstractModeParameter PictureFormat;
     public AbstractModeParameter JpegQuality;
+    //defcomg was here
+    public AbstractModeParameter GuideList;
+    //done
     public AbstractModeParameter ImagePostProcessing;
     public AbstractModeParameter PreviewSize;
     public AbstractModeParameter PreviewFPS;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:background="#a4a0a0a0">
+
+
+    <TextView
+        android:id="@+id/tvChild"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dip"
+        android:text="Test"
+        android:clickable="false"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:autoText="false"
+        android:textColor="#ff000000" />
+    <TextView
+        android:id="@+id/tvChildValue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dip"
+        android:text="Test"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center_horizontal"
+        android:textColor="#ff000000" />
+
+</LinearLayout>
