@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera;
 
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -11,13 +12,16 @@ import com.sec.android.seccamera.SecCamera;
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -450,6 +454,29 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     autoFocusCallback.onAutoFocus(focusEvent);
                 }
             });
+        }
+    }
+
+    public void SetFocusAreas(FocusRect focusRect)
+    {
+
+        if (hasSamsungFrameWork)
+        {
+            List<SecCamera.Area> areaList = new ArrayList<>();
+            areaList.add(new SecCamera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            SecCamera.Parameters p = samsungCamera.getParameters();
+            p.setFocusAreas(areaList);
+            p.setMeteringAreas(areaList);
+            samsungCamera.setParameters(p);
+        }
+        else
+        {
+            List<Camera.Area> areaList = new ArrayList<>();
+            areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            Camera.Parameters p = mCamera.getParameters();
+            p.setFocusAreas(areaList);
+            p.setMeteringAreas(areaList);
+            mCamera.setParameters(p);
         }
     }
 

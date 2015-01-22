@@ -89,17 +89,16 @@ public class SaveCamParasExpandableChild extends ExpandableChild
 
         FileOutputStream outputStream;
 
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/CameraParameters.txt");
-        if (!file.exists())
-        {
-            try {
-                file.mkdirs();
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File freedcamdir = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeCam/");
+        if (!freedcamdir.exists())
+            freedcamdir.mkdirs();
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/"+ Build.MODEL + "_CameraParameters.txt");
+        try {
+            //file.mkdirs();
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
 
         try {
             outputStream = new FileOutputStream(file);

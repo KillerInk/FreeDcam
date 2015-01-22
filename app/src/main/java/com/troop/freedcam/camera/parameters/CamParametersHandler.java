@@ -236,12 +236,12 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     @Override
     public void ParameterChanged()
     {
-        //cameraHolder.SetCameraParameters(cameraParameters);
-        if (!setParameterRunner.isRunning)
+
+        cameraHolder.SetCameraParameters(cameraParameters);
+        /*if (!setParameterRunner.isRunning)
             handler.post(setParameterRunner);
-            //setParameterRunner.run();
         else
-            moreParametersToSet = true;
+            moreParametersToSet = true;*/
 
     }
 
@@ -273,7 +273,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetFocusAREA(FocusRect focusAreas, int weight)
     {
-        HashMap<String, String> tmp = (HashMap<String, String>)cameraParameters.clone();
+        /*HashMap<String, String> tmp = (HashMap<String, String>)cameraParameters.clone();
         if (Integer.parseInt(cameraParameters.get("max-num-metering-areas")) > 0 ) {
             tmp.put("metering-areas", "("+focusAreas.left+","+focusAreas.right+","+focusAreas.top+","+focusAreas.bottom+","+weight + ")");
 
@@ -295,8 +295,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
             //cameraHolder.SetCameraParameters(tmp);
             Log.d(TAG, "SetFocusAreas");
 
-        }
-        cameraHolder.SetCameraParameters(tmp);
+        }*/
+        ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas);
 
     }
 

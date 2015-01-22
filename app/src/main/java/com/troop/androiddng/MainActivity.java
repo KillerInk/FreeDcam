@@ -74,9 +74,9 @@ public class MainActivity extends Activity {
 			}
 			String out = filetosave.getAbsolutePath();
             int r = data.length / g3H;
-            int rowsize = Integer.parseInt(box.getEditableText().toString());
+            int rowsize = data.length/ 3120;  //Integer.parseInt(box.getEditableText().toString());
 
-			//RawToDng.convertRawBytesToDng(data.clone(), out, g3W,g3H, RawToDng.g3_color1,RawToDng.g3_color2, RawToDng.g3_neutral, RawToDng.g3_blacklevel, RawToDng.GRBG, rowsize);
+			//RawToDng.convertRawBytesToDng(data.clone(),filetosave.getAbsolutePath(), 4208,3120, RawToDng.g3_color1, RawToDng.g3_color2, RawToDng.g3_neutral,0, "bggr", rowsize, "test", true);
 			data = null;
 			Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 	        intent.setData(Uri.fromFile(filetosave));

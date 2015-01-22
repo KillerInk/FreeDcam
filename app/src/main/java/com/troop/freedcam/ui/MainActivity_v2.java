@@ -340,13 +340,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onDestroy()
     {
-        Log.d(TAG, "ActivityDestroy, StopCamera");
+        /*Log.d(TAG, "ActivityDestroy, StopCamera");
         cameraUiWrapper.StopCamera();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         super.onDestroy();
     }
 

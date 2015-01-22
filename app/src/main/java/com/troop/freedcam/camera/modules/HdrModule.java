@@ -83,6 +83,15 @@ public class HdrModule extends PictureModule
         Log.d(TAG, "Start Taking Picture");
         try
         {
+            if (!ParameterHandler.isAeBracketActive) {
+                if (hdrCount == 0)
+                    parametersHandler.ManualExposure.SetValue(-8);
+                else if (hdrCount == 1)
+                    parametersHandler.ManualExposure.SetValue(0);
+                else if (hdrCount == 2)
+                    parametersHandler.ManualExposure.SetValue(8);
+            }
+            //Thread.sleep(400);
             //soundPlayer.PlayShutter();
             baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
@@ -97,10 +106,13 @@ public class HdrModule extends PictureModule
     public void onPictureTaken(byte[] data)
     {
         if (processCallbackData(data)) return;
-        if (hdrCount == 2)
+        if (hdrCount == 3)
             baseCameraHolder.StartPreview();
-        if (!aeBrackethdr && hdrCount < 2)
+        if (!ParameterHandler.isAeBracketActive && hdrCount < 3)
+        {
+            baseCameraHolder.StartPreview();
             takePicture();
+        }
     }
 
     @Override

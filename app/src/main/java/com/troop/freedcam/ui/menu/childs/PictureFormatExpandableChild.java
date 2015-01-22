@@ -45,18 +45,16 @@ public class PictureFormatExpandableChild extends ExpandableChild
 
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow) {
        super.setParameterHolder(parameterHolder,modulesToShow);
+       if (PictureFormatChangedHandler != null) {
+           String campara = parameterHolder.GetValue();
+           PictureFormatChangedHandler.VideoProfileChanged(campara);
+       }
 
     }
 
     @Override
     public void onValueChanged(String val)
     {
-        if (appSettingsManager.getString(settingsname).equals(""))
-        {
-            appSettingsManager.setString(settingsname, "jpeg");
-        }
         super.onValueChanged(val);
-        if (PictureFormatChangedHandler != null)
-            PictureFormatChangedHandler.VideoProfileChanged(val);
     }
 }
