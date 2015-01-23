@@ -157,6 +157,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	jfloat *neutral = env->GetFloatArrayElements(neutralColor, 0);
 	LOGD("Matrixes set");
 	float blackval;
+	const char *devicena = env->GetStringUTFChars(devicename, 0);
 
 	short miso = iso;
 
@@ -209,7 +210,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	LOGD("wrote dngversion");
 	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
 	LOGD("wrote dngbackversion");
-	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, devicename);
+	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, devicena);
 	LOGD("wrote cameraModel");
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
 	LOGD("wrote colormatrix1");
