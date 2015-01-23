@@ -148,21 +148,21 @@
             android:id="@+id/textViewRes"
             android:singleLine="true" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/appiconsizedouble"
-                android:layout_height="@dimen/appiconsizedouble"
-                android:id="@+id/imageView_Thumbnail"
-                android:layout_gravity="bottom|left"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="false"
-                android:layout_alignParentLeft="true" />
-        </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
+        <ImageView
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:id="@+id/imageView_Thumbnail"
+            android:layout_gravity="bottom|left"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -176,7 +176,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="180dp"
+            android:layout_width="@dimen/menuwidth"
             android:layout_height="fill_parent"
             android:id="@+id/settings_menuHolder"
             android:background="#f97f7f7f">
@@ -345,8 +345,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView_exposurelock"
-                    android:background="@drawable/ic_exposure_unlocked" />
+                    android:id="@+id/imageView_exposurelock" />
             </LinearLayout>
 
             <LinearLayout
@@ -360,7 +359,7 @@
                 <TextView
                     android:layout_width="@dimen/app_icon_size"
                     android:layout_height="@dimen/app_icon_size"
-                    android:text="Exit"
+                    android:text=""
                     android:id="@+id/textView_Exit"
                     android:background="@drawable/ic_exit_button"
                     android:gravity="center_vertical|center_horizontal"
