@@ -1,8 +1,10 @@
 package com.troop.freedcam.camera.modules;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.Log;
 
+import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
@@ -36,6 +38,7 @@ public class HdrModule extends PictureModule
     {
         if (!isWorking) {
             hdrCount = 0;
+            workstarted();
             takePicture();
         }
     }
@@ -81,6 +84,7 @@ public class HdrModule extends PictureModule
     {
         this.isWorking = true;
         Log.d(TAG, "Start Taking Picture");
+
         try
         {
             if (!ParameterHandler.isAeBracketActive) {
@@ -105,9 +109,12 @@ public class HdrModule extends PictureModule
 
     public void onPictureTaken(byte[] data)
     {
-        if (processCallbackData(data)) return;
-        if (hdrCount == 3)
+        if (processCallbackData(data, saveFileRunner)) return;
+        if (hdrCount == 3) {
             baseCameraHolder.StartPreview();
+            workfinished(true);
+            parametersHandler.ManualExposure.SetValue(0);
+        }
         if (!ParameterHandler.isAeBracketActive && hdrCount < 3)
         {
             baseCameraHolder.StartPreview();
@@ -124,4 +131,34 @@ public class HdrModule extends PictureModule
         hdrCount++;
         return  getFileAndChooseEnding(s1);
     }
+
+    protected Runnable saveFileRunner = new Runnable() {
+        @Override
+        public void run()
+        {
+            if (OverRidePath == "")
+            {
+                if (!file.getAbsolutePath().endsWith(".dng")) {
+                    saveBytesToFile(bytes, file);
+                } else
+                {
+                    String raw[] = getRawSize();
+                    int w = Integer.parseInt(raw[0]);
+                    int h = Integer.parseInt(raw[1]);
+                    String l;
+                    if(lastBayerFormat != null)
+                        l = lastBayerFormat.substring(lastBayerFormat.length() -4);
+                    else
+                        l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, 0, 0, l);
+                }
+            }
+            else
+            {
+                file = new File(OverRidePath);
+                saveBytesToFile(bytes, file);
+            }
+
+        }
+    };
 }

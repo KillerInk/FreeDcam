@@ -52,7 +52,7 @@ public class PictureModuleO3D extends PictureModule
             {
                 try {
                     data = readBytesFromFile(folders[i]);
-                    if (processCallbackData(data)) return;
+                    if (processCallbackData(data, saveFileRunner)) return;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,7 +69,7 @@ public class PictureModuleO3D extends PictureModule
 
         }
         else {
-            if (processCallbackData(data)) return;
+            if (processCallbackData(data, saveFileRunner)) return;
             baseCameraHolder.StartPreview();
         }
     }

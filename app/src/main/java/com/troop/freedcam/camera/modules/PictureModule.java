@@ -37,7 +37,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private String jpegFormat = "jpeg";
     private String jpsFormat = "jps";
 
-    private String lastBayerFormat;
+    protected String lastBayerFormat;
     private String lastPicSize;
     private int iso;
     private float expo;
@@ -176,7 +176,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         else
         {*/
 
-            if (processCallbackData(data))
+            if (processCallbackData(data, saveFileRunner))
                 return;
 
         /*try {
@@ -188,7 +188,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         //}
     }
 
-    protected boolean processCallbackData(byte[] data) {
+    protected boolean processCallbackData(byte[] data, Runnable saveFileRunner) {
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
@@ -202,15 +202,16 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }
         file = createFileName();
         bytes = data;
-        //new Thread(saveFileRunner).start();
-        saveFileRunner.run();
+        new Thread(saveFileRunner).start();
+        //saveFileRunner.run();
         isWorking = false;
+
         if (ParameterHandler.isExposureAndWBLocked)
             ParameterHandler.LockExposureAndWhiteBalance(false);
         return false;
     }
 
-    Runnable saveFileRunner = new Runnable() {
+    protected Runnable saveFileRunner = new Runnable() {
         @Override
         public void run()
         {
@@ -218,9 +219,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 if (!file.getAbsolutePath().endsWith(".dng")) {
                     saveBytesToFile(bytes, file);
-                    eventHandler.WorkFinished(file);
-                    workfinished(true);
-
                 } else
                 {
                     String raw[] = getRawSize();
@@ -232,18 +230,15 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     else
                         l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
                     RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, expo, l);
-                    eventHandler.WorkFinished(file);
-                    workfinished(true);
-
                 }
             }
             else
             {
                 file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
-                
-                workfinished(true);
             }
+            eventHandler.WorkFinished(file);
+            workfinished(true);
         }
     };
 
@@ -262,7 +257,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         return raw;
     }
 
-    private void saveBytesToFile(byte[] bytes, File fileName)
+    protected void saveBytesToFile(byte[] bytes, File fileName)
     {
         Log.d(TAG, "Start Saving Bytes");
         FileOutputStream outStream = null;

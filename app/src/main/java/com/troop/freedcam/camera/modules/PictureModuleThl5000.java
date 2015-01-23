@@ -58,7 +58,7 @@ public class PictureModuleThl5000 extends PictureModule
             baseCameraHolder.StartPreview();
         }
         else {
-            if (processCallbackData(data)) return;
+            if (processCallbackData(data,saveFileRunner)) return;
             baseCameraHolder.StartPreview();
         }
     }
