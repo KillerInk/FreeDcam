@@ -133,8 +133,16 @@ public class BaseCameraHolder extends AbstractCameraHolder
         Log.d(TAG, "Try to close Camera");
         if (samsungCamera != null)
         {
-            samsungCamera.release();
-            samsungCamera = null;
+            try {
+                samsungCamera.release();
+                samsungCamera = null;
+                Log.d(TAG, "Samsung Camera closed");
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Log.e(TAG, "Error on Samsung Camera close");
+            }
         }
         else if (mCamera != null)
         {
@@ -145,9 +153,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             catch (Exception ex)
             {
                 ex.printStackTrace();
+                Log.e(TAG, "Error on Camera close");
             }
             finally {
                 mCamera = null;
+                Log.d(TAG, "Camera closed");
             }
         }
         isRdy = false;
@@ -178,18 +188,21 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             if (hasSamsungFrameWork)
             {
+                Log.d(TAG, "Set Samsung Parameters");
                 SecCamera.Parameters p = samsungCamera.getParameters();
                 p.unflatten(ret);
                 samsungCamera.setParameters(p);
             }
             else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             {
+                Log.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
                 lgParameters.setParameters(p);
             }
             else
             {
+                Log.d(TAG, "Set Parameters");
                 Camera.Parameters p = mCamera.getParameters();
                 p.unflatten(ret);
                 mCamera.setParameters(p);
@@ -201,6 +214,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         catch (Exception ex)
         {
             ex.printStackTrace();
+            Log.d(TAG, "Error Setting Parameters");
         }
         return false;
     }
