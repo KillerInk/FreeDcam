@@ -104,7 +104,7 @@ public class RawToDng
         if (DeviceUtils.isHTC_M8())
         {
             Log.d(TAG, "is htc m8 raw");
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, g3_neutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
+            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, null, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
         }
         else
         {
