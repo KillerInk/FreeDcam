@@ -77,6 +77,11 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     public void StopCamera()
     {
         stopCamera();
+        if (backGroundThread != null) {
+            backGroundThread.quitSafely();
+            backGroundThread = null;
+            backGroundHandler = null;
+        }
         /*backGroundHandler.post(new Runnable() {
             @Override
             public void run() {

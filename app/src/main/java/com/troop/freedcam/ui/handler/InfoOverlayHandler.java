@@ -43,22 +43,20 @@ public class InfoOverlayHandler
 
     private void registerBatteryEventReciever()
     {
-        rec = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                context.unregisterReceiver(this);
-                int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
-                int level = -1;
-                if(currentLevel >= 0 && scale > 0)
+
+
+                /*rec = new BroadcastReceiver()
                 {
-                    level = (currentLevel * 100) / scale;
-                }
-                BattL.setText(level+"%");
-            }
-        };
-        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        context.registerReceiver(rec, batteryLevelFilter);
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                        BattL.setText(String.valueOf(level) + "%");
+                    }
+                };
+                context.registerReceiver(rec, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));*/
+
+
+
     }
 
     //i think a handler would be better with postdelayed

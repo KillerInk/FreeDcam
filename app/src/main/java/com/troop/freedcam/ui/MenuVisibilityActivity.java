@@ -86,17 +86,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
