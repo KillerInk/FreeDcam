@@ -33,6 +33,7 @@ import com.troop.freedcam.ui.handler.FocusImageHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.GuideHandler;
+import com.troop.freedcam.ui.handler.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -73,12 +74,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
-    private BroadcastReceiver rec;
+    InfoOverlayHandler infoOverlayHandler;
 
-    TextView Storage;
-    TextView BattL;
-    TextView Restext;
-    TextView FormatTextL;
+
+
     WorkHandler workHandler;
 
     boolean initDone = false;
@@ -110,8 +109,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this);
         exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
-
-
+        infoOverlayHandler= new InfoOverlayHandler(this, appSettingsManager);
 
         exitButton = (TextView)findViewById(R.id.textView_Exit);
 
@@ -134,12 +132,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         guideHandler = (GuideHandler)findViewById(R.id.GuideView);
 
-        Storage = (TextView)findViewById(R.id.txtViewRemainingStorage);
-        BattL = (TextView)findViewById(R.id.txtViewBattLevel);
 
-        Restext = (TextView)findViewById(R.id.textViewRes);
-
-        FormatTextL = (TextView)findViewById(R.id.textViewFormat);
 
         timerHandler = new TimerHandler(this);
 
@@ -156,120 +149,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             helpOverlayOpen = true;
         }
-
-        rec = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                context.unregisterReceiver(this);
-                int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
-                int level = -1;
-                if(currentLevel >= 0 && scale > 0)
-                {
-                    level = (currentLevel * 100) / scale;
-                }
-                BattL.setText(level+"%");
-            }
-        };
-        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(rec, batteryLevelFilter);
-
-
-        Thread t = new Thread()
-        {
-            @Override
-            public  void run() {
-                try {
-                    while (!isInterrupted()) {
-
-
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                trySet();
-                                Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
-                                if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
-                                {
-                                    if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                                        FormatTextL.setText("DNG");
-                                    else
-                                        FormatTextL.setText("RAW");
-                                }
-                                else
-                                    FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-
-                            }
-                        });
-                    }
-                }
-                catch (InterruptedException e)
-                {
-
-                }
-            }
-        };
-        t.start();
-
     }
-
-    //defcomg was here this should go into some handler class that handles module change
-    public void trySet()
-    {
-        try {
-            Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
-        }
-        catch (Exception ex)
-        {
-            Storage.setText("error");
-        }
-    }
-
-
-
-    private  String Avail4PIC()
-    {
-
-        // double calc;
-        long done;
-
-
-
-
-
-
-
-        done = (long) Calc();
-        long a = SDspace() / done;
-
-        return StringUtils.readableFileSize(a);
-
-    }
-    private double Calc()
-    {
-        double calc;
-        String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
-
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.2;
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
-            return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
-
-        return 1;
-    }
-
-    private static long SDspace()
-    {
-        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-        stat.restat(Environment.getExternalStorageDirectory().getPath());
-        long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-        return bytesAvailable;
-    }
-
-    //End defcomg
-
 
     private void loadCameraUiWrapper()
     {
