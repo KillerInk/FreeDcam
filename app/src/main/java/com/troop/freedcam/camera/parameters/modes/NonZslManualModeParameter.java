@@ -40,9 +40,9 @@ public class NonZslManualModeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         if (setToCam) {
-            baseCameraHolder.StopPreview();
+            //baseCameraHolder.StopPreview();
             super.SetValue(valueToSet, setToCam);
-            baseCameraHolder.StartPreview();
+            //baseCameraHolder.StartPreview();
         }
         else
             super.SetValue(valueToSet, setToCam);

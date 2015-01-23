@@ -34,7 +34,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        baseCameraHolder.StopPreview();
+        //baseCameraHolder.StopPreview();
         if (DeviceUtils.isLGADV())
         {
             if (valueToSet.equals("off"))
@@ -46,7 +46,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
         }
         else
             super.SetValue(valueToSet, setToCam);
-        baseCameraHolder.StartPreview();
+        //baseCameraHolder.StartPreview();
     }
 
     @Override
