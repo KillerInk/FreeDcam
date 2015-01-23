@@ -67,7 +67,7 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
-        Log.d(TAG, "load hdr videomodule");
+        Log.d(TAG, "load hdr module");
         HdrModule hdrModule = new HdrModule(this.cameraHolder,appSettingsManager, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
 
