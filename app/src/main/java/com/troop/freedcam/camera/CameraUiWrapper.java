@@ -101,7 +101,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-        StopCamera();
+        //StopCamera();
     }
 
     @Override
@@ -130,7 +130,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         super.onCameraOpen(message);
         cameraHolder.SetErrorCallback(this);
-        super.onCameraOpen(message);
         cameraHolder.SetSurface(preview.getHolder());
         while (!PreviewSurfaceRdy)
             try {

@@ -123,7 +123,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
                 @Override
                 public void onClick(View v)
                 {
+
                     activity.finish();
+
                 }
             });
         }
@@ -136,7 +138,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         timerHandler = new TimerHandler(this);
 
-        loadCameraUiWrapper();
+
 
         if (appSettingsManager.getShowHelpOverlay() == false)
         {
@@ -224,6 +226,23 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     protected void onPostResume() {
         super.onPostResume();
         initDone = true;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        loadCameraUiWrapper();
+
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        cameraUiWrapper.StopCamera();
+        infoOverlayHandler.StopUpdating();
+
     }
 
     @Override

@@ -27,6 +27,7 @@ public class InfoOverlayHandler
     TextView Restext;
     TextView FormatTextL;
     private BroadcastReceiver rec;
+    Thread t;
 
     public InfoOverlayHandler(Activity context, AppSettingsManager appSettingsManager)
     {
@@ -64,7 +65,7 @@ public class InfoOverlayHandler
     //or more better would be to listen to the onvaluechanged event from parameters
     private void startLooperThread()
     {
-        Thread t = new Thread()
+        this.t = new Thread()
         {
             @Override
             public  void run() {
@@ -99,6 +100,21 @@ public class InfoOverlayHandler
             }
         };
         t.start();
+    }
+
+    public void StopUpdating()
+    {
+        if (t != null)
+        {
+            try {
+                t.interrupt();
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        t = null;
     }
 
     //defcomg was here this should go into some handler class that handles module change
