@@ -214,7 +214,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	LOGD("wrote cameraModel");
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
 	LOGD("wrote colormatrix1");
-	if(neutral != null)
+	if(neutral != NULL)
 	    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
 	LOGD("wrote neutralmatrix");
 	TIFFSetField(tif, EXIFTAG_ISOSPEEDRATINGS, miso);
