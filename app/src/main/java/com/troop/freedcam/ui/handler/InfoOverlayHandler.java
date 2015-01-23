@@ -45,7 +45,7 @@ public class InfoOverlayHandler
     {
 
 
-                /*rec = new BroadcastReceiver()
+                rec = new BroadcastReceiver()
                 {
                     @Override
                     public void onReceive(Context context, Intent intent) {
@@ -53,7 +53,7 @@ public class InfoOverlayHandler
                         BattL.setText(String.valueOf(level) + "%");
                     }
                 };
-                context.registerReceiver(rec, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));*/
+                context.registerReceiver(rec, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
 
 
@@ -102,6 +102,7 @@ public class InfoOverlayHandler
 
     public void StopUpdating()
     {
+        context.unregisterReceiver(rec);
         if (t != null)
         {
             try {
