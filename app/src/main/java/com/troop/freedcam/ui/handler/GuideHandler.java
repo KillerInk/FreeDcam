@@ -26,6 +26,7 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
 
+
     public GuideHandler(Context context) {
 
         super(context);
@@ -63,33 +64,39 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
 
     }
 
-    public void SetViewG(String str)
+    public void SetViewG(final String str)
     {
+        img.post(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("defcomg "+ "fuck");
 
-        System.out.println("defcomg "+ "fuck");
+                if(str.equals("Golden Spiral")){
 
-        if(str.equals("Golden Spiral")){
+                    img.setImageResource(R.drawable.ic_guide_golden_spiral);
+                }
+                else if(str.equals("Rule Of Thirds")){
+                    //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
+                    img.setImageResource(R.drawable.ic_guide_3rd);
+                }
+                else if(str.equals("Instagram 1:1")){
+                    //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
+                    img.setImageResource(R.drawable.ic_guide_insta_1_1);
+                }
+                else if (str.equals("Instagram 4:3"))
+                    img.setImageResource(R.drawable.ic_guide_insta_4_3);
+                else if (str.equals("Instagram 16:9"))
+                    img.setImageResource(R.drawable.ic_guide_insta_16_9);
+                else if (str.equals("Diagonal"))
+                    img.setImageResource(R.drawable.ic_guide_diagononal);
+                else if (str.equals("Golden Ratio"))
+                    img.setImageResource(R.drawable.ic_guide_gold_ratio);
+                else if (str.equals("None"))
+                    img.setImageBitmap(null);
+            }
+        });
 
-            img.setImageResource(R.drawable.ic_guide_golden_spiral);
-        }
-        else if(str.equals("Rule Of Thirds")){
-            //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
-            img.setImageResource(R.drawable.ic_guide_3rd);
-        }
-        else if(str.equals("Instagram 1:1")){
-            //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
-            img.setImageResource(R.drawable.ic_guide_insta_1_1);
-        }
-        else if (str.equals("Instagram 4:3"))
-            img.setImageResource(R.drawable.ic_guide_insta_4_3);
-        else if (str.equals("Instagram 16:9"))
-            img.setImageResource(R.drawable.ic_guide_insta_16_9);
-        else if (str.equals("Diagonal"))
-            img.setImageResource(R.drawable.ic_guide_diagononal);
-        else if (str.equals("Golden Ratio"))
-            img.setImageResource(R.drawable.ic_guide_gold_ratio);
-        else if (str.equals("None"))
-            img.setImageBitmap(null);
+
 
 
     }
