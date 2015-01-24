@@ -93,8 +93,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                         showThumb(filePath);
                     working = false;
                 }
-                Log.d(TAG, "Start Media Scan " + filePath.getName());
-                MediaScannerManager.ScanMedia(activity, filePath);
+
             }
         });
         return null;

@@ -9,6 +9,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -150,6 +151,8 @@ public class HdrModule extends PictureModule
                     RawToDng.ConvertRawBytesToDng(rawdata, dngFile, w, h, Build.MODEL, 0, 0, l);
                     if (files[i].delete() == true)
                         Log.d(TAG, "file: "+ files[i].getName() + " deleted");
+                    Log.d(TAG, "Start Media Scan " + file.getName());
+                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(dngFile));
 
                 }
             }
@@ -202,20 +205,13 @@ public class HdrModule extends PictureModule
         {
             if (OverRidePath == "")
             {
-                if (!file.getAbsolutePath().endsWith(".dng")) {
-                    saveBytesToFile(bytes, file);
-                } else
+                saveBytesToFile(bytes, file);
+                if (!file.getAbsolutePath().endsWith("raw") || file.getAbsolutePath().endsWith("raw") && !parametersHandler.isDngActive)
                 {
-                    String raw[] = getRawSize();
-                    int w = Integer.parseInt(raw[0]);
-                    int h = Integer.parseInt(raw[1]);
-                    String l;
-                    if(lastBayerFormat != null)
-                        l = lastBayerFormat.substring(lastBayerFormat.length() -4);
-                    else
-                        l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, 0, 0, l);
+                    Log.d(TAG, "Start Media Scan " + file.getName());
+                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
                 }
+
             }
             else
             {

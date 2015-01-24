@@ -10,6 +10,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -237,6 +238,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 file = new File(OverRidePath);
                 saveBytesToFile(bytes, file);
             }
+            Log.d(TAG, "Start Media Scan " + file.getName());
+            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
             eventHandler.WorkFinished(file);
             workfinished(true);
         }
