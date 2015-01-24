@@ -97,13 +97,14 @@ public class HdrModule extends PictureModule
         {
             if (!ParameterHandler.isAeBracketActive) {
                 if (hdrCount == 0)
-                    parametersHandler.ManualExposure.SetValue(-8);
+                    parametersHandler.ManualExposure.SetValue(parametersHandler.ManualExposure.GetMinValue());
                 else if (hdrCount == 1)
                     parametersHandler.ManualExposure.SetValue(0);
                 else if (hdrCount == 2)
-                    parametersHandler.ManualExposure.SetValue(8);
+                    parametersHandler.ManualExposure.SetValue(parametersHandler.ManualExposure.GetMaxValue());
+                Thread.sleep(1000);
             }
-            //Thread.sleep(400);
+
             //soundPlayer.PlayShutter();
             baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
             Log.d(TAG, "Picture Taking is Started");
@@ -162,7 +163,7 @@ public class HdrModule extends PictureModule
         if (!ParameterHandler.isAeBracketActive && hdrCount < 3)
         {
             baseCameraHolder.StartPreview();
-            ParameterHandler.LockExposureAndWhiteBalance(true);
+            //ParameterHandler.LockExposureAndWhiteBalance(true);
             takePicture();
         }
     }
