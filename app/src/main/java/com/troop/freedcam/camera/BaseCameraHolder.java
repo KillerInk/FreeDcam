@@ -305,18 +305,26 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.pictureCallback = picture;
         this.shutterCallback = shutter;
         this.rawCallback = raw;
-        if (hasSamsungFrameWork)
-        {
-            takeSamsungPicture();
-        }
-        else
-        {
-            takePicture();
-        }
+        backGroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (hasSamsungFrameWork)
+                {
+                    takeSamsungPicture();
+                }
+                else
+                {
+                    takePicture();
+                }
+            }
+        });
+
+
 
     }
 
-    private void takePicture() {
+    private void takePicture()
+    {
         Camera.ShutterCallback sh = null;
         if (shutterCallback != null)
         {
