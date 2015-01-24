@@ -33,9 +33,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private static String TAG = StringUtils.TAG + PictureModule.class.getSimpleName();
 
-    private String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg,bayer-ideal-qcom-10bggr";
-    private String jpegFormat = "jpeg";
-    private String jpsFormat = "jps";
+    protected String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg,bayer-ideal-qcom-10bggr";
+    protected String jpegFormat = "jpeg";
+    protected String jpsFormat = "jps";
 
     protected String lastBayerFormat;
     private String lastPicSize;
