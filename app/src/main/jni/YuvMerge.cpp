@@ -68,9 +68,13 @@ JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_storeYuvFrame(JNIEnv *env, jo
 {
     YuvIntContainer* yuvi = new YuvIntContainer(width, height);
     unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
+    LOGD("Start Frame Merging");
     mergeFrame(yuvi, nativedata);
-    delete[] nativedata;
+    LOGD("End Frame Merging");
+
+
     nativedata = NULL;
+    LOGD("Native data released");
     return env->NewDirectByteBuffer(yuvi, 0);
 }
 
@@ -80,9 +84,9 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_release(JNIEnv *env, jobject thi
 
     if(yuvi->_data != NULL)
     {
-        delete[] yuvi->_data;
+        free(yuvi->_data);
     }
-    delete yuvi;
+    free(yuvi);
     yuvi = NULL;
 }
 
@@ -91,8 +95,8 @@ JNIEXPORT void JNICALL Java_com_troop_yuv_Merge_storeNextYuvFrame(JNIEnv *env, j
     YuvIntContainer* yuvi = (YuvIntContainer*) env->GetDirectBufferAddress(handler);
     unsigned char* nativedata = (unsigned char*) env->GetByteArrayElements(data,NULL);
     mergeFrame(yuvi, nativedata);
-    delete[] nativedata;
-    data = NULL;
+
+
 }
 
 JNIEXPORT jobject JNICALL Java_com_troop_yuv_Merge_getMergedYuv(JNIEnv *env, jobject thiz, jobject handler, jint count, jbyteArray byteArray)

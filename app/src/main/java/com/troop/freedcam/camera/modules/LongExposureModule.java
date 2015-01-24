@@ -110,6 +110,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         handler = new Handler();
         //post the runnable after wich time it should stop grabbing the preview frames
         handler.postDelayed(runnableFinishWork, time*1000);
+        workstarted();
 
     }
 
@@ -123,7 +124,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
             if (mergeYuv != null)
             {
                 baseCameraHolder.SetPreviewCallback(null);
-                handler.post(runnable);
+                processYuvFrame();
             }
         }
     }
@@ -133,6 +134,8 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         @Override
         public void run()
         {
+            if (count == 0)
+                return;
             exposureModule.doWork = false;
             //wait until the last frame is saved
             while (exposureModule.hasWork) {
@@ -180,6 +183,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
             eventHandler.WorkFinished(file);
             exposureModule.isWorking = false;
             System.gc();
+            workfinished(true);
         }
     };
 
@@ -198,11 +202,17 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         if (mergeYuv == null)
             return;
 
-        if (count == 0) {
+        if (count == 0)
+        {
+            Log.d(TAG, "Processing first frame");
             nativeYuvMerge.AddFirstYuvFrame(mergeYuv, width, height);
+            Log.d(TAG, "Processing first frame done");
         }
-        else {
+        else
+        {
+            Log.d(TAG, "Processing next frame");
             nativeYuvMerge.AddNextYuvFrame(mergeYuv);
+            Log.d(TAG, "Processing next frame done");
         }
 
         count++;

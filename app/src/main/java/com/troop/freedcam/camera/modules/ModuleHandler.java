@@ -74,8 +74,8 @@ public class ModuleHandler extends AbstractModuleHandler
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);
 
-        /*LongExposureModule longExposureModule = new LongExposureModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
-        moduleList.put(longExposureModule.ModuleName(), longExposureModule);*/
+        LongExposureModule longExposureModule = new LongExposureModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
+        moduleList.put(longExposureModule.ModuleName(), longExposureModule);
     }
 
 }
