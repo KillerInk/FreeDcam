@@ -29,7 +29,8 @@
         android:layout_height="fill_parent"
         android:id="@+id/helpoverlay"
         android:gravity="center_vertical"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_marginRight="80dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -86,13 +87,12 @@
                 android:textColor="#ffc8c8c8" />
 
             <SeekBar
-                android:layout_width="200dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/seekBar_manual"
                 android:rotation="270"
                 android:layout_marginBottom="160dp"
                 android:layout_marginLeft="200dp"
-                android:thumb="@drawable/thub"
                 android:splitTrack="false"
                 android:background="#785a5555" />
 
