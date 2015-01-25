@@ -209,8 +209,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }
         file = createFileName();
         bytes = data;
-        new Thread(saveFileRunner).start();
-        //saveFileRunner.run();
+
+        saveFileRunner.run();
         isWorking = false;
 
         if (ParameterHandler.isExposureAndWBLocked)
