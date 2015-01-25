@@ -332,8 +332,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-            if (currentItem.manualParameter instanceof FocusManualParameter ||
-                    currentItem.manualParameter instanceof ExposureManualParameter)
+            //if (currentItem.manualParameter instanceof FocusManualParameter ||
+                    //currentItem.manualParameter instanceof ExposureManualParameter)
                 setValueToParameters(seekBar.getProgress());
             if (realMin < 0)
                 setValueToTextBox(progress + realMin);
@@ -351,7 +351,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         userIsSeeking = false;
-        setValueToParameters(seekBar.getProgress());
+        //setValueToParameters(seekBar.getProgress());
     }
 
 
