@@ -120,7 +120,10 @@ public class InfoOverlayHandler
     public void trySet()
     {
         try {
-            Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
+            //Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
+
+            //defcomg was here 24/01/2015
+            Storage.setText(Avail4PIC());
         }
         catch (Exception ex)
         {

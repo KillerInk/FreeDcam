@@ -114,7 +114,8 @@
             android:textColor="#ffc8c8c8"
             android:shadowColor="#ffffffff"
             android:phoneNumber="false"
-            android:typeface="monospace" />
+            android:typeface="monospace"
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +123,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="1000"
             android:id="@+id/txtViewRemainingStorage"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +133,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="100%"
             android:id="@+id/txtViewBattLevel"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,7 +143,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="DNG"
             android:id="@+id/textViewFormat"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,7 +153,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="4208x3120"
             android:id="@+id/textViewRes"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp" />
 
     </LinearLayout>
 

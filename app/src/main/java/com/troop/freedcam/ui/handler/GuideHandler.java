@@ -69,15 +69,15 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
         img.post(new Runnable() {
             @Override
             public void run() {
-                System.out.println("defcomg "+ "fuck");
+                System.out.println("defcomg "+ "truck");
 
                 if(str.equals("Golden Spiral")){
 
-                    img.setImageResource(R.drawable.ic_guide_golden_spiral);
+                    img.setImageResource(R.drawable.ic_guide_golden_spiral_4_3);
                 }
                 else if(str.equals("Rule Of Thirds")){
                     //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
-                    img.setImageResource(R.drawable.ic_guide_3rd);
+                    img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
                 }
                 else if(str.equals("Instagram 1:1")){
                     //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
@@ -87,10 +87,40 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
                     img.setImageResource(R.drawable.ic_guide_insta_4_3);
                 else if (str.equals("Instagram 16:9"))
                     img.setImageResource(R.drawable.ic_guide_insta_16_9);
-                else if (str.equals("Diagonal"))
-                    img.setImageResource(R.drawable.ic_guide_diagononal);
+                else if (str.equals("Diagonal Type 1"))
+                    img.setImageResource(R.drawable.ic_guide_diagonal_type_1_4_3);
+                else if (str.equals("Diagonal Type 2"))
+                    img.setImageResource(R.drawable.ic_guide_diagonal_type_2_4_3);
+                else if (str.equals("Diagonal Type 3"))
+                    img.setImageResource(R.drawable.ic_guide_diagonal_type_3);
+                else if (str.equals("Diagonal Type 4"))
+                    img.setImageResource(R.drawable.ic_guide_diagonal_type_4);
+                else if (str.equals("Diagonal Type 5"))
+                    img.setImageResource(R.drawable.ic_guide_diagonal_type_5);
                 else if (str.equals("Golden Ratio"))
-                    img.setImageResource(R.drawable.ic_guide_gold_ratio);
+                    img.setImageResource(R.drawable.ic_guide_golden_ratio_type_1_4_3);
+                else if (str.equals("Golden Hybrid"))
+                    img.setImageResource(R.drawable.ic_guide_golden_spriral_ratio_4_3);
+                else if (str.equals("Golden R/S 1"))
+                    img.setImageResource(R.drawable.ic_guide_golden_fuse1_4_3);
+                else if (str.equals("Golden R/S 2"))
+                    img.setImageResource(R.drawable.ic_guide_golden_fusion2_4_3);
+                else if (str.equals("Golden Triangle"))
+                    img.setImageResource(R.drawable.ic_guide_golden_triangle_4_3);
+                else if (str.equals("Group POV Five"))
+                    img.setImageResource(R.drawable.ic_guide_groufie_five);
+                else if (str.equals("Group POV Three"))
+                    img.setImageResource(R.drawable.ic_guide_groufie_three);
+                else if (str.equals("Group POV Potrait"))
+                    img.setImageResource(R.drawable.ic_guide_groupshot_potrait);
+                else if (str.equals("Group POV Full"))
+                    img.setImageResource(R.drawable.ic_guide_groupshot_fullbody);
+                else if (str.equals("Group POV Elvated"))
+                    img.setImageResource(R.drawable.ic_guide_groupshot_elevated_pov);
+                else if (str.equals("Group by Depth"))
+                    img.setImageResource(R.drawable.ic_guide_groupshot_outfocusing);
+                else if (str.equals("Group Center Lead"))
+                    img.setImageResource(R.drawable.ic_guide_groupshot_center_leader);
                 else if (str.equals("None"))
                     img.setImageBitmap(null);
             }

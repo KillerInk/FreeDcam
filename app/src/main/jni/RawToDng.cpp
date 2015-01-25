@@ -214,8 +214,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	LOGD("wrote cameraModel");
 	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
 	LOGD("wrote colormatrix1");
-	if(neutral != NULL)
-	    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
 	LOGD("wrote neutralmatrix");
 	TIFFSetField(tif, EXIFTAG_ISOSPEEDRATINGS, miso);
 	LOGD("wrote isoSpeed");
@@ -239,13 +238,11 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 	//LOGD("write whitelvl");
 	//TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
-	if(blacklevel != 0)
-	{
-	    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
-	    LOGD("wrote blacklevel");
+    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
+	LOGD("wrote blacklevel");
 
-	    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
-	}
+	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+
 	LOGD("write CALIBRATIONILLUMINANT1");
 	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
 	LOGD("write CALIBRATIONILLUMINANT2");

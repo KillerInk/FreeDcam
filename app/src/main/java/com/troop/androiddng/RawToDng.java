@@ -20,6 +20,7 @@ public class RawToDng
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
         //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
         G3_Mipi_LL(             16224256, g3_blacklevel, "bggr",4208,3082, true, getG3_rowSizeL),
+        IMX135_214(             16424960, g3_blacklevel, "bggr",4208,3120, true, g3_rowSizeKitKat),
         //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
         //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
@@ -104,7 +105,7 @@ public class RawToDng
         if (DeviceUtils.isHTC_M8())
         {
             Log.d(TAG, "is htc m8 raw");
-            convertRawBytesToDng(data, fileToSave, width, height, g3_color1, g3_color2, null, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
+            convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
         }
         else
         {
@@ -113,7 +114,8 @@ public class RawToDng
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
-                if (Build.MODEL.equals("Lenovo K910"))
+                //defcomg was here 24/01/2015 messed up if status with a random number
+                if (data.length == 164249650)
                 {
                     convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
@@ -162,6 +164,25 @@ public class RawToDng
 	{
 		(float) 0.3566446304, (float) 0.613401413, (float) 0.3468151093
 	};
+
+    public static float[] nocal_color1 =
+            {
+                    (float) 1.000, (float) 0.000, (float) 0.000,
+                    (float) 0.000, (float) 1.000, (float) 0.000,
+                    (float) 0.000, (float) 0.000, (float) 1.000
+            };
+
+    public static float[] nocal_color2 =
+            {
+                    (float) 1.000, (float) 0.000, (float) 0.000,
+                    (float) 0.000, (float) 1.000, (float) 0.000,
+                    (float) 0.000, (float) 0.000, (float) 1.000
+            };
+
+    public static float[] nocal_nutral =
+            {
+                    (float) 1.0, (float) 1.0, (float) 1.0
+            };
 	
 	public static int g3_blacklevel = 64;
 
