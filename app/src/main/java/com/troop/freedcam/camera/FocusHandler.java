@@ -64,20 +64,16 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
-        cameraHolder.CancelFocus();
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
-        if (cameraUiWrapper.camParametersHandler.ExposureLock.GetValue().equals("true")) {
-            cameraUiWrapper.camParametersHandler.ExposureLock.SetValue("false", true);
-            cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
-        }
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
+            if (cameraUiWrapper.camParametersHandler.ExposureLock != null && cameraUiWrapper.camParametersHandler.ExposureLock.IsSupported()) {
+                if (cameraUiWrapper.camParametersHandler.ExposureLock.GetValue().equals("true")) {
+                    cameraUiWrapper.camParametersHandler.ExposureLock.SetValue("false", true);
+                    cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
+                }
+            }
             final FocusRect targetFocusRect = new FocusRect(
                     rect.left * 2000 / width - 1000,
                     rect.right * 2000 / width - 1000,
