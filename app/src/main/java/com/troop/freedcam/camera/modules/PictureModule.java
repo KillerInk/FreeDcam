@@ -213,8 +213,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         saveFileRunner.run();
         isWorking = false;
 
-        if (ParameterHandler.isExposureAndWBLocked)
-            ParameterHandler.LockExposureAndWhiteBalance(false);
+        /*if (ParameterHandler.isExposureAndWBLocked)
+            ParameterHandler.LockExposureAndWhiteBalance(false);*/
         return false;
     }
 
