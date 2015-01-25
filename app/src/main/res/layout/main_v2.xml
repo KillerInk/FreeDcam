@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
+    android:background="#ff000000"
     android:keepScreenOn="true"
     android:longClickable="true">
 
@@ -165,7 +165,7 @@
         android:layout_height="fill_parent">
 
         <ImageView
-            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/appiconsizedouble"
             android:id="@+id/imageView_Thumbnail"
             android:layout_gravity="bottom|left"
@@ -241,7 +241,6 @@
             android:background="@drawable/divide"
             android:layout_marginRight="-70dp"
             android:visibility="visible" />
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -249,7 +248,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:id="@+id/layout__cameraControls"
-            android:layout_marginLeft="10dp"
             android:clickable="true">
 
             <ImageView
@@ -274,7 +272,7 @@
                 android:background="@drawable/improve_multishoot"
                 android:clickable="true"
                 android:layout_marginBottom="2dp"
-                android:layout_gravity="left" />
+                android:layout_gravity="center_horizontal" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -381,13 +379,13 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:id="@+id/counter">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/counter"
+        android:gravity="center_horizontal">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="0:00:00"
@@ -398,8 +396,7 @@
             android:rotation="0"
             android:autoText="false"
             android:textSize="50dp"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="300dp" />
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 
