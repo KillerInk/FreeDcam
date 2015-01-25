@@ -245,7 +245,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:id="@+id/layout__cameraControls"
@@ -253,15 +253,16 @@
             android:clickable="true">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
                 android:id="@+id/imageView_cameraSwitch"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentTop="false"
                 android:clickable="true"
                 android:layout_marginTop="2dp"
-                android:layout_marginLeft="9dp" />
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="center_horizontal" />
 
             <ImageView
                 android:layout_width="@dimen/appiconsizedouble"
@@ -272,8 +273,8 @@
                 android:longClickable="false"
                 android:background="@drawable/improve_multishoot"
                 android:clickable="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="15dp" />
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="left" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -281,13 +282,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/SizeCameraControls"
+                    android:layout_height="@dimen/SizeCameraControls"
                     android:id="@+id/textView_ModuleSwitch"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
@@ -305,12 +305,12 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp">
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/SizeCameraControls"
+                    android:layout_height="@dimen/SizeCameraControls"
                     android:text="log"
                     android:id="@+id/textView_flashSwitch"
                     android:background="@drawable/ic_flash"
@@ -319,20 +319,19 @@
                     android:password="false"
                     android:textSize="@dimen/TextSizeSmall"
                     android:clickable="true"
-                    android:paddingTop="18dp"
-                    android:layout_marginBottom="10dp" />
+                    android:paddingTop="18dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp">
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/SizeCameraControls"
+                    android:layout_height="@dimen/SizeCameraControls"
                     android:text="log"
                     android:id="@+id/textView_nightmode"
                     android:background="@drawable/ic_mode_night"
@@ -345,29 +344,26 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/SizeCameraControls"
+                    android:layout_height="@dimen/SizeCameraControls"
                     android:id="@+id/imageView_exposurelock" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="@dimen/app_icon_size"
-                android:layout_height="@dimen/app_icon_size"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="35dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/app_icon_size"
-                    android:layout_height="@dimen/app_icon_size"
+                    android:layout_width="@dimen/SizeCameraControls"
+                    android:layout_height="@dimen/SizeCameraControls"
                     android:text=""
                     android:id="@+id/textView_Exit"
                     android:background="@drawable/ic_exit_button"
@@ -375,7 +371,8 @@
                     android:singleLine="true"
                     android:password="false"
                     android:textSize="@dimen/TextSizeSmall"
-                    android:clickable="true" />
+                    android:clickable="true"
+                    android:layout_gravity="bottom" />
             </LinearLayout>
 
         </LinearLayout>

@@ -19,6 +19,8 @@
     <dimen name="helpoverlay_width">300dp</dimen>
     <dimen name="crosshairwidth">80dp</dimen>
     <dimen name="crosshair_height">60dp</dimen>
+    <dimen name="margineLeftCameraControls">9dp</dimen>
+    <dimen name="SizeCameraControls">42dp</dimen>
 
 
 </resources>
