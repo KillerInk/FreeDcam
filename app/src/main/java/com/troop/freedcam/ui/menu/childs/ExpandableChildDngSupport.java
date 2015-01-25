@@ -27,6 +27,11 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
         super(context, group, appSettingsManager, name, settingsname);
     }
 
+    @Override
+    protected void init(Context context) {
+
+    }
+
     protected void initt(Context context)
     {
         this.context = context;
