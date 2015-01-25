@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.handler;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     AbstractModeParameter exposureLock;
     ImageView view;
     Bitmap[] bitmaps;
+
+    private static String TAG = ExposureLockHandler.class.getSimpleName();
 
     public ExposureLockHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
@@ -80,6 +83,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         else
             toSet = "true";
 
+        Log.d(TAG, "set to: " + toSet);
         exposureLock.SetValue(toSet, true);
         setBitmap(toSet);
     }
@@ -100,7 +104,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
 
     @Override
     public void onValueChanged(String val) {
-        exposureLock.SetValue(val, false);
+        exposureLock.SetValue(val, true);
         setBitmap(val);
     }
 

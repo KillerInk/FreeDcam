@@ -27,13 +27,10 @@ public class ExposureLockParameter extends BaseModeParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        boolean toset = false;
-        if (valueToSet.equals("true"))
-            toset = true;
         if (parameters.get("auto-exposure-lock-supported").equals("true"))
-            parameters.put("auto-exposure-lock", setToCam+"");
+            parameters.put("auto-exposure-lock", valueToSet);
         if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
-            parameters.put("auto-whitebalance-lock", setToCam+"");
+            parameters.put("auto-whitebalance-lock", valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
     }
