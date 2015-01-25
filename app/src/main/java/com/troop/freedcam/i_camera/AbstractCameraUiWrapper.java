@@ -2,6 +2,7 @@ package com.troop.freedcam.i_camera;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -230,10 +231,19 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     public void DestroyBackGroundThread()
     {
-        if (backGroundThread != null) {
-            backGroundThread.quit();
+        if (backGroundThread != null)
+        {
+            Log.d(TAG, "Destroy BackgroundThread");
+            backGroundThread.interrupt();
+            try {
+                backGroundThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             backGroundThread = null;
             backGroundHandler = null;
+            Log.d(TAG, "Destroy BackgroundThread Destroyed");
         }
     }
 }
