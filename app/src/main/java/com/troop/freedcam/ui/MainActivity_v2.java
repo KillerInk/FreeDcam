@@ -258,6 +258,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         }*/
 
         infoOverlayHandler.StopUpdating();
+        if (cameraUiWrapper != null)
+            cameraUiWrapper.DestroyBackGroundThread();
         super.onDestroy();
     }
 
