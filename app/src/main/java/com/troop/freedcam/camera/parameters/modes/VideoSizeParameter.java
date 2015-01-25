@@ -19,13 +19,29 @@ public class VideoSizeParameter extends BaseModeParameter
     public VideoSizeParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
         super(parameters, parameterChanged, value, values);
-        String[] sizes = parameters.get("video-size-values").split(",");
+        String[] sizes = null;
+        try {
+            sizes = parameters.get("video-size-values").split(",");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
         if (sizes == null || sizes.length == 0)
         {
             Log.d(TAG, "Couldnt finde Video Size Values loading Preview Size Values");
-            sizes =  parameters.get("preview-size-values").split(",");
+            try {
+                sizes = parameters.get("preview-size-values").split(",");
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
         if (sizes == null || sizes.length == 0)
+            this.isSupported = false;
+        else
             this.isSupported = true;
     }
 
