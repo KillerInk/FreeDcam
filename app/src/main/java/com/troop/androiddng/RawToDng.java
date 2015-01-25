@@ -109,13 +109,13 @@ public class RawToDng
         }
         else
         {
-
+            //check if its a non default format as it should be = rowsize = imagesizebytes/ rawheight
             SupportedDevices device = SupportedDevices.GetValue(data.length);
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
-                //defcomg was here 24/01/2015 messed up if status with a random number
-                if (data.length == 164249650)
+                //k910 has the same filesize in bytes like the g3L raws but it has full height 3120 not 3082
+                if (Build.MODEL.equals("Lenovo K910"))
                 {
                     convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
@@ -130,7 +130,7 @@ public class RawToDng
                             Name, device.tightraw,iso, exposure);
                 }
             }
-            else
+            else //process with default converting
             {
                 Log.d(TAG, "is default bayer format do calc the row size");
                 Log.d(TAG, "rowsize :"+Calculate_rowSize(data.length, height));
