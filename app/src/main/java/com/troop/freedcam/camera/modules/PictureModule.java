@@ -91,7 +91,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         if (!this.isWorking)
         {
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-            /*if (baseCameraHolder.ParameterHandler.isDngActive)
+            if (baseCameraHolder.ParameterHandler.isDngActive)
             {
                 lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
                 baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
@@ -99,7 +99,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
                 baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
                 dngJpegShot = true;
-            }*/
+            }
             takePicture();
         }
     }
