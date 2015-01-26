@@ -73,6 +73,10 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter CameraMode;
 
+    //SonyApi
+    public AbstractModeParameter ContShootMode;
+    //
+
     public boolean isExposureAndWBLocked = false;
     public boolean isDngActive = false;
     public boolean isAeBracketActive = false;

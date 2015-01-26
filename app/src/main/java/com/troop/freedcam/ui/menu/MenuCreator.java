@@ -57,6 +57,7 @@ public class MenuCreator
     ExpandableChild mce;
     ExpandableChild zsl;
     ExpandableChild guide;
+    ExpandableChild contShootMode;
     PreviewExpandableChild previewSize;
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
@@ -203,6 +204,11 @@ public class MenuCreator
             aeBracketSwitch.setParameterHolder(parameterHandler.AE_Bracket, cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
         }
 
+        if (parameterHandler.ContShootMode != null)
+        {
+            contShootMode.setParameterHolder(parameterHandler.ContShootMode, cameraUiWrapper.moduleHandler.PictureModules);
+        }
+
 
     }
 
@@ -244,6 +250,8 @@ public class MenuCreator
 
         guide = new ExpandableChildGuide(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         piclist.add(guide);
+        contShootMode = new ExpandableChild(context,group,"ShootMode", appSettingsManager, "");
+        piclist.add(contShootMode);
 
 
 

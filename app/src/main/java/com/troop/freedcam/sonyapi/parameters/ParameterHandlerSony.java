@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
-import com.troop.freedcam.camera.parameters.modes.GuideList;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
@@ -12,6 +11,7 @@ import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureCompManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
+import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
@@ -66,9 +66,12 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
+
         ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
-        
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
+
+        ContShootMode = new ContShootModeParameterSony("getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)ContShootMode);
 
         Zoom = new ZoomManualSony("","","", this);
         parametersChangedList.add((ZoomManualSony)Zoom);
@@ -81,6 +84,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         ManualExposure = new ExposureCompManualParameterSony("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
+
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override

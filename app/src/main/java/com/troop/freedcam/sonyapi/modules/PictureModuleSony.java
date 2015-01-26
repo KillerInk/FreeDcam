@@ -55,7 +55,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void LoadNeededParameters()
     {
-        cameraHolder.SetShootMode("still");
+
     }
 
     @Override
