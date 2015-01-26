@@ -107,6 +107,7 @@ public class InfoOverlayHandler
         {
             try {
                 t.interrupt();
+                t.join();
             }
             catch (Exception ex)
             {
@@ -147,21 +148,22 @@ public class InfoOverlayHandler
         double calc;
         String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
+        {
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
+            else
+                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
+        }
+        else
             return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.2;
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("dng"))
-            return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
-
-        return 1;
     }
 
     private static long SDspace()
     {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         stat.restat(Environment.getExternalStorageDirectory().getPath());
-        long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
+        long bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         return bytesAvailable;
     }
 
