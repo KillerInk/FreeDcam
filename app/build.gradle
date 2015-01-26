@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 3
-        versionName "3.3.46"
+        versionName "3.3.47"
     }
     sourceSets
             {
@@ -63,4 +63,5 @@ dependencies {
     compile files('libs/android-support-v4.jar')
     provided files('libs/real3d.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
+    compile files('libs/xmpcore-5.1.2.jar')
 }
