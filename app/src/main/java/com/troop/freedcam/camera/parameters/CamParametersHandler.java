@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
@@ -28,7 +27,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
-import com.troop.freedcam.camera.parameters.modes.GuideList;
+import com.troop.freedcam.i_camera.parameters.GuideList;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -49,7 +48,6 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -147,7 +145,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 
         JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
         //defcomg was here
-        GuideList = new GuideList(cameraParameters, this,"","",null, null);
+
 
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");

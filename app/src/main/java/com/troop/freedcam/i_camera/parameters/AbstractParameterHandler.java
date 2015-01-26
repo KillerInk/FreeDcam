@@ -86,6 +86,7 @@ public abstract class AbstractParameterHandler
         this.cameraHolder = cameraHolder;
         this.backGroundHandler = backGroundHandler;
         this.uiHandler = uiHandler;
+        GuideList = new GuideList();
     }
 
     public void SetParametersToCamera() {};

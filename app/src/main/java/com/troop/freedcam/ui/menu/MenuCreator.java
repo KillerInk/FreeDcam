@@ -96,7 +96,7 @@ public class MenuCreator
         //defcomg was here
         if(parameterHandler.GuideList != null)
         {
-            guide.setParameterHolder(parameterHandler.GuideList,cameraUiWrapper.moduleHandler.PictureModules);
+            guide.setParameterHolder(parameterHandler.GuideList,cameraUiWrapper.moduleHandler.AllModules);
         }
         //
         if (parameterHandler.RedEye != null && parameterHandler.RedEye.IsSupported())
