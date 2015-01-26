@@ -167,8 +167,12 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
     }
 
     @Override
-    public void ParametersLoaded() {
-        cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
-        onValueChanged(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
+    public void ParametersLoaded()
+    {
+        if (cameraUiWrapper.camParametersHandler.GuideList != null)
+        {
+            cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
+            onValueChanged(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
+        }
     }
 }

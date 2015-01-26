@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.menu;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -191,7 +192,7 @@ public class MenuCreator
         if (parameterHandler.VideoHDR != null && parameterHandler.VideoHDR.IsSupported()) {
             videoHdr.setParameterHolder(parameterHandler.VideoHDR,cameraUiWrapper.moduleHandler.VideoModules);
         }
-
+        if(cameraUiWrapper instanceof CameraUiWrapper)
             saveCamparas.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);

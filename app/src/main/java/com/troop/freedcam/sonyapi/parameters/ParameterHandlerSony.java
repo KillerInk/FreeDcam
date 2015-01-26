@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.camera.parameters.modes.GuideList;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
@@ -66,6 +67,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
         ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
+        
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
         Zoom = new ZoomManualSony("","","", this);
