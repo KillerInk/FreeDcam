@@ -140,7 +140,7 @@ public class InfoOverlayHandler
         long done;
         done = (long) Calc();
         long a = SDspace() / done;
-        return StringUtils.readableFileSize(a);
+        return  a + " left";
 
     }
     private double Calc()
