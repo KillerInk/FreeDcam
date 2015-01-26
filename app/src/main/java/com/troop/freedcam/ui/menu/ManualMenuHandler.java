@@ -11,6 +11,7 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -332,8 +333,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (fromUser && currentItem != null)
         {
-            //if (currentItem.manualParameter instanceof FocusManualParameter ||
-                    //currentItem.manualParameter instanceof ExposureManualParameter)
+            if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
                 setValueToParameters(seekBar.getProgress());
             if (realMin < 0)
                 setValueToTextBox(progress + realMin);
@@ -351,7 +351,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         userIsSeeking = false;
-        //setValueToParameters(seekBar.getProgress());
+        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+            setValueToParameters(seekBar.getProgress());
     }
 
 
