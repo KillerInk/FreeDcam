@@ -215,7 +215,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        StopPreview();
+
         StopCamera();
     }
 }

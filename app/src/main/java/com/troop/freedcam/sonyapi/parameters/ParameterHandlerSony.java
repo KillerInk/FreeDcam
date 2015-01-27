@@ -19,6 +19,7 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +50,11 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
 
         Log.d(TAG, "Throw parametersChanged");
+        throwSonyApiChanged(mAvailableCameraApiSet);
+
+    }
+
+    private void throwSonyApiChanged(Set<String> mAvailableCameraApiSet) {
         for (int i = 0; i < parametersChangedList.size(); i++)
         {
             if (parametersChangedList.get(i) == null)
@@ -85,7 +91,6 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ManualExposure = new ExposureCompManualParameterSony("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
-
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run()
@@ -94,6 +99,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
+
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)
@@ -105,6 +111,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public void SetSupportedApiSet(Set<String> mSupportedApiSet)
     {
         this.mSupportedApiSet = mSupportedApiSet;
+
     }
 
     @Override

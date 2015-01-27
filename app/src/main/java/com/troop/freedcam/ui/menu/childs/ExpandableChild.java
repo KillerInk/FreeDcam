@@ -133,7 +133,6 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         if (isSupported && !isVisible)
         {
-            //onValueChanged(parameterHolder.GetValue());
             isVisible = true;
             group.submenu.addView(this);
         }
