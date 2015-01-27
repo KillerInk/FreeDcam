@@ -136,10 +136,8 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,this, "picture-size", "picture-size-values");
         if(DeviceUtils.isSonyADV())
-
             PictureFormat = new PictureFormatParameter(cameraParameters, this, "sony-postview-format", "sony-postview-format-values", this, appSettingsManager);
-
-        if(!DeviceUtils.isSonyADV())
+        else
             PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
 
 
@@ -163,7 +161,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
 //sony-is for images sony-vs for video
         if(DeviceUtils.isSonyADV())
             DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "sony-vs", "sony-vs-values");
-        if(!DeviceUtils.isSonyADV())
+        else
             DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "dis", "dis-values");
 
         MemoryColorEnhancement = new BaseModeParameter(cameraParameters, this, "mce", "mce-values");
@@ -180,7 +178,7 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
         if(DeviceUtils.isSonyADV())
             VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "sony-video-hdr", "sony-video-hdr-values", cameraHolder);
-        if(!DeviceUtils.isSonyADV())
+        else
             VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
@@ -188,59 +186,18 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
 
-        //checkRawSupport();
-
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-        //backGroundHandler.postDelayed(backgroundParametersListner, 300);
-
     }
 
-    /*private void checkRawSupport()
-    {
-        String rawFormats[] = cameraParameters.get("picture-format-values").split(",");
-
-        for (String s : rawFormats)
-        {
-            if (s.contains("bayer") || s.contains("raw"))
-            {
-                rawSupported = true;
-            }
-            if (s.contains("bayer-mipi")) {
-                dngSupported = true;
-                BayerMipiFormat = s;
-                if (DeviceUtils.isHTC_M8())
-                    BayerMipiFormat = StringUtils.BayerMipiGRBG();
-                if (DeviceUtils.isLGADV())
-                    BayerMipiFormat = StringUtils.BayerMipiBGGR();
-            }
-        }
-        *//*if(DeviceUtils.isLGADV() && Build.VERSION.SDK_INT == 21)
-        {
-            BayerMipiFormat = "bayer-qcom-10bggr";
-        }*//*
-        if (DeviceUtils.isMediaTekDevice())
-        {
-            rawSupported =true;
-        }
-    }*/
-
-
-    Handler handler = new Handler();
     @Override
     public void ParameterChanged()
     {
-
         cameraHolder.SetCameraParameters(cameraParameters);
-        /*if (!setParameterRunner.isRunning)
-            handler.post(setParameterRunner);
-        else
-            moreParametersToSet = true;*/
-
     }
 
     class SetParameterRunner implements Runnable
@@ -271,29 +228,6 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetFocusAREA(FocusRect focusAreas, int weight)
     {
-        /*HashMap<String, String> tmp = (HashMap<String, String>)cameraParameters.clone();
-        if (Integer.parseInt(cameraParameters.get("max-num-metering-areas")) > 0 ) {
-            tmp.put("metering-areas", "("+focusAreas.left+","+focusAreas.right+","+focusAreas.top+","+focusAreas.bottom+","+weight + ")");
-
-            Log.d(TAG, "SetMeteringAreas");
-            //cameraHolder.SetCameraParameters(para);
-        }
-        if (Integer.parseInt(cameraParameters.get("max-num-focus-areas")) > 0 )
-        {
-            if (focusAreas.left < -1000)
-                focusAreas.left = -1000;
-            if (focusAreas.right > 1000)
-                focusAreas.right = 1000;
-            if (focusAreas.top < -1000)
-                focusAreas.top = -1000;
-            if (focusAreas.bottom > 1000)
-                focusAreas.bottom = 1000;
-
-            tmp.put("focus-areas", "("+focusAreas.left+", "+focusAreas.right+", "+focusAreas.top+", "+focusAreas.bottom+", "+weight + ")");
-            //cameraHolder.SetCameraParameters(tmp);
-            Log.d(TAG, "SetFocusAreas");
-
-        }*/
         ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas);
 
     }
