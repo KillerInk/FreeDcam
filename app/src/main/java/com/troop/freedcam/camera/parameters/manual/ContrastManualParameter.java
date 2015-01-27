@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.HashMap;
@@ -38,5 +40,25 @@ public class ContrastManualParameter extends BaseManualParameter {
             } catch (Exception ex) {
             }
         }
+    }
+
+    protected boolean hasSupport()
+    {
+        try
+        {
+            if (parameters.containsKey(value))
+            {
+                int t = Integer.parseInt(parameters.get(value));
+                this.isSupported = true;
+            }
+            else
+                this.isSupported = false;
+        }
+        catch (Exception ex)
+        {
+            isSupported = false;
+        }
+        Log.d("freedcam.ContrastManualParameter", "issupported " + value + ": " + isSupported);
+        return isSupported;
     }
 }
