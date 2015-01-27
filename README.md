@@ -19,3 +19,10 @@ http://developer.android.com/reference/android/hardware/camera2/package-summary.
 
 sony camera remote api (PlayMemories)  
 https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/
+
+projects used by freedcam:
+MetadataExtractor
+https://github.com/drewnoakes/metadata-extractor
+
+libtiff
+http://www.remotesensing.org/libtiff/  
