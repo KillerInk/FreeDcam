@@ -219,6 +219,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
+        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
     }
 
 

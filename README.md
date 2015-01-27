@@ -10,7 +10,7 @@ ndk.dir=C\:\\Android\\android-ndk-r10b
 yes you need \\ that for a folderpath
 
 
-freedcam supports now 3 different apis:  
+freedcam supports now 3 different apis:
 android.hardware.camera  
 http://developer.android.com/reference/android/hardware/Camera.html
 

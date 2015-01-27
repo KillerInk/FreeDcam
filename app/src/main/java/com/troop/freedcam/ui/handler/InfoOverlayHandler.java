@@ -11,13 +11,15 @@ import android.os.StatFs;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 23.01.2015.
  */
-public class InfoOverlayHandler
+public class InfoOverlayHandler implements I_ModuleEvent
 {
     //troopii was here and cleaned up^^
     private final Activity context;
@@ -28,6 +30,7 @@ public class InfoOverlayHandler
     TextView FormatTextL;
     private BroadcastReceiver rec;
     Thread t;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public InfoOverlayHandler(Activity context, AppSettingsManager appSettingsManager)
     {
@@ -39,6 +42,12 @@ public class InfoOverlayHandler
         Restext = (TextView)context.findViewById(R.id.textViewRes);
         FormatTextL = (TextView)context.findViewById(R.id.textViewFormat);
         startLooperThread();
+    }
+
+    public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
+    {
+        this.cameraUiWrapper = cameraUIWrapper;
+        cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     private void registerBatteryEventReciever()
@@ -165,6 +174,11 @@ public class InfoOverlayHandler
         stat.restat(Environment.getExternalStorageDirectory().getPath());
         long bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         return bytesAvailable;
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
     }
 
     //End defcomg
