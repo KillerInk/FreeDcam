@@ -54,13 +54,15 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper != null) {
-            exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
+        if (cameraUiWrapper != null)
+        {
+            if (cameraUiWrapper.camParametersHandler.ExposureLock != null)
+                exposureLock = cameraUiWrapper.camParametersHandler.ExposureLock;
 
             if (cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.FocusMode != null)
                 cameraUiWrapper.camParametersHandler.FocusMode.addEventListner(onFocusmodeChanged);
 
-            if (exposureLock != null && exposureLock.IsSupported() && !cameraUiWrapper.camParametersHandler.FocusMode.GetValue().contains("continuous")) {
+            if (exposureLock != null && exposureLock.IsSupported() && cameraUiWrapper.camParametersHandler.FocusMode != null && !cameraUiWrapper.camParametersHandler.FocusMode.GetValue().contains("continuous")) {
 
                 exposureLock.addEventListner(this);
                 String val = exposureLock.GetValue();
@@ -75,17 +77,17 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void onClick(View view)
     {
-        String toSet = "";
-        if (exposureLock.GetValue().equals("true"))
-        {
-           toSet = "false";
-        }
-        else
-            toSet = "true";
+        if (exposureLock != null && exposureLock.IsSupported()) {
+            String toSet = "";
+            if (exposureLock.GetValue().equals("true")) {
+                toSet = "false";
+            } else
+                toSet = "true";
 
-        Log.d(TAG, "set to: " + toSet);
-        exposureLock.SetValue(toSet, true);
-        setBitmap(toSet);
+            Log.d(TAG, "set to: " + toSet);
+            exposureLock.SetValue(toSet, true);
+            setBitmap(toSet);
+        }
     }
 
     private void setBitmap(final String value)
@@ -103,8 +105,10 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     }
 
     @Override
-    public void onValueChanged(String val) {
-        exposureLock.SetValue(val, true);
+    public void onValueChanged(String val)
+    {
+        if (exposureLock != null && exposureLock.IsSupported())
+            exposureLock.SetValue(val, true);
         setBitmap(val);
     }
 
@@ -127,13 +131,14 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         @Override
         public void onValueChanged(String val)
         {
-            exposureLock.SetValue("false", true);
-            setBitmap("false");
-            if (!val.contains("continuous"))
-                view.setVisibility(View.VISIBLE);
-            else
-            {
-                view.setVisibility(View.GONE);
+            if (exposureLock != null && exposureLock.IsSupported()) {
+                exposureLock.SetValue("false", true);
+                setBitmap("false");
+                if (!val.contains("continuous"))
+                    view.setVisibility(View.VISIBLE);
+                else {
+                    view.setVisibility(View.GONE);
+                }
             }
 
         }
