@@ -487,8 +487,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
             List<SecCamera.Area> areaList = new ArrayList<>();
             areaList.add(new SecCamera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
             SecCamera.Parameters p = samsungCamera.getParameters();
-            p.setFocusAreas(areaList);
-            p.setMeteringAreas(areaList);
+            if (p.getMaxNumFocusAreas() > 0)
+                p.setFocusAreas(areaList);
+            if (p.getMaxNumMeteringAreas() > 0)
+                p.setMeteringAreas(areaList);
             samsungCamera.setParameters(p);
         }
         else
@@ -496,8 +498,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
             List<Camera.Area> areaList = new ArrayList<>();
             areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
             Camera.Parameters p = mCamera.getParameters();
-            p.setFocusAreas(areaList);
-            p.setMeteringAreas(areaList);
+            if (p.getMaxNumFocusAreas() > 0)
+                p.setFocusAreas(areaList);
+            if (p.getMaxNumMeteringAreas() > 0)
+                p.setMeteringAreas(areaList);
             mCamera.setParameters(p);
         }
     }
