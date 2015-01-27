@@ -9,7 +9,9 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class ContrastManualParameter extends BaseManualParameter {
+public class ContrastManualParameter extends BaseManualParameter
+{
+    private static String TAG = ContrastManualParameter.class.getSimpleName();
     public ContrastManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
@@ -58,7 +60,7 @@ public class ContrastManualParameter extends BaseManualParameter {
         {
             isSupported = false;
         }
-        Log.d("freedcam.ContrastManualParameter", "issupported " + value + ": " + isSupported);
+        Log.d(TAG, "issupported " + value + ": " + isSupported);
         return isSupported;
     }
 }
