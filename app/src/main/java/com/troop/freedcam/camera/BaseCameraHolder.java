@@ -484,6 +484,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
         if (hasSamsungFrameWork)
         {
+            Log.d(TAG, "Set Samsung Focus");
             List<SecCamera.Area> areaList = new ArrayList<>();
             areaList.add(new SecCamera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
             SecCamera.Parameters p = samsungCamera.getParameters();
@@ -491,7 +492,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 p.setFocusAreas(areaList);
             if (p.getMaxNumMeteringAreas() > 0)
                 p.setMeteringAreas(areaList);
-            samsungCamera.setParameters(p);
+            try
+            {
+                Log.d(TAG, "try Set Samsung Focus");
+                samsungCamera.setParameters(p);
+                Log.d(TAG, "Setted Samsung Focus");
+            }
+            catch (Exception ex)
+            {
+                Log.d(TAG, "Set Samsung Focus FAILED!");
+            }
+
         }
         else
         {
@@ -502,7 +513,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 p.setFocusAreas(areaList);
             if (p.getMaxNumMeteringAreas() > 0)
                 p.setMeteringAreas(areaList);
-            mCamera.setParameters(p);
+            try
+            {
+                Log.d(TAG, "try Set Focus");
+                mCamera.setParameters(p);
+                Log.d(TAG, "Setted Samsung Focus");
+            }
+            catch (Exception ex)
+            {
+                Log.d(TAG, "Set Focus FAILED!");
+            }
+
         }
     }
 
