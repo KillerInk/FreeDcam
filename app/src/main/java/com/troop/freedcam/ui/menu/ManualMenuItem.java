@@ -185,6 +185,11 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         stringValues = values;
     }
 
+    @Override
+    public void onCurrentStringValueChanged(String value) {
+        setTextToTextView(value);
+    }
+
     //
     // AbstractManualParameter.I_ManualParameterEvent
     // AbstractManualParameter.I_ManualParameterEvent

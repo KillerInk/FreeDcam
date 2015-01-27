@@ -85,8 +85,8 @@ public class SimpleCameraEventObserver {
         void onExposureCompensationChanged(int epxosurecomp);
         void onExposureCompensationMaxChanged(int epxosurecompmax);
         void onExposureCompensationMinChanged(int epxosurecompmin);
-        public void onShutterSpeedChanged(int fnumber);
-        public void onShutterSpeedChanged(String[]  fnumbervals);
+        public void onShutterSpeedChanged(int shutter);
+        public void onShutterSpeedValuesChanged(String[]  shuttervals);
 
     }
 
@@ -168,6 +168,9 @@ public class SimpleCameraEventObserver {
 
     private String fnumber;
     String[] mFnumbervals;
+
+    String[] mShuttervals;
+    private String shutter;
 
     int mExposureComp;
     int mExposureCompMax;
@@ -353,8 +356,63 @@ public class SimpleCameraEventObserver {
 
         processFnumberStuff(replyJson);
 
+        processShutterSpeedStuff(replyJson);
+
         // :
         // : add implementation for Event data as necessary.
+    }
+
+    private void processShutterSpeedStuff(JSONObject replyJson) throws JSONException
+    {
+        String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 27, "shutterSpeed", "shutterSpeedCandidates");
+        if (shuttervals != null && !shuttervals.equals(mShuttervals) && shuttervals.length > 0)
+        {
+            mFnumbervals = shuttervals;
+            fireFnumberValuesChangeListener(mFnumbervals);
+        }
+        String sret = "";
+        if (mShuttervals == null || mShuttervals.length == 0)
+        {
+            try {
+                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedShutterSpeed");
+                JSONArray array = object.getJSONArray("result");
+                JSONArray subarray = array.getJSONArray(0);
+                mShuttervals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                fireShutterValuesChangeListener(mShuttervals);
+                //sret = array.getString(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        String shutterv = JsonUtils.findStringInformation(replyJson,27, "shutterSpeed", "currentShutterSpeed");
+        if (shutterv.equals("") && !sret.equals(""))
+            shutterv = sret;
+        else
+        {
+            try {
+                JSONObject object = mRemoteApi.getParameterFromCamera("getShutterSpeed");
+                JSONArray array = object.getJSONArray("result");
+                shutterv = array.getString(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d(TAG, "getEvent fnumber: " + shutterv);
+        if (shutterv != null && !shutterv.equals("") && !shutterv.equals(shutter) && mShuttervals != null)
+        {
+            int ret = 0;
+            for (int i = 0; i < mShuttervals.length; i++)
+            {
+                if (mShuttervals[i].equals(shutterv)) {
+                    ret = i;
+                    break;
+                }
+
+            }
+            shutter = shutterv;
+            Log.d(TAG, "getEvent shutter:" + shutter);
+            fireShutterSpeedChangeListener(ret);
+        }
     }
 
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
@@ -366,15 +424,15 @@ public class SimpleCameraEventObserver {
             fireFnumberValuesChangeListener(mFnumbervals);
         }
         String fret = "";
-        if (mFnumbervals == null)
+        if (mFnumbervals == null || mFnumbervals.length == 0)
         {
             try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getAvailableFNumber");
+                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedFNumber");
                 JSONArray array = object.getJSONArray("result");
-                JSONArray subarray = array.getJSONArray(1);
+                JSONArray subarray = array.getJSONArray(0);
                 mFnumbervals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
                 fireFnumberValuesChangeListener(mFnumbervals);
-                fret = array.getString(0);
+                //fret = array.getString(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -422,12 +480,12 @@ public class SimpleCameraEventObserver {
         if (mIsovals == null)
         {
             try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getAvailableIsoSpeedRate");
+                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedIsoSpeedRate");
                 JSONArray array = object.getJSONArray("result");
-                JSONArray subarray = array.getJSONArray(1);
+                JSONArray subarray = array.getJSONArray(0);
                 mIsovals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
                 fireIsoValuesChangeListener(mIsovals);
-                isoret = array.getString(0);
+                //isoret = array.getString(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -603,6 +661,28 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onFnumberValuesChanged(pfnum);
+                }
+            }
+        });
+    }
+
+    private void fireShutterValuesChangeListener(final String[] pfnum) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onShutterSpeedValuesChanged(pfnum);
+                }
+            }
+        });
+    }
+
+    private void fireShutterSpeedChangeListener(final int pfnum) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onShutterSpeedChanged(pfnum);
                 }
             }
         });

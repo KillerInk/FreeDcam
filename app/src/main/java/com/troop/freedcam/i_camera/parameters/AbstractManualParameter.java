@@ -28,6 +28,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         void onMinValueChanged(int min);
         void onCurrentValueChanged(int current);
         void onValuesChanged(String[] values);
+        void onCurrentStringValueChanged(String value);
     }
 
 

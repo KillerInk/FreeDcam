@@ -97,32 +97,42 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onIsoChanged(int iso)
         {
-            ((BaseManualParameterSony)ParameterHandler.ISOManual).currentValueChanged(iso);
+            ParameterHandler.ISOManual.currentValueChanged(iso);
         }
 
         @Override
         public void onIsoValuesChanged(String[] isovals) {
-            ((BaseManualParameterSony)ParameterHandler.ISOManual).BackgroundValuesChanged(isovals);
+            ParameterHandler.ISOManual.BackgroundValuesChanged(isovals);
         }
 
         @Override
         public void onFnumberValuesChanged(String[] fnumbervals) {
-            ((BaseManualParameterSony)ParameterHandler.ManualFNumber).BackgroundValuesChanged(fnumbervals);
+            ParameterHandler.ManualFNumber.BackgroundValuesChanged(fnumbervals);
         }
 
         @Override
         public void onExposureCompensationMaxChanged(int epxosurecompmax) {
-            ((BaseManualParameterSony)ParameterHandler.ManualExposure).BackgroundMaxValueChanged(epxosurecompmax);
+            ParameterHandler.ManualExposure.BackgroundMaxValueChanged(epxosurecompmax);
         }
 
         @Override
         public void onExposureCompensationMinChanged(int epxosurecompmin) {
-            ((BaseManualParameterSony)ParameterHandler.ManualExposure).BackgroundMinValueChanged(epxosurecompmin);
+            ParameterHandler.ManualExposure.BackgroundMinValueChanged(epxosurecompmin);
+        }
+
+        @Override
+        public void onShutterSpeedChanged(int shutter) {
+            ParameterHandler.ManualShutter.currentValueChanged(shutter);
+        }
+
+        @Override
+        public void onShutterSpeedValuesChanged(String[] shuttervals) {
+            ParameterHandler.ManualShutter.BackgroundValuesChanged(shuttervals);
         }
 
         @Override
         public void onFnumberChanged(int fnumber) {
-            ((BaseManualParameterSony)ParameterHandler.ManualFNumber).currentValueChanged(fnumber);
+            ParameterHandler.ManualFNumber.currentValueChanged(fnumber);
         }
 
         @Override
@@ -468,6 +478,10 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public void TakePicture(final I_PictureCallback pictureCallback)
     {
+        actTakePicture(pictureCallback);
+    }
+
+    private void actTakePicture(final I_PictureCallback pictureCallback) {
         new Thread() {
 
             @Override

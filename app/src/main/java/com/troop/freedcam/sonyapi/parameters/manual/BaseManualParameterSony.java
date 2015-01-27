@@ -63,6 +63,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         BackgroundIsSetSupportedChanged(isSetSupported);
 
 
+
     }
 
     @Override
@@ -249,5 +250,10 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         Log.d(TAG, "onValueSChanged = "  +values.toString());
         this.values = values;
+    }
+
+    @Override
+    public void onCurrentStringValueChanged(String value) {
+        
     }
 }
