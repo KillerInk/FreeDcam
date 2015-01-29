@@ -122,7 +122,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     item.DisableItem();
                     item.manualParameter.removeEventListner(this);
 
-                } else {
+
+                }
+                else
+                {
                     item.manualParameter.addEventListner(this);
 
                     currentItem = item;
@@ -139,7 +142,9 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                 }
             }
             else
+            {
                 item.onIsSupportedChanged(false);
+            }
         }
     }
 
@@ -237,7 +242,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onIsSetSupportedChanged(boolean value)
+    {
 
     }
 
@@ -324,12 +330,18 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     private void setTextValue(final String value)
     {
-        seekbarText.post(new Runnable() {
-            @Override
-            public void run() {
-                seekbarText.setText(currentItem.name + ": " + value);
-            }
-        });
+        if (currentItem !=null)
+        {
+            seekbarText.post(new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (currentItem == null || currentItem.name == null)
+                        return;
+                    seekbarText.setText(currentItem.name + ": " + value);
+                }
+            });
+        }
 
     }
 

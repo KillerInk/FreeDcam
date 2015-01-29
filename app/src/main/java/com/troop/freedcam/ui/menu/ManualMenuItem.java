@@ -34,6 +34,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     int btncolor;
     int txtcolor;
     String[] stringValues;
+    ManualMenuItem manualMenuItem;
 
     public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
         super(context);
@@ -45,7 +46,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         this.name = name;
         this.manualMenuHandler = manualMenuHandler;
         txtcolor = textViewName.getCurrentTextColor();
-
+        this.manualMenuItem = this;
         textViewName.setText(name);
         writeLog("created");
 
@@ -80,6 +81,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
             toggleButton.setOnClickListener(this);
             isSetSupported = true;
             onIsSupportedChanged(true);
+            onIsSetSupportedChanged(true);
         }
         else
         {
@@ -111,18 +113,24 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     // AbstractManualParameter.I_ManualParameterEvent
     // AbstractManualParameter.I_ManualParameterEvent
     @Override
-    public void onIsSupportedChanged(boolean supported)
+    public void onIsSupportedChanged(final boolean supported)
     {
-        writeLog("on is supported changed " + supported);
-        if (supported && !isVisibile)
-        {
-            manualMenuHandler.manualMenu.addView(this);
-            isVisibile =true;
-        }
-        if (!supported && isVisibile) {
-            manualMenuHandler.manualMenu.removeView(this);
-            isVisibile =false;
-        }
+        manualMenuHandler.manualMenu.post(new Runnable() {
+            @Override
+            public void run() {
+                writeLog("on is supported changed " + supported);
+                if (supported && !isVisibile)
+                {
+                    manualMenuHandler.manualMenu.addView(manualMenuItem);
+                    isVisibile =true;
+                }
+                if (!supported && isVisibile) {
+                    manualMenuHandler.manualMenu.removeView(manualMenuItem);
+                    isVisibile =false;
+                }
+            }
+        });
+
 
     }
 
