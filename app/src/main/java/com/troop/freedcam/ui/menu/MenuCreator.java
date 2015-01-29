@@ -58,6 +58,7 @@ public class MenuCreator
     ExpandableChild zsl;
     ExpandableChild guide;
     ExpandableChild contShootMode;
+    ExpandableChild contShootModeSpeed;
     PreviewExpandableChild previewSize;
     LongExposureChild longExposureTime;
     VideoProfileExpandableChild videoProfile;
@@ -208,6 +209,10 @@ public class MenuCreator
         {
             contShootMode.setParameterHolder(parameterHandler.ContShootMode, cameraUiWrapper.moduleHandler.PictureModules);
         }
+        if (parameterHandler.ContShootModeSpeed != null)
+        {
+            contShootModeSpeed.setParameterHolder(parameterHandler.ContShootModeSpeed, cameraUiWrapper.moduleHandler.PictureModules);
+        }
 
 
     }
@@ -250,8 +255,11 @@ public class MenuCreator
 
         guide = new ExpandableChildGuide(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         piclist.add(guide);
-        contShootMode = new ExpandableChild(context,group,"ShootMode", appSettingsManager, "");
+        contShootMode = new ExpandableChild(context,group,"ContinousShootMode", appSettingsManager, "");
         piclist.add(contShootMode);
+        contShootModeSpeed = new ExpandableChild(context,group,"ContinousShootModeSpeed", appSettingsManager, "");
+        piclist.add(contShootModeSpeed);
+
 
 
 

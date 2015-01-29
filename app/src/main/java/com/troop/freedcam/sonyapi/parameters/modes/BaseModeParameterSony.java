@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
@@ -30,6 +32,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     protected boolean isSetSupported = false;
     protected String value;
     protected String[] values;
+    private static String TAG = BaseModeParameterSony.class.getSimpleName();
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
@@ -56,8 +59,11 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public boolean IsSupported()
     {
-        if (mAvailableCameraApiSet != null) {
-            return JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+        if (mAvailableCameraApiSet != null)
+        {
+            boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+            Log.d(TAG, VALUE_TO_GET + " is supported: " +sup);
+            return sup;
         }else
             return false;
     }

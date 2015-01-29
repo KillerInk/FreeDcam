@@ -79,6 +79,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ContShootMode = new ContShootModeParameterSony("getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ContShootMode);
 
+        ContShootModeSpeed = new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)ContShootModeSpeed);
+
         Zoom = new ZoomManualSony("","","", this);
         parametersChangedList.add((ZoomManualSony)Zoom);
         ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
