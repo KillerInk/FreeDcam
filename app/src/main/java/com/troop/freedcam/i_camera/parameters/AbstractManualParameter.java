@@ -58,6 +58,21 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
+    public void currentValueStringCHanged(String value)
+    {
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
+            }
+            else
+                events.get(i).onCurrentStringValueChanged(value);
+        }
+    }
+
     public void BackgroundIsSupportedChanged(boolean value)
     {
         for (int i= 0; i< events.size(); i ++)

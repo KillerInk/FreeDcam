@@ -77,15 +77,15 @@ public class SimpleCameraEventObserver {
 
         void onTimout();
 
-        void onIsoChanged(int iso);
+        void onIsoChanged(String iso);
 
         void onIsoValuesChanged(String[] isovals);
-        public void onFnumberChanged(int fnumber);
+        public void onFnumberChanged(String fnumber);
         public void onFnumberValuesChanged(String[]  fnumbervals);
         void onExposureCompensationChanged(int epxosurecomp);
         void onExposureCompensationMaxChanged(int epxosurecompmax);
         void onExposureCompensationMinChanged(int epxosurecompmin);
-        public void onShutterSpeedChanged(int shutter);
+        public void onShutterSpeedChanged(String shutter);
         public void onShutterSpeedValuesChanged(String[]  shuttervals);
 
     }
@@ -124,12 +124,12 @@ public class SimpleCameraEventObserver {
         {
 
         }
-        public void onIsoChanged(int iso)
+        public void onIsoChanged(String iso)
         {
 
         }
 
-        public void onFnumberChanged(int fnumber)
+        public void onFnumberChanged(String fnumber)
         {
 
         }
@@ -364,13 +364,13 @@ public class SimpleCameraEventObserver {
 
     private void processShutterSpeedStuff(JSONObject replyJson) throws JSONException
     {
-        String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 27, "shutterSpeed", "shutterSpeedCandidates");
+        String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 32, "shutterSpeed", "shutterSpeedCandidates");
         if (shuttervals != null && !shuttervals.equals(mShuttervals) && shuttervals.length > 0)
         {
-            mFnumbervals = shuttervals;
-            fireFnumberValuesChangeListener(mFnumbervals);
+            mShuttervals = shuttervals;
+            fireShutterValuesChangeListener(mShuttervals);
         }
-        String sret = "";
+        /*String sret = "";
         if (mShuttervals == null || mShuttervals.length == 0)
         {
             try {
@@ -383,9 +383,9 @@ public class SimpleCameraEventObserver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        String shutterv = JsonUtils.findStringInformation(replyJson,27, "shutterSpeed", "currentShutterSpeed");
-        if (shutterv.equals("") && !sret.equals(""))
+        }*/
+        String shutterv = JsonUtils.findStringInformation(replyJson,32, "shutterSpeed", "currentShutterSpeed");
+        /*if (shutterv.equals("") && !sret.equals(""))
             shutterv = sret;
         else
         {
@@ -397,10 +397,10 @@ public class SimpleCameraEventObserver {
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, "getEvent fnumber: " + shutterv);
-        if (shutterv != null && !shutterv.equals("") && !shutterv.equals(shutter) && mShuttervals != null)
+        Log.d(TAG, "getEvent fnumber: " + shutterv);*/
+        if (shutterv != null && !shutterv.equals("") /*&& !shutterv.equals(shutter) && mShuttervals != null*/)
         {
-            int ret = 0;
+            /*int ret = 0;
             for (int i = 0; i < mShuttervals.length; i++)
             {
                 if (mShuttervals[i].equals(shutterv)) {
@@ -408,11 +408,23 @@ public class SimpleCameraEventObserver {
                     break;
                 }
 
-            }
+            }*/
             shutter = shutterv;
             Log.d(TAG, "getEvent shutter:" + shutter);
-            fireShutterSpeedChangeListener(ret);
+            fireShutterSpeedChangeListener(shutter);
         }
+        /*if (shutter == null)
+        {
+            try {
+                JSONObject object = mRemoteApi.getParameterFromCamera("getShutterSpeed");
+                JSONArray array = object.getJSONArray("result");
+                shutter = array.getString(0);
+                fireShutterSpeedChangeListener(shutter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+
     }
 
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
@@ -423,7 +435,7 @@ public class SimpleCameraEventObserver {
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
-        String fret = "";
+        /*String fret = "";
         if (mFnumbervals == null || mFnumbervals.length == 0)
         {
             try {
@@ -436,9 +448,9 @@ public class SimpleCameraEventObserver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
-        if (fnumberv.equals("") && !fret.equals(""))
+        /*if (fnumberv.equals("") && !fret.equals(""))
             fnumberv = fret;
         else
         {
@@ -450,10 +462,10 @@ public class SimpleCameraEventObserver {
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, "getEvent fnumber: " + fnumberv);
-        if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber) && mFnumbervals != null)
+        Log.d(TAG, "getEvent fnumber: " + fnumberv);*/
+        if (fnumberv != null && !fnumberv.equals("")/* && !fnumberv.equals(fnumber) && mFnumbervals != null*/)
         {
-            int ret = 0;
+            /*int ret = 0;
             for (int i = 0; i < mFnumbervals.length; i++)
             {
                 if (mFnumbervals[i].equals(fnumberv)) {
@@ -461,10 +473,10 @@ public class SimpleCameraEventObserver {
                     break;
                 }
 
-            }
+            }*/
             fnumber = fnumberv;
             Log.d(TAG, "getEvent fnumber:" + fnumber);
-            fireFNumberChangeListener(ret);
+            fireFNumberChangeListener(fnumber);
         }
     }
 
@@ -476,7 +488,7 @@ public class SimpleCameraEventObserver {
             mIsovals = isovals;
             fireIsoValuesChangeListener(mIsovals);
         }
-        String isoret = "";
+        /*String isoret = "";
         if (mIsovals == null)
         {
             try {
@@ -489,10 +501,10 @@ public class SimpleCameraEventObserver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
-        if (isoval.equals("") && !isoret.equals(""))
+        /*if (isoval.equals("") && !isoret.equals(""))
             isoval = isoret;
         else
         {
@@ -504,10 +516,10 @@ public class SimpleCameraEventObserver {
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, "getEvent isoval: " + isoval);
-        if (isoval != null && !isoval.equals("") && !isoval.equals(iso) && mIsovals != null)
+        Log.d(TAG, "getEvent isoval: " + isoval);*/
+        if (isoval != null && !isoval.equals("") /*&& !isoval.equals(iso) && mIsovals != null*/)
         {
-            int ret = 0;
+            /*int ret = 0;
             for (int i = 0; i < mIsovals.length; i++)
             {
                 if (mIsovals[i].equals(isoval)) {
@@ -515,10 +527,10 @@ public class SimpleCameraEventObserver {
                     break;
                 }
 
-            }
+            }*/
             iso = isoval;
             Log.d(TAG, "getEvent isoVal:" + iso);
-            fireIsoChangeListener(ret);
+            fireIsoChangeListener(iso);
         }
     }
 
@@ -644,7 +656,7 @@ public class SimpleCameraEventObserver {
         });
     }
 
-    private void fireFNumberChangeListener(final int pfnum) {
+    private void fireFNumberChangeListener(final String pfnum) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -677,7 +689,7 @@ public class SimpleCameraEventObserver {
         });
     }
 
-    private void fireShutterSpeedChangeListener(final int pfnum) {
+    private void fireShutterSpeedChangeListener(final String pfnum) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -800,7 +812,7 @@ public class SimpleCameraEventObserver {
         });
     }
 
-    private void fireIsoChangeListener(final int iso) {
+    private void fireIsoChangeListener(final String iso) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {

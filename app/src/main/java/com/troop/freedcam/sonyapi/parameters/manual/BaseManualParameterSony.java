@@ -253,7 +253,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
-    public void onCurrentStringValueChanged(String value) {
-        
+    public void onCurrentStringValueChanged(String value)
+    {
+
     }
 }

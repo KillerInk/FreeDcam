@@ -95,9 +95,9 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onIsoChanged(int iso)
+        public void onIsoChanged(String iso)
         {
-            ParameterHandler.ISOManual.currentValueChanged(iso);
+            ParameterHandler.ISOManual.currentValueStringCHanged(iso);
         }
 
         @Override
@@ -121,8 +121,8 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onShutterSpeedChanged(int shutter) {
-            ParameterHandler.ManualShutter.currentValueChanged(shutter);
+        public void onShutterSpeedChanged(String shutter) {
+            ParameterHandler.ManualShutter.currentValueStringCHanged(shutter);
         }
 
         @Override
@@ -131,8 +131,8 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onFnumberChanged(int fnumber) {
-            ParameterHandler.ManualFNumber.currentValueChanged(fnumber);
+        public void onFnumberChanged(String fnumber) {
+            ParameterHandler.ManualFNumber.currentValueStringCHanged(fnumber);
         }
 
         @Override
