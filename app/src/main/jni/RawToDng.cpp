@@ -373,9 +373,6 @@ unsigned short bits[176*144*2];
 
 // Fake Thumb
     //write_image(tif, tx, ty, 255);
-
-
-
     uint8 *thumbBuffer =(uint8 *) malloc(newJniBitmap->_bitmapInfo.width*3);
     LOGD("Thumb Width %d Height %d", newJniBitmap->_bitmapInfo.width, newJniBitmap->_bitmapInfo.height);
 
@@ -384,32 +381,18 @@ unsigned short bits[176*144*2];
         int p = 0;
         for(int w = 0; w < newJniBitmap->_bitmapInfo.width; w++)
         {
-            uint8 pix = newJniBitmap->_storedBitmapPixels[w*i];
-            LOGD("Pixel %d", pix);
-            thumbBuffer[p++] = (pix & 0xff);
-            thumbBuffer[p++] = ((pix >> 8) & 0xff);
+            uint8 pix = newJniBitmap->_storedBitmapPixels[i*newJniBitmap->_bitmapInfo.width + w];
             thumbBuffer[p++] = ((pix >> 16) & 0xff);
-            //thumbBuffer[p++] = ((pix >> 24) & 0xff);
-                //bitwise shifting
-
-
-            //thumbBuffer[w] = newJniBitmap->_storedBitmapPixels[i*w];
-
+            //LOGD("Pixel r %d", thumbBuffer[p]);
+            thumbBuffer[p++] = ((pix >> 8) & 0xff);
+             //LOGD("Pixel g %d", thumbBuffer[p]);
+            thumbBuffer[p++] = (pix & 0xff);
         }
         if (TIFFWriteScanline(tif, thumbBuffer, i, 0) != 1) {
         		LOGD("Error writing TIFF scanline.");
         		}
     }
 
-    //// to add either preview frame or jpeg or gen from bayer
-/*
-    for (int y = 0; y < 600; y++)
-    {
-        bits = rgbBuff + y*600;
-        if (TIFFWriteScanline (tif, bits, y, 0) != 1) {
-        		LOGD("Error writing TIFF thumb.");
-        		}
-    } */
     //Checkpoint to Update Write to Move to SUB IFD with Primary Raw Image
     TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory(tif);
