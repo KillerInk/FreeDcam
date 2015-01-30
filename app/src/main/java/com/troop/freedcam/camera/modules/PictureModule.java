@@ -189,7 +189,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
                     fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
                     focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                    exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_INDEX);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
+                    exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
                   //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
 
 
