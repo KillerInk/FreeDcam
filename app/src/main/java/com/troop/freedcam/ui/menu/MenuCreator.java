@@ -253,8 +253,7 @@ public class MenuCreator
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
 
-        guide = new ExpandableChildGuide(context, group, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
-        piclist.add(guide);
+
         contShootMode = new ExpandableChild(context,group,"ContinousShootMode", appSettingsManager, "");
         piclist.add(contShootMode);
         contShootModeSpeed = new ExpandableChild(context,group,"ContinousShootModeSpeed", appSettingsManager, "");
@@ -475,6 +474,9 @@ public class MenuCreator
 
         saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",appSettingsManager, null);
         childlist.add(saveCamparas);
+
+        guide = new ExpandableChildGuide(context, settingsGroup, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+        childlist.add(guide);
 
         settingsGroup.setItems(childlist);
 
