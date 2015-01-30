@@ -3,8 +3,10 @@ package com.troop.freedcam.ui.menu.childs;
 import android.content.Context;
 import android.util.Log;
 
+import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
 
@@ -26,7 +28,8 @@ public class PictureFormatExpandableChild extends ExpandableChild
     {
         parameterHolder.SetValue(value, true);
         valueTextView.setText(value);
-        appSettingsManager.setString(settingsname, value);
+        if (!(parameterHolder instanceof BaseModeParameterSony))
+            appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
         if (PictureFormatChangedHandler != null)
             PictureFormatChangedHandler.VideoProfileChanged(value);

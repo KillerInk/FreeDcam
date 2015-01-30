@@ -9,8 +9,10 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
 
@@ -69,7 +71,8 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         valueTextView.setText(value);
         parameterHolder.SetValue(value, true);
-        appSettingsManager.setString(settingsname, value);
+        if (!(parameterHolder instanceof BaseModeParameterSony))
+            appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
@@ -111,17 +114,19 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(String val)
     {
-        String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue.equals("")) {
-            appSettingsManager.setString(settingsname, val);
-            settingValue = val;
-            Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
-        }
-        if (!settingValue.equals(val))
-        {
-            parameterHolder.SetValue(settingValue, true);
-            appSettingsManager.setString(settingsname, settingValue);
-            Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
+        String settingValue = val;
+        if (!(parameterHolder instanceof BaseModeParameterSony)) {
+            settingValue = appSettingsManager.getString(settingsname);
+            if (settingValue.equals("")) {
+                appSettingsManager.setString(settingsname, val);
+                settingValue = val;
+                Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
+            }
+            if (!settingValue.equals(val)) {
+                parameterHolder.SetValue(settingValue, true);
+                appSettingsManager.setString(settingsname, settingValue);
+                Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
+            }
         }
         if (valueTextView != null)
             valueTextView.setText(settingValue);
