@@ -3,6 +3,9 @@
 //#include <include/tif_dir.h>
 //#include <include/tif_config.h>
 #include <stdio.h>
+#include <android/bitmap.h>
+#include <unistd.h>
+#include <cstring>
 //#include <exception>
 #include <assert.h>
 #include <stdlib.h>
@@ -147,6 +150,62 @@ void processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsi
 	}
 }
 
+class JniBitmap
+{
+    public:
+    uint32_t* _storedBitmapPixels;
+    AndroidBitmapInfo _bitmapInfo;
+    JniBitmap()
+    {
+        _storedBitmapPixels = NULL;
+    }
+};
+
+JniBitmap* createNativeBitmap(JNIEnv * env, jobject bitmap)
+{
+    AndroidBitmapInfo bitmapInfo;
+    uint32_t* storedBitmapPixels = NULL;
+    //LOGD("reading bitmap info...");
+    int ret;
+    if ((ret = AndroidBitmap_getInfo(env, bitmap, &bitmapInfo)) < 0)
+    {
+        LOGD("AndroidBitmap_getInfo() failed ! error=%d", ret);
+        return NULL;
+    }
+    //LOGD("width:%d height:%d stride:%d", bitmapInfo.width, bitmapInfo.height, bitmapInfo.stride);
+    if (bitmapInfo.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
+    {
+        LOGD("Bitmap format is not RGBA_8888!");
+        return NULL;
+    }
+    //
+    //read pixels of bitmap into native memory :
+    //
+    //LOGD("reading bitmap pixels...");
+    void* bitmapPixels;
+    if ((ret = AndroidBitmap_lockPixels(env, bitmap, &bitmapPixels)) < 0)
+    {
+        LOGD("AndroidBitmap_lockPixels() failed ! error=%d", ret);
+        return NULL;
+    }
+    uint32_t* src = (uint32_t*) bitmapPixels;
+    storedBitmapPixels = new uint32_t[bitmapInfo.height * bitmapInfo.width];
+    int pixelsCount = bitmapInfo.height * bitmapInfo.width;
+    memcpy(storedBitmapPixels, src, sizeof(uint32_t) * pixelsCount);
+    AndroidBitmap_unlockPixels(env, bitmap);
+    JniBitmap *jniBitmap = new JniBitmap();
+    jniBitmap->_bitmapInfo = bitmapInfo;
+    jniBitmap->_storedBitmapPixels = storedBitmapPixels;
+    jclass bitmapCls = env->GetObjectClass(bitmap);
+    jmethodID recycle = env->GetMethodID(bitmapCls, "recycle", "()V");
+    if (recycle == 0)
+    {
+    return false;
+    }
+    env->CallVoidMethod(bitmap, recycle);
+    return jniBitmap;
+}
+
 
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(JNIEnv *env, jobject thiz,
@@ -199,7 +258,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 ////////////////////////////THUMB////////////////////////////////
 unsigned char *thumbByte= (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
-unsigned long bLen = env->GetArrayLength(mThumb);
+int bLen = env->GetArrayLength(mThumb);
 LOGD("ThumbStream Dize: %d", bLen);
 unsigned char *bufferThumb;
 unsigned short bits[176*144*2];
@@ -229,13 +288,22 @@ unsigned short bits[176*144*2];
 
 //////////////////////////////////////IFD 0//////////////////////////////////////////////////////
 
+     jclass bitmapCls = env->FindClass("android/graphics/BitmapFactory");
+     LOGD("ThumbBitmapCreated");
+     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls,"decodeByteArray", "([BII)Landroid/graphics/Bitmap;");
+     LOGD("ThumbBitmapCreated");
+     jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, mThumb, 0 ,bLen);
+     LOGD("ThumbBitmapCreated");
+     JniBitmap* newJniBitmap = createNativeBitmap(env, newBitmap);
+     LOGD("ThumbBitmapCreated");
+
 	LOGD("TIFF Header");
 	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 1);
-	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, 176) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, 144) != 0);
+	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, newJniBitmap->_bitmapInfo.width) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, newJniBitmap->_bitmapInfo.height) != 0);
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8) != 0);
         assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
+        //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
         assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
         TIFFSetField(tif, TIFFTAG_MAKE, mMake);
         TIFFSetField(tif, TIFFTAG_MODEL, mModel);
@@ -304,7 +372,34 @@ unsigned short bits[176*144*2];
          TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
 
 // Fake Thumb
-    write_image(tif, tx, ty, 255);
+    //write_image(tif, tx, ty, 255);
+
+
+
+    uint8 *thumbBuffer =(uint8 *) malloc(newJniBitmap->_bitmapInfo.width*3);
+    LOGD("Thumb Width %d Height %d", newJniBitmap->_bitmapInfo.width, newJniBitmap->_bitmapInfo.height);
+
+    for(int i=0; i< newJniBitmap->_bitmapInfo.height; i++)
+    {
+        int p = 0;
+        for(int w = 0; w < newJniBitmap->_bitmapInfo.width; w++)
+        {
+            uint8 pix = newJniBitmap->_storedBitmapPixels[w*i];
+            LOGD("Pixel %d", pix);
+            thumbBuffer[p++] = (pix & 0xff);
+            thumbBuffer[p++] = ((pix >> 8) & 0xff);
+            thumbBuffer[p++] = ((pix >> 16) & 0xff);
+            //thumbBuffer[p++] = ((pix >> 24) & 0xff);
+                //bitwise shifting
+
+
+            //thumbBuffer[w] = newJniBitmap->_storedBitmapPixels[i*w];
+
+        }
+        if (TIFFWriteScanline(tif, thumbBuffer, i, 0) != 1) {
+        		LOGD("Error writing TIFF scanline.");
+        		}
+    }
 
     //// to add either preview frame or jpeg or gen from bayer
 /*

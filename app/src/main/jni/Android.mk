@@ -85,7 +85,8 @@ LOCAL_LDLIBS := -lz \
 	-L $(LOCAL_PATH)/libs \
 	-lm \
 	-ljpeg \
-	-llog
+	-llog \
+	-ljnigraphics
 LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/tiff/libtiff \
                     $(LOCAL_PATH)/jpeg

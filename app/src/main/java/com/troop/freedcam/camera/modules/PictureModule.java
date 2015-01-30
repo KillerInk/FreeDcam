@@ -254,7 +254,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 if (!file.getAbsolutePath().endsWith(".dng")) {
                     saveBytesToFile(bytes, file);
-                } else
+                }
+                else
                 {
                     String raw[] = getRawSize();
                     int w = Integer.parseInt(raw[0]);
@@ -270,11 +271,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
                     Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
 
-                    String[] expoRat =  exposureIndex.split("/");
-                    double x = Double.parseDouble(expoRat[0]);
-                    double y = Double.parseDouble(expoRat[1]);
+                    double x =0,y = 0, calculatedExpo =0 ;
+                    if (exposureIndex != null && exposureIndex.contains("/")) {
+                        String[] expoRat = exposureIndex.split("/");
+                        x = Double.parseDouble(expoRat[0]);
+                        y = Double.parseDouble(expoRat[1]);
+                        calculatedExpo = x/y;
+                    }
 
-                    double calculatedExpo = x/y;
                     //float calculatedExpoF = x/y;
 
                     Log.d(TAG, "Fnum"+String.valueOf(fNumber)+" FOcal"+focalLength);
