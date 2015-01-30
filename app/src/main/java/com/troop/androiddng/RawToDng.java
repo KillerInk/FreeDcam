@@ -83,7 +83,14 @@ public class RawToDng
             String deviceName,
             boolean tightraw,
             int iso,
-            float exposuretime);
+            double exposuretime,
+            String make,
+            String model,
+            int flash,
+            float apeture,
+            float focal,
+            String iDESC,
+            byte[] thumb);
 
     public static void ConvertRawBytesToDng(
             byte[] data,
@@ -92,8 +99,14 @@ public class RawToDng
             int height,
             String Name,
             int iso,
-            float exposure,
-            String format
+            double exposure,
+            String format,
+            int Flash,
+            float Aperture,
+            float Focal,
+            String IDESC,
+            byte[] Thumb
+
     )
     {
         Log.d(TAG, "Start Converting to DNG");
@@ -102,14 +115,16 @@ public class RawToDng
         Log.d(TAG, "iso:"+iso);
         Log.d(TAG, "exposuretime:"+ exposure);
         Log.d(TAG, "Looking for RawConverting");
+
+
         if (DeviceUtils.isHTC_M8())
         {
             Log.d(TAG, "is htc m8 raw");
-            convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure);
+            convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb);
         }
         else
         {
-            //check if its a non default format as it should be = rowsize = imagesizebytes/ rawheight
+
             SupportedDevices device = SupportedDevices.GetValue(data.length);
             if (device!= null)
             {
@@ -120,14 +135,14 @@ public class RawToDng
                     convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso, exposure);
+                            Name, device.tightraw,iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb);
                 }
                 else
                 {
                     convertRawBytesToDng(data, fileToSave, device.width, device.height,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso, exposure);
+                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb);
                 }
             }
             else //process with default converting
@@ -137,7 +152,7 @@ public class RawToDng
                 convertRawBytesToDng(data, fileToSave, width, height,
                         g3_color1, g3_color2, g3_neutral,
                         0, format, Calculate_rowSize(data.length, height),
-                        Name, true,iso, exposure);
+                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb);
             }
 
         }

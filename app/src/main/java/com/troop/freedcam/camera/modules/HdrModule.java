@@ -179,7 +179,7 @@ public class HdrModule extends PictureModule
                 l = lastBayerFormat.substring(lastBayerFormat.length() -4);
             else
                 l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-            RawToDng.ConvertRawBytesToDng(rawdata, dngFile, w, h, Build.MODEL, 0, 0, l);
+            RawToDng.ConvertRawBytesToDng(rawdata, dngFile, w, h, Build.MODEL, 0, 0, l,16,2.0f,0.0f,"HDR Bracketing Mode",null);
             if (files[i].delete() == true)
                 Log.d(TAG, "file: "+ files[i].getName() + " deleted");
             Log.d(TAG, "Start Media Scan " + file.getName());

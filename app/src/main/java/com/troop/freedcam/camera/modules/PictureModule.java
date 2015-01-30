@@ -6,8 +6,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
+import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
@@ -46,8 +46,15 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     protected String lastBayerFormat;
     private String lastPicSize;
+    //META FROM JPEG
     private int iso;
-    private float expo;
+    private String expo;
+    private int flash;
+    private float fNumber;
+    private float focalLength;
+    private String exposureIndex;
+    private String gainControl;
+    ///////////////////////////////////////
 
     public String OverRidePath = "";
     CamParametersHandler parametersHandler;
@@ -57,6 +64,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     Handler handler;
     File file;
     byte bytes[];
+    byte Thumb[];
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
@@ -153,24 +161,45 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     public void onPictureTaken(byte[] data)
     {
+        //DoMetaExtractCheck();
+        //if(DeviceUtils.isDebugging())
+          //  System.out.println("defcomg "+ "PictureForm "+ baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
+
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot)
         {
+            Thumb = data.clone();
+            System.out.println("defcomg "+ "In This B1tcH");
+            Metadata header;
+
             try
             {
-                final Metadata metadata = ImageMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
-                Iterable<Directory> dirs = metadata.getDirectories();
+                final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
+                //Iterable<Directory> dirs = metadata.getDirectories();
                 Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+                //ByteArrayInputStream bais = new ByteArrayInputStream(data);
+                //ExifReader reader = new ExifReader(bais);
+                //header = reader.extract();
+                //Directory dir = header.getDirectory(ExifDirectory.class);
+
                 try
                 {
                     iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-                    expo = exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+                    expo = exifsub.getString(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
+                    flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
+                    fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
+                    focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                    exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_INDEX);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
+                  //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
+
+
+
                 } catch (MetadataException e) {
                     e.printStackTrace();
                 }
-            } catch (ImageProcessingException e) {
+            } catch (JpegProcessingException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -209,7 +238,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }
         file = createFileName();
         bytes = data;
-
         saveFileRunner.run();
         isWorking = false;
 
@@ -236,7 +264,24 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                         l = lastBayerFormat.substring(lastBayerFormat.length() -4);
                     else
                         l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, expo, l);
+
+                    //if(DeviceUtils.isDebugging())
+                        //System.out.println("iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex );
+
+                    Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
+
+                    String[] expoRat =  exposureIndex.split("/");
+                    double x = Double.parseDouble(expoRat[0]);
+                    double y = Double.parseDouble(expoRat[1]);
+
+                    double calculatedExpo = x/y;
+                    //float calculatedExpoF = x/y;
+
+                    Log.d(TAG, "Fnum"+String.valueOf(fNumber)+" FOcal"+focalLength);
+                    String IMGDESC = "ISO:"+String.valueOf(iso)+" Exposure Time:"+exposureIndex+" F Number:"+String.valueOf(fNumber)+" Focal Length:"+focalLength;
+
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l,flash,fNumber,focalLength,IMGDESC,Thumb);
+                    Thumb = null;
                 }
             }
             else
@@ -281,6 +326,24 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             e.printStackTrace();
         }
         Log.d(TAG, "End Saving Bytes");
+
+    }
+
+    private void DoMetaExtractCheck()
+    {
+        System.out.println("defcomg "+ "Smallest Size "+ ParameterHandler.PictureSize.GetValues()[ParameterHandler.PictureSize.GetValues().length-1]);
+
+        if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("bayer-mipi-10bggr") && ParameterHandler.isDngActive == true)
+            dngJpegShot = true;
+        else
+            dngJpegShot = false;
+    }
+    private void setUpQuickJpeg()
+    {
+        ParameterHandler.PictureFormat.SetValue("jpeg", true);
+
+        ParameterHandler.PictureSize.SetValue(ParameterHandler.PictureSize.GetValues()[ParameterHandler.PictureSize.GetValues().length-1],true);
+
 
     }
 

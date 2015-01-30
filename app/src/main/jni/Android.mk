@@ -87,7 +87,7 @@ LOCAL_LDLIBS := -lz \
 	-ljpeg \
 	-llog
 LOCAL_C_INCLUDES += \
-					$(LOCAL_PATH)/include \
+					$(LOCAL_PATH)/tiff/libtiff \
                     $(LOCAL_PATH)/jpeg
 LOCAL_STATIC_LIBRARIES := libtiff
 include $(BUILD_SHARED_LIBRARY)
