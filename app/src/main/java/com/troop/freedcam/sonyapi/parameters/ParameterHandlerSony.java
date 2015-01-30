@@ -14,6 +14,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
+import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -73,7 +74,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
-        PictureFormat = new BaseModeParameterSony("getStillQuality", "setStillQuality", "getAvailableQuality", mRemoteApi);
+        PictureFormat = new PictureFormatSony("getStillQuality", "setStillQuality", "getAvailableStillQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureFormat);
 
         ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
