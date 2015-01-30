@@ -1688,7 +1688,10 @@ TIFFWriteDirectoryTagIfdIfd8Array(TIFF* tif, uint32* ndir, TIFFDirEntry* dir, ui
         *q= (uint32)(*ma);
     }
 
-    o=TIFFWriteDirectoryTagCheckedIfdArray(tif,ndir,dir,tag,count,p);
+    /* Write 4 byte offsets with TIFFDataType of TIFF_LONG, not TIFF_IFD.
+    * Note that EXIF specification version 2.3 says that EXIFIFD, GPSIFD, and INTEROPERABILITYIFD
+    * have type LONG, not type IFD. */
+    o=TIFFWriteDirectoryTagCheckedLongArray(tif,ndir,dir,tag,count,p);
     _TIFFfree(p);
 
     return(o);
