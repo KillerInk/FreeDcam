@@ -73,6 +73,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         PictureSize = new PictureSizeSony("getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
+        PictureFormat = new BaseModeParameterSony("getStillQuality", "setStillQuality", "getAvailableQuality", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)PictureFormat);
+
         ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
