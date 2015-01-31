@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by troop on 22.12.2014.
  */
-public class PictureModuleSony extends AbstractModule implements I_PictureCallback
+public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
     private static String TAG = StringUtils.TAG + PictureModuleSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
@@ -33,6 +33,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         super(cameraHandler, Settings, eventHandler);
         name = ModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
+        cameraHolder.CameraStatusListner = this;
     }
 
     @Override
@@ -48,15 +49,10 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             takePicture();
         else if (!this.isWorking)
         {
-            this.isWorking = true;
-            workstarted();
             cameraHolder.startContShoot(this);
         }
         else {
             cameraHolder.stopContShoot(this);
-            this.isWorking = false;
-            //eventHandler.WorkFinished(file);
-            workfinished(true);
         }
     }
 
@@ -89,16 +85,13 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 
     private void takePicture()
     {
-        this.isWorking = true;
-        workstarted();
         cameraHolder.TakePicture(this);
     }
 
     @Override
     public void onPictureTaken(URL url)
     {
-        this.isWorking = false;
-        workfinished(true);
+
         File file = new File(getStringAddTime() + ".jpg");
         try {
             file.createNewFile();
@@ -151,5 +144,20 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         Date date = new Date();
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status)
+    {
+        if (status.equals("IDLE") && isWorking)
+        {
+            this.isWorking = false;
+            workfinished(true);
+        }
+        else if (status.equals("StillCapturing") && !isWorking) {
+            this.isWorking = true;
+            workstarted();
+        }
+
     }
 }
