@@ -99,7 +99,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         if (!this.isWorking)
         {
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-            if (baseCameraHolder.ParameterHandler.isDngActive)
+            if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer-mipi"))
             {
                 lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
                 baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
@@ -166,7 +166,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
           //  System.out.println("defcomg "+ "PictureForm "+ baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
 
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
-        if (dngJpegShot)
+        if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
         {
             Thumb = data.clone();
             System.out.println("defcomg "+ "In This B1tcH");
