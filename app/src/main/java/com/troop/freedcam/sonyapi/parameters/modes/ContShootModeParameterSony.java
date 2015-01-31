@@ -48,4 +48,16 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
             e.printStackTrace();
         }
     }
+
+    protected String processGetString() {
+        JSONArray array = null;
+        String ret ="";
+        try {
+            array = jsonObject.getJSONArray("result");
+            ret = array.getJSONObject(0).getString("contShootingMode");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }
