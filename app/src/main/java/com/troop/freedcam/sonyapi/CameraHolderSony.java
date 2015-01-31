@@ -478,7 +478,53 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public void TakePicture(final I_PictureCallback pictureCallback)
     {
-        actTakePicture(pictureCallback);
+            actTakePicture(pictureCallback);
+    }
+
+    public void startContShoot(final I_PictureCallback pictureCallback)
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.startContShoot();
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+
+                } catch (IOException e) {
+                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
+
+                } catch (JSONException e) {
+                    Log.w(TAG, "JSONException while closing slicer");
+
+                } finally {
+
+                }
+            }
+        }.start();
+    }
+
+    public void stopContShoot(final I_PictureCallback pictureCallback)
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.stopContShoot();
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+
+                } catch (IOException e) {
+                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
+
+                } catch (JSONException e) {
+                    Log.w(TAG, "JSONException while closing slicer");
+
+                } finally {
+
+                }
+            }
+        }.start();
     }
 
     private void actTakePicture(final I_PictureCallback pictureCallback) {

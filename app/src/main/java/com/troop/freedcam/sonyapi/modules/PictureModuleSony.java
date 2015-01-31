@@ -43,8 +43,21 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void DoWork()
     {
-        if (!this.isWorking)
+        String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
+        if (!this.isWorking && shootmode.equals("Single"))
             takePicture();
+        else if (!this.isWorking)
+        {
+            this.isWorking = true;
+            workstarted();
+            cameraHolder.startContShoot(this);
+        }
+        else {
+            cameraHolder.stopContShoot(this);
+            this.isWorking = false;
+            //eventHandler.WorkFinished(file);
+            workfinished(true);
+        }
     }
 
     @Override
@@ -84,6 +97,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
+        this.isWorking = false;
+        workfinished(true);
         File file = new File(getStringAddTime() + ".jpg");
         try {
             file.createNewFile();
@@ -122,9 +137,9 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-        this.isWorking = false;
+
         eventHandler.WorkFinished(file);
-        workfinished(true);
+
 
     }
 
