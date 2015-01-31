@@ -29,8 +29,6 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     protected I_CameraChangedListner cameraChangedListner;
 
-    protected HandlerThread backGroundThread;
-    protected Handler backGroundHandler;
     protected Handler uiHandler;
 
     public AbstractCameraUiWrapper(){};
@@ -254,21 +252,5 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     }
 
-    public void DestroyBackGroundThread()
-    {
-        if (backGroundThread != null)
-        {
-            Log.d(TAG, "Destroy BackgroundThread");
-            backGroundThread.interrupt();
-            try {
-                backGroundThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
-            backGroundThread = null;
-            backGroundHandler = null;
-            Log.d(TAG, "Destroy BackgroundThread Destroyed");
-        }
-    }
 }

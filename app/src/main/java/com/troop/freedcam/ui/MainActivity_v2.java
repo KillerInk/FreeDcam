@@ -166,8 +166,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
             cameraUiWrapper.moduleHandler.SetWorkListner(null);
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
-            if (cameraUiWrapper != null)
-                cameraUiWrapper.DestroyBackGroundThread();
 
 
             cameraUiWrapper = null;

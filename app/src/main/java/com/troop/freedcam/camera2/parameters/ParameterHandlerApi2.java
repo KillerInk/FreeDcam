@@ -30,9 +30,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
+    public ParameterHandlerApi2(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
-        super(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
+        super(cameraHolder, appSettingsManager, uiHandler);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
     }

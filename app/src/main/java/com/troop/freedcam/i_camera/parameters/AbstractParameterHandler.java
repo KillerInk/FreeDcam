@@ -14,8 +14,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractParameterHandler
 {
-    protected HandlerThread backGroundThread;
-    protected Handler backGroundHandler;
     protected Handler uiHandler;
 
     public CameraParametersEventHandler ParametersEventHandler;
@@ -85,11 +83,10 @@ public abstract class AbstractParameterHandler
     public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
-        this.backGroundHandler = backGroundHandler;
         this.uiHandler = uiHandler;
         GuideList = new GuideList();
     }

@@ -74,9 +74,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public Surface surface;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner,HandlerThread backGroundThread, Handler backGroundHandler, Handler UIHandler)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
-        super(cameraChangedListner,backGroundThread, backGroundHandler, UIHandler);
+        super(cameraChangedListner, UIHandler);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
@@ -92,7 +92,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback, backGroundHandler);
+            manager.openCamera(cam, mStateCallback, null);
             characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {

@@ -37,9 +37,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
 
-    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backGroundHandler, Handler uiHandler)
+    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
-        super(cameraHolder, appSettingsManager, backGroundHandler, uiHandler);
+        super(cameraHolder, appSettingsManager, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler();
         parametersChangedList  = new ArrayList<I_SonyApi>();
@@ -76,6 +76,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         PictureFormat = new PictureFormatSony("getStillQuality", "setStillQuality", "getAvailableStillQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureFormat);
+
+        FlashMode = new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)FlashMode);
 
         ExposureMode = new ExposureModeSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);

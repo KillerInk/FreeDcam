@@ -25,15 +25,12 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
     protected I_CameraChangedListner cameraChangedListner;
-    protected HandlerThread backGroundThread;
-    protected Handler backGroundHandler;
     protected Handler UIHandler;
 
-    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, HandlerThread backGroundThread, Handler backGroundHandler,Handler UIHandler)
+    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner,Handler UIHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
-        this.backGroundHandler = backGroundHandler;
-        this.backGroundThread = backGroundThread;
+
         this.UIHandler = UIHandler;
     }
 
