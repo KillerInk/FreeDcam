@@ -137,7 +137,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
 
         timerHandler = new TimerHandler(this);
-        loadCameraUiWrapper();
+
 
 
         if (appSettingsManager.getShowHelpOverlay() == false)
@@ -166,6 +166,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
             cameraUiWrapper.moduleHandler.SetWorkListner(null);
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
+            if (cameraUiWrapper != null)
+                cameraUiWrapper.DestroyBackGroundThread();
+
 
             cameraUiWrapper = null;
             try {
@@ -232,19 +235,19 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onResume()
     {
-
-
         super.onResume();
+        loadCameraUiWrapper();
+        Log.d(TAG, "Activity onResume");
 
     }
 
     @Override
     protected void onPause()
     {
-
-
         super.onPause();
 
+
+        Log.d(TAG, "Activity onPause");
     }
 
     @Override
@@ -257,11 +260,26 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-
         infoOverlayHandler.StopUpdating();
-        if (cameraUiWrapper != null)
-            cameraUiWrapper.DestroyBackGroundThread();
+
+        Log.d(TAG, "Activity onDestroy");
         super.onDestroy();
+
+    }
+
+    @Override
+    protected void onStop()
+    {
+        Log.d(TAG, "Activity onSTOP");
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "Activity onStart");
     }
 
     @Override
