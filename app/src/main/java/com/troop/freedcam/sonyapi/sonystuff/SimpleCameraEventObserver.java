@@ -87,6 +87,7 @@ public class SimpleCameraEventObserver {
         void onExposureCompensationMinChanged(int epxosurecompmin);
         public void onShutterSpeedChanged(String shutter);
         public void onShutterSpeedValuesChanged(String[]  shuttervals);
+        void onFlashChanged(String flash);
 
     }
 
@@ -171,6 +172,8 @@ public class SimpleCameraEventObserver {
 
     String[] mShuttervals;
     private String shutter;
+
+    private String flash;
 
     int mExposureComp;
     int mExposureCompMax;
@@ -358,6 +361,14 @@ public class SimpleCameraEventObserver {
 
         processShutterSpeedStuff(replyJson);
 
+        String mflash = JsonUtils.findStringInformation(replyJson, 26, "flashMode", "currentFlashMode");
+        if (mflash != null && !mflash.equals("") && !mflash.equals(flash))
+        {
+            flash = mflash;
+            Log.d(TAG, "getEvent flash:" + flash);
+            fireFlashChangeListener(flash);
+        }
+
         // :
         // : add implementation for Event data as necessary.
     }
@@ -371,7 +382,7 @@ public class SimpleCameraEventObserver {
             fireShutterValuesChangeListener(mShuttervals);
         }
         String shutterv = JsonUtils.findStringInformation(replyJson,32, "shutterSpeed", "currentShutterSpeed");
-        if (shutterv != null && !shutterv.equals(""))
+        if (shutterv != null && !shutterv.equals("") && !shutterv.equals(shutter))
         {
             shutter = shutterv;
             Log.d(TAG, "getEvent shutter:" + shutter);
@@ -390,7 +401,7 @@ public class SimpleCameraEventObserver {
 
         String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
 
-        if (fnumberv != null && !fnumberv.equals(""))
+        if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber))
         {
             fnumber = fnumberv;
             Log.d(TAG, "getEvent fnumber:" + fnumber);
@@ -408,7 +419,7 @@ public class SimpleCameraEventObserver {
         }
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
 
-        if (isoval != null && !isoval.equals(""))
+        if (isoval != null && !isoval.equals("") && !isoval.equals(iso))
         {
 
             iso = isoval;
@@ -578,6 +589,17 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onShutterSpeedChanged(pfnum);
+                }
+            }
+        });
+    }
+
+    private void fireFlashChangeListener(final String pfnum) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onFlashChanged(pfnum);
                 }
             }
         });

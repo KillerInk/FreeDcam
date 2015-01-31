@@ -137,6 +137,11 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onFlashChanged(String flash) {
+            ParameterHandler.FlashMode.BackgroundValueHasChanged(flash);
+        }
+
+        @Override
         public void onFnumberChanged(String fnumber) {
             ParameterHandler.ManualFNumber.currentValueStringCHanged(fnumber);
         }
@@ -618,7 +623,7 @@ public class CameraHolderSony extends AbstractCameraHolder
             @Override
             public void run() {
                 try {
-                    JSONObject replyJson = mRemoteApi.actObjectTracking(x,y);
+                    JSONObject replyJson = mRemoteApi.actObjectTracking(x, y);
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                 } catch (IOException e) {
                     Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
