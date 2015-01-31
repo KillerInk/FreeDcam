@@ -10,19 +10,21 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
  * Created by troop on 21.08.2014.
  */
-public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoaded
+public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoaded, AbstractModeParameter.I_ModeParameterEvent
 {
     MainActivity_v2 activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
     ListView listView;
+    AbstractModeParameter flashmode;
 
     public FlashSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
@@ -37,6 +39,12 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        if (cameraUiWrapper.camParametersHandler.FlashMode != null)
+        {
+            flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
+            flashmode.addEventListner(this);
+            flashmode.BackgroundIsSupportedChanged(true);
+        }
     }
 
     @Override
@@ -85,7 +93,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.camParametersHandler.FlashMode != null && cameraUiWrapper.camParametersHandler.FlashMode.IsSupported())
+                if (cameraUiWrapper.camParametersHandler.FlashMode != null)
                 {
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
@@ -106,6 +114,27 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+        textView.setText(val);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported)
+    {
+        ParametersLoaded();
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
 
     }
 }
