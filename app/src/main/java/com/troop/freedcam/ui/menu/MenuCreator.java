@@ -47,6 +47,7 @@ public class MenuCreator
     ExpandableChild whitebalanceMode;
     ExpandableChild sceneMode;
     ExpandableChild focusMode;
+    ExpandableChild objectTrackingMode;
     ExpandableChild antibandingMode;
     ExpandableChild ippMode;
     ExpandableChild lensShadeMode;
@@ -172,6 +173,8 @@ public class MenuCreator
             zsl.setParameterHolder(parameterHandler.ZSL, cameraUiWrapper.moduleHandler.AllModules);
         }
 
+
+
         //used for longexposuremodule
         if (parameterHandler.PreviewSize != null)
         {
@@ -214,6 +217,10 @@ public class MenuCreator
             contShootModeSpeed.setParameterHolder(parameterHandler.ContShootModeSpeed, cameraUiWrapper.moduleHandler.PictureModules);
         }
 
+        if (parameterHandler.ObjectTracking != null)
+        {
+            objectTrackingMode.setParameterHolder(parameterHandler.ObjectTracking, cameraUiWrapper.moduleHandler.AllModules);
+        }
 
     }
 
@@ -309,6 +316,9 @@ public class MenuCreator
 
         focusMode = new ExpandableChild(context, group, context.getString(R.string.mode_focus), appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
         childlist.add(focusMode);
+
+        objectTrackingMode = new ExpandableChild(context, group, "Object Tracking", appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
+        childlist.add(objectTrackingMode);
 
         group.setItems(childlist);
     }

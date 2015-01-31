@@ -3,6 +3,7 @@ package com.troop.freedcam.sonyapi;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
@@ -38,6 +39,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
         wifiUtils = new WifiUtils(surfaceView.getContext());
+        Focus = new FocusHandlerSony(this);
     }
 
     @Override

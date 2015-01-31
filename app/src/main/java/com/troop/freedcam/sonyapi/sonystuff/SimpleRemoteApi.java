@@ -1019,4 +1019,42 @@ public class SimpleRemoteApi {
             throw new IOException(e);
         }
     }
+
+    public JSONObject setTouchToFocus(double x, double y) throws IOException
+    {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "setTouchAFPosition") //
+                            .put("params", new JSONArray().put(x).put(y)).put("id", id()) //
+                            .put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public JSONObject actObjectTracking(double x, double y) throws IOException
+    {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "actTrackingFocus") //
+                            .put("params", new JSONArray().put(new JSONObject().put("xPosition", x)).put(new JSONObject().put("yPosition", y))).put("id", id()) //
+                            .put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
 }

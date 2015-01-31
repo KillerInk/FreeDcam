@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.troop.freedcam.camera.modules.CameraFocusEvent;
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.sonyapi.modules.I_CameraStatusChanged;
@@ -43,6 +45,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
+    I_Callbacks.AutoFocusCallback autoFocusCallback;
 
     private SimpleCameraEventObserver mEventObserver;
 
@@ -584,6 +587,69 @@ public class CameraHolderSony extends AbstractCameraHolder
                         Log.v(TAG, "setShootMode: success.");
                     } else {
                         Log.w(TAG, "setShootMode: error: " + resultCode);
+
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                } catch (JSONException e) {
+                    Log.w(TAG, "setShootMode: JSON format error.");
+                }
+            }
+        }.start();
+    }
+
+    @Override
+    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback)
+    {
+        this.autoFocusCallback = autoFocusCallback;
+    }
+
+    public void SetTouchFocus(final double x, final double y)
+    {
+        if (mAvailableCameraApiSet.contains("setTouchAFPosition"))
+            runSetTouch(x, y);
+        else
+            runActObjectTracking(x,y);
+    }
+
+    private void runActObjectTracking(final double x,final double y) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.actObjectTracking(x,y);
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                } catch (IOException e) {
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                } catch (JSONException e) {
+                    Log.w(TAG, "setShootMode: JSON format error.");
+                }
+            }
+        }.start();
+    }
+
+    private void runSetTouch(final double x, final double y) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.setTouchToFocus(x,y);
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    int resultCode = resultsObj.getInt(0);
+                    if (resultCode == 1)
+                    {
+                        String success = replyJson.getString("AFResult");
+                        boolean suc = false;
+                        if (success.equals("true"))
+                            suc = true;
+                        if (autoFocusCallback != null)
+                        {
+                            CameraFocusEvent focusEvent = new CameraFocusEvent();
+                            focusEvent.success = suc;
+                            autoFocusCallback.onAutoFocus(focusEvent);
+                        }
 
                     }
                 } catch (IOException e) {

@@ -74,6 +74,7 @@ public abstract class AbstractParameterHandler
     //SonyApi
     public AbstractModeParameter ContShootMode;
     public AbstractModeParameter ContShootModeSpeed;
+    public AbstractModeParameter ObjectTracking;
     //
 
     public boolean isExposureAndWBLocked = false;
