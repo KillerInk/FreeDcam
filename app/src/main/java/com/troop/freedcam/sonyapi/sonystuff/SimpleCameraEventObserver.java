@@ -370,61 +370,13 @@ public class SimpleCameraEventObserver {
             mShuttervals = shuttervals;
             fireShutterValuesChangeListener(mShuttervals);
         }
-        /*String sret = "";
-        if (mShuttervals == null || mShuttervals.length == 0)
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedShutterSpeed");
-                JSONArray array = object.getJSONArray("result");
-                JSONArray subarray = array.getJSONArray(0);
-                mShuttervals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                fireShutterValuesChangeListener(mShuttervals);
-                //sret = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
         String shutterv = JsonUtils.findStringInformation(replyJson,32, "shutterSpeed", "currentShutterSpeed");
-        /*if (shutterv.equals("") && !sret.equals(""))
-            shutterv = sret;
-        else
+        if (shutterv != null && !shutterv.equals(""))
         {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getShutterSpeed");
-                JSONArray array = object.getJSONArray("result");
-                shutterv = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d(TAG, "getEvent fnumber: " + shutterv);*/
-        if (shutterv != null && !shutterv.equals("") /*&& !shutterv.equals(shutter) && mShuttervals != null*/)
-        {
-            /*int ret = 0;
-            for (int i = 0; i < mShuttervals.length; i++)
-            {
-                if (mShuttervals[i].equals(shutterv)) {
-                    ret = i;
-                    break;
-                }
-
-            }*/
             shutter = shutterv;
             Log.d(TAG, "getEvent shutter:" + shutter);
             fireShutterSpeedChangeListener(shutter);
         }
-        /*if (shutter == null)
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getShutterSpeed");
-                JSONArray array = object.getJSONArray("result");
-                shutter = array.getString(0);
-                fireShutterSpeedChangeListener(shutter);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-
     }
 
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
@@ -435,45 +387,11 @@ public class SimpleCameraEventObserver {
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
-        /*String fret = "";
-        if (mFnumbervals == null || mFnumbervals.length == 0)
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedFNumber");
-                JSONArray array = object.getJSONArray("result");
-                JSONArray subarray = array.getJSONArray(0);
-                mFnumbervals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                fireFnumberValuesChangeListener(mFnumbervals);
-                //fret = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-        String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
-        /*if (fnumberv.equals("") && !fret.equals(""))
-            fnumberv = fret;
-        else
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getFNumber");
-                JSONArray array = object.getJSONArray("result");
-                fnumberv = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d(TAG, "getEvent fnumber: " + fnumberv);*/
-        if (fnumberv != null && !fnumberv.equals("")/* && !fnumberv.equals(fnumber) && mFnumbervals != null*/)
-        {
-            /*int ret = 0;
-            for (int i = 0; i < mFnumbervals.length; i++)
-            {
-                if (mFnumbervals[i].equals(fnumberv)) {
-                    ret = i;
-                    break;
-                }
 
-            }*/
+        String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
+
+        if (fnumberv != null && !fnumberv.equals(""))
+        {
             fnumber = fnumberv;
             Log.d(TAG, "getEvent fnumber:" + fnumber);
             fireFNumberChangeListener(fnumber);
@@ -488,46 +406,11 @@ public class SimpleCameraEventObserver {
             mIsovals = isovals;
             fireIsoValuesChangeListener(mIsovals);
         }
-        /*String isoret = "";
-        if (mIsovals == null)
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getSupportedIsoSpeedRate");
-                JSONArray array = object.getJSONArray("result");
-                JSONArray subarray = array.getJSONArray(0);
-                mIsovals = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                fireIsoValuesChangeListener(mIsovals);
-                //isoret = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
-        /*if (isoval.equals("") && !isoret.equals(""))
-            isoval = isoret;
-        else
-        {
-            try {
-                JSONObject object = mRemoteApi.getParameterFromCamera("getIsoSpeedRate");
-                JSONArray array = object.getJSONArray("result");
-                isoval = array.getString(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d(TAG, "getEvent isoval: " + isoval);*/
-        if (isoval != null && !isoval.equals("") /*&& !isoval.equals(iso) && mIsovals != null*/)
-        {
-            /*int ret = 0;
-            for (int i = 0; i < mIsovals.length; i++)
-            {
-                if (mIsovals[i].equals(isoval)) {
-                    ret = i;
-                    break;
-                }
 
-            }*/
+        if (isoval != null && !isoval.equals(""))
+        {
+
             iso = isoval;
             Log.d(TAG, "getEvent isoVal:" + iso);
             fireIsoChangeListener(iso);
