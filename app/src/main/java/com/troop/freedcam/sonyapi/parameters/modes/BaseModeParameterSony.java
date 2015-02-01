@@ -71,6 +71,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public void SetValue(final String valueToSet, boolean setToCamera)
     {
+        value = valueToSet;
         new Thread(new Runnable() {
             @Override
             public void run() {
