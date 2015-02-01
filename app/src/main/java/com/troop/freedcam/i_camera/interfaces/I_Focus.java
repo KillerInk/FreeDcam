@@ -11,4 +11,5 @@ public interface I_Focus
 {
     public void FocusStarted(FocusRect rect);
     public void FocusFinished(boolean success);
+    public void FocusLocked(boolean locked);
 }

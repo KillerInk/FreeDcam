@@ -28,6 +28,7 @@ public class I_Callbacks
     public interface AutoFocusCallback
     {
         void onAutoFocus(CameraFocusEvent cameraFocusEvent);
+        void onFocusLock(boolean locked);
     }
 
 

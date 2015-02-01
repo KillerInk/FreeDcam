@@ -55,6 +55,14 @@
         android:background="@drawable/ic_cross_focus"
         android:visibility="gone" />
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imageViewFocusClose"
+        android:background="@drawable/focusclose"
+        android:layout_below="@+id/imageView_Crosshair"
+        android:layout_toRightOf="@+id/imageView_Crosshair" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"

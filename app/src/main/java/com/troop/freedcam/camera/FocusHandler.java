@@ -46,6 +46,11 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             focusEvent.FocusFinished(event.success);
     }
 
+    @Override
+    public void onFocusLock(boolean locked) {
+
+    }
+
     public void StartFocus()
     {
         if (isFocusing) {

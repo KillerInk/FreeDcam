@@ -26,6 +26,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int disHeight;
     int disWidth;
     int recthalf;
+    ImageView cancelFocus;
 
     SurfaceView surfaceView;
 
@@ -35,6 +36,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         recthalf = activity.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
         imageView.setVisibility(View.GONE);
+        cancelFocus = (ImageView)activity.findViewById(R.id.imageViewFocusClose);
+        cancelFocus.setVisibility(View.GONE);
 
     }
 
@@ -87,6 +90,15 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             }
         });
 
+    }
+
+    @Override
+    public void FocusLocked(boolean locked)
+    {
+        if (locked)
+            cancelFocus.setVisibility(View.VISIBLE);
+        else
+            cancelFocus.setVisibility(View.GONE);
     }
 
 
