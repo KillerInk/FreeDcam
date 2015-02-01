@@ -1,11 +1,16 @@
 package com.troop.freedcam.sonyapi;
 
+import android.util.Log;
+
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 /**
@@ -16,6 +21,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     CameraUiWrapperSony cameraUiWrapper;
     CameraHolderSony cameraHolder;
     ParameterHandlerSony parametersHandler;
+    private static String TAG = FocusHandlerSony.class.getSimpleName();
 
     boolean isFocusing = false;
 
@@ -34,12 +40,31 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     @Override
     public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
-        int x = (rect.left + (rect.right - rect.left))  /2;
-        int y = rect.top + (rect.bottom + rect.top )  /2;
-        double xproz = x / (width/100);
-        double yproz = y / (height/100);
+        if (parametersHandler.ObjectTracking.GetValue().equals("On"))
+        {
+
+        }
+        if (isFocusing)
+        {
+            cameraHolder.CancelFocus();
+            Log.d(TAG,"Canceld Focus");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        double x = rect.left + (rect.right - rect.left)/2  ;
+        double y = rect.top + (rect.bottom - rect.top )  /2;
+        double xproz = (x / (double)width) * 100;
+        double yproz = (y / (double)height) *100;
+        Log.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
         cameraHolder.StartFocus(this);
         cameraHolder.SetTouchFocus(xproz, yproz);
+        isFocusing = true;
+        if (focusEvent != null)
+            focusEvent.FocusStarted(rect);
         //super.StartTouchToFocus(rect, width, height);
     }
 
@@ -52,6 +77,50 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
         if (focusEvent != null)
             focusEvent.FocusFinished(event.success);
     }
+
+    AbstractModeParameter.I_ModeParameterEvent focusListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val) {
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
+
+    AbstractModeParameter.I_ModeParameterEvent trackingListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val) {
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 }
 
 

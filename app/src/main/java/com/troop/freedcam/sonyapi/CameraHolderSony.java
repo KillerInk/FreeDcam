@@ -606,6 +606,31 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
     @Override
+    public void CancelFocus()
+    {
+
+        if (mAvailableCameraApiSet.contains("cancelTouchAFPosition"))
+        {
+
+                Log.d(TAG, "Cancel Focus");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                        JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "Cancel Focus failed");
+                        }
+                    }
+                }).start();
+
+        }
+    }
+
+    @Override
     public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback)
     {
         this.autoFocusCallback = autoFocusCallback;
@@ -645,9 +670,10 @@ public class CameraHolderSony extends AbstractCameraHolder
                     JSONObject replyJson = mRemoteApi.setTouchToFocus(x,y);
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                     int resultCode = resultsObj.getInt(0);
-                    if (resultCode == 1)
+                    if (resultCode == 0)
                     {
-                        String success = replyJson.getString("AFResult");
+                        JSONObject ob = resultsObj.getJSONObject(1);
+                        String success = ob.getString("AFResult");
                         boolean suc = false;
                         if (success.equals("true"))
                             suc = true;
