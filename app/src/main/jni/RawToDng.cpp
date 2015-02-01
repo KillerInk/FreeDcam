@@ -256,27 +256,21 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 	short miso[] = {iso};
 
-////////////////////////////THUMB////////////////////////////////
-unsigned char *thumbByte= (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
-int bLen = env->GetArrayLength(mThumb);
-LOGD("ThumbStream Dize: %d", bLen);
-unsigned char *bufferThumb;
-unsigned short bits[176*144*2];
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
     if(blacklevel != 0)
 	    blackval = (blacklevel *4) *16;
 	static const float black[] = {blackval, blackval, blackval , blackval};
 	static const short CFARepeatPatternDim[] = { 2,2 };
-	int status=1, i, j, row, col, b;
+	int status=1, i, j, row, col, b, bLen;
 	TIFF *tif;
 	unsigned char *buffer;
 	unsigned char split; // single byte with 4 pairs of low-order bits
 	unsigned short pixel[width]; // array holds 16 bits per pixel
+
+	if(mThumb != NULL)
+        bLen = env->GetArrayLength(mThumb);
+
+	JniBitmap* newJniBitmap;
 
 	LOGD("filesize: %d", fileLen);
 
@@ -287,20 +281,24 @@ unsigned short bits[176*144*2];
 	}
 
 //////////////////////////////////////IFD 0//////////////////////////////////////////////////////
-
-     jclass bitmapCls = env->FindClass("android/graphics/BitmapFactory");
-     LOGD("ThumbBitmapCreated");
-     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls,"decodeByteArray", "([BII)Landroid/graphics/Bitmap;");
-     LOGD("ThumbBitmapCreated");
-     jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, mThumb, 0 ,bLen);
-     LOGD("ThumbBitmapCreated");
-     JniBitmap* newJniBitmap = createNativeBitmap(env, newBitmap);
-     LOGD("ThumbBitmapCreated");
+    if(mThumb != NULL)
+    {
+        jclass bitmapCls = env->FindClass("android/graphics/BitmapFactory");
+        LOGD("ThumbBitmapCreated1");
+        jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls,"decodeByteArray", "([BII)Landroid/graphics/Bitmap;");
+        LOGD("ThumbBitmapCreated2");
+        jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, mThumb, 0 ,bLen);
+        LOGD("ThumbBitmapCreated3");
+        newJniBitmap = createNativeBitmap(env, newBitmap);
+        LOGD("ThumbBitmapCreated4");
+        tx = newJniBitmap->_bitmapInfo.width;
+        ty = newJniBitmap->_bitmapInfo.height;
+     }
 
 	LOGD("TIFF Header");
 	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 1);
-	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, newJniBitmap->_bitmapInfo.width) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, newJniBitmap->_bitmapInfo.height) != 0);
+	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, tx) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, ty) != 0);
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8) != 0);
         assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB) != 0);
         //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
@@ -372,25 +370,33 @@ unsigned short bits[176*144*2];
          TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
 
 // Fake Thumb
-    //write_image(tif, tx, ty, 255);
-    uint8 *thumbBuffer =(uint8 *) malloc(newJniBitmap->_bitmapInfo.width*3);
-    LOGD("Thumb Width %d Height %d", newJniBitmap->_bitmapInfo.width, newJniBitmap->_bitmapInfo.height);
-
-    for(int i=0; i< newJniBitmap->_bitmapInfo.height; i++)
+    if (mThumb == NULL)
+        write_image(tif, tx, ty, 255);
+    else
     {
-        int p = 0;
-        for(int w = 0; w < newJniBitmap->_bitmapInfo.width; w++)
+        uint8 *thumbBuffer =(uint8 *) malloc(newJniBitmap->_bitmapInfo.width*3);
+        LOGD("Thumb Width %d Height %d", newJniBitmap->_bitmapInfo.width, newJniBitmap->_bitmapInfo.height);
+
+        for(int i=0; i< newJniBitmap->_bitmapInfo.height; i++)
         {
-            uint8 pix = newJniBitmap->_storedBitmapPixels[i*newJniBitmap->_bitmapInfo.width + w];
-            thumbBuffer[p++] = ((pix >> 16) & 0xff);
-            //LOGD("Pixel r %d", thumbBuffer[p]);
-            thumbBuffer[p++] = ((pix >> 8) & 0xff);
-             //LOGD("Pixel g %d", thumbBuffer[p]);
-            thumbBuffer[p++] = (pix & 0xff);
+            int p = 0;
+            for(int w = 0; w < newJniBitmap->_bitmapInfo.width; w++)
+            {
+                uint8 pix = newJniBitmap->_storedBitmapPixels[i*newJniBitmap->_bitmapInfo.width + w];
+                thumbBuffer[p++] = ((pix >> 16) & 0xff);
+                //LOGD("Pixel r %d", thumbBuffer[p]);
+                thumbBuffer[p++] = ((pix >> 8) & 0xff);
+                //LOGD("Pixel g %d", thumbBuffer[p]);
+                thumbBuffer[p++] = (pix & 0xff);
+            }
+            if (TIFFWriteScanline(tif, thumbBuffer, i, 0) != 1)
+            {
+        	    LOGD("Error writing TIFF scanline.");
+        	}
         }
-        if (TIFFWriteScanline(tif, thumbBuffer, i, 0) != 1) {
-        		LOGD("Error writing TIFF scanline.");
-        		}
+        free(newJniBitmap->_storedBitmapPixels);
+        free(mThumb);
+        free(thumbBuffer);
     }
 
     //Checkpoint to Update Write to Move to SUB IFD with Primary Raw Image
@@ -444,15 +450,13 @@ unsigned short bits[176*144*2];
     LOGD("Finalizng DNG");
     TIFFWriteDirectory (tif);
 
-    LOGD("Free Memory");
+    LOGD("Free Memory ");
     	free(pixel);
     	free(buffer);
     	free(colormatrix1);
     	free(colormatrix2);
     	free(neutral);
-    	//\thumb
-    	free(bufferThumb);
-        free(bits);
+
 
 	TIFFClose (tif);
 	    LOGD("DNG Written to File");
