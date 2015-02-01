@@ -9,6 +9,7 @@ import java.util.HashMap;
  */
 public class FlashModeParameter extends BaseModeParameter
 {
+    private static String TAG = FlashModeParameter.class.getSimpleName();
     public FlashModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
         super(parameters,parameterChanged, value, values);
     }

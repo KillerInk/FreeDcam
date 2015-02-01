@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.switches;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +26,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     AppSettingsManager appSettingsManager;
     ListView listView;
     AbstractModeParameter flashmode;
+    private static String TAG = FlashSwitchHandler.class.getSimpleName();
 
     public FlashSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
@@ -39,12 +41,8 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        if (cameraUiWrapper.camParametersHandler.FlashMode != null)
-        {
-            flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
-            flashmode.addEventListner(this);
-            flashmode.BackgroundIsSupportedChanged(true);
-        }
+        Log.d(TAG,"Set Camera UI Wrapper");
+
     }
 
     @Override
@@ -90,6 +88,13 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     @Override
     public void ParametersLoaded()
     {
+        if (cameraUiWrapper.camParametersHandler.FlashMode != null)
+        {
+            flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
+            flashmode.addEventListner(this);
+            //flashmode.BackgroundIsSupportedChanged(true);
+        }
+        Log.d(TAG,"ParametersLoaded");
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -118,8 +123,16 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     }
 
     @Override
-    public void onValueChanged(String val) {
-        textView.setText(val);
+    public void onValueChanged(final String val)
+    {
+        Log.d(TAG,"on Value Changed: " + val);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(val);
+            }
+        });
+
     }
 
     @Override

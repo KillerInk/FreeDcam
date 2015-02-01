@@ -310,48 +310,54 @@ public class SimpleCameraEventObserver {
 
         // ShootMode
         String shootMode = JsonUtils.findShootMode(replyJson);
-        Log.d(TAG, "getEvent shootMode: " + shootMode);
+
         if (shootMode != null && !shootMode.equals(mShootMode)) {
             mShootMode = shootMode;
+            Log.d(TAG, "getEvent shootMode: " + shootMode);
             fireShootModeChangeListener(shootMode);
         }
 
         // zoomPosition
         int zoomPosition = JsonUtils.findZoomInformation(replyJson);
-        Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
+
         if (zoomPosition != -1) {
             mZoomPosition = zoomPosition;
+            Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
             fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
         }
 
         int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
-        Log.d(TAG, "getEvent minExposure: " + minexpo);
+
         if (minexpo != -1 && minexpo != mExposureCompMin)
         {
+            Log.d(TAG, "getEvent minExposure: " + minexpo);
             mExposureCompMin = minexpo;
             fireExposurCompMinChangeListener(minexpo);
         }
         int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
-        Log.d(TAG, "getEvent maxExposure: " + maxexpo);
+
         if (maxexpo != -1 && maxexpo != mExposureCompMax)
         {
+            Log.d(TAG, "getEvent maxExposure: " + maxexpo);
             mExposureCompMax = maxexpo;
             fireExposurCompMaxChangeListener(maxexpo);
         }
 
         int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
-        Log.d(TAG, "getEvent currentExposure: " + cexpo);
+
         if (cexpo != -1 && cexpo != mExposureComp)
         {
+            Log.d(TAG, "getEvent currentExposure: " + cexpo);
             mExposureComp = cexpo;
             fireExposurCompChangeListener(cexpo);
         }
 
         // storageId
         String storageId = JsonUtils.findStorageId(replyJson);
-        Log.d(TAG, "getEvent storageId:" + storageId);
+
         if (storageId != null && !storageId.equals(mStorageId)) {
             mStorageId = storageId;
+            Log.d(TAG, "getEvent storageId:" + storageId);
             fireStorageIdChangeListener(storageId);
         }
 
@@ -392,9 +398,10 @@ public class SimpleCameraEventObserver {
 
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
         String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
-        Log.d(TAG, "getEvent fnumber vals: " + fnumbervals.length);
+
         if (fnumbervals != null && !fnumbervals.equals(mFnumbervals) && fnumbervals.length > 0)
         {
+            Log.d(TAG, "getEvent fnumber vals: " + fnumbervals.length);
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
@@ -411,10 +418,11 @@ public class SimpleCameraEventObserver {
 
     private void processIsoStuff(JSONObject replyJson) throws JSONException {
         String[] isovals = JsonUtils.findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
-        Log.d(TAG, "getEvent isovalues: " + isovals);
+
         if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
         {
             mIsovals = isovals;
+            Log.d(TAG, "getEvent isovalues: " + isovals);
             fireIsoValuesChangeListener(mIsovals);
         }
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");

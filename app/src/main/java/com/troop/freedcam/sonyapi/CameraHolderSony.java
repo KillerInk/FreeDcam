@@ -137,7 +137,9 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onFlashChanged(String flash) {
+        public void onFlashChanged(String flash)
+        {
+            Log.d(TAG, "Fire ONFLashCHanged");
             ParameterHandler.FlashMode.BackgroundValueHasChanged(flash);
         }
 

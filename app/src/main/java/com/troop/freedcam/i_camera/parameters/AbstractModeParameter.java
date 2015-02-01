@@ -1,5 +1,7 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
 public class AbstractModeParameter implements I_ModeParameter
 {
 
+    private static String TAG = AbstractModeParameter.class.getSimpleName();
     public AbstractModeParameter()
     {
         events = new ArrayList<I_ModeParameterEvent>();
@@ -57,6 +60,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     public void BackgroundValueHasChanged(String value)
     {
+        Log.d(TAG, "BackgroundValueHasCHanged:" + value);
         for (int i= 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
@@ -86,6 +90,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     public void BackgroundIsSupportedChanged(boolean value)
     {
+        Log.d(TAG, "BackgroundSupportedCHanged:" + value);
         for (int i= 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
@@ -101,6 +106,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     public void BackgroundSetIsSupportedHasChanged(boolean value)
     {
+        Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
         for (int i= 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)

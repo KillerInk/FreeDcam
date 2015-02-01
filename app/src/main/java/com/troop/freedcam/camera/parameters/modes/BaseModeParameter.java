@@ -17,6 +17,7 @@ public class BaseModeParameter extends AbstractModeParameter {
     HashMap<String, String> parameters;
     I_ParameterChanged throwParameterChanged;
     protected boolean firststart = true;
+    private static String TAG = BaseModeParameter.class.getSimpleName();
 
     public BaseModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values)
     {
@@ -40,6 +41,7 @@ public class BaseModeParameter extends AbstractModeParameter {
         {
             isSupported = false;
         }
+        Log.d(TAG, "is Supported :" + isSupported);
         BackgroundSetIsSupportedHasChanged(isSupported);
         return isSupported;
     }
@@ -49,7 +51,7 @@ public class BaseModeParameter extends AbstractModeParameter {
         if (valueToSet == null)
             return;
         parameters.put(value, valueToSet);
-        Log.d("freedcam.BaseModeParameter", "set "+value+" to "+ valueToSet);
+        Log.d(TAG, "set "+value+" to "+ valueToSet);
         if (throwParameterChanged != null && setToCam)
             throwParameterChanged.ParameterChanged();
 
