@@ -114,6 +114,24 @@ public class JsonUtils
         return ret;
     }
 
+    public static boolean findBooleanInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+
+        boolean ret = false;
+        JSONArray resultsObj = replyJson.getJSONArray("result");
+        if (!resultsObj.isNull(indexpos)) {
+            JSONObject intInformationObj = resultsObj.getJSONObject(indexpos);
+            String type = intInformationObj.getString("type");
+            if (typeS.equals(type)) {
+                ret = intInformationObj.getBoolean(subtype);
+            } else {
+                Log.w(TAG, "Event reply: Illegal Index " + typeS+ " "+ subtype  + " " +type);
+            }
+        }
+        return ret;
+    }
+
+
+
     public static String findStringInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
         String value = "";
 

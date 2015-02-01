@@ -375,6 +375,12 @@ public class SimpleCameraEventObserver {
             fireFlashChangeListener(flash);
         }
 
+        Boolean touchSuccess = JsonUtils.findBooleanInformation(replyJson, 34,"touchAFPosition", "currentSet");
+        Log.d(TAG, "got focus sucess:" +touchSuccess);
+        String[] focusArea = JsonUtils.findStringArrayInformation(replyJson, 34, "touchAFPosition", "currentTouchCoordinates");
+        Log.d(TAG, "got focus areas: " + focusArea.toString());
+
+
         // :
         // : add implementation for Event data as necessary.
     }
