@@ -30,7 +30,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
     private boolean mWhileFetching;
-    private final BlockingQueue<byte[]> mJpegQueue = new ArrayBlockingQueue<byte[]>(2);
+    private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     private Thread mDrawerThread;
     private int mPreviousWidth = 0;
@@ -130,7 +130,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     slicer.open(streamUrl);
 
                     while (mWhileFetching) {
-                        final SimpleLiveviewSlicer.Payload payload = slicer.nextPayload();
+                        final DataExtractor payload = slicer.nextDataExtractor();
                         if (payload == null) { // never occurs
                             Log.e(TAG, "Liveview Payload is null.");
                             continue;
@@ -139,7 +139,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         if (mJpegQueue.size() == 2) {
                             mJpegQueue.remove();
                         }
-                        mJpegQueue.add(payload.jpegData);
+                        mJpegQueue.add(payload);
                     }
                 } catch (IOException e) {
                     Log.w(TAG, "IOException while fetching: " + e.getMessage());
@@ -172,11 +172,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     initInBitmap(factoryOptions);
                 }
 
-                while (mWhileFetching) {
+                while (mWhileFetching)
+                {
+                    DataExtractor dataExtractor = null;
                     try {
-                        byte[] jpegData = mJpegQueue.take();
-                        frameBitmap = BitmapFactory.decodeByteArray(//
-                                jpegData, 0, jpegData.length, factoryOptions);
+                        dataExtractor = mJpegQueue.take();
+
+
                     } catch (IllegalArgumentException e) {
                         if (mInMutableAvailable) {
                             clearInBitmap(factoryOptions);
@@ -186,11 +188,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         Log.i(TAG, "Drawer thread is Interrupted.");
                         break;
                     }
-
-                    if (mInMutableAvailable) {
-                        setInBitmap(factoryOptions, frameBitmap);
+                    if (dataExtractor.commonHeader.PayloadType == 1) {
+                        frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
+                        drawFrame(frameBitmap);
                     }
-                    drawFrame(frameBitmap);
                 }
 
                 if (frameBitmap != null) {

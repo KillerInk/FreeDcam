@@ -126,6 +126,17 @@ public class SimpleLiveviewSlicer {
         return payload;
     }
 
+    public DataExtractor nextDataExtractor() throws IOException
+    {
+        DataExtractor dataExtractor = null;
+        while (mInputStream != null && dataExtractor == null)
+        {
+            dataExtractor = new DataExtractor(mInputStream);
+        }
+        return dataExtractor;
+    }
+
+
     /**
      * Reads liveview stream and slice one Packet. If server is not ready for
      * liveview data, this API calling will be blocked until server returns next

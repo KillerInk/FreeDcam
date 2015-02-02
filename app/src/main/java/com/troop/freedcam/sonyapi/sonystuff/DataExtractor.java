@@ -10,20 +10,49 @@ import java.util.List;
  */
 public class DataExtractor
 {
-    private static int commonHeaderlength = 1 + 1 + 2 + 4;
-    private static int payloadHeaderlength = 128;
+    public static int commonHeaderlength = 1 + 1 + 2 + 4;
+    public static int payloadHeaderlength = 128;
 
-    private InputStream mInputStream;
-    public DataExtractor()
-    {}
+    public byte[] jpegData;
+    public byte[] paddingData;
+    public List<FrameInfo> frameInfoList;
+    public int jpegSize;
+    public int paddingSize;
+    public int frameCount;
+    public String version;
+
+    public int frameDataSize;
+    public int singelFrameDataSize;
+
+    public DataExtractor(InputStream mInputStream) throws IOException {
+        ExtractData(mInputStream);
+    }
 
     public CommonHeader commonHeader;
     public PayLoadHeader payLoadHeader;
 
-    public void ExtractData(InputStream mInputStream) throws IOException {
+    public void ExtractData(InputStream mInputStream) throws IOException
+    {
         commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
         payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
+
+        if (commonHeader.PayloadType == 1)
+            jpegData = SimpleLiveviewSlicer.readBytes(mInputStream, jpegSize);
+
+
+        if (commonHeader.PayloadType == 2)
+        {
+            frameInfoList = new ArrayList<FrameInfo>();
+            for (int i = 0; i<frameCount; i++)
+            {
+                int read = frameCount * singelFrameDataSize;
+                byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, read);
+                frameInfoList.add(new FrameInfo(framebytes));
+            }
+        }
+        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
     }
+
 
     public class CommonHeader
     {
@@ -44,15 +73,6 @@ public class DataExtractor
 
     public class PayLoadHeader
     {
-        public int jpegSize;
-        public int paddingSize;
-        public int frameCount;
-        public String version;
-        public byte[] jpegData;
-        public byte[] paddingData;
-        public int frameDataSize;
-        public int singelFrameDataSize;
-        public List<FrameInfo> frameInfoList;
         public PayLoadHeader(byte[] bytes) throws IOException
         {
             if (bytes == null || bytes.length != payloadHeaderlength) {
@@ -76,24 +96,11 @@ public class DataExtractor
                 else
                     singelFrameDataSize = SimpleLiveviewSlicer.bytesToInt(bytes, 12,2);
             }
-            if (commonHeader.PayloadType == 1)
-                jpegData = SimpleLiveviewSlicer.readBytes(mInputStream, jpegSize);
 
-
-            if (commonHeader.PayloadType == 2)
-            {
-                frameInfoList = new ArrayList<FrameInfo>();
-                for (int i = 0; i<frameCount; i++)
-                {
-                    int read = frameCount * singelFrameDataSize;
-                    byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, read);
-                    frameInfoList.add(new FrameInfo(framebytes));
-                }
-            }
-            paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
         }
-    }
 
+
+    }
     public class FrameInfo
     {
         int TopLeft;
@@ -111,6 +118,9 @@ public class DataExtractor
         }
     }
 }
+
+
+
 
 
 
