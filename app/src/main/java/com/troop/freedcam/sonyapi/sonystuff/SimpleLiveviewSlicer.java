@@ -168,7 +168,7 @@ public class SimpleLiveviewSlicer {
      * @param count
      * @return
      */
-    private static int bytesToInt(byte[] byteData, int startIndex, int count) {
+    public static int bytesToInt(byte[] byteData, int startIndex, int count) {
         int ret = 0;
         for (int i = startIndex; i < startIndex + count; i++) {
             ret = (ret << 8) | (byteData[i] & 0xff);
@@ -184,7 +184,7 @@ public class SimpleLiveviewSlicer {
      * @return
      * @throws java.io.IOException
      */
-    private static byte[] readBytes(InputStream in, int length) throws IOException {
+    public static byte[] readBytes(InputStream in, int length) throws IOException {
         ByteArrayOutputStream tmpByteArray = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         while (true) {
