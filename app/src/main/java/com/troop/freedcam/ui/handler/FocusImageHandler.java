@@ -38,6 +38,13 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         imageView.setVisibility(View.GONE);
         cancelFocus = (ImageView)activity.findViewById(R.id.imageViewFocusClose);
         cancelFocus.setVisibility(View.GONE);
+        cancelFocus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                wrapper.cameraHolder.CancelFocus();
+            }
+        });
 
     }
 
@@ -93,12 +100,18 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     }
 
     @Override
-    public void FocusLocked(boolean locked)
+    public void FocusLocked(final boolean locked)
     {
-        if (locked)
-            cancelFocus.setVisibility(View.VISIBLE);
-        else
-            cancelFocus.setVisibility(View.GONE);
+        cancelFocus.post(new Runnable() {
+            @Override
+            public void run() {
+                if (locked)
+                    cancelFocus.setVisibility(View.VISIBLE);
+                else
+                    cancelFocus.setVisibility(View.GONE);
+            }
+        });
+
     }
 
 

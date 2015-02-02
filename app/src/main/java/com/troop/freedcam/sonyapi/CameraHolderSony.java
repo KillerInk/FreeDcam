@@ -49,6 +49,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     private SimpleCameraEventObserver mEventObserver;
 
+
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
     {
 
@@ -231,6 +232,7 @@ public class CameraHolderSony extends AbstractCameraHolder
             Log.w(TAG, "startLiveview mLiveviewSurface is null.");
             return;
         }
+
         new Thread() {
             @Override
             public void run() {
@@ -244,10 +246,12 @@ public class CameraHolderSony extends AbstractCameraHolder
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
                             final String liveviewUrl = resultsObj.getString(0);
-                            context.runOnUiThread(new Runnable() {
+                            context.runOnUiThread(new Runnable()
+                            {
 
                                 @Override
                                 public void run() {
+
                                     mLiveviewSurface.start(liveviewUrl, //
                                             new SimpleStreamSurfaceView.StreamErrorListener() {
 
@@ -328,7 +332,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                         // confirm current camera status
                         String cameraStatus = null;
-                        JSONObject replyJson = mRemoteApi.getEvent(false);
+                        JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                         JSONArray resultsObj = replyJson.getJSONArray("result");
                         JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
                         String type = cameraStatusObj.getString("type");
@@ -611,7 +615,6 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition"))
         {
-
                 Log.d(TAG, "Cancel Focus");
                 new Thread(new Runnable() {
                     @Override
@@ -628,6 +631,30 @@ public class CameraHolderSony extends AbstractCameraHolder
                 }).start();
 
         }
+        if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))
+        {
+            Log.d(TAG, "Cancel Focus");
+            new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Cancel Focus failed");
+                    }
+                }
+            }).start();
+        }
+    }
+
+    public boolean canCancelFocus()
+    {
+        if (mAvailableCameraApiSet.contains("cancelTouchAFPosition") || mAvailableCameraApiSet.contains("cancelTrackingFocus"))
+            return true;
+        else return false;
     }
 
     @Override
@@ -693,4 +720,19 @@ public class CameraHolderSony extends AbstractCameraHolder
             }
         }.start();
     }
+
+    public void SetLiveViewFrameInfo(boolean val)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mRemoteApi.setLiveviewFrameInfo(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
 }

@@ -24,6 +24,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     private static String TAG = FocusHandlerSony.class.getSimpleName();
 
     boolean isFocusing = false;
+    boolean isFocusLocked = false;
 
     public FocusHandlerSony(CameraUiWrapperSony cameraUiWrapper)
     {
@@ -74,53 +75,19 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     {
         //camera.cancelAutoFocus();
         isFocusing = false;
-        if (focusEvent != null)
+        if (focusEvent != null) {
             focusEvent.FocusFinished(event.success);
+            focusEvent.FocusLocked(cameraHolder.canCancelFocus());
+        }
+
     }
 
-    AbstractModeParameter.I_ModeParameterEvent focusListner = new AbstractModeParameter.I_ModeParameterEvent() {
-        @Override
-        public void onValueChanged(String val) {
+    @Override
+    public void onFocusLock(boolean locked) {
+        isFocusLocked = locked;
+    }
 
-        }
 
-        @Override
-        public void onIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-    };
-
-    AbstractModeParameter.I_ModeParameterEvent trackingListner = new AbstractModeParameter.I_ModeParameterEvent() {
-        @Override
-        public void onValueChanged(String val) {
-
-        }
-
-        @Override
-        public void onIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-    };
 }
 
 

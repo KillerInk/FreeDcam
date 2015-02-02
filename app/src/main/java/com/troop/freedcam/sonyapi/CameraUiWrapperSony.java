@@ -39,7 +39,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         mSsdpClient = new SimpleSsdpClient();
         wifiUtils = new WifiUtils(surfaceView.getContext());
-        Focus = new FocusHandlerSony(this);
+        this.Focus = new FocusHandlerSony(this);
+        super.cameraHolder = cameraHolder;
     }
 
     @Override
