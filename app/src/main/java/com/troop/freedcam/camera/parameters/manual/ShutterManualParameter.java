@@ -153,8 +153,10 @@ public class ShutterManualParameter extends BaseManualParameter
     {
         if (DeviceUtils.isLGADV())
             return  current +"";
-        else
+        else if(shutterValues != null)
             return shutterValues[current];
+        else
+            return current +"";
     }
 
     @Override
