@@ -106,21 +106,22 @@ public class SimpleLiveviewSlicer {
                 throw new IOException("Unexpected data format. (Start byte)");
             }
 
-            switch (commonHeader[1]) {
-                case (byte) 0x12:
-                    // This is information header for streaming.
-                    // skip this packet.
-                    readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
-                    commonHeader = null;
-                    readBytes(mInputStream, readLength);
-                    break;
-                case (byte) 0x01:
-                case (byte) 0x11:
-                    payload = readPayload();
-                    break;
-                default:
-                    break;
+            Log.d(TAG, "commonheader payloadType: " + commonHeader[1]);
+            if (commonHeader[1] == 0x12)
+            {
+                readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
+                commonHeader = null;
+                readBytes(mInputStream, readLength);
             }
+            else if (commonHeader[1] == 0x01)
+            {
+                payload = readPayload();
+            }
+            else if (commonHeader[1] == 0x02)
+            {
+                payload = readPayload();
+            }
+
         }
         return payload;
     }
