@@ -199,6 +199,17 @@ public class SimpleCameraEventObserver {
         mUiHandler = new Handler(context.getMainLooper());
     }
 
+
+
+    ///02-01 18:28:03.192  11377-11755/troop.com.freedcam D/SimpleRemoteApi﹕ Response:
+    // {"result":
+    // [null,null,null,null,null,[],[],null,{"sceneRecognition":"None","type":"sceneRecognition","motionRecognition":"None","steadyRecognition":"Tripod"},
+    // null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+    // {"type":"isoSpeedRate","isoSpeedRateCandidates":[],"currentIsoSpeedRate":"AUTO"},null,null,
+    // {"type":"shutterSpeed","shutterSpeedCandidates":[],"currentShutterSpeed":"1\/40"},null,null,
+    // {"type":"focusStatus","focusStatus":"Not Focusing"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+    // "id":73}
+    // WHERE THE FUCK IS THIS DESCRIPED IN THE FUCKING API? "sceneRecognition":"None","type":"sceneRecognition","motionRecognition":"None","steadyRecognition":"Tripod"
     /**
      * Starts monitoring by continuously calling getEvent API.
      * 
@@ -233,7 +244,7 @@ public class SimpleCameraEventObserver {
                         // Call getEvent API.
                         JSONObject replyJson;
 
-                        replyJson = mRemoteApi.getEvent(longPolling);
+                        replyJson = mRemoteApi.getEvent(longPolling, "1.0");
 
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
@@ -375,10 +386,16 @@ public class SimpleCameraEventObserver {
             fireFlashChangeListener(flash);
         }
 
-        /*Boolean touchSuccess = JsonUtils.findBooleanInformation(replyJson, 34,"touchAFPosition", "currentSet");
+        String touchSuccess = JsonUtils.findStringInformation(replyJson, 34,"touchAFPosition", "currentSet");
         Log.d(TAG, "got focus sucess:" +touchSuccess);
         String[] focusArea = JsonUtils.findStringArrayInformation(replyJson, 34, "touchAFPosition", "currentTouchCoordinates");
-        Log.d(TAG, "got focus areas: " + focusArea.toString());*/
+        Log.d(TAG, "got focus areas: " + focusArea.toString());
+
+        String trackingFocusStatus = JsonUtils.findStringInformation(replyJson, 54, "trackingFocusStatus","trackingFocusStatus");
+        Log.d(TAG, "tracking focusstate: " + trackingFocusStatus);
+
+        String focusStatus = JsonUtils.findStringInformation(replyJson, 35, "focusStatus", "focusStatus");
+        Log.d(TAG, "focusstate: " + focusStatus);
 
 
         // :
