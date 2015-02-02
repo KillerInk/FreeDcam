@@ -116,7 +116,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-
+        cameraHolder.SetLiveViewFrameInfo(true);
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)

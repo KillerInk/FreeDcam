@@ -610,13 +610,13 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject getEvent(boolean longPollingFlag) throws IOException {
+    public JSONObject getEvent(boolean longPollingFlag, String eventVersion) throws IOException {
         String service = "camera";
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", "getEvent") //
                             .put("params", new JSONArray().put(longPollingFlag)) //
-                            .put("id", id()).put("version", "1.0");
+                            .put("id", id()).put("version", eventVersion);
             String url = findActionListUrl(service) + "/" + service;
             int longPollingTimeout = (longPollingFlag) ? 20000 : 8000; // msec
 
@@ -1046,6 +1046,25 @@ public class SimpleRemoteApi {
             JSONObject requestJson =
                     new JSONObject().put("method", "actTrackingFocus") //
                             .put("params", new JSONArray().put(new JSONObject().put("xPosition", x)).put(new JSONObject().put("yPosition", y))).put("id", id()) //
+                            .put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public JSONObject setLiveviewFrameInfo(boolean value) throws IOException
+    {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "setLiveviewFrameInfo") //
+                            .put("params", new JSONArray().put(new JSONObject().put("frameInfo", value))).put("id", id()) //
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
