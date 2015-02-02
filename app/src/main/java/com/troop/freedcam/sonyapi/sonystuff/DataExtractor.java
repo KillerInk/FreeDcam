@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.sonystuff;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class DataExtractor
 {
     public static int commonHeaderlength = 1 + 1 + 2 + 4;
     public static int payloadHeaderlength = 128;
+    private static String TAG = DataExtractor.class.getSimpleName();
 
     public byte[] jpegData;
     public byte[] paddingData;
@@ -34,8 +37,29 @@ public class DataExtractor
     public void ExtractData(InputStream mInputStream) throws IOException
     {
         commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
+        if (commonHeader.PayloadType == 0x12)
+        {
+            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
+            commonHeader = null;
+            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
+        }
         payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
+        readData(mInputStream);
+        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
 
+        commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
+        if (commonHeader.PayloadType == 0x12)
+        {
+            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
+            commonHeader = null;
+            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
+        }
+        payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
+        readData(mInputStream);
+        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
+    }
+
+    private void readData(InputStream mInputStream) throws IOException {
         if (commonHeader.PayloadType == 1)
             jpegData = SimpleLiveviewSlicer.readBytes(mInputStream, jpegSize);
 
@@ -50,7 +74,6 @@ public class DataExtractor
                 frameInfoList.add(new FrameInfo(framebytes));
             }
         }
-        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
     }
 
 
@@ -68,6 +91,7 @@ public class DataExtractor
             }
             PayloadType = bytes[1];
             Sequencenumber = SimpleLiveviewSlicer.bytesToInt(bytes,2,2);
+
         }
     }
 
@@ -83,7 +107,8 @@ public class DataExtractor
                     || bytes[3] != (byte) 0x79) {
                 throw new IOException("Unexpected data format. (Start code)");
             }
-            jpegSize = SimpleLiveviewSlicer.bytesToInt(bytes, 4, 3);
+            if (commonHeader.PayloadType == 1)
+                jpegSize = SimpleLiveviewSlicer.bytesToInt(bytes, 4, 3);
             paddingSize = SimpleLiveviewSlicer.bytesToInt(bytes, 7, 1);
 
             if (commonHeader.PayloadType == 2)
@@ -103,18 +128,17 @@ public class DataExtractor
     }
     public class FrameInfo
     {
-        int TopLeft;
-        int BottomRight;
-        int Category;
-        int Status;
-        int AditionalStatus;
+        int Top,Left,Bottom,Right, Category, Status, AditionalStatus;
         public FrameInfo(byte[] bytes)
         {
-            TopLeft = SimpleLiveviewSlicer.bytesToInt(bytes,0,4);
-            BottomRight = SimpleLiveviewSlicer.bytesToInt(bytes,4,4);
-            Category = SimpleLiveviewSlicer.bytesToInt(bytes, 5,1);
-            Status = SimpleLiveviewSlicer.bytesToInt(bytes, 6,1);
-            AditionalStatus = SimpleLiveviewSlicer.bytesToInt(bytes, 7,1);
+            Left = SimpleLiveviewSlicer.bytesToInt(bytes,0,2);
+            Top = SimpleLiveviewSlicer.bytesToInt(bytes,2,2);
+            Right = SimpleLiveviewSlicer.bytesToInt(bytes,4,2);
+            Bottom = SimpleLiveviewSlicer.bytesToInt(bytes,6,2);
+            Category = SimpleLiveviewSlicer.bytesToInt(bytes, 8,1);
+            Status = SimpleLiveviewSlicer.bytesToInt(bytes, 9,1);
+            AditionalStatus = SimpleLiveviewSlicer.bytesToInt(bytes, 10,1);
+            //Log.d(TAG, Top + ", "+Left+","+ Bottom+","+Right+"," +Category +"," + Status);
         }
     }
 }

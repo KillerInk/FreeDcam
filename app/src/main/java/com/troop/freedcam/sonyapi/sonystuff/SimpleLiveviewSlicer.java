@@ -19,26 +19,6 @@ public class SimpleLiveviewSlicer {
 
     private static final String TAG = SimpleLiveviewSlicer.class.getSimpleName();
 
-    /**
-     * Payload data class. See also Camera Remote API specification document to
-     * know the data structure.
-     */
-    public static final class Payload {
-        /** jpeg data container */
-        public final byte[] jpegData;
-
-        /** padding data container */
-        public final byte[] paddingData;
-
-        /**
-         * Constructor
-         */
-        private Payload(byte[] jpeg, byte[] padding) {
-            this.jpegData = jpeg;
-            this.paddingData = padding;
-        }
-    }
-
     private static final int CONNECTION_TIMEOUT = 2000; // [msec]
 
     private HttpURLConnection mHttpConn;
@@ -90,42 +70,6 @@ public class SimpleLiveviewSlicer {
 
     }
 
-    public Payload nextPayload() throws IOException {
-
-        Payload payload = null;
-
-        while (mInputStream != null && payload == null) {
-            // Common Header
-            int readLength = 1 + 1 + 2 + 4;
-            byte[] commonHeader = readBytes(mInputStream, readLength);
-            if (commonHeader == null || commonHeader.length != readLength) {
-                throw new IOException("Cannot read stream for common header.");
-            }
-
-            if (commonHeader[0] != (byte) 0xFF) {
-                throw new IOException("Unexpected data format. (Start byte)");
-            }
-
-            Log.d(TAG, "commonheader payloadType: " + commonHeader[1]);
-            if (commonHeader[1] == 0x12)
-            {
-                readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
-                commonHeader = null;
-                readBytes(mInputStream, readLength);
-            }
-            else if (commonHeader[1] == 0x01)
-            {
-                payload = readPayload();
-            }
-            else if (commonHeader[1] == 0x02)
-            {
-                payload = readPayload();
-            }
-
-        }
-        return payload;
-    }
-
     public DataExtractor nextDataExtractor() throws IOException
     {
         DataExtractor dataExtractor = null;
@@ -136,40 +80,6 @@ public class SimpleLiveviewSlicer {
         return dataExtractor;
     }
 
-
-    /**
-     * Reads liveview stream and slice one Packet. If server is not ready for
-     * liveview data, this API calling will be blocked until server returns next
-     * data.
-     *
-     * @return Payload data of sliced Packet
-     * @throws java.io.IOException generic errors or exception.
-     */
-    public Payload readPayload() throws IOException {
-
-        if (mInputStream != null) {
-            // Payload Header
-            int readLength = 4 + 3 + 1 + 4 + 1 + 115;
-            byte[] payloadHeader = readBytes(mInputStream, readLength);
-            if (payloadHeader == null || payloadHeader.length != readLength) {
-                throw new IOException("Cannot read stream for payload header.");
-            }
-            if (payloadHeader[0] != (byte) 0x24 || payloadHeader[1] != (byte) 0x35
-                    || payloadHeader[2] != (byte) 0x68
-                    || payloadHeader[3] != (byte) 0x79) {
-                throw new IOException("Unexpected data format. (Start code)");
-            }
-            int jpegSize = bytesToInt(payloadHeader, 4, 3);
-            int paddingSize = bytesToInt(payloadHeader, 7, 1);
-
-            // Payload Data
-            byte[] jpegData = readBytes(mInputStream, jpegSize);
-            byte[] paddingData = readBytes(mInputStream, paddingSize);
-
-            return new Payload(jpegData, paddingData);
-        }
-        return null;
-    }
 
     /**
      * Converts byte array to int.

@@ -60,8 +60,7 @@
         android:layout_height="40dp"
         android:id="@+id/imageViewFocusClose"
         android:background="@drawable/focusclose"
-        android:layout_below="@+id/imageView_Crosshair"
-        android:layout_toRightOf="@+id/imageView_Crosshair" />
+        android:layout_centerVertical="true" />
 
     <LinearLayout
         android:orientation="vertical"

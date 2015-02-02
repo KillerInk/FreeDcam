@@ -11,12 +11,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.troop.freedcam.R;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -36,7 +39,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private int mPreviousWidth = 0;
     private int mPreviousHeight = 0;
     private final Paint mFramePaint;
+    private  Paint paint;
     private StreamErrorListener mErrorListener;
+    Bitmap[] crosshairs;
 
 
     /**
@@ -49,6 +54,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         getHolder().addCallback(this);
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
+        initBitmaps(context);
     }
 
     /**
@@ -62,6 +68,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         getHolder().addCallback(this);
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
+        initBitmaps(context);
     }
 
     /**
@@ -76,6 +83,19 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         getHolder().addCallback(this);
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
+        initBitmaps(context);
+    }
+
+    private void initBitmaps(Context context)
+    {
+        paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.STROKE);
+        /*crosshairs = new Bitmap[3];
+        crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
+        crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
+        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);*/
     }
 
     @Override
@@ -188,10 +208,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         Log.i(TAG, "Drawer thread is Interrupted.");
                         break;
                     }
-                    if (dataExtractor.commonHeader.PayloadType == 1) {
-                        frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
-                        drawFrame(frameBitmap);
-                    }
+                    frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
+                    drawFrame(frameBitmap, dataExtractor);
                 }
 
                 if (frameBitmap != null) {
@@ -202,6 +220,15 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         };
         mDrawerThread.start();
         return true;
+    }
+
+
+
+    private int convert(int length, int val)
+    {
+        double pro = ((double)val /(double)10000 * 100);
+        double newret = (double)length /100 * pro;
+        return (int)newret;
     }
 
     /**
@@ -244,7 +271,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * 
      * @param frame
      */
-    private void drawFrame(Bitmap frame) {
+    private void drawFrame(Bitmap frame, DataExtractor dataExtractor) {
         if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
             onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
             return;
@@ -262,7 +289,32 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
         canvas.drawBitmap(frame, src, dst, mFramePaint);
+        drawFrameInformation(dataExtractor, canvas);
         getHolder().unlockCanvasAndPost(canvas);
+    }
+
+    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas) {
+        for (int i=0; i< dataExtractor.frameInfoList.size(); i++)
+        {
+            DataExtractor.FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
+            int w = canvas.getWidth();
+            int h = canvas.getHeight();
+            int top = convert(h, frameInfo.Top);
+            int left = convert(w, frameInfo.Left);
+            int right =convert(w,frameInfo.Right);
+            //326700650
+            int bottom = convert(h,frameInfo.Bottom);
+            if (frameInfo.Status == 0x01)
+                paint.setColor(Color.WHITE);
+            if (frameInfo.Status ==0x00)
+                paint.setColor(Color.RED);
+            if (frameInfo.Status ==0x04)
+                paint.setColor(Color.GREEN);
+
+            canvas.drawRect(left, top, right, bottom, paint);
+
+
+        }
     }
 
     /**

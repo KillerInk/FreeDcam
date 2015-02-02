@@ -1045,7 +1045,7 @@ public class SimpleRemoteApi {
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", "actTrackingFocus") //
-                            .put("params", new JSONArray().put(new JSONObject().put("xPosition", x)).put(new JSONObject().put("yPosition", y))).put("id", id()) //
+                            .put("params", new JSONArray().put(new JSONObject().put("xPosition", x).put("yPosition",y))).put("id", id()) //
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 

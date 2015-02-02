@@ -11,6 +11,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
@@ -43,6 +44,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             public void onClick(View v)
             {
                 wrapper.cameraHolder.CancelFocus();
+                cancelFocus.setVisibility(View.GONE);
             }
         });
 
@@ -59,43 +61,47 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        disWidth = surfaceView.getLayoutParams().width;
-        disHeight = surfaceView.getLayoutParams().height;
-        int margineleft = surfaceView.getLeft();
-        handler.removeCallbacksAndMessages(null);
-        int recthalf = imageView.getWidth()/2;
-        int halfwidth = disWidth /2;
-        int halfheight = disHeight /2;
-        if (rect == null)
+        if (!(wrapper instanceof CameraUiWrapperSony))
         {
-            rect = new FocusRect(halfwidth - recthalf, halfheight -recthalf, halfwidth + recthalf, halfheight + recthalf);
-        }
-        RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-        mParams.leftMargin = rect.left + margineleft;
-        //mParams.rightMargin = x +half;
-        mParams.topMargin = rect.top;
+            disWidth = surfaceView.getLayoutParams().width;
+            disHeight = surfaceView.getLayoutParams().height;
+            int margineleft = surfaceView.getLeft();
+            handler.removeCallbacksAndMessages(null);
+            int recthalf = imageView.getWidth() / 2;
+            int halfwidth = disWidth / 2;
+            int halfheight = disHeight / 2;
+            if (rect == null) {
+                rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
+            }
+            RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+            mParams.leftMargin = rect.left + margineleft;
+            //mParams.rightMargin = x +half;
+            mParams.topMargin = rect.top;
 
-        imageView.setLayoutParams(mParams);
-        imageView.setBackgroundResource(R.drawable.crosshair_normal);
-        imageView.setVisibility(View.VISIBLE);
-        //imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            imageView.setLayoutParams(mParams);
+            imageView.setBackgroundResource(R.drawable.crosshair_normal);
+            imageView.setVisibility(View.VISIBLE);
+            //imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     @Override
     public void FocusFinished(final boolean success)
     {
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (success)
-                    imageView.setBackgroundResource(R.drawable.crosshair_success);
-                else
-                    imageView.setBackgroundResource(R.drawable.crosshair_failed);
+        if (!(wrapper instanceof CameraUiWrapperSony)) {
+            imageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (success)
+                        imageView.setBackgroundResource(R.drawable.crosshair_success);
+                    else
+                        imageView.setBackgroundResource(R.drawable.crosshair_failed);
 
 
-                handler.postDelayed(hideCrosshair, crosshairShowTime);
-            }
-        });
+                    handler.postDelayed(hideCrosshair, crosshairShowTime);
+                }
+            });
+        }
 
     }
 
