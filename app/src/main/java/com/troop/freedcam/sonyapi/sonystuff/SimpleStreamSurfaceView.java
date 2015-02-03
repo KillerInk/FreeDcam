@@ -92,10 +92,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
-        /*crosshairs = new Bitmap[3];
+        crosshairs = new Bitmap[3];
         crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
         crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
-        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);*/
+        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);
     }
 
     @Override
@@ -280,6 +280,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         if (canvas == null) {
             return;
         }
+        canvas.drawColor(Color.BLACK);
         int w = frame.getWidth();
         int h = frame.getHeight();
         Rect src = new Rect(0, 0, w, h);
@@ -289,29 +290,33 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
         canvas.drawBitmap(frame, src, dst, mFramePaint);
-        drawFrameInformation(dataExtractor, canvas);
+        drawFrameInformation(dataExtractor, canvas, dst);
         getHolder().unlockCanvasAndPost(canvas);
     }
 
-    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas) {
+    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas, Rect dst) {
         for (int i=0; i< dataExtractor.frameInfoList.size(); i++)
         {
             DataExtractor.FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
-            int w = canvas.getWidth();
-            int h = canvas.getHeight();
+            int w = getWidth();
+            int h = getHeight();
             int top = convert(h, frameInfo.Top);
             int left = convert(w, frameInfo.Left);
             int right =convert(w,frameInfo.Right);
-            //326700650
             int bottom = convert(h,frameInfo.Bottom);
-            if (frameInfo.Status == 0x01)
-                paint.setColor(Color.WHITE);
-            if (frameInfo.Status ==0x00)
-                paint.setColor(Color.RED);
-            if (frameInfo.Status ==0x04)
-                paint.setColor(Color.GREEN);
-
-            canvas.drawRect(left, top, right, bottom, paint);
+            if (frameInfo.Category == 0x01)
+            {
+                dst = new Rect(left, top, right, bottom);
+                Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
+                if (frameInfo.Status == 0x01)
+                    canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
+                if (frameInfo.Status == 0x00)
+                    canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
+                if (frameInfo.Status == 0x04)
+                    canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
+            }
+            else if (frameInfo.Category == 0x05 ||frameInfo.Category == 0x04)
+                canvas.drawRect(left, top, right, bottom, paint);
 
 
         }
