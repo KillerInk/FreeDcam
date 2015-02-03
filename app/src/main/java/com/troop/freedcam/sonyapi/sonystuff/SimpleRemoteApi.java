@@ -984,6 +984,7 @@ public class SimpleRemoteApi {
         return hasError;
     }
 
+
     public JSONObject setParameterToCamera(String parameter, JSONArray valueToSet) throws IOException {
         String service = "camera";
         try {
@@ -1018,6 +1019,11 @@ public class SimpleRemoteApi {
         } catch (JSONException e) {
             throw new IOException(e);
         }
+    }
+
+    public JSONObject getVersions() throws IOException
+    {
+        return getParameterFromCamera("getVersions");
     }
 
     public JSONObject setTouchToFocus(double x, double y) throws IOException

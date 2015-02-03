@@ -88,6 +88,7 @@ public class SimpleCameraEventObserver {
         public void onShutterSpeedChanged(String shutter);
         public void onShutterSpeedValuesChanged(String[]  shuttervals);
         void onFlashChanged(String flash);
+        void onFocusLocked(boolean locked);
 
     }
 
@@ -178,6 +179,7 @@ public class SimpleCameraEventObserver {
     int mExposureComp;
     int mExposureCompMax;
     int mExposureCompMin;
+    String version;
 
     // :
     // : add attributes for Event data as necessary.
@@ -243,8 +245,15 @@ public class SimpleCameraEventObserver {
                     try {
                         // Call getEvent API.
                         JSONObject replyJson;
+                        if(version == null || version == "")
+                        {
+                            replyJson = mRemoteApi.getVersions();
+                            JSONArray array = replyJson.getJSONArray("result");
+                            array = array.getJSONArray(0);
+                            version = array.getString(array.length()-1);
+                        }
 
-                        replyJson = mRemoteApi.getEvent(longPolling, "1.0");
+                        replyJson = mRemoteApi.getEvent(longPolling, version);
 
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
@@ -388,13 +397,28 @@ public class SimpleCameraEventObserver {
 
         String touchSuccess = JsonUtils.findStringInformation(replyJson, 34,"touchAFPosition", "currentSet");
         Log.d(TAG, "got focus sucess:" +touchSuccess);
-        String[] focusArea = JsonUtils.findStringArrayInformation(replyJson, 34, "touchAFPosition", "currentTouchCoordinates");
-        Log.d(TAG, "got focus areas: " + focusArea.toString());
+        /*String[] focusArea = JsonUtils.findStringArrayInformation(replyJson, 34, "touchAFPosition", "currentTouchCoordinates");
+        Log.d(TAG, "got focus areas: " + focusArea.toString());*/
 
         String trackingFocusStatus = JsonUtils.findStringInformation(replyJson, 54, "trackingFocusStatus","trackingFocusStatus");
         Log.d(TAG, "tracking focusstate: " + trackingFocusStatus);
+        if (!trackingFocusStatus.equals(""))
+        {
+            if (trackingFocusStatus.equals("Tracking"))
+                fireFocusLockedChangeListener(true);
+            if (trackingFocusStatus.equals("Not Tracking"))
+                fireFocusLockedChangeListener(false);
+        }
 
         String focusStatus = JsonUtils.findStringInformation(replyJson, 35, "focusStatus", "focusStatus");
+        if (!focusStatus.equals(""))
+        {
+            if (focusStatus.equals("Not Focusing"))
+                fireFocusLockedChangeListener(false);
+            if (focusStatus.equals("Focused"))
+                fireFocusLockedChangeListener(true);
+
+        }
         Log.d(TAG, "focusstate: " + focusStatus);
 
 
@@ -765,6 +789,17 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onIsoValuesChanged(iso);
+                }
+            }
+        });
+    }
+
+    private void fireFocusLockedChangeListener(final boolean locked) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onFocusLocked(locked);
                 }
             }
         });
