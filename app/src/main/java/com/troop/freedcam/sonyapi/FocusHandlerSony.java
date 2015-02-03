@@ -85,6 +85,9 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     @Override
     public void onFocusLock(boolean locked) {
         isFocusLocked = locked;
+        if (focusEvent != null) {
+            focusEvent.FocusLocked(locked);
+        }
     }
 
 

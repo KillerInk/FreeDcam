@@ -41,6 +41,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         wifiUtils = new WifiUtils(surfaceView.getContext());
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
+        cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;
     }
 
     @Override

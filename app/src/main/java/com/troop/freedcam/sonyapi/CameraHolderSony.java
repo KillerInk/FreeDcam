@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -46,6 +47,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
     I_Callbacks.AutoFocusCallback autoFocusCallback;
+    public FocusHandlerSony focusHandlerSony;
 
     private SimpleCameraEventObserver mEventObserver;
 
@@ -142,6 +144,11 @@ public class CameraHolderSony extends AbstractCameraHolder
         {
             Log.d(TAG, "Fire ONFLashCHanged");
             ParameterHandler.FlashMode.BackgroundValueHasChanged(flash);
+        }
+
+        @Override
+        public void onFocusLocked(boolean locked) {
+            focusHandlerSony.onFocusLock(locked);
         }
 
         @Override
@@ -631,7 +638,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                 }).start();
 
         }
-        if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))
+        else if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))
         {
             Log.d(TAG, "Cancel Focus");
             new Thread(new Runnable() {
@@ -653,8 +660,15 @@ public class CameraHolderSony extends AbstractCameraHolder
     public boolean canCancelFocus()
     {
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition") || mAvailableCameraApiSet.contains("cancelTrackingFocus"))
+        {
+            Log.d(TAG, "Throw Focus LOCKED true");
             return true;
-        else return false;
+        }
+        else
+        {
+            Log.d(TAG, "Throw Focus LOCKED false");
+            return false;
+        }
     }
 
     @Override
