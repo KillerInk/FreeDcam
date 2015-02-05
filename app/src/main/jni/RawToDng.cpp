@@ -150,7 +150,7 @@ void processTightRaw(TIFF *tif,unsigned short *pixel,unsigned char *buffer, unsi
 	}
 }
 
-class JniBitmap
+/*class JniBitmap
 {
     public:
     uint32_t* _storedBitmapPixels;
@@ -202,9 +202,10 @@ JniBitmap* createNativeBitmap(JNIEnv * env, jobject bitmap)
     {
     return false;
     }
-    env->CallVoidMethod(bitmap, recycle);
+    env->CallVoidMethod(bitmap, recycle, bitmapCls);
+    bitmap = NULL;
     return jniBitmap;
-}
+}*/
 
 
 
@@ -235,12 +236,12 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	//load the rawdata into chararray
 
 	unsigned char *strfile= (unsigned char*) env->GetByteArrayElements(filein,NULL);
-	const char *bayer = (char*) env->GetStringUTFChars(bayerformat, NULL);
-	const char *mMake = (char*) env->GetStringUTFChars(make, NULL);
-    const char *mModel = (char*) env->GetStringUTFChars(model, NULL);
-    const char *ImageDescription = (char*) env->GetStringUTFChars(iDesc, NULL);
+	char *bayer = (char*) env->GetStringUTFChars(bayerformat, NULL);
+	char *mMake = (char*) env->GetStringUTFChars(make, NULL);
+    char *mModel = (char*) env->GetStringUTFChars(model, NULL);
+    char *ImageDescription = (char*) env->GetStringUTFChars(iDesc, NULL);
 	LOGD("Data Loaded");
-	const char *strfileout= env->GetStringUTFChars(fileout, 0);
+	char *strfileout= (char*) env->GetStringUTFChars(fileout, 0);
 	LOGD("output path set");
 	// number of bytes in file
 	unsigned long fileLen = env->GetArrayLength(filein);
@@ -249,7 +250,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	jfloat *neutral = env->GetFloatArrayElements(neutralColor, 0);
 	LOGD("Matrixes set");
 	float blackval;
-	const char *devicena = env->GetStringUTFChars(devicename, 0);
+	char *devicena = (char*)env->GetStringUTFChars(devicename, 0);
 	UINT64 dir_offset = 0, dir_offset2 = 0;
 
     int tx = 176, ty = 144;  // thumbnail image size
@@ -259,8 +260,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
     if(blacklevel != 0)
 	    blackval = (blacklevel *4) *16;
-	static const float black[] = {blackval, blackval, blackval , blackval};
-	static const short CFARepeatPatternDim[] = { 2,2 };
+	float black[] = {blackval, blackval, blackval , blackval};
+	short CFARepeatPatternDim[] = { 2,2 };
 	int status=1, i, j, row, col, b, bLen;
 	TIFF *tif;
 	unsigned char *buffer;
@@ -270,7 +271,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	if(mThumb != NULL)
         bLen = env->GetArrayLength(mThumb);
 
-	JniBitmap* newJniBitmap;
+	//JniBitmap* newJniBitmap;
 
 	LOGD("filesize: %d", fileLen);
 
@@ -281,7 +282,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	}
 
 //////////////////////////////////////IFD 0//////////////////////////////////////////////////////
-    if(mThumb != NULL)
+    /*if(mThumb != NULL)
     {
         jclass bitmapCls = env->FindClass("android/graphics/BitmapFactory");
         LOGD("ThumbBitmapCreated1");
@@ -293,7 +294,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
         LOGD("ThumbBitmapCreated4");
         tx = newJniBitmap->_bitmapInfo.width;
         ty = newJniBitmap->_bitmapInfo.height;
-     }
+     }*/
 
 	LOGD("TIFF Header");
 	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 1);
@@ -370,9 +371,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
          TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
 
 // Fake Thumb
-    if (mThumb == NULL)
-        write_image(tif, tx, ty, 255);
-    else
+    /*if (mThumb != NULL)
     {
         uint8 *thumbBuffer =(uint8 *) malloc(newJniBitmap->_bitmapInfo.width*3);
         LOGD("Thumb Width %d Height %d", newJniBitmap->_bitmapInfo.width, newJniBitmap->_bitmapInfo.height);
@@ -394,10 +393,12 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
         	    LOGD("Error writing TIFF scanline.");
         	}
         }
-        free(newJniBitmap->_storedBitmapPixels);
-        free(mThumb);
-        free(thumbBuffer);
-    }
+        delete[] newJniBitmap->_storedBitmapPixels;
+        newJniBitmap->_storedBitmapPixels = NULL;
+        newJniBitmap = NULL;
+        delete[] mThumb;
+        delete[] thumbBuffer;
+    }*/
 
     //Checkpoint to Update Write to Move to SUB IFD with Primary Raw Image
     TIFFCheckpointDirectory(tif);
@@ -451,8 +452,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
     TIFFWriteDirectory (tif);
 
     LOGD("Free Memory ");
-    	free(pixel);
-    	free(buffer);
+    	delete[] pixel;
+    	delete[]buffer;
     	free(colormatrix1);
     	free(colormatrix2);
     	free(neutral);
