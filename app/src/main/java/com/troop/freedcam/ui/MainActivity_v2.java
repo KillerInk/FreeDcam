@@ -331,10 +331,16 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     }
 
     @Override
-    public void OnError(String error)
+    public void OnError(final String error)
     {
-        Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
-        toast.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(activity, error, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
     }
 
     public void ActivateSonyApi(String value)
