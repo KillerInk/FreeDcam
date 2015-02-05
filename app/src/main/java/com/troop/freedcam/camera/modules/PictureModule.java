@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
@@ -61,7 +63,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
 
-    Handler handler;
     File file;
     byte bytes[];
     byte Thumb[];
@@ -71,7 +72,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         super(baseCameraHolder, appSettingsManager, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
-        handler = new Handler();
+
         parametersHandler = (CamParametersHandler)ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
@@ -95,6 +96,18 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                dowork();
+            }
+        }).start();
+
+
+
+    }
+
+    private void dowork() {
         Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
         {
@@ -159,16 +172,23 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     };
 
 
-    public void onPictureTaken(byte[] data)
+    public void onPictureTaken(final byte[] data)
     {
+
+         processImage(data);
+
+    }
+
+    private void processImage(byte[] data) {
         //DoMetaExtractCheck();
         //if(DeviceUtils.isDebugging())
-          //  System.out.println("defcomg "+ "PictureForm "+ baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
+        //  System.out.println("defcomg "+ "PictureForm "+ baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
 
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
         {
             Thumb = data.clone();
+
             System.out.println("defcomg "+ "In This B1tcH");
             Metadata header;
 
@@ -212,19 +232,23 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         else
         {
 
-            if (processCallbackData(data, saveFileRunner))
-                return;
+            if (processCallbackData(data))
+            {
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                baseCameraHolder.StartPreview();
+                return;
             }
+
+
             baseCameraHolder.StartPreview();
+            workfinished(true);
+            Log.d(TAG, "work finished");
+
         }
+
     }
 
-    protected boolean processCallbackData(byte[] data, Runnable saveFileRunner) {
+    protected boolean processCallbackData(byte[] data) {
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
@@ -238,67 +262,75 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }
         file = createFileName();
         bytes = data;
-        saveFileRunner.run();
+        saveFile();
         isWorking = false;
+
 
         /*if (ParameterHandler.isExposureAndWBLocked)
             ParameterHandler.LockExposureAndWhiteBalance(false);*/
         return false;
     }
 
-    protected Runnable saveFileRunner = new Runnable() {
-        @Override
-        public void run()
+    private void saveFile() {
+        if (OverRidePath == "")
         {
-            if (OverRidePath == "")
-            {
-                if (!file.getAbsolutePath().endsWith(".dng")) {
-                    saveBytesToFile(bytes, file);
-                }
-                else
-                {
-                    String raw[] = getRawSize();
-                    int w = Integer.parseInt(raw[0]);
-                    int h = Integer.parseInt(raw[1]);
-                    String l;
-                    if(lastBayerFormat != null)
-                        l = lastBayerFormat.substring(lastBayerFormat.length() -4);
-                    else
-                        l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-
-                    //if(DeviceUtils.isDebugging())
-                        //System.out.println("iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex );
-
-                    Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
-
-                    double x =0,y = 0, calculatedExpo =0 ;
-                    if (exposureIndex != null && exposureIndex.contains("/")) {
-                        String[] expoRat = exposureIndex.split("/");
-                        x = Double.parseDouble(expoRat[0]);
-                        y = Double.parseDouble(expoRat[1]);
-                        calculatedExpo = x/y;
-                    }
-
-                    //float calculatedExpoF = x/y;
-
-                    Log.d(TAG, "Fnum"+String.valueOf(fNumber)+" FOcal"+focalLength);
-                    String IMGDESC = "ISO:"+String.valueOf(iso)+" Exposure Time:"+exposureIndex+" F Number:"+String.valueOf(fNumber)+" Focal Length:"+focalLength;
-
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l,flash,fNumber,focalLength,IMGDESC,Thumb);
-                    Thumb = null;
-                }
+            if (!file.getAbsolutePath().endsWith(".dng")) {
+                saveBytesToFile(bytes, file);
             }
             else
             {
-                file = new File(OverRidePath);
-                saveBytesToFile(bytes, file);
+                String raw[] = getRawSize();
+                int w = Integer.parseInt(raw[0]);
+                int h = Integer.parseInt(raw[1]);
+                String l;
+                if(lastBayerFormat != null)
+                    l = lastBayerFormat.substring(lastBayerFormat.length() -4);
+                else
+                    l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
+
+                //if(DeviceUtils.isDebugging())
+                    //System.out.println("iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex );
+
+                Log.d(TAG, "iso:" + iso + " exposure" + expo + " flash:" + flash + "Shut" + exposureIndex);
+
+                double x =0,y = 0, calculatedExpo =0 ;
+                if (exposureIndex != null && exposureIndex.contains("/")) {
+                    String[] expoRat = exposureIndex.split("/");
+                    x = Double.parseDouble(expoRat[0]);
+                    y = Double.parseDouble(expoRat[1]);
+                    calculatedExpo = x/y;
+                }
+
+                //float calculatedExpoF = x/y;
+
+                Log.d(TAG, "Fnum"+String.valueOf(fNumber)+" FOcal"+focalLength);
+                String IMGDESC = "ISO:"+String.valueOf(iso)+" Exposure Time:"+exposureIndex+" F Number:"+String.valueOf(fNumber)+" Focal Length:"+focalLength;
+
+                try {
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb);
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+                Thumb = null;
             }
-            Log.d(TAG, "Start Media Scan " + file.getName());
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
-            eventHandler.WorkFinished(file);
-            workfinished(true);
         }
-    };
+        else
+        {
+            file = new File(OverRidePath);
+            saveBytesToFile(bytes, file);
+        }
+        Log.d(TAG, "Start Media Scan " + file.getName());
+        Settings.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                eventHandler.WorkFinished(file);
+            }
+        });
+    }
 
     protected String[] getRawSize()
     {
