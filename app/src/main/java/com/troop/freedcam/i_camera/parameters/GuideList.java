@@ -1,18 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
-import android.content.Context;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import com.troop.androiddng.MainActivity;
-import com.troop.freedcam.R;
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.handler.GuideHandler;
 //defcomg was here
-import java.util.HashMap;
 
 /**
  * Created by George on 1/19/2015.

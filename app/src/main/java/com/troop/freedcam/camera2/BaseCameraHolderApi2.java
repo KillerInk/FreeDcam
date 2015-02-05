@@ -19,7 +19,6 @@ import android.hardware.display.DisplayManager;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;

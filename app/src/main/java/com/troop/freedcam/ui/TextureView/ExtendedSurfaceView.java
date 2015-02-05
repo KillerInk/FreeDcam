@@ -3,7 +3,6 @@ package com.troop.freedcam.ui.TextureView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.hardware.Camera;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;

@@ -1,6 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.HashMap;
@@ -12,13 +12,13 @@ public class IsoModeParameter extends BaseModeParameter
 {
     I_CameraHolder baseCameraHolder;
 
-    public IsoModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values)
+    public IsoModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
         super(parameters, parameterChanged, value, values);
         isIso();
     }
 
-    public IsoModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public IsoModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
         super(parameters, parameterChanged, value, values);
         isIso();

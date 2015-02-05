@@ -1,8 +1,6 @@
 package com.troop.freedcam.i_camera;
 
-import android.hardware.Camera;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.view.SurfaceHolder;
 
 import com.troop.freedcam.camera.modules.I_Callbacks;

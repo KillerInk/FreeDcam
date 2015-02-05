@@ -27,7 +27,6 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
-import com.troop.freedcam.i_camera.parameters.GuideList;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -55,7 +54,7 @@ import java.util.Map;
 /**
  * Created by troop on 17.08.2014.
  */
-public class CamParametersHandler extends AbstractParameterHandler implements I_ParameterChanged
+public class CamParametersHandler extends AbstractParameterHandler
 {
 
     private static String TAG = "freedcam.CameraParametersHandler";
@@ -128,63 +127,63 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
 
 
-        ColorMode = new ColorModeParameter(cameraParameters,this, "effect", "effect-values");
-        ExposureMode = new ExposureModeParameter(cameraParameters,this,"","");
-        FlashMode = new FlashModeParameter(cameraParameters,this,"flash-mode","flash-mode-values");
-        IsoMode = new IsoModeParameter(cameraParameters,this,"","", cameraHolder);
-        AntiBandingMode = new AntiBandingModeParameter(cameraParameters,this, "antibanding", "antibanding-values");
-        WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, this, "whitebalance", "whitebalance-values");
-        PictureSize = new PictureSizeParameter(cameraParameters,this, "picture-size", "picture-size-values");
+        ColorMode = new ColorModeParameter(cameraParameters,baseCameraHolder, "effect", "effect-values");
+        ExposureMode = new ExposureModeParameter(cameraParameters,baseCameraHolder,"","");
+        FlashMode = new FlashModeParameter(cameraParameters,baseCameraHolder,"flash-mode","flash-mode-values");
+        IsoMode = new IsoModeParameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
+        AntiBandingMode = new AntiBandingModeParameter(cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
+        WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
+        PictureSize = new PictureSizeParameter(cameraParameters,baseCameraHolder, "picture-size", "picture-size-values");
         if(DeviceUtils.isSonyADV())
-            PictureFormat = new PictureFormatParameter(cameraParameters, this, "sony-postview-format", "sony-postview-format-values", this, appSettingsManager);
+            PictureFormat = new PictureFormatParameter(cameraParameters, baseCameraHolder, "sony-postview-format", "sony-postview-format-values", this, appSettingsManager);
         else
-            PictureFormat = new PictureFormatParameter(cameraParameters, this, "picture-format", "picture-format-values", this, appSettingsManager);
+            PictureFormat = new PictureFormatParameter(cameraParameters, baseCameraHolder, "picture-format", "picture-format-values", this, appSettingsManager);
 
 
-        JpegQuality = new JpegQualityParameter(cameraParameters, this, "jpeg-quality", "");
+        JpegQuality = new JpegQualityParameter(cameraParameters, baseCameraHolder, "jpeg-quality", "");
         //defcomg was here
 
 
-        AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,this, "ae-bracket-hdr", "ae-bracket-hdr-values");
-        ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,this, "ipp", "ipp-values");
-        PreviewSize = new PreviewSizeParameter(cameraParameters, this, "preview-size", "preview-size-values", cameraHolder);
+        AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
+        ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,baseCameraHolder, "ipp", "ipp-values");
+        PreviewSize = new PreviewSizeParameter(cameraParameters, baseCameraHolder, "preview-size", "preview-size-values", cameraHolder);
         /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);*/
-        PreviewFormat = new PreviewFormatParameter(cameraParameters, this, "preview-format", "preview-format-values", cameraHolder);
+        PreviewFormat = new PreviewFormatParameter(cameraParameters, baseCameraHolder, "preview-format", "preview-format-values", cameraHolder);
 
-        SceneMode =  new BaseModeParameter(cameraParameters, this, "scene-mode","scene-mode-values");
-        FocusMode = new FocusModeParameter(cameraParameters, this,"focus-mode","focus-mode-values");
-        RedEye = new BaseModeParameter(cameraParameters, this, "redeye-reduction", "redeye-reduction-values");
-        LensShade = new BaseModeParameter(cameraParameters, this, "lensshade", "lensshade-values");
-        ZSL = new ZeroShutterLagParameter(cameraParameters, this, "", "", cameraHolder);
-        SceneDetect = new BaseModeParameter(cameraParameters, this, "scene-detect", "scene-detect-values");
-        Denoise = new BaseModeParameter(cameraParameters, this, "denoise", "denoise-values");
+        SceneMode =  new BaseModeParameter(cameraParameters, baseCameraHolder, "scene-mode","scene-mode-values");
+        FocusMode = new FocusModeParameter(cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
+        RedEye = new BaseModeParameter(cameraParameters, baseCameraHolder, "redeye-reduction", "redeye-reduction-values");
+        LensShade = new BaseModeParameter(cameraParameters, baseCameraHolder, "lensshade", "lensshade-values");
+        ZSL = new ZeroShutterLagParameter(cameraParameters, baseCameraHolder, "", "", cameraHolder);
+        SceneDetect = new BaseModeParameter(cameraParameters, baseCameraHolder, "scene-detect", "scene-detect-values");
+        Denoise = new BaseModeParameter(cameraParameters, baseCameraHolder, "denoise", "denoise-values");
 //sony-is for images sony-vs for video
         if(DeviceUtils.isSonyADV())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "sony-vs", "sony-vs-values");
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "sony-vs", "sony-vs-values");
         else
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters, this, "dis", "dis-values");
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "dis", "dis-values");
 
-        MemoryColorEnhancement = new BaseModeParameter(cameraParameters, this, "mce", "mce-values");
-        SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, this, "skinToneEnhancement", "skinToneEnhancement-values", cameraHolder);
-        NightMode = new NightModeParameter(cameraParameters, this,"","");
-        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, this, "non-zsl-manual-mode", "", cameraHolder);
-        Histogram = new BaseModeParameter(cameraParameters,this, "histogram", "histogram-values");
-        CameraMode = new BaseModeParameter(cameraParameters,this, "camera-mode", "camera-mode-values");
-        DualMode = new BaseModeParameter(cameraParameters,this, "dual_mode", "");
+        MemoryColorEnhancement = new BaseModeParameter(cameraParameters, baseCameraHolder, "mce", "mce-values");
+        SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
+        NightMode = new NightModeParameter(cameraParameters, baseCameraHolder,"","");
+        NonZslManualMode = new NonZslManualModeParameter(cameraParameters, baseCameraHolder, "non-zsl-manual-mode", "", cameraHolder);
+        Histogram = new BaseModeParameter(cameraParameters,baseCameraHolder, "histogram", "histogram-values");
+        CameraMode = new BaseModeParameter(cameraParameters,baseCameraHolder, "camera-mode", "camera-mode-values");
+        DualMode = new BaseModeParameter(cameraParameters,baseCameraHolder, "dual_mode", "");
 
-        ExposureLock = new ExposureLockParameter(cameraParameters, this, "","");
+        ExposureLock = new ExposureLockParameter(cameraParameters, baseCameraHolder, "","");
 
 
-        VideoSize = new VideoSizeParameter(cameraParameters,this,"video-size","video-size");
+        VideoSize = new VideoSizeParameter(cameraParameters,baseCameraHolder,"video-size","video-size");
         if(DeviceUtils.isSonyADV())
-            VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "sony-video-hdr", "sony-video-hdr-values", cameraHolder);
+            VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "sony-video-hdr", "sony-video-hdr-values", cameraHolder);
         else
-            VideoHDR = new VideoHDRModeParameter(cameraParameters, this, "video-hdr", "video-hdr-values", cameraHolder);
+            VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "video-hdr", "video-hdr-values", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
-            VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,this,"","", cameraHolder);
+            VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
         else
-            VideoProfiles = new VideoProfilesParameter(cameraParameters,this,"","", cameraHolder);
+            VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
@@ -192,12 +191,6 @@ public class CamParametersHandler extends AbstractParameterHandler implements I_
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-    }
-
-    @Override
-    public void ParameterChanged()
-    {
-        cameraHolder.SetCameraParameters(cameraParameters);
     }
 
     class SetParameterRunner implements Runnable

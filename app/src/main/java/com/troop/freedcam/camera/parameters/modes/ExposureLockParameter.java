@@ -1,6 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Created by Ingo on 25.12.2014.
  */
 public class ExposureLockParameter extends BaseModeParameter {
-    public ExposureLockParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public ExposureLockParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
@@ -31,8 +31,13 @@ public class ExposureLockParameter extends BaseModeParameter {
             parameters.put("auto-exposure-lock", valueToSet);
         if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
             parameters.put("auto-whitebalance-lock", valueToSet);
-        if (throwParameterChanged != null && setToCam)
-            throwParameterChanged.ParameterChanged();
+        try {
+            baseCameraHolder.SetCameraParameters(parameters);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Override

@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_WorkEvent;
-import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -79,24 +78,22 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     public String WorkHasFinished(final File filePath)
     {
         activity.runOnUiThread
-        (new Runnable() {
-            @Override
-            public void run()
-            {
-                lastFile = filePath;
-                if(!working)
-                {
-                    working = true;
+                (new Runnable() {
+                    @Override
+                    public void run() {
+                        lastFile = filePath;
+                        if (!working) {
+                            working = true;
                     /*if (thumbView.getAlpha() == 1f)
                         hideThumb(filePath);
                     else*/
-                    Log.d(TAG, "Load Thumb " + filePath.getName());
-                        showThumb(filePath);
-                    working = false;
-                }
+                            Log.d(TAG, "Load Thumb " + filePath.getName());
+                            showThumb(filePath);
+                            working = false;
+                        }
 
-            }
-        });
+                    }
+                });
         return null;
     }
 

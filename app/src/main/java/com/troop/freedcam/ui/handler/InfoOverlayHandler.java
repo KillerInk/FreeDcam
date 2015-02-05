@@ -14,7 +14,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 23.01.2015.

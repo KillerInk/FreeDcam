@@ -1,7 +1,5 @@
 package com.troop.freedcam.i_camera.interfaces;
 
-import android.graphics.Rect;
-
 import com.troop.freedcam.i_camera.FocusRect;
 
 /**

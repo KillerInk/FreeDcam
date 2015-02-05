@@ -1,8 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
-import android.graphics.Rect;
 import android.os.Handler;
-import android.os.HandlerThread;
 
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;

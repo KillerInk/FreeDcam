@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.HashMap;
@@ -12,11 +11,11 @@ import java.util.HashMap;
 public class PreviewFormatParameter extends BaseModeParameter
 {
     I_CameraHolder cameraHolder;
-    public PreviewFormatParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public PreviewFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public PreviewFormatParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
+    public PreviewFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.cameraHolder = cameraHolder;
     }
@@ -24,14 +23,7 @@ public class PreviewFormatParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder) cameraHolder;
-        if (baseCameraHolder.IsPreviewRunning())
-            cameraHolder.StopPreview();
-        parameters.put(value, valueToSet);
-        if (throwParameterChanged != null && setToCam)
-            throwParameterChanged.ParameterChanged();
-        if (!baseCameraHolder.IsPreviewRunning())
-            cameraHolder.StartPreview();
+        super.SetValue(valueToSet, setToCam);
 
 
     }

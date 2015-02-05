@@ -7,12 +7,10 @@ import android.os.Environment;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

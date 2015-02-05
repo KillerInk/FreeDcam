@@ -6,8 +6,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
-import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
-import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;

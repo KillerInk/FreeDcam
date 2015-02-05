@@ -8,30 +8,16 @@ import java.util.ArrayList;
 public class CameraParametersEventHandler
 {
     ArrayList<I_ParametersLoaded> parametersLoadedListner;
-    ArrayList<I_ParameterChanged> parameterChangedListner;
 
     public CameraParametersEventHandler()
     {
-        parameterChangedListner = new ArrayList<I_ParameterChanged>();
         parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
-        parameterChangedListner.clear();
         parametersLoadedListner.clear();
-    }
-
-    public void AddParametersChangedListner(I_ParameterChanged parameterChanged)
-    {
-        parameterChangedListner.add(parameterChanged);
     }
 
     public void AddParametersLoadedListner(I_ParametersLoaded parametersLoaded)
     {
         parametersLoadedListner.add(parametersLoaded);
-    }
-
-    public void ParametersHasChanged()
-    {
-        for (I_ParameterChanged changed : parameterChangedListner)
-            changed.ParameterChanged();
     }
 
     public void ParametersHasLoaded()
@@ -49,7 +35,7 @@ public class CameraParametersEventHandler
 
     public void CLEAR()
     {
-        parameterChangedListner.clear();
+        
         parametersLoadedListner.clear();
     }
 }

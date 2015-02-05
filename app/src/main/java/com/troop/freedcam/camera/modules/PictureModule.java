@@ -1,11 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -31,9 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
-import static android.hardware.Camera.ShutterCallback;
 
 /**
  * Created by troop on 15.08.2014.

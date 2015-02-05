@@ -1,12 +1,9 @@
 package com.troop.freedcam.sonyapi;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 
-import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -14,7 +11,6 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.sonyapi.modules.I_CameraStatusChanged;
 import com.troop.freedcam.sonyapi.modules.I_PictureCallback;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;

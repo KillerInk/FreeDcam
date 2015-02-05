@@ -6,8 +6,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
-import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;

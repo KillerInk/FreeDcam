@@ -1,6 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.HashMap;
@@ -11,11 +11,11 @@ import java.util.HashMap;
 public class DigitalImageStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
 
-    public DigitalImageStabilizationParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
+    public DigitalImageStabilizationParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
         super(parameters, parameterChanged, value, values);
     }
 
-    public DigitalImageStabilizationParameter(HashMap<String,String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+    public DigitalImageStabilizationParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
         super(parameters, parameterChanged, value, values);
         this.baseCameraHolder = baseCameraHolder;
     }
@@ -23,12 +23,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (setToCam)
-        {
-            super.SetValue(valueToSet, setToCam);
-        }
-        else
-            super.SetValue(valueToSet, setToCam);
+        super.SetValue(valueToSet, setToCam);
 
     }
 }

@@ -1,19 +1,13 @@
 package com.troop.freedcam.camera;
 
-import android.graphics.Rect;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

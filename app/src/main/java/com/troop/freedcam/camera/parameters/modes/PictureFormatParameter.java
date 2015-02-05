@@ -1,7 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -15,7 +15,7 @@ public class PictureFormatParameter extends BaseModeParameter
 {
     CamParametersHandler camParametersHandler;
     AppSettingsManager appSettingsManager;
-    public PictureFormatParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
+    public PictureFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
         super(parameters, parameterChanged, value, values);
         this.camParametersHandler = camParametersHandler;
         this.appSettingsManager = appSettingsManager;

@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -14,7 +13,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
 {
     BaseCameraHolder baseCameraHolder;
 
-    public VideoHDRModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public VideoHDRModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
         super(parameters, parameterChanged, value, values);
         if (DeviceUtils.isLGADV())

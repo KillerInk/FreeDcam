@@ -95,7 +95,15 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     {
         Log.d(TAG, "set " + value + " to " + valueToset);
         parameters.put(value, valueToset + "");
-        camParametersHandler.SetParametersToCamera();
+        try
+        {
+            camParametersHandler.SetParametersToCamera();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
     }
 
     protected boolean hasSupport()

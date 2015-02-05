@@ -1,8 +1,6 @@
 package com.troop.freedcam.i_camera;
 
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;

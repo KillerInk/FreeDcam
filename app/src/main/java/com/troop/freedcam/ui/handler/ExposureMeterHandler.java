@@ -10,7 +10,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.ExposureRect;
 import com.troop.freedcam.i_camera.interfaces.I_Exposure;
-import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.TouchHandler;
 

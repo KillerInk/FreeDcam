@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;

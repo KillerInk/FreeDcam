@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera;
 
-import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

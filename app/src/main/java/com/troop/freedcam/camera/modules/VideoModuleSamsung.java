@@ -5,11 +5,8 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.lge.media.CamcorderProfileEx;
-import com.lge.media.MediaRecorderEx;
 import com.sec.android.secmediarecorder.SecMediaRecorder;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;

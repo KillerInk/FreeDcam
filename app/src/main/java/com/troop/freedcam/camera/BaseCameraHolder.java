@@ -3,7 +3,6 @@ package com.troop.freedcam.camera;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -15,7 +14,6 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
@@ -184,39 +182,34 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             ret += s.getKey() + "=" + s.getValue()+";";
         }
-        try{
 
-            if (hasSamsungFrameWork)
-            {
-                Log.d(TAG, "Set Samsung Parameters");
-                SecCamera.Parameters p = samsungCamera.getParameters();
-                p.unflatten(ret);
-                samsungCamera.setParameters(p);
-            }
-            else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
-            {
-                Log.d(TAG, "Set lg Parameters");
-                Camera.Parameters p = lgParameters.getParameters();
-                p.unflatten(ret);
-                lgParameters.setParameters(p);
-            }
-            else
-            {
-                Log.d(TAG, "Set Parameters");
-                Camera.Parameters p = mCamera.getParameters();
-                p.unflatten(ret);
-                mCamera.setParameters(p);
-            }
-
-
-            return true;
-        }
-        catch (Exception ex)
+        if (hasSamsungFrameWork)
         {
-            ex.printStackTrace();
-            Log.d(TAG, "Error Setting Parameters");
+            Log.d(TAG, "Set Samsung Parameters");
+            SecCamera.Parameters p = samsungCamera.getParameters();
+            p.unflatten(ret);
+            samsungCamera.setParameters(p);
         }
-        return false;
+        else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+        {
+            Log.d(TAG, "Set lg Parameters");
+            Camera.Parameters p = lgParameters.getParameters();
+            p.unflatten(ret);
+            lgParameters.setParameters(p);
+        }
+        else
+        {
+            Log.d(TAG, "Set Parameters");
+            Camera.Parameters p = mCamera.getParameters();
+            p.unflatten(ret);
+            mCamera.setParameters(p);
+        }
+
+
+
+
+
+        return true;
     }
 
     @Override

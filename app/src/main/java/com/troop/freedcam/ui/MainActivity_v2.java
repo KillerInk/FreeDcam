@@ -1,20 +1,12 @@
 package com.troop.freedcam.ui;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,9 +22,9 @@ import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.ExposureLockHandler;
 import com.troop.freedcam.ui.handler.FocusImageHandler;
+import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
@@ -392,16 +384,12 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public void onCameraError(String error)
     {
-
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }
-
-
-
     }
 
     @Override

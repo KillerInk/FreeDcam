@@ -3,10 +3,6 @@ package com.troop.freedcam.ui.handler;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,7 +11,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
  * Created by George on 1/19/2015.

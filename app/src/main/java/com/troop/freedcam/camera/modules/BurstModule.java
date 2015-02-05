@@ -3,7 +3,6 @@ package com.troop.freedcam.camera.modules;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
-import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 

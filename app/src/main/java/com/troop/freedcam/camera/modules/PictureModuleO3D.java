@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
 

@@ -3,7 +3,6 @@ package com.troop.freedcam.sonyapi;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;

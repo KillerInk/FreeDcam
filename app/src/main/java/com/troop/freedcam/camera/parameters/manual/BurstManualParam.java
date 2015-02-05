@@ -4,8 +4,6 @@ package com.troop.freedcam.camera.parameters.manual;
  * Created by George on 1/21/2015.
  */
 
-import android.hardware.Camera;
-
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;

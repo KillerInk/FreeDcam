@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui.handler;
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.view.SurfaceView;
 import android.view.View;

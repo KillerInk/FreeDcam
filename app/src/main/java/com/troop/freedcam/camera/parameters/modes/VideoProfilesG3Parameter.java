@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     HashMap<String, CamcorderProfileEx> supportedProfiles;
     BaseCameraHolder cameraHolder;
 
-    public VideoProfilesG3Parameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
+    public VideoProfilesG3Parameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
         this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
         this.isSupported =true;

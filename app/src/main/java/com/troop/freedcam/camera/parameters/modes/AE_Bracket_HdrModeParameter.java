@@ -1,6 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
 
@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 public class AE_Bracket_HdrModeParameter extends BaseModeParameter
 {
-    public AE_Bracket_HdrModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
+    public AE_Bracket_HdrModeParameter(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
+        super(parameters, cameraHolder, value, values);
     }
 
     @Override

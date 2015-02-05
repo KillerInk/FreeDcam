@@ -2,7 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.util.Log;
 
-import com.troop.freedcam.camera.parameters.I_ParameterChanged;
+import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 import java.util.HashMap;
@@ -15,17 +15,17 @@ public class BaseModeParameter extends AbstractModeParameter {
     protected String values;
     boolean isSupported = false;
     HashMap<String, String> parameters;
-    I_ParameterChanged throwParameterChanged;
+    BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
-    public BaseModeParameter(HashMap<String, String> parameters, I_ParameterChanged parameterChanged, String value, String values)
+    public BaseModeParameter(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
         super();
         this.parameters = parameters;
         this.value = value;
         this.values = values;
-        this.throwParameterChanged = parameterChanged;
+        this.baseCameraHolder = cameraHolder;
     }
 
     @Override
@@ -50,10 +50,29 @@ public class BaseModeParameter extends AbstractModeParameter {
     {
         if (valueToSet == null)
             return;
+        String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
-        Log.d(TAG, "set "+value+" to "+ valueToSet);
-        if (throwParameterChanged != null && setToCam)
-            throwParameterChanged.ParameterChanged();
+        Log.d(TAG, "set "+value+" from " + tmp + " to "+ valueToSet);
+        try {
+            baseCameraHolder.SetCameraParameters(parameters);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
+            if (tmp == null)
+                return;
+            parameters.put(value, tmp);
+            try {
+                baseCameraHolder.SetCameraParameters(parameters);
+            }
+            catch (Exception ex2)
+            {
+                ex.printStackTrace();
+                Log.e(TAG, "set " + value + " back to " + tmp + " failed");
+            }
+        }
+
 
         firststart = false;
     }
