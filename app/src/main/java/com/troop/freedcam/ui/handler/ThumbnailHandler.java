@@ -78,7 +78,8 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     @Override
     public String WorkHasFinished(final File filePath)
     {
-        thumbView.post(new Runnable() {
+        activity.runOnUiThread
+        (new Runnable() {
             @Override
             public void run()
             {

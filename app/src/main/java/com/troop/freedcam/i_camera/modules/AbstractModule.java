@@ -42,10 +42,16 @@ public abstract class AbstractModule implements I_Module
             workerListner.onWorkStarted();
     }
 
-    protected void workfinished(boolean finish)
+    protected void workfinished(final boolean finish)
     {
-        if (workerListner != null)
-            workerListner.onWorkFinished(finish);
+        Settings.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (workerListner != null)
+                    workerListner.onWorkFinished(finish);
+            }
+        });
+
     }
 
     @Override

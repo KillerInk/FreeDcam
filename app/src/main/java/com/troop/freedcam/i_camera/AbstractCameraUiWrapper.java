@@ -59,12 +59,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void StartCamera()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 startCamera();
-            }
-        }).start();
+
         /*backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -82,12 +79,12 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void StopCamera()
     {
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 stopCamera();
-            }
-        }).start();
+           /* }
+        }).start();*/
 
 
         /*backGroundHandler.post(new Runnable() {
@@ -130,12 +127,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void StartPreview()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 startPreview();
-            }
-        }).start();
+
         /*backGroundHandler.post(new Runnable() {
             @Override
             public void run() {
