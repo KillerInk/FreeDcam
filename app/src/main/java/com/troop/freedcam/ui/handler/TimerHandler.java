@@ -54,6 +54,10 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
                 break;
             case I_RecorderStateChanged.STATUS_RECORDING_START :
                 timer.Start();
+                break;
+            default:
+                timer.Stop();
+                break;
         }
 
     }

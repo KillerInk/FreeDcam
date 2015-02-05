@@ -26,6 +26,7 @@ public class VideoModuleG3 extends VideoModule
 
     protected MediaRecorder initRecorder()
     {
+        loadProfileSpecificParameters();
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(profile);

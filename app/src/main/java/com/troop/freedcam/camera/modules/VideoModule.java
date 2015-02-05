@@ -68,7 +68,7 @@ public class VideoModule extends AbstractModule
     private void startRecording()
     {
         prepareRecorder();
-        eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+
     }
 
     protected void stopRecording()
@@ -80,6 +80,7 @@ public class VideoModule extends AbstractModule
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
+            baseCameraHolder.errorHandler.OnError("Stop Recording failed, was called bevor start");
             ex.printStackTrace();
         }
         finally
@@ -98,7 +99,7 @@ public class VideoModule extends AbstractModule
         try
         {
             Log.d(TAG, "InitMediaRecorder");
-
+            isWorking = true;
             baseCameraHolder.GetCamera().unlock();
             recorder =  initRecorder();
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
@@ -123,13 +124,16 @@ public class VideoModule extends AbstractModule
                 Log.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
                 Log.d(TAG, "Recording started");
-                isWorking = true;
+                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+
             } catch (Exception e)
             {
                 Log.e(TAG,"Recording failed");
+                baseCameraHolder.errorHandler.OnError("Start Recording failed");
                 e.printStackTrace();
                 recorder.reset();
-
+                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                isWorking = false;
                 baseCameraHolder.GetCamera().lock();
                 recorder.release();
             }
@@ -137,9 +141,10 @@ public class VideoModule extends AbstractModule
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
-
+            baseCameraHolder.errorHandler.OnError("Start Recording failed");
             recorder.reset();
-
+            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            isWorking = false;
             baseCameraHolder.GetCamera().lock();
             recorder.release();
         }
