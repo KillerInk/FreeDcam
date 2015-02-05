@@ -31,9 +31,9 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         this.activity = mainActivity;
 
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
-        shutterButton.setOnClickListener(this);
-        shutterButton.setOnLongClickListener(this);
-        //shutterButton.setOnTouchListener(this);
+        //shutterButton.setOnClickListener(this);
+        //shutterButton.setOnLongClickListener(this);
+        shutterButton.setOnTouchListener(this);
 
         flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
         flashScreen.setVisibility(View.GONE);
@@ -82,10 +82,23 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     public boolean onTouch(View v, MotionEvent event)
     {
         boolean fireagain = false;
-        if (currentModule.equals(ModuleHandler.MODULE_BURST))
+        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
+            if (event.getButtonState() == MotionEvent.ACTION_DOWN && !cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
+            {
+                DoWork();
+                fireagain = true;
+            }
+            else if (event.getButtonState() == MotionEvent.ACTION_DOWN && cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
+                fireagain = true;
+            if (event.getButtonState() == MotionEvent.ACTION_UP)
+                fireagain = false;
+        }
+
+        /*if (currentModule.equals(ModuleHandler.MODULE_BURST))
         {
             fireagain = handelBurstClick(event, fireagain);
-        }
+        }*/
         return fireagain;
     }
 

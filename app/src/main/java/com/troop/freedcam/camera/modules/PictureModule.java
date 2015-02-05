@@ -104,6 +104,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
         {
+            this.isWorking = true;
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
             if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer-mipi"))
             {
@@ -120,14 +121,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     @Override
     public boolean IsWorking() {
-        return false;
+        return isWorking;
     }
 //I_Module END
 
     protected void takePicture()
     {
         workstarted();
-        this.isWorking = true;
+
         Log.d(TAG, "Start Taking Picture");
         try
         {
@@ -168,8 +169,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void onPictureTaken(final byte[] data)
     {
 
-         processImage(data);
-
+        processImage(data);
+        isWorking = false;
     }
 
     private void processImage(byte[] data) {
@@ -180,7 +181,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
         {
-            Thumb = data.clone();
+            //Thumb = data.clone();
 
             System.out.println("defcomg "+ "In This B1tcH");
             Metadata header;
@@ -245,7 +246,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
-            isWorking = false;
+
             //baseCameraHolder.StartPreview();
             return true;
         }
@@ -256,7 +257,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         file = createFileName();
         bytes = data;
         saveFile();
-        isWorking = false;
+        
 
 
         /*if (ParameterHandler.isExposureAndWBLocked)
