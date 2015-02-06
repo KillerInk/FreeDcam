@@ -11,6 +11,7 @@ import com.troop.freedcam.camera.modules.BurstModule;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
@@ -31,7 +32,7 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         this.activity = mainActivity;
 
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
-        //shutterButton.setOnClickListener(this);
+        shutterButton.setOnClickListener(this);
         //shutterButton.setOnLongClickListener(this);
         shutterButton.setOnTouchListener(this);
 
@@ -49,12 +50,16 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     }
 
     @Override
-    public void onClick(View v) {
-        DoWork();
+    public void onClick(View v)
+    {
+        if (cameraUiWrapper instanceof CameraUiWrapperSony) {
+            DoWork();
+        }
     }
 
     public void DoWork()
     {
+
         if (!currentModule.equals(ModuleHandler.MODULE_BURST))
         {
             cameraUiWrapper.DoWork();
@@ -82,23 +87,22 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     public boolean onTouch(View v, MotionEvent event)
     {
         boolean fireagain = false;
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
-        {
-            if (event.getButtonState() == MotionEvent.ACTION_DOWN && !cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
-            {
-                DoWork();
-                fireagain = true;
+        if (!(cameraUiWrapper instanceof CameraUiWrapperSony)) {
+            if (currentModule.equals(ModuleHandler.MODULE_PICTURE)) {
+                if (event.getButtonState() == MotionEvent.ACTION_DOWN && !cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking()) {
+                    DoWork();
+                    fireagain = true;
+                } else if (event.getButtonState() == MotionEvent.ACTION_DOWN && cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
+                    fireagain = true;
+                if (event.getButtonState() == MotionEvent.ACTION_UP)
+                    fireagain = false;
             }
-            else if (event.getButtonState() == MotionEvent.ACTION_DOWN && cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
-                fireagain = true;
-            if (event.getButtonState() == MotionEvent.ACTION_UP)
-                fireagain = false;
-        }
 
         /*if (currentModule.equals(ModuleHandler.MODULE_BURST))
         {
             fireagain = handelBurstClick(event, fireagain);
         }*/
+        }
         return fireagain;
     }
 
