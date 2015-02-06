@@ -10,6 +10,8 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
+import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
+import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 
@@ -227,7 +229,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             zoom.SetAbstractManualParameter(parametersHandler.Zoom);
             zoom.EnableItem();
-            zoom.onIsSetSupportedChanged(true);
+
             DisableOtherItems(zoom.name);
         }
         else zoom.onIsSupportedChanged(false);
@@ -309,6 +311,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     private void setValueToParameters(int value)
     {
+        if (currentItem.manualParameter instanceof ZoomManualSony)
+        {
+            ((ZoomManualSony)currentItem.manualParameter).fromUser = true;
+        }
         if (realMin < 0)
             currentItem.SetValue(value + realMin);
         else

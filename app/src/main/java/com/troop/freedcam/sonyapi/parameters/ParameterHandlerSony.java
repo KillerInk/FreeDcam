@@ -95,7 +95,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ObjectTracking = new ObjectTrackingSony("getTrackingFocus","setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ObjectTracking);
 
-        Zoom = new ZoomManualSony("","","", this);
+        Zoom = new ZoomManualSony("actZoom","","actZoom", this);
         parametersChangedList.add((ZoomManualSony)Zoom);
         ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
         parametersChangedList.add((BaseManualParameterSony) ManualShutter);

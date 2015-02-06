@@ -15,9 +15,11 @@ import java.util.Set;
  */
 public class ZoomManualSony extends BaseManualParameterSony
 {
-    int currentzoomPos;
+    int currentzoomPos = -1;
     int zoomToSet;
     private boolean isZooming = false;
+
+    public boolean fromUser = false;
 
     public ZoomManualSony(String MAX_TO_GET, String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony) {
         super(MAX_TO_GET, MIN_TO_GET, CURRENT_TO_GET, parameterHandlerSony);
@@ -27,12 +29,12 @@ public class ZoomManualSony extends BaseManualParameterSony
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
-        {
+        //if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
+        //{
             isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
             BackgroundIsSupportedChanged(isSupported);
             BackgroundIsSetSupportedChanged(isSupported);
-        }
+        //}
 
 
     }
@@ -58,33 +60,32 @@ public class ZoomManualSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        currentzoomPos = -1;
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    JSONObject object =  ParameterHandler.mRemoteApi.getEvent(false, "1.0");
-                    JSONArray array = object.getJSONArray("result");
-                    JSONObject zoom = array.getJSONObject(2);
-                    String zoompos = zoom.getString("zoomPosition");
-                    currentzoomPos = Integer.parseInt(zoompos);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    currentzoomPos= 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    currentzoomPos = 0;
+        if (currentzoomPos == -1) {
+            currentzoomPos = -1;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject object = ParameterHandler.mRemoteApi.getEvent(false, "1.0");
+                        JSONArray array = object.getJSONArray("result");
+                        JSONObject zoom = array.getJSONObject(2);
+                        String zoompos = zoom.getString("zoomPosition");
+                        currentzoomPos = Integer.parseInt(zoompos);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        currentzoomPos = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        currentzoomPos = 0;
+                    }
                 }
-            }
-        }).start();
-        while (currentzoomPos == -1)
-        {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            }).start();
+            while (currentzoomPos == -1) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return currentzoomPos;
@@ -125,8 +126,15 @@ public class ZoomManualSony extends BaseManualParameterSony
     {
 
         currentzoomPos = zoom;
-        if(!checkIfIntIsInRange(zoomToSet, currentzoomPos))
-            SetValue(zoomToSet);
+        if (zoomToSet != currentzoomPos && fromUser)
+        {
+            if (!checkIfIntIsInRange(zoomToSet, currentzoomPos))
+                SetValue(zoomToSet);
+            else {
+                zoomToSet = currentzoomPos;
+                fromUser = false;
+            }
+        }
         else
             zoomToSet = currentzoomPos;
         super.currentValueChanged(zoom);
@@ -139,7 +147,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         if (a == b)
             return  true;
             //1 = 3
-        else if (a - 4 <= b && a + 4 >= b)
+        else if (a - 5 <= b && a + 5 >= b)
             return  true;
         else
             return false;
@@ -155,5 +163,11 @@ public class ZoomManualSony extends BaseManualParameterSony
     @Override
     public String[] getStringValues() {
         return null;
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current)
+    {
+
     }
 }
