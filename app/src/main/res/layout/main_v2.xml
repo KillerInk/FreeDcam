@@ -80,7 +80,6 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center_horizontal|bottom"
             android:id="@+id/v2_seekbar_layout">
 
             <TextView
@@ -89,19 +88,17 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/textView_seekbar"
-                android:rotation="270"
-                android:layout_marginRight="292dp"
-                android:textColor="#ffc8c8c8" />
+                android:rotation="0"
+                android:textColor="#ffc8c8c8"
+                android:layout_gravity="center_horizontal" />
 
             <SeekBar
                 android:layout_width="280dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/app_icon_size"
                 android:id="@+id/seekBar_manual"
-                android:rotation="270"
-                android:layout_marginBottom="160dp"
-                android:layout_marginLeft="200dp"
                 android:splitTrack="false"
-                android:background="#785a5555" />
+                android:background="#785a5555"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 
