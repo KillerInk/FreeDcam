@@ -36,18 +36,18 @@ public class ModuleHandler extends AbstractModuleHandler
             PictureModuleThl5000 thl5000 = new PictureModuleThl5000(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
         }
-        else*/ if (DeviceUtils.isOmap())
+        else if (DeviceUtils.isOmap())
         {
             Log.d(TAG, "load omap picmodule");
             PictureModuleO3D omap = new PictureModuleO3D(this.cameraHolder,appSettingsManager,moduleEventHandler);
             moduleList.put(omap.ModuleName(),omap);
         }
         else //use default pictureModule
-        {
+        {*/
             Log.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
-        }
+        //}
 
         if (cameraHolder.hasLGFrameWork)
         {
