@@ -88,11 +88,12 @@ public class DataExtractor
         if (commonHeader.PayloadType == 2)
         {
             frameInfoList = new ArrayList<FrameInfo>();
+            //int framC = frameDataSize /singelFrameDataSize;
             for (int i = 0; i<frameCount; i++)
             {
-                int read = frameCount * singelFrameDataSize;
-                byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, read);
-                frameInfoList.add(new FrameInfo(framebytes));
+                byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, singelFrameDataSize);
+                if (framebytes.length == singelFrameDataSize)
+                    frameInfoList.add(new FrameInfo(framebytes));
             }
         }
     }
@@ -107,7 +108,8 @@ public class DataExtractor
                 throw new IOException("Cannot read stream for common header.");
             }
 
-            if (bytes[0] != (byte) 0xFF) {
+            if (bytes[0] != (byte) 0xFF)
+            {
                 throw new IOException("Unexpected data format. (Start byte)");
             }
             PayloadType = bytes[1];

@@ -153,10 +153,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     {
                         if (fetchPayLoad(slicer))
                         {
-                            if (fetchPayLoad(slicer))
-                            {
-                                continue;
-                            }
+
+                            continue;
+
                         }
                     }
                 } catch (IOException e) {
