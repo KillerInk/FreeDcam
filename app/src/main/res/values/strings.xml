@@ -66,10 +66,11 @@
     <string name="manualmenu_shutter">Shutter</string>
     <string name="manualmenu_zoom">Zoom</string>
 
-    <string name="helpoverlay_swipeTopToBottom">Swipe from Top to Bottom to open the Manual Settings
-    and from Bottom to Top to close it</string>
-    <string name="helpoverlay_swipeLeftToRight">Swipe from Left to Right to open the Settings Menu
-    and from Right to Left to close it</string>
+    <string name="helpoverlay_text">Swipe from Top to Bottom to open the Manual Settings
+    and from Bottom to Top to close it\n\n
+    Swipe from Left to Right to open the Settings Menu
+    and from Right to Left to close it
+    </string>
     <string name="helpoverlay_checkBoxtext">Don\'t show again</string>
 
 
