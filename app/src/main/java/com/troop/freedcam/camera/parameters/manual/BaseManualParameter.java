@@ -64,8 +64,14 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
     public int GetMaxValue()
     {
+        int max = 100;
+        try {
+            max = Integer.parseInt(parameters.get(max_value));
+        }
+        catch (Exception ex)
+        {}
         Log.d(TAG, "get " + max_value + " to " + parameters.get(max_value));
-        return Integer.parseInt(parameters.get(max_value));
+        return max;
     }
 
     public  int GetMinValue()
