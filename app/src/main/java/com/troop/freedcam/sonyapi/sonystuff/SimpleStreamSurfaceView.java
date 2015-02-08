@@ -293,7 +293,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         getHolder().unlockCanvasAndPost(canvas);
     }
 
-    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas, Rect dst) {
+    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas, Rect dst)
+    {
+        if (dataExtractor.frameInfoList == null)
+            return;
         for (int i=0; i< dataExtractor.frameInfoList.size(); i++)
         {
             DataExtractor.FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
