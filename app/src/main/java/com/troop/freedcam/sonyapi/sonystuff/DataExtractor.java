@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.sonystuff;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,18 +36,17 @@ public class DataExtractor
 
     public void ExtractData(InputStream mInputStream) throws IOException
     {
-        commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
-        if (commonHeader.PayloadType == 0x12)
-        {
-            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
-            commonHeader = null;
-            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
-        }
-        payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
-        readData(mInputStream);
-        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
 
-        commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
+        try {
+            createHeader(mInputStream);
+        }
+        catch (IOException ex)
+        {
+            commonHeader = null;
+        }
+
+
+        /*commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
         if (commonHeader.PayloadType == 0x12)
         {
             int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
@@ -54,7 +55,29 @@ public class DataExtractor
         }
         payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
         readData(mInputStream);
-        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
+        paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);*/
+    }
+
+    private void createHeader(InputStream mInputStream) throws IOException
+    {
+        commonHeader = new CommonHeader(SimpleLiveviewSlicer.readBytes(mInputStream, commonHeaderlength));
+        if (commonHeader.PayloadType == 0x12)
+        {
+            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
+            commonHeader = null;
+            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
+        }
+        else if (commonHeader.PayloadType == 0x11)
+        {
+            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
+            commonHeader = null;
+            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
+        }
+        else {
+            payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
+            readData(mInputStream);
+            paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
+        }
     }
 
     private void readData(InputStream mInputStream) throws IOException {
@@ -114,6 +137,7 @@ public class DataExtractor
                 frameDataSize = SimpleLiveviewSlicer.bytesToInt(bytes, 4, 3);
                 version = SimpleLiveviewSlicer.bytesToInt(bytes, 8, 1) + "." + SimpleLiveviewSlicer.bytesToInt(bytes, 9, 1);
                 frameCount = SimpleLiveviewSlicer.bytesToInt(bytes, 10, 2);
+                //Log.d(TAG, "FrameCount:" + frameCount);
                 if (version.equals("1.0"))
                     singelFrameDataSize = 16;
                 else

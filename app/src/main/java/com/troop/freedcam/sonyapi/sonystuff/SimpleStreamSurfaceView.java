@@ -33,6 +33,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     private boolean mWhileFetching;
     private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<DataExtractor>(2);
+    private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     private Thread mDrawerThread;
     private int mPreviousWidth = 0;
@@ -148,17 +149,15 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     slicer = new SimpleLiveviewSlicer();
                     slicer.open(streamUrl);
 
-                    while (mWhileFetching) {
-                        final DataExtractor payload = slicer.nextDataExtractor();
-                        if (payload == null) { // never occurs
-                            Log.e(TAG, "Liveview Payload is null.");
-                            continue;
+                    while (mWhileFetching)
+                    {
+                        if (fetchPayLoad(slicer))
+                        {
+                            if (fetchPayLoad(slicer))
+                            {
+                                continue;
+                            }
                         }
-
-                        if (mJpegQueue.size() == 2) {
-                            mJpegQueue.remove();
-                        }
-                        mJpegQueue.add(payload);
                     }
                 } catch (IOException e) {
                     Log.w(TAG, "IOException while fetching: " + e.getMessage());
@@ -173,6 +172,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     }
 
                     mJpegQueue.clear();
+                    frameQueue.clear();
                     mWhileFetching = false;
                 }
             }
@@ -194,8 +194,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 while (mWhileFetching)
                 {
                     DataExtractor dataExtractor = null;
+                    DataExtractor frameExtractor =null;
                     try {
                         dataExtractor = mJpegQueue.take();
+                        frameExtractor = frameQueue.take();
 
 
                     } catch (IllegalArgumentException e) {
@@ -208,7 +210,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         break;
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
-                    drawFrame(frameBitmap, dataExtractor);
+                    drawFrame(frameBitmap, dataExtractor, frameExtractor);
                 }
 
                 if (frameBitmap != null) {
@@ -221,6 +223,26 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         return true;
     }
 
+    private boolean fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
+        final DataExtractor payload = slicer.nextDataExtractor();
+        if (payload.commonHeader == null) { // never occurs
+            Log.e(TAG, "Liveview Payload is null.");
+            return true;
+        }
+        if (payload.commonHeader.PayloadType == 1) {
+            if (mJpegQueue.size() == 2) {
+                mJpegQueue.remove();
+            }
+            mJpegQueue.add(payload);
+        }
+        if (payload.commonHeader.PayloadType == 2) {
+            if (frameQueue.size() == 2) {
+                frameQueue.remove();
+            }
+            frameQueue.add(payload);
+        }
+        return false;
+    }
 
 
     private int convert(int length, int val)
@@ -270,7 +292,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * 
      * @param frame
      */
-    private void drawFrame(Bitmap frame, DataExtractor dataExtractor) {
+    private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor) {
         if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
             onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
             return;
@@ -289,7 +311,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
         canvas.drawBitmap(frame, src, dst, mFramePaint);
-        drawFrameInformation(dataExtractor, canvas, dst);
+        if (frameExtractor != null)
+            drawFrameInformation(frameExtractor, canvas,dst);
         getHolder().unlockCanvasAndPost(canvas);
     }
 
