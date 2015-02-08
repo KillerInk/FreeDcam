@@ -248,22 +248,17 @@ public class MenuCreator
         }
         piclist.add(picSize);
 
-        if(DeviceUtils.isSonyADV())
-        {
-            picformat = new PictureFormatExpandableChild(context, group, "PostView Format", appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
-            piclist.add(picformat);
-        }
-        else
-            picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
-            piclist.add(picformat);
+
+        picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+        piclist.add(picformat);
 
         jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         piclist.add(jpegquality);
 
 
-        contShootMode = new ExpandableChild(context,group,"ContinousShootMode", appSettingsManager, "");
+        contShootMode = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmode), appSettingsManager, "");
         piclist.add(contShootMode);
-        contShootModeSpeed = new ExpandableChild(context,group,"ContinousShootModeSpeed", appSettingsManager, "");
+        contShootModeSpeed = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmodespeed), appSettingsManager, "");
         piclist.add(contShootModeSpeed);
 
 
@@ -277,10 +272,10 @@ public class MenuCreator
         redeye= new ExpandableChild(context, group, context.getString(R.string.picture_redeyereduction),appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
         piclist.add(redeye);
 
-        dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,"Convert to Dng", AppSettingsManager.SETTING_DNG);
+        dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,context.getString(R.string.picture_dng_convert), AppSettingsManager.SETTING_DNG);
 
 
-        aeBracketSwitch = new ExpandbleChildAeBracket(context, group, appSettingsManager, "HDR AeBracket", AppSettingsManager.SETTING_AEBRACKETACTIVE);
+        aeBracketSwitch = new ExpandbleChildAeBracket(context, group, appSettingsManager, context.getString(R.string.picture_hdr_aebracket), AppSettingsManager.SETTING_AEBRACKETACTIVE);
         piclist.add(aeBracketSwitch);
         piclist.add(dngSwitch);
         group.setItems(piclist);
@@ -317,7 +312,7 @@ public class MenuCreator
         focusMode = new ExpandableChild(context, group, context.getString(R.string.mode_focus), appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
         childlist.add(focusMode);
 
-        objectTrackingMode = new ExpandableChild(context, group, "Object Tracking", appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
+        objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking), appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
         childlist.add(objectTrackingMode);
 
         group.setItems(childlist);
@@ -384,7 +379,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePreviewSettings(SurfaceView surfaceView)
     {
-        ExpandableGroup preview = getNewGroup("Long Exposure");
+        ExpandableGroup preview = getNewGroup(context.getString(R.string.picture_longexposure));
         //preview.modulesToShow = cameraUiWrapper.moduleHandler.LongeExpoModules;
         createPreviewSettingsChilds(preview, surfaceView);
         return preview;
@@ -395,11 +390,11 @@ public class MenuCreator
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
         if (surfaceView instanceof ExtendedSurfaceView) {
-            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, "Picture Size", appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE);
+            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, context.getString(R.string.picture_size), appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE);
         }
         else
         {
-            previewSize = new PreviewExpandableChild(context, preview, "Picture Size", appSettingsManager,  AppSettingsManager.SETTING_PREVIEWSIZE);
+            previewSize = new PreviewExpandableChild(context, preview,  context.getString(R.string.picture_size), appSettingsManager,  AppSettingsManager.SETTING_PREVIEWSIZE);
         }
         childlist.add(previewSize);
 
@@ -413,7 +408,7 @@ public class MenuCreator
 
         //ExpandableChild expotime = getNewChild(new LongExposureSetting(null,null,"",""),AppSettingsManager.SETTING_EXPOSURELONGTIME, "ExposureTime", cameraUiWrapper.moduleHandler.LongeExpoModules);
 
-        longExposureTime =  new LongExposureChild(context, preview, "ExposureTime", appSettingsManager, AppSettingsManager.SETTING_EXPOSURELONGTIME);
+        longExposureTime =  new LongExposureChild(context, preview, context.getString(R.string.picture_exposuretime), appSettingsManager, AppSettingsManager.SETTING_EXPOSURELONGTIME);
         childlist.add(longExposureTime);
 
         preview.setItems(childlist);
@@ -429,7 +424,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateVideoSettings(SurfaceView surfaceView)
     {
-        ExpandableGroup preview = getNewGroup("Video Settings");
+        ExpandableGroup preview = getNewGroup(context.getString(R.string.video_settings));
         createVideoSettingsChilds(preview, surfaceView);
         return preview;
     }
@@ -449,15 +444,15 @@ public class MenuCreator
 
         if (surfaceView instanceof ExtendedSurfaceView)
         {
-            videoProfile = new VideoProfileExpandableChild(context,(ExtendedSurfaceView)surfaceView, video, "Video Profile", appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+            videoProfile = new VideoProfileExpandableChild(context,(ExtendedSurfaceView)surfaceView, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
-            videoProfile = new VideoProfileExpandableChild(context, null, video, "Video Profile", appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+            videoProfile = new VideoProfileExpandableChild(context, null, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
         }
         childlist.add(videoProfile);
 
-        timelapseframes = new ExpandableChildTimelapseFps(context, video,appSettingsManager,"Timelapse FPS",AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+        timelapseframes = new ExpandableChildTimelapseFps(context, video,appSettingsManager,context.getString(R.string.video_timelapsefps),AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
         timelapseframes.setMinMax(0.01f, 30);
 
         childlist.add(timelapseframes);
@@ -465,24 +460,24 @@ public class MenuCreator
 
         video.setItems(childlist);
 
-        videoHdr = new ExpandableChild(context, video, "Video HDR", appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
+        videoHdr = new ExpandableChild(context, video, context.getString(R.string.video_hdr), appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
         childlist.add(videoHdr);
 
     }
 
     public ExpandableGroup CreateSettings()
     {
-        settingsGroup = getNewGroup("Settings");
+        settingsGroup = getNewGroup(context.getString(R.string.settings));
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,"Switch Api" ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
+        sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
         childlist.add(sonyExpandableChild);
 
         //defcomg was here
 
 
 
-        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, "Save Camparas",appSettingsManager, null);
+        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, context.getString(R.string.settings_savecampara),appSettingsManager, null);
         childlist.add(saveCamparas);
 
         guide = new ExpandableChildGuide(context, settingsGroup, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
