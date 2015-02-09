@@ -9,12 +9,17 @@ import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
+import android.text.format.Time;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by troop on 23.01.2015.
@@ -23,23 +28,26 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     //troopii was here and cleaned up^^
     private final Activity context;
     private final AppSettingsManager appSettingsManager;
-    TextView BattL;
+    TextView batteryLoad;
     TextView Storage;
-    TextView Restext;
-    TextView FormatTextL;
+    TextView pictureSize;
+    TextView pictureFormat;
+    TextView time;
     boolean started = false;
     AbstractCameraUiWrapper cameraUiWrapper;
     Handler handler = new Handler();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public InfoOverlayHandler(Activity context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
         this.appSettingsManager = appSettingsManager;
-        BattL = (TextView)context.findViewById(R.id.txtViewBattLevel);
+        batteryLoad = (TextView)context.findViewById(R.id.txtViewBattLevel);
         context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         Storage = (TextView)context.findViewById(R.id.txtViewRemainingStorage);
-        Restext = (TextView)context.findViewById(R.id.textViewRes);
-        FormatTextL = (TextView)context.findViewById(R.id.textViewFormat);
+        pictureSize = (TextView)context.findViewById(R.id.textViewRes);
+        pictureFormat = (TextView)context.findViewById(R.id.textViewFormat);
+        time = (TextView)context.findViewById(R.id.textViewTime);
         started = true;
         startLooperThread();
     }
@@ -68,16 +76,21 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
 
     Runnable runner = new Runnable() {
         @Override
-        public void run() {
-            trySet();
-            Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")) {
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                    FormatTextL.setText("DNG");
-                else
-                    FormatTextL.setText("RAW");
-            } else
-                FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        public void run()
+        {
+            time.setText(dateFormat.format(new Date()));
+            pictureSize.setText(cameraUiWrapper.camParametersHandler.PictureSize.GetValue());
+            if (cameraUiWrapper instanceof CameraUiWrapper)
+            {
+                trySet();
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")) {
+                    if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+                        pictureFormat.setText("DNG");
+                    else
+                        pictureFormat.setText("RAW");
+                } else
+                    pictureFormat.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+            }
             startLooperThread();
 
         }
@@ -138,7 +151,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     @Override
     public void onReceive(Context context, Intent intent) {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-        BattL.setText(String.valueOf(level) + "%");
+        batteryLoad.setText(String.valueOf(level) + "%");
     }
 
     //End defcomg
