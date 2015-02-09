@@ -92,10 +92,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
-        crosshairs = new Bitmap[3];
+        /*crosshairs = new Bitmap[3];
         crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
         crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
-        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);
+        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);*/
     }
 
     @Override
@@ -331,17 +331,23 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             if (frameInfo.Category == 0x01)
             {
                 dst = new Rect(left, top, right, bottom);
-                Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
+                //Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
                 if (frameInfo.Status == 0x01)
-                    canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
+                    paint.setColor(Color.BLUE);
+                    //canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x00)
-                    canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
+                    paint.setColor(Color.RED);
+                    //canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x04)
-                    canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
+                    paint.setColor(Color.GREEN);
+                    //canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
             }
             else if (frameInfo.Category == 0x05 ||frameInfo.Category == 0x04)
-                canvas.drawRect(left, top, right, bottom, paint);
+            {
+                paint.setColor(Color.BLUE);
 
+            }
+            canvas.drawRect(left, top, right, bottom, paint);
 
         }
     }
