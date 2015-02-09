@@ -55,6 +55,10 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         if (cameraUiWrapper instanceof CameraUiWrapperSony) {
             DoWork();
         }
+        else if (!currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
+            DoWork();
+        }
     }
 
     public void DoWork()
