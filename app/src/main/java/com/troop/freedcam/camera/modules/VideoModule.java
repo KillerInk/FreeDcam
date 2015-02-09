@@ -8,6 +8,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;
@@ -89,7 +90,9 @@ public class VideoModule extends AbstractModule
             baseCameraHolder.GetCamera().lock();
             recorder.release();
             isWorking = false;
-            eventHandler.WorkFinished(new File(mediaSavePath));
+            final File file = new File(mediaSavePath);
+            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }
     }
