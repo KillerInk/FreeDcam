@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.menu.childs;
 import android.content.Context;
 import android.os.Build;
 
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoModuleG3;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -45,10 +46,9 @@ public class VideoProfileExpandableChild extends ExpandableChild
         appSettingsManager.setString(settingsname, value);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
+        if (DeviceUtils.isLGADV())
         {
-            VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
-            g3.UpdatePreview();
+            parameterHolder.SetValue(value,false);
         }
         if (videoProfileChanged != null)
             videoProfileChanged.VideoProfileChanged(value);
@@ -70,9 +70,11 @@ public class VideoProfileExpandableChild extends ExpandableChild
         return super.getParameterHolder();
     }
 
-    @Override
-    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow) {
+
+    public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow)
+    {
         super.setParameterHolder(parameterHolder, modulesToShow);
+
         //String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
         if (settingValue == null || settingValue == "") {

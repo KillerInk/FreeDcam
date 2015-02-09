@@ -26,7 +26,7 @@ public class VideoModuleG3 extends VideoModule
 
     protected MediaRecorder initRecorder()
     {
-        loadProfileSpecificParameters();
+
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(profile);
@@ -98,7 +98,7 @@ public class VideoModuleG3 extends VideoModule
             ParameterHandler.Denoise.SetValue("denoise-off", true);
 
             camParametersHandler.setString("dual-recorder", "0");
-            camParametersHandler.setString("preview-format", "nv12-venus");
+            camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
 
             //ParameterHandler.setString("video-hfr", "off");
             //ParameterHandler.setString("video-hdr", "off");
@@ -106,16 +106,16 @@ public class VideoModuleG3 extends VideoModule
         }
         else
         {
-            camParametersHandler.setString("preview-format", "nv12-venus");
+            ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
-        baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+        //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size, false);
-        camParametersHandler.setString("video-size", size);
+        camParametersHandler.VideoSize.SetValue(size,true);
 
         baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
     }

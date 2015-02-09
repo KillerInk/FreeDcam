@@ -2,6 +2,8 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.modules.VideoModuleG3;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.ArrayList;
@@ -17,17 +19,21 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
 
     HashMap<String, CamcorderProfileEx> supportedProfiles;
     BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
 
-    public VideoProfilesG3Parameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
+    public VideoProfilesG3Parameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
-        this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
+        this.cameraHolder = parameterChanged;
+        this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;
         loadProfiles();
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
-
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
+        g3.UpdatePreview();
     }
 
     @Override

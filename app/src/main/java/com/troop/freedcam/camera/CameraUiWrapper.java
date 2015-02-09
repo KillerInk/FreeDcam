@@ -40,7 +40,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.cameraHolder = new BaseCameraHolder(this, uiHandler);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new CamParametersHandler(cameraHolder, appSettingsManager, uiHandler);
+        camParametersHandler = new CamParametersHandler(this, appSettingsManager, uiHandler);
         this.cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;

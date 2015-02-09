@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
@@ -65,14 +66,16 @@ public class CamParametersHandler extends AbstractParameterHandler
     boolean moreParametersToSet = false;
     BaseCameraHolder baseCameraHolder;
     public BaseModeParameter DualMode;
+    CameraUiWrapper cameraUiWrapper;
 
     SetParameterRunner setParameterRunner;
 
-    public CamParametersHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
-        super(cameraHolder,appSettingsManager, uiHandler);
+        super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler();
         baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     public void GetParametersFromCamera()
@@ -181,7 +184,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "video-hdr", "video-hdr-values", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
-            VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
+            VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
 
@@ -279,8 +282,17 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void setString(String param, String value)
     {
-        cameraParameters.put(param, value);
-        cameraHolder.SetCameraParameters(cameraParameters);
+        try
+        {
+            cameraParameters.put(param, value);
+            cameraHolder.SetCameraParameters(cameraParameters);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+
     }
 
     public void setRawSize(String size)
