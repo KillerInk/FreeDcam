@@ -1,6 +1,7 @@
 package com.troop.freedcam.sonyapi;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
@@ -651,6 +652,11 @@ public class CameraHolderSony extends AbstractCameraHolder
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void SetLocation(Location loc) {
+
     }
 
     public boolean canCancelFocus()

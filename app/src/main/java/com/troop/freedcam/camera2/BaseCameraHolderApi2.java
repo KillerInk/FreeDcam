@@ -16,6 +16,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
+import android.location.Location;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
@@ -296,6 +297,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         if (mCaptureSession != null)
             mCaptureSession.close();
+    }
+
+    @Override
+    public void SetLocation(Location loc) {
+
     }
 
     public Camera.Parameters GetCameraParameters() {

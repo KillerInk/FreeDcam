@@ -2,6 +2,7 @@ package com.troop.freedcam.camera;
 
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -523,6 +524,33 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             mCamera.cancelAutoFocus();
         }
+    }
+
+    @Override
+    public void SetLocation(Location loc)
+    {
+        if(hasSamsungFrameWork)
+        {
+            SecCamera.Parameters paras = samsungCamera.getParameters();
+            paras.setGpsAltitude(loc.getAltitude());
+            paras.setGpsLatitude(loc.getLatitude());
+            paras.setGpsLongitude(loc.getLongitude());
+            paras.setGpsProcessingMethod(loc.getProvider());
+            paras.setGpsTimestamp(loc.getTime());
+            samsungCamera.setParameters(paras);
+        }
+        else
+        {
+            Camera.Parameters paras = mCamera.getParameters();
+            paras.setGpsAltitude(loc.getAltitude());
+            paras.setGpsLatitude(loc.getLatitude());
+            paras.setGpsLongitude(loc.getLongitude());
+            paras.setGpsProcessingMethod(loc.getProvider());
+            paras.setGpsTimestamp(loc.getTime());
+            mCamera.setParameters(paras);
+        }
+
+
     }
 
     public Camera GetCamera() {

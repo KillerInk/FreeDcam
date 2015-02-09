@@ -1,5 +1,6 @@
 package com.troop.freedcam.i_camera;
 
+import android.location.Location;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
@@ -83,4 +84,6 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
 
     public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback){};
     public void CancelFocus(){};
+
+    public abstract void SetLocation(Location loc);
 }

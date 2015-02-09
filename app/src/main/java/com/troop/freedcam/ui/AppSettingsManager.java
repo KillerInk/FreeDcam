@@ -55,6 +55,7 @@ public class AppSettingsManager
     public static String SETTING_DNG = "dng";
     public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
     public static String SETTING_OBJECTTRACKING = "objecttracking";
+    public static String SETTING_LOCATION = "location";
 
     public static String API_SONY = "sony";
     public static String API_1 = "api1";
