@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StatFs;
 import android.widget.TextView;
 
@@ -26,8 +27,9 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     TextView Storage;
     TextView Restext;
     TextView FormatTextL;
-    Thread t;
+    boolean started = false;
     AbstractCameraUiWrapper cameraUiWrapper;
+    Handler handler = new Handler();
 
     public InfoOverlayHandler(Activity context, AppSettingsManager appSettingsManager)
     {
@@ -38,6 +40,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         Storage = (TextView)context.findViewById(R.id.txtViewRemainingStorage);
         Restext = (TextView)context.findViewById(R.id.textViewRes);
         FormatTextL = (TextView)context.findViewById(R.id.textViewFormat);
+        started = true;
         startLooperThread();
     }
 
@@ -51,59 +54,34 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     //or more better would be to listen to the onvaluechanged event from parameters
     private void startLooperThread()
     {
-        this.t = new Thread()
-        {
-            @Override
-            public  void run() {
-                try {
-                    while (!isInterrupted()) {
-
-
-                        Thread.sleep(1000);
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                trySet();
-                                Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
-                                if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
-                                {
-                                    if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                                        FormatTextL.setText("DNG");
-                                    else
-                                        FormatTextL.setText("RAW");
-                                }
-                                else
-                                    FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-
-                            }
-                        });
-                    }
-                }
-                catch (InterruptedException e)
-                {
-
-                }
-            }
-        };
-        t.start();
+        if (started)
+            handler.postDelayed(runner, 1000);
     }
 
     public void StopUpdating()
     {
+        started = false;
+        handler.removeCallbacks(runner);
         context.unregisterReceiver(this);
-        if (t != null)
-        {
-            try {
-                t.interrupt();
-                t.join();
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-        t = null;
+
     }
+
+    Runnable runner = new Runnable() {
+        @Override
+        public void run() {
+            trySet();
+            Restext.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE));
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")) {
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+                    FormatTextL.setText("DNG");
+                else
+                    FormatTextL.setText("RAW");
+            } else
+                FormatTextL.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+            startLooperThread();
+
+        }
+    };
 
     //defcomg was here this should go into some handler class that handles module change
     public void trySet()
