@@ -18,8 +18,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 /**
  * Created by troop on 23.01.2015.
  */
-public class InfoOverlayHandler implements I_ModuleEvent
-{
+public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEvent {
     //troopii was here and cleaned up^^
     private final Activity context;
     private final AppSettingsManager appSettingsManager;
@@ -27,7 +26,6 @@ public class InfoOverlayHandler implements I_ModuleEvent
     TextView Storage;
     TextView Restext;
     TextView FormatTextL;
-    private BroadcastReceiver rec;
     Thread t;
     AbstractCameraUiWrapper cameraUiWrapper;
 
@@ -36,7 +34,7 @@ public class InfoOverlayHandler implements I_ModuleEvent
         this.context = context;
         this.appSettingsManager = appSettingsManager;
         BattL = (TextView)context.findViewById(R.id.txtViewBattLevel);
-        registerBatteryEventReciever();
+        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         Storage = (TextView)context.findViewById(R.id.txtViewRemainingStorage);
         Restext = (TextView)context.findViewById(R.id.textViewRes);
         FormatTextL = (TextView)context.findViewById(R.id.textViewFormat);
@@ -47,24 +45,6 @@ public class InfoOverlayHandler implements I_ModuleEvent
     {
         this.cameraUiWrapper = cameraUIWrapper;
         cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
-    }
-
-    private void registerBatteryEventReciever()
-    {
-
-
-                rec = new BroadcastReceiver()
-                {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-                        BattL.setText(String.valueOf(level) + "%");
-                    }
-                };
-                context.registerReceiver(rec, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
-
-
     }
 
     //i think a handler would be better with postdelayed
@@ -110,7 +90,7 @@ public class InfoOverlayHandler implements I_ModuleEvent
 
     public void StopUpdating()
     {
-        context.unregisterReceiver(rec);
+        context.unregisterReceiver(this);
         if (t != null)
         {
             try {
@@ -140,8 +120,6 @@ public class InfoOverlayHandler implements I_ModuleEvent
         }
     }
 
-
-
     private  String Avail4PIC()
     {
         // double calc;
@@ -149,7 +127,6 @@ public class InfoOverlayHandler implements I_ModuleEvent
         done = (long) Calc();
         long a = SDspace() / done;
         return  a + " left";
-
     }
     private double Calc()
     {
@@ -178,6 +155,12 @@ public class InfoOverlayHandler implements I_ModuleEvent
     @Override
     public String ModuleChanged(String module) {
         return null;
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+        BattL.setText(String.valueOf(level) + "%");
     }
 
     //End defcomg
