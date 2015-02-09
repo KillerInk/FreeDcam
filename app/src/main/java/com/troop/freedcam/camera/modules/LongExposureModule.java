@@ -11,6 +11,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.sonyapi.sonystuff.DataExtractor;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.yuv.Merge;
 
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by troop on 27.10.2014.
@@ -28,14 +31,13 @@ import java.util.Date;
 public class LongExposureModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
     BaseCameraHolder baseCameraHolder;
+    private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
 
     public LongExposureModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name = ModuleHandler.MODULE_LONGEXPO;
         exposureModule = this;
-        frameThread = new HandlerThread(TAG);
-        frameThread.start();
-        frameHandler = new Handler(frameThread.getLooper());
+
         this.baseCameraHolder = cameraHandler;
     }
 
@@ -56,15 +58,14 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     //stores the basyuv data wich get merged with the other frames
     //byte[] baseYuv;
     //stores the actual frame to merge
-    byte[] mergeYuv;
+    //byte[] mergeYuv;
     //preview size height
     int height;
     //preview size width
     int width;
     //handler to process the merge
     Handler handler;
-    Handler frameHandler;
-    HandlerThread frameThread;
+
     private static String TAG = "freedcam.LongExposure";
     int count;
 
@@ -90,7 +91,6 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         this.isWorking = true;
         count = 0;
         //get width and height from the preview
-        PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
         String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
 
         width = Integer.parseInt(split[0]);
@@ -110,22 +110,39 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         //post the runnable after wich time it should stop grabbing the preview frames
         handler.postDelayed(runnableFinishWork, time*1000);
         workstarted();
+        new Thread() {
+            @Override
+            public void run()
+            {
+                byte[] data = null;
+                try {
+                    while (doWork)
+                    {
+                        data = mYuvFrameQueue.take();
+                        if (data != null)
+                            processYuvFrame(data);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    mYuvFrameQueue.clear();
+                }
+            }
+        }.start();
 
     }
 
     @Override
     public void onPreviewFrame(final byte[] data)
     {
-        if (doWork && !hasWork)
+        if (mYuvFrameQueue.size() == 2)
         {
-            mergeYuv = null;
-            mergeYuv = data;
-            if (mergeYuv != null)
-            {
-                baseCameraHolder.SetPreviewCallback(null);
-                processYuvFrame();
-            }
+            mYuvFrameQueue.remove();
         }
+        mYuvFrameQueue.add(data);
+
     }
 
     //this runs when the time is gone and stops listen to the preview and convert then the yuv data into an bitmap and saves it
@@ -175,7 +192,6 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                 e.printStackTrace();
             }
 
-            mergeYuv = null;
             nativeYuvMerge.Release();
 
             Log.d(TAG, "Work done");
@@ -186,16 +202,8 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         }
     };
 
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run()
-        {
-             processYuvFrame();
-        }
-    };
 
-
-    private void processYuvFrame() {
+    private void processYuvFrame(byte[] mergeYuv) {
         this.hasWork = true;
         Log.d(TAG, "StartProcessingFrame");
         if (mergeYuv == null)
@@ -232,5 +240,21 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
         String s1 = (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
         return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
+    }
+
+    @Override
+    public void LoadNeededParameters()
+    {
+        if (ParameterHandler.PreviewFormat != null && !ParameterHandler.PreviewFormat.GetValue().equals("yuv420sp"))
+            ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
+        super.LoadNeededParameters();
+
+    }
+
+    @Override
+    public void UnloadNeededParameters()
+    {
+        super.UnloadNeededParameters();
+
     }
 }
