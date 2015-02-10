@@ -79,9 +79,9 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         public void run()
         {
             time.setText(dateFormat.format(new Date()));
-            pictureSize.setText(cameraUiWrapper.camParametersHandler.PictureSize.GetValue());
             if (cameraUiWrapper instanceof CameraUiWrapper)
             {
+                pictureSize.setText(cameraUiWrapper.camParametersHandler.PictureSize.GetValue());
                 trySet();
                 if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")) {
                     if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
