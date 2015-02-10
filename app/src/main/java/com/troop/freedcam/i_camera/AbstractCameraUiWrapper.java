@@ -102,12 +102,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void StopPreview()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 stopPreview();
-            }
-        }).start();
+
 
         /*backGroundHandler.post(new Runnable() {
             @Override
