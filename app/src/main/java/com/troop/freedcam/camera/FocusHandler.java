@@ -127,21 +127,5 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             }
         }
 
-        /*count = 0;
-        Camera.Parameters para = cameraHolder.GetCameraParameters();
-        para.set("zsl", "on");
-        para.set("af-bracket", "af-bracket-on");
-        areas = para.getFocusAreas();
-        para.setFocusAreas(null);
-        cameraHolder.GetCamera().setParameters(para);
-        para = cameraHolder.GetCameraParameters();
-        cameraHolder.GetCamera().cancelAutoFocus();
-        cameraHolder.GetCamera().takePicture(null, null, new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
-                int i = data.length;
-            }
-        });*/
-
     }
 }
