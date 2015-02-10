@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -101,7 +102,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this);
         exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
-        infoOverlayHandler= new InfoOverlayHandler(this, appSettingsManager);
+
+        infoOverlayHandler= new InfoOverlayHandler(MainActivity_v2.this, appSettingsManager);
+
+
 
         exitButton = (TextView)findViewById(R.id.textView_Exit);
 
@@ -161,11 +165,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
 
             cameraUiWrapper = null;
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         }
         previewHandler.Init();
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
@@ -226,7 +226,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     protected void onResume()
     {
         super.onResume();
-
+        infoOverlayHandler.StartUpdating();
         Log.d(TAG, "Activity onResume");
 
     }
@@ -236,7 +236,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         super.onPause();
 
-
+        infoOverlayHandler.StopUpdating();
         Log.d(TAG, "Activity onPause");
     }
 
@@ -250,16 +250,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        infoOverlayHandler.StopUpdating();
+
 
         Log.d(TAG, "Activity onDestroy");
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         super.onDestroy();
-
 
     }
 

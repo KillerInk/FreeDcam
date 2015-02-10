@@ -43,13 +43,12 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         this.context = context;
         this.appSettingsManager = appSettingsManager;
         batteryLoad = (TextView)context.findViewById(R.id.txtViewBattLevel);
-        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
         Storage = (TextView)context.findViewById(R.id.txtViewRemainingStorage);
         pictureSize = (TextView)context.findViewById(R.id.textViewRes);
         pictureFormat = (TextView)context.findViewById(R.id.textViewFormat);
         time = (TextView)context.findViewById(R.id.textViewTime);
-        started = true;
-        startLooperThread();
+
     }
 
     public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
@@ -64,6 +63,13 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     {
         if (started)
             handler.postDelayed(runner, 1000);
+    }
+
+    public void StartUpdating()
+    {
+        started = true;
+        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        startLooperThread();
     }
 
     public void StopUpdating()
