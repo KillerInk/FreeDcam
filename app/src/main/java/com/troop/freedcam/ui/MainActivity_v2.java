@@ -253,7 +253,13 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         infoOverlayHandler.StopUpdating();
 
         Log.d(TAG, "Activity onDestroy");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
+
 
     }
 
