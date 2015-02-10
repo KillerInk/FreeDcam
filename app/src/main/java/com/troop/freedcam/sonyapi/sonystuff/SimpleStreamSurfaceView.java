@@ -225,7 +225,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private boolean fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
         final DataExtractor payload = slicer.nextDataExtractor();
         if (payload.commonHeader == null) { // never occurs
-            Log.e(TAG, "Liveview Payload is null.");
+            //Log.e(TAG, "Liveview Payload is null.");
             return true;
         }
         if (payload.commonHeader.PayloadType == 1) {
