@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     AbstractParameterHandler parametersHandler;
     boolean userIsSeeking= false;
     int current = 0;
+
+    boolean seekbarVisible = false;
 
     int realMin;
     int realMax;
@@ -126,19 +129,32 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                 }
                 else
                 {
-                    item.manualParameter.addEventListner(this);
-
-                    currentItem = item;
-                    item.EnableItem();
-                    //currentItem.manualParameter.RestartPreview();
-                    int min = item.manualParameter.GetMinValue();
-                    int max = item.manualParameter.GetMaxValue();
-                    setSeekbar_Min_Max(min, max);
-                    setSeekbarProgress(item.manualParameter.GetValue());
-                    if (realMin < 0)
-                        setValueToTextBox(manualSeekbar.getProgress() + realMin);
+                    if (currentItem == item)
+                    {
+                        if (seekbarVisible)
+                            hideSeekbar();
+                        item.DisableItem();
+                        item.manualParameter.removeEventListner(this);
+                        currentItem = null;
+                    }
                     else
-                        setValueToTextBox(manualSeekbar.getProgress());
+                    {
+                        if (!seekbarVisible)
+                            showSeekbar();
+                        item.manualParameter.addEventListner(this);
+
+                        currentItem = item;
+                        item.EnableItem();
+                        //currentItem.manualParameter.RestartPreview();
+                        int min = item.manualParameter.GetMinValue();
+                        int max = item.manualParameter.GetMaxValue();
+                        setSeekbar_Min_Max(min, max);
+                        setSeekbarProgress(item.manualParameter.GetValue());
+                        if (realMin < 0)
+                            setValueToTextBox(manualSeekbar.getProgress() + realMin);
+                        else
+                            setValueToTextBox(manualSeekbar.getProgress());
+                    }
                 }
             }
             else
@@ -228,12 +244,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (parametersHandler.Zoom != null)
         {
             zoom.SetAbstractManualParameter(parametersHandler.Zoom);
-            zoom.EnableItem();
+            /*zoom.EnableItem();
 
-            DisableOtherItems(zoom.name);
+            DisableOtherItems(zoom.name);*/
         }
         else zoom.onIsSupportedChanged(false);
-
+        hideSeekbar();
     }
 
     @Override
@@ -244,6 +260,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void onIsSetSupportedChanged(boolean value)
     {
+        if (value && !seekbarVisible)
+            showSeekbar();
+        else if (!value && seekbarVisible)
+            hideSeekbar();
 
     }
 
@@ -281,6 +301,17 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
      * SEEKBARSTUFF##################################
      * SEEKBARSTUFF##################################
      */
+
+    private void showSeekbar()
+    {
+        manualSeekbar.setVisibility(View.VISIBLE);
+        seekbarVisible = true;
+    }
+    private void hideSeekbar()
+    {
+        manualSeekbar.setVisibility(View.GONE);
+        seekbarVisible = false;
+    }
 
     private void setSeekbar_Min_Max(int min, int max)
     {

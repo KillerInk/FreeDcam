@@ -73,7 +73,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ffcacaca"
+            android:background="#a4a0a0a0"
             android:id="@+id/v2_manual_menu"></LinearLayout>
 
         <LinearLayout
@@ -194,19 +194,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/expandableListViewSettings"
-                android:background="#b0b3b3b3"
+                android:background="#a4a0a0a0"
                 android:orientation="vertical" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/groupSubMenu"></LinearLayout>
+                android:id="@+id/groupSubMenu"
+                android:background="#a4a0a0a0"></LinearLayout>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings" />
+                android:id="@+id/subMenuSettings"
+                android:backgroundTint="#a4a0a0a0" />
 
         </LinearLayout>
 

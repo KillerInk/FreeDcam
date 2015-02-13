@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     boolean isSetSupported = false;
     int btncolor;
     int txtcolor;
+    int enable = Color.GREEN;
     String[] stringValues;
     ManualMenuItem manualMenuItem;
 
@@ -103,9 +105,13 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public void DisableItem()
     {
         isChecked = false;
+        toggleButton.setBackgroundColor(btncolor);
     }
 
-    public void EnableItem() {isChecked = true;}
+    public void EnableItem() {
+        isChecked = true;
+        toggleButton.setBackgroundColor(enable);
+    }
 
 
 
