@@ -1,7 +1,9 @@
 package com.troop.freedcam.camera.modules;
 
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -10,12 +12,15 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
+//import com.drew.metadata.exif.ExifDirectory;
+import com.drew.metadata.exif.ExifReader;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -27,6 +32,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import static android.hardware.Camera.ShutterCallback;
 
 /**
  * Created by troop on 15.08.2014.
@@ -49,13 +57,15 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private float focalLength;
     private String exposureIndex;
     private String gainControl;
-    ///////////////////////////////////////
+    ////////////
+//defcomg 31-1-2015 Pull Orientation From Sesnor
 
     public String OverRidePath = "";
     CamParametersHandler parametersHandler;
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
 
+    Handler handler;
     File file;
     byte bytes[];
     byte Thumb[];
@@ -65,7 +75,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         super(baseCameraHolder, appSettingsManager, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
-
+        handler = new Handler();
         parametersHandler = (CamParametersHandler)ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
@@ -174,16 +184,11 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     }
 
     private void processImage(byte[] data) {
-        //DoMetaExtractCheck();
-        //if(DeviceUtils.isDebugging())
-        //  System.out.println("defcomg "+ "PictureForm "+ baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
-
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
         {
-            //Thumb = data.clone();
+            Thumb = data.clone();
 
-            System.out.println("defcomg "+ "In This B1tcH");
             Metadata header;
 
             try
@@ -205,6 +210,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
                     exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
                   //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
+
+                    //Log.d("GPS INFO",exifsub.getString(ExifSubIFDDirectory..TAG_GPS_INFO));
 
 
 
@@ -270,8 +277,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             if (!file.getAbsolutePath().endsWith(".dng")) {
                 saveBytesToFile(bytes, file);
-            }
-            else
+            } else
             {
                 String raw[] = getRawSize();
                 int w = Integer.parseInt(raw[0]);
@@ -281,33 +287,34 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     l = lastBayerFormat.substring(lastBayerFormat.length() -4);
                 else
                     l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
+                Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
 
-                //if(DeviceUtils.isDebugging())
-                    //System.out.println("iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex );
+                String[] expoRat =  exposureIndex.split("/");
+                double x;
+                double y;
+                double calculatedExpo;
 
-                Log.d(TAG, "iso:" + iso + " exposure" + expo + " flash:" + flash + "Shut" + exposureIndex);
-
-                double x =0,y = 0, calculatedExpo =0 ;
-                if (exposureIndex != null && exposureIndex.contains("/")) {
-                    String[] expoRat = exposureIndex.split("/");
+                if(expoRat.length >= 2){
                     x = Double.parseDouble(expoRat[0]);
                     y = Double.parseDouble(expoRat[1]);
                     calculatedExpo = x/y;
                 }
+                else
+                    calculatedExpo = Double.parseDouble(exposureIndex);
+                Log.d(TAG, "Fnum" + String.valueOf(fNumber) + " FOcal" + focalLength);
+                String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
+                        /*if (baseCameraHolder.ParameterHandler.Orientation.GetValue() != null) {
 
-                //float calculatedExpoF = x/y;
-
-                Log.d(TAG, "Fnum"+String.valueOf(fNumber)+" FOcal"+focalLength);
-                String IMGDESC = "ISO:"+String.valueOf(iso)+" Exposure Time:"+exposureIndex+" F Number:"+String.valueOf(fNumber)+" Focal Length:"+focalLength;
-
-                try {
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb);
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-
+                            if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                                RawToDng.ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, baseCameraHolder.ParameterHandler.Orientation.GetValue(), false);
+                            else
+                                RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, baseCameraHolder.ParameterHandler.Orientation.GetValue(), true);
+                        } else {*/
+                if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
+                    RawToDng.ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false);
+                else
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true);
+                //}
                 Thumb = null;
             }
         }
@@ -317,14 +324,11 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             saveBytesToFile(bytes, file);
         }
         Log.d(TAG, "Start Media Scan " + file.getName());
-        Settings.context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-                eventHandler.WorkFinished(file);
-            }
-        });
-    }
+        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
+        eventHandler.WorkFinished(file);
+        workfinished(true);
+
+    };
 
     protected String[] getRawSize()
     {
@@ -350,6 +354,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             outStream.write(bytes);
             outStream.flush();
             outStream.close();
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -359,15 +365,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     }
 
-    private void DoMetaExtractCheck()
-    {
-        System.out.println("defcomg "+ "Smallest Size "+ ParameterHandler.PictureSize.GetValues()[ParameterHandler.PictureSize.GetValues().length-1]);
 
-        if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("bayer-mipi-10bggr") && ParameterHandler.isDngActive == true)
-            dngJpegShot = true;
-        else
-            dngJpegShot = false;
-    }
     private void setUpQuickJpeg()
     {
         ParameterHandler.PictureFormat.SetValue("jpeg", true);

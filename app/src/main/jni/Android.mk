@@ -54,6 +54,7 @@ LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/jpeg
 LOCAL_CFLAGS += -DAVOID_TABLES 
 LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
+#LOCAL_CFLAGS := -fpermissive
 LOCAL_MODULE:= libtiff
 LOCAL_LDLIBS := -lz \
 	-L $(LOCAL_PATH)/libs \
@@ -69,7 +70,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 #LOCAL_MODULE := tiffdecoder
 
-#LOCAL_CFLAGS := -DANDROID_NDK
+#LOCAL_CFLAGS := -DANDROID_NDK -fpermissive
 
 #LOCAL_SRC_FILES := \
 	tiffdecoder.c
@@ -81,12 +82,12 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libRawToDng
 LOCAL_SRC_FILES := RawToDng.cpp
+LOCAL_CPPFLAGS := -fexceptions
 LOCAL_LDLIBS := -lz \
 	-L $(LOCAL_PATH)/libs \
 	-lm \
 	-ljpeg \
-	-llog \
-	-ljnigraphics
+	-llog
 LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/tiff/libtiff \
                     $(LOCAL_PATH)/jpeg
@@ -102,4 +103,4 @@ LOCAL_LDLIBS := -lz \
 include $(BUILD_SHARED_LIBRARY)
 
 APP_OPTIM := debug
-LOCAL_CFLAGS := -g
+LOCAL_CFLAGS := -g 
