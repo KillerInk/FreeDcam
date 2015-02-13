@@ -45,7 +45,12 @@ extern "C"
 			jfloat focalL,
 			jstring iDesc,
 			jbyteArray mThumb,
-			jstring orientation);
+			jstring orientation,
+			jdouble Altitude,
+            jdouble Latitude,
+            jdouble Longitude,
+            jstring Provider,
+            jlong gpsTime);
 
 			JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDngFast(JNIEnv *env, jobject thiz,
             			jbyteArray filein,
@@ -241,19 +246,72 @@ void makeEXIF_IFD(TIFF *tif)
 
 }
 
-void makeGPS_IFD(TIFF *tif)
+void makeGPS_IFD(TIFF *tif, jdouble Altitude,
+                                    jdouble Latitude,
+                                    jdouble Longitude,
+                                    jstring Provider,
+                                    jlong gpsTime)
 {
-    	   LOGD("GPS IFD DATA");
-                if (TIFFCreateGPSDirectory(tif) != 0) {
-            		 LOGD("TIFFCreateGPSDirectory() failed" );
+    LOGD("GPS IFD DATA");
+    if (TIFFCreateGPSDirectory(tif) != 0)
+    {
+        LOGD("TIFFCreateGPSDirectory() failed" );
+    }
 
-            	}
+     const char* longitudeRef =  Longitude < 0 ? "W" : "E";
 
-            	if (!TIFFSetField( tif, GPSTAG_GPSDatestamp, "2015:02:09")) {
-                                		 LOGD("Can't write GPSDateStamp" );
+    if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
+    {
+        LOGD("Can't write LongitudeRef" );
+     }
+     LOGD("LONG REF Written");
+    double value = Longitude;
+    double longitudeDegrees = (long) value;
 
-               }
-               LOGD("DaTSAMP Written");
+    double longitudeMinutes = (long) value / 100 * 60;
+
+    double longitudeSeconds = value / 100 * 60;
+    
+
+    if (!TIFFSetField( tif, GPSTAG_GPSLongitude,3, longitudeDegrees, longitudeMinutes, longitudeSeconds))
+    {
+        LOGD("Can't write Longitude" );
+    }
+    LOGD("Longitude Written");
+
+
+    const char* latitudeRef = Latitude < 0 ? "S" : "N";
+    LOGD("PMETH Written");
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitudeRef, latitudeRef)) {
+        LOGD("Can't write LAti REf" );
+    }
+    LOGD("LATI REF Written");
+
+
+
+
+
+    value = Latitude;
+    longitudeDegrees = (long) value;
+    longitudeMinutes = (long) value / 100 * 60;
+    longitudeSeconds = value / 100 * 60;
+    double latitudes[] = {longitudeDegrees, longitudeMinutes, longitudeSeconds};
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,3, latitudes))
+    {
+        LOGD("Can't write Latitude" );
+    }
+    LOGD("Latitude Written");
+
+
+            if (!TIFFSetField( tif, GPSTAG_GPSAltitude, Altitude))
+            {
+                LOGD("Can't write Altitude" );
+            }
+            LOGD("Altitude Written");
+if (!TIFFSetField( tif, GPSTAG_GPSDatestamp, gpsTime)) {
+        LOGD("Can't write gpsTime" );
+    }
+    LOGD("gpsTime Written");
 
                                 	//Altitude Takes Type BYTE
               /*  if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, alti)) {
@@ -261,11 +319,7 @@ void makeGPS_IFD(TIFF *tif)
 
                                 	}*/
 
-            	if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, "E")) {
-                		 LOGD("Can't write LongitudeRef" );
 
-                	}
-               LOGD("LONG REF Written");
 
                 if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
                                 		 LOGD("Can't write IMG Directon" );
@@ -276,15 +330,11 @@ void makeGPS_IFD(TIFF *tif)
                 // 		 LOGD("Can't write LongitudeRef" );
 
               //                                  	}
-                if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, "ASCII")) {
+                if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, Provider)) {
                          		 LOGD("Can't write Proc Method" );
 
                 	}
-              LOGD("PMETH Written");
-                if (!TIFFSetField( tif, GPSTAG_GPSLatitudeRef, "N")) {
-                   LOGD("Can't write LAti REf" );
-                }
-                LOGD("LATI REF Written");
+
                 if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
                                    LOGD("Can't write IMG DIREC REf" );
                                 }
@@ -324,7 +374,12 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
         jfloat focalL,
         jstring iDesc,
         jbyteArray mThumb,
-        jstring orientation)
+        jstring orientation,
+        jdouble Altitude,
+        jdouble Latitude,
+        jdouble Longitude,
+        jstring Provider,
+        jlong gpsTime)
 {
 	LOGD("Start Converting");
 	//load the rawdata into chararray
@@ -437,7 +492,7 @@ unsigned short bits[176*144*2];
 	TIFFWriteDirectory(tif);
 	TIFFSetDirectory(tif, 0);
 	///////////////////////////////////GPS IFD////////////////
-	makeGPS_IFD(tif);
+	makeGPS_IFD(tif, Altitude,Latitude,Longitude,Provider,gpsTime);
 
         TIFFCheckpointDirectory(tif);
         TIFFWriteCustomDirectory(tif, &gpsIFD_offset);

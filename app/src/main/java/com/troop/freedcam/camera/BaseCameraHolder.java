@@ -41,6 +41,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public boolean hasLGFrameWork = false;
     public boolean hasSamsungFrameWork = false;
+    public Location gpsLocation;
 
 
     public int CurrentCamera;
@@ -529,6 +530,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void SetLocation(Location loc)
     {
+        this.gpsLocation = loc;
         if(hasSamsungFrameWork)
         {
             SecCamera.Parameters paras = samsungCamera.getParameters();

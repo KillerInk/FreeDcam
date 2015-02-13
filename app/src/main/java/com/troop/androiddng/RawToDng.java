@@ -163,7 +163,13 @@ public class RawToDng
             String IDESC,
             byte[] Thumb,
             String orr,
-            boolean Tight
+            boolean Tight,
+            double Altitude,
+            double Latitude,
+            double Longitude,
+            String Provider,
+            long gpsTime
+
 
     )
     {

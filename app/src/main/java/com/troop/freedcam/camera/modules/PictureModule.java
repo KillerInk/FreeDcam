@@ -11,9 +11,11 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 //import com.drew.metadata.exif.ExifDirectory;
 import com.drew.metadata.exif.ExifReader;
+import com.drew.metadata.exif.GpsDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -57,6 +59,10 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private float focalLength;
     private String exposureIndex;
     private String gainControl;
+    private double Altitude;
+    double Longitude;
+    double Latitude;
+    long gpsTime;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -189,8 +195,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             Thumb = data.clone();
 
-            Metadata header;
-
             try
             {
                 final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
@@ -201,6 +205,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 //header = reader.extract();
                 //Directory dir = header.getDirectory(ExifDirectory.class);
 
+
                 try
                 {
                     iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
@@ -210,9 +215,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
                     exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
                   //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
-
-                    //Log.d("GPS INFO",exifsub.getString(ExifSubIFDDirectory..TAG_GPS_INFO));
-
 
 
                 } catch (MetadataException e) {
@@ -302,6 +304,20 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 else
                     calculatedExpo = Double.parseDouble(exposureIndex);
                 Log.d(TAG, "Fnum" + String.valueOf(fNumber) + " FOcal" + focalLength);
+                double Altitude = 0;
+                double Latitude = 0;
+                double Longitude = 0;
+                String Provider = "ASCII";
+                long gpsTime = 0;
+                if (baseCameraHolder.gpsLocation != null)
+                {
+                    Altitude = baseCameraHolder.gpsLocation.getAltitude();
+                    Latitude = baseCameraHolder.gpsLocation.getLatitude();
+                    Longitude = baseCameraHolder.gpsLocation.getLongitude();
+                    Provider = baseCameraHolder.gpsLocation.getProvider();
+                    gpsTime = baseCameraHolder.gpsLocation.getTime();
+                }
+
                 String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
                         /*if (baseCameraHolder.ParameterHandler.Orientation.GetValue() != null) {
 
@@ -311,9 +327,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                                 RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, baseCameraHolder.ParameterHandler.Orientation.GetValue(), true);
                         } else {*/
                 if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
-                    RawToDng.ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false);
+                    RawToDng.ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false, Altitude,Latitude, Longitude, Provider,gpsTime);
                 else
-                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true);
+                    RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude,Latitude, Longitude, Provider,gpsTime);
                 //}
                 Thumb = null;
             }
