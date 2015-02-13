@@ -22,6 +22,11 @@ public class WorkHandler  implements AbstractModuleHandler.I_worker
     {
         this.spinner = (ProgressBar) mainActivity_v2.findViewById(R.id.loadingspinner);
         this.activity = mainActivity_v2;
+        HideSpinner();
+    }
+
+    public void HideSpinner()
+    {
         spinner.setVisibility(View.GONE);
     }
 
@@ -47,7 +52,7 @@ public class WorkHandler  implements AbstractModuleHandler.I_worker
                 public void run()
                 {
                     if (finished)
-                        spinner.setVisibility(View.GONE);
+                        HideSpinner();
                 }
             });
 
