@@ -177,8 +177,8 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="@dimen/menuwidth"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/v2_settings_menu"
         android:focusable="false"
 
@@ -186,29 +186,28 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="@dimen/menuwidth"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/settings_menuHolder"
-            android:background="#f97f7f7f">
+            android:id="@+id/settings_menuHolder">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/expandableListViewSettings"
+                android:background="#b0b3b3b3"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/groupSubMenu"></LinearLayout>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings"
-                android:background="#ff000000" />
+                android:id="@+id/subMenuSettings" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/scrollView_ExpandAbleListView" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/expandableListViewSettings"
-                    android:background="#b0b3b3b3"
-                    android:orientation="vertical" />
-            </ScrollView>
         </LinearLayout>
 
     </LinearLayout>

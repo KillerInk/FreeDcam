@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu;
 
 import android.view.SurfaceView;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
@@ -72,12 +73,14 @@ public class MenuCreator
     ExpandbleChildAeBracket aeBracketSwitch;
     ExpandableChildGps gps;
 
+    LinearLayout submenu;
+
     public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
         this.appSettingsManager = appSettingsManager;
-
+        this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
     }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -230,7 +233,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
     {
-        ExpandableGroup picGroup = new ExpandableGroup(context);
+        ExpandableGroup picGroup = new ExpandableGroup(context, submenu);
         picGroup.setName(context.getString(R.string.picture_settings));
         //picGroup.modulesToShow = cameraUiWrapper.moduleHandler.PictureModules;
 
@@ -287,7 +290,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateModeSettings()
     {
-        ExpandableGroup modesGroup = new ExpandableGroup(context);
+        ExpandableGroup modesGroup = new ExpandableGroup(context, submenu);
         modesGroup.setName(context.getString(R.string.mode_settings));
         //modesGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createModesSettingsChilds(modesGroup);
@@ -324,7 +327,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateQualitySettings()
     {
-        ExpandableGroup qualityGroup = new ExpandableGroup(context);
+        ExpandableGroup qualityGroup = new ExpandableGroup(context, submenu);
         qualityGroup.setName(context.getString(R.string.quality_settings));
         //qualityGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createQualitySettingsChilds(qualityGroup);
@@ -420,7 +423,7 @@ public class MenuCreator
 
     private ExpandableGroup getNewGroup(String name)
     {
-        ExpandableGroup group = new ExpandableGroup(context);
+        ExpandableGroup group = new ExpandableGroup(context, submenu);
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(group);
         group.setName(name);
         return group;

@@ -11,6 +11,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.I_OnGroupClicked;
 
 import java.util.ArrayList;
 
@@ -29,11 +30,13 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     boolean submenuVisible = false;
     OnClickListener onChildclick;
     AbstractCameraUiWrapper cameraUiWrapper;
+    I_OnGroupClicked onGroupClicked;
 
     private static String TAG = ExpandableGroup.class.getSimpleName();
 
-    public ExpandableGroup(Context context) {
+    public ExpandableGroup(Context context, LinearLayout submenu) {
         super(context);
+        this.submenu = submenu;
         init(context);
     }
 
@@ -47,23 +50,20 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
             @Override
             public void onClick(View v)
             {
-                if (submenuVisible)
-                {
-                    groupcontainer.removeView(submenu);
-                    submenuVisible = false;
-                }
-                else
-                {
-                    groupcontainer.addView(submenu);
-                    submenuVisible = true;
-                }
 
+                if (onGroupClicked != null)
+                    onGroupClicked.onGroupClicked(ExpandableGroup.this);
             }
         });
         this.groupcontainer = (LinearLayout)findViewById(R.id.GroupContainer);
-        this.submenu = (LinearLayout)findViewById(R.id.GroupSubMenu);
-        groupcontainer.removeView(submenu);
+
+        //groupcontainer.removeView(submenu);
         submenuVisible =false;
+    }
+
+    public void SetOnGroupItemClickListner(I_OnGroupClicked groupclick)
+    {
+        this.onGroupClicked = groupclick;
     }
 
     public String getName() {
@@ -82,15 +82,15 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         fillSubMenuItems();
     }
 
-    private void fillSubMenuItems() {
-        //submenu.removeAllViews();
+    public void fillSubMenuItems() {
+        submenu.removeAllViews();
         for (ExpandableChild child:Items)
         {
             Log.d(TAG, child.getName());
-            if(child.getParameterHolder() != null)
+            if(child.getParameterHolder() != null && child.getParameterHolder().IsSupported())
             {
                 Log.d(TAG, child.getName() +" is supported : " + child.getParameterHolder().IsSupported());
-                child.onIsSupportedChanged(child.getParameterHolder().IsSupported());
+                submenu.addView(child);
             }
         }
     }

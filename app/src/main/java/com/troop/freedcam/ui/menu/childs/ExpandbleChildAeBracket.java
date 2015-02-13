@@ -91,19 +91,8 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
     @Override
     public String ModuleChanged(String module)
     {
-        if (modulesToShow.contains(module) )
-        {
-            if (!isVisible && parameterHandler.AE_Bracket != null && parameterHandler.AE_Bracket.IsSupported()) {
-                group.submenu.addView(this);
-                isVisible = true;
-            }
-        }
-        else if (isVisible && !modulesToShow.contains(module))
-        {
-            group.submenu.removeView(this);
-            isVisible = false;
-        }
+        super.ModuleChanged(module);
 
-        return super.ModuleChanged(module);
+        return null; // super.ModuleChanged(module);
     }
 }

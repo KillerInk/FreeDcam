@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.troop.freedcam.R;
@@ -18,6 +17,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.childs.I_OnGroupClicked;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 19.08.2014.
  */
-public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent
+public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent, I_OnGroupClicked
 {
     MainActivity_v2 context;
     AbstractCameraUiWrapper cameraUiWrapper;
@@ -35,7 +35,9 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableGroup picSettings;
     ExpandableGroup previewSettings;
     ExpandableGroup videoSettings;
-    public ScrollView scrollView;
+    boolean childsSubmenuVisible = false;
+    ExpandableGroup lastGroupView;
+    //public ScrollView scrollView;
 
     /**
      * this holds the mainmenu
@@ -54,26 +56,12 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     public MenuHandler(MainActivity_v2 context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
-
         this.appSettingsManager = appSettingsManager;
-
-
-
-        try
-        {
-            mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
-            listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
-            listView.setOnItemClickListener(this);
-            scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
-            context.settingsLayoutHolder.removeView(listView);
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-
-
+        mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
+        listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
+        listView.setOnItemClickListener(this);
+        //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
+        context.settingsLayoutHolder.removeView(listView);
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
@@ -100,7 +88,12 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
         videoSettings = menuCreator.CreateVideoSettings(surfaceView);
         grouplist.add(videoSettings);
+        for(ExpandableGroup g : grouplist)
+        {
+            g.SetOnGroupItemClickListner(this);
+        }
         //if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
+
 
         return grouplist;
     }
@@ -113,17 +106,18 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     }
 
 
-    private void hideMenuAndShowSubMenu()
+    private void showChildsSubMenu()
     {
-        context.settingsLayoutHolder.removeView(scrollView);
-
+        //context.settingsLayoutHolder.removeView(scrollView);
+        childsSubmenuVisible = true;
         context.settingsLayoutHolder.addView(listView);
     }
 
-    private void hideSubMenuAndShowMenu()
+    private void hideChildsSubMenu()
     {
+        childsSubmenuVisible = false;
         context.settingsLayoutHolder.removeView(listView);
-        context.settingsLayoutHolder.addView(scrollView);
+        //context.settingsLayoutHolder.addView(scrollView);
     }
 
 
@@ -160,13 +154,20 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
+
+
         if (selectedChild != null)
         {
             String value = (String) listView.getItemAtPosition(position);
             selectedChild.setValue(value);
             selectedChild = null;
-            hideSubMenuAndShowMenu();
+
         }
+
+        if (childsSubmenuVisible)
+            hideChildsSubMenu();
+        else
+            showChildsSubMenu();
 
     }
 
@@ -204,7 +205,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
             fillMainMenu();
             for(ExpandableGroup g : grouplist)
                 g.ModuleChanged(module);
-            //ParametersLoaded();
+            picSettings.submenu.removeAllViews();
         }
         return null;
     }
@@ -228,7 +229,10 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                     R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
             //attach adapter to the listview and fill
             listView.setAdapter(adapter);
-            hideMenuAndShowSubMenu();
+            if (childsSubmenuVisible)
+                hideChildsSubMenu();
+            else
+                showChildsSubMenu();
         }
         else if (selectedChild instanceof  SaveCamParasExpandableChild)
         {
@@ -237,5 +241,28 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
             Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    View.OnClickListener onGroupListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+
+        }
+    };
+
+    @Override
+    public void onGroupClicked(ExpandableGroup group) {
+        if (lastGroupView != null && lastGroupView == group) {
+            group.submenu.removeAllViews();
+            lastGroupView = null;
+        }
+        else
+        {
+            if (childsSubmenuVisible)
+                hideChildsSubMenu();
+            group.fillSubMenuItems();
+            lastGroupView = group;
+        }
     }
 }
