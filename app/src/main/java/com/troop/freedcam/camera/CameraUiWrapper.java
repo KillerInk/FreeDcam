@@ -130,13 +130,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super.onCameraOpen(message);
         cameraHolder.SetErrorCallback(this);
         cameraHolder.SetSurface(preview.getHolder());
-        while (!PreviewSurfaceRdy)
-            try {
-                Log.d(TAG, "Preview not rdy");
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         cameraHolder.StartPreview();
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
