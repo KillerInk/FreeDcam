@@ -194,21 +194,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/expandableListViewSettings"
-                android:background="#a4a0a0a0"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:layout_marginLeft="3dp"
+                android:paddingRight="1dp" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/groupSubMenu"
-                android:background="#a4a0a0a0"></LinearLayout>
+                android:paddingRight="1dp"></LinearLayout>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings"
-                android:backgroundTint="#a4a0a0a0" />
+                android:id="@+id/subMenuSettings" />
 
         </LinearLayout>
 

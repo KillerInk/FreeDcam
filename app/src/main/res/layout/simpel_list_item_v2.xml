@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="@dimen/menuwidth"
     android:layout_height="@dimen/simple_list_item_size"
-    android:background="#a4a0a0a0">
+    android:background="#ffa0a0a0">
 
     <TextView
         android:layout_width="fill_parent"

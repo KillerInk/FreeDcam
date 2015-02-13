@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_icon_size"
     android:orientation="vertical"
-    android:background="#a4a0a0a0"
-    android:id="@+id/GroupContainer">
+    android:background="#ffa0a0a0"
+    android:id="@+id/GroupContainer"
+    android:paddingBottom="1dp"
+    android:paddingRight="1dp">
 
 
     <TextView
@@ -14,7 +16,9 @@
         android:textSize="17dip"
         android:text="Group Test"
         android:textColor="#ff000000"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="180dp"
     android:layout_height="wrap_content"
-    android:background="#a4a0a0a0"
-    android:clickable="true">
+    android:background="#ffa0a0a0"
+    android:clickable="true"
+    android:paddingBottom="1dp"
+    android:paddingRight="1dp">
 
     <Button
         android:layout_width="@dimen/app_icon_size"

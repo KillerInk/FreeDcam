@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
 
     android:orientation="vertical"
-    android:background="#a4a0a0a0">
+    android:background="#ffa0a0a0"
+    android:paddingBottom="1dp"
+    android:paddingRight="1dp">
 
 
     <TextView
@@ -17,7 +19,9 @@
         android:gravity="center_horizontal"
         android:textStyle="bold"
         android:autoText="false"
-        android:textColor="#ff000000" />
+        android:textColor="#ff000000"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp" />
     <TextView
         android:id="@+id/tvChildValue"
         android:layout_width="fill_parent"
@@ -27,6 +31,8 @@
         android:clickable="false"
         android:focusable="false"
         android:gravity="center_horizontal"
-        android:textColor="#ff000000" />
+        android:textColor="#ff000000"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp" />
 
 </LinearLayout>
