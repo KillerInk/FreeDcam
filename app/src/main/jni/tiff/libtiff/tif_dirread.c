@@ -4269,6 +4269,15 @@ TIFFReadEXIFDirectory(TIFF* tif, toff_t diroff)
 	return TIFFReadCustomDirectory(tif, diroff, exifFieldArray);  
 }
 
+//GPS////////////////
+int
+TIFFReadGPSDirectory(TIFF* tif, toff_t diroff)
+{
+	const TIFFFieldArray* gpsFieldArray;
+	gpsFieldArray = _TIFFGetGPSFields();
+	return TIFFReadCustomDirectory(tif, diroff, gpsFieldArray);  
+}
+
 static int
 EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 {

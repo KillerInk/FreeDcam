@@ -1269,7 +1269,22 @@ TIFFCreateEXIFDirectory(TIFF* tif)
 /*
  * Setup a default directory structure.
  */
+
+
+//////////////////////////////////////////////////////////////////////////GPS ///////////////////
 int
+TIFFCreateGPSDirectory(TIFF* tif)
+{
+	const TIFFFieldArray* gpsFieldArray;
+	gpsFieldArray = _TIFFGetGPSFields();
+	return TIFFCreateCustomDirectory(tif, gpsFieldArray);
+}
+
+/*
+ * Setup a default directory structure.
+ */
+int
+/////////////////////////////////////////////
 TIFFDefaultDirectory(TIFF* tif)
 {
 	register TIFFDirectory* td = &tif->tif_dir;

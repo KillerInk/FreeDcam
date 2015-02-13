@@ -603,6 +603,42 @@ typedef enum {
 #define TIFFTAG_PERSAMPLE       65563	/* interface for per sample tags */
 #define     PERSAMPLE_MERGED        0	/* present as a single value */
 #define     PERSAMPLE_MULTI         1	/* present as multiple values */
+//////////////////////////////////////////////////////////////////////////////////////GPS Tags 09-02-2015/////////////////////////////////////////////
+#define GPSTAG_GPSVersionID		0
+#define GPSTAG_GPSLatitudeRef		1
+#define GPSTAG_GPSLatitude		2
+#define GPSTAG_GPSLongitudeRef		3
+#define GPSTAG_GPSLongitude		4
+#define GPSTAG_GPSAltitudeRef		5
+#define GPSTAG_GPSAltitude		6
+#define GPSTAG_GPSTimeStamp		7
+#define GPSTAG_GPSSatellites		8
+#define GPSTAG_GPSStatus		9
+#define GPSTAG_GPSMeasureMode		10
+#define GPSTAG_GPSDOP		11
+#define GPSTAG_GPSSpeedRef		12
+#define GPSTAG_GPSSpeed		13
+#define GPSTAG_GPSTrackRef		14
+#define GPSTAG_GPSTrack		15
+#define GPSTAG_GPSImgDirectionRef		16
+#define GPSTAG_GPSImgDirection		17
+#define GPSTAG_GPSMapDatum		18
+#define GPSTAG_GPSDestLatitudeRef		19
+#define GPSTAG_GPSDestLatitude		20
+#define GPSTAG_GPSDestLongitudeRef		21
+#define GPSTAG_GPSDestLongitude		22
+#define GPSTAG_GPSDestBearingRef		23
+#define GPSTAG_GPSDestBearing		24
+#define GPSTAG_GPSDestDistanceRef		25
+#define GPSTAG_GPSDestDistance		26
+#define GPSTAG_GPSProccesingMethod		27
+#define GPSTAG_GPSAreaInformation		28
+#define GPSTAG_GPSDatestamp		29
+#define GPSTAG_GPSDifferential		30
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /*
  * EXIF tags

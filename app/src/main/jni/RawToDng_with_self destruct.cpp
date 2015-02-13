@@ -388,14 +388,13 @@ unsigned short bits[176*144*2];
 //////////////////////////////////////IFD 0//////////////////////////////////////////////////////
 
 	LOGD("TIFF Header");
-	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
-        //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
+	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 1);
+	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, 176) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, 144) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
         assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
-        TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
         TIFFSetField(tif, TIFFTAG_MAKE, mMake);
         TIFFSetField(tif, TIFFTAG_MODEL, mModel);
         try
@@ -414,7 +413,7 @@ unsigned short bits[176*144*2];
                         LOGD("Caught NULL NOT SET Orientation");
                     }
         assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
-      //  assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
+        assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
         TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreedCam by Troop");
         TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
         TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
@@ -431,18 +430,15 @@ unsigned short bits[176*144*2];
    	                               ///EXIF////////
 	    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
 	//CheckPOINT to KEEP EXIF IFD in MEMory
-	//Try FiX DIR
-
 	TIFFCheckpointDirectory(tif);
-	TIFFWriteDirectory(tif);
 	TIFFSetDirectory(tif, 0);
 	///////////////////////////////////GPS IFD////////////////
-	makeGPS_IFD(tif);
+	//makeGPS_IFD(tif);
 
-        TIFFCheckpointDirectory(tif);
-        TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+    //    TIFFCheckpointDirectory(tif);
+   //     TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
     //////////////////////////////////// GPS END//////////////////////////////////////////
-       TIFFSetDirectory(tif, 0);
+     //   TIFFSetDirectory(tif, 0);
 
 
     /////////////////////////////////// EXIF IFD //////////////////////////////
@@ -489,14 +485,14 @@ unsigned short bits[176*144*2];
     TIFFWriteCustomDirectory(tif, &dir_offset);
 ///////////////////// GO Back TO IFD 0
          TIFFSetDirectory(tif, 0);
-          TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+         // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
          ///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
          TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
          //////////////Assign Diff Array Offset dir_offset2
-        // TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
+         TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
 
 // Fake Thumb
-   // write_image(tif, tx, ty, 255);
+    write_image(tif, tx, ty, 255);
 
     //// to add either preview frame or jpeg or gen from bayer
 /*
@@ -508,10 +504,10 @@ unsigned short bits[176*144*2];
         		}
     } */
     //Checkpoint to Update Write to Move to SUB IFD with Primary Raw Image
-   // TIFFCheckpointDirectory(tif);
-   // TIFFWriteDirectory(tif);
+    TIFFCheckpointDirectory(tif);
+    TIFFWriteDirectory(tif);
         LOGD("SUB IFD 1");
-              /*  TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+                TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
 
                	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
 
@@ -525,7 +521,7 @@ unsigned short bits[176*144*2];
 
                	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
 
-               	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);*/
+               	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
                 	if(0 == strcmp(bayer,"BGGR"))
                 		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
@@ -562,8 +558,8 @@ unsigned short bits[176*144*2];
                      }
 
     LOGD("Finalizng DNG");
-    TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory (tif);
+    TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, ImageDescription);
 
 
 
@@ -625,83 +621,67 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDngFa
 
 
 
-
-	LOGD("write tiffheader");
-	TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
-	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height);
-	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 16);
-	//TIFFSetField (tif, TIFFTAG_ROWSPERSTRIP, height);
-	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
-	TIFFSetField (tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
-	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
-	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-	TIFFSetField (tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
-	TIFFSetField (tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-	TIFFSetField (tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
-	TIFFSetField (tif, TIFFTAG_MAKE, make);
-    TIFFSetField (tif, TIFFTAG_MODEL, model);
-	TIFFSetField (tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
-	TIFFSetField (tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
-	LOGD("bayerformat = %s", bayer);
-
-                	if(0 == strcmp(bayer,"BGGR"))
-                		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-                	if(0 == strcmp(bayer , "GRGB"))
-                		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-                	if(0 == strcmp(bayer , "RGGB"))
-                    		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-                    if(0 == strcmp(bayer , "GBRG"))
-                        	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+LOGD("Header");
+    	TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+    	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
+    	TIFFSetField (tif, TIFFTAG_IMAGELENGTH, height);
+    	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, 16);
+    	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
+    	TIFFSetField(tif, TIFFTAG_MAKE, make);
+        TIFFSetField(tif, TIFFTAG_MODEL, model);
+    	TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+    	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+    	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+    	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+    	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
+    	if(neutral != NULL)
+    	    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+    	if(0 == strcmp(bayer,"bggr"))
+    		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+    	if(0 == strcmp(bayer , "grbg"))
+    		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+    	if(0 == strcmp(bayer , "rggb"))
+        		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+        if(0 == strcmp(bayer , "gbrg"))
+            	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
 
 
-	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+    	if(blacklevel != 0)
+    	{
+    	    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
+    	    LOGD("wrote blacklevel");
 
+    	    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+    	}
+    	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+    	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+    	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colormatrix2);
 
-	//LOGD("write whitelvl");
-	TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
-	TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
-	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
-	LOGD("write CALIBRATIONILLUMINANT1");
-	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
-	LOGD("write CALIBRATIONILLUMINANT2");
-	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
-	LOGD("write colormatrix2");
-	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colormatrix2);
-	//LOGD("write FowardMatrix");
-	//TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9, fowardmatrix1);
-	//LOGD("write FowardMatrix2");
-	//TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9, fowardmatrix2);
+    	LOGD("Header Done");
+    	buffer =(unsigned char *)malloc(rowSize);
+                            if(tight == true)
+                            {
 
-	LOGD("Processing RAW data...");
-buffer =(unsigned char *)malloc(rowSize);
+                              processSXXX10packed(tif, pixel, buffer, strfile, rowSize, width, height);
+                              LOGD("Packed Done");
 
-   // processSXXX16(tif, pixel, buffer, strfile, rowSize, width, height);
+                            }
+                          else
+                            {
 
-     // processSXXX10packed(tif, pixel, buffer, strfile, rowSize, width, height);
+                              processSXXX16(tif, pixel, buffer, strfile, rowSize, width, height);
 
-      if(tight == true)
-                                 {
-         processSXXX10packed(tif, pixel, buffer, strfile, rowSize, width, height);
-         }
-
-      else{
-         processSXXX16(tif, pixel, buffer, strfile, rowSize, width, height);
-         }
-
-
-	TIFFWriteDirectory (tif);
-
-
-
-	TIFFClose (tif);
-    	 LOGD("Free Memory");
-                	free(pixel);
-                	free(buffer);
-                	free(colormatrix1);
-                	free(colormatrix2);
-                	free(neutral);
-
+                            }
+    	TIFFWriteDirectory (tif);
+    	free(pixel);
+                    	free(buffer);
+                    	free(colormatrix1);
+                    	free(colormatrix2);
+                    	free(neutral);
+    	TIFFClose (tif);
 
 
 
@@ -769,19 +749,18 @@ LOGD("Header");
     	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
     	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
-
+    	if(neutral != NULL)
     	    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
-    	if(0 == strcmp(bayer,"BGGR"))
+    	if(0 == strcmp(bayer,"bggr"))
     		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    	if(0 == strcmp(bayer , "GRGB"))
+    	if(0 == strcmp(bayer , "grbg"))
     		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    	if(0 == strcmp(bayer , "RGGB"))
+    	if(0 == strcmp(bayer , "rggb"))
         		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-        if(0 == strcmp(bayer , "GBRG"))
+        if(0 == strcmp(bayer , "gbrg"))
             	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
     	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
 
-        TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
     	if(blacklevel != 0)
     	{

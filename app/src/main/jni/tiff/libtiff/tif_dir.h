@@ -263,7 +263,8 @@ extern int _TIFFFillStriles(TIFF*);
 typedef enum {
 	tfiatImage,
 	tfiatExif,
-	tfiatOther
+	tfiatOther,
+	tfiatGps         /*GPS */
 } TIFFFieldArrayType;
 
 struct _TIFFFieldArray {
