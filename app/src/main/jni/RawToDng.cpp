@@ -259,11 +259,11 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     }
 
 
-    double value = Longitude;
+   /* int value = Longitude;
     LOGD("Longitude %i", value);
     int longitudeSeconds = abs(round(value * 3600));
     LOGD("longitudeSeconds %i", longitudeSeconds);
-    int longitudeDegrees = value;
+    int longitudeDegrees = longitudeSeconds / 3600;
     LOGD("longitudeDegrees %i", longitudeDegrees);
     longitudeSeconds = abs(longitudeSeconds % 3600);
     LOGD("longitudeSeconds %i", longitudeSeconds);
@@ -271,10 +271,10 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     LOGD("longitudeMinutes %i", longitudeMinutes);
     longitudeSeconds = longitudeSeconds % 60;
     LOGD("longitudeSeconds %i", longitudeSeconds);
-    const char* longitudeRef = longitudeDegrees  > 0 ? "E" : "W";
+    const char* longitudeRef = longitudeDegrees  < 0 ? "E" : "W";
 
 
-        float longitudees[] = {longitudeDegrees, longitudeMinutes, longitudeSeconds};
+    uint32 longitudees[] = {0, 0, 0};
 
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
@@ -283,11 +283,11 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     LOGD("LONG REF Written %c", longitudeRef);
 
 
-    if (!TIFFSetField( tif, GPSTAG_GPSLongitude,3, longitudees))
+    if (!TIFFSetField(tif, GPSTAG_GPSLongitude,3, longitudees))
     {
         LOGD("Can't write Longitude" );
     }
-    LOGD("Longitude Written");
+    LOGD("Longitude Written");*/
 
 
     const char* latitudeRef = Latitude < 0 ? "S" : "N";
@@ -301,18 +301,26 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
 
 
 
-    value = Latitude;
-    longitudeSeconds = value * 3600;
-    longitudeDegrees = longitudeSeconds / 3600;
-    longitudeMinutes = longitudeSeconds / 60;
-    longitudeSeconds %= 60;
 
-    float latitudes[] = {longitudeDegrees, longitudeMinutes, longitudeSeconds};
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,3, latitudes))
+    /*LOGD("Longitude %i", Latitude);
+    int latitudeSeconds = abs(round(Latitude * 3600));
+    LOGD("latitudeSeconds %i", latitudeSeconds);
+    int latitudeDegrees = latitudeSeconds / 3600;
+    LOGD("latitudeDegrees %i", latitudeDegrees);
+    latitudeSeconds = abs(latitudeSeconds % 3600);
+    LOGD("latitudeSeconds %i", latitudeSeconds);
+    int latitudeMinutes = latitudeSeconds / 60;
+    LOGD("latitudeMinutes %i", latitudeMinutes);
+    latitudeSeconds = latitudeSeconds % 60;
+    LOGD("latitudeSeconds %i", latitudeSeconds);
+
+    float *ar = {1.00f, 2.00f, 3.00f };
+
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,3,ar))
     {
         LOGD("Can't write Latitude" );
     }
-    LOGD("Latitude Written");
+    LOGD("Latitude Written");*/
 
 
     if (!TIFFSetField( tif, GPSTAG_GPSAltitude, Altitude))
@@ -321,10 +329,10 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     }
     LOGD("Altitude Written");
 
-    if (!TIFFSetField( tif, GPSTAG_GPSDatestamp, gpsTime)) {
+    /*if (!TIFFSetField( tif, GPSTAG_GPSDatestamp, gpsTime)) {
         LOGD("Can't write gpsTime" );
     }
-    LOGD("gpsTime Written");
+    LOGD("gpsTime Written");*/
 
                                 	//Altitude Takes Type BYTE
               /*  if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, alti)) {
