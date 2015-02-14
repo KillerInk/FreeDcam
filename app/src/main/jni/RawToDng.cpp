@@ -258,8 +258,15 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
 
+    const char* longitudeRef = Longitude  < 0 ? "E" : "W";
 
-   /* int value = Longitude;
+    if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
+    {
+        LOGD("Can't write LongitudeRef" );
+    }
+    LOGD("LONG REF Written %c", longitudeRef);
+
+    int value = Longitude;
     LOGD("Longitude %i", value);
     int longitudeSeconds = abs(round(value * 3600));
     LOGD("longitudeSeconds %i", longitudeSeconds);
@@ -271,23 +278,16 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     LOGD("longitudeMinutes %i", longitudeMinutes);
     longitudeSeconds = longitudeSeconds % 60;
     LOGD("longitudeSeconds %i", longitudeSeconds);
-    const char* longitudeRef = longitudeDegrees  < 0 ? "E" : "W";
 
 
-    uint32 longitudees[] = {0, 0, 0};
 
-    if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
-    {
-        LOGD("Can't write LongitudeRef" );
-    }
-    LOGD("LONG REF Written %c", longitudeRef);
+    const float longitudees[] = {longitudeDegrees, longitudeMinutes, longitudeSeconds};
 
-
-    if (!TIFFSetField(tif, GPSTAG_GPSLongitude,3, longitudees))
+    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, longitudees))
     {
         LOGD("Can't write Longitude" );
     }
-    LOGD("Longitude Written");*/
+    LOGD("Longitude Written");
 
 
     const char* latitudeRef = Latitude < 0 ? "S" : "N";
@@ -302,7 +302,7 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
 
 
 
-    /*LOGD("Longitude %i", Latitude);
+    LOGD("Longitude %i", Latitude);
     int latitudeSeconds = abs(round(Latitude * 3600));
     LOGD("latitudeSeconds %i", latitudeSeconds);
     int latitudeDegrees = latitudeSeconds / 3600;
@@ -314,13 +314,12 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     latitudeSeconds = latitudeSeconds % 60;
     LOGD("latitudeSeconds %i", latitudeSeconds);
 
-    float *ar = {1.00f, 2.00f, 3.00f };
-
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,3,ar))
+    const float ar[] = {latitudeDegrees,latitudeMinutes,latitudeSeconds};
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,ar))
     {
         LOGD("Can't write Latitude" );
     }
-    LOGD("Latitude Written");*/
+    LOGD("Latitude Written");
 
 
     if (!TIFFSetField( tif, GPSTAG_GPSAltitude, Altitude))
