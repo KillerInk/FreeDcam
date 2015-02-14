@@ -249,7 +249,7 @@ void makeEXIF_IFD(TIFF *tif)
 void makeGPS_IFD(TIFF *tif, jdouble Altitude,
                                     jdouble Latitude,
                                     jdouble Longitude,
-                                    jstring Provider,
+                                    const char* Provider,
                                     jlong gpsTime)
 {
     LOGD("GPS IFD DATA");
@@ -266,6 +266,7 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     }
     LOGD("LONG REF Written %c", longitudeRef);
 
+
     int value = Longitude;
     LOGD("Longitude %i", value);
     int longitudeSeconds = abs(round(value * 3600));
@@ -278,8 +279,6 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     LOGD("longitudeMinutes %i", longitudeMinutes);
     longitudeSeconds = longitudeSeconds % 60;
     LOGD("longitudeSeconds %i", longitudeSeconds);
-
-
 
     const float longitudees[] = {longitudeDegrees, longitudeMinutes, longitudeSeconds};
 
@@ -296,11 +295,6 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
         LOGD("Can't write LAti REf" );
     }
     LOGD("LATI REF Written %c", latitudeRef);
-
-
-
-
-
 
     LOGD("Longitude %i", Latitude);
     int latitudeSeconds = abs(round(Latitude * 3600));
@@ -333,41 +327,39 @@ void makeGPS_IFD(TIFF *tif, jdouble Altitude,
     }
     LOGD("gpsTime Written");*/
 
-                                	//Altitude Takes Type BYTE
-              /*  if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, alti)) {
-                                		 LOGD("Can't write AltitudeRef" );
+    //Altitude Takes Type BYTE
+    /*  if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, alti)) {
+        LOGD("Can't write AltitudeRef" );
 
-                                	}*/
+    }*/
 
 
 
-                if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
-                                		 LOGD("Can't write IMG Directon" );
+    if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
+        LOGD("Can't write IMG Directon" );
+    }
+    LOGD("I DIRECTION Written");
+    /*if (!TIFFSetField( tif, GPSTAG_GPSLongitude, "11deg 39' 33.410"))
+    {
+        LOGD("Can't write LongitudeRef" );
+    }*/
+    if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, Provider)) {
+        LOGD("Can't write Proc Method" );
+    }
 
-                                	}
-              LOGD("I DIRECTION Written");
-               // if (!TIFFSetField( tif, GPSTAG_GPSLongitude, "11deg 39' 33.410")) {
-                // 		 LOGD("Can't write LongitudeRef" );
+    if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
+        LOGD("Can't write IMG DIREC REf" );
+    }
+    LOGD("I DREF Written");
 
-              //                                  	}
-                if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, Provider)) {
-                         		 LOGD("Can't write Proc Method" );
-
-                	}
-
-                if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
-                                   LOGD("Can't write IMG DIREC REf" );
-                                }
-                                LOGD("I DREF Written");
-
-               /* if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, 13/01/52)) {
-                                                   LOGD("Can't write Tstamp" );
-                                                }*/
-                LOGD("TSAMP Written");
-                if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, 1.)) {
-                                                                   LOGD("Can't write ALTIREF" );
-                                                                }
-                                                            LOGD("ALT Written");
+    /* if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, 13/01/52)) {
+        LOGD("Can't write Tstamp" );
+    }
+    LOGD("TSAMP Written");*/
+    if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, 1.)) {
+        LOGD("Can't write ALTIREF" );
+    }
+    LOGD("ALT Written");
 
 }
 
@@ -409,6 +401,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 	const char *mMake = (char*) env->GetStringUTFChars(make, NULL);
     const char *mModel = (char*) env->GetStringUTFChars(model, NULL);
     const char *ImageDescription = (char*) env->GetStringUTFChars(iDesc, NULL);
+    const char *gpsProvider = (char*) env->GetStringUTFChars(Provider, NULL);
 	LOGD("Data Loaded");
 	const char *strfileout= env->GetStringUTFChars(fileout, 0);
 	LOGD("output path set");
@@ -431,11 +424,11 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 
 ////////////////////////////THUMB////////////////////////////////
-unsigned char *thumbByte= (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
-unsigned long bLen = env->GetArrayLength(mThumb);
-LOGD("ThumbStream Dize: %d", bLen);
-unsigned char *bufferThumb;
-unsigned short bits[176*144*2];
+    unsigned char *thumbByte= (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
+    unsigned long bLen = env->GetArrayLength(mThumb);
+    LOGD("ThumbStream Dize: %d", bLen);
+    unsigned char *bufferThumb;
+    unsigned short bits[176*144*2];
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -463,48 +456,48 @@ unsigned short bits[176*144*2];
 //////////////////////////////////////IFD 0//////////////////////////////////////////////////////
 
 	LOGD("TIFF Header");
-	    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-	    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
+	TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+	assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width) != 0);
+    assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height) != 0);
+    assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+    assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
         //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
-        assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
-        TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
-        TIFFSetField(tif, TIFFTAG_MAKE, mMake);
-        TIFFSetField(tif, TIFFTAG_MODEL, mModel);
-        try
-                        {
+    assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
+    TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    TIFFSetField(tif, TIFFTAG_MAKE, mMake);
+    TIFFSetField(tif, TIFFTAG_MODEL, mModel);
+    try
+    {
         if(0 == strcmp(mOrientation,"0") )
-                    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
         if(0 == strcmp(mOrientation,"90") )
-                    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
         if(0 == strcmp(mOrientation,"180") )
-                    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
         if(0 == strcmp(mOrientation,"270") )
-                    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
-                    }
-                    catch(...)
-                    {
-                        LOGD("Caught NULL NOT SET Orientation");
-                    }
-        assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
-      //  assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
-        TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreedCam by Troop");
-        TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
-        TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-        TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
-        TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, ImageDescription);
-        TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
-        TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
-  	    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
-   	    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
-   	    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colormatrix2);
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
+    }
+    catch(...)
+    {
+        LOGD("Caught NULL NOT SET Orientation");
+    }
+    assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
+    //assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
+    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreedCam by Troop");
+    TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+    TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+    TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, ImageDescription);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colormatrix1);
+    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutral);
+  	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+   	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+   	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colormatrix2);
    	    //////////////////////////////IFD POINTERS///////////////////////////////////////
    	                                ///GPS//////////
    	   // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
    	                               ///EXIF////////
-	    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+	TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
 	//CheckPOINT to KEEP EXIF IFD in MEMory
 	//Try FiX DIR
 
@@ -512,61 +505,49 @@ unsigned short bits[176*144*2];
 	TIFFWriteDirectory(tif);
 	TIFFSetDirectory(tif, 0);
 	///////////////////////////////////GPS IFD////////////////
-	makeGPS_IFD(tif, Altitude,Latitude,Longitude,Provider,gpsTime);
+	makeGPS_IFD(tif, Altitude,Latitude,Longitude,gpsProvider,gpsTime);
 
-        TIFFCheckpointDirectory(tif);
-        TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+    TIFFCheckpointDirectory(tif);
+    TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
     //////////////////////////////////// GPS END//////////////////////////////////////////
-       TIFFSetDirectory(tif, 0);
+    TIFFSetDirectory(tif, 0);
 
 
     /////////////////////////////////// EXIF IFD //////////////////////////////
     LOGD("EXIF IFD DATA");
-        if (TIFFCreateEXIFDirectory(tif) != 0) {
-    		 LOGD("TIFFCreateEXIFDirectory() failed" );
+    if (TIFFCreateEXIFDirectory(tif) != 0) {
+        LOGD("TIFFCreateEXIFDirectory() failed" );
+    }
+    if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS, 1, miso)) {
+        LOGD("Can't write SPECTRALSENSITIVITY" );
+    }
+    if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, expo)) {
+        LOGD("Can't write SPECTRALSENSITIVITY" );
+    }
 
-    	}
+    if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, fNum)) {
+        LOGD("Can't write Aper" );
+    }
+    if (!TIFFSetField( tif, EXIFTAG_FLASH, flash)) {
+        LOGD("Can't write Flas" );
+    }
 
-    	if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS, 1, miso)) {
-        		 LOGD("Can't write SPECTRALSENSITIVITY" );
-
-        	}
-
-
-        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, expo)) {
-        		 LOGD("Can't write SPECTRALSENSITIVITY" );
-
-        	}
-
-        if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, fNum)) {
-        		 LOGD("Can't write Aper" );
-
-        	}
-
-        if (!TIFFSetField( tif, EXIFTAG_FLASH, flash)) {
-        		 LOGD("Can't write Flas" );
-
-        	}
-
-        if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, focalL)) {
-        		 LOGD("Can't write Focal" );
-
-        	}
-
-        if (!TIFFSetField( tif, EXIFTAG_FNUMBER, fNum)) {
-               		 LOGD("Can't write FNum" );
-
-                	}
+    if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, focalL)) {
+        LOGD("Can't write Focal" );
+    }
+    if (!TIFFSetField( tif, EXIFTAG_FNUMBER, fNum)) {
+        LOGD("Can't write FNum" );
+    }
 
 
 //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
     TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
     TIFFWriteCustomDirectory(tif, &dir_offset);
 ///////////////////// GO Back TO IFD 0
-         TIFFSetDirectory(tif, 0);
-          TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+    TIFFSetDirectory(tif, 0);
+    TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
          ///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-         TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
+    TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
          //////////////Assign Diff Array Offset dir_offset2
         // TIFFSetField (tif, TIFFTAG_SUBIFD, 1, &dir_offset2);
 
@@ -585,7 +566,7 @@ unsigned short bits[176*144*2];
     //Checkpoint to Update Write to Move to SUB IFD with Primary Raw Image
    // TIFFCheckpointDirectory(tif);
    // TIFFWriteDirectory(tif);
-        LOGD("SUB IFD 1");
+    LOGD("SUB IFD 1");
               /*  TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
 
                	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH, width);
@@ -601,40 +582,38 @@ unsigned short bits[176*144*2];
                	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
 
                	TIFFSetField (tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);*/
+    if(0 == strcmp(bayer,"BGGR"))
+        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+    if(0 == strcmp(bayer , "GRGB"))
+        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+    if(0 == strcmp(bayer , "RGGB"))
+        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+    if(0 == strcmp(bayer , "GBRG"))
+        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
 
-                	if(0 == strcmp(bayer,"BGGR"))
-                		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-                	if(0 == strcmp(bayer , "GRGB"))
-                		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-                	if(0 == strcmp(bayer , "RGGB"))
-                    		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-                    if(0 == strcmp(bayer , "GBRG"))
-                        	TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-
-                	TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
+    TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
 
-              	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-                if(blacklevel != 0)
-                	{
-                	    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
-                	    LOGD("wrote blacklevel");
-
-                	    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
-                	}
-                buffer =(unsigned char *)malloc(rowSize);
-                   if(tight == true)
-                     {
-                       LOGD("Processing tight RAW data...");
-                       processSXXX10packed(tif, pixel, buffer, strfile, rowSize, width, height);
-                       LOGD("Done tight RAW data...");
-                     }
-                   else
-                     {
-                       LOGD("Processing loose RAW data...");
-                       processSXXX16(tif, pixel, buffer, strfile, rowSize, width, height);
-                       LOGD("Done loose RAW data...");
-                     }
+    TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+    if(blacklevel != 0)
+    {
+        TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, black);
+        LOGD("wrote blacklevel");
+        TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+    }
+    buffer =(unsigned char *)malloc(rowSize);
+    if(tight == true)
+    {
+        LOGD("Processing tight RAW data...");
+        processSXXX10packed(tif, pixel, buffer, strfile, rowSize, width, height);
+        LOGD("Done tight RAW data...");
+    }
+    else
+    {
+        LOGD("Processing loose RAW data...");
+        processSXXX16(tif, pixel, buffer, strfile, rowSize, width, height);
+        LOGD("Done loose RAW data...");
+    }
 
     LOGD("Finalizng DNG");
     TIFFCheckpointDirectory(tif);
@@ -643,15 +622,15 @@ unsigned short bits[176*144*2];
 
 
 	TIFFClose (tif);
-	    LOGD("Free Memory");
-        	free(pixel);
-        	free(buffer);
-        	free(colormatrix1);
-        	free(colormatrix2);
-        	free(neutral);
-        	free(bufferThumb);
-            free(bits);
-	    LOGD("DNG Written to File");
+    LOGD("Free Memory");
+    free(pixel);
+    free(buffer);
+    free(colormatrix1);
+    free(colormatrix2);
+    free(neutral);
+    free(bufferThumb);
+    free(bits);
+    LOGD("DNG Written to File");
 
 }
 
