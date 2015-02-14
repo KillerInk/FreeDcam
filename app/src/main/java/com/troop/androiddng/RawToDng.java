@@ -94,7 +94,12 @@ public class RawToDng
             float focal,
             String iDESC,
             byte[] thumb,
-            String ori);
+            String ori,
+            double Altitude,
+            double Latitude,
+            double Longitude,
+            String Provider,
+            long gpsTime);
 
 
     private static native void convertRawBytesToDngFast(
@@ -169,16 +174,12 @@ public class RawToDng
             double Longitude,
             String Provider,
             long gpsTime
-
-
     )
     {
-
-
         if (DeviceUtils.isHTC_M8())
         {
             Log.d(TAG, "is htc m8 raw");
-            convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr);
+            convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
         }
         else
         {
@@ -193,14 +194,14 @@ public class RawToDng
                     convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr);
+                            Name, device.tightraw,iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
                 }
                 else
                 {
                     convertRawBytesToDng(data, fileToSave, device.width, device.height,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr);
+                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
                 }
             }
             else
@@ -210,7 +211,7 @@ public class RawToDng
                 convertRawBytesToDng(data, fileToSave, width, height,
                         g3_color1, g3_color2, g3_neutral,
                         0, format, Calculate_rowSize(data.length, height),
-                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr);
+                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
             }
 
         }
