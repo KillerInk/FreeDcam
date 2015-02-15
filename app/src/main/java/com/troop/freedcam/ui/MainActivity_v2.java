@@ -27,6 +27,7 @@ import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
+import com.troop.freedcam.ui.handler.MessageHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -68,6 +69,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     //HelpOverlayHandler helpOverlayHandler;
     NightModeSwitchHandler nightModeSwitchHandler;
     InfoOverlayHandler infoOverlayHandler;
+    MessageHandler messageHandler;
 
 
 
@@ -104,6 +106,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
 
         infoOverlayHandler= new InfoOverlayHandler(MainActivity_v2.this, appSettingsManager);
+        messageHandler = new MessageHandler(this);
 
 
 
@@ -244,6 +247,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onDestroy()
     {
+        messageHandler.close();
         Log.d(TAG, "Activity onDestroy");
         super.onDestroy();
     }
@@ -318,9 +322,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                Toast toast = Toast.makeText(activity, error, Toast.LENGTH_LONG);
-                toast.show();
+            public void run()
+            {
+                messageHandler.ShowMessage(error);
             }
         });
 
@@ -337,7 +341,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         try {
             if (cameraUiWrapper instanceof CameraUiWrapperSony)
             {
-                Toast.makeText(this, "Searching RemoteDevice", Toast.LENGTH_SHORT);
+                messageHandler.ShowMessage("Searching RemoteDevice");
             }
         }
         catch (Exception ex)
@@ -353,7 +357,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-            Toast.makeText(this, "Found RemoteDevice", Toast.LENGTH_SHORT);
+            messageHandler.ShowMessage("Found RemoteDevice");
         }
     }
 
@@ -377,7 +381,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            messageHandler.ShowMessage(error);
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }
