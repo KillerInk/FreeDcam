@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -63,6 +64,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     double Longitude;
     double Latitude;
     long gpsTime;
+
+    private HandlerThread backgroundThread;
+    Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -71,7 +75,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
 
-    Handler handler;
+
     File file;
     byte bytes[];
     byte Thumb[];
@@ -81,7 +85,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         super(baseCameraHolder, appSettingsManager, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
-        handler = new Handler();
+
         parametersHandler = (CamParametersHandler)ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
@@ -105,12 +109,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
-        new Thread(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 dowork();
             }
-        }).start();
+        });
+
 
 
 
@@ -184,8 +189,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     public void onPictureTaken(final byte[] data)
     {
-        processImage(data);
-        isWorking = false;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                processImage(data);
+                isWorking = false;
+            }
+        });
+
     }
 
     private void processImage(byte[] data) {
@@ -446,7 +457,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        
+        backgroundThread = new HandlerThread("PictureModuleThread");
+        backgroundThread.start();
+        handler = new Handler(backgroundThread.getLooper());
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
@@ -459,10 +472,27 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             //ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+
     }
 
     @Override
-    public void UnloadNeededParameters() {
-        super.UnloadNeededParameters();
+    public void UnloadNeededParameters()
+    {
+        handler = null;
+        try
+        {
+            backgroundThread.interrupt();
+            backgroundThread.quit();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally {
+
+            backgroundThread =null;
+        }
+
+
     }
 }
