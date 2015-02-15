@@ -435,9 +435,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 
 
-	static const float black[] = {blacklevel, blacklevel, blacklevel , blacklevel};
+	const float black[] = {blacklevel, blacklevel, blacklevel , blacklevel};
 
-	static const short CFARepeatPatternDim[] = { 2,2 };
+	const short CFARepeatPatternDim[] = { 2,2 };
 	int status=1, i, j, row, col, b;
 	TIFF *tif;
 	unsigned char *buffer;
@@ -521,9 +521,11 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
     if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS, 1, miso)) {
         LOGD("Can't write SPECTRALSENSITIVITY" );
     }
-    if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, expo)) {
+    const float exposure = expo;
+    if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, exposure)) {
         LOGD("Can't write SPECTRALSENSITIVITY" );
     }
+
 
     if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, fNum)) {
         LOGD("Can't write Aper" );
@@ -623,13 +625,58 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_convertRawBytesToDng(J
 
 	TIFFClose (tif);
     LOGD("Free Memory");
-    free(pixel);
-    free(buffer);
-    free(colormatrix1);
-    free(colormatrix2);
-    free(neutral);
-    free(bufferThumb);
-    free(bits);
+
+    //unsigned char *strfile= (unsigned char*) env->GetByteArrayElements(filein,NULL);
+    //env->ReleaseByteArrayElements(strfile, (jbyte*) filein);
+    env->DeleteLocalRef(filein);
+    filein = NULL;
+    delete[] strfile;
+    strfile = NULL;
+	//const char *bayer = (char*) env->GetStringUTFChars(bayerformat, NULL);
+	env->ReleaseStringUTFChars(bayerformat, bayer);
+	env->DeleteLocalRef(bayerformat);
+	//const char *mMake = (char*) env->GetStringUTFChars(make, NULL);
+	env->ReleaseStringUTFChars(make, mMake);
+	env->DeleteLocalRef(make);
+    //const char *mModel = (char*) env->GetStringUTFChars(model, NULL);
+    env->ReleaseStringUTFChars(model, mModel);
+    env->DeleteLocalRef(model);
+    //const char *ImageDescription = (char*) env->GetStringUTFChars(iDesc, NULL);
+    env->ReleaseStringUTFChars(iDesc, ImageDescription);
+    env->DeleteLocalRef(iDesc);
+    //const char *gpsProvider = (char*) env->GetStringUTFChars(Provider, NULL);
+    env->ReleaseStringUTFChars(Provider, gpsProvider);
+    env->DeleteLocalRef(Provider);
+	//const char *strfileout= env->GetStringUTFChars(fileout, 0);
+	env->ReleaseStringUTFChars(fileout, strfileout);
+	env->DeleteLocalRef(fileout);
+	//unsigned long fileLen = env->GetArrayLength(filein);
+	//jfloat *colormatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
+	env->ReleaseFloatArrayElements(colorMatrix1, colormatrix1, JNI_ABORT);
+	env->DeleteLocalRef(colorMatrix1);
+	//jfloat *colormatrix2 = env->GetFloatArrayElements(colorMatrix2, 0);
+	env->ReleaseFloatArrayElements(colorMatrix2, colormatrix2, JNI_ABORT);
+	env->DeleteLocalRef(colorMatrix2);
+	//jfloat *neutral = env->GetFloatArrayElements(neutralColor, 0);
+	env->ReleaseFloatArrayElements(neutralColor, neutral, JNI_ABORT);
+	env->DeleteLocalRef(neutralColor);
+	//const char *devicena = env->GetStringUTFChars(devicename, 0);
+	env->ReleaseStringUTFChars(devicename, devicena);
+	env->DeleteLocalRef(devicename);
+	//const char *mOrientation = (char*) env->GetStringUTFChars(orientation, NULL);
+	env->ReleaseStringUTFChars(orientation, mOrientation);
+	env->DeleteLocalRef(orientation);
+    //unsigned char *thumbByte= (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
+
+    env->DeleteLocalRef(mThumb);
+    delete[] thumbByte;
+    //unsigned long bLen = env->GetArrayLength(mThumb);
+
+
+    delete[] pixel;
+    delete[] buffer;
+    delete[] bufferThumb;
+    delete[] bits;
     LOGD("DNG Written to File");
 
 }
