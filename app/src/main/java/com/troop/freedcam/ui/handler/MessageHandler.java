@@ -24,6 +24,7 @@ public class MessageHandler
         this.textView = (TextView)activity.findViewById(R.id.textView_UImessage);
         handler = new Handler();
         textView.setVisibility(View.GONE);
+        textView.setText("");
     }
 
     public void ShowMessage(String msg)
@@ -32,12 +33,14 @@ public class MessageHandler
         textView.setText(mes);
         textView.setVisibility(View.VISIBLE);
         handler.removeCallbacks(hideTextView);
-        handler.postDelayed(hideTextView, 1000);
+        handler.postDelayed(hideTextView, 1500);
     }
 
     Runnable hideTextView = new Runnable() {
         @Override
-        public void run() {
+        public void run()
+        {
+            textView.setText("");
             textView.setVisibility(View.GONE);
         }
     };
