@@ -170,49 +170,13 @@ public class HdrModule extends PictureModule
                         l = lastBayerFormat.substring(lastBayerFormat.length() -4);
                     else
                         l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-          //          if(i == 0)
-
-
-
-
-
-
                     final byte fin[] = rawdata;
                     final String finS = dngFile;
                     final int finW = w;
                     final int finH = h;
                     final String finL = l;
-
-                    Thread thread = new Thread()
-                        {
-                            @Override
-                            public void run()
-                            {
-                            synchronized (DoNext) {
-                                try {
-
-                                    RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
-                                    DoNext.wait();
-
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-
-
-                        }
-                    };
-                    thread.start();
-
-
-
+                    RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
                     System.out.println("Current Expo" +hdrCount +" "+ getStringAddTime());
-
-
-        //            Queue<Integer> queue=new LinkedList<>();
-
-
-
                     if (files[i].delete() == true)
                         Log.d(TAG, "file: "+ files[i].getName() + " deleted");
                     Log.d(TAG, "Start Media Scan " + file.getName());

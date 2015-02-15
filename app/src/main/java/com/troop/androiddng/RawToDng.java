@@ -153,7 +153,7 @@ public class RawToDng
 
 
 
-    public static void ConvertRawBytesToDng(
+    public void ConvertRawBytesToDng(
             byte[] data,
             String fileToSave,
             int width,
