@@ -184,7 +184,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     public void onPictureTaken(final byte[] data)
     {
-
         processImage(data);
         isWorking = false;
     }
@@ -251,17 +250,28 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     }
 
+    private void sendMsg(final String msg)
+    {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                baseCameraHolder.errorHandler.OnError(msg);
+            }
+        });
+    }
+
     protected boolean processCallbackData(byte[] data) {
         if(data.length < 4500)
         {
-            baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
+
+            sendMsg("Data size is < 4kb");
 
             //baseCameraHolder.StartPreview();
             return true;
         }
         else
         {
-            baseCameraHolder.errorHandler.OnError("Datasize : " + StringUtils.readableFileSize(data.length));
+            sendMsg("Datasize : " + StringUtils.readableFileSize(data.length));
         }
         file = createFileName();
         bytes = data;

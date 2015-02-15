@@ -139,14 +139,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void DoWork()
     {
-        new Thread()
-        {
-            @Override
-            public void run() {
-                moduleHandler.DoWork();
-            }
-        }.start();
-
+        moduleHandler.DoWork();
     }
 
     @Override
