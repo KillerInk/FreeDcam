@@ -175,7 +175,7 @@ public class HdrModule extends PictureModule
                     final int finW = w;
                     final int finH = h;
                     final String finL = l;
-                    RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
+                    //RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
                     System.out.println("Current Expo" +hdrCount +" "+ getStringAddTime());
                     if (files[i].delete() == true)
                         Log.d(TAG, "file: "+ files[i].getName() + " deleted");

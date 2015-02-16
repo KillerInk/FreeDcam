@@ -23,21 +23,22 @@ extern "C"
 {
     JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
     jint iso,
-    jdouble expo,
-    jstring make,
-    jstring model,
+    jstring expo,
     jint flash,
     jfloat fNum,
     jfloat focalL,
     jstring imagedescription,
-    jstring orientation);
+    jstring orientation,
+    jstring exposureIndex);
 
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jdouble Latitude,jdouble Longitude, jstring Provider, jlong gpsTime);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, jint widht, jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
-    JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
-    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout, jint width,jint height);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
 
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -56,18 +57,21 @@ class DngWriter
 {
 public:
     int _iso, _flash;
-    double _exposure;
+    char* _exposure;
     char* _make;
     char*_model;
     char* _imagedescription;
     char* _orientation;
     float _fnumber, _focallength;
+    char* _exposureIndex;
 
     double Altitude;
     double Latitude;
     double Longitude;
     char* Provider;
     long gpsTime;
+    bool gps;
+
 
     float *blacklevel;
     char *fileSavePath;
@@ -79,44 +83,57 @@ public:
     float *neutralColorMatrix;
     char* bayerformat;
     bool tightRaw;
+    long rawSize;
 
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
-    DngWriter(JNIEnv *env, jint iso, jdouble expo, jstring make, jstring model, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation)
+    DngWriter(JNIEnv *env, jint iso, jstring expo, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation, jstring exposureIndex)
     {
         _iso = iso;
-        _exposure = expo;
-        _make = (char*) env->GetStringUTFChars(make,NULL);
-        _model = (char*) env->GetStringUTFChars(model,NULL);
+        _exposure =(char*) env->GetStringUTFChars(expo,NULL);
         _flash = flash;
         _imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
         _orientation = (char*) env->GetStringUTFChars(orientation,NULL);
         _fnumber = fnumber;
         _focallength = focallength;
+        _exposureIndex = (char*) env->GetStringUTFChars(exposureIndex,NULL);
+        gps = false;
     }
 };
 
-JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler)
+JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    return sizeof(writer->bayerBytes);
+    return writer->rawSize;
+
+}
+
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->rawheight = (int) height;
+}
+
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->_make = (char*) env->GetStringUTFChars(make,NULL);
+    writer->_model = (char*) env->GetStringUTFChars(model,NULL);
 }
 
 JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
     jint iso,
-    jdouble expo,
-    jstring make,
-    jstring model,
+    jstring expo,
     jint flash,
     jfloat fNum,
     jfloat focalL,
     jstring imagedescription,
-    jbyteArray mThumb,
-    jstring orientation)
+    jstring orientation,
+    jstring exposureIndex)
 {
-    DngWriter *writer = new DngWriter(env,iso, expo,make, model, flash, fNum, focalL, imagedescription,orientation);
+    DngWriter *writer = new DngWriter(env,iso, expo, flash, fNum, focalL, imagedescription,orientation, exposureIndex);
     return env->NewDirectByteBuffer(writer, 0);
 }
 
@@ -128,6 +145,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env
       writer->Longitude = (double)Longitude;
       writer->Provider = (char*) env->GetStringUTFChars(Provider,NULL);
       writer->gpsTime = (long)(gpsTime);
+      writer->gps = true;
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, int widht, int height)
@@ -156,6 +174,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
     writer->fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
     writer->rawheight = height;
     writer->rawwidht = width;
+    writer->rawSize = env->GetArrayLength(fileBytes);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -174,7 +193,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->tightRaw = tight;
     writer->rowSize =rowSize;
     writer->colorMatrix1 = (float*)colorMatrix1;
-    writer->colorMatrix1 =(float*)colorMatrix2;
+    writer->colorMatrix2 =(float*)colorMatrix2;
     writer->neutralColorMatrix = (float*)neutralColor;
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,NULL);
 }
@@ -192,15 +211,24 @@ TIFF *openfTIFF(char* fileSavePath)
 void writeIfd0(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
 {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+    LOGD("subfiletype");
     assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, writer->rawwidht) != 0);
+    LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
+    LOGD("height");
     assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+    LOGD("bitspersample");
     assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
+    LOGD("PhotometricCFA");
             //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
     assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
+    LOGD("Compression");
     TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    LOGD("sampelsperpixel");
     TIFFSetField(tif, TIFFTAG_MAKE, writer->_make);
+    LOGD("make");
     TIFFSetField(tif, TIFFTAG_MODEL, writer->_model);
+    LOGD("model");
     try
     {
         if(0 == strcmp(writer->_orientation,"0") )
@@ -211,28 +239,40 @@ void writeIfd0(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
         if(0 == strcmp(writer->_orientation,"270") )
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
-        }
+        LOGD("orientation");
+    }
     catch(...)
     {
         LOGD("Caught NULL NOT SET Orientation");
     }
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
+    LOGD("planarconfig");
         //assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreedCam by Troop");
+    LOGD("software");
     TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+    LOGD("dngversion");
     TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+    LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
+    LOGD("imagedescription");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix1);
+    LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
+    LOGD("neutralMatrix");
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
+    LOGD("colormatrix2");
        	    //////////////////////////////IFD POINTERS///////////////////////////////////////
        	                                ///GPS//////////
        	   // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
        	                               ///EXIF////////
-    	TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+    LOGD("set exif");
     	//CheckPOINT to KEEP EXIF IFD in MEMory
     	//Try FiX DIR
 
@@ -334,26 +374,32 @@ void writeExifIfd(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
         if (TIFFCreateEXIFDirectory(tif) != 0) {
             LOGD("TIFFCreateEXIFDirectory() failed" );
         }
-        if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS, 1, writer->_iso)) {
+        short iso[] = {writer->_iso};
+        LOGD("EXIF dir created");
+        if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS,1, iso)) {
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
+        LOGD("iso");
         if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
-
+        LOGD("exposure");
         if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, writer->_fnumber)) {
             LOGD("Can't write Aper" );
         }
+        LOGD("aperture");
         if (!TIFFSetField( tif, EXIFTAG_FLASH, writer->_flash)) {
             LOGD("Can't write Flas" );
         }
-
+        LOGD("flash");
         if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, writer->_focallength)) {
             LOGD("Can't write Focal" );
         }
+        LOGD("focal");
         if (!TIFFSetField( tif, EXIFTAG_FNUMBER, writer->_fnumber)) {
             LOGD("Can't write FNum" );
         }
+        LOGD("fnumber");
 
 
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
@@ -366,13 +412,16 @@ void writeExifIfd(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
 void writeGPSIfd(TIFF *tif, DngWriter *writer, UINT64 gpsIFD_offset)
 {
     ///////////////////////////////////GPS IFD////////////////
-    	if(writer->Longitude > 0)
+    	if(writer->gps == true)
     	{
+    	    LOGD("startGPS");
     	    makeGPS_IFD(tif, writer);
 
             TIFFCheckpointDirectory(tif);
             TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
         }
+        else
+            LOGD("noGPS");
         //////////////////////////////////// GPS END//////////////////////////////////////////
         TIFFSetDirectory(tif, 0);
 }
@@ -385,6 +434,7 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
     buffer =(unsigned char *)malloc(writer->rowSize);
+    LOGD("buffer set");
     j=0;
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -417,12 +467,17 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 			pixel[col+3] += (split & 0b11000000)>>6;
 
 		}
-		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+		if (TIFFWriteScanline(tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-	delete[] buffer;
-	delete[] pixel;
+	LOGD("Write done");
+	TIFFCheckpointDirectory(tif);
+    LOGD("write checkpoint");
+    TIFFWriteDirectory(tif);
+	free(buffer);
+	free(pixel);
+	LOGD("Mem Released");
 }
 
 void processSXXX16(TIFF *tif,DngWriter *writer)
@@ -472,8 +527,11 @@ unsigned short a;
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-	delete[] buffer;
-    delete[] pixel;
+    TIFFCheckpointDirectory(tif);
+    LOGD("write checkpoint");
+    TIFFWriteDirectory(tif);
+	free(buffer);
+    free(pixel);
 
 }
 
@@ -528,9 +586,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     writeRawStuff(tif,writer);
 
     LOGD("Finalizng DNG");
-    TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory (tif);
-    TIFFClose (tif);
+    TIFFClose(tif);
     LOGD("Free Memory");
 
 }

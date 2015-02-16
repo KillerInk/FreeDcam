@@ -64,6 +64,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     double Longitude;
     double Latitude;
     long gpsTime;
+    RawToDng dngConverter;
 
     private HandlerThread backgroundThread;
     Handler handler;
@@ -203,38 +204,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
         {
-            Thumb = data.clone();
 
-            try
-            {
-                final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
-                //Iterable<Directory> dirs = metadata.getDirectories();
-                Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-                //ByteArrayInputStream bais = new ByteArrayInputStream(data);
-                //ExifReader reader = new ExifReader(bais);
-                //header = reader.extract();
-                //Directory dir = header.getDirectory(ExifDirectory.class);
-
-
-                try
-                {
-                    iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-                    expo = exifsub.getString(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
-                    flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
-                    fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
-                    focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                    exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
-                  //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
-
-
-                } catch (MetadataException e) {
-                    e.printStackTrace();
-                }
-            } catch (JpegProcessingException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            addExifAndThumbToDng(data);
 
             baseCameraHolder.ParameterHandler.PictureFormat.SetValue(lastBayerFormat, true);
             baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
@@ -259,6 +230,54 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
         }
 
+    }
+
+    private void addExifAndThumbToDng(byte[] data)
+    {
+        Thumb = data.clone();
+        double x;
+        double y;
+        double calculatedExpo = 0;
+        try
+        {
+            final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
+            Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+
+
+            try
+            {
+                iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
+                expo = exifsub.getString(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
+                flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
+                fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
+                focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
+                //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
+                Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
+
+                String[] expoRat =  exposureIndex.split("/");
+
+
+                if(expoRat.length >= 2){
+                    x = Double.parseDouble(expoRat[0]);
+                    y = Double.parseDouble(expoRat[1]);
+                    calculatedExpo = x/y;
+                }
+                else
+                    calculatedExpo = Double.parseDouble(exposureIndex);
+
+            } catch (MetadataException e) {
+                e.printStackTrace();
+            }
+        } catch (JpegProcessingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
+        if (dngConverter != null)
+            dngConverter.RELEASE();
+        dngConverter = RawToDng.GetInstance(iso, calculatedExpo+"", flash, fNumber, focalLength,IMGDESC, "0", exposureIndex);
     }
 
     private void sendMsg(final String msg)
@@ -310,20 +329,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     l = lastBayerFormat.substring(lastBayerFormat.length() -4);
                 else
                     l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-                Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
 
-                String[] expoRat =  exposureIndex.split("/");
-                double x;
-                double y;
-                double calculatedExpo;
-
-                if(expoRat.length >= 2){
-                    x = Double.parseDouble(expoRat[0]);
-                    y = Double.parseDouble(expoRat[1]);
-                    calculatedExpo = x/y;
-                }
-                else
-                    calculatedExpo = Double.parseDouble(exposureIndex);
                 Log.d(TAG, "Fnum" + String.valueOf(fNumber) + " FOcal" + focalLength);
                 double Altitude = 0;
                 double Latitude = 0;
@@ -337,20 +343,20 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     Longitude = baseCameraHolder.gpsLocation.getLongitude();
                     Provider = baseCameraHolder.gpsLocation.getProvider();
                     gpsTime = baseCameraHolder.gpsLocation.getTime();
+                    dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
                 }
-
-                String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
-                        /*if (baseCameraHolder.ParameterHandler.Orientation.GetValue() != null) {
-
-                            if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
-                                RawToDng.ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, baseCameraHolder.ParameterHandler.Orientation.GetValue(), false);
-                            else
-                                RawToDng.ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, baseCameraHolder.ParameterHandler.Orientation.GetValue(), true);
-                        } else {*/
                 if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
-                    new RawToDng().ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false, Altitude,Latitude, Longitude, Provider,gpsTime);
+                {
+                    dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(),w,h);
+
+                }
+                    //new RawToDng().ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false, Altitude,Latitude, Longitude, Provider,gpsTime);
                 else
-                    new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude,Latitude, Longitude, Provider,gpsTime);
+                {
+                    dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
+                    //new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude, Latitude, Longitude, Provider, gpsTime);
+                }
+                dngConverter.WriteDNG(h,l);
                 //}
                 Thumb = null;
             }

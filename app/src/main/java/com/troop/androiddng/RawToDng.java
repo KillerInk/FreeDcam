@@ -144,13 +144,15 @@ public class RawToDng
 
 
     private ByteBuffer nativeHandler = null;
-    private native int GetRawSize(ByteBuffer nativeHandler);
-    private native void SetGPSData(ByteBuffer nativeHandler,double Altitude,double Latitude,double Longitude, String Provider, long gpsTime);
-    private native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
-    private native void WriteDNG(ByteBuffer nativeHandler);
-    private native void Release(ByteBuffer nativeHandler);
-    private native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout,int width,int height);
-    private native void SetBayerInfo(ByteBuffer nativeHandler,
+    private static native long GetRawBytesSize(ByteBuffer nativeHandler);
+    private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,double Latitude,double Longitude, String Provider, long gpsTime);
+    private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
+    private static native void WriteDNG(ByteBuffer nativeHandler);
+    private static native void Release(ByteBuffer nativeHandler);
+    private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
+    private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
+    private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout,int width,int height);
+    private static native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
@@ -160,48 +162,45 @@ public class RawToDng
                                      String devicename,
                                      boolean tight);
 
-    private native ByteBuffer CreateAndSetExifData(int iso,
-                                             double expo,
-                                             String make,
-                                             String model,
-                                             int flash,
-                                             float fNum,
-                                             float focalL,
-                                             String imagedescription,
-                                             String orientation);
+    private static native ByteBuffer CreateAndSetExifData(int iso,
+                                                   String expo,
+                                                   int flash,
+                                                   float fNum,
+                                                   float focalL,
+                                                   String imagedescription,
+                                                   String orientation,
+                                                   String exposureIndex);
     private RawToDng(int iso,
-                     double expo,
-                     String make,
-                     String model,
+                     String expo,
                      int flash,
                      float fNum,
                      float focalL,
                      String imagedescription,
-                     String orientation)
+                     String orientation,
+                     String exposureIndex)
     {
         if (nativeHandler != null) {
             Release(nativeHandler);
             nativeHandler = null;
         }
-        nativeHandler = CreateAndSetExifData(iso, expo,make,model,flash,fNum,focalL,imagedescription,orientation);
+        nativeHandler = CreateAndSetExifData(iso, expo+"",flash,fNum,focalL,imagedescription,orientation, exposureIndex);
     }
 
     public static RawToDng GetInstance(int iso,
-                                       double expo,
-                                       String make,
-                                       String model,
+                                       String expo,
                                        int flash,
                                        float fNum,
                                        float focalL,
                                        String imagedescription,
-                                       String orientation)
+                                       String orientation,
+                                       String exposureIndex)
     {
-        return new RawToDng(iso, expo,make,model,flash,fNum,focalL,imagedescription,orientation);
+        return new RawToDng(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
     }
 
-    public int GetRawSize()
+    public long GetRawSize()
     {
-        return GetRawSize(nativeHandler);
+        return GetRawBytesSize(nativeHandler);
     }
 
     public void SetGPSData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
@@ -216,6 +215,12 @@ public class RawToDng
         {
             SetThumbData(nativeHandler,mThumb, widht,height);
         }
+    }
+
+    public void SetModelAndMake(String model, String make)
+    {
+        if (nativeHandler !=null)
+            SetModelAndMake(nativeHandler,model,make);
     }
 
     public void SetBayerData(byte[] fileBytes, String fileout,int width,int height)
@@ -237,8 +242,21 @@ public class RawToDng
             SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, blacklevel, bayerformat, rowSize, devicename, tight);
     }
 
-    public void WriteDNG()
+    public void RELEASE()
     {
+        if (nativeHandler !=null)
+            Release(nativeHandler);
+    }
+
+    private void setRawHeight(int height)
+    {
+        if (nativeHandler != null)
+            SetRawHeight(nativeHandler, height);
+    }
+
+    public void WriteDNG(int height, String picformat)
+    {
+        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
             Log.d(TAG, "is htc m8 raw");
@@ -247,8 +265,8 @@ public class RawToDng
         }
         else
         {
-
-            SupportedDevices device = SupportedDevices.GetValue(GetRawSize());
+            long rawsize = GetRawSize();
+            SupportedDevices device = SupportedDevices.GetValue((int)rawsize);
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
@@ -256,6 +274,7 @@ public class RawToDng
                 if (GetRawSize() == 164249650)
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
+                    setRawHeight(3120);
                     /*convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
@@ -264,23 +283,109 @@ public class RawToDng
                 else
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
+                    setRawHeight(device.height);
+                    /*SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     convertRawBytesToDng(data, fileToSave, device.width, device.height,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
+                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);*/
                 }
             }
             else
             {
-                Log.d(TAG, "is default bayer format do calc the row size");
+                SetBayerInfo(g3_color1, g3_color2, g3_neutral,0, picformat, Calculate_rowSize((int)GetRawSize(), height), Build.MODEL,true);
+                setRawHeight(height);
+                /*Log.d(TAG, "is default bayer format do calc the row size");
                 Log.d(TAG, "rowsize :"+Calculate_rowSize(data.length, height));
                 convertRawBytesToDng(data, fileToSave, width, height,
                         g3_color1, g3_color2, g3_neutral,
                         0, format, Calculate_rowSize(data.length, height),
-                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
+                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);*/
             }
 
         }
+        WriteDNG(nativeHandler);
+    }
+
+    private static short extractBits(final short x) {
+        return (short)(0xFFFF & ((x & 0xFFFF) >>> 0 & -1 + (short)(1 << 10)));
+    }
+
+    public static byte[] SixTeenBit(final byte[] data,final int width,final int height)
+    {
+        int n = width /6;
+        int n2 = 0;
+        int n3 = 0;
+
+        //OUTPUT Array
+        final byte[] dataOut = new byte[2 * (width * height)];
+
+        //Stride working byte Array
+        final byte[] strideByteArray = new byte[2 * (width + 10)];
+
+        while(true)
+        {
+            int n4;
+            if (width % 6 == 0 )
+            {
+                n4 = width;
+            }
+            else
+            {
+                n4 = width;
+            }
+
+            if (n3 >= n4 * height / (n * 6))
+            {
+                break;
+            }
+            int n5 = 0;
+
+            for (int i = n3; i < n3 + n; i++)
+            {
+                final short n6 = (short)(0xFFFF & ((0xFF & data[n2 + 1]) << 8 | (0xFF & data[n2 + 0])));
+                final short bits = extractBits(n6);
+                strideByteArray[n5] = (byte)(bits & 0xFF);
+                strideByteArray[n5 + 1] = (byte)(0xFF & (0xFFFF & bits) >>> 8);
+                final short n7 = (short)((0xFFFF & n6) >>> 10);
+                final int n8 = n5 + 2;
+                final short n9 = (short)(0xFFFF & ((0xFF & data[n2 + 2]) << 6 | (0xFFFF & n7)));
+                final short bits2 = extractBits(n9);
+                strideByteArray[n8] = (byte)(bits2 & 0xFF);
+                strideByteArray[n8 + 1] = (byte)(0xFF & (0xFFFF & bits2) >>> 8);
+                final short n10 = (short)((0xFFFF & n9) >>> 10);
+                final int n11 = n8 + 2;
+                final short n12 = (short)(0xFFFF & ((0xFF & data[n2 + 3]) << 4 | (0xFFFF & n10)));
+                final short bits3 = extractBits(n12);
+                strideByteArray[n11] = (byte)(bits3 & 0xFF);
+                strideByteArray[n11 + 1] = (byte)(0xFF & (0xFFFF & bits3) >>> 8);
+                final short n13 = (short)((0xFFFF & n12) >>> 10);
+                final int n14 = n11 + 2;
+                final short n15 = (short)(0xFFFF & ((0xFF & data[n2 + 4]) << 2 | (0xFFFF & n13)));
+                final short bits4 = extractBits(n15);
+                strideByteArray[n14] = (byte)(bits4 & 0xFF);
+                strideByteArray[n14 + 1] = (byte)(0xFF & (0xFFFF & bits4) >>> 8);
+                final short n16 = (short)((0xFFFF & n15) >>> 10);
+                final int n17 = n14 + 2;
+                final short n18 = (short)(0xFFFF & ((0xFF & data[n2 + 6]) << 8 | (0xFF & data[n2 + 5])));
+                final short bits5 = extractBits(n18);
+                strideByteArray[n17] = (byte)(bits5 & 0xFF);
+                strideByteArray[n17 + 1] = (byte)(0xFF & (0xFFFF & bits5) >>> 8);
+                final short n19 = (short)((0xFFFF & n18) >>> 10);
+                final int n20 = n17 + 2;
+                final short n21 = (short)(0xFFFF & ((0xFF & data[n2 + 7]) << 6 | (0xFFFF & n19)));
+                final short bits6 = extractBits(n21);
+                strideByteArray[n20] = (byte)(bits6 & 0xFF);
+                strideByteArray[n20 + 1] = (byte)(0xFF & (0xFFFF & bits6) >>> 8);
+                final short n22 = (short)((0xFFFF & n21) >>> 10);
+                n5 = n20 + 2;
+                n2 += 8;
+            }
+            System.arraycopy(strideByteArray ,0, dataOut, 2 *(n3 * width), width * 2);
+            ++n3;
+        }
+        return dataOut;
+
     }
 
 }
