@@ -308,6 +308,7 @@ public class RawToDng
 
         }
         WriteDNG(nativeHandler);
+        RELEASE();
     }
 
     private static short extractBits(final short x) {

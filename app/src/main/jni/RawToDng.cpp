@@ -160,10 +160,10 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *e
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    if(writer->bayerBytes != NULL)
+    /*if(writer->bayerBytes != NULL)
         free(writer->bayerBytes);
     if(writer->_thumbData != NULL)
-        free(writer->_thumbData);
+        free(writer->_thumbData);*/
     free(writer);
     writer = NULL;
 }
@@ -448,8 +448,11 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 	TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
     TIFFWriteDirectory(tif);
-	free(buffer);
-	free(pixel);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+    LOGD("Free Memory");
+	//free(buffer);
+	//free(pixel);
 	LOGD("Mem Released");
 }
 
@@ -502,8 +505,11 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 	}
     TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory (tif);
-	free(buffer);
-    free(pixel);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+    LOGD("Free Memory");
+	//free(buffer);
+    //free(pixel);
 
 }
 
@@ -577,9 +583,5 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
     writeRawStuff(tif,writer);
-
-    LOGD("Finalizng DNG");
-    TIFFClose(tif);
-    LOGD("Free Memory");
 
 }

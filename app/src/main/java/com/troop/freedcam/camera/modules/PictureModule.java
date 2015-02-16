@@ -66,8 +66,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     long gpsTime;
     RawToDng dngConverter;
 
-    private HandlerThread backgroundThread;
-    Handler handler;
+    //private HandlerThread backgroundThread;
+    //Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -110,12 +110,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                dowork();
-            }
-        });
+       new Thread()
+       {
+           @Override
+           public void run() {
+               dowork();
+           }
+       }.start();
 
 
 
@@ -190,13 +191,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     public void onPictureTaken(final byte[] data)
     {
-        handler.post(new Runnable() {
+        new Thread() {
             @Override
             public void run() {
                 processImage(data);
                 isWorking = false;
             }
-        });
+        }.start();
 
     }
 
@@ -282,12 +283,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private void sendMsg(final String msg)
     {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
+
                 baseCameraHolder.errorHandler.OnError(msg);
-            }
-        });
+
     }
 
     protected boolean processCallbackData(byte[] data) {
@@ -463,9 +461,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        backgroundThread = new HandlerThread("PictureModuleThread");
+        /*backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
-        handler = new Handler(backgroundThread.getLooper());
+        handler = new Handler(backgroundThread.getLooper());*/
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
@@ -484,7 +482,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void UnloadNeededParameters()
     {
-        handler = null;
+        /*handler = null;
         try
         {
             backgroundThread.interrupt();
@@ -497,7 +495,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         finally {
 
             backgroundThread =null;
-        }
+        }*/
 
 
     }
