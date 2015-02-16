@@ -163,37 +163,37 @@ public class RawToDng
                                      boolean tight);
 
     private static native ByteBuffer CreateAndSetExifData(int iso,
-                                                   String expo,
+                                                   double expo,
                                                    int flash,
                                                    float fNum,
                                                    float focalL,
                                                    String imagedescription,
                                                    String orientation,
-                                                   String exposureIndex);
+                                                   double exposureIndex);
     private RawToDng(int iso,
-                     String expo,
+                     double expo,
                      int flash,
                      float fNum,
                      float focalL,
                      String imagedescription,
                      String orientation,
-                     String exposureIndex)
+                     double exposureIndex)
     {
         if (nativeHandler != null) {
             Release(nativeHandler);
             nativeHandler = null;
         }
-        nativeHandler = CreateAndSetExifData(iso, expo+"",flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        nativeHandler = CreateAndSetExifData(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
     }
 
     public static RawToDng GetInstance(int iso,
-                                       String expo,
+                                       double expo,
                                        int flash,
                                        float fNum,
                                        float focalL,
                                        String imagedescription,
                                        String orientation,
-                                       String exposureIndex)
+                                       double exposureIndex)
     {
         return new RawToDng(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
     }

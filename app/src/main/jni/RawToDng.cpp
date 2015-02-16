@@ -15,7 +15,7 @@
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
-typedef unsigned long long UINT64;
+typedef unsigned long long uint64;
 typedef unsigned short UINT16;
 typedef unsigned char uint8;
 
@@ -23,13 +23,13 @@ extern "C"
 {
     JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
     jint iso,
-    jstring expo,
+    jdouble expo,
     jint flash,
     jfloat fNum,
     jfloat focalL,
     jstring imagedescription,
     jstring orientation,
-    jstring exposureIndex);
+    jdouble exposureIndex);
 
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jdouble Latitude,jdouble Longitude, jstring Provider, jlong gpsTime);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, jint widht, jint height);
@@ -57,13 +57,13 @@ class DngWriter
 {
 public:
     int _iso, _flash;
-    char* _exposure;
+    double _exposure;
     char* _make;
     char*_model;
     char* _imagedescription;
     char* _orientation;
     float _fnumber, _focallength;
-    char* _exposureIndex;
+    double _exposureIndex;
 
     double Altitude;
     double Latitude;
@@ -89,16 +89,16 @@ public:
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
-    DngWriter(JNIEnv *env, jint iso, jstring expo, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation, jstring exposureIndex)
+    DngWriter(JNIEnv *env, jint iso, jdouble expo, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation, jdouble exposureIndex)
     {
         _iso = iso;
-        _exposure =(char*) env->GetStringUTFChars(expo,NULL);
+        _exposure =expo;
         _flash = flash;
         _imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
         _orientation = (char*) env->GetStringUTFChars(orientation,NULL);
         _fnumber = fnumber;
         _focallength = focallength;
-        _exposureIndex = (char*) env->GetStringUTFChars(exposureIndex,NULL);
+        _exposureIndex = exposureIndex;
         gps = false;
     }
 };
@@ -125,13 +125,13 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv
 
 JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
     jint iso,
-    jstring expo,
+    jdouble expo,
     jint flash,
     jfloat fNum,
     jfloat focalL,
     jstring imagedescription,
     jstring orientation,
-    jstring exposureIndex)
+    jdouble exposureIndex)
 {
     DngWriter *writer = new DngWriter(env,iso, expo, flash, fNum, focalL, imagedescription,orientation, exposureIndex);
     return env->NewDirectByteBuffer(writer, 0);
@@ -192,9 +192,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->blacklevel = new float[4] {blacklevel, blacklevel, blacklevel,blacklevel};
     writer->tightRaw = tight;
     writer->rowSize =rowSize;
-    writer->colorMatrix1 = (float*)colorMatrix1;
-    writer->colorMatrix2 =(float*)colorMatrix2;
-    writer->neutralColorMatrix = (float*)neutralColor;
+    writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
+    writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
+    writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,NULL);
 }
 
@@ -208,7 +208,7 @@ TIFF *openfTIFF(char* fileSavePath)
     return tif;
 }
 
-void writeIfd0(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
+void writeIfd0(TIFF *tif, DngWriter *writer)
 {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype");
@@ -271,14 +271,7 @@ void writeIfd0(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
        	                                ///GPS//////////
        	   // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
        	                               ///EXIF////////
-    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
-    LOGD("set exif");
-    	//CheckPOINT to KEEP EXIF IFD in MEMory
-    	//Try FiX DIR
 
-    	TIFFCheckpointDirectory(tif);
-    	TIFFWriteDirectory(tif);
-    	TIFFSetDirectory(tif, 0);
 }
 
 
@@ -300,13 +293,13 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-    const char* longitudeRef = writer->Longitude  < 0 ? "E" : "W";
+    /*const char* longitudeRef = writer->Longitude  < 0 ? "E" : "W";
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
         LOGD("Can't write LongitudeRef" );
     }
     LOGD("LONG REF Written %c", longitudeRef);
-    delete longitudeRef;
+
     if (!TIFFSetField(tif, GPSTAG_GPSLongitude, calculateGpsPos(writer->Longitude)))
     {
         LOGD("Can't write Longitude" );
@@ -318,7 +311,7 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
         LOGD("Can't write LAti REf" );
     }
     LOGD("LATI REF Written %c", latitudeRef);
-    delete latitudeRef;
+
     if (!TIFFSetField( tif, GPSTAG_GPSLatitude,calculateGpsPos(writer->Longitude)))
     {
         LOGD("Can't write Latitude" );
@@ -339,7 +332,7 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
         LOGD("Can't write AltitudeRef" );
 
     }*/
-    if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
+    /*if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
         LOGD("Can't write IMG Directon" );
     }
     LOGD("I DIRECTION Written");
@@ -347,11 +340,11 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
     {
         LOGD("Can't write LongitudeRef" );
     }*/
-    if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, writer->Provider)) {
+    /*if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, writer->Provider)) {
         LOGD("Can't write Proc Method" );
-    }
+    }*/
 
-    if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
+    /*if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
         LOGD("Can't write IMG DIREC REf" );
     }
     LOGD("I DREF Written");
@@ -360,14 +353,14 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
         LOGD("Can't write Tstamp" );
     }
     LOGD("TSAMP Written");*/
-    if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, 1.)) {
+    /*if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, 1.)) {
         LOGD("Can't write ALTIREF" );
     }
-    LOGD("ALT Written");
+    LOGD("ALT Written");*/
 
 }
 
-void writeExifIfd(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
+void writeExifIfd(TIFF *tif, DngWriter *writer)
 {
     /////////////////////////////////// EXIF IFD //////////////////////////////
         LOGD("EXIF IFD DATA");
@@ -380,7 +373,7 @@ void writeExifIfd(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("iso");
-        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
+        /*if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("exposure");
@@ -399,31 +392,10 @@ void writeExifIfd(TIFF *tif, DngWriter *writer, UINT64 dir_offset)
         if (!TIFFSetField( tif, EXIFTAG_FNUMBER, writer->_fnumber)) {
             LOGD("Can't write FNum" );
         }
-        LOGD("fnumber");
+        LOGD("fnumber");*/
 
 
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
-        TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-        TIFFWriteCustomDirectory(tif, &dir_offset);
-    ///////////////////// GO Back TO IFD 0
-        TIFFSetDirectory(tif, 0);
-}
-
-void writeGPSIfd(TIFF *tif, DngWriter *writer, UINT64 gpsIFD_offset)
-{
-    ///////////////////////////////////GPS IFD////////////////
-    	if(writer->gps == true)
-    	{
-    	    LOGD("startGPS");
-    	    makeGPS_IFD(tif, writer);
-
-            TIFFCheckpointDirectory(tif);
-            TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
-        }
-        else
-            LOGD("noGPS");
-        //////////////////////////////////// GPS END//////////////////////////////////////////
-        TIFFSetDirectory(tif, 0);
 }
 
 void processSXXX10packed(TIFF *tif,DngWriter *writer)
@@ -482,12 +454,12 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 
 void processSXXX16(TIFF *tif,DngWriter *writer)
 {
-unsigned short a;
+    unsigned short a;
     int i, j, row, col, b;
-     unsigned char *buffer;
-     unsigned char split; // single byte with 4 pairs of low-order bits
-     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
-     buffer =(unsigned char *)malloc(writer->rowSize);
+    unsigned char *buffer;
+    unsigned char split; // single byte with 4 pairs of low-order bits
+    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
+    buffer =(unsigned char *)malloc(writer->rowSize);
 
     j=0;
 
@@ -528,8 +500,7 @@ unsigned short a;
 		}
 	}
     TIFFCheckpointDirectory(tif);
-    LOGD("write checkpoint");
-    TIFFWriteDirectory(tif);
+    TIFFWriteDirectory (tif);
 	free(buffer);
     free(pixel);
 
@@ -572,16 +543,36 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)
 {
-    UINT64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
+    uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     TIFF *tif = openfTIFF(writer->fileSavePath);
-    writeIfd0(tif,writer, dir_offset);
-    writeGPSIfd(tif,writer, gpsIFD_offset);
-    writeExifIfd(tif,writer, dir_offset);
 
-///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-    TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-    TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
+    writeIfd0(tif,writer);
+    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+    LOGD("set exif");
+    //CheckPOINT to KEEP EXIF IFD in MEMory
+    //Try FiX DIR
+    TIFFCheckpointDirectory(tif);
+    TIFFWriteDirectory(tif);
+    TIFFSetDirectory(tif, 0);
+
+    if(writer->gps == true)
+    {
+        makeGPS_IFD(tif, writer);
+        TIFFCheckpointDirectory(tif);
+        TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+    }
+    TIFFSetDirectory(tif, 0);
+
+    writeExifIfd(tif,writer);
+    //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
+        TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
+        TIFFWriteCustomDirectory(tif, &dir_offset);
+    ///////////////////// GO Back TO IFD 0
+        TIFFSetDirectory(tif, 0);
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+             ///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
+        TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
     writeRawStuff(tif,writer);
 
