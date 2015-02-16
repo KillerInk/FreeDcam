@@ -195,7 +195,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
-    writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,NULL);
+    writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
 }
 
 TIFF *openfTIFF(char* fileSavePath)
@@ -373,7 +373,7 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("iso");
-        /*if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
+        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("exposure");
@@ -392,7 +392,7 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
         if (!TIFFSetField( tif, EXIFTAG_FNUMBER, writer->_fnumber)) {
             LOGD("Can't write FNum" );
         }
-        LOGD("fnumber");*/
+        LOGD("fnumber");
 
 
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
