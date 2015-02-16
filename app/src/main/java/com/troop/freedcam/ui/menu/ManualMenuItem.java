@@ -105,11 +105,34 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public void DisableItem()
     {
         isChecked = false;
-        toggleButton.setBackgroundColor(btncolor);
+
+        if (isSetSupported)
+        {
+            textViewName.setTextColor(txtcolor);
+            textViewValue.setTextColor(txtcolor);
+            toggleButton.setBackgroundColor(btncolor);
+        }
+        else
+        {
+            textViewName.setTextColor(btncolor);
+            textViewValue.setTextColor(btncolor);
+            toggleButton.setBackgroundColor(txtcolor);
+        }
     }
 
-    public void EnableItem() {
+    public void EnableItem()
+    {
         isChecked = true;
+        if (isSetSupported)
+        {
+            textViewName.setTextColor(txtcolor);
+            textViewValue.setTextColor(txtcolor);
+        }
+        else
+        {
+            textViewName.setTextColor(btncolor);
+            textViewValue.setTextColor(btncolor);
+        }
         toggleButton.setBackgroundColor(enable);
     }
 
