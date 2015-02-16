@@ -131,20 +131,19 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
 
         }
 
-        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler() {
+        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
+        {
             @Override
             public void onDeviceFound(ServerDevice device) {
                 serverDevice = device;
-                appSettingsManager.context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                new Thread(){
+                    public void run()
+                    {
                         cameraHolder.OpenCamera(serverDevice);
                     }
-                });
-
+                }.start();
 
             }
-
             @Override
             public void onFinished()
             {
