@@ -110,17 +110,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
-       new Thread()
-       {
-           @Override
-           public void run() {
                dowork();
-           }
-       }.start();
-
-
-
-
     }
 
     private void dowork() {
@@ -195,7 +185,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             @Override
             public void run() {
                 processImage(data);
-                isWorking = false;
+                isWorking=false;
             }
         }.start();
 
@@ -367,7 +357,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "Start Media Scan " + file.getName());
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
         eventHandler.WorkFinished(file);
-        workfinished(true);
+
 
     };
 
