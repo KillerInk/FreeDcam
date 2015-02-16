@@ -39,6 +39,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout, jint width,jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
 
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -293,7 +294,7 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-    /*const char* longitudeRef = writer->Longitude  < 0 ? "E" : "W";
+    const char* longitudeRef = writer->Longitude  < 0 ? "E" : "W";
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
         LOGD("Can't write LongitudeRef" );
@@ -566,13 +567,14 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
-        TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-        TIFFWriteCustomDirectory(tif, &dir_offset);
+    TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
+    TIFFWriteCustomDirectory(tif, &dir_offset);
     ///////////////////// GO Back TO IFD 0
-        TIFFSetDirectory(tif, 0);
+    TIFFSetDirectory(tif, 0);
+    if(writer->gps)
         TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
              ///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-        TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
+    TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
     writeRawStuff(tif,writer);
 

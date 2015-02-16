@@ -245,7 +245,10 @@ public class RawToDng
     public void RELEASE()
     {
         if (nativeHandler !=null)
+        {
             Release(nativeHandler);
+            nativeHandler = null;
+        }
     }
 
     private void setRawHeight(int height)
