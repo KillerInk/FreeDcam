@@ -26,12 +26,8 @@ public class HdrModule extends PictureModule
 {
 
     private static String TAG = "freedcam.HdrModule";
-    public static Object DoNext = new Object();
-    public static Object SaveNext = new Object();
-    public static Object DoNext2 = new Object();
 
     int hdrCount = 0;
-    int NativeRun = 0;
     boolean aeBrackethdr = false;
     File[] files;
 
@@ -53,7 +49,6 @@ public class HdrModule extends PictureModule
         {
             files = new File[3];
             hdrCount = 0;
-            NativeRun = 0;
             workstarted();
             takePicture();
         }
@@ -99,25 +94,32 @@ public class HdrModule extends PictureModule
     protected void takePicture()
     {
         this.isWorking = true;
-        Log.d(TAG, "Start Taking Picture");
+        new Thread(){
+            @Override
+            public void run() {
 
-        try
-        {
-            if (!ParameterHandler.isAeBracketActive)
-            {
-                setExposureToCamera();
-                Thread.sleep(1000);
+                Log.d(TAG, "Start Taking Picture");
+
+                try
+                {
+                    if (!ParameterHandler.isAeBracketActive)
+                    {
+                        setExposureToCamera();
+                        Thread.sleep(800);
+                    }
+
+                    //soundPlayer.PlayShutter();
+                    baseCameraHolder.TakePicture(shutterCallback,rawCallback,HdrModule.this);
+                    Log.d(TAG, "Picture Taking is Started");
+                }
+                catch (Exception ex)
+                {
+                    Log.d(TAG,"Take Picture Failed");
+                    ex.printStackTrace();
+                }
             }
+        }.start();
 
-            //soundPlayer.PlayShutter();
-            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
-            Log.d(TAG, "Picture Taking is Started");
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG,"Take Picture Failed");
-            ex.printStackTrace();
-        }
     }
 
     private void setExposureToCamera()
@@ -137,52 +139,58 @@ public class HdrModule extends PictureModule
         Log.d(TAG, "HDR Exposure SET");
     }
 
-    public void onPictureTaken(byte[] data)
+    public void onPictureTaken(final byte[] data)
     {
         if (processCallbackData(data, saveFileRunner)) return;
-        if (hdrCount == 3) {
+
+        if (hdrCount == 3)
+        {
             baseCameraHolder.StartPreview();
+
             if (ParameterHandler.PictureFormat.GetValue().contains("bayer") && parametersHandler.isDngActive)
             {
-                for (int i =0; i< files.length; i++)
+                new Thread()
                 {
-                    byte[] rawdata = null;
-
-
-                    try
+                    @Override
+                    public void run()
                     {
-                        rawdata = MainActivity.readFile(files[i]);
-                        Log.d(TAG, "Filesize: " + data.length);
+                        for(int i = 0;i<files.length;i++)
+                        {
+                            byte[] rawdata = null;
 
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                            try {
+                                rawdata = MainActivity.readFile(files[i]);
+                                Log.d(TAG, "Filesize: " + data.length);
+
+                            } catch (FileNotFoundException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            String raw[] = getRawSize();
+                            int w = Integer.parseInt(raw[0]);
+                            int h = Integer.parseInt(raw[1]);
+                            String l;
+                            String dngFile = files[i].getAbsolutePath().replace("raw", "dng");
+                            if (lastBayerFormat != null)
+                                l = lastBayerFormat.substring(lastBayerFormat.length() - 4);
+                            else
+                                l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() - 4);
+                            final RawToDng dng = RawToDng.GetInstance(0, 0, 0, 0, 0, "", "0", 0);
+                            dng.SetBayerData(rawdata, dngFile, w, h);
+                            dng.WriteDNG(h, l);
+                            //RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
+                            System.out.println("Current Expo" + hdrCount + " " + getStringAddTime());
+                            if (files[i].delete() == true)
+                                Log.d(TAG, "file: " + files[i].getName() + " deleted");
+                            Log.d(TAG, "Start Media Scan " + file.getName());
+                            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(dngFile));
+
+                        }
                     }
-                    String raw[] = getRawSize();
-                    int w = Integer.parseInt(raw[0]);
-                    int h = Integer.parseInt(raw[1]);
-                    String l;
-                    String dngFile= files[i].getAbsolutePath().replace("raw","dng");
-                    if(lastBayerFormat != null)
-                        l = lastBayerFormat.substring(lastBayerFormat.length() -4);
-                    else
-                        l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
-                    final byte fin[] = rawdata;
-                    final String finS = dngFile;
-                    final int finW = w;
-                    final int finH = h;
-                    final String finL = l;
-                    //RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
-                    System.out.println("Current Expo" +hdrCount +" "+ getStringAddTime());
-                    if (files[i].delete() == true)
-                        Log.d(TAG, "file: "+ files[i].getName() + " deleted");
-                    Log.d(TAG, "Start Media Scan " + file.getName());
-                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(dngFile));
-
-                }
+                }.start();
             }
             workfinished(true);
             parametersHandler.ManualExposure.SetValue(0);
