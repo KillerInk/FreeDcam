@@ -188,7 +188,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 isWorking=false;
             }
         }.start();
-
     }
 
     private void processImage(byte[] data) {

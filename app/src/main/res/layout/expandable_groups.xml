@@ -13,12 +13,12 @@
         android:id="@+id/tvGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dip"
+        android:textSize="@dimen/GroupTextSize"
         android:text="Group Test"
         android:textColor="#ff000000"
         android:gravity="center_vertical|center_horizontal"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp" />
+        android:layout_marginLeft="@dimen/MargineMenuItems"
+        android:layout_marginRight="@dimen/MargineMenuItems" />
 
     <LinearLayout
         android:orientation="vertical"

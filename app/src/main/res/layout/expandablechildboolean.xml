@@ -7,8 +7,9 @@
 
     <Switch
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_icon_size"
+        android:layout_height="wrap_content"
         android:text="New Switch"
         android:id="@+id/switch1"
-        android:background="#ffa0a0a0" />
+        android:background="#ffa0a0a0"
+        android:textSize="@dimen/ChildTextSize" />
 </LinearLayout>

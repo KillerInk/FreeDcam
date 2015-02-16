@@ -21,6 +21,9 @@
     <dimen name="crosshair_height">60dp</dimen>
     <dimen name="margineLeftCameraControls">9dp</dimen>
     <dimen name="SizeCameraControls">42dp</dimen>
+    <dimen name="GroupTextSize">17dp</dimen>
+    <dimen name="MargineMenuItems">3dp</dimen>
+    <dimen name="ChildTextSize">15dp</dimen>
 
 
 </resources>

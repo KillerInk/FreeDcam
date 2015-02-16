@@ -105,7 +105,7 @@ public class HdrModule extends PictureModule
                     if (!ParameterHandler.isAeBracketActive)
                     {
                         setExposureToCamera();
-                        Thread.sleep(800);
+                        Thread.sleep(1000);
                     }
 
                     //soundPlayer.PlayShutter();
@@ -287,4 +287,6 @@ public class HdrModule extends PictureModule
         }
         return null;
     }
+
+
 }

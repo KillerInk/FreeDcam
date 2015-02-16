@@ -13,26 +13,26 @@
         android:id="@+id/tvChild"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dip"
+        android:textSize="@dimen/ChildTextSize"
         android:text="Test"
         android:clickable="false"
         android:gravity="center_horizontal"
         android:textStyle="bold"
         android:autoText="false"
         android:textColor="#ff000000"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp" />
+        android:layout_marginLeft="@dimen/MargineMenuItems"
+        android:layout_marginRight="@dimen/MargineMenuItems" />
     <TextView
         android:id="@+id/tvChildValue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dip"
+        android:textSize="@dimen/ChildTextSize"
         android:text="Test"
         android:clickable="false"
         android:focusable="false"
         android:gravity="center_horizontal"
         android:textColor="#ff000000"
-        android:layout_marginRight="3dp"
-        android:layout_marginLeft="3dp" />
+        android:layout_marginRight="@dimen/MargineMenuItems"
+        android:layout_marginLeft="@dimen/MargineMenuItems" />
 
 </LinearLayout>
