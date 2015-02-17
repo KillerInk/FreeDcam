@@ -87,7 +87,7 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
     @Override
     public void VideoProfileChanged(String videoProfile)
     {
-        if (videoProfile != null && !videoProfile.equals("") && videoProfile.contains("bayer-mipi"))
+        if (videoProfile != null && !videoProfile.equals("") && videoProfile.contains("bayer"))
         {
             if (!isVisible)
             {

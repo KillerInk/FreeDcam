@@ -180,7 +180,7 @@ public class HdrModule extends PictureModule
                                 l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() - 4);
                             final RawToDng dng = RawToDng.GetInstance(0, 0, 0, 0, 0, "", "0", 0);
                             dng.SetBayerData(rawdata, dngFile, w, h);
-                            dng.WriteDNG(h, l);
+                            dng.WriteDNG(h, l, rawdata.length);
                             //RawToDng.ConvertRawBytesToDngFast( fin,finS,finW,finH,finL);
                             System.out.println("Current Expo" + hdrCount + " " + getStringAddTime());
                             if (files[i].delete() == true)

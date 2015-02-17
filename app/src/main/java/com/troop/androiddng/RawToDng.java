@@ -20,11 +20,12 @@ public class RawToDng
 
     private static final String TAG = StringUtils.TAG + RawToDng.class.getSimpleName();
 
-    enum SupportedDevices
+    public enum SupportedDevices
     {
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
         //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
         G3_Mipi_LL(             16224256, g3_blacklevel, "BGGR",4208,3082, true, getG3_rowSizeL),
+        G3_Qcom(17326080, g3_blacklevel, "BGGR",4164,3120,false, 0),
         IMX135_214(             16424960, g3_blacklevel, "BGGR",4208,3120, true, g3_rowSizeKitKat),
         //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
@@ -41,8 +42,8 @@ public class RawToDng
         private final int filesize;
         private final int blacklvl;
         private final String imageformat;
-        private final int width;
-        private final int height;
+        public final int width;
+        public final int height;
         final boolean tightraw;
         //if rowsize = 0calculate it!
         final int rowsize;
@@ -257,7 +258,7 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    public void WriteDNG(int height, String picformat)
+    public void WriteDNG(int height, String picformat, int rawsize)
     {
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
@@ -268,13 +269,13 @@ public class RawToDng
         }
         else
         {
-            long rawsize = GetRawSize();
-            SupportedDevices device = SupportedDevices.GetValue((int)rawsize);
+
+            SupportedDevices device = SupportedDevices.GetValue(rawsize);
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (GetRawSize() == 164249650)
+                if (rawsize == 164249650)
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
@@ -385,6 +386,7 @@ public class RawToDng
                 n5 = n20 + 2;
                 n2 += 8;
             }
+
             System.arraycopy(strideByteArray ,0, dataOut, 2 *(n3 * width), width * 2);
             ++n3;
         }

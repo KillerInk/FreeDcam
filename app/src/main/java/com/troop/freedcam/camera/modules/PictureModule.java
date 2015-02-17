@@ -119,7 +119,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             this.isWorking = true;
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-            if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer-mipi"))
+            if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
             {
                 lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
                 baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
@@ -192,7 +192,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private void processImage(byte[] data) {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
-        if (dngJpegShot && lastBayerFormat.contains("bayer-mipi"))
+        if (dngJpegShot && lastBayerFormat.contains("bayer"))
         {
 
             addExifAndThumbToDng(data);
@@ -334,7 +334,11 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 }
                 if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
                 {
-                    dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(),w,h);
+                    RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue((int)bytes.length);
+                    if (device == null)
+                        dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(),w,h);
+                    else
+                        dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, device.width, device.height), file.getAbsolutePath(),device.width, device.height);
 
                 }
                     //new RawToDng().ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false, Altitude,Latitude, Longitude, Provider,gpsTime);
@@ -343,7 +347,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
                     //new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude, Latitude, Longitude, Provider, gpsTime);
                 }
-                dngConverter.WriteDNG(h,l);
+                dngConverter.WriteDNG(h,l,bytes.length);
                 //}
                 Thumb = null;
             }
@@ -427,7 +431,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         String pictureFormat = ParameterHandler.PictureFormat.GetValue();
         if (rawFormats.contains(pictureFormat))
         {
-            if (pictureFormat.contains("bayer-mipi") && parametersHandler.isDngActive)
+            if (pictureFormat.contains("bayer") && parametersHandler.isDngActive)
                 return new File(s1 +"_" + pictureFormat +".dng");
             else
                 return new File(s1 + "_" + pictureFormat + ".raw");
