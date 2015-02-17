@@ -289,7 +289,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            layoutParams.rightMargin = newwidthdiff;
+            layoutParams.rightMargin = newwidthdiff/2;
+            layoutParams.leftMargin = newwidthdiff /2;
             this.setLayoutParams(layoutParams);
         }
     }
