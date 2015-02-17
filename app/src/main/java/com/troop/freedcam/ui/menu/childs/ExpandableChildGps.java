@@ -19,7 +19,7 @@ import com.troop.freedcam.ui.menu.ExpandableGroup;
 /**
  * Created by troop on 09.02.2015.
  */
-public class ExpandableChildGps extends ExpandableChild implements LocationListener
+public class ExpandableChildGps extends ExpandableChild implements LocationListener, CompoundButton.OnCheckedChangeListener
 {
     protected Switch aSwitch;
     LocationManager locationManager;
@@ -29,10 +29,9 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     AbstractCameraHolder cameraHolder;
     AbstractCameraUiWrapper cameraUiWrapper;
 
-    public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,AbstractCameraUiWrapper cameraUiWrapper) {
+    public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
         parameterHolder = new SimpleModeParameter();
-        this.cameraUiWrapper = cameraUiWrapper;
         ((SimpleModeParameter)parameterHolder).setIsSupported(true);
     }
 
@@ -43,62 +42,20 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
         inflater.inflate(R.layout.expandablechildboolean_on_off, this);
         aSwitch = (Switch)findViewById(R.id.switch1);
         aSwitch.setText(Name);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if (locationManager != null)
-                {
-                    if (isChecked)
-                    {
-                        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                        //boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                        if (gps)
-                        {
-                            Location loc = null;
-                            /*if (network)
-                            {
-                                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                                        updateTime,
-                                        updateDistance,
-                                        ExpandableChildGps.this);
-                                loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                            }*/
-                            if(gps && loc == null)
-                            {
-                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                                        updateTime,
-                                        updateDistance,
-                                        ExpandableChildGps.this);
-                                loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            }
-                            if (loc != null)
-                                cameraHolder.SetLocation(loc);
-                        }
-                        else
-                        {
-                            cameraUiWrapper.onCameraError("Gps is deactivated");
-                            aSwitch.setChecked(false);
-                        }
-                    }
-                    else
-                    {
-                        if(locationManager != null)
-                        {
-                            locationManager.removeUpdates(ExpandableChildGps.this);
-                        }
-                    }
-                }
-                appSettingsManager.setString(settingsname, isChecked +"");
-
-            }
-        });
         locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+        aSwitch.setOnCheckedChangeListener(this);
+
     }
 
-    public void SetCameraHolder(AbstractCameraHolder cameraHolder)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder = cameraHolder;
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.cameraHolder = cameraUiWrapper.cameraHolder;
+        final String set = appSettingsManager.getString(settingsname);
+        final boolean check = Boolean.parseBoolean(set);
+        aSwitch.setChecked(check);
+        if (check)
+            startLocationListing();
     }
 
 
@@ -124,6 +81,70 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     @Override
     public void onProviderDisabled(String provider)
     {
-        aSwitch.setChecked(false);
+        //aSwitch.setChecked(false);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+
+        if (locationManager != null)
+        {
+            if (isChecked)
+            {
+                startLocationListing();
+            }
+            else
+            {
+                stopLocationListining();
+            }
+        }
+        final String check = aSwitch.isChecked() +"";
+        appSettingsManager.setString(settingsname,  check);
+
+
+    }
+
+    public void stopLocationListining() {
+        if(locationManager != null)
+        {
+            locationManager.removeUpdates(ExpandableChildGps.this);
+        }
+    }
+
+    public void startLocationListing() {
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (gps || network)
+        {
+            Location locnet = null;
+            Location locgps = null;
+            if (network)
+            {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                        updateTime,
+                        updateDistance,
+                        ExpandableChildGps.this);
+                locnet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            if(gps)
+            {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        updateTime,
+                        updateDistance,
+                        ExpandableChildGps.this);
+                locgps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
+            if (locgps != null && cameraHolder != null)
+                cameraHolder.SetLocation(locgps);
+            else if(locnet != null && cameraHolder != null)
+                cameraHolder.SetLocation(locnet);
+        }
+        else
+        {
+            if (cameraUiWrapper != null)
+                cameraUiWrapper.onCameraError("Gps and Network are deactivated");
+            aSwitch.setChecked(false);
+        }
     }
 }
