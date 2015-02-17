@@ -219,7 +219,8 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        StartCamera();
+        new Thread(){ public void run(){StartCamera();}}.start();
+
     }
 
     @Override
