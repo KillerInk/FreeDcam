@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
+import android.media.MediaMuxer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
@@ -161,13 +162,27 @@ public class VideoModule extends AbstractModule
         VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         CamcorderProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
+
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
+        recorder.setOutputFormat(prof.fileFormat);
 
-        recorder.setProfile(prof);
+        if (!profile.contains("Timelapse")) {
+            recorder.setAudioChannels(prof.audioChannels);
+            recorder.setAudioEncoder(prof.audioCodec);
+            recorder.setAudioEncodingBitRate(prof.audioBitRate);
+            recorder.setAudioSamplingRate(prof.audioSampleRate);
+        }
+
+        recorder.setVideoEncoder(prof.videoCodec);
+        recorder.setVideoEncodingBitRate(prof.videoBitRate);
+        recorder.setVideoSize(prof.videoFrameWidth ,prof.videoFrameHeight);
+        recorder.setVideoFrameRate(prof.videoFrameRate);
+
+        //recorder.setProfile(prof);
 
         if (profile.contains("Timelapse"))
         {
