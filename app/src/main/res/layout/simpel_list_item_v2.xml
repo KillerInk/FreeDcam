@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="@dimen/menuwidth"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#ffa0a0a0">
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/app_icon_size"
         android:text="Medium Text"
         android:id="@+id/textView_simple_list_item_v2"
         android:textColor="#ff000000"
         android:singleLine="true"
         android:textSize="@dimen/GroupTextSize"
-        android:layout_marginLeft="5dp"
-        android:textIsSelectable="false" />
+        android:layout_marginLeft="@dimen/MargineMenuItems"
+        android:textIsSelectable="false"
+        android:layout_marginRight="@dimen/MargineMenuItems"
+        android:gravity="center_vertical" />
 </LinearLayout>

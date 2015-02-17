@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="180dp"
+    android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#ffa0a0a0"
     android:clickable="true"
@@ -16,7 +16,7 @@
         android:clickable="true" />
 
     <EditText
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
@@ -25,7 +25,8 @@
         android:clickable="false"
         android:enabled="false"
         android:digits="1"
-        android:text="0.00" />
+        android:text="0.00"
+        android:textSize="@dimen/ChildTextSize" />
 
     <Button
         android:layout_width="@dimen/app_icon_size"

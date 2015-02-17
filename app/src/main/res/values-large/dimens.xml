@@ -11,5 +11,9 @@
     <dimen name="app_icon_size">70dp</dimen>
     <dimen name="autolayout_margineTop">72dp</dimen><dimen name="menuwidth">500dp</dimen>
     <dimen name="manualMenuHeight">35dp</dimen>
+    <dimen name="SizeCameraControls">42dp</dimen>
+    <dimen name="GroupTextSize">21dp</dimen>
+    <dimen name="MargineMenuItems">3dp</dimen>
+    <dimen name="ChildTextSize">15dp</dimen>
 
 </resources>
