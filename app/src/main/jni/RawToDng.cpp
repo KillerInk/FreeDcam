@@ -31,7 +31,7 @@ extern "C"
     jstring orientation,
     jdouble exposureIndex);
 
-    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jdouble Latitude,jdouble Longitude, jstring Provider, jlong gpsTime);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, jint widht, jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
@@ -67,8 +67,8 @@ public:
     double _exposureIndex;
 
     double Altitude;
-    double Latitude;
-    double Longitude;
+    float *Latitude;
+    float *Longitude;
     char* Provider;
     long gpsTime;
     bool gps;
@@ -138,12 +138,12 @@ JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifDat
     return env->NewDirectByteBuffer(writer, 0);
 }
 
-JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz,jobject handler, jdouble Altitude,jdouble Latitude,jdouble Longitude, jstring Provider, jlong gpsTime)
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz,jobject handler, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime)
 {
       DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
       writer->Altitude = (double)Altitude;
-      writer->Latitude = (double)Latitude;
-      writer->Longitude = (double)Longitude;
+      writer->Latitude =  env->GetFloatArrayElements(Latitude,NULL);
+      writer->Longitude = env->GetFloatArrayElements(Longitude,NULL);
       writer->Provider = (char*) env->GetStringUTFChars(Provider,NULL);
       writer->gpsTime = (long)(gpsTime);
       writer->gps = true;
@@ -277,13 +277,14 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
 
 
 
-float * calculateGpsPos(int base)
+float * calculateGpsPos(double base)
 {
-    int seconds = abs(round(base * 3600));
+    int seconds = base * 3600;
     int degress = seconds / 3600;
     seconds = abs(seconds % 3600);
     int minutes = seconds / 60;
-    seconds = seconds % 60;
+    seconds %=  60;
+    LOGD("baseValue: %i Degress:%i Minutes:%i Seconds%i",base, degress, minutes,seconds);
     return new float[3]{degress, minutes, seconds};
 }
 
@@ -294,14 +295,14 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-    const char* longitudeRef = writer->Longitude  < 0 ? "E" : "W";
+    const char* longitudeRef = writer->Longitude  < 0 ? "W" : "E";
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
         LOGD("Can't write LongitudeRef" );
     }
     LOGD("LONG REF Written %c", longitudeRef);
 
-    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, calculateGpsPos(writer->Longitude)))
+    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, writer->Longitude))
     {
         LOGD("Can't write Longitude" );
     }
@@ -313,7 +314,7 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
     }
     LOGD("LATI REF Written %c", latitudeRef);
 
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,calculateGpsPos(writer->Longitude)))
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,writer->Latitude))
     {
         LOGD("Can't write Latitude" );
     }

@@ -1,5 +1,6 @@
 package com.troop.androiddng;
 
+import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
@@ -146,7 +147,7 @@ public class RawToDng
 
     private ByteBuffer nativeHandler = null;
     private static native long GetRawBytesSize(ByteBuffer nativeHandler);
-    private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,double Latitude,double Longitude, String Provider, long gpsTime);
+    private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
     private static native void Release(ByteBuffer nativeHandler);
@@ -206,8 +207,22 @@ public class RawToDng
 
     public void SetGPSData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
+        Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
-            SetGPSData(nativeHandler, Altitude,Latitude,Longitude,Provider,gpsTime);
+            SetGPSData(nativeHandler, Altitude,parseGpsvalue(Latitude),parseGpsvalue(Longitude),Provider,gpsTime);
+    }
+
+    private float[] parseGpsvalue(double val)
+    {
+
+        final String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
+
+        final double dd = Double.parseDouble(sec[0]);
+        final double dm = Double.parseDouble(sec[1]);
+        final double ds = Double.parseDouble(sec[2].replace(",","."));
+
+        final float[] Longitudear = { (float)dd ,(float)dm,(float)ds};
+        return Longitudear;
     }
 
     public void SetThumbData(byte[] mThumb, int widht, int height)
