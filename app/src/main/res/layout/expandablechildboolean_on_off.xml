@@ -12,7 +12,5 @@
         android:id="@+id/switch1"
         android:background="#ffa0a0a0"
         android:textSize="@dimen/ChildTextSize"
-        android:textColor="#ff000000"
-        android:textOff="@string/switch_raw"
-        android:textOn="@string/switch_dng" />
+        android:textColor="#ff000000" />
 </LinearLayout>

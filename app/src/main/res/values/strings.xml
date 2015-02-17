@@ -26,7 +26,7 @@
     <string name="picture_aebracket">AE Bracket HDR</string>
     <string name="picture_contshootmode">Continous Shoot Mode</string>
     <string name="picture_contshootmodespeed">Continous Shoot Mode Speed</string>
-    <string name="picture_dng_convert">"Convert to Dng"</string>
+    <string name="picture_dng_convert">"Capture"</string>
     <string name="picture_hdr_aebracket">HDR AeBracket</string>
     <string name="picture_longexposure">Long Exposure</string>
     <string name="picture_exposuretime">Exposure Time</string>
@@ -73,6 +73,8 @@
     and from Right to Left to close it
     </string>
     <string name="helpoverlay_checkBoxtext">Don\'t show again</string>
+    <string name="switch_raw">RAW</string>
+    <string name="switch_dng">DNG</string>
 
 
 </resources>

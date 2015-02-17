@@ -233,9 +233,10 @@
                 android:paddingRight="1dp"></LinearLayout>
 
             <ListView
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/menuwidth"
                 android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings" />
+                android:id="@+id/subMenuSettings"
+                android:background="@color/menuBackgroundColor" />
 
         </LinearLayout>
 

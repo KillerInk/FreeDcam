@@ -1,12 +1,13 @@
 <resources>
 
+    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="TextSizeSmall">10dp</dimen>
-    <dimen name="appiconsizedouble">40dp</dimen>
-    <dimen name="appiconsizethree">60dp</dimen>
+    <dimen name="appiconsizedouble">60dp</dimen>
+    <dimen name="appiconsizethree">90dp</dimen>
     <dimen name="TextSizeSmallPlus">21dp</dimen>
-    <dimen name="app_icon_size">20dp</dimen>
+    <dimen name="app_icon_size">25dp</dimen>
     <dimen name="autolayout_margineTop">50dp</dimen>
     <dimen name="menuwidth">180dp</dimen>
     <dimen name="landscape_seekbar_textview_width">160dp</dimen>
@@ -20,9 +21,9 @@
     <dimen name="crosshair_height">60dp</dimen>
     <dimen name="margineLeftCameraControls">9dp</dimen>
     <dimen name="SizeCameraControls">42dp</dimen>
-    <dimen name="GroupTextSize">11dp</dimen>
+    <dimen name="GroupTextSize">12dp</dimen>
     <dimen name="MargineMenuItems">3dp</dimen>
-    <dimen name="ChildTextSize">15dp</dimen>
+    <dimen name="ChildTextSize">11dp</dimen>
 
 
 </resources>

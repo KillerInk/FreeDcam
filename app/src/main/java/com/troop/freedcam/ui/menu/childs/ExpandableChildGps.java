@@ -37,7 +37,7 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     protected void init(Context context) {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.expandablechildboolean, this);
+        inflater.inflate(R.layout.expandablechildboolean_on_off, this);
         aSwitch = (Switch)findViewById(R.id.switch1);
         aSwitch.setText(Name);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

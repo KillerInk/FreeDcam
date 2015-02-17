@@ -16,7 +16,7 @@
         android:clickable="true" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/menuwidth"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
