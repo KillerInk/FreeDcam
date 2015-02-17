@@ -111,10 +111,11 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     }
 
     @Override
-    public void onValueChanged(String val)
+    public void onValueChanged(final String val)
     {
         String settingValue = val;
-        if (!(parameterHolder instanceof BaseModeParameterSony)) {
+        if (!(parameterHolder instanceof BaseModeParameterSony))
+        {
             settingValue = appSettingsManager.getString(settingsname);
             if (settingValue.equals("")) {
                 appSettingsManager.setString(settingsname, val);
@@ -127,24 +128,32 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
                 Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
             }
         }
-        if (valueTextView != null)
-            valueTextView.setText(settingValue);
 
+        set(settingValue);
+    }
+    private void set(final String settingValue)
+    {
+        if (valueTextView != null)
+            valueTextView.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if (valueTextView != null)
+                    valueTextView.setText(settingValue);
+            }
+        });
     }
 
     @Override
     public void onIsSupportedChanged(final boolean isSupported)
     {
-        this.post(new Runnable() {
+        group.post(new Runnable() {
             @Override
             public void run() {
-                if (isSupported)
-                {
+                if (isSupported) {
                     isVisible = true;
                     group.submenu.addView(ExpandableChild.this);
-                }
-                else if(!isSupported)
-                {
+                } else if (!isSupported) {
                     isVisible = false;
                     group.submenu.removeView(ExpandableChild.this);
                 }
