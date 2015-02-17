@@ -48,7 +48,8 @@ public class MessageHandler
     public void close()
     {
         textView.setText("");
+
         handler.removeCallbacks(hideTextView);
-        handler = null;
+
     }
 }

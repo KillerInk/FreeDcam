@@ -137,7 +137,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         timerHandler = new TimerHandler(this);
 
-        loadCameraUiWrapper();
+
 
         if (appSettingsManager.getShowHelpOverlay() == false)
         {
@@ -150,26 +150,14 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         {
             helpOverlayOpen = true;
         }
+
+        loadCameraUiWrapper();
     }
 
     private void loadCameraUiWrapper()
     {
 
-        if (cameraUiWrapper != null)
-        {
-            Log.d(TAG, "loading new cameraUIWrapper, Destroying Old");
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
-            cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
-            cameraUiWrapper.moduleHandler.moduleEventHandler = null;
-            cameraUiWrapper.moduleHandler.SetWorkListner(null);
-            cameraUiWrapper.StopPreview();
-            cameraUiWrapper.StopCamera();
-
-
-            cameraUiWrapper = null;
-
-        }
+        destroyCameraUiWrapper();
         previewHandler.Init();
         previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
 
@@ -192,6 +180,24 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
         //cameraUiWrapper.StartCamera();
+    }
+
+    private void destroyCameraUiWrapper() {
+        if (cameraUiWrapper != null)
+        {
+            Log.d(TAG, "loading new cameraUIWrapper, Destroying Old");
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
+            cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
+            cameraUiWrapper.moduleHandler.moduleEventHandler = null;
+            cameraUiWrapper.moduleHandler.SetWorkListner(null);
+            cameraUiWrapper.StopPreview();
+            cameraUiWrapper.StopCamera();
+
+
+            cameraUiWrapper = null;
+
+        }
     }
 
 
@@ -219,13 +225,6 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         workHandler.HideSpinner();
     }
 
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        initDone = true;
-    }
-
     @Override
     protected void onResume()
     {
@@ -233,38 +232,23 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         infoOverlayHandler.StartUpdating();
         Log.d(TAG, "Activity onResume");
 
+
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-
+        messageHandler.close();
         infoOverlayHandler.StopUpdating();
+
         Log.d(TAG, "Activity onPause");
     }
 
     @Override
-    protected void onDestroy()
-    {
-        messageHandler.close();
-        Log.d(TAG, "Activity onDestroy");
+    protected void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    protected void onStop()
-    {
-        Log.d(TAG, "Activity onSTOP");
-        super.onStop();
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.d(TAG, "Activity onStart");
+        destroyCameraUiWrapper();
     }
 
     @Override
@@ -381,10 +365,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     {
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
         {
-            messageHandler.ShowMessage(error);
+
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }
+        messageHandler.ShowMessage(error);
     }
 
     @Override

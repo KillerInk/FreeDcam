@@ -12,6 +12,7 @@ import android.widget.Switch;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
 
@@ -26,10 +27,12 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     final int updateTime = 60*1000;
     final int updateDistance = 15;
     AbstractCameraHolder cameraHolder;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
-    public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+    public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname,AbstractCameraUiWrapper cameraUiWrapper) {
         super(context, group, name, appSettingsManager, settingsname);
         parameterHolder = new SimpleModeParameter();
+        this.cameraUiWrapper = cameraUiWrapper;
         ((SimpleModeParameter)parameterHolder).setIsSupported(true);
     }
 
@@ -73,11 +76,15 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
                                 cameraHolder.SetLocation(loc);
                         }
                         else
+                        {
+                            cameraUiWrapper.onCameraError("Gps is deactivated");
                             aSwitch.setChecked(false);
+                        }
                     }
                     else
                     {
-                        if(locationManager != null){
+                        if(locationManager != null)
+                        {
                             locationManager.removeUpdates(ExpandableChildGps.this);
                         }
                     }
@@ -103,17 +110,20 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(String provider)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
-
+    public void onProviderDisabled(String provider)
+    {
+        aSwitch.setChecked(false);
     }
 }

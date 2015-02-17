@@ -490,7 +490,7 @@ public class MenuCreator
         guide = new ExpandableChildGuide(context, settingsGroup, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         childlist.add(guide);
 
-        gps = new ExpandableChildGps(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION );
+        gps = new ExpandableChildGps(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION, cameraUiWrapper );
         childlist.add(gps);
 
         settingsGroup.setItems(childlist);
