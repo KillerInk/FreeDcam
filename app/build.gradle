@@ -10,6 +10,7 @@ android {
         versionCode 5
         versionName "3.3.58"
     }
+    lintOptions{checkReleaseBuilds false}
     sourceSets
             {
                 main {
