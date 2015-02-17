@@ -68,7 +68,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     public void StartUpdating()
     {
         started = true;
-        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        //context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         startLooperThread();
     }
 
@@ -76,7 +76,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     {
         started = false;
         handler.removeCallbacks(runner);
-        context.unregisterReceiver(this);
+        //context.unregisterReceiver(this);
 
     }
 

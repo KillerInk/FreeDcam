@@ -123,6 +123,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
                 public void onClick(View v)
                 {
 
+
                     activity.finish();
 
                 }
@@ -151,7 +152,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
             helpOverlayOpen = true;
         }
 
-        loadCameraUiWrapper();
+
     }
 
     private void loadCameraUiWrapper()
@@ -228,8 +229,10 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onResume()
     {
-        super.onResume();
+        loadCameraUiWrapper();
         infoOverlayHandler.StartUpdating();
+        super.onResume();
+
         Log.d(TAG, "Activity onResume");
 
 
@@ -238,9 +241,11 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onPause()
     {
-        super.onPause();
         messageHandler.close();
         infoOverlayHandler.StopUpdating();
+        destroyCameraUiWrapper();
+        super.onPause();
+
 
         Log.d(TAG, "Activity onPause");
     }
@@ -248,8 +253,9 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        destroyCameraUiWrapper();
+
     }
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)

@@ -531,7 +531,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void SetLocation(Location loc)
     {
         this.gpsLocation = loc;
-        if(hasSamsungFrameWork)
+        if(hasSamsungFrameWork && samsungCamera != null)
         {
             SecCamera.Parameters paras = samsungCamera.getParameters();
             paras.setGpsAltitude(loc.getAltitude());
@@ -543,13 +543,15 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         else
         {
-            Camera.Parameters paras = mCamera.getParameters();
-            paras.setGpsAltitude(loc.getAltitude());
-            paras.setGpsLatitude(loc.getLatitude());
-            paras.setGpsLongitude(loc.getLongitude());
-            paras.setGpsProcessingMethod(loc.getProvider());
-            paras.setGpsTimestamp(loc.getTime());
-            mCamera.setParameters(paras);
+            if (mCamera != null) {
+                Camera.Parameters paras = mCamera.getParameters();
+                paras.setGpsAltitude(loc.getAltitude());
+                paras.setGpsLatitude(loc.getLatitude());
+                paras.setGpsLongitude(loc.getLongitude());
+                paras.setGpsProcessingMethod(loc.getProvider());
+                paras.setGpsTimestamp(loc.getTime());
+                mCamera.setParameters(paras);
+            }
         }
 
 
