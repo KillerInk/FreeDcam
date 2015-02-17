@@ -17,6 +17,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
+import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -115,7 +116,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-        cameraHolder.SetLiveViewFrameInfo(true);
+        if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
+            cameraHolder.SetLiveViewFrameInfo(true);
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)
