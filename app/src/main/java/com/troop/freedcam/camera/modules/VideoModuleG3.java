@@ -46,7 +46,11 @@ public class VideoModuleG3 extends VideoModule
 
         if (profile.contains("Timelapse"))
         {
-            float frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+            float frame = 30;
+            if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+            else
+                Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
             recorder.setCaptureRate(frame);
         }
         if (profile.contains("HFR"))
