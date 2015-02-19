@@ -301,8 +301,15 @@ public class RawToDng
                 }
                 else
                 {
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
-                    setRawHeight(device.height);
+                    if (device.tightraw) {
+                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, device.rowsize, Build.MODEL, device.tightraw);
+                        setRawHeight(device.height);
+                    }
+                    else
+                    {
+                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int)GetRawSize(), height), Build.MODEL, device.tightraw);
+                        setRawHeight(device.height);
+                    }
                     /*SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     convertRawBytesToDng(data, fileToSave, device.width, device.height,
                             g3_color1, g3_color2, g3_neutral,
@@ -312,7 +319,7 @@ public class RawToDng
             }
             else
             {
-                SetBayerInfo(g3_color1, g3_color2, g3_neutral,0, picformat, Calculate_rowSize((int)GetRawSize(), height), Build.MODEL,true);
+                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, picformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, true);
                 setRawHeight(height);
                 /*Log.d(TAG, "is default bayer format do calc the row size");
                 Log.d(TAG, "rowsize :"+Calculate_rowSize(data.length, height));
