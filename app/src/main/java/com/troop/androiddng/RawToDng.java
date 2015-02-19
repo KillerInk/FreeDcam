@@ -187,6 +187,7 @@ public class RawToDng
         }
         nativeHandler = CreateAndSetExifData(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
     }
+    String filepath;
 
     public static RawToDng GetInstance(int iso,
                                        double expo,
@@ -241,6 +242,7 @@ public class RawToDng
 
     public void SetBayerData(byte[] fileBytes, String fileout,int width,int height)
     {
+        filepath = fileout;
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout, width,height);
     }
@@ -307,8 +309,15 @@ public class RawToDng
                     }
                     else
                     {
-                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int)GetRawSize(), height), Build.MODEL, device.tightraw);
-                        setRawHeight(device.height);
+                        if (filepath.contains("ideal-qcom")) {
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            setRawHeight(device.height);
+                        }
+                        else
+                        {
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            setRawHeight(device.height);
+                        }
                     }
                     /*SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     convertRawBytesToDng(data, fileToSave, device.width, device.height,
