@@ -446,7 +446,7 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 		}
 	}
 	LOGD("Write done");
-	TIFFCheckpointDirectory(tif);
+	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
     TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
@@ -473,8 +473,8 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 
 		//LOGD("read row: %d", row);
 		i = 0;
-		for(b = row * writer->rowSize; b < row * writer->rowSize + writer->rowSize; b++)
-			buffer[i++] = writer->fileSavePath[b];
+		for(b = row * writer->rowSize; b < (row * writer->rowSize) + writer->rowSize; b++)
+			buffer[i++] = writer->bayerBytes[b];
 
 		// offset into buffer
 		j = 0;
@@ -504,7 +504,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFCheckpointDirectory(tif);
+    //TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
