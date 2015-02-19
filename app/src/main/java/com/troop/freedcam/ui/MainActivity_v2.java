@@ -152,7 +152,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
             helpOverlayOpen = true;
         }
 
-
+        loadCameraUiWrapper();
     }
 
     private void loadCameraUiWrapper()
@@ -229,7 +229,8 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onResume()
     {
-        loadCameraUiWrapper();
+        if(cameraUiWrapper == null)
+            loadCameraUiWrapper();
         infoOverlayHandler.StartUpdating();
         super.onResume();
 

@@ -2,6 +2,8 @@ package com.troop.freedcam.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.ui.handler.GuideHandler;
@@ -63,11 +66,14 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
         settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);
         settingsLayout.removeView(settingsLayoutHolder);
         settingsLayloutOpen = false;
+
 
         //settingsLayout.setAlpha(0f);
         //settingsLayout.setVisibility(View.GONE);
@@ -81,10 +87,11 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
 
         swipeMenuListner = new SwipeMenuListner(this);
-        orientationHandler = new OrientationHandler(this, this);
+        //orientationHandler = new OrientationHandler(this, this);
 
 
     }
+
 
 
 
@@ -176,6 +183,12 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         /*if (Build.VERSION.SDK_INT >= 17)
             rotateViews(-orientation);*/
         return orientation;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
     }
 
     private void rotateViews(int orientation)
