@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -386,6 +387,14 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     @Override
     public void onModuleChanged(I_Module module) {
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d(TAG, "conf changed");
+        int or =  newConfig.orientation;
 
     }
 }

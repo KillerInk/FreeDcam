@@ -67,7 +67,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
         settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);

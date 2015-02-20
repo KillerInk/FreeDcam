@@ -41,7 +41,6 @@
             android:label="FreeDCam"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
             android:icon="@drawable/ic_launcher"
-            android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
