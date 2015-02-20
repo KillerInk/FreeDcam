@@ -87,7 +87,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
 
         swipeMenuListner = new SwipeMenuListner(this);
-        //orientationHandler = new OrientationHandler(this, this);
+        orientationHandler = new OrientationHandler(this, this);
 
 
     }

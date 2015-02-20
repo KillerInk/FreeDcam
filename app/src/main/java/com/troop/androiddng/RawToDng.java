@@ -280,9 +280,15 @@ public class RawToDng
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
-            Log.d(TAG, "is htc m8 raw");
-            //convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
-            SetBayerInfo(nocal_color1,nocal_color2,nocal_nutral,0,GRBG, HTCM8_rowSize, "HTC M8",true);
+            if (filepath.contains("qcom")) {
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", false);
+            }
+            else {
+                Log.d(TAG, "is htc m8 raw");
+                //convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", true);
+            }
+
         }
         else
         {
@@ -319,23 +325,12 @@ public class RawToDng
                             setRawHeight(device.height);
                         }
                     }
-                    /*SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
-                    convertRawBytesToDng(data, fileToSave, device.width, device.height,
-                            g3_color1, g3_color2, g3_neutral,
-                            device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);*/
                 }
             }
             else
             {
                 SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, picformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, true);
                 setRawHeight(height);
-                /*Log.d(TAG, "is default bayer format do calc the row size");
-                Log.d(TAG, "rowsize :"+Calculate_rowSize(data.length, height));
-                convertRawBytesToDng(data, fileToSave, width, height,
-                        g3_color1, g3_color2, g3_neutral,
-                        0, format, Calculate_rowSize(data.length, height),
-                        Name, true,iso,exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);*/
             }
 
         }
