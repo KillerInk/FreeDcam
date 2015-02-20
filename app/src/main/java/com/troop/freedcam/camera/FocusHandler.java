@@ -63,6 +63,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
+        if (parametersHandler == null || cameraUiWrapper == null || cameraHolder == null)
+            return;
 
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
