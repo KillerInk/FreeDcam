@@ -36,7 +36,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
     public LinearLayout seekbarLayout;
     LinearLayout manualMenuHolder;
 
-    LinearLayout cameraControlsLayout;
+
     boolean manualMenuOpen = false;
     protected boolean helpOverlayOpen = false;
 
@@ -84,7 +84,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
         manualMenuHolder.removeView(manualSettingsLayout);
         manualMenuHolder.removeView(seekbarLayout);
 
-        cameraControlsLayout = (LinearLayout)findViewById(R.id.layout__cameraControls);
+
 
         swipeMenuListner = new SwipeMenuListner(this);
         orientationHandler = new OrientationHandler(this, this);
@@ -200,10 +200,7 @@ public class MenuVisibilityActivity extends Activity implements I_swipe, I_orien
             helpOverlayHandler.animate().rotation(orientation).setDuration(animationtime).start();
         }
 
-        for (int i = 0; i < cameraControlsLayout.getChildCount(); i++ )
-        {
-            cameraControlsLayout.getChildAt(i).animate().rotation(orientation).setDuration(animationtime).start();
-        }
+
         rotateSettingsMenu(orientation);
         for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
         {

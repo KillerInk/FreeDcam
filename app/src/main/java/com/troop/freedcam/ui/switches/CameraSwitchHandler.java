@@ -38,11 +38,11 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         currentCamera = appSettingsManager.GetCurrentCamera();
 
         bitmaps = new Bitmap[3];
-        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.camera_back);
+        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_rear);
         bitmaps[0] = back;
-        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.camera_front);
+        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_front);
         bitmaps[1] = front;
-        Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.cxamera_back3d);
+        Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_3d);
         bitmaps[2] = back3d;
 
     }

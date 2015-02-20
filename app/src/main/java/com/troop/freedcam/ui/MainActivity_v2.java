@@ -392,7 +392,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+
         Log.d(TAG, "conf changed");
         int or =  newConfig.orientation;
 

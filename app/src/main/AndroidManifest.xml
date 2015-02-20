@@ -41,7 +41,9 @@
             android:label="FreeDCam"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
             android:icon="@drawable/ic_launcher"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
             <intent-filter>

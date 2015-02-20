@@ -74,7 +74,7 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
                     flashScreen.setVisibility(View.GONE);
                 }
             };
-            flashScreen.postDelayed(runnable, 50);
+            flashScreen.postDelayed(runnable, 20);
         }
     }
 

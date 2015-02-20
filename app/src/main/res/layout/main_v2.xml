@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#ff000000"
     android:keepScreenOn="true"
-    android:longClickable="true"
-    tools:context=".ui.MenuVisibilityActivity">
+    android:longClickable="true">
 
 
 
@@ -196,15 +194,12 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/appiconsizedouble"
             android:id="@+id/imageView_Thumbnail"
             android:layout_gravity="bottom|left"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:minWidth="@dimen/app_icon_size"
-            android:minHeight="@dimen/app_icon_size"
-            android:longClickable="false" />
+            android:layout_alignParentLeft="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -248,15 +243,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="false"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:id="@+id/layout__cameraControls"
-        android:clickable="true"
-        android:layout_gravity="bottom"
-        android:layout_centerInParent="true"
-        android:gravity="bottom"
-        android:layout_alignParentBottom="true">
+        android:clickable="true">
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
@@ -279,8 +272,7 @@
             android:longClickable="false"
             android:background="@drawable/improve_multishoot"
             android:clickable="true"
-            android:layout_marginBottom="2dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginBottom="2dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -297,13 +289,13 @@
                 android:id="@+id/textView_ModuleSwitch"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/ic_mode"
-                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_mode"
                 android:text="test"
                 android:singleLine="true"
                 android:textSize="@dimen/TextSizeSmall"
                 android:clickable="true"
-                android:paddingTop="18dp" />
+                android:paddingTop="18dp"
+                android:gravity="center_horizontal" />
 
         </LinearLayout>
 
@@ -319,13 +311,13 @@
                 android:layout_height="@dimen/SizeCameraControls"
                 android:text="log"
                 android:id="@+id/textView_flashSwitch"
-                android:background="@drawable/ic_flash"
-                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_flash"
                 android:singleLine="true"
                 android:password="false"
                 android:textSize="@dimen/TextSizeSmall"
                 android:clickable="true"
-                android:paddingTop="18dp" />
+                android:paddingTop="18dp"
+                android:gravity="center_horizontal" />
         </LinearLayout>
 
         <LinearLayout
@@ -340,10 +332,10 @@
                 android:layout_height="@dimen/SizeCameraControls"
                 android:text="log"
                 android:id="@+id/textView_nightmode"
-                android:background="@drawable/ic_mode_night"
+                android:background="@drawable/button_night"
                 android:textSize="@dimen/TextSizeSmall"
                 android:singleLine="true"
-                android:gravity="center_vertical|center_horizontal"
+                android:gravity="center_horizontal"
                 android:clickable="true"
                 android:paddingTop="18dp" />
         </LinearLayout>
@@ -370,31 +362,31 @@
             <TextView
                 android:layout_width="@dimen/SizeCameraControls"
                 android:layout_height="@dimen/SizeCameraControls"
-                android:text=""
+                android:text="Exit"
                 android:id="@+id/textView_Exit"
-                android:background="@drawable/ic_exit_button"
-                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_clean"
                 android:singleLine="true"
                 android:password="false"
                 android:textSize="@dimen/TextSizeSmall"
                 android:clickable="true"
-                android:layout_gravity="bottom" />
+                android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="false">
+        android:layout_alignParentLeft="false">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/moduleSwitch_placeholder">
+            android:id="@+id/moduleSwitch_placeholder"
+            android:layout_gravity="bottom">
 
             <ListView
                 android:layout_width="@dimen/submenuWidth"
