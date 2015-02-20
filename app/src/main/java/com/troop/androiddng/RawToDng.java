@@ -292,7 +292,7 @@ public class RawToDng
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (rawsize == 164249650)
+                if (rawsize == 164249650 && !DeviceUtils.isLGADV())
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
