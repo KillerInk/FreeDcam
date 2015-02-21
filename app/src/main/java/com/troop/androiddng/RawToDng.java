@@ -128,6 +128,7 @@ public class RawToDng
 
 
     private static final int HTCM8_rowSize = 3360;
+    private static String HTCM8_Size= "2688x1520";
 
     //Rawsize =  10788864
     //RealSize = 10712448
@@ -281,7 +282,7 @@ public class RawToDng
         if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", false);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), height), "HTC M8", false);
             }
             else {
                 Log.d(TAG, "is htc m8 raw");
