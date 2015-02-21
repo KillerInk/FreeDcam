@@ -50,7 +50,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-
+        if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
+            cameraHolder.SetLiveViewFrameInfo(true);
         Log.d(TAG, "Throw parametersChanged");
         throwSonyApiChanged(mAvailableCameraApiSet);
 
@@ -116,8 +117,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
                 ParametersEventHandler.ParametersHasLoaded();
             }
         });
-        if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
-            cameraHolder.SetLiveViewFrameInfo(true);
+
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)
