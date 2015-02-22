@@ -5,7 +5,8 @@
     android:layout_height="fill_parent"
     android:background="#ff000000"
     android:keepScreenOn="true"
-    android:longClickable="true">
+    android:longClickable="false"
+    android:touchscreenBlocksFocus="true">
 
 
 
@@ -37,7 +38,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/screen_flash"
-        android:focusableInTouchMode="false"
         android:background="#ff0808ff"
         android:alpha="0.5"></LinearLayout>
 
@@ -207,7 +207,6 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/v2_settings_menu"
-        android:focusable="false"
 
         android:layout_alignParentLeft="true">
 
