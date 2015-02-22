@@ -31,7 +31,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if ((DeviceUtils.isLGADV() /*&& Build.VERSION.SDK_INT < 21*/) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
+        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
             return true;
         else
             return false;
@@ -72,8 +72,8 @@ public class FocusManualParameter extends  BaseManualParameter
         try {
             if (DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21)
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
-            if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
-                i=  Integer.parseInt(parameters.get("focus-pos"));
+            /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+                i=  Integer.parseInt(parameters.get("focus-pos"));*/
             if (DeviceUtils.isZTEADV());
                 i = Integer.parseInt(parameters.get("maf_key"));
             if (DeviceUtils.isHTC_M8())
