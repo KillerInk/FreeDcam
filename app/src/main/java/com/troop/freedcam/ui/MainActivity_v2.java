@@ -1,13 +1,21 @@
 package com.troop.freedcam.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,8 +41,12 @@ import com.troop.freedcam.ui.handler.ShutterHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
+import com.troop.freedcam.ui.menu.I_orientation;
+import com.troop.freedcam.ui.menu.I_swipe;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
 import com.troop.freedcam.ui.menu.MenuHandler;
+import com.troop.freedcam.ui.menu.OrientationHandler;
+import com.troop.freedcam.ui.menu.SwipeMenuListner;
 import com.troop.freedcam.ui.switches.CameraSwitchHandler;
 import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;
@@ -44,8 +56,32 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, I_CameraChangedListner
+public class MainActivity_v2 extends Activity implements I_swipe, I_orientation, I_error, I_CameraChangedListner
 {
+    protected ViewGroup appViewGroup;
+    public LinearLayout settingsLayout;
+    public LinearLayout settingsLayoutHolder;
+    boolean settingsLayloutOpen = false;
+    public LinearLayout manualSettingsLayout;
+    public LinearLayout seekbarLayout;
+    LinearLayout manualMenuHolder;
+
+
+    boolean manualMenuOpen = false;
+    protected boolean helpOverlayOpen = false;
+
+    SwipeMenuListner swipeMenuListner;
+    OrientationHandler orientationHandler;
+    int flags;
+    int flags2;
+
+    protected HelpOverlayHandler helpOverlayHandler;
+    protected GuideHandler guideHandler;
+    int helplayoutrot;
+
+    private final int animationtime = 300;
+
+
 
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     //ExtendedSurfaceView cameraPreview;
@@ -81,6 +117,42 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
+        setContentView(R.layout.main_v2);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+
+        manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
+        settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
+        settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);
+        settingsLayout.removeView(settingsLayoutHolder);
+        settingsLayloutOpen = false;
+
+
+        //settingsLayout.setAlpha(0f);
+        //settingsLayout.setVisibility(View.GONE);
+        manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
+        //manualSettingsLayout.setAlpha(0f);
+        //manualSettingsLayout.setVisibility(View.GONE);
+        seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
+        manualMenuHolder.removeView(manualSettingsLayout);
+        manualMenuHolder.removeView(seekbarLayout);
+
+
+
+        swipeMenuListner = new SwipeMenuListner(this);
+        orientationHandler = new OrientationHandler(this, this);
+
+        HIDENAVBAR();
 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
@@ -227,6 +299,33 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
         workHandler.HideSpinner();
     }
 
+    public void HIDENAVBAR()
+    {
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        else
+        {
+            //HIDE nav and action bar
+            final View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(flags);
+            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int visibility)
+                {
+                    if (visibility > 0) {
+                        if (Build.VERSION.SDK_INT >= 16)
+                            getWindow().getDecorView().setSystemUiVisibility(flags);
+                    }
+                }
+            });
+            //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            //imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
+
+        }
+    }
+
     @Override
     protected void onResume()
     {
@@ -289,7 +388,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        return super.onTouchEvent(event);
+        return  swipeMenuListner.onTouchEvent(event);
     }
 
     View.OnTouchListener surfaceTouche = new View.OnTouchListener() {
@@ -303,7 +402,7 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
     @Override
     public int OrientationChanged(int orientation)
-    {   super.OrientationChanged(orientation);
+    {
 
         //cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
         return orientation;
@@ -395,6 +494,87 @@ public class MainActivity_v2 extends MenuVisibilityActivity implements I_error, 
 
         Log.d(TAG, "conf changed");
         int or =  newConfig.orientation;
+        super.onConfigurationChanged(newConfig);
+    }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        Log.d(TAG,"Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //if (hasFocus)
+        //HIDENAVBAR();
+        //super.onWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    public void doHorizontalSwipe()
+    {
+        if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
+        {
+            if (!settingsLayloutOpen) {
+                settingsLayout.addView(settingsLayoutHolder);
+                settingsLayloutOpen = true;
+            }
+        }
+        else
+        {
+            if (settingsLayloutOpen) {
+                settingsLayout.removeView(settingsLayoutHolder);
+                settingsLayloutOpen = false;
+            }
+        }
+    }
+
+    @Override
+    public void doVerticalSwipe()
+    {
+        if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
+        {
+            if (!manualMenuOpen) {
+                manualMenuHolder.addView(manualSettingsLayout);
+                manualMenuHolder.addView(seekbarLayout);
+                manualMenuOpen = true;
+            }
+        }
+        else
+        {
+            if (manualMenuOpen)
+            {
+                manualMenuHolder.removeView(manualSettingsLayout);
+                manualMenuHolder.removeView(seekbarLayout);
+                manualMenuOpen = false;
+            }
+        }
+    }
+
+    private void rotateViews(int orientation)
+    {
+        TextView textView = (TextView)seekbarLayout.findViewById(R.id.textView_seekbar);
+        textView.setRotation(orientation);
+        if (helpOverlayOpen)
+        {
+            helpOverlayHandler.animate().rotation(orientation).setDuration(animationtime).start();
+        }
+
+
+        rotateSettingsMenu(orientation);
+        for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
+        {
+            View view =  manualSettingsLayout.getChildAt(i);
+            view.animate().rotation(orientation).setDuration(animationtime).start();
+        }
+    }
+
+    private void rotateSettingsMenu(int orientation)
+    {
+        settingsLayoutHolder.animate().rotation(orientation).setDuration(animationtime).start();
+
+        int h = settingsLayout.getLayoutParams().height;
+        int w = settingsLayout.getLayoutParams().width;
+        ViewGroup.LayoutParams params = settingsLayout.getLayoutParams();
+        params.height = w;
+        params.width = h;
+
+        settingsLayout.setLayoutParams(params);
     }
 }
