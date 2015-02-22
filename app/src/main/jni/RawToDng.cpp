@@ -529,12 +529,11 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
 
     short CFARepeatPatternDim[] = { 2,2 };
     TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-    if(writer->blacklevel != 0)
-    {
-            TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
-            LOGD("wrote blacklevel");
-            TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
-    }
+
+    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
+    LOGD("wrote blacklevel");
+    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+
     if(writer->tightRaw == true)
     {
         LOGD("Processing tight RAW data...");
