@@ -84,6 +84,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
 
 
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
+    private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
     //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
@@ -123,13 +124,14 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+
+
 
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
@@ -317,6 +319,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
                     if (visibility > 0) {
                         if (Build.VERSION.SDK_INT >= 16)
                             getWindow().getDecorView().setSystemUiVisibility(flags);
+
                     }
                 }
             });
@@ -334,9 +337,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         infoOverlayHandler.StartUpdating();
         super.onResume();
 
-        Log.d(TAG, "Activity onResume");
-
-
+        Log.d(TAGLIFE, "Activity onResume");
     }
 
     @Override
@@ -347,8 +348,16 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         destroyCameraUiWrapper();
         super.onPause();
 
+        Log.d(TAGLIFE, "Activity onPause");
+    }
 
-        Log.d(TAG, "Activity onPause");
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        Log.d(TAGLIFE,"Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
+        if (hasFocus)
+            HIDENAVBAR();
+        //super.onWindowFocusChanged(hasFocus);
     }
 
     @Override
@@ -497,14 +506,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         super.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
 
-        Log.d(TAG,"Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //if (hasFocus)
-        //HIDENAVBAR();
-        //super.onWindowFocusChanged(hasFocus);
-    }
 
     @Override
     public void doHorizontalSwipe()
