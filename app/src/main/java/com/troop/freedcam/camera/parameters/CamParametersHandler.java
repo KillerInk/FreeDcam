@@ -230,14 +230,14 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetPictureOrientation(int orientation)
     {
-        /*try {
-            cameraParameters.setRotation(orientation);
+        try {
+            ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
             cameraHolder.SetCameraParameters(cameraParameters);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }*/
+        }
     }
 
 
@@ -300,5 +300,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("raw-size", size);
         cameraHolder.SetCameraParameters(cameraParameters);
     }
+
+
 
 }

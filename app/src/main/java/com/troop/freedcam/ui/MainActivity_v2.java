@@ -334,6 +334,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     {
         if(cameraUiWrapper == null)
             loadCameraUiWrapper();
+        orientationHandler.Start();
         infoOverlayHandler.StartUpdating();
         super.onResume();
 
@@ -345,6 +346,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     {
         messageHandler.close();
         infoOverlayHandler.StopUpdating();
+        orientationHandler.Stop();
         destroyCameraUiWrapper();
         super.onPause();
 
@@ -412,8 +414,8 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     @Override
     public int OrientationChanged(int orientation)
     {
-
-        //cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
+        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.camParametersHandler != null)
+            cameraUiWrapper.camParametersHandler.SetPictureOrientation(orientation);
         return orientation;
     }
 

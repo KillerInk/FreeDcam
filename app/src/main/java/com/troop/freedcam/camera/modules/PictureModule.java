@@ -267,7 +267,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
         if (dngConverter != null)
             dngConverter.RELEASE();
-        dngConverter = RawToDng.GetInstance(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, "0", 0);
+        dngConverter = RawToDng.GetInstance(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
     }
 
     private void sendMsg(final String msg)

@@ -94,4 +94,5 @@ public abstract class AbstractParameterHandler
     public void LockExposureAndWhiteBalance(boolean lock){};
 
     public void SetFocusAREA(FocusRect focusAreas, int weight){};
+    public void SetPictureOrientation(int or){};
 }

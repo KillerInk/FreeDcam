@@ -42,6 +42,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public boolean hasLGFrameWork = false;
     public boolean hasSamsungFrameWork = false;
     public Location gpsLocation;
+    public int Orientation;
 
 
     public int CurrentCamera;
@@ -553,7 +554,25 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.setParameters(paras);
             }
         }
+    }
 
+    public void SetOrientation(int or)
+    {
+        this.Orientation = or;
+        if(hasSamsungFrameWork && samsungCamera != null)
+        {
+            SecCamera.Parameters paras = samsungCamera.getParameters();
+            paras.setRotation(or);
+            samsungCamera.setParameters(paras);
+        }
+        else
+        {
+            if (mCamera != null) {
+                Camera.Parameters paras = mCamera.getParameters();
+                paras.setRotation(or);
+                mCamera.setParameters(paras);
+            }
+        }
 
     }
 
