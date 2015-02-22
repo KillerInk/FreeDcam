@@ -13,6 +13,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildDngSupport;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildExternalShutter;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGps;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGuide;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
@@ -72,6 +73,7 @@ public class MenuCreator
     ExpandableChildDngSupport dngSwitch;
     ExpandbleChildAeBracket aeBracketSwitch;
     ExpandableChildGps gps;
+    ExpandableChild externalShutter;
 
     LinearLayout submenu;
 
@@ -228,6 +230,8 @@ public class MenuCreator
         }
 
         gps.SetCameraUIWrapper(cameraUiWrapper);
+
+        externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
 
     }
 
@@ -492,6 +496,9 @@ public class MenuCreator
 
         gps = new ExpandableChildGps(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION);
         childlist.add(gps);
+
+        externalShutter = new ExpandableChildExternalShutter(context, settingsGroup, context.getString(R.string.settings_externalshutter), appSettingsManager, AppSettingsManager.SETTING_EXTERNALSHUTTER);
+        childlist.add(externalShutter);
 
         settingsGroup.setItems(childlist);
 

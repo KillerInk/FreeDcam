@@ -175,7 +175,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         moduleSwitchHandler = new ModuleSwitchHandler(this, appSettingsManager);
         flashSwitchHandler = new FlashSwitchHandler(this, appSettingsManager);
         nightModeSwitchHandler = new NightModeSwitchHandler(this, appSettingsManager);
-        hardwareKeyHandler = new HardwareKeyHandler(this);
+        hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
         manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this);
         exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
