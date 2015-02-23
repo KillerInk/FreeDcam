@@ -58,6 +58,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         this.surfaceView = surfaceView;
         this.wrapper = cameraUiWrapper;
+        centerMeteringArea();
         if (wrapper.Focus != null)
             wrapper.Focus.focusEvent = this;
     }
@@ -166,15 +167,25 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 {
                     difx = x - meteringArea.getX();
                     dify = y - meteringArea.getY();
-                    meteringArea.setX(event.getX() - difx);
-                    meteringArea.setY(event.getY() - dify);
+                    if (event.getX() - difx > surfaceView.getLeft() && event.getX() - difx +meteringArea.getWidth() < surfaceView.getLeft() + surfaceView.getWidth())
+                        meteringArea.setX(event.getX() - difx);
+                    if (event.getY() - dify > surfaceView.getTop() && event.getY() -dify +meteringArea.getHeight() < surfaceView.getTop() + surfaceView.getHeight())
+                        meteringArea.setY(event.getY() - dify);
                 }
                 break;
-                case MotionEvent.ACTION_UP: {
+                case MotionEvent.ACTION_UP:
+                {
+                    x = 0; y = 0; difx = 0; dify = 0;
                     //your stuff
                 }
             }
             return true;
         }
+    }
+
+    private void centerMeteringArea()
+    {
+        meteringArea.setX(activity.getWindowManager().getDefaultDisplay().getWidth()/2);
+        meteringArea.setY(activity.getWindowManager().getDefaultDisplay().getHeight()/2);
     }
 }
