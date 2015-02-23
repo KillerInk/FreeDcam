@@ -7,8 +7,8 @@ android {
         applicationId "troop.com.freedcam"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 6
-        versionName "3.3.59"
+        versionCode 8
+        versionName "3.3.71"
     }
     lintOptions{checkReleaseBuilds false}
     sourceSets
