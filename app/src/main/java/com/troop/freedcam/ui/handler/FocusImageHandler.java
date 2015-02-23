@@ -1,13 +1,20 @@
 package com.troop.freedcam.ui.handler;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
@@ -52,6 +59,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
         meteringArea = (ImageView)activity.findViewById(R.id.imageView_meteringarea);
         meteringArea.setOnTouchListener(new MeteringAreaTouch());
+        meteringArea.setVisibility(View.GONE);
 
     }
 
@@ -59,7 +67,14 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         this.surfaceView = surfaceView;
         this.wrapper = cameraUiWrapper;
-        centerMeteringArea();
+        if(cameraUiWrapper instanceof CameraUiWrapper) {
+            centerMeteringArea();
+            meteringArea.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            meteringArea.setVisibility(View.GONE);
+        }
         if (wrapper.Focus != null)
             wrapper.Focus.focusEvent = this;
     }
@@ -188,7 +203,42 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
     private void centerMeteringArea()
     {
-        meteringArea.setX(activity.getWindowManager().getDefaultDisplay().getWidth()/2);
-        meteringArea.setY(activity.getWindowManager().getDefaultDisplay().getHeight()/2);
+        int width = 0;
+        int height = 0;
+
+        if (Build.VERSION.SDK_INT >= 17)
+        {
+            WindowManager wm = (WindowManager)activity.getSystemService(Context.WINDOW_SERVICE);
+            Point size =  new Point();
+            wm.getDefaultDisplay().getRealSize(size);
+            if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                width = size.x;
+                height = size.y;
+            }
+            else
+            {
+                height = size.x;
+                width = size.y;
+            }
+        }
+        else
+        {
+            DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+            if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                width = metrics.widthPixels;
+                height = metrics.heightPixels;
+            }
+            else
+            {
+                width = metrics.heightPixels;
+                height = metrics.widthPixels;
+            }
+
+        }
+        meteringArea.setX(width/2 - recthalf);
+        meteringArea.setY(height/2 - recthalf);
+
+        meteringRect = new FocusRect((int)meteringArea.getX() - recthalf, (int)meteringArea.getX() + recthalf, (int)meteringArea.getY() - recthalf, (int)meteringArea.getY() + recthalf);
     }
 }
