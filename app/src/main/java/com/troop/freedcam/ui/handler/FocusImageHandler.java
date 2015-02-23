@@ -133,6 +133,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     protected void OnClick(int x, int y)
     {
+        if (wrapper == null || wrapper.Focus == null)
+            return;
         disWidth = surfaceView.getWidth();
         disHeight = surfaceView.getHeight();
 
