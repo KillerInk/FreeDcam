@@ -283,11 +283,13 @@ public class RawToDng
         {
             if (filepath.contains("qcom")) {
                 SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), height), "HTC M8", false);
+                setRawHeight(1520);
             }
             else {
                 Log.d(TAG, "is htc m8 raw");
                 //convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
                 SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", true);
+                setRawHeight(1520);
             }
 
         }
