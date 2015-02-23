@@ -497,6 +497,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             List<Camera.Area> areaList = new ArrayList<>();
             areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            if (mCamera == null)
+                return;
             Camera.Parameters p = mCamera.getParameters();
             if (p.getMaxNumFocusAreas() > 0)
                 p.setFocusAreas(areaList);
@@ -506,7 +508,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 Log.d(TAG, "try Set Focus");
                 mCamera.setParameters(p);
-                Log.d(TAG, "Setted Samsung Focus");
+                Log.d(TAG, "Setted Focus");
             }
             catch (Exception ex)
             {

@@ -35,7 +35,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         this.activity = activity;
         imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
         recthalf = activity.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
-        imageView.setVisibility(View.GONE);
+        //imageView.setVisibility(View.GONE);
         cancelFocus = (ImageView)activity.findViewById(R.id.imageViewFocusClose);
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             disWidth = surfaceView.getLayoutParams().width;
             disHeight = surfaceView.getLayoutParams().height;
             int margineleft = surfaceView.getLeft();
-            handler.removeCallbacksAndMessages(null);
+            //handler.removeCallbacksAndMessages(null);
             int recthalf = imageView.getWidth() / 2;
             int halfwidth = disWidth / 2;
             int halfheight = disHeight / 2;
@@ -97,7 +97,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                         imageView.setBackgroundResource(R.drawable.crosshair_failed);
 
 
-                    handler.postDelayed(hideCrosshair, crosshairShowTime);
+                    //handler.postDelayed(hideCrosshair, crosshairShowTime);
                 }
             });
         }
@@ -120,7 +120,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     }
 
 
-    private Handler handler = new Handler();
+    /*private Handler handler = new Handler();
     Runnable hideCrosshair = new Runnable() {
         @Override
         public void run()
@@ -128,7 +128,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             imageView.setBackgroundResource(R.drawable.crosshair_normal);
             imageView.setVisibility(View.GONE);
         }
-    };
+    };*/
 
     @Override
     protected void OnClick(int x, int y)
