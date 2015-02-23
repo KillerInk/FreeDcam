@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.handler;
 
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int disWidth;
     int recthalf;
     ImageView cancelFocus;
+    ImageView meteringArea;
 
     SurfaceView surfaceView;
 
@@ -46,6 +48,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 cancelFocus.setVisibility(View.GONE);
             }
         });
+
+        meteringArea = (ImageView)activity.findViewById(R.id.imageView_meteringarea);
+        meteringArea.setOnTouchListener(new MeteringAreaTouch());
 
     }
 
@@ -141,5 +146,35 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
         if (wrapper.Focus != null)
             wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
+    }
+
+    private class MeteringAreaTouch implements View.OnTouchListener
+    {
+        float x, y, difx, dify;
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            switch(event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN: {
+                    x = event.getX();
+                    y = event.getY();
+
+                }
+                break;
+                case MotionEvent.ACTION_MOVE:
+                {
+                    difx = x - meteringArea.getX();
+                    dify = y - meteringArea.getY();
+                    meteringArea.setX(event.getX() - difx);
+                    meteringArea.setY(event.getY() - dify);
+                }
+                break;
+                case MotionEvent.ACTION_UP: {
+                    //your stuff
+                }
+            }
+            return true;
+        }
     }
 }
