@@ -501,10 +501,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
         else
         {
             List<Camera.Area> areaList = new ArrayList<>();
-            areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1000));
             List<Camera.Area> meteringList = new ArrayList<>();
             if (meteringRect != null)
-                meteringList.add(new Camera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1));
+                meteringList.add(new Camera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1000));
             if (mCamera == null)
                 return;
             Camera.Parameters p = mCamera.getParameters();
