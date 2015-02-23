@@ -29,6 +29,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int recthalf;
     ImageView cancelFocus;
     ImageView meteringArea;
+    FocusRect meteringRect;
 
     SurfaceView surfaceView;
 
@@ -146,7 +147,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
         FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
         if (wrapper.Focus != null)
-            wrapper.Focus.StartTouchToFocus(rect, disWidth, disHeight);
+            wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
     }
 
     private class MeteringAreaTouch implements View.OnTouchListener
@@ -176,7 +177,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 case MotionEvent.ACTION_UP:
                 {
                     x = 0; y = 0; difx = 0; dify = 0;
-                    //your stuff
+                    meteringRect = new FocusRect((int)meteringArea.getX() - recthalf, (int)meteringArea.getX() + recthalf, (int)meteringArea.getY() - recthalf, (int)meteringArea.getY() + recthalf);
+                    if (wrapper != null)
+                        wrapper.Focus.SetMeteringAreas(meteringRect, surfaceView.getWidth(), surfaceView.getHeight());
                 }
             }
             return true;

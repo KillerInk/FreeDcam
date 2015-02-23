@@ -27,7 +27,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, int width, int height) {
-        super.StartTouchToFocus(rect, width, height);
+    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height) {
+        super.StartTouchToFocus(rect, null, width, height);
     }
 }

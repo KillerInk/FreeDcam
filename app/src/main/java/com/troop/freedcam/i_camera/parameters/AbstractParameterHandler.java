@@ -93,6 +93,6 @@ public abstract class AbstractParameterHandler
     public void SetParametersToCamera() {};
     public void LockExposureAndWhiteBalance(boolean lock){};
 
-    public void SetFocusAREA(FocusRect focusAreas, int weight){};
+    public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetPictureOrientation(int or){};
 }

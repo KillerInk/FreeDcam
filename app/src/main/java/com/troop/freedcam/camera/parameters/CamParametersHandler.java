@@ -222,9 +222,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
     //focus-areas=(0, 0, 0, 0, 0)
-    public void SetFocusAREA(FocusRect focusAreas, int weight)
+    public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
-        ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas);
+        ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
 
     }
 

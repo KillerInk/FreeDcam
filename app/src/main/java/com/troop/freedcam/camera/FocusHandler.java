@@ -61,7 +61,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         isFocusing = true;
     }
 
-    public void StartTouchToFocus(FocusRect rect, int width, int height)
+    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
         if (parametersHandler == null || cameraUiWrapper == null || cameraHolder == null)
             return;
@@ -75,36 +75,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                     cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
                 }
             }
-            final FocusRect targetFocusRect = new FocusRect(
-                    rect.left * 2000 / width - 1000,
-                    rect.right * 2000 / width - 1000,
-                    rect.top * 2000 / height - 1000,
-                    rect.bottom * 2000 / height - 1000);
-            //check if stuff is to big or to small and set it to min max value
-            if (targetFocusRect.left < -1000)
-            {
-                int dif = targetFocusRect.left + 1000;
-                targetFocusRect.left = -1000;
-                targetFocusRect.right += dif;
-            }
-            if (targetFocusRect.right > 1000)
-            {
-                int dif = targetFocusRect.right - 1000;
-                targetFocusRect.right = 1000;
-                targetFocusRect.left -= dif;
-            }
-            if (targetFocusRect.top < -1000)
-            {
-                int dif = targetFocusRect.top + 1000;
-                targetFocusRect.top = -1000;
-                targetFocusRect.bottom += dif;
-            }
-            if (targetFocusRect.bottom > 1000)
-            {
-                int dif = targetFocusRect.bottom -1000;
-                targetFocusRect.bottom = 1000;
-                targetFocusRect.top -=dif;
-            }
+            final FocusRect targetFocusRect = getFocusRect(rect, width, height);
 
 
             if (targetFocusRect.left >= -1000
@@ -113,14 +84,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                     && targetFocusRect.right <= 1000)
             {
 
-                parametersHandler.SetFocusAREA(targetFocusRect, 300);
-
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                parametersHandler.SetFocusAREA(targetFocusRect, meteringarea);
                 if (cameraHolder != null)
                     cameraHolder.StartFocus(this);
                 isFocusing = true;
@@ -129,5 +93,46 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             }
         }
 
+    }
+
+    @Override
+    public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
+    {
+        final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
+        cameraHolder.SetMeteringAreas(targetFocusRect);
+    }
+
+    private FocusRect getFocusRect(FocusRect rect, int width, int height) {
+        final FocusRect targetFocusRect = new FocusRect(
+                rect.left * 2000 / width - 1000,
+                rect.right * 2000 / width - 1000,
+                rect.top * 2000 / height - 1000,
+                rect.bottom * 2000 / height - 1000);
+        //check if stuff is to big or to small and set it to min max value
+        if (targetFocusRect.left < -1000)
+        {
+            int dif = targetFocusRect.left + 1000;
+            targetFocusRect.left = -1000;
+            targetFocusRect.right += dif;
+        }
+        if (targetFocusRect.right > 1000)
+        {
+            int dif = targetFocusRect.right - 1000;
+            targetFocusRect.right = 1000;
+            targetFocusRect.left -= dif;
+        }
+        if (targetFocusRect.top < -1000)
+        {
+            int dif = targetFocusRect.top + 1000;
+            targetFocusRect.top = -1000;
+            targetFocusRect.bottom += dif;
+        }
+        if (targetFocusRect.bottom > 1000)
+        {
+            int dif = targetFocusRect.bottom -1000;
+            targetFocusRect.bottom = 1000;
+            targetFocusRect.top -=dif;
+        }
+        return targetFocusRect;
     }
 }

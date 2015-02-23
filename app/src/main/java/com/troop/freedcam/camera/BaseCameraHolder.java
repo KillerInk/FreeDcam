@@ -468,7 +468,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
-    public void SetFocusAreas(FocusRect focusRect)
+    public void SetFocusAreas(FocusRect focusRect, FocusRect meteringRect)
     {
 
         if (hasSamsungFrameWork)
@@ -476,10 +476,15 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Set Samsung Focus");
             List<SecCamera.Area> areaList = new ArrayList<>();
             areaList.add(new SecCamera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            List<SecCamera.Area> meteringList = new ArrayList<>();
+            if (meteringRect != null)
+                meteringList.add(new SecCamera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1));
             SecCamera.Parameters p = samsungCamera.getParameters();
             if (p.getMaxNumFocusAreas() > 0)
                 p.setFocusAreas(areaList);
-            if (p.getMaxNumMeteringAreas() > 0)
+            if (meteringRect != null && p.getMaxNumMeteringAreas() > 0)
+                p.setMeteringAreas(meteringList);
+            else if(p.getMaxNumMeteringAreas() > 0)
                 p.setMeteringAreas(areaList);
             try
             {
@@ -497,12 +502,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             List<Camera.Area> areaList = new ArrayList<>();
             areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
+            List<Camera.Area> meteringList = new ArrayList<>();
+            if (meteringRect != null)
+                meteringList.add(new Camera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1));
             if (mCamera == null)
                 return;
             Camera.Parameters p = mCamera.getParameters();
             if (p.getMaxNumFocusAreas() > 0)
                 p.setFocusAreas(areaList);
-            if (p.getMaxNumMeteringAreas() > 0)
+            if (meteringList.size() >0 && p.getMaxNumMeteringAreas() > 0)
+                p.setMeteringAreas(meteringList);
+            else if(p.getMaxNumMeteringAreas() > 0)
                 p.setMeteringAreas(areaList);
             try
             {
@@ -527,6 +537,29 @@ public class BaseCameraHolder extends AbstractCameraHolder
         else
         {
             mCamera.cancelAutoFocus();
+        }
+    }
+
+    public void SetMeteringAreas(FocusRect meteringRect)
+    {
+        if (hasSamsungFrameWork)
+        {
+
+        }
+        else {
+            List<Camera.Area> meteringList = new ArrayList<>();
+            if (meteringRect != null)
+                meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+            Camera.Parameters p = mCamera.getParameters();
+            p.setMeteringAreas(meteringList);
+
+            try {
+                Log.d(TAG, "try Set Metering");
+                mCamera.setParameters(p);
+                Log.d(TAG, "Setted Metering");
+            } catch (Exception ex) {
+                Log.d(TAG, "Set Metering FAILED!");
+            }
         }
     }
 
