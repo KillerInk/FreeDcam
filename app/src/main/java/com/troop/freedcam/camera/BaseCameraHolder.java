@@ -437,94 +437,97 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
     {
 
-        if (hasSamsungFrameWork)
-        {
-            samsungCamera.autoFocus(new SecCamera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(int i, SecCamera secCamera)
-                {
-                    CameraFocusEvent focusEvent = new CameraFocusEvent();
-                    focusEvent.samsungCamera = secCamera;
-                    if (i == 1) //no idea if this correct
-                        focusEvent.success = true;
-                    else
-                        focusEvent.success = false;
-                    autoFocusCallback.onAutoFocus(focusEvent);
-                }
-            });
+        try {
+            if (hasSamsungFrameWork)
+            {
+                samsungCamera.autoFocus(new SecCamera.AutoFocusCallback() {
+                    @Override
+                    public void onAutoFocus(int i, SecCamera secCamera)
+                    {
+                        CameraFocusEvent focusEvent = new CameraFocusEvent();
+                        focusEvent.samsungCamera = secCamera;
+                        if (i == 1) //no idea if this correct
+                            focusEvent.success = true;
+                        else
+                            focusEvent.success = false;
+                        autoFocusCallback.onAutoFocus(focusEvent);
+                    }
+                });
+            }
+            else
+            {
+                mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                    @Override
+                    public void onAutoFocus(boolean success, Camera camera)
+                    {
+                        CameraFocusEvent focusEvent = new CameraFocusEvent();
+                        focusEvent.camera = camera;
+                        focusEvent.success = success;
+                        autoFocusCallback.onAutoFocus(focusEvent);
+                    }
+                });
+            }
         }
-        else
+        catch (Exception ex)
         {
-            mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera)
-                {
-                    CameraFocusEvent focusEvent = new CameraFocusEvent();
-                    focusEvent.camera = camera;
-                    focusEvent.success = success;
-                    autoFocusCallback.onAutoFocus(focusEvent);
-                }
-            });
+            ex.printStackTrace();
         }
     }
 
     public void SetFocusAreas(FocusRect focusRect, FocusRect meteringRect)
     {
 
-        if (hasSamsungFrameWork)
-        {
-            Log.d(TAG, "Set Samsung Focus");
-            List<SecCamera.Area> areaList = new ArrayList<>();
-            areaList.add(new SecCamera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1));
-            List<SecCamera.Area> meteringList = new ArrayList<>();
-            if (meteringRect != null)
-                meteringList.add(new SecCamera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1));
-            SecCamera.Parameters p = samsungCamera.getParameters();
-            if (p.getMaxNumFocusAreas() > 0)
-                p.setFocusAreas(areaList);
-            if (meteringRect != null && p.getMaxNumMeteringAreas() > 0)
-                p.setMeteringAreas(meteringList);
-            else if(p.getMaxNumMeteringAreas() > 0)
-                p.setMeteringAreas(areaList);
-            try
-            {
-                Log.d(TAG, "try Set Samsung Focus");
-                samsungCamera.setParameters(p);
-                Log.d(TAG, "Setted Samsung Focus");
-            }
-            catch (Exception ex)
-            {
-                Log.d(TAG, "Set Samsung Focus FAILED!");
-            }
+        try {
+            if (hasSamsungFrameWork) {
+                Log.d(TAG, "Set Samsung Focus");
+                List<SecCamera.Area> areaList = new ArrayList<>();
+                areaList.add(new SecCamera.Area(new Rect(focusRect.left, focusRect.top, focusRect.right, focusRect.bottom), 1));
+                List<SecCamera.Area> meteringList = new ArrayList<>();
+                if (meteringRect != null)
+                    meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1));
+                SecCamera.Parameters p = samsungCamera.getParameters();
+                if (p.getMaxNumFocusAreas() > 0)
+                    p.setFocusAreas(areaList);
+                if (meteringRect != null && p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(meteringList);
+                else if (p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(areaList);
+                try {
+                    Log.d(TAG, "try Set Samsung Focus");
+                    samsungCamera.setParameters(p);
+                    Log.d(TAG, "Setted Samsung Focus");
+                } catch (Exception ex) {
+                    Log.d(TAG, "Set Samsung Focus FAILED!");
+                }
 
+            } else {
+                List<Camera.Area> areaList = new ArrayList<>();
+                areaList.add(new Camera.Area(new Rect(focusRect.left, focusRect.top, focusRect.right, focusRect.bottom), 1000));
+                List<Camera.Area> meteringList = new ArrayList<>();
+                if (meteringRect != null)
+                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+                if (mCamera == null)
+                    return;
+                Camera.Parameters p = mCamera.getParameters();
+                if (p.getMaxNumFocusAreas() > 0)
+                    p.setFocusAreas(areaList);
+                if (meteringList.size() > 0 && p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(meteringList);
+                else if (p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(areaList);
+                try {
+                    Log.d(TAG, "try Set Focus");
+                    mCamera.setParameters(p);
+                    Log.d(TAG, "Setted Focus");
+                } catch (Exception ex) {
+                    Log.d(TAG, "Set Focus FAILED!");
+                }
+
+            }
         }
-        else
+        catch (Exception ex)
         {
-            List<Camera.Area> areaList = new ArrayList<>();
-            areaList.add(new Camera.Area(new Rect(focusRect.left,focusRect.top,focusRect.right,focusRect.bottom), 1000));
-            List<Camera.Area> meteringList = new ArrayList<>();
-            if (meteringRect != null)
-                meteringList.add(new Camera.Area(new Rect(meteringRect.left,meteringRect.top,meteringRect.right,meteringRect.bottom), 1000));
-            if (mCamera == null)
-                return;
-            Camera.Parameters p = mCamera.getParameters();
-            if (p.getMaxNumFocusAreas() > 0)
-                p.setFocusAreas(areaList);
-            if (meteringList.size() >0 && p.getMaxNumMeteringAreas() > 0)
-                p.setMeteringAreas(meteringList);
-            else if(p.getMaxNumMeteringAreas() > 0)
-                p.setMeteringAreas(areaList);
-            try
-            {
-                Log.d(TAG, "try Set Focus");
-                mCamera.setParameters(p);
-                Log.d(TAG, "Setted Focus");
-            }
-            catch (Exception ex)
-            {
-                Log.d(TAG, "Set Focus FAILED!");
-            }
-
+            ex.printStackTrace();
         }
     }
 
@@ -542,24 +545,42 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetMeteringAreas(FocusRect meteringRect)
     {
-        if (hasSamsungFrameWork)
-        {
+        try {
+            if (hasSamsungFrameWork)
+            {
+                List<SecCamera.Area> meteringList = new ArrayList<>();
+                if (meteringRect != null)
+                    meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+                SecCamera.Parameters p = samsungCamera.getParameters();
+                p.setMeteringAreas(meteringList);
 
-        }
-        else {
-            List<Camera.Area> meteringList = new ArrayList<>();
-            if (meteringRect != null)
-                meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
-            Camera.Parameters p = mCamera.getParameters();
-            p.setMeteringAreas(meteringList);
-
-            try {
-                Log.d(TAG, "try Set Metering");
-                mCamera.setParameters(p);
-                Log.d(TAG, "Setted Metering");
-            } catch (Exception ex) {
-                Log.d(TAG, "Set Metering FAILED!");
+                try {
+                    Log.d(TAG, "try Set Metering");
+                    samsungCamera.setParameters(p);
+                    Log.d(TAG, "Setted Metering");
+                } catch (Exception ex) {
+                    Log.d(TAG, "Set Metering FAILED!");
+                }
             }
+            else {
+                List<Camera.Area> meteringList = new ArrayList<>();
+                if (meteringRect != null)
+                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+                Camera.Parameters p = mCamera.getParameters();
+                p.setMeteringAreas(meteringList);
+
+                try {
+                    Log.d(TAG, "try Set Metering");
+                    mCamera.setParameters(p);
+                    Log.d(TAG, "Setted Metering");
+                } catch (Exception ex) {
+                    Log.d(TAG, "Set Metering FAILED!");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
     }
 
