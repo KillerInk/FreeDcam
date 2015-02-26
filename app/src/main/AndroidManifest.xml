@@ -57,6 +57,7 @@
         <activity
             android:name=".ui.ShareActivity"
             android:label="FreeDCam"
+            android:screenOrientation="landscape"
             android:icon="@drawable/ic_launcher"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
