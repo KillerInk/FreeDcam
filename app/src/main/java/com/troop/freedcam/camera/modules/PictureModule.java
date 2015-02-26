@@ -54,7 +54,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private String lastPicSize;
     //META FROM JPEG
     private int iso;
-    private String expo;
+    //private double expo;
     private int flash;
     private float fNumber;
     private float focalLength;
@@ -237,13 +237,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             try
             {
                 iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-                expo = exifsub.getString(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
+                //expo = exifsub.getDouble(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
                 flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
                 fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
                 focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
+                exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+                //String expomode = exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_MODE);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
                 //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
-                Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
+                //Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
 
                 String[] expoRat =  exposureIndex.split("/");
 
@@ -264,7 +265,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
+        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + calculatedExpo + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
         if (dngConverter != null)
             dngConverter.RELEASE();
         dngConverter = RawToDng.GetInstance(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
