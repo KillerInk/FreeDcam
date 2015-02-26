@@ -629,7 +629,16 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.setParameters(paras);
             }
         }
+    }
 
+    public void SetCameraRotation(int rotation)
+    {
+        if (samsungCamera == null && mCamera == null)
+            return;
+        if (hasSamsungFrameWork)
+            samsungCamera.setDisplayOrientation(rotation);
+        else
+            mCamera.setDisplayOrientation(rotation);
     }
 
     public Camera GetCamera() {

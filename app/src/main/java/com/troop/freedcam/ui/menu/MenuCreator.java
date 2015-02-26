@@ -16,6 +16,7 @@ import com.troop.freedcam.ui.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildExternalShutter;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGps;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGuide;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildOrientationHack;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
 import com.troop.freedcam.ui.menu.childs.ExpandbleChildAeBracket;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -74,6 +75,7 @@ public class MenuCreator
     ExpandbleChildAeBracket aeBracketSwitch;
     ExpandableChildGps gps;
     ExpandableChild externalShutter;
+    ExpandableChildOrientationHack rotationHack;
 
     LinearLayout submenu;
 
@@ -231,8 +233,9 @@ public class MenuCreator
 
         gps.SetCameraUIWrapper(cameraUiWrapper);
 
-        externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
 
+        externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
+        rotationHack.SetCameraUIWrapper(cameraUiWrapper);
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -499,6 +502,9 @@ public class MenuCreator
 
         externalShutter = new ExpandableChildExternalShutter(context, settingsGroup, context.getString(R.string.settings_externalshutter), appSettingsManager, AppSettingsManager.SETTING_EXTERNALSHUTTER);
         childlist.add(externalShutter);
+
+        rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager, AppSettingsManager.SETTING_OrientationHack);
+        childlist.add(rotationHack);
 
         settingsGroup.setItems(childlist);
 

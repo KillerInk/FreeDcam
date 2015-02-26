@@ -230,7 +230,15 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetPictureOrientation(int orientation)
     {
-        try {
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+        {
+            int or = orientation +180;
+            if (or >360)
+                or = or - 360;
+            orientation = or;
+        }
+        try
+        {
             ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
             cameraHolder.SetCameraParameters(cameraParameters);
         }
@@ -238,6 +246,18 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
+    }
+
+    public void SetCameraRotation()
+    {
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        {
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , "false");
+        }
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("false"))
+            ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
+        else
+            ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
     }
 
 
