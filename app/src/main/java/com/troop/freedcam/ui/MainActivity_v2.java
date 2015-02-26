@@ -129,7 +129,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
 
