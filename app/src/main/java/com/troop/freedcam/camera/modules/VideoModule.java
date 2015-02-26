@@ -168,7 +168,8 @@ public class VideoModule extends AbstractModule
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
-        recorder.setOutputFormat(prof.fileFormat);
+
+        /*recorder.setOutputFormat(prof.fileFormat);
 
         if (!profile.contains("Timelapse")) {
             recorder.setAudioChannels(prof.audioChannels);
@@ -180,9 +181,9 @@ public class VideoModule extends AbstractModule
         recorder.setVideoEncoder(prof.videoCodec);
         recorder.setVideoEncodingBitRate(prof.videoBitRate);
         recorder.setVideoSize(prof.videoFrameWidth ,prof.videoFrameHeight);
-        recorder.setVideoFrameRate(prof.videoFrameRate);
+        recorder.setVideoFrameRate(prof.videoFrameRate);*/
 
-        //recorder.setProfile(prof);
+        recorder.setProfile(prof);
 
         if (profile.contains("Timelapse"))
         {
