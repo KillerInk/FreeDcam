@@ -270,13 +270,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:id="@+id/layout__cameraControls"
-        android:clickable="true">
+        android:clickable="true"
+        android:layout_alignParentEnd="false"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="false">
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
@@ -289,17 +291,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:layout_width="@dimen/appiconsizedouble"
-            android:layout_height="@dimen/appiconsizedouble"
-            android:id="@+id/shutter_imageview"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:longClickable="false"
-            android:background="@drawable/improve_multishoot"
-            android:clickable="true"
-            android:layout_marginBottom="2dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -325,6 +316,17 @@
                 android:gravity="center_horizontal" />
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:id="@+id/shutter_imageview"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:longClickable="false"
+            android:background="@drawable/improve_multishoot"
+            android:clickable="true"
+            android:layout_marginBottom="2dp" />
 
         <LinearLayout
             android:orientation="horizontal"
