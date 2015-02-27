@@ -165,14 +165,13 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     {
         if (currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        if (hasReal3d && is3D)
         {
-            if (hasReal3d && is3D)
-            {
-                ParametersHandler.PreviewSize.SetValue(800 + "x" + 480, true);
-                setPreviewToDisplay(800, 480);
-            }
-            else {
+            ParametersHandler.PreviewSize.SetValue(800 + "x" + 480, true);
+            setPreviewToDisplay(800, 480);
+        }
+        else if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
                 PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter) ParametersHandler.PreviewSize;
                 List<Size> sizes = new ArrayList<Size>();
                 String[] stringsSizes = previewSizeParameter.GetValues();
@@ -182,8 +181,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 Size size = getOptimalPreviewSize(sizes, w, h);
                 ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 setPreviewToDisplay(size.width, size.height);
-            }
-
         }
         else
         {
