@@ -14,5 +14,6 @@
         android:textSize="@dimen/ChildTextSize"
         android:textColor="#ff000000"
         android:textOff="@string/switch_raw"
-        android:textOn="@string/switch_dng" />
+        android:textOn="@string/switch_dng"
+        style="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
 </LinearLayout>

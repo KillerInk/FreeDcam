@@ -3,7 +3,8 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:id="@+id/settings_menuHolder">
+    android:id="@+id/settings_menuHolder"
+    style="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
 
     <LinearLayout
         android:layout_width="wrap_content"

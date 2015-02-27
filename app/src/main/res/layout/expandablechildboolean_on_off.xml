@@ -12,5 +12,6 @@
         android:id="@+id/switch1"
         android:background="#ffa0a0a0"
         android:textSize="@dimen/ChildTextSize"
-        android:textColor="#ff000000" />
+        android:textColor="#ff000000"
+        style="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
 </LinearLayout>

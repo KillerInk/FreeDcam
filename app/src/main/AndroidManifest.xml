@@ -31,13 +31,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="FreeDCam"
         android:supportsRtl="true"
-
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
         android:largeHeap="true">
 
         <activity
             android:name=".ui.MainActivity_v2"
             android:label="FreeDCam"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+
             android:icon="@drawable/ic_launcher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
