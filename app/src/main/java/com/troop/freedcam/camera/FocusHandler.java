@@ -69,10 +69,10 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            if (cameraUiWrapper.camParametersHandler.ExposureLock != null && cameraUiWrapper.camParametersHandler.ExposureLock.IsSupported()) {
-                if (cameraUiWrapper.camParametersHandler.ExposureLock.GetValue().equals("true")) {
-                    cameraUiWrapper.camParametersHandler.ExposureLock.SetValue("false", true);
-                    cameraUiWrapper.camParametersHandler.ExposureLock.BackgroundValueHasChanged("false");
+            if (parametersHandler.ExposureLock != null && parametersHandler.ExposureLock.IsSupported()) {
+                if (parametersHandler.ExposureLock.GetValue().equals("true")) {
+                    parametersHandler.ExposureLock.SetValue("false", true);
+                    parametersHandler.ExposureLock.BackgroundValueHasChanged("false");
                 }
             }
             final FocusRect targetFocusRect = getFocusRect(rect, width, height);
