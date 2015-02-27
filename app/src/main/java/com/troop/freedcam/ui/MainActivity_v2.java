@@ -131,12 +131,29 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         setContentView(R.layout.main_v2);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        HIDENAVBAR();
 
+        createUI();
 
+        if (appSettingsManager.getShowHelpOverlay() == false)
+        {
+
+            helpOverlayOpen = false;
+            helpOverlayHandler.setVisibility(View.GONE);
+        }
+        else
+        {
+            helpOverlayOpen = true;
+        }
+
+        //loadCameraUiWrapper();
+    }
+
+    private void createUI() {
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
         settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
         settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);
-        settingsLayout.removeView(settingsLayoutHolder);
+
         settingsLayloutOpen = false;
 
 
@@ -146,23 +163,16 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         //manualSettingsLayout.setAlpha(0f);
         //manualSettingsLayout.setVisibility(View.GONE);
         seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
-        manualMenuHolder.removeView(manualSettingsLayout);
-        manualMenuHolder.removeView(seekbarLayout);
-
-
 
         swipeMenuListner = new SwipeMenuListner(this);
         orientationHandler = new OrientationHandler(this, this);
 
-        HIDENAVBAR();
 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
 
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
         previewHandler.appSettingsManager = appSettingsManager;
-
-        activity = this;
         timerHandler = new TimerHandler(this);
 
         //initUI
@@ -184,7 +194,6 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         messageHandler = new MessageHandler(this);
 
 
-
         exitButton = (TextView)findViewById(R.id.textView_Exit);
 
         if( ViewConfiguration.get(this).hasPermanentMenuKey())
@@ -197,10 +206,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
                 @Override
                 public void onClick(View v)
                 {
-
-
                     activity.finish();
-
                 }
             });
         }
@@ -209,25 +215,11 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
 
         guideHandler = (GuideHandler)findViewById(R.id.GuideView);
 
-
-
         timerHandler = new TimerHandler(this);
 
-
-
-        if (appSettingsManager.getShowHelpOverlay() == false)
-        {
-            RelativeLayout view = (RelativeLayout) helpOverlayHandler.getParent();
-            view.removeView(helpOverlayHandler);
-            helpOverlayOpen = false;
-            helpOverlayHandler.setVisibility(View.GONE);
-        }
-        else
-        {
-            helpOverlayOpen = true;
-        }
-
-        loadCameraUiWrapper();
+        settingsLayout.removeView(settingsLayoutHolder);
+        manualMenuHolder.removeView(manualSettingsLayout);
+        manualMenuHolder.removeView(seekbarLayout);
     }
 
     private void loadCameraUiWrapper()
@@ -332,11 +324,12 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     @Override
     protected void onResume()
     {
+        super.onResume();
         if(cameraUiWrapper == null)
             loadCameraUiWrapper();
         orientationHandler.Start();
         infoOverlayHandler.StartUpdating();
-        super.onResume();
+
 
         Log.d(TAGLIFE, "Activity onResume");
     }
@@ -344,11 +337,12 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     @Override
     protected void onPause()
     {
+        super.onPause();
         messageHandler.close();
         infoOverlayHandler.StopUpdating();
         orientationHandler.Stop();
         destroyCameraUiWrapper();
-        super.onPause();
+
 
         Log.d(TAGLIFE, "Activity onPause");
     }
