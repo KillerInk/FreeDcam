@@ -149,6 +149,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         catch (Exception ex)
         {
             Log.d(TAG,"Take Picture Failed");
+            baseCameraHolder.errorHandler.OnError("Take Picture Failed");
+            workfinished(true);
             ex.printStackTrace();
         }
     }
