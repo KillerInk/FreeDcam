@@ -50,8 +50,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
-            cameraHolder.SetLiveViewFrameInfo(true);
+
         Log.d(TAG, "Throw parametersChanged");
         throwSonyApiChanged(mAvailableCameraApiSet);
 

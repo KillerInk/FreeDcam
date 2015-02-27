@@ -69,9 +69,9 @@ public class DataExtractor
         }
         else if (commonHeader.PayloadType == 0x11)
         {
-            int readLength = 4 + 3 + 1 + 2 + 118 + 4 + 4 + 24;
-            commonHeader = null;
-            SimpleLiveviewSlicer.readBytes(mInputStream, readLength);
+            payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));
+            readData(mInputStream);
+            paddingData = SimpleLiveviewSlicer.readBytes(mInputStream, paddingSize);
         }
         else {
             payLoadHeader = new PayLoadHeader(SimpleLiveviewSlicer.readBytes(mInputStream, payloadHeaderlength));

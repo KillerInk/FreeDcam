@@ -403,6 +403,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // Call again.
                         replyJson = mRemoteApi.getAvailableApiList();
                         JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
+                        ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
                     }
 
                     // getEvent start
@@ -416,6 +417,9 @@ public class CameraHolderSony extends AbstractCameraHolder
                         Log.d(TAG, "openConnection(): LiveviewSurface.start()");
                         startLiveview();
                     }
+
+                    if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
+                        SetLiveViewFrameInfo(true);
 
                     // prepare UIs
                     if (JsonUtils.isCameraApiAvailable("getAvailableShootMode", mAvailableCameraApiSet)) {
