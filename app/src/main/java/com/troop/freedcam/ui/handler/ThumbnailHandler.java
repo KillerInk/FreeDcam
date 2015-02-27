@@ -170,7 +170,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private void showThumb(File filePath)
     {
-        if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw"))
+        if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw") && filePath.exists())
         {
             if (bitmap != null) {
                 bitmap.recycle();
