@@ -102,7 +102,10 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         cameraHolder.SetMeteringAreas(targetFocusRect);
     }
 
-    private FocusRect getFocusRect(FocusRect rect, int width, int height) {
+    private FocusRect getFocusRect(FocusRect rect, int width, int height)
+    {
+        if (width == 0 || height == 0)
+            return null;
         final FocusRect targetFocusRect = new FocusRect(
                 rect.left * 2000 / width - 1000,
                 rect.right * 2000 / width - 1000,
