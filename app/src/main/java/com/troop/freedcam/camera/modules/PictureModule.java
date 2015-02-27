@@ -77,10 +77,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     boolean dngJpegShot = false;
 
 
-    File file;
-    byte bytes[];
-    byte Thumb[];
-
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
@@ -224,7 +220,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private void addExifAndThumbToDng(byte[] data)
     {
-        Thumb = data.clone();
+
         double x;
         double y;
         double calculatedExpo = 0;
@@ -291,9 +287,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             sendMsg("Datasize : " + StringUtils.readableFileSize(data.length));
         }
-        file = createFileName();
-        bytes = data;
-        saveFile();
+        saveFile(data, createFileName());
         
 
 
@@ -302,7 +296,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         return false;
     }
 
-    private void saveFile() {
+    private void saveFile(byte[] bytes, File file) {
         if (OverRidePath == "")
         {
             if (!file.getAbsolutePath().endsWith(".dng")) {
@@ -350,7 +344,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 }
                 dngConverter.WriteDNG(h,l,bytes.length);
                 //}
-                Thumb = null;
             }
         }
         else

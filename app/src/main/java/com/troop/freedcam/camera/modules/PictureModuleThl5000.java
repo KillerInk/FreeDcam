@@ -52,7 +52,7 @@ public class PictureModuleThl5000 extends PictureModule
         if (format.equals("dng") || format.equals("raw"))
         {
             Log.d(TAG, "Check if Raw file exists: " + new File(lastFile).exists());
-            eventHandler.WorkFinished(file);
+            eventHandler.WorkFinished(new File(lastFile));
             workfinished(true);
             baseCameraHolder.StartPreview();
         }

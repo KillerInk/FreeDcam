@@ -141,7 +141,7 @@ public class HdrModule extends PictureModule
 
     public void onPictureTaken(final byte[] data)
     {
-        if (processCallbackData(data, saveFileRunner)) return;
+        if (processCallbackData(data, createFileName(true))) return;
 
         if (hdrCount == 3)
         {
@@ -185,7 +185,7 @@ public class HdrModule extends PictureModule
                             System.out.println("Current Expo" + hdrCount + " " + getStringAddTime());
                             if (files[i].delete() == true)
                                 Log.d(TAG, "file: " + files[i].getName() + " deleted");
-                            Log.d(TAG, "Start Media Scan " + file.getName());
+
                             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(dngFile));
 
                         }
@@ -212,7 +212,7 @@ public class HdrModule extends PictureModule
         return  getFileAndChooseEnding(s1, bevorShot);
     }
 
-    protected boolean processCallbackData(byte[] data, Runnable saveFileRunner) {
+    protected boolean processCallbackData(final byte[] data,final File file) {
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
@@ -224,10 +224,14 @@ public class HdrModule extends PictureModule
         {
             baseCameraHolder.errorHandler.OnError("Datasize : " + StringUtils.readableFileSize(data.length));
         }
-        file = createFileName(true);
         files[hdrCount -1] = file;
-        bytes = data;
-        new Thread(saveFileRunner).start();
+
+        new Thread(){
+            @Override
+            public void run() {
+                saveFile(file, data);
+            }
+        }.start();
 
         //saveFileRunner.run();
         isWorking = false;
@@ -236,7 +240,7 @@ public class HdrModule extends PictureModule
         return false;
     }
 
-    protected Runnable saveFileRunner = new Runnable() {
+    /*protected Runnable saveFileRunner = new Runnable() {
         @Override
         public void run()
         {
@@ -261,7 +265,27 @@ public class HdrModule extends PictureModule
 
 
         }
-    };
+    };*/
+
+    private void saveFile(File file, byte[] bytes)
+    {
+        if (OverRidePath == "")
+        {
+            saveBytesToFile(bytes, file);
+            if (!file.getAbsolutePath().endsWith("raw") || file.getAbsolutePath().endsWith("raw") && !parametersHandler.isDngActive)
+            {
+                Log.d(TAG, "Start Media Scan " + file.getName());
+                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
+            }
+
+        }
+        else
+        {
+            file = new File(OverRidePath);
+            saveBytesToFile(bytes, file);
+
+        }
+    }
 
     protected File getFileAndChooseEnding(String s1, boolean bevorShot)
     {
