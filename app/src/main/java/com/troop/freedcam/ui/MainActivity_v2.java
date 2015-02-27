@@ -520,7 +520,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.v2_settings_menu, menuFragment);
+                transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
+                transaction.commit();
 
 
 

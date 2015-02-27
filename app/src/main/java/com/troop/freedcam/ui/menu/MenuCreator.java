@@ -209,7 +209,7 @@ public class MenuCreator
         }
         if(cameraUiWrapper instanceof CameraUiWrapper)
             saveCamparas.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
-        if (sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
+        if (sonyExpandableChild != null && sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
 
         if (parameterHandler.AE_Bracket != null && parameterHandler.AE_Bracket.IsSupported())

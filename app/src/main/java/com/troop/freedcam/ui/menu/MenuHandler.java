@@ -72,6 +72,8 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         menuCreator = new MenuCreator(context, cameraUiWrapper, appSettingsManager);
         fillMenu();
+        menuCreator.setCameraUiWrapper(cameraUiWrapper);
+
     }
 
 
@@ -139,7 +141,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     private void fillMenu()
     {
         grouplist = createMenu();
-
+        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
     }
 
     private void fillMainMenu() {
