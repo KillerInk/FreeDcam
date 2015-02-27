@@ -41,6 +41,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     SharedPreferences preferences;
 
     Real3D mReal3D;
+    boolean is3D = false;
 
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
     public AbstractParameterHandler ParametersHandler;
@@ -127,9 +128,17 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         if (hasReal3d)
         {
             if (preferences.getInt(com.troop.freedcam.ui.AppSettingsManager.SETTING_CURRENTCAMERA, 0) == 2)
+            {
+                is3D = true;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
+                Log.d(TAG, "Set 3d");
+            }
             else
+            {
+                is3D = false;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
+                Log.d(TAG, "Set 2d");
+            }
         }
     }
 
@@ -156,19 +165,22 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     {
         if (currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
-        if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        if (hasReal3d && is3D)
         {
-            PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)ParametersHandler.PreviewSize;
-            List<Size> sizes = new ArrayList<Size>();
-            String[] stringsSizes = previewSizeParameter.GetValues();
-            for (String s : stringsSizes)
-            {
-                sizes.add(new Size(s));
-            }
-            Size size = getOptimalPreviewSize(sizes,w, h );
-            ParametersHandler.PreviewSize.SetValue(size.width+"x"+size.height, true);
-            setPreviewToDisplay(size.width, size.height);
-
+            ParametersHandler.PreviewSize.SetValue(800 + "x" + 480, true);
+            setPreviewToDisplay(800, 480);
+        }
+        else if (currentModule.equals(ModuleHandler.MODULE_PICTURE))
+        {
+                PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter) ParametersHandler.PreviewSize;
+                List<Size> sizes = new ArrayList<Size>();
+                String[] stringsSizes = previewSizeParameter.GetValues();
+                for (String s : stringsSizes) {
+                    sizes.add(new Size(s));
+                }
+                Size size = getOptimalPreviewSize(sizes, w, h);
+                ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                setPreviewToDisplay(size.width, size.height);
         }
         else
         {

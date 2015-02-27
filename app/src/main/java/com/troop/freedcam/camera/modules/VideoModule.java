@@ -122,6 +122,12 @@ public class VideoModule extends AbstractModule
             mediaSavePath = new StringBuilder(String.valueOf(file.getPath())).append(File.separator).append("VID_").append(s).append(".mp4").toString();
             setRecorderOutPutFile(mediaSavePath);
 
+            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+                recorder.setOrientationHint(180);
+            else
+                recorder.setOrientationHint(0);
+
+            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder().getSurface());
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
@@ -169,6 +175,8 @@ public class VideoModule extends AbstractModule
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
 
+
+
         /*recorder.setOutputFormat(prof.fileFormat);
 
         if (!profile.contains("Timelapse")) {
@@ -177,6 +185,7 @@ public class VideoModule extends AbstractModule
             recorder.setAudioEncodingBitRate(prof.audioBitRate);
             recorder.setAudioSamplingRate(prof.audioSampleRate);
         }
+
 
         recorder.setVideoEncoder(prof.videoCodec);
         recorder.setVideoEncodingBitRate(prof.videoBitRate);
