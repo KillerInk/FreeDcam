@@ -38,6 +38,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     I_Callbacks.PictureCallback rawCallback;
     I_Callbacks.ShutterCallback shutterCallback;
     I_Callbacks.PreviewCallback previewCallback;
+    SurfaceHolder surfaceHolder;
 
     public boolean hasLGFrameWork = false;
     public boolean hasSamsungFrameWork = false;
@@ -216,10 +217,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public boolean SetSurface(SurfaceHolder surfaceHolder) {
-        try {
-            while (!isRdy)
-                Thread.sleep(10);
+    public boolean SetSurface(SurfaceHolder surfaceHolder)
+    {
+        this.surfaceHolder = surfaceHolder;
+        try
+        {
             if(hasSamsungFrameWork)
                 samsungCamera.setPreviewDisplay(surfaceHolder);
             else
@@ -229,10 +231,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
         } catch (IOException e) {
             e.printStackTrace();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         return false;
+    }
+
+    public SurfaceHolder getSurfaceHolder()
+    {
+        return  surfaceHolder;
     }
 
     @Override

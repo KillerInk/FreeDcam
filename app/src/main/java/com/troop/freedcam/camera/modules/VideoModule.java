@@ -121,7 +121,7 @@ public class VideoModule extends AbstractModule
 
             mediaSavePath = new StringBuilder(String.valueOf(file.getPath())).append(File.separator).append("VID_").append(s).append(".mp4").toString();
             setRecorderOutPutFile(mediaSavePath);
-
+            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder().getSurface());
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
