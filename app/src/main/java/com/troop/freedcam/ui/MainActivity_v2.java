@@ -1,12 +1,14 @@
 package com.troop.freedcam.ui;
 
-import android.app.Activity;
+
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
+
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,11 +18,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -44,6 +43,7 @@ import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.I_swipe;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
+import com.troop.freedcam.ui.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.MenuHandler;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.ui.menu.SwipeMenuListner;
@@ -56,15 +56,16 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends Activity implements I_swipe, I_orientation, I_error, I_CameraChangedListner
+public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orientation, I_error, I_CameraChangedListner
 {
     protected ViewGroup appViewGroup;
-    public LinearLayout settingsLayout;
-    public LinearLayout settingsLayoutHolder;
+    //public LinearLayout settingsLayout;
     boolean settingsLayloutOpen = false;
+
     public LinearLayout manualSettingsLayout;
     public LinearLayout seekbarLayout;
     LinearLayout manualMenuHolder;
+    MenuFragment menuFragment;
 
 
     boolean manualMenuOpen = false;
@@ -88,7 +89,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
-    MenuHandler menuHandler;
+
     public ShutterHandler shutterHandler;
     CameraSwitchHandler cameraSwitchHandler;
     ModuleSwitchHandler moduleSwitchHandler;
@@ -151,10 +152,8 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
 
     private void createUI() {
         manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
-        settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-        settingsLayoutHolder = (LinearLayout)findViewById(R.id.settings_menuHolder);
+        //settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
 
-        settingsLayloutOpen = false;
 
 
         //settingsLayout.setAlpha(0f);
@@ -176,7 +175,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         timerHandler = new TimerHandler(this);
 
         //initUI
-        menuHandler = new MenuHandler(this, appSettingsManager);
+
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
         workHandler = new WorkHandler(this);
@@ -217,7 +216,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
 
         timerHandler = new TimerHandler(this);
 
-        settingsLayout.removeView(settingsLayoutHolder);
+
         manualMenuHolder.removeView(manualSettingsLayout);
         manualMenuHolder.removeView(seekbarLayout);
     }
@@ -271,7 +270,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        menuHandler.SetCameraUiWrapper(cameraUiWrapper, previewHandler.surfaceView);
+
         cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, previewHandler.surfaceView);
         shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
         moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
@@ -509,15 +508,34 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     {
         if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
         {
-            if (!settingsLayloutOpen) {
-                settingsLayout.addView(settingsLayoutHolder);
+            if (!settingsLayloutOpen)
+            {
+                if (menuFragment == null)
+                {
+                    menuFragment = new MenuFragment();
+                }
+                menuFragment.SetAppSettings(appSettingsManager);
+                menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.v2_settings_menu, menuFragment);
+
+
+
+
                 settingsLayloutOpen = true;
             }
         }
         else
         {
-            if (settingsLayloutOpen) {
-                settingsLayout.removeView(settingsLayoutHolder);
+            if (settingsLayloutOpen)
+            {
+
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.remove(menuFragment);
+                fragmentTransaction.commit();
                 settingsLayloutOpen = false;
             }
         }
@@ -545,7 +563,7 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         }
     }
 
-    private void rotateViews(int orientation)
+    /*private void rotateViews(int orientation)
     {
         TextView textView = (TextView)seekbarLayout.findViewById(R.id.textView_seekbar);
         textView.setRotation(orientation);
@@ -561,9 +579,9 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
             View view =  manualSettingsLayout.getChildAt(i);
             view.animate().rotation(orientation).setDuration(animationtime).start();
         }
-    }
+    }*/
 
-    private void rotateSettingsMenu(int orientation)
+    /*private void rotateSettingsMenu(int orientation)
     {
         settingsLayoutHolder.animate().rotation(orientation).setDuration(animationtime).start();
 
@@ -574,5 +592,5 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
         params.width = h;
 
         settingsLayout.setLayoutParams(params);
-    }
+    }*/
 }

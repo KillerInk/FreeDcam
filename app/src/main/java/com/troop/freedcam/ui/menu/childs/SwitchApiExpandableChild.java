@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu.childs;
 
+import android.content.Context;
 import android.os.Build;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;

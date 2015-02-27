@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent, I_OnGroupClicked
 {
-    MainActivity_v2 context;
+    MenuFragment context;
     AbstractCameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
     SurfaceView surfaceView;
@@ -53,7 +53,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MainActivity_v2 context, AppSettingsManager appSettingsManager)
+    public MenuHandler(MenuFragment context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
         this.appSettingsManager = appSettingsManager;
@@ -225,7 +225,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
             }
 
             //set values to the adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getActivity().getApplicationContext(),
                     R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
             //attach adapter to the listview and fill
             listView.setAdapter(adapter);
@@ -238,7 +238,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         {
             SaveCamParasExpandableChild child = (SaveCamParasExpandableChild) selectedChild;
             child.SaveCamParameters();
-            Toast.makeText(context, "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
+            Toast.makeText(context.getActivity().getApplicationContext(), "Camera Parameters saved to DCIM/FreeCam/CamParameters.txt", Toast.LENGTH_LONG).show();
         }
 
     }

@@ -229,34 +229,7 @@
 
         android:layout_alignParentLeft="true">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/settings_menuHolder">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:id="@+id/expandableListViewSettings"
-                android:orientation="vertical"
-                android:layout_marginLeft="3dp"
-                android:paddingRight="1dp" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:id="@+id/groupSubMenu"
-                android:paddingRight="1dp"></LinearLayout>
-
-            <ListView
-                android:layout_width="@dimen/menuwidth"
-                android:layout_height="wrap_content"
-                android:id="@+id/subMenuSettings"
-                android:background="@color/menuBackgroundColor" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

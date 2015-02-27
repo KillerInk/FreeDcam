@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
+import android.content.Context;
 import android.view.SurfaceView;
 import android.widget.LinearLayout;
 
@@ -34,7 +35,7 @@ import java.util.ArrayList;
  */
 public class MenuCreator
 {
-    MainActivity_v2 context;
+    Context context;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractParameterHandler parameterHandler;
@@ -79,10 +80,10 @@ public class MenuCreator
 
     LinearLayout submenu;
 
-    public MenuCreator(MainActivity_v2 context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public MenuCreator(MenuFragment context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.context = context;
+        this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
         this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
     }
@@ -484,8 +485,8 @@ public class MenuCreator
         settingsGroup = getNewGroup(context.getString(R.string.settings));
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
-        childlist.add(sonyExpandableChild);
+        //sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
+        //childlist.add(sonyExpandableChild);
 
         //defcomg was here
 
