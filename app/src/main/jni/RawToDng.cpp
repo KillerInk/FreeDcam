@@ -478,6 +478,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
     buffer =(unsigned char *)malloc(writer->rowSize);
+    uint64 colorchannel;
 
     j=0;
 
@@ -495,23 +496,19 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		 * get 5 bytes from buffer and move first 4bytes to 16bit
 		 * split the 5th byte and add the value to the first 4 bytes
 		 * */
-		for (col = 0; col < writer->rawwidht; col+= 4)
+		for (col = 0; col < writer->rawwidht; col+= 6)
 		{ // iterate over pixel columns
-            a = buffer[j++];
-            unsigned short b = buffer[j++];
-			pixel[col+0] = b << 8 | a ;
 
-			unsigned short c = buffer[j++];
-            unsigned short d = buffer[j++];
-			pixel[col+1] = d << 8 | c ;
+		    for(int i =0; i< 8; i++)
+		    {
+                colorchannel = buffer[j++] << i^7;
+		    }
 
-			unsigned short EvenHI = buffer[j++];
-            unsigned short OddLow = buffer[j++];
-            pixel[col+2] = OddLow << 8 | EvenHI ;
+		    for(int i =0; i< 6; i++)
+            {
+                pixel[col+i] = (colorchannel >> i*10) & 0x3ff;
+            }
 
-			unsigned short g = buffer[j++];
-            unsigned short h = buffer[j++];
-			pixel[col+3] = h << 8 | g ;
 		}
 		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
