@@ -413,7 +413,7 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
 }
 
-void processSXXX10packed(TIFF *tif,DngWriter *writer)
+void processTight(TIFF *tif,DngWriter *writer)
 {
     LOGD("IN SXXXXl0");
     int i, j, row, col, b;
@@ -470,7 +470,7 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 	LOGD("Mem Released");
 }
 
-void processSXXX16(TIFF *tif,DngWriter *writer)
+void processLoose(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
     int i, j, row, col, b;
@@ -526,6 +526,50 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 
 }
 
+void processSXXX16(TIFF *tif,DngWriter *writer)
+{
+    unsigned short a;
+    int i, j, row, col, b;
+    unsigned char *buffer;
+    unsigned char split; // single byte with 4 pairs of low-order bits
+    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
+    buffer =(unsigned char *)malloc(writer->rowSize);
+    j=0;
+	for (row=0; row < writer->rawheight; row ++)
+	{
+		i = 0;
+		for(b = row * writer->rowSize; b < (row * writer->rowSize) + writer->rowSize; b++)
+			buffer[i++] = writer->bayerBytes[b];
+		// offset into buffer
+		j = 0;
+		for (col = 0; col < writer->rawwidht; col+= 4)
+		{ // iterate over pixel columns
+            a = buffer[j++];
+            unsigned short b = buffer[j++];
+			pixel[col+0] = b << 8 | a ;
+
+			unsigned short c = buffer[j++];
+            unsigned short d = buffer[j++];
+			pixel[col+1] = d << 8 | c ;
+
+			unsigned short EvenHI = buffer[j++];
+            unsigned short OddLow = buffer[j++];
+            pixel[col+2] = OddLow << 8 | EvenHI ;
+
+			unsigned short g = buffer[j++];
+            unsigned short h = buffer[j++];
+			pixel[col+3] = h << 8 | g ;
+		}
+		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+		LOGD("Error writing TIFF scanline.");
+		}
+	}
+    TIFFWriteDirectory (tif);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+    LOGD("Free Memory");
+}
+
 void writeRawStuff(TIFF *tif, DngWriter *writer)
 {
     if(0 == strcmp(writer->bayerformat,"BGGR"))
@@ -549,13 +593,13 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     if(writer->tightRaw == true)
     {
         LOGD("Processing tight RAW data...");
-        processSXXX10packed(tif, writer);
+        processTight(tif, writer);
         LOGD("Done tight RAW data...");
     }
     else
     {
         LOGD("Processing loose RAW data...");
-        processSXXX16(tif, writer);
+        processLoose(tif, writer);
         LOGD("Done loose RAW data...");
     }
 }
