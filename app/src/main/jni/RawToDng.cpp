@@ -474,7 +474,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
     int i, j, row, col, b;
-    unsigned char *buffer;
+    unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
     buffer =(unsigned char *)malloc(writer->rowSize);
@@ -498,12 +498,12 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		 * get 5 bytes from buffer and move first 4bytes to 16bit
 		 * split the 5th byte and add the value to the first 4 bytes
 		 * */
-		for (col = 0; col < writer->rawwidht; col+= 6)
+		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=8, col+= 6)
 		{ // iterate over pixel columns
 
 		    for(int i =0; i< 8; i++)
 		    {
-                colorchannel = buffer[j++] << i^7;
+                colorchannel = (colorchannel << 8) | dp[i^7];
 		    }
 
 		    for(int i =0; i< 6; i++)
