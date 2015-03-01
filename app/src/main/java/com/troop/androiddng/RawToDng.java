@@ -167,7 +167,8 @@ public class RawToDng
                                      boolean tight);
 
     private static native ByteBuffer Create();
-    private static native void SetExifData(int iso,
+    private static native void SetExifData(ByteBuffer nativeHandler,
+                                           int iso,
                                            double expo,
                                            int flash,
                                            float fNum,
@@ -212,7 +213,8 @@ public class RawToDng
                             String orientation,
                             double exposureIndex)
     {
-        SetExifData(iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
+        if (nativeHandler != null)
+        SetExifData(nativeHandler,iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
