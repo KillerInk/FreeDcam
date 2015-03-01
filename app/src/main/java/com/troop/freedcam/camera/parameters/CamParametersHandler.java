@@ -281,13 +281,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         Log.d(TAG, "THL5000 try to set mode");
         if (!raw) {
             cameraParameters.put("rawsave-mode", 0+"");
-            //cameraParameters.put("isp-mode", 0+"");
+            cameraParameters.put("isp-mode", 0+"");
             Log.d(TAG, "THL5000 set mode to jpeg");
         }
         else
         {
-            cameraParameters.put("rawsave-mode", 1+"");
-            //cameraParameters.put("isp-mode", 1+"");
+            cameraParameters.put("rawsave-mode", 2+"");
+            cameraParameters.put("isp-mode", 0+"");
             Log.d(TAG, "THL5000 set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
