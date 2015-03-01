@@ -21,7 +21,7 @@ typedef unsigned char uint8;
 
 extern "C"
 {
-    JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetExifData(JNIEnv *env, jobject thiz,jobject handler,
     jint iso,
     jdouble expo,
     jint flash,
@@ -30,6 +30,7 @@ extern "C"
     jstring imagedescription,
     jstring orientation,
     jdouble exposureIndex);
+    JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_Create(JNIEnv *env, jobject thiz);
 
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, jint widht, jint height);
@@ -40,6 +41,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler);
 
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -90,16 +92,8 @@ public:
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
-    DngWriter(JNIEnv *env, jint iso, jdouble expo, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation, jdouble exposureIndex)
+    DngWriter()
     {
-        _iso = iso;
-        _exposure =expo;
-        _flash = flash;
-        _imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
-        _orientation = (char*) env->GetStringUTFChars(orientation,NULL);
-        _fnumber = fnumber;
-        _focallength = focallength;
-        _exposureIndex = exposureIndex;
         gps = false;
     }
 };
@@ -108,8 +102,14 @@ JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEn
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     return writer->rawSize;
-
 }
+
+JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    return writer->rawheight;
+}
+
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height)
 {
@@ -124,7 +124,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv
     writer->_model = (char*) env->GetStringUTFChars(model,NULL);
 }
 
-JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetExifData(JNIEnv *env, jobject thiz, jobject handler,
     jint iso,
     jdouble expo,
     jint flash,
@@ -134,7 +134,20 @@ JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifDat
     jstring orientation,
     jdouble exposureIndex)
 {
-    DngWriter *writer = new DngWriter(env,iso, expo, flash, fNum, focalL, imagedescription,orientation, exposureIndex);
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->_iso = iso;
+    writer->_exposure =expo;
+    writer->_flash = flash;
+    writer->_imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
+    writer->_orientation = (char*) env->GetStringUTFChars(orientation,NULL);
+    writer->_fnumber = fNum;
+    writer->_focallength = focalL;
+    writer->_exposureIndex = exposureIndex;
+}
+
+JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_Create(JNIEnv *env, jobject thiz)
+{
+    DngWriter *writer = new DngWriter();
     return env->NewDirectByteBuffer(writer, 0);
 }
 
@@ -465,8 +478,11 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
     buffer =(unsigned char *)malloc(writer->rowSize);
+    uint64 colorchannel;
 
     j=0;
+
+    writer->rowSize= (writer->rawwidht+5)/6 << 3;
 
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -482,23 +498,19 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		 * get 5 bytes from buffer and move first 4bytes to 16bit
 		 * split the 5th byte and add the value to the first 4 bytes
 		 * */
-		for (col = 0; col < writer->rawwidht; col+= 4)
+		for (col = 0; col < writer->rawwidht; col+= 6)
 		{ // iterate over pixel columns
-            a = buffer[j++];
-            unsigned short b = buffer[j++];
-			pixel[col+0] = b << 8 | a ;
 
-			unsigned short c = buffer[j++];
-            unsigned short d = buffer[j++];
-			pixel[col+1] = d << 8 | c ;
+		    for(int i =0; i< 8; i++)
+		    {
+                colorchannel = buffer[j++] << i^7;
+		    }
 
-			unsigned short EvenHI = buffer[j++];
-            unsigned short OddLow = buffer[j++];
-            pixel[col+2] = OddLow << 8 | EvenHI ;
+		    for(int i =0; i< 6; i++)
+            {
+                pixel[col+i] = (colorchannel >> i*10) & 0x3ff;
+            }
 
-			unsigned short g = buffer[j++];
-            unsigned short h = buffer[j++];
-			pixel[col+3] = h << 8 | g ;
 		}
 		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");

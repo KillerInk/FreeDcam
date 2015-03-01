@@ -149,6 +149,7 @@ public class RawToDng
 
     private ByteBuffer nativeHandler = null;
     private static native long GetRawBytesSize(ByteBuffer nativeHandler);
+    private static native int GetRawHeight(ByteBuffer nativeHandler);
     private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
@@ -166,41 +167,31 @@ public class RawToDng
                                      String devicename,
                                      boolean tight);
 
-    private static native ByteBuffer CreateAndSetExifData(int iso,
-                                                   double expo,
-                                                   int flash,
-                                                   float fNum,
-                                                   float focalL,
-                                                   String imagedescription,
-                                                   String orientation,
-                                                   double exposureIndex);
-    private RawToDng(int iso,
-                     double expo,
-                     int flash,
-                     float fNum,
-                     float focalL,
-                     String imagedescription,
-                     String orientation,
-                     double exposureIndex)
+    private static native ByteBuffer Create();
+    private static native void SetExifData(ByteBuffer nativeHandler,
+                                           int iso,
+                                           double expo,
+                                           int flash,
+                                           float fNum,
+                                           float focalL,
+                                           String imagedescription,
+                                           String orientation,
+                                           double exposureIndex);
+
+    private RawToDng()
     {
         if (nativeHandler != null) {
             Release(nativeHandler);
             nativeHandler = null;
         }
-        nativeHandler = CreateAndSetExifData(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        nativeHandler = Create();
     }
     String filepath;
+    String bayerpattern;
 
-    public static RawToDng GetInstance(int iso,
-                                       double expo,
-                                       int flash,
-                                       float fNum,
-                                       float focalL,
-                                       String imagedescription,
-                                       String orientation,
-                                       double exposureIndex)
+    public static RawToDng GetInstance()
     {
-        return new RawToDng(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        return new RawToDng();
     }
 
     public long GetRawSize()
@@ -213,6 +204,19 @@ public class RawToDng
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
             SetGPSData(nativeHandler, Altitude,parseGpsvalue(Latitude),parseGpsvalue(Longitude),Provider,gpsTime);
+    }
+
+    public void setExifData(int iso,
+                            double expo,
+                            int flash,
+                            float fNum,
+                            float focalL,
+                            String imagedescription,
+                            String orientation,
+                            double exposureIndex)
+    {
+        if (nativeHandler != null)
+        SetExifData(nativeHandler,iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
@@ -245,6 +249,7 @@ public class RawToDng
     public void SetBayerData(byte[] fileBytes, String fileout,int width,int height)
     {
         filepath = fileout;
+        bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout, width,height);
     }
@@ -277,13 +282,13 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    public void WriteDNG(int height, String picformat, int rawsize)
+    public void WriteDNG()
     {
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), height), "HTC M8", false);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
                 setRawHeight(1520);
             }
             else {
@@ -297,12 +302,12 @@ public class RawToDng
         else
         {
 
-            SupportedDevices device = SupportedDevices.GetValue(rawsize);
+            SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (rawsize == 164249650 && !DeviceUtils.isLGADV())
+                if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
@@ -320,12 +325,12 @@ public class RawToDng
                     else
                     {
                         if (filepath.contains("ideal-qcom")) {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                         else
                         {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                     }
@@ -333,13 +338,13 @@ public class RawToDng
             }
             else
             {
-                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, picformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, true);
-                setRawHeight(height);
+                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, true);
+                setRawHeight(GetRawHeight(nativeHandler));
             }
 
         }
         WriteDNG(nativeHandler);
-        RELEASE();
+
     }
 
     private static short extractBits(final short x) {

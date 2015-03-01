@@ -357,6 +357,11 @@ public class MainActivity_v2 extends Activity implements I_swipe, I_orientation,
     }
 
     @Override
+    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
+        super.onWindowAttributesChanged(params);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 

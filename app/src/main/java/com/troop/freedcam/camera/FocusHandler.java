@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import com.troop.freedcam.camera.modules.CameraFocusEvent;
 import com.troop.freedcam.camera.modules.I_Callbacks;
@@ -69,11 +70,17 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            if (parametersHandler.ExposureLock != null && parametersHandler.ExposureLock.IsSupported()) {
-                if (parametersHandler.ExposureLock.GetValue().equals("true")) {
-                    parametersHandler.ExposureLock.SetValue("false", true);
-                    parametersHandler.ExposureLock.BackgroundValueHasChanged("false");
+            try {
+                if (parametersHandler.ExposureLock != null && parametersHandler.ExposureLock.IsSupported()) {
+                    if (parametersHandler.ExposureLock.GetValue().equals("true")) {
+                        parametersHandler.ExposureLock.SetValue("false", true);
+                        parametersHandler.ExposureLock.BackgroundValueHasChanged("false");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                
             }
             final FocusRect targetFocusRect = getFocusRect(rect, width, height);
 

@@ -41,8 +41,8 @@
             android:icon="@drawable/ic_launcher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
-            android:clearTaskOnLaunch="true"
-            android:excludeFromRecents="true">
+            android:clearTaskOnLaunch="false"
+            android:excludeFromRecents="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -65,6 +65,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     double Latitude;
     long gpsTime;
     RawToDng dngConverter;
+    boolean dngcapture = false;
 
     //private HandlerThread backgroundThread;
     //Handler handler;
@@ -117,12 +118,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
             if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
             {
-                lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-                baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
-                String sizes[] = baseCameraHolder.ParameterHandler.PictureSize.GetValues();
-                lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
-                baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
-                dngJpegShot = true;
+                dngcapture = true;
+
             }
             takePicture();
         }
@@ -188,8 +185,57 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         }.start();
     }
 
-    private void processImage(byte[] data) {
-        Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
+    private void processImage(byte[] data)
+    {
+        baseCameraHolder.StartPreview();
+        if (!dngJpegShot)
+        {
+            if (dngcapture)
+            {
+                if (dngConverter != null)
+                    dngConverter.RELEASE();
+                dngConverter = RawToDng.GetInstance();
+            }
+            if (processCallbackData(data))
+            {
+
+                //baseCameraHolder.StartPreview();
+                return;
+            }
+            if (dngcapture && !dngJpegShot)
+            {
+                if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
+                {
+
+                    lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+                    baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
+                    String sizes[] = baseCameraHolder.ParameterHandler.PictureSize.GetValues();
+                    lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
+                    baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
+                    dngJpegShot = true;
+                }
+                takePicture();
+            }
+            else
+            {
+
+                workfinished(true);
+                Log.d(TAG, "work finished");
+            }
+        }
+        else
+        {
+            addExifAndThumbToDng(data);
+
+            baseCameraHolder.ParameterHandler.PictureFormat.SetValue(lastBayerFormat, true);
+            baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
+            dngJpegShot = false;
+            dngConverter.WriteDNG();
+            dngConverter.RELEASE();
+            workfinished(true);
+            Log.d(TAG, "work finished");
+        }
+        /*Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (dngJpegShot && lastBayerFormat.contains("bayer"))
         {
 
@@ -207,7 +253,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             if (processCallbackData(data))
             {
 
-                baseCameraHolder.StartPreview();
+                //baseCameraHolder.StartPreview();
                 return;
             }
 
@@ -216,7 +262,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             workfinished(true);
             Log.d(TAG, "work finished");
 
-        }
+        }*/
 
     }
 
@@ -264,9 +310,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             e.printStackTrace();
         }
         String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + calculatedExpo + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
-        if (dngConverter != null)
-            dngConverter.RELEASE();
-        dngConverter = RawToDng.GetInstance(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
+
+        dngConverter.setExifData(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
     }
 
     private void sendMsg(final String msg)
@@ -308,11 +353,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 String raw[] = getRawSize();
                 int w = Integer.parseInt(raw[0]);
                 int h = Integer.parseInt(raw[1]);
-                String l;
-                if(lastBayerFormat != null)
-                    l = lastBayerFormat.substring(lastBayerFormat.length() -4);
-                else
-                    l = parametersHandler.PictureFormat.GetValue().substring(parametersHandler.PictureFormat.GetValue().length() -4);
+
 
                 Log.d(TAG, "Fnum" + String.valueOf(fNumber) + " FOcal" + focalLength);
                 double Altitude = 0;
@@ -329,7 +370,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     gpsTime = baseCameraHolder.gpsLocation.getTime();
                     dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
                 }
-                if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
+                dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
+                /*if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
                 {
                     RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue((int)bytes.length);
                     if (device == null)
@@ -343,8 +385,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 {
                     dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
                     //new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude, Latitude, Longitude, Provider, gpsTime);
-                }
-                dngConverter.WriteDNG(h,l,bytes.length);
+                }*/
+
                 //}
             }
         }
