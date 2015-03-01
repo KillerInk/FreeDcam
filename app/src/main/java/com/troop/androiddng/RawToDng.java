@@ -166,41 +166,29 @@ public class RawToDng
                                      String devicename,
                                      boolean tight);
 
-    private static native ByteBuffer CreateAndSetExifData(int iso,
-                                                   double expo,
-                                                   int flash,
-                                                   float fNum,
-                                                   float focalL,
-                                                   String imagedescription,
-                                                   String orientation,
-                                                   double exposureIndex);
-    private RawToDng(int iso,
-                     double expo,
-                     int flash,
-                     float fNum,
-                     float focalL,
-                     String imagedescription,
-                     String orientation,
-                     double exposureIndex)
+    private static native ByteBuffer Create();
+    private static native void SetExifData(int iso,
+                                           double expo,
+                                           int flash,
+                                           float fNum,
+                                           float focalL,
+                                           String imagedescription,
+                                           String orientation,
+                                           double exposureIndex);
+
+    private RawToDng()
     {
         if (nativeHandler != null) {
             Release(nativeHandler);
             nativeHandler = null;
         }
-        nativeHandler = CreateAndSetExifData(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        nativeHandler = Create();
     }
     String filepath;
 
-    public static RawToDng GetInstance(int iso,
-                                       double expo,
-                                       int flash,
-                                       float fNum,
-                                       float focalL,
-                                       String imagedescription,
-                                       String orientation,
-                                       double exposureIndex)
+    public static RawToDng GetInstance()
     {
-        return new RawToDng(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        return new RawToDng();
     }
 
     public long GetRawSize()
@@ -213,6 +201,18 @@ public class RawToDng
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
             SetGPSData(nativeHandler, Altitude,parseGpsvalue(Latitude),parseGpsvalue(Longitude),Provider,gpsTime);
+    }
+
+    public void setExifData(int iso,
+                            double expo,
+                            int flash,
+                            float fNum,
+                            float focalL,
+                            String imagedescription,
+                            String orientation,
+                            double exposureIndex)
+    {
+        SetExifData(iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
