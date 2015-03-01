@@ -482,6 +482,8 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 
     j=0;
 
+    writer->rowSize= (writer->rawwidht+5)/6 << 3;
+
 	for (row=0; row < writer->rawheight; row ++)
 	{
 
