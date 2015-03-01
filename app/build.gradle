@@ -7,8 +7,8 @@ android {
         applicationId "troop.com.freedcam"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 10
-        versionName "3.3.73"
+        versionCode 11
+        versionName "3.3.74"
     }
     lintOptions{checkReleaseBuilds false}
     sourceSets
@@ -61,11 +61,11 @@ android {
 }
 
 dependencies {
+    provided files('libs/extended_framework_hardware.jar')
     provided files('libs/samsung.jar')
     provided files('libs/com.lge.frameworks.jar')
     compile files('libs/android-support-v4.jar')
     provided files('libs/real3d.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     compile files('libs/xmpcore-5.1.2.jar')
-    provided files('libs/extended_framework_hardware.jar')
 }
