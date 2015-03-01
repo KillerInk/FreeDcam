@@ -91,6 +91,7 @@
     <orderEntry type="library" exported="" name="metadata-extractor-2.7.0" level="project" />
     <orderEntry type="library" exported="" name="real3d" level="project" />
     <orderEntry type="library" exported="" name="samsung" level="project" />
+    <orderEntry type="library" exported="" name="extended_framework_hardware" level="project" />
   </component>
 </module>
 
