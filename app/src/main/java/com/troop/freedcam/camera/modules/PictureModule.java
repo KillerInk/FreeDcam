@@ -370,7 +370,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     gpsTime = baseCameraHolder.gpsLocation.getTime();
                     dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
                 }
-                if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
+                dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
+                /*if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
                 {
                     RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue((int)bytes.length);
                     if (device == null)
@@ -384,7 +385,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 {
                     dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
                     //new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude, Latitude, Longitude, Provider, gpsTime);
-                }
+                }*/
 
                 //}
             }
