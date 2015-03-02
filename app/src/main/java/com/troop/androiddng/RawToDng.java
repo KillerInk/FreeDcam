@@ -25,17 +25,17 @@ public class RawToDng
     {
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
         //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
-        G3_Mipi_LL(             16224256, g3_blacklevel, "BGGR",4208,3082, true, getG3_rowSizeL),
-        G3_Qcom(17326080, g3_blacklevel, "BGGR",4164,3120,false, getG3_rowSizeL),
-        K910Qcom(17522688, g3_blacklevel, "BGGR",4212,3120,false, getG3_rowSizeL),
-        IMX135_214(             16424960, g3_blacklevel, "BGGR",4208,3120, true, g3_rowSizeKitKat),
+        G3_Mipi_LL(             16224256, g3_blacklevel, BGGR,4208,3082, true, getG3_rowSizeL),
+        G3_Qcom(17326080, g3_blacklevel, BGGR,4164,3120,false, getG3_rowSizeL),
+        K910Qcom(17522688, g3_blacklevel, BGGR,4212,3120,false, getG3_rowSizeL),
+        IMX135_214(             16424960, g3_blacklevel, BGGR,4208,3120, true, g3_rowSizeKitKat),
         //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
         //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
         //looseraws
-        XperiaL(                10788864 , 64,  "BGGR",3282,2448, false,  XperiaL_rowSize),
-        OneSV(                6746112 , 0,  "BGGR",2592,1944, false,  XperiaL_rowSize),
-        MT4G(                10782464 , 64,  "BGGR",3282,2448, false,  XperiaL_rowSize);
+        XperiaL(                10788864 , 64,  BGGR,3282,2448, false,  XperiaL_rowSize),
+        OneSV(                6746112 , 0,  BGGR,2592,1944, false,  XperiaL_rowSize),
+        MT4G(                10782464 , 64,  RGGb,3282,2448, false,  XperiaL_rowSize);
         //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
@@ -139,6 +139,7 @@ public class RawToDng
     public static String Optimus3DRawSize = "2608x1944";
 
     public static String BGGR = "bggr";
+    public static String RGGb = "rggb";
     private static final String GRBG = "grbg";
 
     private static int Calculate_rowSize(int fileSize, int height)
