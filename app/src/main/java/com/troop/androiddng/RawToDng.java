@@ -138,8 +138,8 @@ public class RawToDng
     public static String SonyXperiaLRawSize = "3282x2448";
     public static String Optimus3DRawSize = "2608x1944";
 
-    public static String BGGR = "BGGR";
-    private static final String GRBG = "GRBG";
+    public static String BGGR = "bggr";
+    private static final String GRBG = "grbg";
 
     private static int Calculate_rowSize(int fileSize, int height)
     {
@@ -288,7 +288,7 @@ public class RawToDng
         if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", false);
                 setRawHeight(1520);
             }
             else {
@@ -346,87 +346,4 @@ public class RawToDng
         WriteDNG(nativeHandler);
 
     }
-
-    private static short extractBits(final short x) {
-        return (short)(0xFFFF & ((x & 0xFFFF) >>> 0 & -1 + (short)(1 << 10)));
-    }
-
-    public static byte[] SixTeenBit(final byte[] data,final int width,final int height)
-    {
-        int n = width /6;
-        int n2 = 0;
-        int n3 = 0;
-
-        //OUTPUT Array
-        final byte[] dataOut = new byte[2 * (width * height)];
-
-        //Stride working byte Array
-        final byte[] strideByteArray = new byte[2 * (width + 10)];
-
-        while(true)
-        {
-            int n4;
-            if (width % 6 == 0 )
-            {
-                n4 = width;
-            }
-            else
-            {
-                n4 = width;
-            }
-
-            if (n3 >= n4 * height / (n * 6))
-            {
-                break;
-            }
-            int n5 = 0;
-
-            for (int i = n3; i < n3 + n; i++)
-            {
-                final short n6 = (short)(0xFFFF & ((0xFF & data[n2 + 1]) << 8 | (0xFF & data[n2 + 0])));
-                final short bits = extractBits(n6);
-                strideByteArray[n5] = (byte)(bits & 0xFF);
-                strideByteArray[n5 + 1] = (byte)(0xFF & (0xFFFF & bits) >>> 8);
-                final short n7 = (short)((0xFFFF & n6) >>> 10);
-                final int n8 = n5 + 2;
-                final short n9 = (short)(0xFFFF & ((0xFF & data[n2 + 2]) << 6 | (0xFFFF & n7)));
-                final short bits2 = extractBits(n9);
-                strideByteArray[n8] = (byte)(bits2 & 0xFF);
-                strideByteArray[n8 + 1] = (byte)(0xFF & (0xFFFF & bits2) >>> 8);
-                final short n10 = (short)((0xFFFF & n9) >>> 10);
-                final int n11 = n8 + 2;
-                final short n12 = (short)(0xFFFF & ((0xFF & data[n2 + 3]) << 4 | (0xFFFF & n10)));
-                final short bits3 = extractBits(n12);
-                strideByteArray[n11] = (byte)(bits3 & 0xFF);
-                strideByteArray[n11 + 1] = (byte)(0xFF & (0xFFFF & bits3) >>> 8);
-                final short n13 = (short)((0xFFFF & n12) >>> 10);
-                final int n14 = n11 + 2;
-                final short n15 = (short)(0xFFFF & ((0xFF & data[n2 + 4]) << 2 | (0xFFFF & n13)));
-                final short bits4 = extractBits(n15);
-                strideByteArray[n14] = (byte)(bits4 & 0xFF);
-                strideByteArray[n14 + 1] = (byte)(0xFF & (0xFFFF & bits4) >>> 8);
-                final short n16 = (short)((0xFFFF & n15) >>> 10);
-                final int n17 = n14 + 2;
-                final short n18 = (short)(0xFFFF & ((0xFF & data[n2 + 6]) << 8 | (0xFF & data[n2 + 5])));
-                final short bits5 = extractBits(n18);
-                strideByteArray[n17] = (byte)(bits5 & 0xFF);
-                strideByteArray[n17 + 1] = (byte)(0xFF & (0xFFFF & bits5) >>> 8);
-                final short n19 = (short)((0xFFFF & n18) >>> 10);
-                final int n20 = n17 + 2;
-                final short n21 = (short)(0xFFFF & ((0xFF & data[n2 + 7]) << 6 | (0xFFFF & n19)));
-                final short bits6 = extractBits(n21);
-                strideByteArray[n20] = (byte)(bits6 & 0xFF);
-                strideByteArray[n20 + 1] = (byte)(0xFF & (0xFFFF & bits6) >>> 8);
-                final short n22 = (short)((0xFFFF & n21) >>> 10);
-                n5 = n20 + 2;
-                n2 += 8;
-            }
-
-            System.arraycopy(strideByteArray ,0, dataOut, 2 *(n3 * width), width * 2);
-            ++n3;
-        }
-        return dataOut;
-
-    }
-
 }

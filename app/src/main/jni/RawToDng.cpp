@@ -572,13 +572,13 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 
 void writeRawStuff(TIFF *tif, DngWriter *writer)
 {
-    if(0 == strcmp(writer->bayerformat,"BGGR"))
+    if(0 == strcmp(writer->bayerformat,"bggr"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    if(0 == strcmp(writer->bayerformat , "GRGB"))
+    if(0 == strcmp(writer->bayerformat , "grbg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    if(0 == strcmp(writer->bayerformat , "RGGB"))
+    if(0 == strcmp(writer->bayerformat , "rggb"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-    if(0 == strcmp(writer->bayerformat , "GBRG"))
+    if(0 == strcmp(writer->bayerformat , "gbrg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
     long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
