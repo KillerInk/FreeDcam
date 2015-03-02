@@ -270,7 +270,7 @@ public class HdrModule extends PictureModule
 
     private void saveFile(File file, byte[] bytes)
     {
-        if (OverRidePath == "")
+        if (OverRidePath.equals(""))
         {
             saveBytesToFile(bytes, file);
             if (!file.getAbsolutePath().endsWith("raw") || file.getAbsolutePath().endsWith("raw") && !parametersHandler.isDngActive)

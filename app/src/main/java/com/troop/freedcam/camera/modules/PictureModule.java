@@ -344,7 +344,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     }
 
     private void saveFile(byte[] bytes, File file) {
-        if (OverRidePath == "")
+        if (OverRidePath.equals(""))
         {
             if (!file.getAbsolutePath().endsWith(".dng")) {
                 saveBytesToFile(bytes, file);
