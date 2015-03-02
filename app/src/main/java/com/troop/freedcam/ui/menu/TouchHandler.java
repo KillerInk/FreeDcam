@@ -84,7 +84,7 @@ public class TouchHandler
 
     }
 
-    private int getDistance(int startvalue, int currentvalue)
+    public static int getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)
