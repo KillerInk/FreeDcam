@@ -289,7 +289,7 @@ public class RawToDng
         if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", false);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
                 setRawHeight(1520);
             }
             else {
