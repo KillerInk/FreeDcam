@@ -19,7 +19,6 @@
     <com.troop.freedcam.ui.handler.GuideHandler
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.troop.freedcam.ui.handler.GuideHandler"
         android:id="@+id/GuideView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />

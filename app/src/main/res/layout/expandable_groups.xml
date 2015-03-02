@@ -5,8 +5,8 @@
     android:orientation="vertical"
     android:background="#ffa0a0a0"
     android:id="@+id/GroupContainer"
-    android:paddingBottom="1dp"
-    android:paddingRight="1dp">
+    android:layout_marginBottom="1dp"
+    android:layout_marginRight="1dp">
 
 
     <TextView
