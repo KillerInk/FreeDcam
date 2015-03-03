@@ -306,11 +306,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         manualSeekbar.setVisibility(View.VISIBLE);
         seekbarVisible = true;
+        seekbarText.setVisibility(View.VISIBLE);
     }
     private void hideSeekbar()
     {
         manualSeekbar.setVisibility(View.GONE);
         seekbarVisible = false;
+        seekbarText.setVisibility(View.GONE);
     }
 
     private void setSeekbar_Min_Max(int min, int max)
