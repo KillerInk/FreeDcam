@@ -51,6 +51,7 @@ public class PictureModuleThl5000 extends PictureModule
         String format = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (format.equals("dng") || format.equals("raw"))
         {
+            parametersHandler.setTHL5000rawFilename(lastFile);
             Log.d(TAG, "Check if Raw file exists: " + new File(lastFile).exists());
             eventHandler.WorkFinished(new File(lastFile));
             workfinished(true);
