@@ -7,8 +7,8 @@ android {
         applicationId "troop.com.freedcam"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 11
-        versionName "3.3.74"
+        versionCode 12
+        versionName "3.3.75"
     }
     lintOptions{checkReleaseBuilds false}
     sourceSets
@@ -50,7 +50,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
 
