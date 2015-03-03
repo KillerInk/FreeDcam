@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.media.CamcorderProfile;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.ArrayList;
@@ -18,16 +19,20 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     HashMap<String, CamcorderProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
 
-    public VideoProfilesParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraUiWrapper) {
+    public VideoProfilesParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, value, values);
-        this.cameraHolder = (BaseCameraHolder) cameraUiWrapper;
+        this.cameraHolder = parameterChanged;
+        this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;
         loadProfiles();
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
 
     }
 

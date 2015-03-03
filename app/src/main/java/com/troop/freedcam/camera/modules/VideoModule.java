@@ -217,6 +217,7 @@ public class VideoModule extends AbstractModule
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && ParameterHandler.VideoHDR.IsSupported());
             ParameterHandler.VideoHDR.SetValue("on", true);
+        loadProfileSpecificParameters();
     }
 
     @Override
@@ -224,5 +225,15 @@ public class VideoModule extends AbstractModule
         ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
         if (ParameterHandler.VideoHDR.IsSupported())
             ParameterHandler.VideoHDR.SetValue("off", true);
+    }
+
+    private void loadProfileSpecificParameters()
+    {
+        //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
+        CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
+        ParameterHandler.PreviewSize.SetValue(size, false);
+        ParameterHandler.VideoSize.SetValue(size,true);
     }
 }

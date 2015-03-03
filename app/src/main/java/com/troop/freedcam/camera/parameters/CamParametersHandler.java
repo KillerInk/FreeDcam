@@ -186,7 +186,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
         else
-            VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
+            VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
