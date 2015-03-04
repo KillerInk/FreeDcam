@@ -20,6 +20,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
 /**
@@ -38,7 +39,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     ImageView meteringArea;
     FocusRect meteringRect;
 
-    SurfaceView surfaceView;
+    PreviewHandler surfaceView;
 
     public FocusImageHandler(MainActivity_v2 activity)
     {
@@ -63,7 +64,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
     }
 
-    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
+    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, PreviewHandler surfaceView)
     {
         this.surfaceView = surfaceView;
         this.wrapper = cameraUiWrapper;
@@ -82,7 +83,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony))
+        if (!(wrapper instanceof CameraUiWrapperSony) && surfaceView != null)
         {
             disWidth = surfaceView.getLayoutParams().width;
             disHeight = surfaceView.getLayoutParams().height;
