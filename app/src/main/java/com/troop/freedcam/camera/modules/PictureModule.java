@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
+import com.drew.lang.Rational;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
@@ -52,18 +53,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     protected String lastBayerFormat;
     private String lastPicSize;
-    //META FROM JPEG
-    private int iso;
-    //private double expo;
-    private int flash;
-    private float fNumber;
-    private float focalLength;
-    private String exposureIndex;
-    private String gainControl;
-    private double Altitude;
-    double Longitude;
-    double Latitude;
-    long gpsTime;
     RawToDng dngConverter;
     boolean dngcapture = false;
 
@@ -272,6 +261,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         double x;
         double y;
         double calculatedExpo = 0;
+
+        int iso =0,flash = 0;
+        float fNumber =0, focalLength =0, exposureIndex = 0;
         try
         {
             final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
@@ -285,12 +277,12 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
                 fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
                 focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                exposureIndex =exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+                exposureIndex =exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
                 //String expomode = exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_MODE);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
                 //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
                 //Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
 
-                String[] expoRat =  exposureIndex.split("/");
+                /*String[] expoRat =  exposureIndex.split("/");
 
 
                 if(expoRat.length >= 2){
@@ -299,7 +291,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     calculatedExpo = x/y;
                 }
                 else
-                    calculatedExpo = Double.parseDouble(exposureIndex);
+                    calculatedExpo = Double.parseDouble(exposureIndex);*/
 
             } catch (MetadataException e) {
                 e.printStackTrace();
@@ -309,9 +301,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + calculatedExpo + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
+        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
 
-        dngConverter.setExifData(iso, calculatedExpo, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
+        dngConverter.setExifData(iso, exposureIndex, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
     }
 
     private void sendMsg(final String msg)
@@ -355,7 +347,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 int h = Integer.parseInt(raw[1]);
 
 
-                Log.d(TAG, "Fnum" + String.valueOf(fNumber) + " FOcal" + focalLength);
+
                 double Altitude = 0;
                 double Latitude = 0;
                 double Longitude = 0;

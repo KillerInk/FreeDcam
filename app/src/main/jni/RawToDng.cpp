@@ -388,22 +388,26 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("iso");
-        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
-            LOGD("Can't write SPECTRALSENSITIVITY" );
-        }
-        LOGD("exposure");
-        if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, writer->_fnumber)) {
-            LOGD("Can't write Aper" );
-        }
-        LOGD("aperture");
         if (!TIFFSetField( tif, EXIFTAG_FLASH, writer->_flash)) {
             LOGD("Can't write Flas" );
         }
         LOGD("flash");
+        if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, writer->_fnumber)) {
+            LOGD("Can't write Aper" );
+        }
+        LOGD("aperture");
+
+        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME,writer->_exposure)) {
+            LOGD("Can't write SPECTRALSENSITIVITY" );
+        }
+        LOGD("exposure");
+
+
         if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, writer->_focallength)) {
             LOGD("Can't write Focal" );
         }
         LOGD("focal");
+
         if (!TIFFSetField( tif, EXIFTAG_FNUMBER, writer->_fnumber)) {
             LOGD("Can't write FNum" );
         }
