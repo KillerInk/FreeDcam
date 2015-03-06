@@ -308,8 +308,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="@dimen/appiconsizedouble"
-            android:layout_height="@dimen/appiconsizedouble"
+            android:layout_width="@dimen/appiconsizethree"
+            android:layout_height="@dimen/appiconsizethree"
             android:id="@+id/shutter_imageview"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
