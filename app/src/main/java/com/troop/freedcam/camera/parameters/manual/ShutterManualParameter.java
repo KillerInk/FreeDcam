@@ -172,4 +172,9 @@ public class ShutterManualParameter extends BaseManualParameter
         }*/
         //baseCameraHolder.StartPreview();
     }
+
+    @Override
+    public String[] getStringValues() {
+        return shutterValues;
+    }
 }
