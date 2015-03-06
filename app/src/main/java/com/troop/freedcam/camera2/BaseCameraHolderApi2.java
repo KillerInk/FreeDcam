@@ -71,7 +71,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CameraManager manager;
     public CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
-    AutoFitTextureView textureView;
+    public AutoFitTextureView textureView;
 
     //this is needed for the preview...
     public CaptureRequest.Builder mPreviewRequestBuilder;
