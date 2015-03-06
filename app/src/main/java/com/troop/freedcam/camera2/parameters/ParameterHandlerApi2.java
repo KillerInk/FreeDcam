@@ -10,6 +10,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
@@ -55,6 +56,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         PictureFormat = new PictureFormatParameterApi2(this.cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
         Zoom = new ZoomApi2(this, cameraHolder);
+        ManualShutter = new ManualExposureTimeApi2(this, cameraHolder);
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
