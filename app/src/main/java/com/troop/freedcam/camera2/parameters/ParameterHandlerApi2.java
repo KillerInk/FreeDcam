@@ -40,7 +40,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     public void Init()
     {
-        List<CaptureRequest.Key<?>> keys = this.cameraHolder.characteristics.getAvailableCaptureRequestKeys();
+        List<CaptureRequest.Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
             Log.d(TAG, keys.get(i).getName());

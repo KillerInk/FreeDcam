@@ -12,29 +12,45 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.WindowManager;
 
+import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -47,7 +63,7 @@ import java.util.concurrent.TimeUnit;
 public class BaseCameraHolderApi2 extends AbstractCameraHolder
 {
     private static String TAG = "freedcam.BaseCameraHolderApi2";
-
+    public boolean isWorking = false;
     Context context;
     public I_error errorHandler;
 
@@ -65,21 +81,72 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
 
-    private ImageReader mImageReader;
-    private CaptureRequest mPreviewRequest;
+    public CaptureRequest mPreviewRequest;
 
     public int CurrentCamera;
     Size preview;
     public CameraCharacteristics characteristics;
     public Surface surface;
+    AppSettingsManager Settings;
+
+    int mState;
+
+    /**
+     * Camera state: Showing camera preview.
+     */
+    private static final int STATE_PREVIEW = 0;
+
+    /**
+     * Camera state: Waiting for the focus to be locked.
+     */
+    private static final int STATE_WAITING_LOCK = 1;
+    /**
+     * Camera state: Waiting for the exposure to be precapture state.
+     */
+    private static final int STATE_WAITING_PRECAPTURE = 2;
+    /**
+     * Camera state: Waiting for the exposure state to be something other than precapture.
+     */
+    private static final int STATE_WAITING_NON_PRECAPTURE = 3;
+    /**
+     * Camera state: Picture was taken.
+     */
+    private static final int STATE_PICTURE_TAKEN = 4;
+
+    /**
+     * An {@link android.media.ImageReader} that handles still image capture.
+     */
+    private ImageReader mImageReader;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings)
     {
         super(cameraChangedListner, UIHandler);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        this.Settings = Settings;
     }
+
+    /*HandlerThread mBackgroundThread;
+    public Handler mBackgroundHandler;
+
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+
+    private void stopBackgroundThread() {
+        mBackgroundThread.quitSafely();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }*/
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public boolean OpenCamera(int camera)
@@ -168,16 +235,25 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             Size largest = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
+            Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
 
             preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                    textureView.getWidth(), textureView.getHeight(), largest);
+                    display.getWidth(), display.getHeight(), largest);
             textureView.setAspectRatio(preview.getWidth(), preview.getHeight());
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
             configureTransform(textureView.getWidth(), textureView.getHeight());
             surface = new Surface(texture);
 
+            String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+            int width = Integer.parseInt(split[0]);
+            int height = Integer.parseInt(split[1]);
+            //create new ImageReader with the size and format for the image
+            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 2);
 
+            //this returns the image data finaly
+            mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
 
         // We set up a CaptureRequest.Builder with the output Surface.
 
@@ -188,7 +264,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (mImageReader == null)
                 mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
             else
-                mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),previewStateCallBack, null);
+                mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBack, null);
 
 
         }
@@ -384,4 +460,246 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         StopPreview();
         StartPreview();
     }
+
+
+    /**
+     * Lock the focus as the first step for a still image capture.
+     */
+    private void lockFocus() {
+        try {
+            // This is how to tell the camera to lock focus.
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CameraMetadata.CONTROL_AF_TRIGGER_START);
+            // Tell #mCaptureCallback to wait for the lock.
+            mState = STATE_WAITING_LOCK;
+            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), CaptureCallback,
+                    null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    CameraCaptureSession.CaptureCallback CaptureCallback
+            = new CameraCaptureSession.CaptureCallback() {
+
+        private void process(CaptureResult result) {
+            switch (mState) {
+                case STATE_PREVIEW: {
+                    // We have nothing to do when the camera preview is working normally.
+                    break;
+                }
+                case STATE_WAITING_LOCK: {
+                    int afState = result.get(CaptureResult.CONTROL_AF_STATE);
+                    if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
+                            CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
+                        // CONTROL_AE_STATE can be null on some devices
+                        Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                        if (aeState == null ||
+                                aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
+                            mState = STATE_WAITING_NON_PRECAPTURE;
+                            captureStillPicture();
+                        } else {
+                            runPrecaptureSequence();
+                        }
+                    }
+                    break;
+                }
+                case STATE_WAITING_PRECAPTURE: {
+                    // CONTROL_AE_STATE can be null on some devices
+                    Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                    if (aeState == null ||
+                            aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
+                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED) {
+                        mState = STATE_WAITING_NON_PRECAPTURE;
+                    }
+                    break;
+                }
+                case STATE_WAITING_NON_PRECAPTURE: {
+                    // CONTROL_AE_STATE can be null on some devices
+                    Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                    if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
+                        mState = STATE_PICTURE_TAKEN;
+                        captureStillPicture();
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request,
+                                        CaptureResult partialResult) {
+            process(partialResult);
+        }
+
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
+                                       TotalCaptureResult result) {
+            process(result);
+        }
+
+
+    };
+
+    /**
+     * Run the precapture sequence for capturing a still image. This method should be called when we
+     * get a response in {@link #CaptureCallback} from {@link #lockFocus()}.
+     */
+    private void runPrecaptureSequence() {
+        try {
+            // This is how to tell the camera to trigger.
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+            // Tell #mCaptureCallback to wait for the precapture sequence to be set.
+            mState = STATE_WAITING_PRECAPTURE;
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), CaptureCallback,
+                    null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Capture a still picture. This method should be called when we get a response in
+     * {@link #} from both {@link #lockFocus()}.
+     */
+    private void captureStillPicture() {
+        try {
+
+            // This is the CaptureRequest.Builder that we use to take a picture.
+            final CaptureRequest.Builder captureBuilder =
+                    mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureBuilder.addTarget(mImageReader.getSurface());
+
+            // Use the same AE and AF modes as the preview.
+            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+
+            // Orientation
+            //int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+            //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+
+            CameraCaptureSession.CaptureCallback CaptureCallback
+                    = new CameraCaptureSession.CaptureCallback() {
+
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
+                                               TotalCaptureResult result) {
+                    //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
+                    unlockFocus();
+                }
+            };
+
+            mCaptureSession.stopRepeating();
+            mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Unlock the focus. This method should be called when still image capture sequence is finished.
+     */
+    private void unlockFocus() {
+        try {
+            // Reset the autofucos trigger
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), CaptureCallback,
+                    null);
+            // After this, the camera will go back to the normal state of preview.
+            mState = STATE_PREVIEW;
+            mCaptureSession.setRepeatingRequest(mPreviewRequest, CaptureCallback,
+                    null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
+     * still image is ready to be saved.
+     */
+    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
+            = new ImageReader.OnImageAvailableListener() {
+
+        @Override
+        public void onImageAvailable(ImageReader reader)
+        {
+            File file = new File(getStringAddTime() +".jpg");
+            new ImageSaver(reader.acquireNextImage(), file).run();
+            //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+            Log.d(TAG, "Recieved on onImageAvailabel");
+            isWorking = false;
+            //StartPreview();
+        }
+
+    };
+
+    protected String getStringAddTime()
+    {
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+        if (!file.exists())
+            file.mkdirs();
+        Date date = new Date();
+        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
+    }
+
+    /**
+     * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
+     */
+    private static class ImageSaver implements Runnable {
+
+        /**
+         * The JPEG image
+         */
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
+
+        public ImageSaver(Image image, File file) {
+            mImage = image;
+            mFile = file;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void TakePicture()
+    {
+        isWorking = true;
+        lockFocus();
+    }
+
 }

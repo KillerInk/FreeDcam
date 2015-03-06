@@ -1,7 +1,11 @@
 package com.troop.freedcam.camera2;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
+import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.TextureView;
 
@@ -15,6 +19,7 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 07.12.2014.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener, I_ParametersLoaded
 {
     public BaseCameraHolderApi2 cameraHolder;
@@ -38,7 +43,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         this.context = context;
         //attache the callback to the Campreview
         //preview.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager);
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
