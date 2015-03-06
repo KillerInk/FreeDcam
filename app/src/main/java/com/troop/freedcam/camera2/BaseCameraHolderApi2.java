@@ -15,6 +15,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
@@ -74,6 +75,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     //this is needed for the preview...
     public CaptureRequest.Builder mPreviewRequestBuilder;
+    private TotalCaptureResult mDngResult;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -246,14 +248,24 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             configureTransform(textureView.getWidth(), textureView.getHeight());
             surface = new Surface(texture);
 
-            String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
-            int width = Integer.parseInt(split[0]);
-            int height = Integer.parseInt(split[1]);
-            //create new ImageReader with the size and format for the image
-            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 2);
 
-            //this returns the image data finaly
-            mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
+            if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+            {
+                String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+                int width = Integer.parseInt(split[0]);
+                int height = Integer.parseInt(split[1]);
+                //create new ImageReader with the size and format for the image
+                mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+                mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
+            }
+            else
+            {
+                largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
+                mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
+            }
+
+
 
         // We set up a CaptureRequest.Builder with the output Surface.
 
@@ -454,12 +466,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     }
 
-    public void SetImageReader(ImageReader imageReader)
-    {
-        this.mImageReader = imageReader;
-        StopPreview();
-        StartPreview();
-    }
 
 
     /**
@@ -536,6 +542,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
                                        TotalCaptureResult result) {
             process(result);
+            mDngResult = result;
         }
 
 
@@ -639,6 +646,24 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             //StartPreview();
         }
 
+    };
+
+    private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
+    {
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            try {
+                File file = new File(getStringAddTime() +".dng");
+                DngCreator dngCreator = new DngCreator(manager.getCameraCharacteristics("0"), mDngResult);
+                dngCreator.writeImage(new FileOutputStream(file), reader.acquireNextImage());
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     };
 
     protected String getStringAddTime()
