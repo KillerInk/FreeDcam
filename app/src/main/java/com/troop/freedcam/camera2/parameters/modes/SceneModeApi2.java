@@ -1,13 +1,16 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
+import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.os.Build;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 
 /**
  * Created by troop on 13.12.2014.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SceneModeApi2 extends  BaseModeApi2
 {
 
@@ -34,6 +37,7 @@ public class SceneModeApi2 extends  BaseModeApi2
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SceneModeApi2(BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         super(baseCameraHolderApi2);
