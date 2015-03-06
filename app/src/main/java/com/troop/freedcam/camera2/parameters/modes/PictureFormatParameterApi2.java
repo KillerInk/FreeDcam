@@ -41,6 +41,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         {
 
         }
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
 
     }
 
