@@ -248,12 +248,23 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             configureTransform(textureView.getWidth(), textureView.getHeight());
             surface = new Surface(texture);
 
-
-            if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
+            String picformat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+            if (picformat.equals(""))
+                picformat="jpeg";
+            if (picformat.equals("jpeg"))
             {
                 String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
-                int width = Integer.parseInt(split[0]);
-                int height = Integer.parseInt(split[1]);
+                int width, height;
+                if (split.length < 2)
+                {
+                    width = largest.getWidth();
+                    height = largest.getHeight();
+                }
+                else
+                {
+                    width = Integer.parseInt(split[0]);
+                    height = Integer.parseInt(split[1]);
+                }
                 //create new ImageReader with the size and format for the image
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
@@ -543,6 +554,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                                        TotalCaptureResult result) {
             process(result);
             mDngResult = result;
+            Log.d(TAG, "size " + result.getKeys().size());
         }
 
 
