@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -35,6 +36,9 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
+import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -595,6 +599,29 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,
                     CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+
+            Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), textureView.getWidth(), textureView.getHeight());
+            captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
+
+            if (ParameterHandler.ManualExposure.IsSupported())
+            {
+                captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
+            }
+            if (ParameterHandler.ManualShutter.IsSupported())
+            {
+                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());
+            }
+
+            if (ParameterHandler.ColorMode.IsSupported()) {
+                ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue());
+                captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, colorModes.ordinal());
+            }
+
+            if (ParameterHandler.SceneMode.IsSupported()) {
+                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue());
+                captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
+            }
+
 
             // Orientation
             //int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
