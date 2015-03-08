@@ -107,6 +107,12 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
             if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
             {
+                if (baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+                {
+                    sendMsg("Error: Disable ZSL for Raw or Dng capture");
+                    this.isWorking = false;
+                    return;
+                }
                 dngcapture = true;
 
             }
