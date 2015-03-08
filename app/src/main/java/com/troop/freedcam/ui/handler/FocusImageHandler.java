@@ -87,12 +87,13 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         {
             disWidth = surfaceView.getLayoutParams().width;
             disHeight = surfaceView.getLayoutParams().height;
-            int margineleft = surfaceView.getLeft();
+            int margineleft = surfaceView.getMargineLeft();
             //handler.removeCallbacksAndMessages(null);
-            int recthalf = imageView.getWidth() / 2;
-            int halfwidth = disWidth / 2;
-            int halfheight = disHeight / 2;
-            if (rect == null) {
+
+            if (rect == null)
+            {
+                int halfwidth = disWidth / 2;
+                int halfheight = disHeight / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();

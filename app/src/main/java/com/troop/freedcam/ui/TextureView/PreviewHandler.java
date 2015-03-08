@@ -96,5 +96,15 @@ public class PreviewHandler extends RelativeLayout
         }
     }
 
+    public int getMargineLeft()
+    {
+        if (surfaceView != null)
+            return surfaceView.getLeft();
+        else if (textureView != null)
+            return textureView.getLeft();
+        else
+            return 0;
+    }
+
 
 }
