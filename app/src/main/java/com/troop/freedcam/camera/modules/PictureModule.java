@@ -273,36 +273,40 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         try
         {
             final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
-            Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-
-
+            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
             try
             {
                 iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-                //expo = exifsub.getDouble(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
-                flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);// dir.getInt(ExifDirectory.TAG_FLASH);
-                fNumber =exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);// dir.getFloat(ExifDirectory.TAG_FNUMBER);
-                focalLength =exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);// dir.getFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                exposureIndex =exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
-                //String expomode = exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_MODE);// dir.getString(ExifDirectory.TAG_EXPOSURE_TIME);
-                //  gainControl = dir.getString(ExifDirectory.TAG_GAIN_CONTROL);
-                //Log.d(TAG, "iso:"+iso+" exposure"+expo+" flash:"+flash +"Shut"+exposureIndex);
-
-                /*String[] expoRat =  exposureIndex.split("/");
-
-
-                if(expoRat.length >= 2){
-                    x = Double.parseDouble(expoRat[0]);
-                    y = Double.parseDouble(expoRat[1]);
-                    calculatedExpo = x/y;
-                }
-                else
-                    calculatedExpo = Double.parseDouble(exposureIndex);*/
-
             } catch (MetadataException e) {
                 e.printStackTrace();
             }
-        } catch (JpegProcessingException e) {
+            try
+            {
+                flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);
+            } catch (MetadataException e) {
+                e.printStackTrace();
+            }
+            try
+            {
+                fNumber = exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);
+            } catch (MetadataException e) {
+                e.printStackTrace();
+            }
+            try
+            {
+                focalLength = exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);
+            } catch (MetadataException e) {
+                e.printStackTrace();
+            }
+            try
+            {
+                exposureIndex = exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+            } catch (MetadataException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (JpegProcessingException e)
+        {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
