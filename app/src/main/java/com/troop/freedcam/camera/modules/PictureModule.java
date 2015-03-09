@@ -116,6 +116,11 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 dngcapture = true;
 
             }
+            else
+            {
+                dngcapture = false;
+                dngJpegShot = false;
+            }
             takePicture();
         }
     }
