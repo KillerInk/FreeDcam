@@ -3,7 +3,10 @@ package com.troop.freedcam.ui.handler;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by troop on 25.08.2014.
@@ -36,7 +40,6 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
         this.activity = activity;
         thumbView = (ImageView)activity.findViewById(R.id.imageView_Thumbnail);
         thumbView.setOnClickListener(this);
-        thumbView.setAlpha(0f);
         params = (ViewGroup.LayoutParams) thumbView.getLayoutParams();
 
     }
@@ -100,17 +103,30 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     private Bitmap loadThumbViewImage(File file)
     {
         if(file.getAbsolutePath().endsWith("jpg")) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            /*BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-            options.inSampleSize = calculateInSampleSize(options, thumbView.getWidth(), thumbView.getHeight());
+            options.inSampleSize = 4;
             options.inJustDecodeBounds = false;
             Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             Log.d(TAG, "Bitmap loaded");
             //options =null;
-            return map;
+            return map;*/
+            byte[] thum = null;
+            try {
+                thum = new ExifInterface(file.getAbsolutePath()).getThumbnail();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (thum != null)
+                return BitmapFactory.decodeByteArray(thum, 0, thum.length);
+
         }
-        else return null;
+        else if (file.getAbsolutePath().endsWith("mp4"))
+        {
+            return ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        }
+        return null;
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)

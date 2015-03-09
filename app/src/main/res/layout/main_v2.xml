@@ -207,8 +207,9 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -217,7 +218,9 @@
             android:layout_gravity="bottom|left"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:background="#658b8b8b"
+            android:minWidth="@dimen/appiconsizedouble" />
     </LinearLayout>
 
     <LinearLayout
