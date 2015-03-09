@@ -42,7 +42,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV())
-			return Integer.parseInt(parameters.get("min-wb-cct"));
+			return -1;
 		if (DeviceUtils.isHTC_M8())
 			return Integer.parseInt(parameters.get("min-wb-ct"));
 		return 0;
@@ -55,8 +55,8 @@ public class CCTManualParameter extends BaseManualParameter {
         try {
             if (DeviceUtils.isHTC_M8())
                 i = Integer.parseInt(parameters.get("wb-current-ct"));
-            if (DeviceUtils.isZTEADV());
-                i = Integer.parseInt(parameters.get("wb-current-cct"));
+            if (DeviceUtils.isZTEADV())
+                i = -1;
         }
         catch (Exception ex)
         {
@@ -73,10 +73,18 @@ public class CCTManualParameter extends BaseManualParameter {
 
     @Override
     protected void setvalue(int valueToSet)
-    {   if (DeviceUtils.isZTEADV())
-        //parameters.setWhiteBalance("manual-cct");
-        camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-        parameters.put("wb-manual-cct", valueToSet + "");
+    {   if (DeviceUtils.isZTEADV()){
+
+        if(valueToSet != -1)
+        {
+            camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+            parameters.put("wb-manual-cct", valueToSet + "");
+        }
+        else
+            camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+
+
+    }
         if (DeviceUtils.isHTC_M8())
             parameters.put("wb-ct", valueToSet + "");
         camParametersHandler.SetParametersToCamera();

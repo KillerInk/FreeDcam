@@ -62,7 +62,7 @@ public class FocusManualParameter extends  BaseManualParameter
             return Integer.parseInt(parameters.get("min-focus"));
         /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
             return parameters.getInt("min-focus-pos-index");*/
-        return 0;
+        return -1;
     }
 //m8 Step Value
     @Override
@@ -75,7 +75,7 @@ public class FocusManualParameter extends  BaseManualParameter
             /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
                 i=  Integer.parseInt(parameters.get("focus-pos"));*/
             if (DeviceUtils.isZTEADV());
-                i = Integer.parseInt(parameters.get("maf_key"));
+                i = -1;
             if (DeviceUtils.isHTC_M8())
                 i = Integer.parseInt(parameters.get("focus"));
         }
@@ -101,9 +101,15 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (DeviceUtils.isZTEADV())
         {
-            camParametersHandler.FocusMode.SetValue("manual", true);
-            parameters.put("manual-focus-pos-type", "1");
-            parameters.put("manual-focus-position", String.valueOf(valueToSet));
+            if(valueToSet != -1)
+            {
+                camParametersHandler.FocusMode.SetValue("manual", true);
+                parameters.put("manual-focus-pos-type", "1");
+                parameters.put("manual-focus-position", String.valueOf(valueToSet));
+            }
+            else
+                camParametersHandler.FocusMode.SetValue("auto", true);
+
         }
         if (DeviceUtils.isHTC_M8())
         {
