@@ -73,7 +73,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
 
-        parametersHandler = (CamParametersHandler)ParameterHandler;
+        parametersHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
 

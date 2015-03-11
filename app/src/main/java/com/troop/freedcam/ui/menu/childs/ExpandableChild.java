@@ -116,18 +116,9 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         String settingValue = val;
         if (!(parameterHolder instanceof BaseModeParameterSony))
         {
-            settingValue = appSettingsManager.getString(settingsname);
-            if (settingValue.equals("")) {
-                appSettingsManager.setString(settingsname, val);
-                settingValue = val;
-                Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
-            }
-            if (!settingValue.equals(val)) {
-                parameterHolder.SetValue(settingValue, true);
-                appSettingsManager.setString(settingsname, settingValue);
-                Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
-            }
+            appSettingsManager.setString(settingsname, settingValue);
         }
+        parameterHolder.SetValue(settingValue, true);
 
         set(settingValue);
     }
