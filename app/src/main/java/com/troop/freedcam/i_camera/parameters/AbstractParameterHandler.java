@@ -95,4 +95,49 @@ public abstract class AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetPictureOrientation(int or){};
+
+    public void SetAppSettingsToParameters()
+    {
+        setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
+        setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
+        setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);
+        setMode(IsoMode, AppSettingsManager.SETTING_ISOMODE);
+        setMode(AntiBandingMode, AppSettingsManager.SETTING_ANTIBANDINGMODE);
+        setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
+        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+        setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);
+        setMode(GuideList, AppSettingsManager.SETTING_GUIDE);
+        setMode(ImagePostProcessing, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        setMode(SceneMode, AppSettingsManager.SETTING_SCENEMODE);
+        setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
+        setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
+        setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
+        setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
+        setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
+        setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
+        setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
+        setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
+        setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
+        setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
+        setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
+        setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
+        setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
+        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
+        setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
+        setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
+        setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
+
+    }
+
+    private void setMode(AbstractModeParameter parameter, String settingsval)
+    {
+        if (parameter != null)
+        {
+            if (appSettingsManager.getString(settingsval).equals(""))
+                appSettingsManager.setString(settingsval, parameter.GetValue());
+            else
+                parameter.SetValue(appSettingsManager.getString(settingsval), false);
+        }
+    }
 }

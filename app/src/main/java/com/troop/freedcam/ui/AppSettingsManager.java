@@ -58,6 +58,8 @@ public class AppSettingsManager
     public static String SETTING_LOCATION = "location";
     public static String SETTING_EXTERNALSHUTTER = "externalShutter";
     public static String SETTING_OrientationHack = "orientationHack";
+    public static String SETTING_CAMERAMODE = "camMode";
+    public static String SETTING_DUALMODE = "dualMode";
 
     public static String API_SONY = "sony";
     public static String API_1 = "api1";

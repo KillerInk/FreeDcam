@@ -188,6 +188,9 @@ public class CamParametersHandler extends AbstractParameterHandler
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
 
+        SetAppSettingsToParameters();
+        cameraHolder.SetCameraParameters(cameraParameters);
+
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

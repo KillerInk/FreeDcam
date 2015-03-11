@@ -32,8 +32,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        VideoModuleG3 g3 = (VideoModuleG3) cameraUiWrapper.moduleHandler.GetCurrentModule();
-        g3.UpdatePreview();
+        //cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
+
     }
 
     @Override
