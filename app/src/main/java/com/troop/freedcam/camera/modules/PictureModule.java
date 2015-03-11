@@ -198,8 +198,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             if (processCallbackData(data))
             {
-
-                //baseCameraHolder.StartPreview();
                 return;
             }
             if (dngcapture && !dngJpegShot)
@@ -218,7 +216,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             else
             {
-
                 workfinished(true);
                 Log.d(TAG, "work finished");
             }
@@ -235,35 +232,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             workfinished(true);
             Log.d(TAG, "work finished");
         }
-        /*Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
-        if (dngJpegShot && lastBayerFormat.contains("bayer"))
-        {
-
-            addExifAndThumbToDng(data);
-
-            baseCameraHolder.ParameterHandler.PictureFormat.SetValue(lastBayerFormat, true);
-            baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
-            dngJpegShot = false;
-            baseCameraHolder.StartPreview();
-            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
-        }
-        else
-        {
-
-            if (processCallbackData(data))
-            {
-
-                //baseCameraHolder.StartPreview();
-                return;
-            }
-
-
-            baseCameraHolder.StartPreview();
-            workfinished(true);
-            Log.d(TAG, "work finished");
-
-        }*/
-
     }
 
     private void addExifAndThumbToDng(byte[] data)
@@ -324,7 +292,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     private void sendMsg(final String msg)
     {
 
-                baseCameraHolder.errorHandler.OnError(msg);
+          baseCameraHolder.errorHandler.OnError(msg);
 
     }
 
@@ -520,21 +488,5 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void UnloadNeededParameters()
     {
-        /*handler = null;
-        try
-        {
-            backgroundThread.interrupt();
-            backgroundThread.quit();
-        }
-        catch (Exception ex)
-        {
-
-        }
-        finally {
-
-            backgroundThread =null;
-        }*/
-
-
     }
 }
