@@ -22,7 +22,7 @@ public class ZeroShutterLagParameter extends BaseModeParameter
         try
         {
             String zsl = parameters.get("zsl");
-            if (zsl != null && zsl != "") {
+            if (zsl != null && !zsl.equals("")) {
                 this.value = "zsl";
                 this.values = "zsl-values";
                 this.isSupported = true;
@@ -37,7 +37,7 @@ public class ZeroShutterLagParameter extends BaseModeParameter
         {
             try {
                 String zsl = parameters.get("mode-values");
-                if (zsl != null && zsl != "")
+                if (zsl != null && !zsl.equals(""))
                 {
                     this.value = "mode";
                     this.values ="mode-values";

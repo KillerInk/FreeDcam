@@ -29,8 +29,8 @@ public class ExposureLockParameter extends BaseModeParameter {
     {
         if (parameters.get("auto-exposure-lock-supported").equals("true"))
             parameters.put("auto-exposure-lock", valueToSet);
-        if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
-            parameters.put("auto-whitebalance-lock", valueToSet);
+        //if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
+            //parameters.put("auto-whitebalance-lock", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
         }

@@ -237,7 +237,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     public void setPreviewSize(String previewsize)
     {
         //TODO crash on s5
-        if (previewsize  == null || previewsize == "") {
+        if (previewsize  == null || previewsize.equals("")) {
             previewsize = "640x480";
             Log.d(TAG, "set preview size was null!!!! fix to 640x480");
         }

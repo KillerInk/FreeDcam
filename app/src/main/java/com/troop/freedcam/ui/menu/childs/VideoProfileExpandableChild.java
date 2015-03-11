@@ -77,7 +77,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
 
         //String campara = parameterHolder.GetValue();
         String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue == null || settingValue == "") {
+        if (settingValue == null || settingValue.equals("")) {
             settingValue = parameterHolder.GetValues()[0];
             appSettingsManager.setString(settingsname, settingValue);
             if (videoProfileChanged != null)

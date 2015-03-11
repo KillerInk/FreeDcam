@@ -41,39 +41,25 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         {
 
         }
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
 
     }
 
     @Override
     public String GetValue() {
-        return super.GetValue();
+        return "jpeg";
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public String[] GetValues()
     {
-        boolean raw10 = cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10);
-        boolean raw_sensor = cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR);
-        int [] values = cameraHolder.characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES);
         ArrayList<String> ret = new ArrayList<String>();
-        for (int i =0; i < values.length; i++)
-        {
-            switch (values[i])
-            {
-                case ImageFormat.JPEG:
-                    ret.add("jpeg");
-                    break;
-                case ImageFormat.RAW10:
-                    ret.add("raw10");
-                    break;
-                case ImageFormat.RAW_SENSOR:
-                    ret.add("raw_sensor");
-                    break;
-                default:
-                break;
-            }
-        }
+        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+            ret.add("raw_sensor");
+        if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
+            ret.add("jpeg");
         return ret.toArray(new String[ret.size()]);
     }
 }

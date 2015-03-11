@@ -21,7 +21,7 @@ typedef unsigned char uint8;
 
 extern "C"
 {
-    JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetExifData(JNIEnv *env, jobject thiz,jobject handler,
     jint iso,
     jdouble expo,
     jint flash,
@@ -30,6 +30,7 @@ extern "C"
     jstring imagedescription,
     jstring orientation,
     jdouble exposureIndex);
+    JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_Create(JNIEnv *env, jobject thiz);
 
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject handler, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *env, jobject thiz, jobject handler,  jbyteArray mThumb, jint widht, jint height);
@@ -40,6 +41,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler);
 
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -90,16 +92,8 @@ public:
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
-    DngWriter(JNIEnv *env, jint iso, jdouble expo, jint flash,  jfloat fnumber, jfloat focallength, jstring imagedescription, jstring orientation, jdouble exposureIndex)
+    DngWriter()
     {
-        _iso = iso;
-        _exposure =expo;
-        _flash = flash;
-        _imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
-        _orientation = (char*) env->GetStringUTFChars(orientation,NULL);
-        _fnumber = fnumber;
-        _focallength = focallength;
-        _exposureIndex = exposureIndex;
         gps = false;
     }
 };
@@ -108,8 +102,14 @@ JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEn
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     return writer->rawSize;
-
 }
+
+JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    return writer->rawheight;
+}
+
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height)
 {
@@ -124,7 +124,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv
     writer->_model = (char*) env->GetStringUTFChars(model,NULL);
 }
 
-JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifData(JNIEnv *env, jobject thiz,
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetExifData(JNIEnv *env, jobject thiz, jobject handler,
     jint iso,
     jdouble expo,
     jint flash,
@@ -134,7 +134,20 @@ JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_CreateAndSetExifDat
     jstring orientation,
     jdouble exposureIndex)
 {
-    DngWriter *writer = new DngWriter(env,iso, expo, flash, fNum, focalL, imagedescription,orientation, exposureIndex);
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->_iso = iso;
+    writer->_exposure =expo;
+    writer->_flash = flash;
+    writer->_imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
+    writer->_orientation = (char*) env->GetStringUTFChars(orientation,NULL);
+    writer->_fnumber = fNum;
+    writer->_focallength = focalL;
+    writer->_exposureIndex = exposureIndex;
+}
+
+JNIEXPORT jobject JNICALL Java_com_troop_androiddng_RawToDng_Create(JNIEnv *env, jobject thiz)
+{
+    DngWriter *writer = new DngWriter();
     return env->NewDirectByteBuffer(writer, 0);
 }
 
@@ -375,22 +388,26 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
             LOGD("Can't write SPECTRALSENSITIVITY" );
         }
         LOGD("iso");
-        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME, writer->_exposure)) {
-            LOGD("Can't write SPECTRALSENSITIVITY" );
-        }
-        LOGD("exposure");
-        if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, writer->_fnumber)) {
-            LOGD("Can't write Aper" );
-        }
-        LOGD("aperture");
         if (!TIFFSetField( tif, EXIFTAG_FLASH, writer->_flash)) {
             LOGD("Can't write Flas" );
         }
         LOGD("flash");
+        if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, writer->_fnumber)) {
+            LOGD("Can't write Aper" );
+        }
+        LOGD("aperture");
+
+        if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME,writer->_exposure)) {
+            LOGD("Can't write SPECTRALSENSITIVITY" );
+        }
+        LOGD("exposure");
+
+
         if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, writer->_focallength)) {
             LOGD("Can't write Focal" );
         }
         LOGD("focal");
+
         if (!TIFFSetField( tif, EXIFTAG_FNUMBER, writer->_fnumber)) {
             LOGD("Can't write FNum" );
         }
@@ -400,7 +417,7 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
 }
 
-void processSXXX10packed(TIFF *tif,DngWriter *writer)
+void processTight(TIFF *tif,DngWriter *writer)
 {
     LOGD("IN SXXXXl0");
     int i, j, row, col, b;
@@ -457,16 +474,19 @@ void processSXXX10packed(TIFF *tif,DngWriter *writer)
 	LOGD("Mem Released");
 }
 
-void processSXXX16(TIFF *tif,DngWriter *writer)
+void processLoose(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
     int i, j, row, col, b;
-    unsigned char *buffer;
+    unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
     buffer =(unsigned char *)malloc(writer->rowSize);
+    uint64 colorchannel;
 
     j=0;
+
+    writer->rowSize= (writer->rawwidht+5)/6 << 3;
 
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -482,6 +502,50 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		 * get 5 bytes from buffer and move first 4bytes to 16bit
 		 * split the 5th byte and add the value to the first 4 bytes
 		 * */
+		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=8, col+= 6)
+		{ // iterate over pixel columns
+
+		    for(int i =0; i< 8; i++)
+		    {
+                colorchannel = (colorchannel << 8) | dp[i^7];
+		    }
+
+		    for(int i =0; i< 6; i++)
+            {
+                pixel[col+i] = (colorchannel >> i*10) & 0x3ff;
+            }
+
+		}
+		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+		LOGD("Error writing TIFF scanline.");
+		}
+	}
+    //TIFFCheckpointDirectory(tif);
+    TIFFWriteDirectory (tif);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+    LOGD("Free Memory");
+	//free(buffer);
+    //free(pixel);
+
+}
+
+void processSXXX16(TIFF *tif,DngWriter *writer)
+{
+    unsigned short a;
+    int i, j, row, col, b;
+    unsigned char *buffer;
+    unsigned char split; // single byte with 4 pairs of low-order bits
+    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
+    buffer =(unsigned char *)malloc(writer->rowSize);
+    j=0;
+	for (row=0; row < writer->rawheight; row ++)
+	{
+		i = 0;
+		for(b = row * writer->rowSize; b < (row * writer->rowSize) + writer->rowSize; b++)
+			buffer[i++] = writer->bayerBytes[b];
+		// offset into buffer
+		j = 0;
 		for (col = 0; col < writer->rawwidht; col+= 4)
 		{ // iterate over pixel columns
             a = buffer[j++];
@@ -504,27 +568,23 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    //TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
-	//free(buffer);
-    //free(pixel);
-
 }
 
 void writeRawStuff(TIFF *tif, DngWriter *writer)
 {
-    if(0 == strcmp(writer->bayerformat,"BGGR"))
+    if(0 == strcmp(writer->bayerformat,"bggr"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    if(0 == strcmp(writer->bayerformat , "GRGB"))
+    if(0 == strcmp(writer->bayerformat , "grbg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    if(0 == strcmp(writer->bayerformat , "RGGB"))
+    if(0 == strcmp(writer->bayerformat , "rggb"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-    if(0 == strcmp(writer->bayerformat , "GBRG"))
+    if(0 == strcmp(writer->bayerformat , "gbrg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-    long white=0x3ff;
+    long white=0x400;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
     short CFARepeatPatternDim[] = { 2,2 };
@@ -537,13 +597,13 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     if(writer->tightRaw == true)
     {
         LOGD("Processing tight RAW data...");
-        processSXXX10packed(tif, writer);
+        processTight(tif, writer);
         LOGD("Done tight RAW data...");
     }
     else
     {
         LOGD("Processing loose RAW data...");
-        processSXXX16(tif, writer);
+        processLoose(tif, writer);
         LOGD("Done loose RAW data...");
     }
 }

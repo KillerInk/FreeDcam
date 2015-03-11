@@ -285,7 +285,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
-        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
         exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
@@ -356,6 +356,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     }
 
     @Override
+    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
+        super.onWindowAttributesChanged(params);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -399,8 +404,14 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         @Override
         public boolean onTouch(View v, MotionEvent event)
         {
-            activity.onTouchEvent(event);
-            return focusImageHandler.onTouchEvent(event);
+
+            if (focusImageHandler != null)
+            {
+                activity.onTouchEvent(event);
+                return focusImageHandler.onTouchEvent(event);
+            }
+            else
+                return activity.onTouchEvent(event);
         }
     };
 

@@ -25,17 +25,17 @@ public class RawToDng
     {
         //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
         //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
-        G3_Mipi_LL(             16224256, g3_blacklevel, "BGGR",4208,3082, true, getG3_rowSizeL),
-        G3_Qcom(17326080, g3_blacklevel, "BGGR",4164,3120,false, getG3_rowSizeL),
-        K910Qcom(17522688, g3_blacklevel, "BGGR",4212,3120,false, getG3_rowSizeL),
-        IMX135_214(             16424960, g3_blacklevel, "BGGR",4208,3120, true, g3_rowSizeKitKat),
+        G3_Mipi_LL(             16224256, g3_blacklevel, BGGR,4208,3082, true, getG3_rowSizeL),
+        G3_Qcom(17326080, g3_blacklevel, BGGR,4164,3120,false, getG3_rowSizeL),
+        K910Qcom(17522688, g3_blacklevel, BGGR,4212,3120,false, getG3_rowSizeL),
+        IMX135_214(             16424960, g3_blacklevel, BGGR,4208,3120, true, g3_rowSizeKitKat),
         //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
         //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
         //looseraws
-        XperiaL(                10788864 , 64,  "BGGR",3282,2448, false,  XperiaL_rowSize),
-        OneSV(                6746112 , 0,  "BGGR",2592,1944, false,  XperiaL_rowSize),
-        MT4G(                10782464 , 64,  "BGGR",3282,2448, false,  XperiaL_rowSize);
+        XperiaL(                10788864 , 64,  BGGR,3282,2448, false,  XperiaL_rowSize),
+        OneSV(                6746112 , 0,  BGGR,2592,1944, false,  XperiaL_rowSize),
+        MT4G(                10782464 , 64,  RGGb,3282,2448, false,  XperiaL_rowSize);
         //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
@@ -138,8 +138,9 @@ public class RawToDng
     public static String SonyXperiaLRawSize = "3282x2448";
     public static String Optimus3DRawSize = "2608x1944";
 
-    public static String BGGR = "BGGR";
-    private static final String GRBG = "GRBG";
+    public static String BGGR = "bggr";
+    public static String RGGb = "rggb";
+    private static final String GRBG = "grbg";
 
     private static int Calculate_rowSize(int fileSize, int height)
     {
@@ -149,6 +150,7 @@ public class RawToDng
 
     private ByteBuffer nativeHandler = null;
     private static native long GetRawBytesSize(ByteBuffer nativeHandler);
+    private static native int GetRawHeight(ByteBuffer nativeHandler);
     private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
@@ -166,41 +168,31 @@ public class RawToDng
                                      String devicename,
                                      boolean tight);
 
-    private static native ByteBuffer CreateAndSetExifData(int iso,
-                                                   double expo,
-                                                   int flash,
-                                                   float fNum,
-                                                   float focalL,
-                                                   String imagedescription,
-                                                   String orientation,
-                                                   double exposureIndex);
-    private RawToDng(int iso,
-                     double expo,
-                     int flash,
-                     float fNum,
-                     float focalL,
-                     String imagedescription,
-                     String orientation,
-                     double exposureIndex)
+    private static native ByteBuffer Create();
+    private static native void SetExifData(ByteBuffer nativeHandler,
+                                           int iso,
+                                           double expo,
+                                           int flash,
+                                           float fNum,
+                                           float focalL,
+                                           String imagedescription,
+                                           String orientation,
+                                           double exposureIndex);
+
+    private RawToDng()
     {
         if (nativeHandler != null) {
             Release(nativeHandler);
             nativeHandler = null;
         }
-        nativeHandler = CreateAndSetExifData(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        nativeHandler = Create();
     }
     String filepath;
+    String bayerpattern;
 
-    public static RawToDng GetInstance(int iso,
-                                       double expo,
-                                       int flash,
-                                       float fNum,
-                                       float focalL,
-                                       String imagedescription,
-                                       String orientation,
-                                       double exposureIndex)
+    public static RawToDng GetInstance()
     {
-        return new RawToDng(iso, expo,flash,fNum,focalL,imagedescription,orientation, exposureIndex);
+        return new RawToDng();
     }
 
     public long GetRawSize()
@@ -213,6 +205,19 @@ public class RawToDng
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
             SetGPSData(nativeHandler, Altitude,parseGpsvalue(Latitude),parseGpsvalue(Longitude),Provider,gpsTime);
+    }
+
+    public void setExifData(int iso,
+                            double expo,
+                            int flash,
+                            float fNum,
+                            float focalL,
+                            String imagedescription,
+                            String orientation,
+                            double exposureIndex)
+    {
+        if (nativeHandler != null)
+        SetExifData(nativeHandler,iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
@@ -245,6 +250,7 @@ public class RawToDng
     public void SetBayerData(byte[] fileBytes, String fileout,int width,int height)
     {
         filepath = fileout;
+        bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout, width,height);
     }
@@ -277,13 +283,13 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    public void WriteDNG(int height, String picformat, int rawsize)
+    public void WriteDNG()
     {
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), height), "HTC M8", false);
+                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
                 setRawHeight(1520);
             }
             else {
@@ -297,12 +303,12 @@ public class RawToDng
         else
         {
 
-            SupportedDevices device = SupportedDevices.GetValue(rawsize);
+            SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (rawsize == 164249650 && !DeviceUtils.isLGADV())
+                if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
@@ -320,12 +326,12 @@ public class RawToDng
                     else
                     {
                         if (filepath.contains("ideal-qcom")) {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                         else
                         {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                     }
@@ -333,95 +339,12 @@ public class RawToDng
             }
             else
             {
-                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, picformat, Calculate_rowSize((int) GetRawSize(), height), Build.MODEL, true);
-                setRawHeight(height);
+                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, true);
+                setRawHeight(GetRawHeight(nativeHandler));
             }
 
         }
         WriteDNG(nativeHandler);
-        RELEASE();
-    }
-
-    private static short extractBits(final short x) {
-        return (short)(0xFFFF & ((x & 0xFFFF) >>> 0 & -1 + (short)(1 << 10)));
-    }
-
-    public static byte[] SixTeenBit(final byte[] data,final int width,final int height)
-    {
-        int n = width /6;
-        int n2 = 0;
-        int n3 = 0;
-
-        //OUTPUT Array
-        final byte[] dataOut = new byte[2 * (width * height)];
-
-        //Stride working byte Array
-        final byte[] strideByteArray = new byte[2 * (width + 10)];
-
-        while(true)
-        {
-            int n4;
-            if (width % 6 == 0 )
-            {
-                n4 = width;
-            }
-            else
-            {
-                n4 = width;
-            }
-
-            if (n3 >= n4 * height / (n * 6))
-            {
-                break;
-            }
-            int n5 = 0;
-
-            for (int i = n3; i < n3 + n; i++)
-            {
-                final short n6 = (short)(0xFFFF & ((0xFF & data[n2 + 1]) << 8 | (0xFF & data[n2 + 0])));
-                final short bits = extractBits(n6);
-                strideByteArray[n5] = (byte)(bits & 0xFF);
-                strideByteArray[n5 + 1] = (byte)(0xFF & (0xFFFF & bits) >>> 8);
-                final short n7 = (short)((0xFFFF & n6) >>> 10);
-                final int n8 = n5 + 2;
-                final short n9 = (short)(0xFFFF & ((0xFF & data[n2 + 2]) << 6 | (0xFFFF & n7)));
-                final short bits2 = extractBits(n9);
-                strideByteArray[n8] = (byte)(bits2 & 0xFF);
-                strideByteArray[n8 + 1] = (byte)(0xFF & (0xFFFF & bits2) >>> 8);
-                final short n10 = (short)((0xFFFF & n9) >>> 10);
-                final int n11 = n8 + 2;
-                final short n12 = (short)(0xFFFF & ((0xFF & data[n2 + 3]) << 4 | (0xFFFF & n10)));
-                final short bits3 = extractBits(n12);
-                strideByteArray[n11] = (byte)(bits3 & 0xFF);
-                strideByteArray[n11 + 1] = (byte)(0xFF & (0xFFFF & bits3) >>> 8);
-                final short n13 = (short)((0xFFFF & n12) >>> 10);
-                final int n14 = n11 + 2;
-                final short n15 = (short)(0xFFFF & ((0xFF & data[n2 + 4]) << 2 | (0xFFFF & n13)));
-                final short bits4 = extractBits(n15);
-                strideByteArray[n14] = (byte)(bits4 & 0xFF);
-                strideByteArray[n14 + 1] = (byte)(0xFF & (0xFFFF & bits4) >>> 8);
-                final short n16 = (short)((0xFFFF & n15) >>> 10);
-                final int n17 = n14 + 2;
-                final short n18 = (short)(0xFFFF & ((0xFF & data[n2 + 6]) << 8 | (0xFF & data[n2 + 5])));
-                final short bits5 = extractBits(n18);
-                strideByteArray[n17] = (byte)(bits5 & 0xFF);
-                strideByteArray[n17 + 1] = (byte)(0xFF & (0xFFFF & bits5) >>> 8);
-                final short n19 = (short)((0xFFFF & n18) >>> 10);
-                final int n20 = n17 + 2;
-                final short n21 = (short)(0xFFFF & ((0xFF & data[n2 + 7]) << 6 | (0xFFFF & n19)));
-                final short bits6 = extractBits(n21);
-                strideByteArray[n20] = (byte)(bits6 & 0xFF);
-                strideByteArray[n20 + 1] = (byte)(0xFF & (0xFFFF & bits6) >>> 8);
-                final short n22 = (short)((0xFFFF & n21) >>> 10);
-                n5 = n20 + 2;
-                n2 += 8;
-            }
-
-            System.arraycopy(strideByteArray ,0, dataOut, 2 *(n3 * width), width * 2);
-            ++n3;
-        }
-        return dataOut;
 
     }
-
 }

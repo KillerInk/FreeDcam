@@ -20,6 +20,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.menu.TouchHandler;
 
 /**
@@ -38,7 +39,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     ImageView meteringArea;
     FocusRect meteringRect;
 
-    SurfaceView surfaceView;
+    PreviewHandler surfaceView;
 
     public FocusImageHandler(MainActivity_v2 activity)
     {
@@ -63,7 +64,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
     }
 
-    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
+    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, PreviewHandler surfaceView)
     {
         this.surfaceView = surfaceView;
         this.wrapper = cameraUiWrapper;
@@ -82,16 +83,17 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony))
+        if (!(wrapper instanceof CameraUiWrapperSony) && surfaceView != null)
         {
             disWidth = surfaceView.getLayoutParams().width;
             disHeight = surfaceView.getLayoutParams().height;
-            int margineleft = surfaceView.getLeft();
+            int margineleft = surfaceView.getMargineLeft();
             //handler.removeCallbacksAndMessages(null);
-            int recthalf = imageView.getWidth() / 2;
-            int halfwidth = disWidth / 2;
-            int halfheight = disHeight / 2;
-            if (rect == null) {
+
+            if (rect == null)
+            {
+                int halfwidth = disWidth / 2;
+                int halfheight = disHeight / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
@@ -168,6 +170,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     private class MeteringAreaTouch implements View.OnTouchListener
     {
         float x, y, difx, dify;
+        int distance = 10;
+        boolean moving = false;
         @Override
         public boolean onTouch(View v, MotionEvent event)
         {
@@ -176,25 +180,46 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 case MotionEvent.ACTION_DOWN: {
                     x = event.getX();
                     y = event.getY();
+                    startX = (int)event.getX() - (int)meteringArea.getX();
+                    startY =(int) event.getY() - (int)meteringArea.getY();
 
                 }
                 break;
                 case MotionEvent.ACTION_MOVE:
                 {
+
                     difx = x - meteringArea.getX();
                     dify = y - meteringArea.getY();
-                    if (event.getX() - difx > surfaceView.getLeft() && event.getX() - difx +meteringArea.getWidth() < surfaceView.getLeft() + surfaceView.getWidth())
+                    int xd = getDistance(startX, (int)difx);
+                    int yd = getDistance(startY, (int)dify);
+
+                    if (event.getX() - difx > surfaceView.getLeft() && event.getX() - difx + meteringArea.getWidth() < surfaceView.getLeft() + surfaceView.getWidth())
                         meteringArea.setX(event.getX() - difx);
-                    if (event.getY() - dify > surfaceView.getTop() && event.getY() -dify +meteringArea.getHeight() < surfaceView.getTop() + surfaceView.getHeight())
+                    if (event.getY() - dify > surfaceView.getTop() && event.getY() - dify + meteringArea.getHeight() < surfaceView.getTop() + surfaceView.getHeight())
                         meteringArea.setY(event.getY() - dify);
+                    if (xd >= distance || yd >= distance) {
+
+                        moving = true;
+                    }
                 }
                 break;
                 case MotionEvent.ACTION_UP:
                 {
-                    x = 0; y = 0; difx = 0; dify = 0;
-                    meteringRect = new FocusRect((int)meteringArea.getX() - recthalf, (int)meteringArea.getX() + recthalf, (int)meteringArea.getY() - recthalf, (int)meteringArea.getY() + recthalf);
-                    if (wrapper != null)
-                        wrapper.Focus.SetMeteringAreas(meteringRect, surfaceView.getWidth(), surfaceView.getHeight());
+                    if (moving)
+                    {
+                        moving = false;
+                        x = 0;
+                        y = 0;
+                        difx = 0;
+                        dify = 0;
+                        meteringRect = new FocusRect((int) meteringArea.getX() - recthalf, (int) meteringArea.getX() + recthalf, (int) meteringArea.getY() - recthalf, (int) meteringArea.getY() + recthalf);
+                        if (wrapper != null)
+                            wrapper.Focus.SetMeteringAreas(meteringRect, surfaceView.getWidth(), surfaceView.getHeight());
+                    }
+                    else
+                    {
+                        OnClick((int)meteringArea.getX()-recthalf,(int)meteringArea.getY()+recthalf);
+                    }
                 }
             }
             return true;

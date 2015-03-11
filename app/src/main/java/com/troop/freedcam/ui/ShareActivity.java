@@ -28,7 +28,7 @@ public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
         Uri imageUri = (Uri) callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
-        if(cameraUiWrapper.moduleHandler.GetCurrentModuleName() != ModuleHandler.MODULE_PICTURE)
+        if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
             cameraUiWrapper.moduleHandler.SetModule(ModuleHandler.MODULE_PICTURE);
         PictureModule pictureModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
         pictureModule.OverRidePath = imageUri.getPath();

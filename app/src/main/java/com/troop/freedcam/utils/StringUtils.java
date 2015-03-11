@@ -2,6 +2,9 @@ package com.troop.freedcam.utils;
 
 import android.hardware.Camera;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,4 +48,23 @@ public class StringUtils
     }
 
     public static String TAG = "freedcam.";
+
+    public static String GetPlatform()
+    {
+        Process p = null;
+        String board_platform = "";
+        try {
+            p = new ProcessBuilder("/system/bin/getprop", "ro.board.platform").redirectErrorStream(true).start();
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = "";
+            while ((line=br.readLine()) != null){
+                board_platform = line;
+            }
+            p.destroy();
+        } catch (IOException e) {
+// TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return board_platform;
+    }
 }

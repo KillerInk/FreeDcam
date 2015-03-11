@@ -88,7 +88,7 @@ public class SwitchApiExpandableChild extends ExpandableChild
         public String[] GetValues()
         {
             if (Build.VERSION.SDK_INT  >= 21)
-                return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1, /*AppSettingsManager.API_2*/};
+                return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1, AppSettingsManager.API_2};
             else
                 return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
         }

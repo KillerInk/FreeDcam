@@ -186,7 +186,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
         else
-            VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraHolder);
+            VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
 
         appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
@@ -278,19 +278,21 @@ public class CamParametersHandler extends AbstractParameterHandler
     //rawsave-mode=2
     public void setTHL5000Raw(boolean raw)
     {
+        cameraHolder.StopPreview();
         Log.d(TAG, "THL5000 try to set mode");
         if (!raw) {
             cameraParameters.put("rawsave-mode", 0+"");
-            //cameraParameters.put("isp-mode", 0+"");
+            cameraParameters.put("isp-mode", 0+"");
             Log.d(TAG, "THL5000 set mode to jpeg");
         }
         else
         {
-            cameraParameters.put("rawsave-mode", 1+"");
-            //cameraParameters.put("isp-mode", 1+"");
+            cameraParameters.put("rawsave-mode", 2+"");
+            cameraParameters.put("isp-mode", 0+"");
             Log.d(TAG, "THL5000 set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
+        cameraHolder.StartPreview();
     }
 
     //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;

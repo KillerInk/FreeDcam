@@ -121,6 +121,6 @@ public class VideoModuleG3 extends VideoModule
         ParameterHandler.PreviewSize.SetValue(size, false);
         camParametersHandler.VideoSize.SetValue(size,true);
 
-        baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+
     }
 }

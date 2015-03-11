@@ -487,16 +487,16 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 Log.d(TAG, "Set Samsung Focus");
                 List<SecCamera.Area> areaList = new ArrayList<>();
                 areaList.add(new SecCamera.Area(new Rect(focusRect.left, focusRect.top, focusRect.right, focusRect.bottom), 1));
-                List<SecCamera.Area> meteringList = new ArrayList<>();
-                if (meteringRect != null)
-                    meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1));
+                //List<SecCamera.Area> meteringList = new ArrayList<>();
+                //if (meteringRect != null)
+                //    meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1));
                 SecCamera.Parameters p = samsungCamera.getParameters();
                 if (p.getMaxNumFocusAreas() > 0)
                     p.setFocusAreas(areaList);
-                if (meteringRect != null && p.getMaxNumMeteringAreas() > 0)
+                /*if (meteringRect != null && p.getMaxNumMeteringAreas() > 0)
                     p.setMeteringAreas(meteringList);
                 else if (p.getMaxNumMeteringAreas() > 0)
-                    p.setMeteringAreas(areaList);
+                    p.setMeteringAreas(areaList);*/
                 try {
                     Log.d(TAG, "try Set Samsung Focus");
                     samsungCamera.setParameters(p);
@@ -508,18 +508,18 @@ public class BaseCameraHolder extends AbstractCameraHolder
             } else {
                 List<Camera.Area> areaList = new ArrayList<>();
                 areaList.add(new Camera.Area(new Rect(focusRect.left, focusRect.top, focusRect.right, focusRect.bottom), 1000));
-                List<Camera.Area> meteringList = new ArrayList<>();
-                if (meteringRect != null)
-                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+                //List<Camera.Area> meteringList = new ArrayList<>();
+                //if (meteringRect != null)
+                //    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 if (mCamera == null)
                     return;
                 Camera.Parameters p = mCamera.getParameters();
                 if (p.getMaxNumFocusAreas() > 0)
                     p.setFocusAreas(areaList);
-                if (meteringList.size() > 0 && p.getMaxNumMeteringAreas() > 0)
+                /*if (meteringList.size() > 0 && p.getMaxNumMeteringAreas() > 0)
                     p.setMeteringAreas(meteringList);
                 else if (p.getMaxNumMeteringAreas() > 0)
-                    p.setMeteringAreas(areaList);
+                    p.setMeteringAreas(areaList);*/
                 try {
                     Log.d(TAG, "try Set Focus");
                     mCamera.setParameters(p);
@@ -557,7 +557,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 if (meteringRect != null)
                     meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 SecCamera.Parameters p = samsungCamera.getParameters();
-                p.setMeteringAreas(meteringList);
+                if(p.getMaxNumMeteringAreas() > 0);
+                    p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
@@ -572,7 +573,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 if (meteringRect != null)
                     meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 Camera.Parameters p = mCamera.getParameters();
-                p.setMeteringAreas(meteringList);
+                if(p.getMaxNumMeteringAreas() > 0);
+                    p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
