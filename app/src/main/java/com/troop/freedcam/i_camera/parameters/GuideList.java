@@ -41,7 +41,7 @@ public class GuideList extends AbstractModeParameter
     @Override
     public String GetValue()
     {
-        if (value.equals(""))
+        if (value == null || value.equals(""))
             return "Golden Spiral";
         else
             return value;

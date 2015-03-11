@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
+import android.content.Context;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  */
 public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent, I_OnGroupClicked
 {
+    MainActivity_v2 activityV2;
     MenuFragment context;
     AbstractCameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
@@ -53,16 +55,17 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MenuFragment context, AppSettingsManager appSettingsManager)
+    public MenuHandler(MenuFragment context, MainActivity_v2 activityV2, AppSettingsManager appSettingsManager)
     {
         this.context = context;
+        this.activityV2 = activityV2;
         this.appSettingsManager = appSettingsManager;
         mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
         //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
         context.settingsLayoutHolder.removeView(listView);
-        menuCreator = new MenuCreator(context, appSettingsManager);
+        menuCreator = new MenuCreator(context,activityV2, appSettingsManager);
         fillMenu();
     }
 
@@ -179,6 +182,8 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     @Override
     public String ModuleChanged(String module)
     {
+        if (module == null || module.equals(""))
+            module = ModuleHandler.MODULE_PICTURE;
         if (grouplist != null && mainMenuView != null) {
             if (module.equals(ModuleHandler.MODULE_LONGEXPO)) {
                 if (grouplist.contains(picSettings))

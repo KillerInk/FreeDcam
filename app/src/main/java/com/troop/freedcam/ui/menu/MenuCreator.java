@@ -36,6 +36,7 @@ import java.util.ArrayList;
 public class MenuCreator
 {
     Context context;
+    MainActivity_v2 activityV2;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractParameterHandler parameterHandler;
@@ -80,10 +81,11 @@ public class MenuCreator
 
     LinearLayout submenu;
 
-    public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager)
+    public MenuCreator(MenuFragment context, MainActivity_v2 activityV2, AppSettingsManager appSettingsManager)
     {
         this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
+        this.activityV2 = activityV2;
         this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
     }
 
@@ -484,8 +486,8 @@ public class MenuCreator
         settingsGroup = getNewGroup(context.getString(R.string.settings));
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        //sonyExpandableChild = new SwitchApiExpandableChild(context, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
-        //childlist.add(sonyExpandableChild);
+        sonyExpandableChild = new SwitchApiExpandableChild(activityV2, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
+        childlist.add(sonyExpandableChild);
 
         //defcomg was here
 
