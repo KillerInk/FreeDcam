@@ -80,9 +80,8 @@ public class MenuCreator
 
     LinearLayout submenu;
 
-    public MenuCreator(MenuFragment context, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
         this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
         this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);

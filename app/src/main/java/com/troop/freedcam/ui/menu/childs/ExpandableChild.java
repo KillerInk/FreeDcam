@@ -114,12 +114,6 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     public void onValueChanged(final String val)
     {
         String settingValue = val;
-        if (!(parameterHolder instanceof BaseModeParameterSony))
-        {
-            appSettingsManager.setString(settingsname, settingValue);
-        }
-        parameterHolder.SetValue(settingValue, true);
-
         set(settingValue);
     }
     private void set(final String settingValue)
