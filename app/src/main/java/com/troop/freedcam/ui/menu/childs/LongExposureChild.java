@@ -12,14 +12,9 @@ import java.util.ArrayList;
 /**
  * Created by troop on 13.11.2014.
  */
-public class LongExposureChild extends ExpandableChild
-{
-    AppSettingsManager appSettingsManager;
-    String settingsname;
+public class LongExposureChild extends ExpandableChild {
     public LongExposureChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name);
-        this.settingsname = settingsname;
-        this.appSettingsManager = appSettingsManager;
+        super(context, group, name, appSettingsManager, settingsname);
     }
 
     @Override

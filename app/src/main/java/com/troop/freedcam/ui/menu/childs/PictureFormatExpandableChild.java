@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class PictureFormatExpandableChild extends ExpandableChild
 {
     public I_VideoProfile PictureFormatChangedHandler;
-    public PictureFormatExpandableChild(Context context, ExpandableGroup group, String name) {
-        super(context, group, name);
+    public PictureFormatExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context, group, name, appSettingsManager, settingsname);
     }
 
 
@@ -27,7 +27,8 @@ public class PictureFormatExpandableChild extends ExpandableChild
     {
         parameterHolder.SetValue(value, true);
         valueTextView.setText(value);
-
+        if (!(parameterHolder instanceof BaseModeParameterSony))
+            appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
         if (PictureFormatChangedHandler != null)
             PictureFormatChangedHandler.VideoProfileChanged(value);

@@ -23,15 +23,11 @@ public class VideoProfileExpandableChild extends ExpandableChild
     private I_PreviewSizeEvent previewSizeEvent;
     AbstractCameraUiWrapper cameraUiWrapper;
     public I_VideoProfile videoProfileChanged;
-    AppSettingsManager appSettingsManager;
-    String settingsname;
 
     public VideoProfileExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
     {
-        super(context, group, name);
+        super(context, group, name, appSettingsManager, settingsname);
         this.previewSizeEvent = previewSizeEvent;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
     }
 
 

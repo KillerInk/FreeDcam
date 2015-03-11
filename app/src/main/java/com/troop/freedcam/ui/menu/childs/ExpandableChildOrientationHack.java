@@ -26,11 +26,9 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
 {
     protected Switch aSwitch;
     AbstractCameraUiWrapper cameraUiWrapper;
-    AppSettingsManager appSettingsManager;
 
-    public ExpandableChildOrientationHack(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager) {
-        super(context, group, name);
-        this.appSettingsManager = appSettingsManager;
+    public ExpandableChildOrientationHack(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+        super(context, group, name, appSettingsManager, settingsname);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
         final String check = aSwitch.isChecked() +"";
-        appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  check);
+        appSettingsManager.setString(settingsname,  check);
         ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetCameraRotation();
         ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
 
