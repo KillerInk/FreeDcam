@@ -12,9 +12,14 @@ import java.util.ArrayList;
 /**
  * Created by troop on 22.01.2015.
  */
-public class ExpandableChildGuide extends ExpandableChild {
+public class ExpandableChildGuide extends ExpandableChild
+{
+    AppSettingsManager appSettingsManager;
+    String settingsname;
     public ExpandableChildGuide(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name, appSettingsManager, settingsname);
+        super(context, group, name);
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
     }
 
     @Override

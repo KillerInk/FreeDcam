@@ -33,11 +33,17 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
     I_VideoProfile videoProfile;
     SimpleModeParameter parameterHolder;
 
+    AppSettingsManager appSettingsManager;
+    String settingsname;
+
 
     public ExpandableChildTimelapseFps(Context context, ExpandableGroup group, AppSettingsManager appSettingsManager, String name, String settingsname)
     {
-        super(context,group,name, appSettingsManager, settingsname);
+        super(context,group,name);
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
         initt(context);
+
 
     }
 

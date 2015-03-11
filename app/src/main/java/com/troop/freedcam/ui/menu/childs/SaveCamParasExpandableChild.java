@@ -25,10 +25,11 @@ public class SaveCamParasExpandableChild extends ExpandableChild
 {
     CameraUiWrapper cameraUiWrapper;
     SimpleModeParameter parameterHolder;
-    public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
+    AppSettingsManager appSettingsManager;
+    public SaveCamParasExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager)
     {
-        super(context, group, name, appSettingsManager, settingsname);
-
+        super(context, group, name);
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void setParameterHolder(AbstractModeParameter parameterHolder, ArrayList<String> modulesToShow, AbstractCameraUiWrapper cameraUiWrapper)

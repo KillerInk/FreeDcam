@@ -28,11 +28,15 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
     final int updateDistance = 15;
     AbstractCameraHolder cameraHolder;
     AbstractCameraUiWrapper cameraUiWrapper;
+    AppSettingsManager appSettingsManager;
+    String settingsname;
 
     public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name, appSettingsManager, settingsname);
+        super(context, group, name);
         parameterHolder = new SimpleModeParameter();
         ((SimpleModeParameter)parameterHolder).setIsSupported(true);
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
     }
 
     @Override

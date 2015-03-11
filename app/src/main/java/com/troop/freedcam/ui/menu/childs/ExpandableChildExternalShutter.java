@@ -19,13 +19,14 @@ public class ExpandableChildExternalShutter extends ExpandableChild
     public static String VoLP = "Vol+";
     public static String VoLM = "Vol-";
     public static String Hook = "Hook";
+    AppSettingsManager appSettingsManager;
 
 
-    public ExpandableChildExternalShutter(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
+    public ExpandableChildExternalShutter(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager)
     {
-        super(context, group, name, appSettingsManager, settingsname);
+        super(context, group, name);
         this.parameterHolder = new ParameterExternalShutter();
-
+        this.appSettingsManager = appSettingsManager;
     }
 
 
@@ -111,15 +112,15 @@ public class ExpandableChildExternalShutter extends ExpandableChild
 
         public void SetValue(String valueToSet, boolean setToCamera)
         {
-            appSettingsManager.setString(settingsname, valueToSet);
+            appSettingsManager.setString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
         }
 
         public String GetValue()
         {
-            if (appSettingsManager.getString(settingsname).equals(""))
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
                 return "Hook";
             else
-                return appSettingsManager.getString(settingsname);
+                return appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
         }
 
         public String[] GetValues() {

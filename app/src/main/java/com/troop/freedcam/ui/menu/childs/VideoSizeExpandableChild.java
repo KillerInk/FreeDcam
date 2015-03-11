@@ -14,8 +14,12 @@ import java.util.ArrayList;
  */
 public class VideoSizeExpandableChild extends ExpandableChild
 {
+    AppSettingsManager appSettingsManager;
+    String settingsname;
     public VideoSizeExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context,group, name, appSettingsManager,settingsname);
+        super(context,group, name);
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingsname;
     }
 
     @Override
@@ -31,10 +35,9 @@ public class VideoSizeExpandableChild extends ExpandableChild
 
     @Override
     public void setValue(String value) {
-        appSettingsManager.setString(settingsname, value);
         parameterHolder.SetValue(value, true);
         nameTextView.setText(Name);
-        valueTextView.setText(appSettingsManager.getString(settingsname));
+        valueTextView.setText(value);
     }
 
     @Override
@@ -45,15 +48,9 @@ public class VideoSizeExpandableChild extends ExpandableChild
     @Override
     public void setParameterHolder(AbstractModeParameter parameterHolder,ArrayList<String> modulesToShow) {
         super.setParameterHolder(parameterHolder, modulesToShow);
-        String campara = parameterHolder.GetValue();
-        String settingValue = appSettingsManager.getString(settingsname);
-        if (settingValue == null || settingValue == "") {
-            settingValue = campara;
-            appSettingsManager.setString(settingsname, settingValue);
-        }
         nameTextView.setText(Name);
-        valueTextView.setText(appSettingsManager.getString(settingsname));
-        parameterHolder.SetValue(settingValue, false);
+        valueTextView.setText(parameterHolder.GetValue());
+
     }
 
 

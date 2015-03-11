@@ -24,22 +24,18 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
 {
     protected String Name;
     protected AbstractModeParameter parameterHolder;
-    protected AppSettingsManager appSettingsManager;
     Context context;
     TextView nameTextView;
     TextView valueTextView;
-    protected String settingsname;
     protected ArrayList<String> modulesToShow;
     ExpandableGroup group;
     boolean isVisible = false;
 
 
-    public ExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+    public ExpandableChild(Context context, ExpandableGroup group, String name) {
         super(context);
         this.group = group;
         this.Name = name;
-        this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsname;
         init(context);
     }
 
@@ -61,17 +57,14 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
 
     public String Value()
     {
-        if (!parameterHolder.GetValue().equals(""))
-            return parameterHolder.GetValue();
-        else
-            return appSettingsManager.getString(settingsname);
+
+        return parameterHolder.GetValue();
+
     }
     public void setValue(String value)
     {
         valueTextView.setText(value);
         parameterHolder.SetValue(value, true);
-        if (!(parameterHolder instanceof BaseModeParameterSony))
-            appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
@@ -113,23 +106,9 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(final String val)
     {
-        String settingValue = val;
-        if (!(parameterHolder instanceof BaseModeParameterSony))
-        {
-            settingValue = appSettingsManager.getString(settingsname);
-            if (settingValue.equals("")) {
-                appSettingsManager.setString(settingsname, val);
-                settingValue = val;
-                Log.d(getTAG(), "No appSetting set default " + Name + ":" + val);
-            }
-            if (!settingValue.equals(val)) {
-                parameterHolder.SetValue(settingValue, true);
-                appSettingsManager.setString(settingsname, settingValue);
-                Log.d(getTAG(), "Load default appsetting " + Name + ":" + val);
-            }
-        }
 
-        set(settingValue);
+
+        set(val);
     }
     private void set(final String settingValue)
     {

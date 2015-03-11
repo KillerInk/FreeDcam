@@ -255,25 +255,25 @@ public class MenuCreator
 
         if (surfaceView instanceof ExtendedSurfaceView)
         {
-            picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, group, context.getString(R.string.picture_size), appSettingsManager , AppSettingsManager.SETTING_PICTURESIZE);
+            picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, group, context.getString(R.string.picture_size));
         }
         else
         {
-            picSize = new PreviewExpandableChild(context, group, context.getString(R.string.picture_size),appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
+            picSize = new PreviewExpandableChild(context, group, context.getString(R.string.picture_size));
         }
         piclist.add(picSize);
 
 
-        picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format), appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+        picformat = new PictureFormatExpandableChild(context, group, context.getString(R.string.picture_format));
         piclist.add(picformat);
 
-        jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality), appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
+        jpegquality= new ExpandableChild(context, group, context.getString(R.string.jpeg_quality));
         piclist.add(jpegquality);
 
 
-        contShootMode = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmode), appSettingsManager, "");
+        contShootMode = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmode));
         piclist.add(contShootMode);
-        contShootModeSpeed = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmodespeed), appSettingsManager, "");
+        contShootModeSpeed = new ExpandableChild(context,group,context.getString(R.string.picture_contshootmodespeed));
         piclist.add(contShootModeSpeed);
 
 
@@ -284,7 +284,7 @@ public class MenuCreator
             piclist.add(ae_bracket);
         }*/
 
-        redeye= new ExpandableChild(context, group, context.getString(R.string.picture_redeyereduction),appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
+        redeye= new ExpandableChild(context, group, context.getString(R.string.picture_redeyereduction));
         piclist.add(redeye);
 
         dngSwitch = new ExpandableChildDngSupport(context,group, appSettingsManager,context.getString(R.string.picture_dng_convert), AppSettingsManager.SETTING_DNG);
@@ -309,25 +309,25 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        color = new ExpandableChild(context, group,context.getString(R.string.mode_color), appSettingsManager,AppSettingsManager.SETTING_COLORMODE);
+        color = new ExpandableChild(context, group,context.getString(R.string.mode_color));
         childlist.add(color);
 
-        iso = new ExpandableChild(context, group, context.getString(R.string.mode_iso),appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
+        iso = new ExpandableChild(context, group, context.getString(R.string.mode_iso));
         childlist.add(iso);
 
-        exposureMode = new ExpandableChild(context, group, context.getString(R.string.mode_exposure), appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
+        exposureMode = new ExpandableChild(context, group, context.getString(R.string.mode_exposure));
         childlist.add(exposureMode);
 
-        whitebalanceMode =  new ExpandableChild(context, group,context.getString(R.string.mode_whitebalance),appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        whitebalanceMode =  new ExpandableChild(context, group,context.getString(R.string.mode_whitebalance));
         childlist.add(whitebalanceMode);
 
-        sceneMode = new ExpandableChild(context, group , context.getString(R.string.mode_scene), appSettingsManager, AppSettingsManager.SETTING_SCENEMODE);
+        sceneMode = new ExpandableChild(context, group , context.getString(R.string.mode_scene));
         childlist.add(sceneMode);
 
-        focusMode = new ExpandableChild(context, group, context.getString(R.string.mode_focus), appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
+        focusMode = new ExpandableChild(context, group, context.getString(R.string.mode_focus));
         childlist.add(focusMode);
 
-        objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking), appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
+        objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking));
         childlist.add(objectTrackingMode);
 
         group.setItems(childlist);
@@ -346,28 +346,28 @@ public class MenuCreator
     {
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        antibandingMode = new ExpandableChild(context, group, context.getString(R.string.antibanding), appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE);
+        antibandingMode = new ExpandableChild(context, group, context.getString(R.string.antibanding));
         childlist.add(antibandingMode);
 
-        ippMode = new ExpandableChild(context, group, context.getString(R.string.image_post_processing), appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        ippMode = new ExpandableChild(context, group, context.getString(R.string.image_post_processing));
         childlist.add(ippMode);
 
-        lensShadeMode = new ExpandableChild(context, group, context.getString(R.string.quality_lensshade), appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE);
+        lensShadeMode = new ExpandableChild(context, group, context.getString(R.string.quality_lensshade));
         childlist.add(lensShadeMode);
 
-        sceneDectecMode = new ExpandableChild(context, group, context.getString(R.string.quality_scenedetect), appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
+        sceneDectecMode = new ExpandableChild(context, group, context.getString(R.string.quality_scenedetect));
         childlist.add(sceneDectecMode);
 
-        denoiseMode = new ExpandableChild(context, group, context.getString(R.string.quality_denoise), appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
+        denoiseMode = new ExpandableChild(context, group, context.getString(R.string.quality_denoise));
         childlist.add(denoiseMode);
 
-        digitalImageStabilization = new ExpandableChild(context,group,context.getString(R.string.quality_digitalimagestab),appSettingsManager, AppSettingsManager.SETTING_DIS_MODE);
+        digitalImageStabilization = new ExpandableChild(context,group,context.getString(R.string.quality_digitalimagestab));
         childlist.add(digitalImageStabilization);
 
-        mce = new ExpandableChild(context,group,context.getString(R.string.quality_mce), appSettingsManager, AppSettingsManager.SETTING_MCE_MODE);
+        mce = new ExpandableChild(context,group,context.getString(R.string.quality_mce));
         childlist.add(mce);
 
-        zsl = new ExpandableChild(context, group, context.getString(R.string.quality_zsl), appSettingsManager, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
+        zsl = new ExpandableChild(context, group, context.getString(R.string.quality_zsl));
         childlist.add(zsl);
 
         /*if (parameterHandler.SkinToneEnhancment.IsSupported())
@@ -376,7 +376,7 @@ public class MenuCreator
             childlist.add(sd);
         }*/
 
-        nonZSLMode = new ExpandableChild(context, group, context.getString(R.string.quality_nonmanualzsl), appSettingsManager,AppSettingsManager.SETTING_NONZSLMANUALMODE);
+        nonZSLMode = new ExpandableChild(context, group, context.getString(R.string.quality_nonmanualzsl));
         childlist.add(nonZSLMode);
 
         /*if(parameterHandler.Histogram.IsSupported())
@@ -405,11 +405,11 @@ public class MenuCreator
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
         if (surfaceView instanceof ExtendedSurfaceView) {
-            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, context.getString(R.string.picture_size), appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE);
+            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, context.getString(R.string.picture_size));
         }
         else
         {
-            previewSize = new PreviewExpandableChild(context, preview,  context.getString(R.string.picture_size), appSettingsManager,  AppSettingsManager.SETTING_PREVIEWSIZE);
+            previewSize = new PreviewExpandableChild(context, preview,  context.getString(R.string.picture_size));
         }
         childlist.add(previewSize);
 
@@ -475,7 +475,7 @@ public class MenuCreator
 
         video.setItems(childlist);
 
-        videoHdr = new ExpandableChild(context, video, context.getString(R.string.video_hdr), appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
+        videoHdr = new ExpandableChild(context, video, context.getString(R.string.video_hdr));
         childlist.add(videoHdr);
 
     }
@@ -492,7 +492,7 @@ public class MenuCreator
 
 
 
-        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, context.getString(R.string.settings_savecampara),appSettingsManager, null);
+        saveCamparas = new SaveCamParasExpandableChild(context, settingsGroup, context.getString(R.string.settings_savecampara),appSettingsManager);
         childlist.add(saveCamparas);
 
         guide = new ExpandableChildGuide(context, settingsGroup, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
@@ -501,10 +501,10 @@ public class MenuCreator
         gps = new ExpandableChildGps(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION);
         childlist.add(gps);
 
-        externalShutter = new ExpandableChildExternalShutter(context, settingsGroup, context.getString(R.string.settings_externalshutter), appSettingsManager, AppSettingsManager.SETTING_EXTERNALSHUTTER);
+        externalShutter = new ExpandableChildExternalShutter(context, settingsGroup, context.getString(R.string.settings_externalshutter), appSettingsManager);
         childlist.add(externalShutter);
 
-        rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager, AppSettingsManager.SETTING_OrientationHack);
+        rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager);
         childlist.add(rotationHack);
 
         settingsGroup.setItems(childlist);

@@ -16,12 +16,13 @@ import java.util.ArrayList;
 public class SwitchApiExpandableChild extends ExpandableChild
 {
     MainActivity_v2 context;
+    AppSettingsManager appSettingsManager;
 
-
-    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name, appSettingsManager, settingsname);
+    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager) {
+        super(context, group, name);
         this.context = context;
         this.parameterHolder = new simpleModeParam();
+        this.appSettingsManager = appSettingsManager;
     }
 
 

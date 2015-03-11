@@ -14,13 +14,13 @@ public class PreviewExpandableChild extends ExpandableChild
 
     private I_PreviewSizeEvent previewSizeEvent;
 
-    public PreviewExpandableChild(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name, appSettingsManager, settingsname);
+    public PreviewExpandableChild(Context context, ExpandableGroup group, String name) {
+        super(context, group, name);
     }
 
-    public PreviewExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
+    public PreviewExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name)
     {
-        super(context, group, name, appSettingsManager, settingsname);
+        super(context, group, name);
         this.previewSizeEvent = previewSizeEvent;
     }
 
