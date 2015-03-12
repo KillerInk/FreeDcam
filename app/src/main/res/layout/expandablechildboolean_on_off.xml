@@ -3,7 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="1dp"
-    android:paddingRight="1dp">
+    android:paddingRight="1dp"
+    android:theme="@android:style/Theme.Holo"
+    android:touchscreenBlocksFocus="false">
 
     <Switch
         android:layout_width="match_parent"
