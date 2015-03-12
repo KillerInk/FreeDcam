@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu;
+package com.troop.freedcam.ui.menu.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,7 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.menu.MenuHandler;
 
 /**
  * Created by troop on 27.02.2015.

@@ -1,7 +1,6 @@
 package com.troop.freedcam.ui;
 
 
-import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 
 import android.content.res.Configuration;
@@ -43,8 +42,7 @@ import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.I_swipe;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
-import com.troop.freedcam.ui.menu.MenuFragment;
-import com.troop.freedcam.ui.menu.MenuHandler;
+import com.troop.freedcam.ui.menu.fragments.MenuFragment;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.ui.menu.SwipeMenuListner;
 import com.troop.freedcam.ui.switches.CameraSwitchHandler;
@@ -305,8 +303,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             decorView.setSystemUiVisibility(flags);
             decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
-                public void onSystemUiVisibilityChange(int visibility)
-                {
+                public void onSystemUiVisibilityChange(int visibility) {
                     if (visibility > 0) {
                         if (Build.VERSION.SDK_INT >= 16)
                             getWindow().getDecorView().setSystemUiVisibility(flags);
@@ -349,7 +346,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
-        Log.d(TAGLIFE,"Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
+        Log.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
         if (hasFocus)
             HIDENAVBAR();
         //super.onWindowFocusChanged(hasFocus);

@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui.menu;
 
-import android.content.Context;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.I_OnGroupClicked;
 import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.ui.menu.fragments.MenuFragment;
 
 import java.util.ArrayList;
 
