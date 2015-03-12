@@ -46,10 +46,9 @@ public class VideoProfileExpandableChild extends ExpandableChild
         appSettingsManager.setString(settingsname, value);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
-        if (DeviceUtils.isLGADV())
-        {
-            parameterHolder.SetValue(value,false);
-        }
+
+        parameterHolder.SetValue(value,false);
+
         if (videoProfileChanged != null)
             videoProfileChanged.VideoProfileChanged(value);
         /*if (DeviceUtils.isLGADV())
