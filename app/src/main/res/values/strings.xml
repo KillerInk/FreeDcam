@@ -53,6 +53,7 @@
     <string name="settings_gps">Location</string>
     <string name="settings_externalshutter">Headset Shutter</string>
     <string name="settings_orientatiohack">RotationHack</string>
+    <string name="settings_theme">Theme</string>
 
 
 

@@ -23,7 +23,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     ImageView Movie;
     ImageView LongEx;
 
-    LinearLayout Left;
+
 
     ImageView moduleView;
 
@@ -56,7 +56,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         LongEx =(ImageView)activity.findViewById(R.id.btnMlongExpo);
         LongEx.setOnClickListener(LowExLabel);
 
-        Left = (LinearLayout)activity.findViewById(R.id.Left);
+        //Left = (LinearLayout)activity.findViewById(R.id.Left);
     }
 
     ImageView.OnClickListener PicLabel = new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
             moduleView.setImageBitmap(tmp);
-            Left.setAlpha(1.0f);
+            //Left.setAlpha(1.0f);
 
 
             ModeHouse.setVisibility(View.GONE);
@@ -93,7 +93,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
             moduleView.setImageBitmap(tmp);
-            Left.setAlpha(1.0f);
+            //Left.setAlpha(1.0f);
 
 
             ModeHouse.setVisibility(View.GONE);
@@ -114,7 +114,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
             moduleView.setImageBitmap(tmp);
-            Left.setAlpha(0.1f);
+            //Left.setAlpha(0.1f);
 
 
             ModeHouse.setVisibility(View.GONE);
@@ -134,7 +134,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             // Picture.startAnimation(out);
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
             moduleView.setImageBitmap(tmp);
-            Left.setAlpha(1.0f);
+            //Left.setAlpha(1.0f);
 
 
 
@@ -210,10 +210,10 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     public void ParametersLoaded() {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
-        if(moduleHandler.GetCurrentModule().ShortName().contains("Mov")|| moduleHandler.GetCurrentModule().ShortName().contains("Lo"))
-            Left.setAlpha(0.1f);
-        else
-            Left.setAlpha(1.0f);
+        //if(moduleHandler.GetCurrentModule().ShortName().contains("Mov")|| moduleHandler.GetCurrentModule().ShortName().contains("Lo"))
+        //    Left.setAlpha(0.1f);
+        //else
+        //    Left.setAlpha(1.0f);
         //moduleView.setText(moduleHandler.GetCurrentModule().ShortName());
         iconSwitcher();
         initButtons();

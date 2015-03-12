@@ -74,7 +74,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ContShootModeSpeed;
     public AbstractModeParameter ObjectTracking;
     //
-
+    public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
     public boolean isDngActive = false;
     public boolean isAeBracketActive = false;
@@ -88,6 +88,7 @@ public abstract class AbstractParameterHandler
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
         GuideList = new GuideList();
+        ThemeList = new ThemeList();
     }
 
     public void SetParametersToCamera() {};

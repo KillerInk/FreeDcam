@@ -18,6 +18,7 @@ import com.troop.freedcam.ui.menu.childs.ExpandableChildExternalShutter;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGps;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildGuide;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildOrientationHack;
+import com.troop.freedcam.ui.menu.childs.ExpandableChildTheme;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildTimelapseFps;
 import com.troop.freedcam.ui.menu.childs.ExpandbleChildAeBracket;
 import com.troop.freedcam.ui.menu.childs.LongExposureChild;
@@ -79,6 +80,7 @@ public class MenuCreator
     ExpandableChildGps gps;
     ExpandableChild externalShutter;
     ExpandableChildOrientationHack rotationHack;
+    ExpandableChildTheme Theme;
 
     LinearLayout submenu;
 
@@ -239,6 +241,11 @@ public class MenuCreator
 
         externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
         rotationHack.SetCameraUIWrapper(cameraUiWrapper);
+
+        if(parameterHandler.ThemeList != null)
+        {
+            Theme.setParameterHolder(parameterHandler.ThemeList,cameraUiWrapper.moduleHandler.AllModules);
+        }
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -508,6 +515,9 @@ public class MenuCreator
 
         rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager, AppSettingsManager.SETTING_OrientationHack);
         childlist.add(rotationHack);
+
+        Theme = new ExpandableChildTheme(context, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
+        childlist.add(Theme);
 
         settingsGroup.setItems(childlist);
 
