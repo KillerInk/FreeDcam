@@ -54,6 +54,14 @@ public class VideoHDRModeParameter extends  BaseModeParameter
         String ret = super.GetValue();
         if (ret == null || ret == "")
             ret = "off";
+        else if (ret.equals("0"))
+            ret = "off";
+        else if (ret.equals("1"))
+            ret = "on";
+        else if (ret.equals("2"))
+            ret = "auto";
+
+
         return ret;
     }
 }
