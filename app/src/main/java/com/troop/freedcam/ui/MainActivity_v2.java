@@ -45,6 +45,7 @@ import com.troop.freedcam.ui.menu.ManualMenuHandler;
 import com.troop.freedcam.ui.menu.fragments.MenuFragment;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.ui.menu.SwipeMenuListner;
+import com.troop.freedcam.ui.menu.fragments.ShutterItemsFragments;
 import com.troop.freedcam.ui.switches.CameraSwitchHandler;
 import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;
@@ -64,6 +65,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     public LinearLayout seekbarLayout;
     LinearLayout manualMenuHolder;
     MenuFragment menuFragment;
+    ShutterItemsFragments shutterItemsFragment;
 
 
     boolean manualMenuOpen = false;
@@ -76,11 +78,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     protected HelpOverlayHandler helpOverlayHandler;
     protected GuideHandler guideHandler;
-    int helplayoutrot;
-
-    private final int animationtime = 300;
-
-
 
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
@@ -88,23 +85,20 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
 
-    public ShutterHandler shutterHandler;
-    CameraSwitchHandler cameraSwitchHandler;
-    ModuleSwitchHandler moduleSwitchHandler;
-    FlashSwitchHandler flashSwitchHandler;
+
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
     public ManualMenuHandler manualMenuHandler;
     FocusImageHandler focusImageHandler;
-    TextView exitButton;
+
     MainActivity_v2 activity;
     ApiHandler apiHandler;
     TimerHandler timerHandler;
     PreviewHandler previewHandler;
-    ExposureLockHandler exposureLockHandler;
+
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
-    NightModeSwitchHandler nightModeSwitchHandler;
+
     InfoOverlayHandler infoOverlayHandler;
     MessageHandler messageHandler;
 
@@ -177,36 +171,17 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         thumbnailHandler = new ThumbnailHandler(this);
         apiHandler = new ApiHandler();
         workHandler = new WorkHandler(this);
-        cameraSwitchHandler = new CameraSwitchHandler(this, appSettingsManager);
-        shutterHandler = new ShutterHandler(this);
-        moduleSwitchHandler = new ModuleSwitchHandler(this, appSettingsManager);
-        flashSwitchHandler = new FlashSwitchHandler(this, appSettingsManager);
-        nightModeSwitchHandler = new NightModeSwitchHandler(this, appSettingsManager);
+
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
         manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
         focusImageHandler = new FocusImageHandler(this);
-        exposureLockHandler = new ExposureLockHandler(this, appSettingsManager);
+
 
         infoOverlayHandler= new InfoOverlayHandler(MainActivity_v2.this, appSettingsManager);
         messageHandler = new MessageHandler(this);
 
 
-        exitButton = (TextView)findViewById(R.id.textView_Exit);
 
-        if( ViewConfiguration.get(this).hasPermanentMenuKey())
-        {
-            exitButton.setVisibility(View.GONE);
-        }
-        else
-        {
-            exitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    activity.finish();
-                }
-            });
-        }
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
 
@@ -217,6 +192,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
         manualMenuHolder.removeView(manualSettingsLayout);
         manualMenuHolder.removeView(seekbarLayout);
+
+        if (shutterItemsFragment == null)
+            shutterItemsFragment = new ShutterItemsFragments();
+        shutterItemsFragment.SetAppSettings(appSettingsManager);
     }
 
     private void loadCameraUiWrapper()
@@ -269,25 +248,21 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
 
-        cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, previewHandler.surfaceView);
-        shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
-        moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-        flashSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-        try {
-
-            nightModeSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
+        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        if (!shutterItemsFragment.isAdded()) {
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
+            transaction.commit();
         }
-        catch (Exception ex)
-        {
-
-        }
-        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
+        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper, shutterItemsFragment.shutterHandler);
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
-        exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
+
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
+
+
     }
 
     public void HIDENAVBAR()

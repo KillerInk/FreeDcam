@@ -19,6 +19,7 @@ public class HardwareKeyHandler
     boolean longKeyPress = false;
     private static String TAG = "freedcam.HardwareKeyHandler";
     AppSettingsManager appSettingsManager;
+    ShutterHandler shutterHandler;
 
     public HardwareKeyHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
     {
@@ -26,9 +27,10 @@ public class HardwareKeyHandler
         this.appSettingsManager = appSettingsManager;
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, ShutterHandler shutterHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        this.shutterHandler = shutterHandler;
     }
 
     public boolean OnKeyUp(int keyCode, KeyEvent event)
@@ -48,7 +50,7 @@ public class HardwareKeyHandler
         {
             set = true;
             Log.d(TAG, "KeyUp");
-            activity.shutterHandler.DoWork();
+            shutterHandler.DoWork();
 
         }
         if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
@@ -57,7 +59,7 @@ public class HardwareKeyHandler
             if (keyCode == KeyEvent.KEYCODE_CAMERA)
             {
                 set = true;
-                activity.shutterHandler.DoWork();
+                shutterHandler.DoWork();
             }
             // shutterbutton half pressed
             //if (keyCode == KeyEvent.KEYCODE_FOCUS)
@@ -74,7 +76,7 @@ public class HardwareKeyHandler
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
         {
             set = true;
-            activity.shutterHandler.OnLongClick();
+            shutterHandler.OnLongClick();
 
         }
 

@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.handler;
 
+import android.support.v4.app.Fragment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,23 +21,25 @@ import com.troop.freedcam.ui.MainActivity_v2;
 public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View.OnTouchListener, View.OnLongClickListener
 {
 
-    private final MainActivity_v2 activity;
+    private final View activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
     ImageView shutterButton;
     String currentModule;
     LinearLayout flashScreen;
+    Fragment fragment;
 
 
-    public ShutterHandler(MainActivity_v2 mainActivity)
+    public ShutterHandler(View mainActivity, Fragment fragment)
     {
         this.activity = mainActivity;
+        this.fragment = fragment;
 
         shutterButton = (ImageView)activity.findViewById(R.id.shutter_imageview);
         shutterButton.setOnClickListener(this);
         //shutterButton.setOnLongClickListener(this);
         shutterButton.setOnTouchListener(this);
 
-        flashScreen = (LinearLayout)activity.findViewById(R.id.screen_flash);
+        flashScreen = (LinearLayout)fragment.getActivity().findViewById(R.id.screen_flash);
         flashScreen.setVisibility(View.GONE);
 
 
@@ -139,7 +142,7 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
 
     public void OnLongClick()
     {
-        cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
-        Toast.makeText(activity, "Exposure and WhiteBalance locked", Toast.LENGTH_LONG).show();
+        //cameraUiWrapper.camParametersHandler.LockExposureAndWhiteBalance(true);
+        //Toast.makeText(activity, "Exposure and WhiteBalance locked", Toast.LENGTH_LONG).show();
     }
 }

@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class NightModeSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
-    MainActivity_v2 activity;
+    View activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
     ListView listView;
 
-    public NightModeSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public NightModeSwitchHandler(View activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
 
@@ -46,7 +46,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
     @Override
     public void ParametersLoaded()
     {
-        activity.runOnUiThread(new Runnable() {
+        activity.post(new Runnable() {
             @Override
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.NightMode != null && cameraUiWrapper.camParametersHandler.NightMode.IsSupported())
@@ -82,7 +82,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
         {
             mods.add(s);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
                 R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, mods);
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);

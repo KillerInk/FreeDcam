@@ -1,5 +1,7 @@
 package com.troop.freedcam.ui.switches;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,18 +22,20 @@ import com.troop.freedcam.ui.MainActivity_v2;
  */
 public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoaded, AbstractModeParameter.I_ModeParameterEvent
 {
-    MainActivity_v2 activity;
+    View activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
     ListView listView;
     AbstractModeParameter flashmode;
+    Fragment fragment;
     private static String TAG = FlashSwitchHandler.class.getSimpleName();
 
-    public FlashSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public FlashSwitchHandler(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
+        this.fragment = fragment;
         textView = (TextView)activity.findViewById(R.id.textView_flashSwitch);
         textView.setOnClickListener(this);
         textView.setVisibility(View.GONE);
@@ -49,8 +53,8 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     public void onClick(View v)
     {
         if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO)) {
-            listView = (ListView) activity.findViewById(R.id.listView_popup);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+            listView = (ListView) fragment.getActivity().findViewById(R.id.listView_popup);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
                     R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, cameraUiWrapper.camParametersHandler.FlashMode.GetValues());
             //attach adapter to the listview and fill
             listView.setAdapter(adapter);
@@ -95,11 +99,10 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
             //flashmode.BackgroundIsSupportedChanged(true);
         }
         Log.d(TAG,"ParametersLoaded");
-        activity.runOnUiThread(new Runnable() {
+        activity.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.camParametersHandler.FlashMode != null)
-                {
+                if (cameraUiWrapper.camParametersHandler.FlashMode != null) {
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
                     String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
@@ -112,9 +115,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
 
 
                     textView.setText(appSet);
-                }
-                else
-                {
+                } else {
                     textView.setVisibility(View.GONE);
                 }
             }
@@ -126,7 +127,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     public void onValueChanged(final String val)
     {
         Log.d(TAG,"on Value Changed: " + val);
-        activity.runOnUiThread(new Runnable() {
+        activity.post(new Runnable() {
             @Override
             public void run() {
                 textView.setText(val);

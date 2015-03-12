@@ -22,14 +22,14 @@ import com.troop.freedcam.utils.StringUtils;
 public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
     AbstractCameraUiWrapper cameraUiWrapper;
-    MainActivity_v2 activity;
+    View activity;
     AppSettingsManager appSettingsManager;
     ImageView imageView;
     int currentCamera;
     Bitmap[] bitmaps;
     SurfaceView surfaceView;
     private static String TAG = StringUtils.TAG + CameraSwitchHandler.class.getSimpleName();
-    public CameraSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public CameraSwitchHandler(View activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;

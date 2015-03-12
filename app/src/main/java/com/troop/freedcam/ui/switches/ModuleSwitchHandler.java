@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.switches;
 
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,20 +25,22 @@ import java.util.List;
 public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
 
-    MainActivity_v2 activity;
+    View activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractModuleHandler moduleHandler;
     TextView moduleView;
     ListView listView;
+    Fragment fragment;
 
-    public ModuleSwitchHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public ModuleSwitchHandler(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
         moduleView.setOnClickListener(this);
         moduleView.setVisibility(View.GONE);
+        this.fragment = fragment;
 
     }
 
@@ -53,14 +56,14 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void onClick(View v)
     {
-        listView = (ListView) activity.findViewById(R.id.listView_popup);
+        listView = (ListView) fragment.getActivity().findViewById(R.id.listView_popup);
         List<String> mods = new ArrayList<String>();
         for (HashMap.Entry<String,AbstractModule> module : cameraUiWrapper.moduleHandler.moduleList.entrySet())
         {
             mods.add(module.getValue().LongName());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
                 R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, mods);
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);

@@ -19,7 +19,7 @@ import com.troop.freedcam.ui.MainActivity_v2;
  */
 public class ExposureLockHandler implements View.OnClickListener, I_ParametersLoaded, AbstractModeParameter.I_ModeParameterEvent
 {
-    MainActivity_v2 activity;
+    View activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
     AppSettingsManager appSettingsManager;
@@ -29,7 +29,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
 
     private static String TAG = ExposureLockHandler.class.getSimpleName();
 
-    public ExposureLockHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public ExposureLockHandler(View activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
