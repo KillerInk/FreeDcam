@@ -70,6 +70,12 @@ public class ShutterItemsFragments extends Fragment
             });
         }
 
+        setCameraUIwrapper();
+        fragmentloaded = true;
+        return view;
+    }
+
+    private void setCameraUIwrapper() {
         cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
         shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
         moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
@@ -83,8 +89,6 @@ public class ShutterItemsFragments extends Fragment
 
         }
         exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
-        fragmentloaded = true;
-        return view;
     }
 
     public void SetAppSettings(AppSettingsManager appSettingsManager)
@@ -98,12 +102,7 @@ public class ShutterItemsFragments extends Fragment
         this.cameraUiWrapper = cameraUiWrapper;
         this.surfaceView = surfaceView;
         if (fragmentloaded) {
-            cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
-            shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
-            moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-            flashSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-            nightModeSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);
-            exposureLockHandler.SetCameraUIWrapper(cameraUiWrapper);
+            setCameraUIwrapper();
         }
     }
 
