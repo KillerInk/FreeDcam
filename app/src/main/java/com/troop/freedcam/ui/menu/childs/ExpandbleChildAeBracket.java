@@ -91,8 +91,6 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
     @Override
     public String ModuleChanged(String module)
     {
-        super.ModuleChanged(module);
-
-        return null; // super.ModuleChanged(module);
+        return super.ModuleChanged(module);
     }
 }
