@@ -22,13 +22,13 @@ import com.troop.freedcam.ui.MainActivity_v2;
  */
 public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoaded, AbstractModeParameter.I_ModeParameterEvent
 {
-    View activity;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    protected View activity;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
-    AppSettingsManager appSettingsManager;
+    protected AppSettingsManager appSettingsManager;
     ListView listView;
     AbstractModeParameter flashmode;
-    Fragment fragment;
+    protected Fragment fragment;
     private static String TAG = FlashSwitchHandler.class.getSimpleName();
 
     public FlashSwitchHandler(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
@@ -36,6 +36,11 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
         this.fragment = fragment;
+        init();
+    }
+
+    protected void init()
+    {
         textView = (TextView)activity.findViewById(R.id.textView_flashSwitch);
         textView.setOnClickListener(this);
         textView.setVisibility(View.GONE);

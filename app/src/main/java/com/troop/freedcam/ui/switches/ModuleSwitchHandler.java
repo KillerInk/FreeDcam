@@ -25,10 +25,10 @@ import java.util.List;
 public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
 
-    View activity;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    AppSettingsManager appSettingsManager;
-    AbstractModuleHandler moduleHandler;
+    protected View activity;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
+    protected AppSettingsManager appSettingsManager;
+    protected AbstractModuleHandler moduleHandler;
     TextView moduleView;
     ListView listView;
     Fragment fragment;
@@ -37,11 +37,17 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
+
+        this.fragment = fragment;
+        init();
+
+    }
+
+    protected void init()
+    {
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
         moduleView.setOnClickListener(this);
         moduleView.setVisibility(View.GONE);
-        this.fragment = fragment;
-
     }
 
 

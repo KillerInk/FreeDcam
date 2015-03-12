@@ -75,7 +75,7 @@ public class ShutterItemsFragments extends Fragment
         return view;
     }
 
-    private void setCameraUIwrapper() {
+    protected void setCameraUIwrapper() {
         cameraSwitchHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
         shutterHandler.SetCameraUIWrapper(cameraUiWrapper);
         moduleSwitchHandler.SetCameraUIWrapper(cameraUiWrapper);

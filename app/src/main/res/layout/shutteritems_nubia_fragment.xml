@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentRight="true"
+android:clickable="false"
+android:layout_alignParentEnd="false"
+android:orientation="vertical"
+android:layout_centerVertical="true"
+android:layout_alignParentBottom="false"
+    android:gravity="right">
+
+<ImageView
+    android:layout_width="@dimen/SizeCameraControls"
+    android:layout_height="@dimen/SizeCameraControls"
+    android:id="@+id/imageView_cameraSwitch"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="false"
+    android:layout_alignParentTop="false"
+    android:clickable="true"
+    android:layout_gravity="center_horizontal|right"
+    android:layout_marginLeft="14dp"
+    android:layout_marginTop="5dp" />
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="center_horizontal|right">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollViewModule"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnMpic"
+                android:background="@drawable/material_ui_mode_pic" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnMV"
+                android:background="@drawable/material_ui_mode_vid" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnMHDR"
+                android:background="@drawable/material_ui_mode_hdr" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnMlongExpo"
+                android:background="@drawable/material_ui_mode_long" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnMBurst"
+                android:background="@drawable/nubia_ui_mode_burst"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:id="@+id/imageViewMode"
+        android:background="@drawable/material_ui_mode_pic" />
+
+</LinearLayout>
+
+<ImageView
+    android:layout_width="@dimen/appiconsizethree"
+    android:layout_height="@dimen/appiconsizethree"
+    android:id="@+id/shutter_imageview"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:longClickable="false"
+    android:background="@drawable/material_ui_shutter"
+    android:clickable="true"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp" />
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="center_horizontal|right">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollViewFlash"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnFlash_auto"
+                android:background="@drawable/material_ui_flash_auto" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnFlash_on"
+                android:background="@drawable/material_ui_flash_on" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnFlash_torch"
+                android:background="@drawable/material_ui_flash_torch" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnFlash_off"
+                android:background="@drawable/material_ui_flash_off" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:id="@+id/imageViewFlash"
+        android:background="@drawable/material_ui_flash_off" />
+</LinearLayout>
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="center_horizontal|right">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollViewNight"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnNight_off"
+                android:background="@drawable/material_ui_night_off" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnNight_on"
+                android:background="@drawable/material_ui_night_on" />
+
+            <ImageView
+                android:layout_width="@dimen/SizeCameraControls"
+                android:layout_height="@dimen/SizeCameraControls"
+                android:id="@+id/btnNight_torch"
+                android:background="@drawable/material_ui_night_tripod" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:id="@+id/imageViewNight"
+        android:background="@drawable/material_ui_night_off" />
+</LinearLayout>
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="center_horizontal"
+    android:visibility="gone">
+
+    <ImageView
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:id="@+id/imageView_exposurelock"
+        android:layout_marginLeft="24dp" />
+</LinearLayout>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|right">
+
+    <TextView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:text="Exit"
+        android:id="@+id/textView_Exit"
+        android:background="@drawable/nubia_ui_exit"
+        android:singleLine="true"
+        android:password="false"
+        android:textSize="@dimen/TextSizeSmall"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal" />
+</LinearLayout>
+
+</LinearLayout>

@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class NightModeSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
-    View activity;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    protected View activity;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
     TextView textView;
-    AppSettingsManager appSettingsManager;
+    protected AppSettingsManager appSettingsManager;
     ListView listView;
 
     public NightModeSwitchHandler(View activity, AppSettingsManager appSettingsManager)
@@ -31,10 +31,15 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
         this.activity = activity;
 
         this.appSettingsManager = appSettingsManager;
+
+        init();
+    }
+
+    protected void init()
+    {
         textView = (TextView)activity.findViewById(R.id.textView_nightmode);
         textView.setOnClickListener(this);
         textView.setVisibility(View.GONE);
-
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)

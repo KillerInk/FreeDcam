@@ -22,13 +22,14 @@ import com.troop.freedcam.utils.StringUtils;
 public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
     AbstractCameraUiWrapper cameraUiWrapper;
-    View activity;
+    protected View activity;
     AppSettingsManager appSettingsManager;
     ImageView imageView;
     int currentCamera;
-    Bitmap[] bitmaps;
+    protected Bitmap[] bitmaps;
     SurfaceView surfaceView;
     private static String TAG = StringUtils.TAG + CameraSwitchHandler.class.getSimpleName();
+
     public CameraSwitchHandler(View activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
@@ -36,7 +37,13 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         imageView = (ImageView)activity.findViewById(R.id.imageView_cameraSwitch);
         imageView.setOnClickListener(this);
         currentCamera = appSettingsManager.GetCurrentCamera();
+        initBitmaps();
 
+
+    }
+
+    protected void initBitmaps()
+    {
         bitmaps = new Bitmap[3];
         Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_rear);
         bitmaps[0] = back;
@@ -44,7 +51,6 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         bitmaps[1] = front;
         Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_3d);
         bitmaps[2] = back3d;
-
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView view)
