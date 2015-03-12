@@ -63,6 +63,8 @@ public class MenuFragment extends Fragment
     {
         this.surfaceView =surfaceView;
         this.cameraUiWrapper = cameraUiWrapper;
+        if (menuHandler != null)
+            menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
     }
 

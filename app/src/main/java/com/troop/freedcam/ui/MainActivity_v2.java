@@ -254,6 +254,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
             transaction.commit();
         }
+        if (menuFragment != null && menuFragment.isAdded())
+            menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper, shutterItemsFragment.shutterHandler);
         manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
