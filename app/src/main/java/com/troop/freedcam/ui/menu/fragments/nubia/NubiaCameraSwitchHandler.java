@@ -21,7 +21,9 @@ public class NubiaCameraSwitchHandler extends CameraSwitchHandler
     }
 
     @Override
-    protected void initBitmaps() {
+    protected void initBitmaps()
+    {
+        bitmaps = new Bitmap[3];
         Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.nubia_ui_cam_back);
         bitmaps[0] = back;
         Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.nubia_ui_cam_front);

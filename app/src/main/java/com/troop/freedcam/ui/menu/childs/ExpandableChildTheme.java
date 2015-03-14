@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
 
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import java.util.ArrayList;
 /**
  * Created by George on 3/9/2015.
  */
-public class ExpandableChildTheme extends ExpandableChild{
-
-    public ExpandableChildTheme(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+public class ExpandableChildTheme extends ExpandableChild
+{
+    MainActivity_v2 activity_v2;
+    public ExpandableChildTheme(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
+        this.activity_v2 = context;
     }
 
     @Override
@@ -23,6 +26,7 @@ public class ExpandableChildTheme extends ExpandableChild{
         valueTextView.setText(value);
         parameterHolder.SetValue(value, true);
         appSettingsManager.setString(settingsname, value);
+        activity_v2.themeHandler.SetTheme("");
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 
@@ -37,7 +41,7 @@ public class ExpandableChildTheme extends ExpandableChild{
         this.modulesToShow = modulesToShow;
         String s = appSettingsManager.getString(settingsname);
         if (s.equals(""))
-            s = "Golden Ratio";
+            s = "Classic";
         setValue(s);
 
     }

@@ -36,6 +36,7 @@ import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.MessageHandler;
 import com.troop.freedcam.ui.handler.ShutterHandler;
+import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
@@ -65,7 +66,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     public LinearLayout seekbarLayout;
     LinearLayout manualMenuHolder;
     MenuFragment menuFragment;
-    ShutterItemsFragments shutterItemsFragment;
+    public ShutterItemsFragments shutterItemsFragment;
 
 
     boolean manualMenuOpen = false;
@@ -101,7 +102,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     InfoOverlayHandler infoOverlayHandler;
     MessageHandler messageHandler;
-
+    public ThemeHandler themeHandler;
 
 
     WorkHandler workHandler;
@@ -123,6 +124,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
 
         HIDENAVBAR();
 
@@ -161,6 +164,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
+        themeHandler = new ThemeHandler(this, appSettingsManager);
 
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
         previewHandler.appSettingsManager = appSettingsManager;
@@ -193,8 +197,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         manualMenuHolder.removeView(manualSettingsLayout);
         manualMenuHolder.removeView(seekbarLayout);
 
-        if (shutterItemsFragment == null)
-            shutterItemsFragment = new ShutterItemsFragments();
+        themeHandler.GetThemeFragment();
         shutterItemsFragment.SetAppSettings(appSettingsManager);
     }
 
@@ -247,13 +250,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
+        inflateShutterItemFragment();
 
-        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
-        if (!shutterItemsFragment.isAdded()) {
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
-            transaction.commit();
-        }
         if (menuFragment != null && menuFragment.isAdded())
             menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper, shutterItemsFragment.shutterHandler);
@@ -265,6 +263,17 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         workHandler.HideSpinner();
 
 
+    }
+
+    public void inflateShutterItemFragment()
+    {
+        shutterItemsFragment.SetAppSettings(appSettingsManager);
+        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        if (!shutterItemsFragment.isAdded()) {
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
+            transaction.commit();
+        }
     }
 
     public void HIDENAVBAR()

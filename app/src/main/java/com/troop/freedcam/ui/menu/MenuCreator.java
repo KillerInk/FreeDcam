@@ -516,7 +516,7 @@ public class MenuCreator
         rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager, AppSettingsManager.SETTING_OrientationHack);
         childlist.add(rotationHack);
 
-        Theme = new ExpandableChildTheme(context, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
+        Theme = new ExpandableChildTheme(activityV2, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
         childlist.add(Theme);
 
         settingsGroup.setItems(childlist);
