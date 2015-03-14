@@ -98,7 +98,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleView.setText(moduleHandler.GetCurrentModule().ShortName());
         moduleView.setVisibility(View.VISIBLE);

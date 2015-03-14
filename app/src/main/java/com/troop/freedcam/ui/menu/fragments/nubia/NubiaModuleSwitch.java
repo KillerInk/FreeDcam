@@ -38,8 +38,9 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     {
         moduleView = (ImageView)activity.findViewById(R.id.imageViewMode);
         moduleView.setOnClickListener(this);
-        moduleView.setVisibility(View.GONE);
+
         ModeHouse = (ScrollView)activity.findViewById(R.id.scrollViewModule);
+        ModeHouse.setVisibility(View.GONE);
 
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
         Picture.setOnClickListener(PicLabel);

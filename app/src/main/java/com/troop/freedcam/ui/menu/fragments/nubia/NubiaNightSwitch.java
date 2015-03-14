@@ -33,9 +33,10 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
         textView = (ImageView)activity.findViewById(R.id.imageViewNight);
 
         textView.setOnClickListener(this);
-        textView.setVisibility(View.GONE);
+
 
         HouseNight = (ScrollView)activity.findViewById(R.id.scrollViewNight);
+        HouseNight.setVisibility(View.GONE);
 
         Off = (ImageView)activity.findViewById(R.id.btnNight_off);
         Off.setOnClickListener(OffView);
