@@ -23,7 +23,7 @@ public class ThemeList extends AbstractModeParameter
     public void SetValue(final String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        BackgroundValueHasChanged(valueToSet);
+        //BackgroundValueHasChanged(valueToSet);
 
     }
 

@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.handler;
 import android.support.v4.app.Fragment;
 
 import com.troop.androiddng.MainActivity;
+import com.troop.freedcam.R;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentNubia;
@@ -30,6 +31,13 @@ public class ThemeHandler
             theme = "Classic";
             appSettingsManager.setString(AppSettingsManager.SETTING_Theme, theme);
         }
+        if (activity_v2.shutterItemsFragment != null)
+        {
+            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+            transaction.remove(activity_v2.shutterItemsFragment);
+            transaction.commit();
+        }
+
         if (theme.equals("Classic"))
             activity_v2.shutterItemsFragment = new ShutterItemsFragments();
         if (theme.equals("Nubia"))

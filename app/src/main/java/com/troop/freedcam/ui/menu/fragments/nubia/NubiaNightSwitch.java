@@ -130,4 +130,34 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
             HouseNight.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        activity.post(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.camParametersHandler.NightMode != null && cameraUiWrapper.camParametersHandler.NightMode.IsSupported())
+                {
+                    textView.setVisibility(View.VISIBLE);
+                    String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
+                    String para = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
+                    if (para == null || para.equals(""))
+                        para = "off";
+                    if (appSet.equals("")) {
+                        appSet = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
+                        appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);
+                    }
+                    if (!appSet.equals(para))
+                        cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
+
+                }
+                else
+                {
+                    textView.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
 }

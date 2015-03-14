@@ -27,9 +27,9 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     TextView textView;
     protected AppSettingsManager appSettingsManager;
     ListView listView;
-    AbstractModeParameter flashmode;
+    protected AbstractModeParameter flashmode;
     protected Fragment fragment;
-    private static String TAG = FlashSwitchHandler.class.getSimpleName();
+    protected static String TAG = FlashSwitchHandler.class.getSimpleName();
 
     public FlashSwitchHandler(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {

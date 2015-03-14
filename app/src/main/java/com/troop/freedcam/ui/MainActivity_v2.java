@@ -269,7 +269,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     {
         shutterItemsFragment.SetAppSettings(appSettingsManager);
         shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
-        if (!shutterItemsFragment.isAdded()) {
+
+        if (!shutterItemsFragment.isAdded())
+        {
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
             transaction.commit();
