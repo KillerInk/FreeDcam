@@ -36,6 +36,8 @@ public class ThemeHandler
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
             transaction.remove(activity_v2.shutterItemsFragment);
             transaction.commit();
+
+            activity_v2.shutterItemsFragment.onStop();
         }
 
         if (theme.equals("Classic"))
