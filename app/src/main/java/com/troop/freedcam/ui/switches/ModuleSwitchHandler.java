@@ -47,7 +47,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     {
         moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
         moduleView.setOnClickListener(this);
-        moduleView.setVisibility(View.GONE);
+        //moduleView.setVisibility(View.GONE);
     }
 
 

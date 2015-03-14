@@ -124,7 +124,7 @@ public class ShutterItemsFragments extends Fragment
         flashSwitchHandler.ParametersLoaded();
         nightModeSwitchHandler.ParametersLoaded();
         exposureLockHandler.ParametersLoaded();
-        //moduleSwitchHandler.ParametersLoaded();
+        moduleSwitchHandler.ParametersLoaded();
     }
 
 }

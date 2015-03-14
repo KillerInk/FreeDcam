@@ -472,7 +472,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         handler = new Handler(backgroundThread.getLooper());*/
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
-        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"));
+        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
             //ParameterHandler.CameraMode.SetValue("0", true);

@@ -39,6 +39,7 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
 
         HouseFlash = (ScrollView)activity.findViewById(R.id.scrollViewFlash);
         HouseFlash.setVisibility(View.GONE);
+        HouseFlash.setClickable(true);
 
         Off = (ImageView)activity.findViewById(R.id.btnFlash_off);
         Off.setOnClickListener(OffView);

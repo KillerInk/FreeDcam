@@ -208,7 +208,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
         //if(moduleHandler.GetCurrentModule().ShortName().contains("Mov")|| moduleHandler.GetCurrentModule().ShortName().contains("Lo"))
