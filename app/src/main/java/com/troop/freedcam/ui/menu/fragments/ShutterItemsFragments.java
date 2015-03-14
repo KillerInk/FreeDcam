@@ -71,6 +71,7 @@ public class ShutterItemsFragments extends Fragment
         }
 
         setCameraUIwrapper();
+        ParametersLoaded();
         fragmentloaded = true;
         return view;
     }
@@ -114,6 +115,16 @@ public class ShutterItemsFragments extends Fragment
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+
+    public void ParametersLoaded()
+    {
+        cameraSwitchHandler.ParametersLoaded();
+        flashSwitchHandler.ParametersLoaded();
+        nightModeSwitchHandler.ParametersLoaded();
+        exposureLockHandler.ParametersLoaded();
+        moduleSwitchHandler.ParametersLoaded();
     }
 
 }
