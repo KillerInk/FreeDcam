@@ -361,6 +361,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public String ModuleChanged(String module)
     {
+        if (ParametersHandler.PictureSize == null && ParametersHandler.PreviewSize == null)
+            return null;
         this.currentModule = module;
         if(module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR))
         {

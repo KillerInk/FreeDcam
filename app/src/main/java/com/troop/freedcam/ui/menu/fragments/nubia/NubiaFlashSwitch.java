@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.troop.freedcam.R;
@@ -18,7 +19,7 @@ import com.troop.freedcam.ui.switches.FlashSwitchHandler;
  */
 public class NubiaFlashSwitch extends FlashSwitchHandler
 {
-    ScrollView HouseFlash;
+    LinearLayout HouseFlash;
 
     ImageView Off;
     ImageView On;
@@ -37,24 +38,25 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
         textView = (ImageView)activity.findViewById(R.id.imageViewFlash);
         textView.setOnClickListener(this);
 
-        HouseFlash = (ScrollView)activity.findViewById(R.id.scrollViewFlash);
-        HouseFlash.setVisibility(View.GONE);
-        HouseFlash.setClickable(true);
+        HouseFlash = (LinearLayout)activity.findViewById(R.id.scrollViewFlash);
+
+
 
         Off = (ImageView)activity.findViewById(R.id.btnFlash_off);
-        Off.setOnClickListener(OffView);
+
 
 
         On = (ImageView)activity.findViewById(R.id.btnFlash_on);
-        On.setOnClickListener(OnView);
+
 
 
         Auto = (ImageView)activity.findViewById(R.id.btnFlash_auto);
-        Auto.setOnClickListener(AutoView);
+
 
 
         Torch =(ImageView)activity.findViewById(R.id.btnFlash_torch);
-        Torch.setOnClickListener(TorchView);
+
+        HouseFlash.setVisibility(View.GONE);
     }
 
     ImageView.OnClickListener OnView = new View.OnClickListener() {
@@ -144,11 +146,13 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
         {
             if (HouseFlash.getVisibility() == View.GONE)
             {
-                On.setVisibility(View.VISIBLE);
+                On.setOnClickListener(OnView);
+                Off.setOnClickListener(OffView);
+                Auto.setOnClickListener(AutoView);
+                Torch.setOnClickListener(TorchView);
 
-                Auto.setVisibility(View.VISIBLE);
-                ScrollView Module = (ScrollView)activity.findViewById(R.id.scrollViewModule);
-                ScrollView Night = (ScrollView)activity.findViewById(R.id.scrollViewNight);
+                LinearLayout Module = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
+                LinearLayout Night = (LinearLayout)activity.findViewById(R.id.scrollViewNight);
                 Module.setVisibility(View.GONE);
                 Night.setVisibility(View.GONE);
 
@@ -163,12 +167,8 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
         {
             if (HouseFlash.getVisibility() == View.GONE)
             {
-                On.setVisibility(View.GONE);
-                //Off.setVisibility(View.GONE);
-                Auto.setVisibility(View.GONE);
-                //Torch.setVisibility(View.GONE);
-                ScrollView Module = (ScrollView)activity.findViewById(R.id.scrollViewModule);
-                ScrollView Night = (ScrollView)activity.findViewById(R.id.scrollViewNight);
+                LinearLayout Module = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
+                LinearLayout Night = (LinearLayout)activity.findViewById(R.id.scrollViewNight);
                 Module.setVisibility(View.GONE);
                 Night.setVisibility(View.GONE);
                 HouseFlash.setVisibility(View.VISIBLE);

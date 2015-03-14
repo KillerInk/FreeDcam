@@ -27,7 +27,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
 
     ImageView moduleView;
 
-    ScrollView ModeHouse;
+    LinearLayout ModeHouse;
     public NubiaModuleSwitch(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
         super(activity, appSettingsManager, fragment);
@@ -39,7 +39,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         moduleView = (ImageView)activity.findViewById(R.id.imageViewMode);
         moduleView.setOnClickListener(this);
 
-        ModeHouse = (ScrollView)activity.findViewById(R.id.scrollViewModule);
+        ModeHouse = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
         ModeHouse.setVisibility(View.GONE);
 
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
@@ -194,8 +194,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     public void onClick(View v) {
         if(ModeHouse.getVisibility() == View.GONE)
         {
-            ScrollView Flash = (ScrollView)activity.findViewById(R.id.scrollViewFlash);
-            ScrollView Night = (ScrollView)activity.findViewById(R.id.scrollViewNight);
+            LinearLayout Flash = (LinearLayout)activity.findViewById(R.id.scrollViewFlash);
+            LinearLayout Night = (LinearLayout)activity.findViewById(R.id.scrollViewNight);
             Flash.setVisibility(View.GONE);
             Night.setVisibility(View.GONE);
 

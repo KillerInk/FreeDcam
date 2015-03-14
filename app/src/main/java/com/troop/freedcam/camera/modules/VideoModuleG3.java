@@ -94,7 +94,8 @@ public class VideoModuleG3 extends VideoModule
 
     private void loadProfileSpecificParameters()
     {
-
+        if (ParameterHandler.PreviewFormat == null && ParameterHandler.VideoSize == null)
+            return;
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
         {
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
@@ -17,7 +18,7 @@ import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
 public class NubiaNightSwitch extends NightModeSwitchHandler
 {
     ImageView textView;
-    ScrollView HouseNight;
+    LinearLayout HouseNight;
     ImageView On;
     ImageView Off;
     ImageView Tripod;
@@ -35,7 +36,7 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
         textView.setOnClickListener(this);
 
 
-        HouseNight = (ScrollView)activity.findViewById(R.id.scrollViewNight);
+        HouseNight = (LinearLayout)activity.findViewById(R.id.scrollViewNight);
         HouseNight.setVisibility(View.GONE);
 
         Off = (ImageView)activity.findViewById(R.id.btnNight_off);
@@ -119,8 +120,8 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
     {
         if(HouseNight.getVisibility() == View.GONE)
         {
-            ScrollView Flash = (ScrollView)activity.findViewById(R.id.scrollViewFlash);
-            ScrollView Module = (ScrollView)activity.findViewById(R.id.scrollViewModule);
+            LinearLayout Flash = (LinearLayout)activity.findViewById(R.id.scrollViewFlash);
+            LinearLayout Module = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
             Flash.setVisibility(View.GONE);
             Module.setVisibility(View.GONE);
 
