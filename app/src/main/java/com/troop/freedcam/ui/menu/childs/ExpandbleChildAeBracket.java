@@ -71,6 +71,7 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
             dng = "false";
         }
         setAeBracketValue(parameterHandler, dng);
+        ModuleChanged("");
 
     }
 
@@ -93,4 +94,6 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
     {
         return super.ModuleChanged(module);
     }
+
+
 }
