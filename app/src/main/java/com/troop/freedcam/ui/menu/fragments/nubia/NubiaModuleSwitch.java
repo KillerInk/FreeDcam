@@ -99,7 +99,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
 
     private void iconSwitcher()
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
+        String module = appSettingsManager.GetCurrentModule();
+        if (module.equals(ModuleHandler.MODULE_VIDEO))
         {
             ImageView VShit = (ImageView)activity.findViewById(R.id.shutter_imageview);
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter_vstart);
@@ -115,22 +116,23 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
 
     private void initButtons()
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
+        String module = appSettingsManager.GetCurrentModule();
+        if (module.equals(ModuleHandler.MODULE_VIDEO))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
             moduleView.setImageBitmap(tmp);
         }
-        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+        else if (module.equals(ModuleHandler.MODULE_PICTURE))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
             moduleView.setImageBitmap(tmp);
         }
-        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR))
+        else if (module.equals(ModuleHandler.MODULE_HDR))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
             moduleView.setImageBitmap(tmp);
         }
-        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO))
+        else if (module.equals(ModuleHandler.MODULE_LONGEXPO))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
             moduleView.setImageBitmap(tmp);

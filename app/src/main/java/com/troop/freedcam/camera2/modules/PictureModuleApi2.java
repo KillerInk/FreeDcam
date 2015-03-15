@@ -48,7 +48,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.Settings = Settings;
-        name = ModuleHandler.MODULE_PICTURE;
+        this.name = ModuleHandler.MODULE_PICTURE;
     }
 
     @Override

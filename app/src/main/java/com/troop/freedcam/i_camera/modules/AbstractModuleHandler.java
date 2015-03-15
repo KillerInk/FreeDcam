@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera.modules;
 import android.util.Log;
 
 import com.troop.freedcam.camera.modules.ModuleEventHandler;
+import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -85,7 +86,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public String GetCurrentModuleName() {
         if (currentModule != null)
             return currentModule.name;
-        else return "";
+        else return ModuleHandler.MODULE_PICTURE;
     }
 
     @Override
