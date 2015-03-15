@@ -50,7 +50,7 @@ public class HardwareKeyHandler
         {
             set = true;
             Log.d(TAG, "KeyUp");
-            shutterHandler.DoWork();
+            activity.shutterItemsFragment.shutterHandler.DoWork();
 
         }
         if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
@@ -59,7 +59,7 @@ public class HardwareKeyHandler
             if (keyCode == KeyEvent.KEYCODE_CAMERA)
             {
                 set = true;
-                shutterHandler.DoWork();
+                activity.shutterItemsFragment.shutterHandler.DoWork();
             }
             // shutterbutton half pressed
             //if (keyCode == KeyEvent.KEYCODE_FOCUS)

@@ -133,7 +133,7 @@ public abstract class AbstractParameterHandler
 
     private void setMode(AbstractModeParameter parameter, String settingsval)
     {
-        if (parameter != null)
+        if (parameter != null && parameter.IsSupported())
         {
             if (appSettingsManager.getString(settingsval).equals(""))
                 appSettingsManager.setString(settingsval, parameter.GetValue());
