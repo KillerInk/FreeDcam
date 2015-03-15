@@ -146,7 +146,13 @@ android:layout_alignParentBottom="false"
 
 </LinearLayout>
 
-<LinearLayout
+    <ImageView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:id="@+id/imageView_exposurelock"
+        android:background="@drawable/button_expolockfalse" />
+
+    <LinearLayout
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -191,18 +197,13 @@ android:layout_alignParentBottom="false"
 </LinearLayout>
 
 <LinearLayout
-    android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
-    android:layout_gravity="center_horizontal"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:layout_gravity="center_horizontal|right"
+    android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:id="@+id/imageView_exposurelock"
-        android:layout_marginLeft="24dp" />
 </LinearLayout>
 
 <LinearLayout
