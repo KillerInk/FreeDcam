@@ -41,7 +41,7 @@ public class ThemeList extends AbstractModeParameter
     {
         //defcomg was 24/01/15 Rearranged and added new Guides
 
-        return new String[]{"Classic","Material","Nubia"};
+        return new String[]{"Classic","Nubia"};
     }
 
 

@@ -40,8 +40,11 @@ public class ExpandableChildTheme extends ExpandableChild
         this.parameterHolder = parameterHolder;
         this.modulesToShow = modulesToShow;
         String s = appSettingsManager.getString(settingsname);
-        if (s.equals(""))
+        if (s.equals("")) {
             s = "Classic";
+            appSettingsManager.setString(settingsname,s);
+        }
+        valueTextView.setText(s);
         //setValue(s);
 
     }
