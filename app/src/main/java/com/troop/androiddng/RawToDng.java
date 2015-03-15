@@ -339,8 +339,14 @@ public class RawToDng
             }
             else
             {
-                SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, true);
-                setRawHeight(GetRawHeight(nativeHandler));
+                if (filepath.contains("qcom")) {
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, false);
+                    setRawHeight(GetRawHeight(nativeHandler));
+                }
+                else {
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, true);
+                    setRawHeight(GetRawHeight(nativeHandler));
+                }
             }
 
         }
