@@ -43,19 +43,19 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         ModeHouse.setVisibility(View.GONE);
 
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
-        Picture.setOnClickListener(PicLabel);
+
 
 
         Movie = (ImageView)activity.findViewById(R.id.btnMV);
-        Movie.setOnClickListener(MovieLabel);
+
 
 
         HDR = (ImageView)activity.findViewById(R.id.btnMHDR);
-        HDR.setOnClickListener(HDRLabel);
+
 
 
         LongEx =(ImageView)activity.findViewById(R.id.btnMlongExpo);
-        LongEx.setOnClickListener(LowExLabel);
+
 
         //Left = (LinearLayout)activity.findViewById(R.id.Left);
     }
@@ -198,6 +198,10 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             LinearLayout Night = (LinearLayout)activity.findViewById(R.id.scrollViewNight);
             Flash.setVisibility(View.GONE);
             Night.setVisibility(View.GONE);
+            Picture.setOnClickListener(PicLabel);
+            Movie.setOnClickListener(MovieLabel);
+            HDR.setOnClickListener(HDRLabel);
+            LongEx.setOnClickListener(LowExLabel);
 
             ModeHouse.setVisibility(View.VISIBLE);
         }

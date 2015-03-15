@@ -40,15 +40,15 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
         HouseNight.setVisibility(View.GONE);
 
         Off = (ImageView)activity.findViewById(R.id.btnNight_off);
-        Off.setOnClickListener(OffView);
+
 
 
         On = (ImageView)activity.findViewById(R.id.btnNight_on);
-        On.setOnClickListener(OnView);
+
 
 
         Tripod = (ImageView)activity.findViewById(R.id.btnNight_torch);
-        Tripod.setOnClickListener(TripodView);
+
     }
 
     ImageView.OnClickListener OnView = new View.OnClickListener() {
@@ -124,6 +124,9 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
             LinearLayout Module = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
             Flash.setVisibility(View.GONE);
             Module.setVisibility(View.GONE);
+            Off.setOnClickListener(OffView);
+            On.setOnClickListener(OnView);
+            Tripod.setOnClickListener(TripodView);
 
             HouseNight.setVisibility(View.VISIBLE);
         }

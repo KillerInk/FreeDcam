@@ -52,6 +52,7 @@ public class ShutterItemFragmentNubia extends ShutterItemsFragments
         }
 
         setCameraUIwrapper();
+        ParametersLoaded();
         fragmentloaded = true;
         return view;
     }
