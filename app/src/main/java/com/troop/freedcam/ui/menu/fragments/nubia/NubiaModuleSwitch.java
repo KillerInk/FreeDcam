@@ -38,26 +38,12 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     {
         moduleView = (ImageView)activity.findViewById(R.id.imageViewMode);
         moduleView.setOnClickListener(this);
-
         ModeHouse = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
         ModeHouse.setVisibility(View.GONE);
-
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
-
-
-
         Movie = (ImageView)activity.findViewById(R.id.btnMV);
-
-
-
         HDR = (ImageView)activity.findViewById(R.id.btnMHDR);
-
-
-
         LongEx =(ImageView)activity.findViewById(R.id.btnMlongExpo);
-
-
-        //Left = (LinearLayout)activity.findViewById(R.id.Left);
     }
 
     ImageView.OnClickListener PicLabel = new View.OnClickListener() {
@@ -65,17 +51,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_picture");
             moduleHandler.SetModule("module_picture");
-            //  LongEx.startAnimation(out);
-            // HDR.startAnimation(out);
-            // Movie.startAnimation(out);
-            // Picture.startAnimation(out);
-
-            //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
             moduleView.setImageBitmap(tmp);
-            //Left.setAlpha(1.0f);
-
-
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
 
@@ -87,16 +64,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_hdr");
             moduleHandler.SetModule("module_hdr");
-            // LongEx.startAnimation(out);
-            //  HDR.startAnimation(out);
-            //  Movie.startAnimation(out);
-            //  Picture.startAnimation(out);
-
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
             moduleView.setImageBitmap(tmp);
-            //Left.setAlpha(1.0f);
-
-
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
 
@@ -108,19 +77,10 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_video");
             moduleHandler.SetModule("module_video");
-            // LongEx.startAnimation(out);
-            // HDR.startAnimation(out);
-            // Movie.startAnimation(out);
-            // Picture.startAnimation(out);
-
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
             moduleView.setImageBitmap(tmp);
-            //Left.setAlpha(0.1f);
-
-
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
-
         }
     };
 
@@ -129,16 +89,8 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_longexposure");
             moduleHandler.SetModule("module_longexposure");
-            // LongEx.startAnimation(out);
-            // HDR.startAnimation(out);
-//.startAnimation(out);
-            // Picture.startAnimation(out);
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
             moduleView.setImageBitmap(tmp);
-            //Left.setAlpha(1.0f);
-
-
-
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
 
@@ -152,7 +104,6 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             ImageView VShit = (ImageView)activity.findViewById(R.id.shutter_imageview);
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter_vstart);
             VShit.setImageBitmap(tmp);
-
         }
         else
         {
@@ -160,9 +111,6 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter);
             VShit.setImageBitmap(tmp);
         }
-
-
-
     }
 
     private void initButtons()
@@ -202,6 +150,15 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             Movie.setOnClickListener(MovieLabel);
             HDR.setOnClickListener(HDRLabel);
             LongEx.setOnClickListener(LowExLabel);
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_PICTURE))
+                Picture.setVisibility(View.GONE);
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_VIDEO))
+                Movie.setVisibility(View.GONE);
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_HDR))
+                HDR.setVisibility(View.GONE);
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_LONGEXPO))
+                LongEx.setVisibility(View.GONE);
+
 
             ModeHouse.setVisibility(View.VISIBLE);
         }
@@ -215,12 +172,6 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     public void ParametersLoaded()
     {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-
-        //if(moduleHandler.GetCurrentModule().ShortName().contains("Mov")|| moduleHandler.GetCurrentModule().ShortName().contains("Lo"))
-        //    Left.setAlpha(0.1f);
-        //else
-        //    Left.setAlpha(1.0f);
-        //moduleView.setText(moduleHandler.GetCurrentModule().ShortName());
         iconSwitcher();
         initButtons();
         moduleView.setVisibility(View.VISIBLE);
