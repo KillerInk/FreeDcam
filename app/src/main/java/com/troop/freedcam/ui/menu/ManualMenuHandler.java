@@ -15,6 +15,7 @@ import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.menu.fragments.ManualMenuFragment;
 
 import java.util.ArrayList;
 
@@ -23,11 +24,13 @@ import java.util.ArrayList;
  */
 public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ManualParameterEvent
 {
-    private final MainActivity_v2 activity;
+    private final View activity;
     private final AppSettingsManager appSettingsManager;
     private AbstractCameraUiWrapper cameraUiWrapper;
     private final SeekBar manualSeekbar;
     public final LinearLayout manualMenu;
+    ManualMenuFragment menuFragment;
+
     TextView seekbarText;
     ManualMenuItem currentItem;
     AbstractParameterHandler parametersHandler;
@@ -57,49 +60,52 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
 
-    public ManualMenuHandler(MainActivity_v2 activity, AppSettingsManager appSettingsManager)
+    public ManualMenuHandler(View activity, AppSettingsManager appSettingsManager, ManualMenuFragment fragment)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
-        manualSeekbar = (SeekBar)activity.seekbarLayout.findViewById(R.id.seekBar_manual);
-        seekbarText = (TextView)activity.seekbarLayout.findViewById(R.id.textView_seekbar);
+        manualSeekbar = (SeekBar)activity.findViewById(R.id.seekBar_manual);
+        seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
         manualSeekbar.setOnSeekBarChangeListener(this);
-        manualMenu = activity.manualSettingsLayout;
+        manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
+        this.menuFragment = fragment;
+
         manualItems = new ArrayList<ManualMenuItem>();
 
-        brightnes = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_brightness), this);
+        brightnes = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_brightness), this);
         addToLists(brightnes);
 
-        burst = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_burst), this);
+        burst = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_burst), this);
         addToLists(burst);
 
-        cct = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_cct), this);
+        cct = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_cct), this);
         addToLists(cct);
 
-        contrast = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_contrast), this);
+        contrast = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_contrast), this);
         addToLists(contrast);
-        convergence = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_convergence), this);
+        convergence = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_convergence), this);
         addToLists(convergence);
-        exposure = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_exposure), this);
+        exposure = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_exposure), this);
         addToLists(exposure);
-        focus = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_focus), this);
+        focus = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_focus), this);
         addToLists(focus);
 
-        fx = new ManualMenuItem(activity,activity.getString(R.string.manualmenu_fx), this);
+        fx = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_fx), this);
         addToLists(fx);
 
-        saturation = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_saturation), this);
+        saturation = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_saturation), this);
         addToLists(saturation);
-        sharp = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_sharpness), this);
+        sharp = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_sharpness), this);
         addToLists(sharp);
-        shutter = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_shutter), this);
+        shutter = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_shutter), this);
         addToLists(shutter);
-        iso = new ManualMenuItem(activity, "iso" , this);
+        iso = new ManualMenuItem(activity.getContext(), "iso" , this);
         addToLists(iso);
-        zoom = new ManualMenuItem(activity, activity.getString(R.string.manualmenu_zoom), this);
+        zoom = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_zoom), this);
         addToLists(zoom);
-        fnumber = new ManualMenuItem(activity, "FNumber",this);
+        fnumber = new ManualMenuItem(activity.getContext(), "FNumber",this);
         addToLists(fnumber);
+
 
     }
 
@@ -108,6 +114,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         this.cameraUiWrapper = cameraUiWrapper;
         this.parametersHandler = cameraUiWrapper.camParametersHandler;
         parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        ParametersLoaded();
     }
 
     private void addToLists(ManualMenuItem item)

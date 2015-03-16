@@ -43,6 +43,7 @@ import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.I_swipe;
 import com.troop.freedcam.ui.menu.ManualMenuHandler;
+import com.troop.freedcam.ui.menu.fragments.ManualMenuFragment;
 import com.troop.freedcam.ui.menu.fragments.MenuFragment;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.ui.menu.SwipeMenuListner;
@@ -61,11 +62,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
     boolean settingsLayloutOpen = false;
-
-    public LinearLayout manualSettingsLayout;
-    public LinearLayout seekbarLayout;
-    LinearLayout manualMenuHolder;
     MenuFragment menuFragment;
+    ManualMenuFragment manualMenuFragment;
     public ShutterItemsFragments shutterItemsFragment;
 
 
@@ -89,7 +87,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
-    public ManualMenuHandler manualMenuHandler;
+
     FocusImageHandler focusImageHandler;
 
     MainActivity_v2 activity;
@@ -146,21 +144,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     }
 
     private void createUI() {
-        manualMenuHolder = (LinearLayout)findViewById(R.id.manualMenuHolder);
-        //settingsLayout = (LinearLayout)findViewById(R.id.v2_settings_menu);
-
-
-
-        //settingsLayout.setAlpha(0f);
-        //settingsLayout.setVisibility(View.GONE);
-        manualSettingsLayout = (LinearLayout)findViewById(R.id.v2_manual_menu);
-        //manualSettingsLayout.setAlpha(0f);
-        //manualSettingsLayout.setVisibility(View.GONE);
-        seekbarLayout = (LinearLayout)findViewById(R.id.v2_seekbar_layout);
-
         swipeMenuListner = new SwipeMenuListner(this);
         orientationHandler = new OrientationHandler(this, this);
-
 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
@@ -177,7 +162,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         workHandler = new WorkHandler(this);
 
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-        manualMenuHandler = new ManualMenuHandler(this, appSettingsManager);
+
         focusImageHandler = new FocusImageHandler(this);
 
 
@@ -192,10 +177,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         guideHandler = (GuideHandler)findViewById(R.id.GuideView);
 
         timerHandler = new TimerHandler(this);
-
-
-        manualMenuHolder.removeView(manualSettingsLayout);
-        manualMenuHolder.removeView(seekbarLayout);
 
         themeHandler.GetThemeFragment();
         shutterItemsFragment.SetAppSettings(appSettingsManager);
@@ -255,7 +236,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         if (menuFragment != null && menuFragment.isAdded())
             menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper, shutterItemsFragment.shutterHandler);
-        manualMenuHandler.SetCameraUIWrapper(cameraUiWrapper);
+        if (manualMenuFragment != null && manualMenuFragment.isAdded())
+            manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
 
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
@@ -543,9 +525,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     {
         if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
         {
-            if (!manualMenuOpen) {
-                manualMenuHolder.addView(manualSettingsLayout);
-                manualMenuHolder.addView(seekbarLayout);
+            if (!manualMenuOpen)
+            {
+                if (manualMenuFragment == null)
+                    manualMenuFragment = new ManualMenuFragment();
+                manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
+                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");
+                transaction.commit();
+
                 manualMenuOpen = true;
             }
         }
@@ -553,8 +541,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         {
             if (manualMenuOpen)
             {
-                manualMenuHolder.removeView(manualSettingsLayout);
-                manualMenuHolder.removeView(seekbarLayout);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.remove(manualMenuFragment);
+                fragmentTransaction.commit();
                 manualMenuOpen = false;
             }
         }
