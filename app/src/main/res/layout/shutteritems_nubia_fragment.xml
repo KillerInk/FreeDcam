@@ -9,7 +9,8 @@ android:layout_alignParentEnd="false"
 android:orientation="vertical"
 android:layout_centerVertical="true"
 android:layout_alignParentBottom="false"
-    android:gravity="right">
+    android:gravity="right"
+    android:id="@+id/ShutterFragmentNUB">
 
 <ImageView
     android:layout_width="@dimen/SizeCameraControls"

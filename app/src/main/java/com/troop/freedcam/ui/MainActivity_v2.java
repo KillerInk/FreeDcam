@@ -1,14 +1,19 @@
 package com.troop.freedcam.ui;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,6 +57,7 @@ import com.troop.freedcam.ui.switches.CameraSwitchHandler;
 import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;
 import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
+import com.troop.freedcam.utils.BitmapUtil;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
@@ -103,6 +109,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     public ThemeHandler themeHandler;
 
 
+    //bitmaps
+    Bitmap AmbientCoverSML;
+    Bitmap TMPBMP;
+    Bitmap AmbientCover;
+    /////////////////
+
+
     WorkHandler workHandler;
 
     boolean initDone = false;
@@ -141,6 +154,45 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
 
         //loadCameraUiWrapper();
+    }
+
+    private void LoadBitmaps()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        final Point size = new Point();
+        display.getSize(size);
+
+        TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
+
+        BitmapUtil.initBlur(this,TMPBMP);
+
+        AmbientCoverSML = TMPBMP;
+
+        BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
+
+        AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
+
+       final LinearLayout Def = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
+
+       final LinearLayout NUB = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
+
+
+        NUB.post(new Runnable() {
+            @Override
+            public void run() {
+                int[] sizess  = {NUB.getMeasuredWidth(),NUB.getMeasuredHeight(),size.x,size.y};
+                BitmapDrawable d = new BitmapDrawable(BitmapUtil.CropBitmap(AmbientCover,sizess,false));
+
+                NUB.setBackground(d);
+
+
+
+
+            }
+        });
+
+
+
     }
 
     private void createUI() {
