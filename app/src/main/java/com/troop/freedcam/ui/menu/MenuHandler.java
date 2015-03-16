@@ -63,10 +63,9 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
+        menuCreator = new MenuCreator(context,activityV2, appSettingsManager);
         //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
         context.settingsLayoutHolder.removeView(listView);
-        menuCreator = new MenuCreator(context,activityV2, appSettingsManager);
-        fillMenu();
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
@@ -76,6 +75,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
 
+        fillMenu();
         menuCreator.setCameraUiWrapper(cameraUiWrapper);
         ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
