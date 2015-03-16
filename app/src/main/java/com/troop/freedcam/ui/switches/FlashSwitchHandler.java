@@ -97,12 +97,6 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper.camParametersHandler.FlashMode != null)
-        {
-            flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
-            flashmode.addEventListner(this);
-            //flashmode.BackgroundIsSupportedChanged(true);
-        }
         Log.d(TAG,"ParametersLoaded");
         activity.post(new Runnable() {
             @Override
@@ -110,15 +104,6 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
                 if (cameraUiWrapper.camParametersHandler.FlashMode != null) {
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
-                    String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-                    if (appSet.equals("")) {
-                        appSet = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-                        appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, para);
-                    }
-                    if (!appSet.equals(para))
-                        cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet, true);
-
-
                     textView.setText(appSet);
                 } else {
                     textView.setVisibility(View.GONE);

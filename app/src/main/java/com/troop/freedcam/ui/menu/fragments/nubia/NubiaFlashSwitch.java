@@ -195,17 +195,6 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.FlashMode != null) {
                     textView.setVisibility(View.VISIBLE);
-                    String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
-                    String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-                    if (appSet.equals("")) {
-                        appSet = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
-                        appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, para);
-                    }
-                    if (!appSet.equals(para))
-                        cameraUiWrapper.camParametersHandler.FlashMode.SetValue(appSet, true);
-
-
-                    //textView.setText(appSet);
                 } else {
                     textView.setVisibility(View.GONE);
                 }
