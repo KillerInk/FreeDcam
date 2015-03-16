@@ -3,7 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
+import troop.com.androiddng.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

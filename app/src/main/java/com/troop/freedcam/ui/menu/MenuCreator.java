@@ -28,7 +28,7 @@ import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
 import com.troop.freedcam.ui.menu.childs.SwitchApiExpandableChild;
 import com.troop.freedcam.ui.menu.childs.VideoProfileExpandableChild;
 import com.troop.freedcam.ui.menu.fragments.MenuFragment;
-import com.troop.freedcam.utils.DeviceUtils;
+import troop.com.androiddng.DeviceUtils;
 
 import java.util.ArrayList;
 

@@ -7,7 +7,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.childs.ExpandableChildExternalShutter;
-import com.troop.freedcam.utils.DeviceUtils;
+import troop.com.androiddng.DeviceUtils;
 
 /**
  * Created by troop on 29.08.2014.

@@ -1,9 +1,5 @@
 package com.troop.freedcam.ui.handler;
 
-import android.support.v4.app.Fragment;
-
-import com.troop.androiddng.MainActivity;
-import com.troop.freedcam.R;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentNubia;

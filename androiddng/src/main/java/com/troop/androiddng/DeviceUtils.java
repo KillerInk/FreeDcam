@@ -1,4 +1,4 @@
-package com.troop.freedcam.utils;
+package troop.com.androiddng;
 
 import android.os.Build;
 

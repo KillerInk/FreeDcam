@@ -86,7 +86,7 @@
         </activity>
 
         <activity
-            android:name="com.troop.androiddng.MainActivity"
+            android:name="troop.com.androiddng.MainActivity"
             android:label="androiddng"
             android:icon="@drawable/ic_launcher">
 

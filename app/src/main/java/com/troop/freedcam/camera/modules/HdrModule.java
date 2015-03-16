@@ -1,10 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
-import android.hardware.Camera;
-import android.os.Build;
 import android.util.Log;
 
-import com.troop.androiddng.MainActivity;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
@@ -16,8 +13,8 @@ import com.troop.freedcam.utils.StringUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
+
+
 
 /**
  * Created by troop on 16.08.2014.
@@ -165,7 +162,7 @@ public class HdrModule extends PictureModule
                             byte[] rawdata = null;
 
                             try {
-                                rawdata = MainActivity.readFile(files[i]);
+                                rawdata = RawToDng.readFile(files[i]);
                                 Log.d(TAG, "Filesize: " + data.length);
 
                             } catch (FileNotFoundException e) {

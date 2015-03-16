@@ -4,11 +4,9 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
-import com.troop.androiddng.MainActivity;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.ui.MainActivity_v2;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Ingo on 15.02.2015.

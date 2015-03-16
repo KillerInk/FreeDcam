@@ -4,9 +4,9 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
-import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
 /**
@@ -19,7 +19,7 @@ public class RawToDng
         System.loadLibrary("RawToDng");
     }
 
-    private static final String TAG = StringUtils.TAG + RawToDng.class.getSimpleName();
+    private static final String TAG = RawToDng.class.getSimpleName();
 
     public enum SupportedDevices
     {
@@ -286,7 +286,7 @@ public class RawToDng
     public void WriteDNG()
     {
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        if (DeviceUtils.isHTC_M8())
+        if (troop.com.androiddng.DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
                 SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
@@ -308,7 +308,7 @@ public class RawToDng
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
+                if (GetRawSize() == 164249650 && !troop.com.androiddng.DeviceUtils.isLGADV())
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
@@ -352,5 +352,23 @@ public class RawToDng
         }
         WriteDNG(nativeHandler);
 
+    }
+
+    public static byte[] readFile(File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "r");
+        try {
+            // Get and check length
+            long longlength = f.length();
+            int length = (int) longlength;
+            if (length != longlength)
+                throw new IOException("File size >= 2 GB");
+            // Read file and return data
+            byte[] data = new byte[length];
+            f.readFully(data);
+            return data;
+        } finally {
+            f.close();
+        }
     }
 }
