@@ -30,7 +30,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     boolean isSupported = false;
     boolean isSetSupported = false;
     String[] values;
-    int val = 0;
+    int val = -200;
+    String value;
 
     private static String TAG = StringUtils.TAG + BaseManualParameterSony.class.getSimpleName();
 
@@ -111,10 +112,14 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     }
                 }
             }).start();
+            int count = 0;
             while (values == null)
             {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(100);
+                    count++;
+                    if (count == 20)
+                        break;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -133,39 +138,44 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public int GetValue()
     {
-        val = -1;
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-                    JSONArray array = object.getJSONArray("result");
-                    String res = JsonUtils.ConvertJSONArrayToStringArray(array)[0];
-                    if (values == null)
-                        getStringValues();
-                    for (int i = 0; i < values.length; i++)
-                    {
-                        if (values[i].equals(res)) {
-                            val = i;
-                            break;
+        if(val == -200) {
+            val = -1;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                        JSONArray array = object.getJSONArray("result");
+                        String res = JsonUtils.ConvertJSONArrayToStringArray(array)[0];
+                        if (values == null)
+                            getStringValues();
+                        value = res;
+                        for (int i = 0; i < values.length; i++) {
+                            if (values[i].equals(res)) {
+                                val = i;
+                                break;
+                            }
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        val = 0;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        val = 0;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    val = 0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    val = 0;
                 }
-            }
-        }).start();
-        while (val == -1)
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            }).start();
+            int count = 0;
+            while (val == -1)
+                try {
+                    Thread.sleep(100);
+                    count++;
+                    if (count == 20)
+                        break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
         return val;
     }
 
@@ -211,7 +221,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             Log.d(TAG, "GetStringValue() = " +values[val] );
             return values[val];
         }
-        return null;
+        return value;
 
     }
 

@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -17,6 +18,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.fragments.ManualMenuFragment;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +38,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     AbstractParameterHandler parametersHandler;
     boolean userIsSeeking= false;
     int current = 0;
+    final String TAG = ManualMenuHandler.class.getSimpleName();
 
     boolean seekbarVisible = false;
 
@@ -174,13 +177,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     @Override
     public void ParametersLoaded()
     {
+        Log.d(TAG, "Brightness");
         if (parametersHandler.ManualBrightness != null)
         {
+
             brightnes.SetAbstractManualParameter(parametersHandler.ManualBrightness);
         }
         else
             brightnes.onIsSupportedChanged(false);
-
+        Log.d(TAG, "Burst");
         if (parametersHandler.Burst != null)
         {
             burst.SetAbstractManualParameter(parametersHandler.Burst);
@@ -188,6 +193,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         else
             burst.onIsSupportedChanged(false);
 
+        Log.d(TAG, "cct");
         if (parametersHandler.CCT != null)
         {
             cct.SetAbstractManualParameter(parametersHandler.CCT);
@@ -195,27 +201,32 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         else
             cct.onIsSupportedChanged(false);
 
+        Log.d(TAG, "Contrast");
         if (parametersHandler.ManualContrast != null)
         {
             contrast.SetAbstractManualParameter(parametersHandler.ManualContrast);
         }
         else contrast.onIsSupportedChanged(false);
+        Log.d(TAG, "Convergence");
         if (parametersHandler.ManualConvergence != null)
         {
             convergence.SetAbstractManualParameter(parametersHandler.ManualConvergence);
         }
         else convergence.onIsSupportedChanged(false);
+        Log.d(TAG, "Exposure");
         if (parametersHandler.ManualExposure != null)
         {
             exposure.SetAbstractManualParameter(parametersHandler.ManualExposure);
         }
         else exposure.onIsSupportedChanged(false);
+        Log.d(TAG, "ManualFocus");
         if (parametersHandler.ManualFocus !=null)
         {
             focus.SetAbstractManualParameter(parametersHandler.ManualFocus);
         }
         else focus.onIsSupportedChanged(false);
         //defcomg
+        Log.d(TAG, "FX");
         if (parametersHandler.FX != null)
         {
             fx.SetAbstractManualParameter(parametersHandler.FX);
@@ -223,31 +234,37 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         else
             fx.onIsSupportedChanged(false);
 
+        Log.d(TAG, "Saturation");
         if (parametersHandler.ManualSaturation != null)
         {
             saturation.SetAbstractManualParameter(parametersHandler.ManualSaturation);
         }
         else saturation.onIsSupportedChanged(false);
+        Log.d(TAG, "Sharpness");
         if (parametersHandler.ManualSharpness != null)
         {
             sharp.SetAbstractManualParameter(parametersHandler.ManualSharpness);
         }
         else sharp.onIsSupportedChanged(false);
+        Log.d(TAG, "Shutter");
         if (parametersHandler.ManualShutter != null)
         {
             shutter.SetAbstractManualParameter(parametersHandler.ManualShutter);
         }
         else shutter.onIsSupportedChanged(false);
+        Log.d(TAG, "Iso");
         if (parametersHandler.ISOManual != null)
         {
             iso.SetAbstractManualParameter(parametersHandler.ISOManual);
         }
         else iso.onIsSupportedChanged(false);
+        Log.d(TAG, "Fnumber");
         if (parametersHandler.ManualFNumber != null)
         {
             fnumber.SetAbstractManualParameter(parametersHandler.ManualFNumber);
         }
         else fnumber.onIsSupportedChanged(false);
+        Log.d(TAG, "Zoom");
         if (parametersHandler.Zoom != null)
         {
             zoom.SetAbstractManualParameter(parametersHandler.Zoom);
