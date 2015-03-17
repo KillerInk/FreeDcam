@@ -1,7 +1,15 @@
 package com.troop.freedcam.ui.handler;
 
+import android.content.Context;
+import android.graphics.Point;
+import android.view.WindowManager;
+
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentAmbient;
+import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMaterial;
+import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMinimal;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentNubia;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemsFragments;
 
@@ -37,8 +45,14 @@ public class ThemeHandler
             activity_v2.shutterItemsFragment = null;
         }
 
+        if (theme.equals("Ambient"))
+            activity_v2.shutterItemsFragment = new ShutterItemFragmentAmbient();
         if (theme.equals("Classic"))
             activity_v2.shutterItemsFragment = new ShutterItemsFragments();
+        if (theme.equals("Material"))
+            activity_v2.shutterItemsFragment = new ShutterItemFragmentMaterial();
+        if (theme.equals("Minimal"))
+            activity_v2.shutterItemsFragment = new ShutterItemFragmentMinimal();
         if (theme.equals("Nubia"))
             activity_v2.shutterItemsFragment = new ShutterItemFragmentNubia();
     }
@@ -50,8 +64,5 @@ public class ThemeHandler
         //activity_v2.shutterItemsFragment.ParametersLoaded();
     }
 
-    public static int[] getShutterFragmentDimensions()
-    {
-        
-    }
+
 }

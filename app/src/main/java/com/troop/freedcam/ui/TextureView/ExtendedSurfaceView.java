@@ -40,6 +40,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     public SurfaceHolder mHolder;
     SharedPreferences preferences;
 
+    static int CX;
+    static int CY;
+
     Real3D mReal3D;
     boolean is3D = false;
 
@@ -163,6 +166,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
+
         if (currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
@@ -192,6 +196,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
 
     }
+
+
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.2;
@@ -256,6 +262,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     private void setPreviewToDisplay(int w, int h)
     {
+        CX = w;
+        CY = h;
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             int ht = w;

@@ -32,7 +32,8 @@
         android:label="FreeDCam"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:name=".utils.ApplicationContextProvider">
 
         <activity
             android:name=".ui.MainActivity_v2"
