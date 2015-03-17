@@ -46,7 +46,7 @@ import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import troop.com.androiddng.DeviceUtils;
+import com.troop.androiddng.DeviceUtils;
 
 import java.util.HashMap;
 import java.util.Map;

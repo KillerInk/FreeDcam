@@ -6,7 +6,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import troop.com.androiddng.DeviceUtils;
+import com.troop.androiddng.DeviceUtils;
 
 /**
  * Created by troop on 16.08.2014.

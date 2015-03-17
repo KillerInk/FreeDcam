@@ -286,7 +286,7 @@ public class RawToDng
     public void WriteDNG()
     {
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        if (troop.com.androiddng.DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8())
         {
             if (filepath.contains("qcom")) {
                 SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
@@ -308,7 +308,7 @@ public class RawToDng
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
-                if (GetRawSize() == 164249650 && !troop.com.androiddng.DeviceUtils.isLGADV())
+                if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);

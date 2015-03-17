@@ -1,4 +1,4 @@
-package troop.com.androiddng;
+package com.troop.androiddng;
 
 import android.os.Build;
 
