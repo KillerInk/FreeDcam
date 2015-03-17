@@ -270,13 +270,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     height = Integer.parseInt(split[1]);
                 }
                 //create new ImageReader with the size and format for the image
-                mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+                mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 2);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
             }
             else
             {
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
+                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 2);
                 mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
             }
 
