@@ -49,4 +49,9 @@ public class ThemeHandler
         activity_v2.inflateShutterItemFragment();
         //activity_v2.shutterItemsFragment.ParametersLoaded();
     }
+
+    public static int[] getShutterFragmentDimensions()
+    {
+        
+    }
 }
