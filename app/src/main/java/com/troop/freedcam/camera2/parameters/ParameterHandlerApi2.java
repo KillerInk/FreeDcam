@@ -13,6 +13,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
@@ -52,6 +53,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //FlashMode = new FlashModeApi2(this.cameraHolder);
         SceneMode = new SceneModeApi2(this.cameraHolder);
         ColorMode = new ColorModeApi2(this.cameraHolder);
+        ExposureMode = new ControlModesApi2(this.cameraHolder);
         PictureSize = new PictureSizeModeApi2(this.cameraHolder);
         PictureFormat = new PictureFormatParameterApi2(this.cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
