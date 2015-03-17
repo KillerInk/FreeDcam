@@ -1,31 +1,23 @@
 package com.troop.freedcam.camera.modules;
 
-import android.hardware.Camera;
-import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.lang.Rational;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 //import com.drew.metadata.exif.ExifDirectory;
-import com.drew.metadata.exif.ExifReader;
-import com.drew.metadata.exif.GpsDirectory;
+
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.OrientationHandler;
-import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.androiddng.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -36,9 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
-import static android.hardware.Camera.ShutterCallback;
+
 
 /**
  * Created by troop on 15.08.2014.

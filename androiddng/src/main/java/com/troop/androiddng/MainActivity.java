@@ -12,12 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.troop.freedcam.R;
+import com.troop.androiddng.RawToDng;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+
+import troop.com.androiddng.R;
 
 public class MainActivity extends Activity {
 
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
 			
 			try 
 			{
-				data = readFile(filetoread);
+				data = RawToDng.readFile(filetoread);
 				Log.d("Main", "Filesize: " + data.length);
 
 			} catch (FileNotFoundException e) {
@@ -110,23 +111,7 @@ Button.OnClickListener buttonclick3 = new Button.OnClickListener() {
 		}
 	};
 	
-	public static byte[] readFile(File file) throws IOException {
-        // Open file
-        RandomAccessFile f = new RandomAccessFile(file, "r");
-        try {
-            // Get and check length
-            long longlength = f.length();
-            int length = (int) longlength;
-            if (length != longlength)
-                throw new IOException("File size >= 2 GB");
-            // Read file and return data
-            byte[] data = new byte[length];
-            f.readFully(data);
-            return data;
-        } finally {
-            f.close();
-        }
-    }
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

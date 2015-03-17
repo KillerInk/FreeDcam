@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 import android.os.Environment;
 import android.util.Log;
 
+
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -12,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+
 
 /**
  * Created by troop on 24.11.2014.

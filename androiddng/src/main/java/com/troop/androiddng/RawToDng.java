@@ -4,9 +4,9 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
-import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
 /**
@@ -19,7 +19,7 @@ public class RawToDng
         System.loadLibrary("RawToDng");
     }
 
-    private static final String TAG = StringUtils.TAG + RawToDng.class.getSimpleName();
+    private static final String TAG = RawToDng.class.getSimpleName();
 
     public enum SupportedDevices
     {
@@ -352,5 +352,23 @@ public class RawToDng
         }
         WriteDNG(nativeHandler);
 
+    }
+
+    public static byte[] readFile(File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "r");
+        try {
+            // Get and check length
+            long longlength = f.length();
+            int length = (int) longlength;
+            if (length != longlength)
+                throw new IOException("File size >= 2 GB");
+            // Read file and return data
+            byte[] data = new byte[length];
+            f.readFully(data);
+            return data;
+        } finally {
+            f.close();
+        }
     }
 }
