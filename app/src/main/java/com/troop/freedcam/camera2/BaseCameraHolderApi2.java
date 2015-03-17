@@ -558,7 +558,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                                        TotalCaptureResult result) {
             process(result);
             mDngResult = result;
-            Log.d(TAG, "size " + result.getKeys().size());
+
         }
 
 
@@ -695,6 +695,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 File file = new File(getStringAddTime() +".dng");
                 DngCreator dngCreator = new DngCreator(manager.getCameraCharacteristics("0"), mDngResult);
                 dngCreator.writeImage(new FileOutputStream(file), reader.acquireNextImage());
+                isWorking = false;
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
