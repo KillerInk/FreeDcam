@@ -4,7 +4,6 @@ android {
     compileSdkVersion 21
     buildToolsVersion "19.1.0"
     defaultConfig {
-        applicationId "troop.com.freedcam"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 12
