@@ -147,7 +147,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
         createUI();
 
-        if (appSettingsManager.getShowHelpOverlay() == false)
+        if (!appSettingsManager.getShowHelpOverlay())
         {
 
             helpOverlayOpen = false;
@@ -161,19 +161,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         //loadCameraUiWrapper();
     }
 
-    private void LoadBitmaps()
-    {
 
-
-       final LinearLayout Def = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
-
-       final LinearLayout NUB = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
-
-
-
-
-
-    }
 
     private void createUI() {
         swipeMenuListner = new SwipeMenuListner(this);
@@ -282,29 +270,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         leftFragHandler();
         setRalphas();
         setLalphas();
-        setFontStyle();
+
 
     }
 
-    public void setFontStyle()
-    {
-        Typeface font;
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
-        LinearLayout LI = (LinearLayout)findViewById(R.id.LINNN);
-        View view= null;
 
-
-        if (theme.equals("Minimal")) {
-            font = Typeface.createFromAsset(getAssets(), "fonts/BRADHITC.TTF");
-            for(int i = 0; i<LI.getChildCount();i++)
-            {
-                TextView KI =(TextView)((LinearLayout)view).getChildAt(i);
-                KI.setTypeface(font);
-            }
-
-        }
-
-    }
 
     public void setLalphas()
     {
@@ -312,46 +282,35 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
 
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
-        if (theme.equals("Minimal"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(0.8f);
-            }
+        switch (theme) {
+            case "Minimal":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(0.8f);
+                }
 
 
-        }
-        else if(theme.equals("Nubia"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(0.8f);
-            }
+                break;
+            case "Nubia":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(0.8f);
+                }
 
-        }
-        else if(theme.equals("Material"))
-        {
+                break;
+            case "Material":
 
-        }
-        else if(theme.equals("Ambient"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(1.0f);
-            }
+                break;
+            case "Ambient":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(1.0f);
+                }
 
+                break;
         }
     }
 
@@ -361,45 +320,34 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
         String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
 
-        if (theme.equals("Minimal"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(0.5f);
-            }
-        }
-        else if(theme.equals("Nubia"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(0.3f);
-            }
+        switch (theme) {
+            case "Minimal":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(0.5f);
+                }
+                break;
+            case "Nubia":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(0.3f);
+                }
 
-        }
-        else if(theme.equals("Material"))
-        {
+                break;
+            case "Material":
 
 
-        }
-        else if(theme.equals("Ambient"))
-        {
-            if(module !="module_picture")
-            {
-                tmp.setAlpha(0.2f);
-            }
-            else
-            {
-                tmp.setAlpha(1.0f);
-            }
+                break;
+            case "Ambient":
+                if (module.equals("module_video")||module.equals("module_hdr")) {
+                    tmp.setAlpha(0.2f);
+                } else {
+                    tmp.setAlpha(1.0f);
+                }
 
+                break;
         }
 
     }
@@ -414,131 +362,123 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
 
 
-        if (theme.equals("Minimal"))
-        {
+        switch (theme) {
+            case "Minimal":
 
-            tmp.setVisibility(View.VISIBLE);
+                tmp.setVisibility(View.VISIBLE);
 
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1080);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1440);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,720);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Nubia"))
-        {
-
-            tmp.setVisibility(View.VISIBLE);
-
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1080);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1440);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,720);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
-
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Material"))
-        {
-
-            tmp.setVisibility(View.VISIBLE);
-
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1080);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1440);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,720);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Ambient"))
-
-        {
-            tmp.setVisibility(View.VISIBLE);
-
-           // TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
-
-         //   BitmapUtil.initBlur(this,TMPBMP);
-
-        //    AmbientCoverSML = TMPBMP;
-
-         //   BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
-
-        //    AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
-
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1080);
-                    tmp.setLayoutParams(params);
-                    a=240;
-                    b=1080;
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1440);
-                    tmp.setLayoutParams(paramsx);
-                    a=240;
-                    b=1080;
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,720);
-                    tmp.setLayoutParams(paramsz);
-                    a=240;
-                    b=1080;
-                    break;
-            }
-
-            tmp.post(new Runnable() {
-                @Override
-                public void run() {
-                    //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
-                    int[] sizess  = {a,b,size.x,size.y};
-
-                    tmp.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover,sizess,true));
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1080);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322, 1440);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162, 720);
+                        tmp.setLayoutParams(paramsz);
+                        break;
                 }
-            });
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
 
-        }
-        else
-        {
-            tmp.setVisibility(View.INVISIBLE);
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Nubia":
 
+                tmp.setVisibility(View.VISIBLE);
+
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1440);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 720);
+                        tmp.setLayoutParams(paramsz);
+                        break;
+                }
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
+
+
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Material":
+
+                tmp.setVisibility(View.VISIBLE);
+
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1440);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 720);
+                        tmp.setLayoutParams(paramsz);
+                        break;
+                }
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Ambient":
+                tmp.setVisibility(View.VISIBLE);
+
+                // TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
+
+                //   BitmapUtil.initBlur(this,TMPBMP);
+
+                //    AmbientCoverSML = TMPBMP;
+
+                //   BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
+
+                //    AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
+
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        tmp.setLayoutParams(params);
+                        a = 240;
+                        b = 1080;
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1440);
+                        tmp.setLayoutParams(paramsx);
+                        a = 240;
+                        b = 1080;
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 720);
+                        tmp.setLayoutParams(paramsz);
+                        a = 240;
+                        b = 1080;
+                        break;
+                }
+
+                tmp.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
+                        int[] sizess = {a, b, size.x, size.y};
+
+                        tmp.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover, sizess, true));
+                    }
+                });
+
+                break;
+            default:
+                tmp.setVisibility(View.INVISIBLE);
+
+                break;
         }
         System.out.println("Snoop" +" "+theme);
     }
@@ -553,108 +493,101 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
 
 
-        if (theme.equals("Minimal"))
-        {
+        switch (theme) {
+            case "Minimal":
 
-            tmp.setVisibility(View.VISIBLE);
+                tmp.setVisibility(View.VISIBLE);
 
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1100);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1500);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,730);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Nubia"))
-        {
-
-            tmp.setVisibility(View.VISIBLE);
-
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1100);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1500);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,730);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Material"))
-        {
-
-            tmp.setVisibility(View.VISIBLE);
-
-            switch (size.x)
-            {
-                case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1100);
-                    tmp.setLayoutParams(params);
-                    break;
-                case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1500);
-                    tmp.setLayoutParams(paramsx);
-                    break;
-                case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,730);
-                    tmp.setLayoutParams(paramsz);
-                    break;
-            }
-            tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
-
-            System.out.println("Snoop" +" "+theme);
-        }
-        else if (theme.equals("Ambient"))
-
-        {
-            tmp.setVisibility(View.VISIBLE);
-
-            TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
-
-            BitmapUtil.initBlur(this,TMPBMP);
-
-            AmbientCoverSML = TMPBMP;
-
-            BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
-
-            AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
-
-            tmp.post(new Runnable() {
-                @Override
-                public void run() {
-                    //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
-                    int[] sizess  = {242,1080,size.x,size.y};
-
-                    tmp.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover,sizess,false));
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1100);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322, 1500);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162, 730);
+                        tmp.setLayoutParams(paramsz);
+                        break;
                 }
-            });
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
 
-        }
-        else
-        {
-            tmp.setVisibility(View.INVISIBLE);
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Nubia":
 
+                tmp.setVisibility(View.VISIBLE);
+
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1100);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1500);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 730);
+                        tmp.setLayoutParams(paramsz);
+                        break;
+                }
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Material":
+
+                tmp.setVisibility(View.VISIBLE);
+
+                switch (size.x) {
+                    case 1920:
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1100);
+                        tmp.setLayoutParams(params);
+                        break;
+                    case 2560:
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1500);
+                        tmp.setLayoutParams(paramsx);
+                        break;
+                    case 1280:
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 730);
+                        tmp.setLayoutParams(paramsz);
+                        break;
+                }
+                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+
+                System.out.println("Snoop" + " " + theme);
+                break;
+            case "Ambient":
+                tmp.setVisibility(View.VISIBLE);
+
+                TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
+
+                BitmapUtil.initBlur(this, TMPBMP);
+
+                AmbientCoverSML = TMPBMP;
+
+                BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
+
+                AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML, size.x, size.y);
+
+                tmp.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
+                        int[] sizess = {242, 1080, size.x, size.y};
+
+                        tmp.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover, sizess, false));
+                    }
+                });
+
+                break;
+            default:
+                tmp.setVisibility(View.INVISIBLE);
+
+                break;
         }
         System.out.println("Snoop" +" "+theme);
 

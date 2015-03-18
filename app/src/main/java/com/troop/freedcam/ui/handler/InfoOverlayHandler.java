@@ -57,13 +57,33 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         pictureFormat = (TextView)context.findViewById(R.id.textViewFormat);
         time = (TextView)context.findViewById(R.id.textViewTime);
 
+        switch (appSettingsManager.getString(AppSettingsManager.SETTING_Theme))
+        {
+            case "Ambient": case "Nubia":
+            font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
+            Storage.setTypeface(font);
+            pictureSize.setTypeface(font);
+            pictureFormat.setTypeface(font);
+            time.setTypeface(font);
+            batteryLoad.setTypeface(font);
+            break;
+            case "Minimal":
+                font = Typeface.createFromAsset(context.getAssets(), "fonts/BRADHITC.TTF");
 
-        font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
+                Storage.setTypeface(font);
+                pictureSize.setTypeface(font);
+                pictureFormat.setTypeface(font);
+                time.setTypeface(font);
+                batteryLoad.setTypeface(font);
+                break;
 
-        Storage.setTypeface(font);
-        pictureSize.setTypeface(font);
-        pictureFormat.setTypeface(font);
-        time.setTypeface(font);
+
+        }
+
+
+
+
+
 
 
 
