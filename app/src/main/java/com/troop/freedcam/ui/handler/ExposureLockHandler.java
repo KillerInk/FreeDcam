@@ -40,7 +40,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         bitmaps = new Bitmap[2];
         Bitmap back = BitmapFactory.decodeResource(activity.getResources(), getThemeAEButton()[0]);
         bitmaps[0] = back;
-        Bitmap front = BitmapFactory.decodeResource(activity.getResources(),getThemeAEButton()[0]);
+        Bitmap front = BitmapFactory.decodeResource(activity.getResources(),getThemeAEButton()[1]);
         bitmaps[1] = front;
     }
 
@@ -57,22 +57,23 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         int b;
 
         String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+
         if (theme.equals("Ambient")){
           a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
-        if (theme.equals("Classic")){
+       else if (theme.equals("Classic")){
             a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
 
-        if (theme.equals("Material")){
+       else if (theme.equals("Material")){
             a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
 
-        if (theme.equals("Minimal")){
+       else if (theme.equals("Minimal")){
             a = R.drawable.minimal_ui_ae_off; b = R.drawable.minimal_ui_ae_on;}
 
-        if (theme.equals("Nubia")){
+        else if (theme.equals("Nubia")){
             a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
         else
         {
-            a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
+            a = R.drawable.minimal_ui_ae_off; b = R.drawable.minimal_ui_ae_on;}
         int [] ab = {a,b};
         return ab;
     }

@@ -91,7 +91,7 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageView_exposurelock"
-        android:background="@drawable/minimal_ui_ae_off" />
+        android:clickable="true" />
 
     <LinearLayout
     android:orientation="horizontal"
@@ -132,12 +132,13 @@ android:layout_alignParentBottom="false"
 
     <HorizontalScrollView
         android:layout_width="120dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:id="@+id/horizontalScrollView"
         android:rotation="270"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_gravity="right"
-        android:layout_marginTop="-300dp">
+        android:layout_marginTop="-280dp"
+        android:clickable="false">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -150,7 +151,8 @@ android:layout_alignParentBottom="false"
                 android:text="Picture"
                 android:id="@+id/horTextItem1"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,7 +160,8 @@ android:layout_alignParentBottom="false"
                 android:text="Movie"
                 android:id="@+id/horTextItem2"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -166,7 +169,8 @@ android:layout_alignParentBottom="false"
                 android:text="HDR"
                 android:id="@+id/horTextItem3"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -174,7 +178,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/horTextItem4"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -182,7 +187,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/horTextItem5"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -190,7 +196,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/horTextItem6"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -198,7 +205,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/horTextItem7"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -206,7 +214,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/horTextItem8"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -214,7 +223,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/nubia1"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -222,7 +232,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/nubia2"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -230,7 +241,8 @@ android:layout_alignParentBottom="false"
                 android:text="Long Exposure"
                 android:id="@+id/nubia3"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="16dp" />
+                android:layout_marginRight="16dp"
+                android:clickable="true" />
         </LinearLayout>
     </HorizontalScrollView>
 

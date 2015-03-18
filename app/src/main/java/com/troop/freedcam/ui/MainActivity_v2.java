@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -158,38 +159,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     private void LoadBitmaps()
     {
-        Display display = getWindowManager().getDefaultDisplay();
-        final Point size = new Point();
-        display.getSize(size);
 
-        TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
-
-        BitmapUtil.initBlur(this,TMPBMP);
-
-        AmbientCoverSML = TMPBMP;
-
-        BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
-
-        AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
 
        final LinearLayout Def = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
 
        final LinearLayout NUB = (LinearLayout)findViewById(R.id.ShutterFragmentDefault);
 
 
-        NUB.post(new Runnable() {
-            @Override
-            public void run() {
-                int[] sizess  = {NUB.getMeasuredWidth(),NUB.getMeasuredHeight(),size.x,size.y};
-                BitmapDrawable d = new BitmapDrawable(BitmapUtil.CropBitmap(AmbientCover,sizess,false));
-
-                NUB.setBackground(d);
-
-
-
-
-            }
-        });
 
 
 
@@ -295,6 +271,77 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
+
+
+        rightFragHandler();
+
+    }
+
+    private void rightFragHandler()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        final Point size = new Point();
+        display.getSize(size);
+
+        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
+
+
+        if (theme.equals("Minimal"))
+        {
+
+            tmp.setVisibility(View.VISIBLE);
+
+            switch (size.x)
+            {
+                case 1920:
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1080);
+                    tmp.setLayoutParams(params);
+                    break;
+                case 2560:
+                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1440);
+                    tmp.setLayoutParams(paramsx);
+                    break;
+                case 1280:
+                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,720);
+                    tmp.setLayoutParams(paramsz);
+                    break;
+            }
+
+            System.out.println("Snoop" +" "+theme);
+        }
+        else if (theme.equals("Ambient"))
+
+        {
+            tmp.setVisibility(View.VISIBLE);
+
+            TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(this), -90f, size.x, size.y);
+
+            BitmapUtil.initBlur(this,TMPBMP);
+
+            AmbientCoverSML = TMPBMP;
+
+            BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
+
+            AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size.x,size.y);
+
+            tmp.post(new Runnable() {
+                @Override
+                public void run() {
+                    //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
+                    int[] sizess  = {242,1080,size.x,size.y};
+
+                    tmp.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover,sizess,false));
+                }
+            });
+
+        }
+        else
+        {
+            tmp.setVisibility(View.INVISIBLE);
+
+        }
+        System.out.println("Snoop" +" "+theme);
 
 
     }

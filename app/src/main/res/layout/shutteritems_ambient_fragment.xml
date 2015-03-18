@@ -150,8 +150,7 @@ android:layout_alignParentBottom="false"
     <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageView_exposurelock"
-        android:background="@drawable/button_expolockfalse" />
+        android:id="@+id/imageView_exposurelock" />
 
     <LinearLayout
     android:orientation="horizontal"

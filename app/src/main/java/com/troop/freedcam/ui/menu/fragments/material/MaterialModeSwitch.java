@@ -39,6 +39,7 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         moduleView.setOnClickListener(this);
         ModeHouse = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
         ModeHouse.setVisibility(View.GONE);
+
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
         Movie = (ImageView)activity.findViewById(R.id.btnMV);
         HDR = (ImageView)activity.findViewById(R.id.btnMHDR);

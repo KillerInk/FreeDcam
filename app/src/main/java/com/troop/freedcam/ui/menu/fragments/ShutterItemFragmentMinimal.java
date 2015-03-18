@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
@@ -57,8 +58,12 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
         setCameraUIwrapper();
         ParametersLoaded();
         fragmentloaded = true;
+
+
         return view;
     }
+
+
 }
 
 

@@ -2,8 +2,12 @@ package com.troop.freedcam.ui.handler;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.troop.freedcam.R;
+import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
@@ -55,14 +59,19 @@ public class ThemeHandler
             activity_v2.shutterItemsFragment = new ShutterItemFragmentMinimal();
         if (theme.equals("Nubia"))
             activity_v2.shutterItemsFragment = new ShutterItemFragmentNubia();
+
+
     }
 
     public void SetTheme(String theme)
     {
         GetThemeFragment();
         activity_v2.inflateShutterItemFragment();
+
         //activity_v2.shutterItemsFragment.ParametersLoaded();
     }
+
+
 
 
 }

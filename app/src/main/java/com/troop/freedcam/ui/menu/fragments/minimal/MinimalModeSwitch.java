@@ -49,17 +49,15 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
         HDR = (TextView)activity.findViewById(R.id.horTextItem3);
         LongEx =(TextView)activity.findViewById(R.id.horTextItem4);
 
+
+
         Sviewx = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
 
         in = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(), R.anim.slidein);
         out = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(),R.anim.slideout);
 
 
-        Picture.setOnClickListener(PicLabel);
 
-        Movie.setOnClickListener(MovieLabel);
-        HDR.setOnClickListener(HDRLabel);
-        LongEx.setOnClickListener(LowExLabel);
     }
 
     TextView.OnClickListener PicLabel = new View.OnClickListener() {
@@ -130,6 +128,11 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
 
     @Override
     public void onClick(View v) {
+        Picture.setOnClickListener(PicLabel);
+
+        Movie.setOnClickListener(MovieLabel);
+        HDR.setOnClickListener(HDRLabel);
+        LongEx.setOnClickListener(LowExLabel);
 
         if(Sviewx.getVisibility() == View.VISIBLE && HDR.getVisibility() == View.VISIBLE)
         {

@@ -37,6 +37,8 @@ public class AmbientModuleSwitch extends ModuleSwitchHandler {
     {
         moduleView = (ImageView)activity.findViewById(R.id.imageViewMode);
         moduleView.setOnClickListener(this);
+        ModeHouse = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
+        ModeHouse.setVisibility(View.GONE);
 
         Picture = (ImageView)activity.findViewById(R.id.btnMpic);
         Movie = (ImageView)activity.findViewById(R.id.btnMV);
