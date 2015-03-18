@@ -70,6 +70,7 @@ public class ThemeHandler implements I_ModuleEvent
         activity_v2.inflateShutterItemFragment();
         activity_v2.rightFragHandler();
         activity_v2.leftFragHandler();
+        activity_v2.setFontStyle();
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();
     }

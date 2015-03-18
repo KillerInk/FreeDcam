@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -280,6 +282,27 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         leftFragHandler();
         setRalphas();
         setLalphas();
+        setFontStyle();
+
+    }
+
+    public void setFontStyle()
+    {
+        Typeface font;
+        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        LinearLayout LI = (LinearLayout)findViewById(R.id.LINNN);
+        View view= null;
+
+
+        if (theme.equals("Minimal")) {
+            font = Typeface.createFromAsset(getAssets(), "fonts/BRADHITC.TTF");
+            for(int i = 0; i<LI.getChildCount();i++)
+            {
+                TextView KI =(TextView)((LinearLayout)view).getChildAt(i);
+                KI.setTypeface(font);
+            }
+
+        }
 
     }
 

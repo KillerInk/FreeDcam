@@ -40,7 +40,7 @@ public class MinimalFlashSwitch extends FlashSwitchHandler {
     protected void init()
     {
         textView = (TextView)activity.findViewById(R.id.minimal_textView_ModuleSwitch);
-        //textView.setOnClickListener(this);
+        textView.setOnClickListener(this);
 
         Off = (TextView)activity.findViewById(R.id.horTextItem7);
         On = (TextView)activity.findViewById(R.id.horTextItem6);
@@ -124,6 +124,11 @@ public class MinimalFlashSwitch extends FlashSwitchHandler {
     @Override
     public void onClick(View v)
     {
+        Auto.setOnClickListener(AutoLabel);
+        On.setOnClickListener(OnLabel);
+        Off.setOnClickListener(OffLabel);
+        Torch.setOnClickListener(TorchLabel);
+
         if(Sview.getVisibility() == View.VISIBLE && Torch.getVisibility() == View.VISIBLE)
         {
             Auto.startAnimation(out);

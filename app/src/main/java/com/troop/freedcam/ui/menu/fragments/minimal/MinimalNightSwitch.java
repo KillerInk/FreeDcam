@@ -44,19 +44,18 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
 
 
         Tripod = (TextView)activity.findViewById(R.id.nubia3);
-        Tripod.setOnClickListener(TripodLabel);
 
 
 
 
 
         On = (TextView)activity.findViewById(R.id.nubia2);
-        On.setOnClickListener(OnLabel);
+
 
 
 
         Off = (TextView)activity.findViewById(R.id.nubia1);
-        Off.setOnClickListener(OffLabel);
+
 
         Sviewq = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
         in = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(), R.anim.slidein);
@@ -115,6 +114,10 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
     @Override
     public void onClick(View v)
     {
+        Tripod.setOnClickListener(TripodLabel);
+        On.setOnClickListener(OnLabel);
+        Off.setOnClickListener(OffLabel);
+
 
         if(Sviewq.getVisibility() == View.VISIBLE && Tripod.getVisibility() == View.VISIBLE)
         {
