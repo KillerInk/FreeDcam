@@ -237,6 +237,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
         //cameraUiWrapper.StartCamera();
     }
 
@@ -285,10 +286,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     public void setLalphas()
     {
         String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
+
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
         if (theme.equals("Minimal"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -301,7 +304,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
         else if(theme.equals("Nubia"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -317,7 +320,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
         else if(theme.equals("Ambient"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -333,10 +336,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     {
         String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
+        String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
 
         if (theme.equals("Minimal"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -347,7 +351,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
         else if(theme.equals("Nubia"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -364,7 +368,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
         else if(theme.equals("Ambient"))
         {
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
+            if(module !="module_picture")
             {
                 tmp.setAlpha(0.2f);
             }
@@ -516,7 +520,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         System.out.println("Snoop" +" "+theme);
     }
 
-    public void rightFragHandler()
+    public  void rightFragHandler()
     {
         Display display = getWindowManager().getDefaultDisplay();
         final Point size = new Point();
@@ -534,15 +538,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             switch (size.x)
             {
                 case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1080);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1100);
                     tmp.setLayoutParams(params);
                     break;
                 case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1440);
+                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1500);
                     tmp.setLayoutParams(paramsx);
                     break;
                 case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,720);
+                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,730);
                     tmp.setLayoutParams(paramsz);
                     break;
             }
@@ -558,15 +562,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             switch (size.x)
             {
                 case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1080);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1100);
                     tmp.setLayoutParams(params);
                     break;
                 case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1440);
+                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1500);
                     tmp.setLayoutParams(paramsx);
                     break;
                 case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,720);
+                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,730);
                     tmp.setLayoutParams(paramsz);
                     break;
             }
@@ -582,15 +586,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             switch (size.x)
             {
                 case 1920:
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1080);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240,1100);
                     tmp.setLayoutParams(params);
                     break;
                 case 2560:
-                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1440);
+                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320,1500);
                     tmp.setLayoutParams(paramsx);
                     break;
                 case 1280:
-                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,720);
+                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160,730);
                     tmp.setLayoutParams(paramsz);
                     break;
             }
@@ -855,6 +859,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     @Override
     public void onModuleChanged(I_Module module) {
+
 
     }
 

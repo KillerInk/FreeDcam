@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
@@ -20,7 +21,7 @@ import com.troop.freedcam.ui.menu.fragments.ShutterItemsFragments;
 /**
  * Created by Ingo on 14.03.2015.
  */
-public class ThemeHandler
+public class ThemeHandler implements I_ModuleEvent
 {
     AppSettingsManager appSettingsManager;
     MainActivity_v2 activity_v2;
@@ -71,6 +72,17 @@ public class ThemeHandler
         activity_v2.leftFragHandler();
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        activity_v2.rightFragHandler();
+        activity_v2.leftFragHandler();
+
+
+        return null;
+
+
     }
 
 
