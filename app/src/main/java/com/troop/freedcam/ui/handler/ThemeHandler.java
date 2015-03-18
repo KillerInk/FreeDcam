@@ -68,6 +68,7 @@ public class ThemeHandler
         GetThemeFragment();
         activity_v2.inflateShutterItemFragment();
         activity_v2.rightFragHandler();
+        activity_v2.leftFragHandler();
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();
     }
