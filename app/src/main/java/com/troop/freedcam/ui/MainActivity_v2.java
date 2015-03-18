@@ -277,7 +277,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     }
 
-    private void rightFragHandler()
+    public void rightFragHandler()
     {
         Display display = getWindowManager().getDefaultDisplay();
         final Point size = new Point();
@@ -307,6 +307,31 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                     tmp.setLayoutParams(paramsz);
                     break;
             }
+            tmp.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
+
+            System.out.println("Snoop" +" "+theme);
+        }
+        else if (theme.equals("Nubia"))
+        {
+
+            tmp.setVisibility(View.VISIBLE);
+
+            switch (size.x)
+            {
+                case 1920:
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242,1080);
+                    tmp.setLayoutParams(params);
+                    break;
+                case 2560:
+                    LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322,1440);
+                    tmp.setLayoutParams(paramsx);
+                    break;
+                case 1280:
+                    LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162,720);
+                    tmp.setLayoutParams(paramsz);
+                    break;
+            }
+            tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
 
             System.out.println("Snoop" +" "+theme);
         }
