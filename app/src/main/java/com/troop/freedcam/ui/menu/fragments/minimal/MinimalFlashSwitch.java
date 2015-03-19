@@ -39,7 +39,7 @@ public class MinimalFlashSwitch extends FlashSwitchHandler {
     @Override
     protected void init()
     {
-        textView = (TextView)activity.findViewById(R.id.minimal_textView_ModuleSwitch);
+        textView = (TextView)activity.findViewById(R.id.minimal_textView_flashSwitch);
         textView.setOnClickListener(this);
 
         Off = (TextView)activity.findViewById(R.id.horTextItem7);

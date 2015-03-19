@@ -69,7 +69,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "on");
 
             //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_flash_on);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_on);
             textView.setImageBitmap(tmp);
 
 
@@ -89,7 +89,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             cameraUiWrapper.camParametersHandler.FlashMode.SetValue("off", true);
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "off");
 
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_flash_off);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_off);
             textView.setImageBitmap(tmp);
 
 
@@ -109,7 +109,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             cameraUiWrapper.camParametersHandler.FlashMode.SetValue("torch", true);
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "torch");
 
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_flash_torch);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_torch);
             textView.setImageBitmap(tmp);
 
 
@@ -129,7 +129,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             cameraUiWrapper.camParametersHandler.FlashMode.SetValue("auto", true);
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "auto");
 
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_flash_auto);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_auto);
             textView.setImageBitmap(tmp);
 
             HouseFlash.setVisibility(View.GONE);
@@ -191,7 +191,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
         activity.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.camParametersHandler.FlashMode != null) {
+                if (cameraUiWrapper.camParametersHandler.FlashMode != null && cameraUiWrapper.camParametersHandler.FlashMode.IsSupported()) {
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
                     String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();

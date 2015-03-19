@@ -24,6 +24,7 @@
     <dimen name="GroupTextSize">17dp</dimen>
     <dimen name="MargineMenuItems">3dp</dimen>
     <dimen name="ChildTextSize">15dp</dimen>
+    <dimen name="sjutter">70dp</dimen>
 
 
 </resources>

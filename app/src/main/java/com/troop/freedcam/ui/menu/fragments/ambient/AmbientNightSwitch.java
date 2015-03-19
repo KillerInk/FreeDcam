@@ -62,7 +62,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
 
 
             //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_on);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_on);
             textView.setImageBitmap(tmp);
 
 
@@ -83,7 +83,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, "off");
 
 
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_off);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_off);
             textView.setImageBitmap(tmp);
 
 
@@ -104,7 +104,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, "tripod");
 
 
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_tripod);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_tripod);
             textView.setImageBitmap(tmp);
 
 
@@ -151,8 +151,8 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
                         appSet = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
                         appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);
                     }
-                    if (!appSet.equals(para))
-                        cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
+                  //  if (!appSet.equals(para))
+                   //     cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
 
                 }
                 else

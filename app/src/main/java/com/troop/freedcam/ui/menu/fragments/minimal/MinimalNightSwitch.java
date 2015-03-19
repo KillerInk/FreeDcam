@@ -184,8 +184,8 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
                         appSet = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
                         appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);
                     }
-                    if (!appSet.equals(para))
-                        cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
+//                    if (!appSet.equals(para))
+  //                      cameraUiWrapper.camParametersHandler.NightMode.SetValue(appSet, true);
                     textView.setText(appSet);
                 } else {
                     textView.setVisibility(View.GONE);

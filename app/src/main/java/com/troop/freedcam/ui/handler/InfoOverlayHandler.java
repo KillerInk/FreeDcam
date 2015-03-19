@@ -162,6 +162,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     //defcomg was here this should go into some handler class that handles module change
     public void trySet()
     {
+
         try {
             //Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
 
@@ -174,6 +175,39 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         catch (Exception ex)
         {
             Storage.setText("error");
+        }
+
+        switch (appSettingsManager.getString(AppSettingsManager.SETTING_Theme))
+        {
+            case "Ambient": case "Nubia":
+            font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
+            Storage.setTypeface(font);
+            pictureSize.setTypeface(font);
+            pictureFormat.setTypeface(font);
+            time.setTypeface(font);
+            batteryLoad.setTypeface(font);
+            break;
+            case "Minimal":
+                font = Typeface.createFromAsset(context.getAssets(), "fonts/BRADHITC.TTF");
+
+                Storage.setTypeface(font);
+                pictureSize.setTypeface(font);
+                pictureFormat.setTypeface(font);
+                time.setTypeface(font);
+                batteryLoad.setTypeface(font);
+                break;
+
+            case "Material":
+                font = Typeface.createFromAsset(context.getAssets(), "fonts/BOOKOS.TTF");
+
+                Storage.setTypeface(font);
+                pictureSize.setTypeface(font);
+                pictureFormat.setTypeface(font);
+                time.setTypeface(font);
+                batteryLoad.setTypeface(font);
+                break;
+
+
         }
     }
 

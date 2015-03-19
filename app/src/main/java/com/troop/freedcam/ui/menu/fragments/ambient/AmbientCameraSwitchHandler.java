@@ -22,11 +22,11 @@ public class AmbientCameraSwitchHandler extends CameraSwitchHandler {
     protected void initBitmaps()
     {
         bitmaps = new Bitmap[3];
-        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.nubia_ui_cam_back);
+        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_back);
         bitmaps[0] = back;
-        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.nubia_ui_cam_front);
+        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_front);
         bitmaps[1] = front;
-        Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.nubia_ui_cam_3d);
+        Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_3d);
         bitmaps[2] = back3d;
     }
 }

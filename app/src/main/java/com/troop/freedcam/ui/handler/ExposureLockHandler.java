@@ -64,7 +64,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
             a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
 
        else if (theme.equals("Material")){
-            a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
+            a = R.drawable.ic_ae_lock_off; b = R.drawable.ic_ae_lock_on;}
 
        else if (theme.equals("Minimal")){
             a = R.drawable.minimal_ui_ae_off; b = R.drawable.minimal_ui_ae_on;}

@@ -55,6 +55,11 @@ public class BitmapUtil {
         return ((BitmapDrawable)getDeviceWallpaper(ctx)).getBitmap();
     }
 
+    public static Bitmap Drawable2Bitmap(Drawable source)
+    {
+        return ((BitmapDrawable)source).getBitmap();
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static void initBlur(Context ctx,Bitmap Source)
     {

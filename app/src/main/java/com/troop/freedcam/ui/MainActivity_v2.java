@@ -6,6 +6,7 @@ import android.content.Context;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -369,11 +370,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
-                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322, 1440);
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(324, 1440);
                         tmp.setLayoutParams(paramsx);
                         break;
                     case 1280:
@@ -411,6 +412,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             case "Material":
 
                 tmp.setVisibility(View.VISIBLE);
+                tmp.setImageDrawable(null);
 
                 switch (size.x) {
                     case 1920:
@@ -426,7 +428,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                         tmp.setLayoutParams(paramsz);
                         break;
                 }
-                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+                //tmp.setImageBitmap(BitmapUtil.Drawable2Bitmap(getResources().getDrawable(R.drawable.nubia_ui_right_bg)));
+                tmp.setBackgroundColor(Color.argb(130,50,50,50));
 
                 System.out.println("Snoop" + " " + theme);
                 break;
@@ -500,15 +503,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1100);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
-                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322, 1500);
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(322, 1440);
                         tmp.setLayoutParams(paramsx);
                         break;
                     case 1280:
-                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162, 730);
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(162, 720);
                         tmp.setLayoutParams(paramsz);
                         break;
                 }
@@ -522,15 +525,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1100);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
-                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1500);
+                        LinearLayout.LayoutParams paramsx = new LinearLayout.LayoutParams(320, 1440);
                         tmp.setLayoutParams(paramsx);
                         break;
                     case 1280:
-                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 730);
+                        LinearLayout.LayoutParams paramsz = new LinearLayout.LayoutParams(160, 720);
                         tmp.setLayoutParams(paramsz);
                         break;
                 }
@@ -541,6 +544,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             case "Material":
 
                 tmp.setVisibility(View.VISIBLE);
+                tmp.setImageDrawable(null);
 
                 switch (size.x) {
                     case 1920:
@@ -556,7 +560,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                         tmp.setLayoutParams(paramsz);
                         break;
                 }
-                tmp.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+                tmp.setBackgroundColor(Color.argb(130,50,50,50));
 
                 System.out.println("Snoop" + " " + theme);
                 break;

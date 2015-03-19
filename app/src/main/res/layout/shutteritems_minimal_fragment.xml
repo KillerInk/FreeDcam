@@ -13,8 +13,8 @@ android:layout_alignParentBottom="false"
     android:id="@+id/ShutterFragmentMinimal">
 
     <ImageView
-    android:layout_width="@dimen/SizeCameraControls"
-    android:layout_height="@dimen/SizeCameraControls"
+    android:layout_width="@dimen/minimal_ui_bg_size"
+    android:layout_height="@dimen/minimal_ui_bg_size"
     android:id="@+id/imageView_cameraSwitch"
     android:layout_alignParentRight="true"
     android:layout_alignParentBottom="false"
@@ -35,8 +35,8 @@ android:layout_alignParentBottom="false"
     android:clickable="true">
 
     <TextView
-        android:layout_width="@dimen/SizeCameraControls"
-        android:layout_height="@dimen/SizeCameraControls"
+        android:layout_width="@dimen/minimal_ui_bg_size"
+        android:layout_height="@dimen/minimal_ui_bg_size"
         android:text="test"
         android:id="@+id/minimal_textView_ModuleSwitch"
         android:background="@drawable/minimal_ui_btn"
@@ -54,8 +54,8 @@ android:layout_alignParentBottom="false"
         android:layout_gravity="center_horizontal|right">
 
         <TextView
-            android:layout_width="@dimen/SizeCameraControls"
-            android:layout_height="@dimen/SizeCameraControls"
+            android:layout_width="@dimen/minimal_ui_bg_size"
+            android:layout_height="@dimen/minimal_ui_bg_size"
             android:text="test"
             android:id="@+id/minimal_textView_flashSwitch"
             android:background="@drawable/minimal_ui_btn"
@@ -66,8 +66,8 @@ android:layout_alignParentBottom="false"
     </LinearLayout>
 
     <ImageView
-    android:layout_width="@dimen/appiconsizethree"
-    android:layout_height="@dimen/appiconsizethree"
+    android:layout_width="75dp"
+    android:layout_height="75dp"
     android:id="@+id/shutter_imageview"
     android:layout_centerVertical="true"
     android:layout_alignParentRight="true"
@@ -88,8 +88,8 @@ android:layout_alignParentBottom="false"
     </LinearLayout>
 
     <ImageView
-        android:layout_width="@dimen/SizeCameraControls"
-        android:layout_height="@dimen/SizeCameraControls"
+        android:layout_width="@dimen/minimal_ui_bg_size"
+        android:layout_height="@dimen/minimal_ui_bg_size"
         android:id="@+id/imageView_exposurelock"
         android:clickable="true" />
 
@@ -101,8 +101,8 @@ android:layout_alignParentBottom="false"
     android:layout_gravity="center_horizontal|right">
 
         <TextView
-            android:layout_width="@dimen/SizeCameraControls"
-            android:layout_height="@dimen/SizeCameraControls"
+            android:layout_width="@dimen/minimal_ui_bg_size"
+            android:layout_height="@dimen/minimal_ui_bg_size"
             android:text="test"
             android:id="@+id/minimal_textView_nightmode"
             android:background="@drawable/minimal_ui_btn"
@@ -119,8 +119,8 @@ android:layout_alignParentBottom="false"
         android:layout_gravity="center_horizontal|right">
 
         <TextView
-            android:layout_width="@dimen/SizeCameraControls"
-            android:layout_height="@dimen/SizeCameraControls"
+            android:layout_width="@dimen/minimal_ui_bg_size"
+            android:layout_height="@dimen/minimal_ui_bg_size"
             android:id="@+id/textView_Exit"
             android:background="@drawable/minimal_ui_exit"
             android:singleLine="true"

@@ -51,7 +51,7 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_picture");
             moduleHandler.SetModule("module_picture");
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_photo_library_white_48dp);
             moduleView.setImageBitmap(tmp);
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
@@ -64,7 +64,7 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_hdr");
             moduleHandler.SetModule("module_hdr");
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_hdr_on_white_48dp);
             moduleView.setImageBitmap(tmp);
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
@@ -77,7 +77,7 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_video");
             moduleHandler.SetModule("module_video");
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_movie_creation_white_48dp);
             moduleView.setImageBitmap(tmp);
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
@@ -89,7 +89,7 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         public void onClick(View v) {
             appSettingsManager.SetCurrentModule("module_longexposure");
             moduleHandler.SetModule("module_longexposure");
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_style_white_48dp);
             moduleView.setImageBitmap(tmp);
             ModeHouse.setVisibility(View.GONE);
             iconSwitcher();
@@ -103,13 +103,13 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         if (module.equals(ModuleHandler.MODULE_VIDEO))
         {
             ImageView VShit = (ImageView)activity.findViewById(R.id.shutter_imageview);
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter_vstart);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_videocam_white_48dp);
             VShit.setImageBitmap(tmp);
         }
         else
         {
             ImageView VShit = (ImageView)activity.findViewById(R.id.shutter_imageview);
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_photo_camera_white_48dp);
             VShit.setImageBitmap(tmp);
         }
     }
@@ -119,22 +119,22 @@ public class MaterialModeSwitch extends ModuleSwitchHandler {
         String module = appSettingsManager.GetCurrentModule();
         if (module.equals(ModuleHandler.MODULE_VIDEO))
         {
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_movie_creation_white_48dp);
             moduleView.setImageBitmap(tmp);
         }
         else if (module.equals(ModuleHandler.MODULE_PICTURE))
         {
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_photo_library_white_48dp);
             moduleView.setImageBitmap(tmp);
         }
         else if (module.equals(ModuleHandler.MODULE_HDR))
         {
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_hdr_on_white_48dp);
             moduleView.setImageBitmap(tmp);
         }
         else if (module.equals(ModuleHandler.MODULE_LONGEXPO))
         {
-            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_style_white_48dp);
             moduleView.setImageBitmap(tmp);
         }
 

@@ -65,7 +65,7 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
 
         font = Typeface.createFromAsset(ApplicationContextProvider.getContext().getAssets(), "fonts/BRADHITC.TTF");
 
-        TextView it1 = (TextView)view.findViewById(R.id.horTextItem1);
+        /*TextView it1 = (TextView)view.findViewById(R.id.horTextItem1);
         it1.setTypeface(font);
         TextView it2 = (TextView)view.findViewById(R.id.horTextItem2);
         it2.setTypeface(font);
@@ -80,13 +80,22 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
         TextView it3x = (TextView) view.findViewById(R.id.horTextItem7);
         it3x.setTypeface(font);
         TextView it4x = (TextView)view.findViewById(R.id.horTextItem8);
-        it4x.setTypeface(font);
-        TextView it5 = (TextView)view. findViewById(R.id.nubia1);
+        it4x.setTypeface(font);*/
+
+        /*TextView it5 = (TextView)view. findViewById(R.id.nubia1);
         it5.setTypeface(font);
         TextView it6 = (TextView)view. findViewById(R.id.nubia2);
         it6.setTypeface(font);
         TextView it7 = (TextView) view.findViewById(R.id.nubia3);
+        it7.setTypeface(font); */
+
+        TextView it5 = (TextView)view. findViewById(R.id.minimal_textView_flashSwitch);
+        it5.setTypeface(font);
+        TextView it6 = (TextView)view. findViewById(R.id.minimal_textView_ModuleSwitch);
+        it6.setTypeface(font);
+        TextView it7 = (TextView) view.findViewById(R.id.minimal_textView_nightmode);
         it7.setTypeface(font);
+
 
 
         return view;

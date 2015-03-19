@@ -91,7 +91,6 @@ android:layout_alignParentBottom="false"
     android:layout_centerVertical="true"
     android:layout_alignParentRight="true"
     android:longClickable="false"
-    android:background="@drawable/material_ui_shutter"
     android:clickable="true"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp" />

@@ -22,7 +22,8 @@ android:layout_alignParentBottom="false"
     android:clickable="true"
     android:layout_gravity="center_horizontal|right"
     android:layout_marginLeft="14dp"
-    android:layout_marginTop="5dp" />
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="20dp" />
 
 <LinearLayout
     android:orientation="horizontal"
@@ -43,28 +44,28 @@ android:layout_alignParentBottom="false"
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnMpic"
-            android:background="@drawable/material_ui_mode_pic"
+            android:background="@drawable/ic_pic"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnMV"
-            android:background="@drawable/material_ui_mode_vid"
+            android:background="@drawable/ic_vid"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnMHDR"
-            android:background="@drawable/material_ui_mode_hdr"
+            android:background="@drawable/ic_hdr_on"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnMlongExpo"
-            android:background="@drawable/material_ui_mode_long"
+            android:background="@drawable/ic_long"
             android:clickable="false" />
 
         <ImageView
@@ -80,21 +81,23 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageViewMode"
-        android:background="@drawable/material_ui_mode_pic" />
+        android:background="@drawable/ic_pic"
+        android:layout_marginRight="20dp" />
 
 </LinearLayout>
 
 <ImageView
-    android:layout_width="@dimen/appiconsizethree"
-    android:layout_height="@dimen/appiconsizethree"
+    android:layout_width="75dp"
+    android:layout_height="75dp"
     android:id="@+id/shutter_imageview"
     android:layout_centerVertical="true"
     android:layout_alignParentRight="true"
     android:longClickable="false"
-    android:background="@drawable/material_ui_shutter"
+    android:background="@drawable/shutter_gray"
     android:clickable="true"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp" />
+    android:layout_marginBottom="10dp"
+    android:layout_marginRight="2.5dp" />
 
 <LinearLayout
     android:orientation="horizontal"
@@ -114,28 +117,28 @@ android:layout_alignParentBottom="false"
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnFlash_auto"
-            android:background="@drawable/material_ui_flash_auto"
+            android:background="@drawable/ic_flash_auto"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnFlash_on"
-            android:background="@drawable/material_ui_flash_on"
+            android:background="@drawable/ic_flash_on"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnFlash_torch"
-            android:background="@drawable/material_ui_flash_torch"
+            android:background="@drawable/ic_flash_torch"
             android:clickable="false" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnFlash_off"
-            android:background="@drawable/material_ui_flash_off"
+            android:background="@drawable/ic_flash_off"
             android:clickable="false" />
     </LinearLayout>
 
@@ -143,14 +146,16 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageViewFlash"
-        android:background="@drawable/material_ui_flash_off" />
+        android:background="@drawable/ic_flash_off"
+        android:layout_marginRight="20dp" />
 
 </LinearLayout>
 
     <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageView_exposurelock" />
+        android:id="@+id/imageView_exposurelock"
+        android:layout_marginRight="20dp" />
 
     <LinearLayout
     android:orientation="horizontal"
@@ -170,21 +175,21 @@ android:layout_alignParentBottom="false"
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnNight_off"
-            android:background="@drawable/material_ui_night_off"
+            android:background="@drawable/ic_night_off"
             android:clickable="true" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnNight_on"
-            android:background="@drawable/material_ui_night_on"
+            android:background="@drawable/ic_night_on"
             android:clickable="true" />
 
         <ImageView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:id="@+id/btnNight_torch"
-            android:background="@drawable/material_ui_night_tripod"
+            android:background="@drawable/ic_night_tripod"
             android:clickable="true" />
     </LinearLayout>
 
@@ -192,7 +197,8 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageViewNight"
-        android:background="@drawable/material_ui_night_off" />
+        android:background="@drawable/ic_night_off"
+        android:layout_marginRight="20dp" />
 
 </LinearLayout>
 
@@ -215,14 +221,14 @@ android:layout_alignParentBottom="false"
     <TextView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:text="Exit"
         android:id="@+id/textView_Exit"
-        android:background="@drawable/nubia_ui_exit"
+        android:background="@drawable/menu_cancel_icon"
         android:singleLine="true"
         android:password="false"
         android:textSize="@dimen/TextSizeSmall"
         android:clickable="true"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginRight="20dp" />
 </LinearLayout>
 
 </LinearLayout>
