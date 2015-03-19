@@ -23,7 +23,7 @@ public class ShutterItemFragmentMaterial extends ShutterItemsFragments {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.shutteritems_nubia_fragment, container, false);
+        View view = inflater.inflate(R.layout.shutteritems_material_fragment, container, false);
         cameraSwitchHandler = new MaterialCameraSwitchHandler(view, appSettingsManager);
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new MaterialModeSwitch(view, appSettingsManager, this);

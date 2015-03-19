@@ -29,7 +29,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected AppSettingsManager appSettingsManager;
     protected AbstractModuleHandler moduleHandler;
-    TextView moduleView;
+    TextView moduleViewx;
     ListView listView;
     Fragment fragment;
 
@@ -45,8 +45,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
 
     protected void init()
     {
-        moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
-        moduleView.setOnClickListener(this);
+        moduleViewx = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
+        moduleViewx.setOnClickListener(this);
         //moduleView.setVisibility(View.GONE);
     }
 
@@ -85,7 +85,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
                         appSettingsManager.SetCurrentModule(module.getValue().name);
                         moduleHandler.SetModule(module.getValue().name);
 
-                        moduleView.setText(module.getValue().ShortName());
+                        moduleViewx.setText(module.getValue().ShortName());
                         break;
                     }
 
@@ -101,7 +101,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     public void ParametersLoaded()
     {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-        moduleView.setText(moduleHandler.GetCurrentModule().ShortName());
-        moduleView.setVisibility(View.VISIBLE);
+        moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());
+        moduleViewx.setVisibility(View.VISIBLE);
     }
 }

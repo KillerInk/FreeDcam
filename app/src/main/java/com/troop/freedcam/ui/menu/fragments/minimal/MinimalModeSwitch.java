@@ -22,6 +22,8 @@ import com.troop.freedcam.utils.ApplicationContextProvider;
  */
 public class MinimalModeSwitch extends ModuleSwitchHandler {
 
+    TextView ModuleText;
+
     TextView HDR;
     TextView Picture;
     TextView Movie;
@@ -31,9 +33,6 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
     Animation out;
 
 
-    TextView moduleView;
-
-    LinearLayout ModeHouse;
     public MinimalModeSwitch(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
         super(activity, appSettingsManager, fragment);
@@ -42,31 +41,25 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
     @Override
     protected void init()
     {
-        moduleView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
-        moduleView.setOnClickListener(this);
-
-        ModeHouse = (LinearLayout)activity.findViewById(R.id.scrollViewModule);
-        ModeHouse.setVisibility(View.GONE);
+        ModuleText = (TextView)activity.findViewById(R.id.minimal_textView_ModuleSwitch);
+        ModuleText.setOnClickListener(this);
 
         Picture = (TextView)activity.findViewById(R.id.horTextItem1);
-        Picture.setOnClickListener(PicLabel);
-
-
         Movie = (TextView)activity.findViewById(R.id.horTextItem2);
-        Movie.setOnClickListener(MovieLabel);
-
-
         HDR = (TextView)activity.findViewById(R.id.horTextItem3);
-        HDR.setOnClickListener(HDRLabel);
-
-
         LongEx =(TextView)activity.findViewById(R.id.horTextItem4);
-        LongEx.setOnClickListener(LowExLabel);
 
         Sviewx = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
 
         in = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(), R.anim.slidein);
         out = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(),R.anim.slideout);
+
+
+        Picture.setOnClickListener(PicLabel);
+
+        Movie.setOnClickListener(MovieLabel);
+        HDR.setOnClickListener(HDRLabel);
+        LongEx.setOnClickListener(LowExLabel);
     }
 
     TextView.OnClickListener PicLabel = new View.OnClickListener() {
@@ -79,7 +72,7 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
             Movie.startAnimation(out);
             Picture.startAnimation(out);
 
-            moduleView.setText("Pic");
+            ModuleText.setText("Pic");
             Sviewx.setVisibility(View.GONE);
 
         }
@@ -95,7 +88,7 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
             Movie.startAnimation(out);
             Picture.startAnimation(out);
 
-            moduleView.setText("HDR");
+            ModuleText.setText("HDR");
             Sviewx.setVisibility(View.GONE);
 
         }
@@ -111,7 +104,7 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
             Movie.startAnimation(out);
             Picture.startAnimation(out);
 
-            moduleView.setText("Mov");
+            ModuleText.setText("Mov");
             Sviewx.setVisibility(View.GONE);
 
         }
@@ -127,7 +120,7 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
             Movie.startAnimation(out);
             Picture.startAnimation(out);
 
-            moduleView.setText("LoEx");
+            ModuleText.setText("LoEx");
             Sviewx.setVisibility(View.GONE);
 
         }
@@ -194,8 +187,8 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
     public void ParametersLoaded()
     {
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-        moduleView.setText(moduleHandler.GetCurrentModule().ShortName());
-        moduleView.setVisibility(View.VISIBLE);
+        ModuleText.setText(moduleHandler.GetCurrentModule().ShortName());
+        ModuleText.setVisibility(View.VISIBLE);
 
     }
 }

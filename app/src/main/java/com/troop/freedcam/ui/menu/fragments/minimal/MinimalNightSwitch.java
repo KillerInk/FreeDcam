@@ -36,7 +36,7 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
     @Override
     protected void init()
     {
-        textView = (TextView)activity.findViewById(R.id.textView_nightmode);
+        textView = (TextView)activity.findViewById(R.id.minimal_textView_nightmode);
         textView.setOnClickListener(this);
         textView.setVisibility(View.GONE);
 
@@ -174,8 +174,8 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
                     String para = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
-                    if (para == null || para.equals(""))
-                        para = "off";
+                   // if (para == null || para.equals(""))
+                    //    para = "off";
                     if (appSet.equals("")) {
                         appSet = cameraUiWrapper.camParametersHandler.NightMode.GetValue();
                         appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, para);

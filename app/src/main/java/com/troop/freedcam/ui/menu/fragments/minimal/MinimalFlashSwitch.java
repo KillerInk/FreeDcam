@@ -1,15 +1,12 @@
 package com.troop.freedcam.ui.menu.fragments.minimal;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
@@ -22,7 +19,7 @@ import com.troop.freedcam.utils.ApplicationContextProvider;
  * Created by George on 3/17/2015.
  */
 public class MinimalFlashSwitch extends FlashSwitchHandler {
-    LinearLayout HouseFlash;
+
 
     TextView Auto;
     TextView On;
@@ -42,14 +39,14 @@ public class MinimalFlashSwitch extends FlashSwitchHandler {
     @Override
     protected void init()
     {
-        textView = (TextView)activity.findViewById(R.id.textView_ModuleSwitch);
-        textView.setOnClickListener(this);
+        textView = (TextView)activity.findViewById(R.id.minimal_textView_ModuleSwitch);
+        //textView.setOnClickListener(this);
 
         Off = (TextView)activity.findViewById(R.id.horTextItem7);
         On = (TextView)activity.findViewById(R.id.horTextItem6);
         Auto = (TextView)activity.findViewById(R.id.horTextItem5);
         Torch =(TextView)activity.findViewById(R.id.horTextItem8);
-        HouseFlash.setVisibility(View.GONE);
+
 
         Sview = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
         in = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(), R.anim.slidein);

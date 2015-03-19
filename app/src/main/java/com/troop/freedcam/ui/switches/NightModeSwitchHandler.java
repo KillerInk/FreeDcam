@@ -76,13 +76,8 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
     public void onClick(View v)
     {
         listView = (ListView) activity.findViewById(R.id.listView_popup);
-        List<String> mods = new ArrayList<String>();
-        for (String s : cameraUiWrapper.camParametersHandler.NightMode.GetValues())
-        {
-            mods.add(s);
-        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
-                R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, mods);
+                R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, cameraUiWrapper.camParametersHandler.NightMode.GetValues());
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);
         listView.setVisibility(View.VISIBLE);
@@ -90,8 +85,8 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) listView.getItemAtPosition(position);
-                cameraUiWrapper.camParametersHandler.NightMode.SetValue(value, true);
-                appSettingsManager.setString(AppSettingsManager.SETTING_NIGHTEMODE, value);
+                cameraUiWrapper.camParametersHandler.FlashMode.SetValue(value, true);
+                appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, value);
                 textView.setText(value);
                 listView.setVisibility(View.GONE);
             }

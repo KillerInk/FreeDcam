@@ -12,39 +12,52 @@ android:layout_alignParentBottom="false"
     android:gravity="right"
     android:id="@+id/ShutterFragmentMinimal">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right">
+    <ImageView
+    android:layout_width="@dimen/SizeCameraControls"
+    android:layout_height="@dimen/SizeCameraControls"
+    android:id="@+id/imageView_cameraSwitch"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="false"
+    android:layout_alignParentTop="false"
+    android:clickable="true"
+    android:layout_gravity="center_horizontal|right"
+    android:layout_marginLeft="14dp"
+    android:layout_marginTop="5dp" />
 
-        <ImageView
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="right"
+    android:clickable="true">
+
+    <TextView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageView_cameraSwitch"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:clickable="true"
-        android:layout_gravity="center_horizontal|right"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="5dp" />
+        android:text="test"
+        android:id="@+id/minimal_textView_ModuleSwitch"
+        android:background="@drawable/minimal_ui_btn"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:clickable="true" />
 
-        <LinearLayout
+</LinearLayout>
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
-        android:layout_gravity="right"
-        android:clickable="true">
+        android:layout_gravity="center_horizontal|right">
 
         <TextView
             android:layout_width="@dimen/SizeCameraControls"
             android:layout_height="@dimen/SizeCameraControls"
             android:text="test"
-            android:id="@+id/textView_ModuleSwitch"
+            android:id="@+id/minimal_textView_flashSwitch"
             android:background="@drawable/minimal_ui_btn"
             android:layout_gravity="center"
             android:gravity="center_vertical|center_horizontal"
@@ -52,90 +65,69 @@ android:layout_alignParentBottom="false"
 
     </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_gravity="center_horizontal|right">
+    <ImageView
+    android:layout_width="@dimen/appiconsizethree"
+    android:layout_height="@dimen/appiconsizethree"
+    android:id="@+id/shutter_imageview"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:longClickable="false"
+    android:background="@drawable/minimal_ui_shutter"
+    android:clickable="true"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp" />
 
-            <TextView
-                android:layout_width="@dimen/SizeCameraControls"
-                android:layout_height="@dimen/SizeCameraControls"
-                android:text="test"
-                android:id="@+id/textView_flashSwitch"
-                android:background="@drawable/minimal_ui_btn"
-                android:layout_gravity="center"
-                android:gravity="center_vertical|center_horizontal"
-                android:clickable="true" />
-
-        </LinearLayout>
-
-        <ImageView
-        android:layout_width="@dimen/appiconsizethree"
-        android:layout_height="@dimen/appiconsizethree"
-        android:id="@+id/shutter_imageview"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:longClickable="false"
-        android:background="@drawable/minimal_ui_shutter"
-        android:clickable="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal|right"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="@dimen/SizeCameraControls"
-            android:layout_height="@dimen/SizeCameraControls"
-            android:id="@+id/imageView_exposurelock"
-            android:background="@drawable/minimal_ui_ae_off" />
-
-        <LinearLayout
-        android:orientation="horizontal"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal|right"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/SizeCameraControls"
+        android:layout_height="@dimen/SizeCameraControls"
+        android:id="@+id/imageView_exposurelock"
+        android:background="@drawable/minimal_ui_ae_off" />
+
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_gravity="center_horizontal|right">
+
+        <TextView
+            android:layout_width="@dimen/SizeCameraControls"
+            android:layout_height="@dimen/SizeCameraControls"
+            android:text="test"
+            android:id="@+id/minimal_textView_nightmode"
+            android:background="@drawable/minimal_ui_btn"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:clickable="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|right">
 
-            <TextView
-                android:layout_width="@dimen/SizeCameraControls"
-                android:layout_height="@dimen/SizeCameraControls"
-                android:text="test"
-                android:id="@+id/textView_nightmode"
-                android:background="@drawable/minimal_ui_btn"
-                android:layout_gravity="center"
-                android:gravity="center_vertical|center_horizontal"
-                android:clickable="true" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|right">
-
-            <TextView
-                android:layout_width="@dimen/SizeCameraControls"
-                android:layout_height="@dimen/SizeCameraControls"
-                android:id="@+id/textView_Exit"
-                android:background="@drawable/minimal_ui_exit"
-                android:singleLine="true"
-                android:password="false"
-                android:textSize="@dimen/TextSizeSmall"
-                android:clickable="true"
-                android:gravity="center_vertical|center_horizontal" />
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="@dimen/SizeCameraControls"
+            android:layout_height="@dimen/SizeCameraControls"
+            android:id="@+id/textView_Exit"
+            android:background="@drawable/minimal_ui_exit"
+            android:singleLine="true"
+            android:password="false"
+            android:textSize="@dimen/TextSizeSmall"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -143,7 +135,7 @@ android:layout_alignParentBottom="false"
         android:layout_height="22dp"
         android:id="@+id/horizontalScrollView"
         android:rotation="270"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_gravity="right"
         android:layout_marginTop="-300dp">
 

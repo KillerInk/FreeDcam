@@ -24,12 +24,18 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.shutteritems_nubia_fragment, container, false);
+        View view = inflater.inflate(R.layout.shutteritems_minimal_fragment, container, false);
+
         cameraSwitchHandler = new MiniamalCameraSwitchHandler(view, appSettingsManager);
+
         shutterHandler = new ShutterHandler(view, this);
+
         moduleSwitchHandler = new MinimalModeSwitch(view, appSettingsManager, this);
+
         flashSwitchHandler = new MinimalFlashSwitch(view, appSettingsManager, this);
+
         nightModeSwitchHandler = new MinimalNightSwitch(view, appSettingsManager);
+
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
 
