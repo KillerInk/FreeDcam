@@ -356,7 +356,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     {
         Display display = getWindowManager().getDefaultDisplay();
         final Point size = new Point();
-        display.getSize(size);
+        display.getRealSize(size);
 
         String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
