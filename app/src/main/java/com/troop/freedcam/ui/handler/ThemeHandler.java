@@ -35,11 +35,7 @@ public class ThemeHandler implements I_ModuleEvent
 
     public void GetThemeFragment()
     {
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
-        if (theme.equals("")) {
-            theme = "Classic";
-            appSettingsManager.setString(AppSettingsManager.SETTING_Theme, theme);
-        }
+        String theme = appSettingsManager.GetTheme();
         if (activity_v2.shutterItemsFragment != null)
         {
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
