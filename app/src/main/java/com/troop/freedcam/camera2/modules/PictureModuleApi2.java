@@ -68,8 +68,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             
             /*get pic size*/
-
+            workstarted();
             cameraHolder.TakePicture();
+            workfinished(true);
+
         }
 
     }

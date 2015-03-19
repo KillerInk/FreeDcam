@@ -240,6 +240,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         {
             return stringValues[pos];
         }
+        else if (stringValues == null)
+            return manualParameter.GetStringValue();
 
         return null;
     }

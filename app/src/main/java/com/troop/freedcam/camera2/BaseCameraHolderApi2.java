@@ -38,6 +38,7 @@ import com.troop.freedcam.camera.modules.I_Callbacks;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -607,6 +608,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             {
                 captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
             }
+            if (ParameterHandler.ExposureMode.IsSupported())
+            {
+                captureBuilder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
+            }
             if (ParameterHandler.ManualShutter.IsSupported())
             {
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());
@@ -637,7 +642,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     unlockFocus();
                 }
             };
-
+            Log.d(TAG, "StartCapture");
             mCaptureSession.stopRepeating();
             mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
@@ -664,6 +669,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        isWorking = false;
     }
 
 
@@ -695,7 +701,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 File file = new File(getStringAddTime() +".dng");
                 DngCreator dngCreator = new DngCreator(manager.getCameraCharacteristics("0"), mDngResult);
                 dngCreator.writeImage(new FileOutputStream(file), reader.acquireNextImage());
-                isWorking = false;
+               isWorking = false;
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
