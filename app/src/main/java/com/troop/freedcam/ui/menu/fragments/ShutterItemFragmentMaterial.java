@@ -28,7 +28,7 @@ public class ShutterItemFragmentMaterial extends ShutterItemsFragments {
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new MaterialModeSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new MaterialFlashSwitch(view, appSettingsManager, this);
-        nightModeSwitchHandler = new MaterialNightSwitch(view, appSettingsManager);
+        nightModeSwitchHandler = new MaterialNightSwitch(view, appSettingsManager,this);
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
 

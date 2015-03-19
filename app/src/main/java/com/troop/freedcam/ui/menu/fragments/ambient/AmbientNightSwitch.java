@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu.fragments.ambient;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,9 +21,9 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
     ImageView Off;
     ImageView Tripod;
 
-    public AmbientNightSwitch(View activity, AppSettingsManager appSettingsManager)
+    public AmbientNightSwitch(View activity, AppSettingsManager appSettingsManager,Fragment fragment)
     {
-        super(activity, appSettingsManager);
+        super(activity, appSettingsManager,fragment);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.switches;
 
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,8 +26,9 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
     TextView textView;
     protected AppSettingsManager appSettingsManager;
     ListView listView;
+    protected Fragment fragment;
 
-    public NightModeSwitchHandler(View activity, AppSettingsManager appSettingsManager)
+    public NightModeSwitchHandler(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
         this.activity = activity;
 
@@ -75,7 +77,7 @@ public class NightModeSwitchHandler implements View.OnClickListener, I_Parameter
     @Override
     public void onClick(View v)
     {
-        listView = (ListView) activity.findViewById(R.id.listView_popup);
+        listView = (ListView) fragment.getActivity().findViewById(R.id.listView_popup);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
                 R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, cameraUiWrapper.camParametersHandler.NightMode.GetValues());
         //attach adapter to the listview and fill

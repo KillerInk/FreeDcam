@@ -29,7 +29,7 @@ public class ShutterItemFragmentAmbient extends ShutterItemsFragments {
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new AmbientModuleSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new AmbientFlashSwitch(view, appSettingsManager, this);
-        nightModeSwitchHandler = new AmbientNightSwitch(view, appSettingsManager);
+        nightModeSwitchHandler = new AmbientNightSwitch(view, appSettingsManager,this);
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
 

@@ -32,7 +32,7 @@ public class ShutterItemFragmentNubia extends ShutterItemsFragments
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new NubiaModuleSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new NubiaFlashSwitch(view, appSettingsManager, this);
-        nightModeSwitchHandler = new NubiaNightSwitch(view, appSettingsManager);
+        nightModeSwitchHandler = new NubiaNightSwitch(view, appSettingsManager,this);
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
 

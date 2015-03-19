@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu.fragments.minimal;
 
+import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
@@ -28,9 +29,9 @@ public class MinimalNightSwitch extends NightModeSwitchHandler {
     Animation in;
     Animation out;
 
-    public MinimalNightSwitch(View activity, AppSettingsManager appSettingsManager)
+    public MinimalNightSwitch(View activity, AppSettingsManager appSettingsManager, Fragment fragment)
     {
-        super(activity, appSettingsManager);
+        super(activity, appSettingsManager,fragment);
     }
 
     @Override

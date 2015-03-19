@@ -34,7 +34,7 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
 
         flashSwitchHandler = new MinimalFlashSwitch(view, appSettingsManager, this);
 
-        nightModeSwitchHandler = new MinimalNightSwitch(view, appSettingsManager);
+        nightModeSwitchHandler = new MinimalNightSwitch(view, appSettingsManager,this);
 
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);

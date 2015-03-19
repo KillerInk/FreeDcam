@@ -51,7 +51,7 @@ public class ShutterItemsFragments extends Fragment
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new ModuleSwitchHandler(view, appSettingsManager, this);
         flashSwitchHandler = new FlashSwitchHandler(view, appSettingsManager, this);
-        nightModeSwitchHandler = new NightModeSwitchHandler(view, appSettingsManager);
+        nightModeSwitchHandler = new NightModeSwitchHandler(view, appSettingsManager,this);
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
 

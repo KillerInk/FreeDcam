@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu.fragments.nubia;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,9 +24,9 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
     ImageView Off;
     ImageView Tripod;
 
-    public NubiaNightSwitch(View activity, AppSettingsManager appSettingsManager)
+    public NubiaNightSwitch(View activity, AppSettingsManager appSettingsManager,Fragment fragment)
     {
-        super(activity, appSettingsManager);
+        super(activity, appSettingsManager,fragment);
     }
 
     @Override
