@@ -279,7 +279,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     public void setLalphas()
     {
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
         String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
 
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
@@ -317,7 +317,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     public void setRalphas()
     {
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
         String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
 
@@ -359,7 +359,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         final Point size = new Point();
         display.getRealSize(size);
 
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewLeft);
 
 
@@ -492,7 +492,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         final Point size = new Point();
         display.getSize(size);
 
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
         final ImageView tmp = (ImageView)findViewById(R.id.imageViewRight);
 
 

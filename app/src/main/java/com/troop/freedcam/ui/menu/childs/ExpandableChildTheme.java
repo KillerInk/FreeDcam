@@ -25,7 +25,7 @@ public class ExpandableChildTheme extends ExpandableChild
     public void setValue(String value) {
         valueTextView.setText(value);
         parameterHolder.SetValue(value, true);
-        appSettingsManager.setString(settingsname, value);
+        appSettingsManager.SetTheme(value);
         activity_v2.themeHandler.SetTheme(value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
@@ -39,7 +39,7 @@ public class ExpandableChildTheme extends ExpandableChild
     {
         this.parameterHolder = parameterHolder;
         this.modulesToShow = modulesToShow;
-        String s = appSettingsManager.getString(settingsname);
+        String s = appSettingsManager.GetTheme();
         if (s.equals("")) {
             s = "Classic";
             appSettingsManager.setString(settingsname,s);

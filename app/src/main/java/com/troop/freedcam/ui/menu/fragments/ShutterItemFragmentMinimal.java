@@ -104,7 +104,7 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
     public void setFontStyle()
     {
 
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
 
 
 

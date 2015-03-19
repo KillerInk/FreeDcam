@@ -56,7 +56,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
         int a;
         int b;
 
-        String theme = appSettingsManager.getString(AppSettingsManager.SETTING_Theme);
+        String theme = appSettingsManager.GetTheme();
 
         if (theme.equals("Ambient")){
           a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}

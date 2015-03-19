@@ -57,7 +57,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         pictureFormat = (TextView)context.findViewById(R.id.textViewFormat);
         time = (TextView)context.findViewById(R.id.textViewTime);
 
-        switch (appSettingsManager.getString(AppSettingsManager.SETTING_Theme))
+        switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
             font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
@@ -177,7 +177,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
             Storage.setText("error");
         }
 
-        switch (appSettingsManager.getString(AppSettingsManager.SETTING_Theme))
+        switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
             font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");

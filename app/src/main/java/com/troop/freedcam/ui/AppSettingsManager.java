@@ -96,6 +96,16 @@ public class AppSettingsManager
         return appSettings.getBoolean("showhelpoverlay", true);
     }
 
+    public void SetTheme(String theme)
+    {
+        appSettings.edit().putString(AppSettingsManager.SETTING_Theme, theme).commit();
+    }
+
+    public String GetTheme()
+    {
+        return appSettings.getString(AppSettingsManager.SETTING_Theme, "Classic");
+    }
+
 
     public void SetCurrentCamera(int currentcamera)
     {
