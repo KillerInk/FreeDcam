@@ -187,6 +187,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
 
+        SetCameraRotation();
+        SetPictureOrientation(0);
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
 
