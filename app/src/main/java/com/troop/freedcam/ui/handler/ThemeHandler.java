@@ -98,10 +98,8 @@ public class ThemeHandler implements I_ModuleEvent
     {
         GetThemeFragment();
         activity_v2.inflateShutterItemFragment();
-        activity_v2.rightFragHandler();
-        activity_v2.leftFragHandler();
-        activity_v2.setRalphas();
-        activity_v2.setLalphas();
+        activity_v2.updatePreviewHandler();
+
         SettingsMenuFragment();
 
 
@@ -110,11 +108,7 @@ public class ThemeHandler implements I_ModuleEvent
 
     @Override
     public String ModuleChanged(String module) {
-        activity_v2.rightFragHandler();
-        activity_v2.leftFragHandler();
-        activity_v2.setRalphas();
-        activity_v2.setLalphas();
-
+        activity_v2.updatePreviewHandler();
 
         return null;
 
