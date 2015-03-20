@@ -25,6 +25,6 @@
         android:layout_width="@dimen/menuwidth"
         android:layout_height="wrap_content"
         android:id="@+id/subMenuSettings"
-        android:background="@color/menuBackgroundColor" />
+        android:background="#08ffffff" />
 
 </LinearLayout>

@@ -250,7 +250,7 @@ public class MenuCreator
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
     {
-        ExpandableGroup picGroup = new ExpandableGroup(context, submenu);
+        ExpandableGroup picGroup = new ExpandableGroup(context, submenu,appSettingsManager);
         picGroup.setName(context.getString(R.string.picture_settings));
         //picGroup.modulesToShow = cameraUiWrapper.moduleHandler.PictureModules;
 
@@ -307,7 +307,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateModeSettings()
     {
-        ExpandableGroup modesGroup = new ExpandableGroup(context, submenu);
+        ExpandableGroup modesGroup = new ExpandableGroup(context, submenu,appSettingsManager);
         modesGroup.setName(context.getString(R.string.mode_settings));
         //modesGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createModesSettingsChilds(modesGroup);
@@ -344,7 +344,7 @@ public class MenuCreator
 
     public ExpandableGroup CreateQualitySettings()
     {
-        ExpandableGroup qualityGroup = new ExpandableGroup(context, submenu);
+        ExpandableGroup qualityGroup = new ExpandableGroup(context, submenu,appSettingsManager);
         qualityGroup.setName(context.getString(R.string.quality_settings));
         //qualityGroup.modulesToShow = cameraUiWrapper.moduleHandler.AllModules;
         createQualitySettingsChilds(qualityGroup);
@@ -440,7 +440,7 @@ public class MenuCreator
 
     private ExpandableGroup getNewGroup(String name)
     {
-        ExpandableGroup group = new ExpandableGroup(context, submenu);
+        ExpandableGroup group = new ExpandableGroup(context, submenu,appSettingsManager);
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(group);
         group.setName(name);
         return group;

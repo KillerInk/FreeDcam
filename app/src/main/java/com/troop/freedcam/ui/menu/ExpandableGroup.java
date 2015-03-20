@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.childs.I_OnGroupClicked;
 
@@ -31,12 +32,14 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     OnClickListener onChildclick;
     AbstractCameraUiWrapper cameraUiWrapper;
     I_OnGroupClicked onGroupClicked;
+    protected AppSettingsManager appSettingsManager;
 
     private static String TAG = ExpandableGroup.class.getSimpleName();
 
-    public ExpandableGroup(Context context, LinearLayout submenu) {
+    public ExpandableGroup(Context context, LinearLayout submenu, AppSettingsManager appSettingsManager) {
         super(context);
         this.submenu = submenu;
+        this.appSettingsManager = appSettingsManager;
         init(context);
     }
 
@@ -44,7 +47,20 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
     {
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.expandable_groups, this);
+
+        String theme = appSettingsManager.GetTheme();
+        if (theme.equals("Ambient"))
+            inflater.inflate(R.layout.expandable_groups_ambient, this);
+        if (theme.equals("Classic"))
+            inflater.inflate(R.layout.expandable_groups, this);
+        if (theme.equals("Material"))
+            inflater.inflate(R.layout.expandable_groups_material, this);
+        if (theme.equals("Minimal"))
+            inflater.inflate(R.layout.expandable_groups_minimal, this);
+        if (theme.equals("Nubia"))
+            inflater.inflate(R.layout.expandable_groups_nubia, this);
+        //inflater.inflate(R.layout.expandable_groups, this);
+
         this.textView = (TextView)findViewById(R.id.tvGroup);
         this.textView.setOnClickListener(new OnClickListener() {
             @Override

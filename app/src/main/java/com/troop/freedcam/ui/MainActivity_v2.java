@@ -73,9 +73,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
     boolean settingsLayloutOpen = false;
-    MenuFragment menuFragment;
-    ManualMenuFragment manualMenuFragment;
+    public MenuFragment menuFragment;
+    public ManualMenuFragment manualMenuFragment;
     public ShutterItemsFragments shutterItemsFragment;
+
 
 
     boolean manualMenuOpen = false;
@@ -200,6 +201,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         timerHandler = new TimerHandler(this);
 
         themeHandler.GetThemeFragment();
+        themeHandler.SettingsMenuFragment();
         shutterItemsFragment.SetAppSettings(appSettingsManager);
     }
 
@@ -353,10 +355,80 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     }
 
+    private void CoverCamUI(Boolean shown)
+    {
+        ImageView tmp = (ImageView)findViewById(R.id.SettingsCover);
+
+        if(shown)
+        {
+            LockWidgets(false);
+            String theme = appSettingsManager.GetTheme();
+            tmp.setVisibility(View.VISIBLE);
+
+
+
+            switch (theme) {
+                case "Minimal":
+                        tmp.setImageDrawable(null);
+                        //tmp.setImageBitmap(null);
+                        tmp.setBackgroundColor(Color.argb(200,20,20,20));
+
+
+
+                    break;
+                case "Nubia":
+                    tmp.setImageDrawable(null);
+                    tmp.setBackgroundColor(Color.argb(200,90,90,90));
+
+                    break;
+                case "Material":
+                    tmp.setImageDrawable(null);
+                    tmp.setBackgroundColor(Color.argb(230,50,50,50));
+
+
+                    break;
+                case "Ambient":
+                    tmp.setBackgroundColor(Color.TRANSPARENT);
+                    tmp.setImageBitmap(AmbientCover);
+
+
+                    break;
+            }
+
+        }
+        else
+        {
+            tmp.setVisibility(View.GONE);
+            LockWidgets(true);
+        }
+    }
+
+    private void LockWidgets(boolean status)
+    {
+        ImageView shutter_key = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView cam_switch = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView modes_switch = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView flash_switch = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView night_switch = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView exposure_lock = (ImageView)findViewById(R.id.SettingsCover);
+        ImageView exit_key = (ImageView)findViewById(R.id.SettingsCover);
+
+        shutter_key.setEnabled(status);
+        cam_switch.setEnabled(status);
+        modes_switch.setEnabled(status);
+        flash_switch.setEnabled(status);
+        night_switch.setEnabled(status);
+        exposure_lock.setEnabled(status);
+        exit_key.setEnabled(status);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void leftFragHandler()
     {
         Display display = getWindowManager().getDefaultDisplay();
         final Point size = new Point();
+
+
         display.getRealSize(size);
 
         String theme = appSettingsManager.GetTheme();
@@ -392,7 +464,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
@@ -416,7 +488,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
@@ -448,7 +520,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         a = 240;
                         b = 1080;
@@ -483,9 +555,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 break;
         }
-        System.out.println("Snoop" +" "+theme);
+        System.out.println("Snoop " +previewHandler.getMargineLeft() +"surface "+previewHandler.surfaceView.getMeasuredWidth());
     }
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public  void rightFragHandler()
     {
         Display display = getWindowManager().getDefaultDisplay();
@@ -503,7 +575,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(242, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
@@ -525,7 +597,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1080);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1080);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
@@ -548,7 +620,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
                 switch (size.x) {
                     case 1920:
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(240, 1100);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(243, 1100);
                         tmp.setLayoutParams(params);
                         break;
                     case 2560:
@@ -855,7 +927,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
 
 
-
+                CoverCamUI(true);
                 settingsLayloutOpen = true;
             }
         }
@@ -867,7 +939,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.remove(menuFragment);
                 fragmentTransaction.commit();
+
                 settingsLayloutOpen = false;
+                CoverCamUI(false);
             }
         }
     }

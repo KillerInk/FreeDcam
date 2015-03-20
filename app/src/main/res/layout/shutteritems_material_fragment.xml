@@ -145,7 +145,6 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageViewFlash"
-        android:background="@drawable/ic_flash_off_white_48dp"
         android:layout_marginRight="20dp" />
 
 </LinearLayout>
@@ -196,7 +195,6 @@ android:layout_alignParentBottom="false"
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageViewNight"
-        android:background="@drawable/ic_brightness_4_grey600_48dp"
         android:layout_marginRight="20dp" />
 
 </LinearLayout>

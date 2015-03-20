@@ -12,6 +12,11 @@ import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
+import com.troop.freedcam.ui.menu.fragments.MenuFragment;
+import com.troop.freedcam.ui.menu.fragments.MenuFragmentAmbient;
+import com.troop.freedcam.ui.menu.fragments.MenuFragmentMaterial;
+import com.troop.freedcam.ui.menu.fragments.MenuFragmentMinimal;
+import com.troop.freedcam.ui.menu.fragments.MenuFragmentNubia;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentAmbient;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMaterial;
 import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMinimal;
@@ -36,6 +41,7 @@ public class ThemeHandler implements I_ModuleEvent
     public void GetThemeFragment()
     {
         String theme = appSettingsManager.GetTheme();
+
         if (activity_v2.shutterItemsFragment != null)
         {
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
@@ -60,6 +66,34 @@ public class ThemeHandler implements I_ModuleEvent
 
     }
 
+    public void SettingsMenuFragment()
+    {
+        String theme = appSettingsManager.GetTheme();
+
+        if (activity_v2.menuFragment != null)
+        {
+            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+            transaction.remove(activity_v2.menuFragment);
+            transaction.commit();
+            activity_v2.menuFragment.onDestroyView();
+
+            activity_v2.menuFragment = null;
+        }
+
+        if (theme.equals("Ambient"))
+            activity_v2.menuFragment = new MenuFragmentAmbient();
+        if (theme.equals("Classic"))
+            activity_v2.menuFragment = new MenuFragment();
+        if (theme.equals("Material"))
+            activity_v2.menuFragment = new MenuFragmentMaterial();
+        if (theme.equals("Minimal"))
+            activity_v2.menuFragment = new MenuFragmentMinimal();
+        if (theme.equals("Nubia"))
+            activity_v2.menuFragment = new MenuFragmentNubia();
+
+
+    }
+
     public void SetTheme(String theme)
     {
         GetThemeFragment();
@@ -68,6 +102,7 @@ public class ThemeHandler implements I_ModuleEvent
         activity_v2.leftFragHandler();
         activity_v2.setRalphas();
         activity_v2.setLalphas();
+        SettingsMenuFragment();
 
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();

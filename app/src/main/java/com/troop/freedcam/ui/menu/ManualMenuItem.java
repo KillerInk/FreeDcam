@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
@@ -37,12 +38,31 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     int enable = Color.GREEN;
     String[] stringValues;
     ManualMenuItem manualMenuItem;
+    protected AppSettingsManager appSettingsManager;
 
-    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler) {
+    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AppSettingsManager appSettingsManager) {
         super(context);
         this.context =context;
+        this.appSettingsManager = appSettingsManager;
+
+        String theme = appSettingsManager.GetTheme();
+
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.manual_menu_item, this);
+
+       // inflater.inflate(R.layout.manual_menu_item, this);
+
+        if (theme.equals("Ambient"))
+            inflater.inflate(R.layout.manual_menu_item_ambient, this);
+        if (theme.equals("Classic"))
+            inflater.inflate(R.layout.manual_menu_item, this);
+        if (theme.equals("Material"))
+            inflater.inflate(R.layout.manual_menu_item_material, this);
+        if (theme.equals("Minimal"))
+            inflater.inflate(R.layout.menu_minimal_fragment, this);
+        if (theme.equals("Nubia"))
+            inflater.inflate(R.layout.menu_nubia_fragment, this);
+
+
         this.textViewName = (TextView)findViewById(R.id.manual_item_Text);
         this.textViewValue = (TextView)findViewById(R.id.manual_item_valueText);
         this.name = name;

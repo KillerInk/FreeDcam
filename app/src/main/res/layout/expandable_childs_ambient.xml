@@ -18,10 +18,10 @@
         android:gravity="center_horizontal"
         android:textStyle="bold"
         android:autoText="false"
-        android:textColor="#ff000000"
+        android:textColor="#ffffffff"
         android:layout_marginLeft="@dimen/MargineMenuItems"
         android:layout_marginRight="@dimen/MargineMenuItems"
-        android:background="#93ffffff" />
+        android:background="#81363636" />
     <TextView
         android:id="@+id/tvChildValue"
         android:layout_width="fill_parent"
@@ -34,6 +34,6 @@
         android:textColor="#ffffffff"
         android:layout_marginRight="@dimen/MargineMenuItems"
         android:layout_marginLeft="@dimen/MargineMenuItems"
-        android:background="#96000000" />
+        android:background="#81000000" />
 
 </LinearLayout>

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_icon_size"
     android:orientation="vertical"
-    android:background="#82343434"
     android:id="@+id/GroupContainer"
     android:layout_marginBottom="10dp"
     android:layout_marginRight="1dp">
@@ -18,7 +17,8 @@
         android:textColor="#ffffffff"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginLeft="@dimen/MargineMenuItems"
-        android:layout_marginRight="@dimen/MargineMenuItems" />
+        android:layout_marginRight="@dimen/MargineMenuItems"
+        android:textColorHighlight="#33414141" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -79,8 +79,7 @@ android:layout_alignParentBottom="false"
     <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageViewMode"
-        android:background="@drawable/material_ui_mode_pic" />
+        android:id="@+id/imageViewMode" />
 
 </LinearLayout>
 
@@ -141,8 +140,7 @@ android:layout_alignParentBottom="false"
     <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageViewFlash"
-        android:background="@drawable/material_ui_flash_off" />
+        android:id="@+id/imageViewFlash" />
 
 </LinearLayout>
 
@@ -190,8 +188,7 @@ android:layout_alignParentBottom="false"
     <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
-        android:id="@+id/imageViewNight"
-        android:background="@drawable/material_ui_night_off" />
+        android:id="@+id/imageViewNight" />
 
 </LinearLayout>
 

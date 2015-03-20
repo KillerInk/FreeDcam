@@ -75,38 +75,38 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
         manualItems = new ArrayList<ManualMenuItem>();
 
-        brightnes = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_brightness), this);
+        brightnes = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_brightness), this,appSettingsManager);
         addToLists(brightnes);
 
-        burst = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_burst), this);
+        burst = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_burst), this,appSettingsManager);
         addToLists(burst);
 
-        cct = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_cct), this);
+        cct = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_cct), this,appSettingsManager);
         addToLists(cct);
 
-        contrast = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_contrast), this);
+        contrast = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_contrast), this,appSettingsManager);
         addToLists(contrast);
-        convergence = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_convergence), this);
+        convergence = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_convergence), this,appSettingsManager);
         addToLists(convergence);
-        exposure = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_exposure), this);
+        exposure = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_exposure), this,appSettingsManager);
         addToLists(exposure);
-        focus = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_focus), this);
+        focus = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_focus), this,appSettingsManager);
         addToLists(focus);
 
-        fx = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_fx), this);
+        fx = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_fx), this,appSettingsManager);
         addToLists(fx);
 
-        saturation = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_saturation), this);
+        saturation = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_saturation), this,appSettingsManager);
         addToLists(saturation);
-        sharp = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_sharpness), this);
+        sharp = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_sharpness), this,appSettingsManager);
         addToLists(sharp);
-        shutter = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_shutter), this);
+        shutter = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_shutter), this,appSettingsManager);
         addToLists(shutter);
-        iso = new ManualMenuItem(activity.getContext(), "iso" , this);
+        iso = new ManualMenuItem(activity.getContext(), "iso" , this,appSettingsManager);
         addToLists(iso);
-        zoom = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_zoom), this);
+        zoom = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_zoom), this,appSettingsManager);
         addToLists(zoom);
-        fnumber = new ManualMenuItem(activity.getContext(), "FNumber",this);
+        fnumber = new ManualMenuItem(activity.getContext(), "FNumber",this,appSettingsManager);
         addToLists(fnumber);
 
 
