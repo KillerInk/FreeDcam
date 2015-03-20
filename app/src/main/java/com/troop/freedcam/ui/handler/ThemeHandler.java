@@ -101,6 +101,7 @@ public class ThemeHandler implements I_ModuleEvent
         activity_v2.updatePreviewHandler();
 
         SettingsMenuFragment();
+        activity_v2.inflateMenuFragment();
 
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();

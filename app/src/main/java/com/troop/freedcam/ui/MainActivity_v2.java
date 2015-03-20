@@ -360,6 +360,22 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         }
     }
 
+    public void inflateMenuFragment()
+    {
+        if (menuFragment == null)
+        {
+            menuFragment = new MenuFragment();
+        }
+        menuFragment.SetAppSettings(appSettingsManager);
+        menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
+        transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
+        transaction.commit();
+    }
+
     public void HIDENAVBAR()
     {
         if (Build.VERSION.SDK_INT < 16) {
