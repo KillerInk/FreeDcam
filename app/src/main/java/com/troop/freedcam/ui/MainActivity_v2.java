@@ -372,14 +372,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                         tmp.setImageDrawable(null);
                         //tmp.setImageBitmap(null);
                         tmp.setBackgroundColor(Color.argb(200,20,20,20));
-
-
-
                     break;
+                case "Classic":
+                    tmp.setImageDrawable(null);
+                    tmp.setBackgroundColor(Color.TRANSPARENT);
                 case "Nubia":
                     tmp.setImageDrawable(null);
                     tmp.setBackgroundColor(Color.argb(200,90,90,90));
-
                     break;
                 case "Material":
                     tmp.setImageDrawable(null);
