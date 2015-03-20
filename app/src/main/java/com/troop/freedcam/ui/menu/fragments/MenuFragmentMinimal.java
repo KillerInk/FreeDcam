@@ -1,6 +1,7 @@
 package com.troop.freedcam.ui.menu.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -29,6 +30,19 @@ public class MenuFragmentMinimal extends MenuFragment {
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
         menuHandler = new MenuHandler(this,(MainActivity_v2)getActivity(), appSettingsManager);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
+
+        settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
+
+
+        settingsLayoutHolder.setBackgroundColor(Color.TRANSPARENT);
+        settingsLayoutHolder.post(new Runnable() {
+            @Override
+            public void run() {
+
+                settingsLayoutHolder.setBackgroundDrawable(null);
+                settingsLayoutHolder.setBackgroundColor(Color.argb(200,20,20,20));
+            }
+        });
 
 
         return view;

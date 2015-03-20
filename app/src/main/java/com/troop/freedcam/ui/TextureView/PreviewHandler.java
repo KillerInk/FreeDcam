@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Display;
@@ -138,106 +139,70 @@ public class PreviewHandler extends RelativeLayout
             return 0;
     }
 
-    public void leftFragHandler()
+    public  void SwitchTheme()
     {
-
         String theme = appSettingsManager.GetTheme();
+
+        LinearLayout.LayoutParams Rparams = new LinearLayout.LayoutParams(getWidth()-getMargineRight(), getHeight());
+        rightview.setLayoutParams(Rparams);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getMargineLeft(), getWidth());
         leftview.setLayoutParams(params);
-        switch (theme)
+
+        if (!theme.equals("Ambient"))
         {
-
-            case "Minimal":
-                leftview.setVisibility(View.VISIBLE);
-                leftview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
-                System.out.println("Snoop" + " " + theme);
-                break;
-            case "Nubia":
-
-                leftview.setVisibility(View.VISIBLE);
-                leftview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
-                System.out.println("Snoop" + " " + theme);
-                break;
-            case "Material":
-
-                leftview.setVisibility(View.VISIBLE);
-                leftview.setImageDrawable(null);
-                leftview.setBackgroundColor(Color.argb(130, 50, 50, 50));
-
-                System.out.println("Snoop" + " " + theme);
-                break;
-            case "Ambient":
-                leftview.setVisibility(View.VISIBLE);
-                final int a = 240;
-                final int b = 1080;
-
-
-                leftview.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
-                        int[] sizess = {a, b, getWidth(), getHeight()};
-
-                        leftview.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover, sizess, true));
-                    }
-                });
-
-                break;
-            default:
-                leftview.setVisibility(View.INVISIBLE);
-
-                break;
+            if (Build.VERSION.SDK_INT < 16)
+                PreviewHandler.this.setBackgroundDrawable(null);
+            else
+                PreviewHandler.this.setBackground(null);
         }
-        System.out.println("Snoop " + getMargineLeft() + "surface " + surfaceView.getMeasuredWidth());
-    }
 
-    public  void rightFragHandler()
-    {
-        String theme = appSettingsManager.GetTheme();
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getMargineRight(), getWidth());
 
         switch (theme) {
             case "Minimal":
 
                 rightview.setVisibility(View.VISIBLE);
                 rightview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
+                leftview.setVisibility(View.VISIBLE);
+                leftview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Nubia":
                 rightview.setVisibility(View.VISIBLE);
                 rightview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
+                leftview.setVisibility(View.VISIBLE);
+                leftview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Material":
-
                 rightview.setVisibility(View.VISIBLE);
                 rightview.setImageDrawable(null);
                 rightview.setBackgroundColor(Color.argb(130,50,50,50));
-
+                leftview.setVisibility(View.VISIBLE);
+                leftview.setImageDrawable(null);
+                leftview.setBackgroundColor(Color.argb(130, 50, 50, 50));
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Ambient":
-                rightview.setVisibility(View.VISIBLE);
+                rightview.setVisibility(View.GONE);
+                leftview.setVisibility(GONE);
+                if (getWidth() == 0 || getHeight() == 0)
+                    return;
 
                 TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(context), -90f, getWidth(), getHeight());
-
                 BitmapUtil.initBlur(context, TMPBMP);
-
                 AmbientCoverSML = TMPBMP;
-
                 BitmapUtil.doGausianBlur(AmbientCoverSML, TMPBMP, 16f);
-
                 AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,getWidth(),getHeight());
-
-                rightview.post(new Runnable() {
+                this.post(new Runnable() {
                     @Override
-                    public void run() {
-                        //System.out.println("Freed ImageView"+AmbientR.getMeasuredWidth() +" "+ AmbientR.getMeasuredHeight());
-                        int[] sizess = {242, 1080, getWidth(), getHeight()};
+                    public void run()
+                    {
+                        if (Build.VERSION.SDK_INT < 16)
+                            PreviewHandler.this.setBackgroundDrawable(new BitmapDrawable(AmbientCover));
+                        else
+                            PreviewHandler.this.setBackground(new BitmapDrawable(getResources(), AmbientCover));
 
-                        rightview.setImageBitmap(BitmapUtil.CropBitmap(AmbientCover, sizess, false));
                     }
                 });
 

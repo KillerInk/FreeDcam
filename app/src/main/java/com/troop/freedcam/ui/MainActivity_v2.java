@@ -105,7 +105,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     MainActivity_v2 activity;
     ApiHandler apiHandler;
     TimerHandler timerHandler;
-    PreviewHandler previewHandler;
+    public PreviewHandler previewHandler;
 
     //OrientationHandler orientationHandler;
     //HelpOverlayHandler helpOverlayHandler;
@@ -274,14 +274,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     }
 
     public void updatePreviewHandler() {
-        previewHandler.rightFragHandler();
-        previewHandler.leftFragHandler();
+        previewHandler.SwitchTheme();
         previewHandler.setRalphas();
         previewHandler.setLalphas();
     }
 
 
-    private void CoverCamUI(Boolean shown)
+    /*private void CoverCamUI(Boolean shown)
     {
         ImageView tmp = (ImageView)findViewById(R.id.SettingsCover);
 
@@ -324,7 +323,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             tmp.setVisibility(View.GONE);
             LockWidgets(true);
         }
-    }
+    }*/
 
     private void LockWidgets(boolean status)
     {
@@ -620,7 +619,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
 
 
-                CoverCamUI(true);
+
                 settingsLayloutOpen = true;
             }
         }
@@ -634,7 +633,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                 fragmentTransaction.commit();
 
                 settingsLayloutOpen = false;
-                CoverCamUI(false);
+
             }
         }
     }

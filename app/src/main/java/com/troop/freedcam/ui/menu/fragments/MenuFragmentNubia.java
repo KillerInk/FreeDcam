@@ -1,6 +1,8 @@
 package com.troop.freedcam.ui.menu.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -26,6 +28,21 @@ public class MenuFragmentNubia extends MenuFragment {
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
         menuHandler = new MenuHandler(this,(MainActivity_v2)getActivity(), appSettingsManager);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
+
+        settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
+
+
+        settingsLayoutHolder.setBackgroundColor(Color.TRANSPARENT);
+        settingsLayoutHolder.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT <16)
+                    settingsLayoutHolder.setBackgroundDrawable(null);
+                else
+                    settingsLayoutHolder.setBackground(null);
+                settingsLayoutHolder.setBackgroundColor(Color.argb(200,90,90,90));
+            }
+        });
 
 
         return view;

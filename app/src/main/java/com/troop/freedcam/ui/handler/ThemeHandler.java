@@ -98,10 +98,11 @@ public class ThemeHandler implements I_ModuleEvent
     {
         GetThemeFragment();
         activity_v2.inflateShutterItemFragment();
-        activity_v2.updatePreviewHandler();
+
 
         SettingsMenuFragment();
         activity_v2.inflateMenuFragment();
+        activity_v2.updatePreviewHandler();
 
 
         //activity_v2.shutterItemsFragment.ParametersLoaded();

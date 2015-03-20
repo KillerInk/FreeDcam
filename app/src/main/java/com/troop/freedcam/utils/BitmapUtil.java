@@ -117,7 +117,7 @@ public class BitmapUtil {
         if(zeroOffset)
             return Bitmap.createBitmap(crop,0,0,X[0],X[1]);
         else
-            return Bitmap.createBitmap(crop,X[2]-X[1],0,X[0],X[1]);
+            return Bitmap.createBitmap(crop,X[0],0,X[2],X[3]);
     }
 
     public static Bitmap RotateBitmap(Bitmap source,float angle,int SysW,int SysH)
