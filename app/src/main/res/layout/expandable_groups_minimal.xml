@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_icon_size"
+    android:orientation="vertical"
+    android:background="#82343434"
+    android:id="@+id/GroupContainer"
+    android:layout_marginBottom="10dp"
+    android:layout_marginRight="1dp">
+
+
+    <TextView
+        android:id="@+id/tvGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/GroupTextSize"
+        android:text="Group Test"
+        android:textColor="#ffffffff"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="@dimen/MargineMenuItems"
+        android:layout_marginRight="@dimen/MargineMenuItems" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GroupSubMenu"
+        android:background="#a4a0a0a0">
+
+    </LinearLayout>
+</LinearLayout>
