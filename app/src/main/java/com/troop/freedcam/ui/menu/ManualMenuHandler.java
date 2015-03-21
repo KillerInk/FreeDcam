@@ -64,6 +64,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem iso;
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
+    Thread progressq;
 
     private SeekArc mSeekArc;
 
@@ -80,40 +81,65 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
        // manualSeekbar.setOnSeekBarChangeListener(this);
 
-        appSettingsManager.context.runOnUiThread(new Runnable() {
+
+
+
+
+        mSeekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+
             @Override
-            public void run() {
-                mSeekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-
-                    @Override
-                    public void onStopTrackingTouch(SeekArc seekArc) {
-                        userIsSeeking = false;
-                        if (cameraUiWrapper instanceof CameraUiWrapperSony)
-                            setValueToParameters(mSeekArc.getProgres());
-                    }
-                    @Override
-                    public void onStartTrackingTouch(SeekArc seekArc) {
-                        userIsSeeking = true;
-                    }
+            public void onStopTrackingTouch(SeekArc seekArc) {
+                userIsSeeking = false;
+                if (cameraUiWrapper instanceof CameraUiWrapperSony)
+                    setValueToParameters(mSeekArc.getProgres());
+            }
+            @Override
+            public void onStartTrackingTouch(SeekArc seekArc) {
+                userIsSeeking = true;
+            }
 
 
-                    @Override
-                    public void onProgressChanged(SeekArc seekArc, int progress,
-                                                  boolean fromUser) {
-                        seekbarText.setText(String.valueOf(progress));
-                        if (fromUser && currentItem != null)
-                        {
-                            if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
+
+
+
+
+            @Override
+            public void onProgressChanged(SeekArc seekArc, final int progress,
+                                          boolean fromUser) {
+
+
+               // seekbarText.setText(String.valueOf(progress));
+                if (fromUser && currentItem != null) {
+                    if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
+                        new Thread() {
+                            @Override
+                            public void run() {
                                 setValueToParameters(mSeekArc.getProgres());
-                            if (realMin < 0)
+                            }
+                        }.start();
+
+                    if (realMin < 0) {
+                        new Thread() {
+                            @Override
+                            public void run() {
                                 setValueToTextBox(progress + realMin);
-                            else
+                            }
+                        }.start();
+                    } else {
+                        new Thread() {
+                            @Override
+                            public void run() {
                                 setValueToTextBox(progress);
-                        }
+                            }
+                        }.start();
+
                     }
-                });
+                }
             }
         });
+
+
+
 
 
 
