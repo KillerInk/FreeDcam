@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -221,11 +222,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
             Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Point size = new Point();
+            display.getRealSize(size);
 
 
             preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                    display.getWidth(), display.getHeight(), largest);
-            textureView.setAspectRatio(preview.getWidth(), preview.getHeight());
+                    size.x,size.y, largest);
+            textureView.setPreviewToDisplay(size.x, size.y);
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
             configureTransform(textureView.getWidth(), textureView.getHeight());
