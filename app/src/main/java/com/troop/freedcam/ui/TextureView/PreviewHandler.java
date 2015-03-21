@@ -147,7 +147,7 @@ public class PreviewHandler extends RelativeLayout
         rightview.setLayoutParams(Rparams);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getMargineLeft(), getWidth());
-        leftview.setLayoutParams(params);
+        leftview.setLayoutParams(Rparams);
 
         if (!theme.equals("Ambient"))
         {
@@ -162,9 +162,16 @@ public class PreviewHandler extends RelativeLayout
             case "Minimal":
 
                 rightview.setVisibility(View.VISIBLE);
-                rightview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
-                leftview.setVisibility(View.VISIBLE);
-                leftview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
+
+                rightview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        rightview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_right_bg));
+                        leftview.setVisibility(View.VISIBLE);
+                        leftview.setImageDrawable(getResources().getDrawable(R.drawable.minimal_ui_left_bg));
+                    }
+                });
+
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Nubia":
@@ -177,7 +184,7 @@ public class PreviewHandler extends RelativeLayout
             case "Material":
                 rightview.setVisibility(View.VISIBLE);
                 rightview.setImageDrawable(null);
-                rightview.setBackgroundColor(Color.argb(130,50,50,50));
+                rightview.setBackgroundColor(Color.argb(130, 50, 50, 50));
                 leftview.setVisibility(View.VISIBLE);
                 leftview.setImageDrawable(null);
                 leftview.setBackgroundColor(Color.argb(130, 50, 50, 50));
@@ -196,8 +203,7 @@ public class PreviewHandler extends RelativeLayout
                 AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,getWidth(),getHeight());
                 this.post(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         if (Build.VERSION.SDK_INT < 16)
                             PreviewHandler.this.setBackgroundDrawable(new BitmapDrawable(AmbientCover));
                         else

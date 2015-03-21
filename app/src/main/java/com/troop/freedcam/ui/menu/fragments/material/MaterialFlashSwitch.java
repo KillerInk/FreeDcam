@@ -178,20 +178,50 @@ public class MaterialFlashSwitch extends FlashSwitchHandler {
         }
     }
 
+    private void initButtons()
+    {
+        String module =  appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
+
+        if (module.equals("auto"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_auto_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("on"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_on_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("off") ||module.equals(""))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_off_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("torch"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_torch_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+
+    }
+
     @Override
     public void ParametersLoaded()
     {
+
         if (cameraUiWrapper.camParametersHandler.FlashMode != null)
         {
             flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
             flashmode.addEventListner(this);
             //flashmode.BackgroundIsSupportedChanged(true);
+
         }
         Log.d(TAG, "ParametersLoaded");
         activity.post(new Runnable() {
             @Override
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.FlashMode != null &&  cameraUiWrapper.camParametersHandler.FlashMode.IsSupported()) {
+                    initButtons();
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
                     String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();
@@ -209,6 +239,8 @@ public class MaterialFlashSwitch extends FlashSwitchHandler {
                 }
             }
         });
+
+
 
     }
 }

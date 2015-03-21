@@ -63,6 +63,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
 
             //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_on);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -84,6 +85,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
 
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_off);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -105,6 +107,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
 
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_tripod);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -133,6 +136,28 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
             HouseNight.setVisibility(View.GONE);
         }
     }
+    private void initButtons()
+    {
+
+        String module =  appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
+        if (module.equals("tripod"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_tripod);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("on"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_on);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("off") ||module.equals(""))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_night_off);
+            textView.setImageBitmap(tmp);
+        }
+
+
+    }
 
     @Override
     public void ParametersLoaded()
@@ -142,6 +167,7 @@ public class AmbientNightSwitch extends NightModeSwitchHandler {
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.NightMode != null && cameraUiWrapper.camParametersHandler.NightMode.IsSupported())
                 {
+                    initButtons();
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
                     String para = cameraUiWrapper.camParametersHandler.NightMode.GetValue();

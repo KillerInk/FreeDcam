@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.camera2.params.BlackLevelPattern;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     boolean isSetSupported = false;
     int btncolor;
     int txtcolor;
-    int enable = Color.GREEN;
+    int enable = Color.WHITE;
     String[] stringValues;
     ManualMenuItem manualMenuItem;
     protected AppSettingsManager appSettingsManager;
@@ -58,7 +59,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         if (theme.equals("Material"))
             inflater.inflate(R.layout.manual_menu_item_material, this);
         if (theme.equals("Minimal"))
-            inflater.inflate(R.layout.menu_minimal_fragment, this);
+            inflater.inflate(R.layout.manual_menu_item_minimal, this);
         if (theme.equals("Nubia"))
             inflater.inflate(R.layout.menu_nubia_fragment, this);
 
@@ -145,13 +146,13 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         isChecked = true;
         if (isSetSupported)
         {
-            textViewName.setTextColor(txtcolor);
-            textViewValue.setTextColor(txtcolor);
+            textViewName.setTextColor(btncolor);
+            textViewValue.setTextColor(btncolor);
         }
         else
         {
-            textViewName.setTextColor(btncolor);
-            textViewValue.setTextColor(btncolor);
+            textViewName.setTextColor(Color.BLACK);
+            textViewValue.setTextColor(Color.BLACK);
         }
         toggleButton.setBackgroundColor(enable);
     }

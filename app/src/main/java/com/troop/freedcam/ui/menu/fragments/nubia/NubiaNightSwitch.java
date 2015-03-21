@@ -136,6 +136,28 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
             HouseNight.setVisibility(View.GONE);
         }
     }
+    private void initButtons()
+    {
+
+        String module =  appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
+        if (module.equals("tripod"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_tripod);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("on"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_on);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("off") ||module.equals(""))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_night_off);
+            textView.setImageBitmap(tmp);
+        }
+
+
+    }
 
     @Override
     public void ParametersLoaded()
@@ -145,6 +167,7 @@ public class NubiaNightSwitch extends NightModeSwitchHandler
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.NightMode != null && cameraUiWrapper.camParametersHandler.NightMode.IsSupported())
                 {
+                    initButtons();
                     textView.setVisibility(View.VISIBLE);
                 }
                 else

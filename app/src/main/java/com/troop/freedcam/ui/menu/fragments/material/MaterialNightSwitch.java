@@ -134,6 +134,29 @@ public class MaterialNightSwitch extends NightModeSwitchHandler {
         }
     }
 
+    private void initButtons()
+    {
+
+        String module =  appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
+        if (module.equals("tripod"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_brightness_5_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("on"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_brightness_4_white_48dp);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("off") ||module.equals(""))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_brightness_4_grey600_48dp);
+            textView.setImageBitmap(tmp);
+        }
+
+
+    }
+
     @Override
     public void ParametersLoaded()
     {
@@ -142,6 +165,7 @@ public class MaterialNightSwitch extends NightModeSwitchHandler {
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.NightMode != null && cameraUiWrapper.camParametersHandler.NightMode.IsSupported())
                 {
+                    initButtons();
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_NIGHTEMODE);
                     String para = cameraUiWrapper.camParametersHandler.NightMode.GetValue();

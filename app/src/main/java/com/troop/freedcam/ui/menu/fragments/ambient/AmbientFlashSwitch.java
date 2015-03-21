@@ -70,6 +70,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
 
             //moduleView.setBackground(activity.findViewById(R.drawable.nubia_ui_mode_pic));
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_on);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -90,6 +91,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "off");
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_off);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -110,6 +112,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "torch");
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_torch);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
 
@@ -130,6 +133,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             appSettingsManager.setString(AppSettingsManager.SETTING_FLASHMODE, "auto");
 
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_auto);
+            textView.setImageDrawable(null);
             textView.setImageBitmap(tmp);
 
             HouseFlash.setVisibility(View.GONE);
@@ -178,6 +182,32 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
         }
     }
 
+    private void initButtons()
+    {
+        String module =  appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
+        if (module.equals("auto"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_auto);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("on"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_on);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("off") ||module.equals(""))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_off);
+            textView.setImageBitmap(tmp);
+        }
+        else if (module.equals("torch"))
+        {
+            Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_flash_torch);
+            textView.setImageBitmap(tmp);
+        }
+
+    }
+
     @Override
     public void ParametersLoaded()
     {
@@ -192,6 +222,7 @@ public class AmbientFlashSwitch extends FlashSwitchHandler {
             @Override
             public void run() {
                 if (cameraUiWrapper.camParametersHandler.FlashMode != null && cameraUiWrapper.camParametersHandler.FlashMode.IsSupported()) {
+                    initButtons();
                     textView.setVisibility(View.VISIBLE);
                     String appSet = appSettingsManager.getString(AppSettingsManager.SETTING_FLASHMODE);
                     String para = cameraUiWrapper.camParametersHandler.FlashMode.GetValue();

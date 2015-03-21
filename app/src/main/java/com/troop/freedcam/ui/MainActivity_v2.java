@@ -267,8 +267,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
 
-
+previewHandler.surfaceView.post(new Runnable() {
+    @Override
+    public void run() {
         updatePreviewHandler();
+    }
+});
+
 
 
     }
