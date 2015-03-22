@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu;
 
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -80,7 +81,31 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
         seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
        // manualSeekbar.setOnSeekBarChangeListener(this);
+        Typeface font;
 
+        switch (appSettingsManager.GetTheme())
+        {
+            case "Ambient": case "Nubia":
+            font = Typeface.createFromAsset(appSettingsManager.context.getAssets(),"fonts/arial.ttf");
+            seekbarText.setTypeface(font);
+
+            break;
+            case "Minimal":
+                font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BRADHITC.TTF");
+                seekbarText.setTypeface(font);
+
+
+                break;
+
+            case "Material":
+                font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BOOKOS.TTF");
+                seekbarText.setTypeface(font);
+
+
+                break;
+
+
+        }
 
 
 
@@ -92,6 +117,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                 userIsSeeking = false;
                 if (cameraUiWrapper instanceof CameraUiWrapperSony)
                     setValueToParameters(mSeekArc.getProgres());
+                if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && currentItem.name.equals("Shutter"))
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            setValueToParameters(mSeekArc.getProgres());
+                        }
+                    }.start();
             }
             @Override
             public void onStartTrackingTouch(SeekArc seekArc) {
@@ -110,7 +142,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
                // seekbarText.setText(String.valueOf(progress));
                 if (fromUser && currentItem != null) {
-                    if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
+                    if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
                         new Thread() {
                             @Override
                             public void run() {

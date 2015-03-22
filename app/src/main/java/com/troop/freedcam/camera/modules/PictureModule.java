@@ -474,6 +474,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
 
+        if(DeviceUtils.isZTEADV())
+           parametersHandler.setString("slow_shutter", "-1");
+
     }
 
     @Override

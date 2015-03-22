@@ -64,6 +64,7 @@
                     seekarc:touchInside="true"
                     android:layout_gravity="left|top" />
             </FrameLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -6,7 +6,9 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.androiddng.DeviceUtils;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -26,11 +28,13 @@ public class VideoModule extends AbstractModule
     protected MediaRecorder recorder;
     String mediaSavePath;
     BaseCameraHolder baseCameraHolder;
+    CamParametersHandler camParametersHandler;
 
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
         this.baseCameraHolder = cameraHandler;
+        camParametersHandler = (CamParametersHandler) ParameterHandler;
     }
 
 
@@ -231,6 +235,8 @@ public class VideoModule extends AbstractModule
 
     private void loadProfileSpecificParameters()
     {
+        if(DeviceUtils.isZTEADV())
+            camParametersHandler.setString("slow_shutter", "-1");
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {

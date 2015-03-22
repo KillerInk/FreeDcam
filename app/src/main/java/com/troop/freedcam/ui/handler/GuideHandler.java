@@ -64,7 +64,7 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
         img.post(new Runnable() {
             @Override
             public void run() {
-                System.out.println("defcomg "+ "truck");
+
 
                 if(str.equals("Golden Spiral")){
 

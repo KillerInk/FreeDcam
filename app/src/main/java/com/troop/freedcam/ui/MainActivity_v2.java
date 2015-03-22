@@ -63,6 +63,7 @@ import com.troop.freedcam.ui.switches.FlashSwitchHandler;
 import com.troop.freedcam.ui.switches.ModuleSwitchHandler;
 import com.troop.freedcam.ui.switches.NightModeSwitchHandler;
 import com.troop.freedcam.utils.BitmapUtil;
+import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
@@ -113,6 +114,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     InfoOverlayHandler infoOverlayHandler;
     MessageHandler messageHandler;
     public ThemeHandler themeHandler;
+    public SensorsUtil sensorsUtil;
 
 
     //bitmaps
@@ -170,6 +172,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
+        sensorsUtil = new SensorsUtil();
 
         previewHandler = (PreviewHandler) findViewById(R.id.CameraPreview);
         previewHandler.activity = this;
@@ -202,6 +205,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         themeHandler.GetThemeFragment();
         themeHandler.SettingsMenuFragment();
         shutterItemsFragment.SetAppSettings(appSettingsManager);
+      //  sensorsUtil.init();
+      //  sensorsUtil.setUp();
+       // sensorsUtil.start();
+
+        System.out.println("Snoop "+sensorsUtil.getMotion());
     }
 
     private void loadCameraUiWrapper()
@@ -214,6 +222,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
         cameraUiWrapper.SetCameraChangedListner(this);
         cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
+
 
         initCameraUIStuff(cameraUiWrapper);
 
@@ -416,6 +425,8 @@ previewHandler.surfaceView.post(new Runnable() {
         orientationHandler.Start();
         infoOverlayHandler.StartUpdating();
 
+        //sensorsUtil.start();
+
 
         Log.d(TAGLIFE, "Activity onResume");
     }
@@ -427,7 +438,11 @@ previewHandler.surfaceView.post(new Runnable() {
         messageHandler.close();
         infoOverlayHandler.StopUpdating();
         orientationHandler.Stop();
+
+      //  sensorsUtil.stop();
         destroyCameraUiWrapper();
+
+
 
 
         Log.d(TAGLIFE, "Activity onPause");

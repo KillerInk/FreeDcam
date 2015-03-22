@@ -156,7 +156,12 @@ public class ShutterManualParameter extends BaseManualParameter
             }
             }
             else {
-                parameters.put("slow_shutter_addition", "0");
+                parameters.put("slow_shutter", "-1");
+               // parameters.put("slow_shutter_addition", "0");
+                baseCameraHolder.StopPreview();
+                baseCameraHolder.StartPreview();
+
+
 
             }
 

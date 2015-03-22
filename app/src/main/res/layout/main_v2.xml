@@ -208,18 +208,20 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="false">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/appiconsizedouble"
+            android:layout_height="wrap_content"
             android:id="@+id/imageView_Thumbnail"
             android:layout_gravity="bottom|left"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="false"
             android:layout_alignParentLeft="true"
-            android:background="#658b8b8b"
-            android:minWidth="@dimen/appiconsizedouble" />
+            android:background="@drawable/thumbnail"
+            android:maxWidth="60dp"
+            android:maxHeight="60dp" />
     </LinearLayout>
 
     <LinearLayout

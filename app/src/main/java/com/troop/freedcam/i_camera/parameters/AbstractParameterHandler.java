@@ -62,6 +62,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter AE_Bracket;
     public AbstractModeParameter Histogram;
     public AbstractModeParameter ExposureLock;
+    //public AbstractModeParameter ExposureLock;
 
     public AbstractModeParameter VideoProfiles;
     public AbstractModeParameter VideoProfilesG3;
