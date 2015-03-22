@@ -53,16 +53,17 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         this.context = context;
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (theme.equals("Ambient"))
+        inflateTheme(inflater);
+        /*if (theme.equals("Ambient"))
             inflater.inflate(R.layout.expandable_childs_ambient, this);
-        if (theme.equals("Classic"))
-            inflater.inflate(R.layout.expandable_childs, this);
+
+
         if (theme.equals("Material"))
             inflater.inflate(R.layout.expandable_childs_material, this);
         if (theme.equals("Minimal"))
             inflater.inflate(R.layout.expandable_childs_minimal, this);
         if (theme.equals("Nubia"))
-            inflater.inflate(R.layout.expandable_childs_nubia, this);
+            inflater.inflate(R.layout.expandable_childs_nubia, this);*/
 
 
 
@@ -70,6 +71,11 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         nameTextView.setText(Name);
         valueTextView = (TextView)findViewById(R.id.tvChildValue);
         modulesToShow = new ArrayList<String>();
+    }
+
+    protected void inflateTheme(LayoutInflater inflater)
+    {
+        inflater.inflate(R.layout.expandable_childs, this);
     }
 
     public String getName() {

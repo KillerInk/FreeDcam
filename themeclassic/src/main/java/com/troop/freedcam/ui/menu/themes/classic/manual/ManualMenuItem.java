@@ -52,16 +52,16 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
        // inflater.inflate(R.layout.manual_menu_item, this);
 
-        if (theme.equals("Ambient"))
-            inflater.inflate(R.layout.manual_menu_item_ambient, this);
-        if (theme.equals("Classic"))
-            inflater.inflate(R.layout.manual_menu_item, this);
-        if (theme.equals("Material"))
+        //if (theme.equals("Ambient"))
+          //  inflater.inflate(R.layout.manual_menu_item_ambient, this);
+        infalteTheme(inflater);
+
+        /*if (theme.equals("Material"))
             inflater.inflate(R.layout.manual_menu_item_material, this);
         if (theme.equals("Minimal"))
             inflater.inflate(R.layout.manual_menu_item_minimal, this);
         if (theme.equals("Nubia"))
-            inflater.inflate(R.layout.menu_nubia_fragment, this);
+            inflater.inflate(R.layout.menu_nubia_fragment, this);*/
 
 
         this.textViewName = (TextView)findViewById(R.id.manual_item_Text);
@@ -80,6 +80,11 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         if (background instanceof ColorDrawable)
             btncolor = ((ColorDrawable) background).getColor();
 
+    }
+
+    protected void infalteTheme(LayoutInflater inflater)
+    {
+        inflater.inflate(R.layout.manual_menu_item, this);
     }
 
 

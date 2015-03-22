@@ -131,14 +131,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/screen_flash"
-        android:background="#ff0808ff"
-        android:alpha="0.5"></LinearLayout>
-
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -239,30 +231,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="false">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/moduleSwitch_placeholder"
-            android:layout_gravity="bottom">
-
-            <ListView
-                android:layout_width="@dimen/submenuWidth"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView_popup"
-                android:headerDividersEnabled="false"
-                android:background="#b0000000" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"

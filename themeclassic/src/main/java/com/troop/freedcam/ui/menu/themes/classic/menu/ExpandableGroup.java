@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.I_OnGroupClicked;
 
@@ -48,17 +49,18 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         this.context =context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        String theme = appSettingsManager.GetTheme();
-        if (theme.equals("Ambient"))
+
+
+        infalteTheme(inflater);
+
+        /*if (theme.equals("Ambient"))
             inflater.inflate(R.layout.expandable_groups_ambient, this);
-        if (theme.equals("Classic"))
-            inflater.inflate(R.layout.expandable_groups, this);
         if (theme.equals("Material"))
             inflater.inflate(R.layout.expandable_groups_material, this);
         if (theme.equals("Minimal"))
             inflater.inflate(R.layout.expandable_groups_minimal, this);
         if (theme.equals("Nubia"))
-            inflater.inflate(R.layout.expandable_groups_nubia, this);
+            inflater.inflate(R.layout.expandable_groups_nubia, this);*/
         //inflater.inflate(R.layout.expandable_groups, this);
 
         this.textView = (TextView)findViewById(R.id.tvGroup);
@@ -75,6 +77,11 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
 
         //groupcontainer.removeView(submenu);
         submenuVisible =false;
+    }
+
+    protected void infalteTheme(LayoutInflater inflater)
+    {
+        inflater.inflate(R.layout.expandable_groups, this);
     }
 
     public void SetOnGroupItemClickListner(I_OnGroupClicked groupclick)

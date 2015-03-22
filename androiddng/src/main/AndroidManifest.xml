@@ -1,5 +1,18 @@
-<manifest package="troop.com.androiddng">
+<manifest package="troop.com.androiddng" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+    <activity
+        android:name="com.troop.androiddng.MainActivity"
+        android:label="androiddng"
+        >
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+        </intent-filter>
 
 
 
+    </activity>
+    </application>
 </manifest>

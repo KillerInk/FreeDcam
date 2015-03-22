@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.R;
 
 /**
  * Created by Ingo on 25.12.2014.
@@ -54,13 +55,14 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
     {
         int a;
         int b;
+        a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;
 
-        String theme = appSettingsManager.GetTheme();
+        /*String theme = appSettingsManager.GetTheme();
 
         if (theme.equals("Ambient")){
           a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
-       else if (theme.equals("Classic")){
-            a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
+       else if (theme.equals("Classic")){}
+
 
        else if (theme.equals("Material")){
             a = R.drawable.ic_ae_lock_off; b = R.drawable.ic_ae_lock_on;}
@@ -72,7 +74,7 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
             a = R.drawable.button_expolockfalse; b = R.drawable.button_expolocktrue;}
         else
         {
-            a = R.drawable.minimal_ui_ae_off; b = R.drawable.minimal_ui_ae_on;}
+            a = R.drawable.minimal_ui_ae_off; b = R.drawable.minimal_ui_ae_on;}*/
         int [] ab = {a,b};
         return ab;
     }

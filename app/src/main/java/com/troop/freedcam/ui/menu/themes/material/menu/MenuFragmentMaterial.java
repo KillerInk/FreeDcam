@@ -28,7 +28,7 @@ public class MenuFragmentMaterial extends MenuFragment {
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_material_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new MenuHandler(this,(MainActivity_v2)getActivity(), appSettingsManager);
+        menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);

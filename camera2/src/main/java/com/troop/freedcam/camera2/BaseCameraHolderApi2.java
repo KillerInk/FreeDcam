@@ -33,7 +33,7 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.TextureView.AutoFitTextureView;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;

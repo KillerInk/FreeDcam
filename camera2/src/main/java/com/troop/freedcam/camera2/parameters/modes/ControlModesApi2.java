@@ -3,7 +3,6 @@ package com.troop.freedcam.camera2.parameters.modes;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 
-import com.lge.os.Build;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 
 /**

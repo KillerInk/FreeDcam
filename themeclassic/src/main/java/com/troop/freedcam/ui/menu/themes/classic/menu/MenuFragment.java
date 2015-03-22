@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
 
 
@@ -25,6 +26,7 @@ public class MenuFragment extends Fragment
     public AppSettingsManager appSettingsManager;
     public AbstractCameraUiWrapper cameraUiWrapper;
     public SurfaceView surfaceView;
+    public I_Activity i_activity;
 
     public View view;
 
@@ -44,17 +46,17 @@ public class MenuFragment extends Fragment
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new MenuHandler(this, appSettingsManager);
+        menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
 
         return view;
     }
 
-    public void SetAppSettings(AppSettingsManager appSettingsManager)
+    public void SetAppSettings(AppSettingsManager appSettingsManager, I_Activity activity)
     {
         this.appSettingsManager = appSettingsManager;
-
+        this.i_activity = activity;
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)

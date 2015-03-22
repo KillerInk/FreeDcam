@@ -8,12 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.R;
 
 /**
  * Created by troop on 21.08.2014.
@@ -56,7 +58,7 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     public void onClick(View v)
     {
         if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO)) {
-            listView = (ListView) fragment.getActivity().findViewById(R.id.listView_popup);
+            listView = (ListView) activity.findViewById(R.id.listView_popup);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity.getContext(),
                     R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, cameraUiWrapper.camParametersHandler.FlashMode.GetValues());
             //attach adapter to the listview and fill

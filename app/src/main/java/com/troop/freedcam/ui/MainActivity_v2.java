@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -359,7 +360,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         {
             menuFragment = new MenuFragment();
         }
-        menuFragment.SetAppSettings(appSettingsManager);
+        menuFragment.SetAppSettings(appSettingsManager, this);
         menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -524,6 +525,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     }
 
     @Override
+    public void SetTheme(String Theme)
+    {
+        themeHandler.SetTheme(Theme);
+    }
+
+    @Override
     public void onCameraOpen(String message)
     {
         try {
@@ -608,7 +615,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
                 {
                     menuFragment = new MenuFragment();
                 }
-                menuFragment.SetAppSettings(appSettingsManager);
+                menuFragment.SetAppSettings(appSettingsManager, this);
                 menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

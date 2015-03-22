@@ -77,6 +77,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             hasSamsungFrameWork = false;
             Log.d(TAG, "No Samsung Framework");
         }
+        catch (UnsatisfiedLinkError er)
+        {
+            hasSamsungFrameWork = false;
+            Log.d(TAG, "No Samsung Framework");
+        }
 
 
     }

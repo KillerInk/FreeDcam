@@ -7,13 +7,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.menu.themes.R;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void onClick(View v)
     {
-        listView = (ListView) fragment.getActivity().findViewById(R.id.listView_popup);
+        listView = (ListView) activity.findViewById(R.id.listView_popup);
         List<String> mods = new ArrayList<String>();
         for (HashMap.Entry<String,AbstractModule> module : cameraUiWrapper.moduleHandler.moduleList.entrySet())
         {

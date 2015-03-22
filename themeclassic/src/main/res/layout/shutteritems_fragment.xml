@@ -10,7 +10,36 @@
     android:layout_alignParentBottom="false"
     android:id="@+id/ShutterFragmentDefault">
 
-    <ImageView
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="false">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/moduleSwitch_placeholder"
+                android:layout_gravity="bottom">
+
+                <ListView
+                    android:layout_width="@dimen/submenuWidth"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView_popup"
+                    android:headerDividersEnabled="false"
+                    android:background="#b0000000" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
         android:layout_width="@dimen/SizeCameraControls"
         android:layout_height="@dimen/SizeCameraControls"
         android:id="@+id/imageView_cameraSwitch"
@@ -129,6 +158,8 @@
             android:textSize="@dimen/TextSizeSmall"
             android:clickable="true"
             android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

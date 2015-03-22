@@ -16,8 +16,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.camera.modules.ModuleHandler;
+
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
@@ -74,7 +75,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.Settings = Settings;
-        this.name = ModuleHandler.MODULE_PICTURE;
+        this.name = AbstractModuleHandler.MODULE_PICTURE;
 
     }
 

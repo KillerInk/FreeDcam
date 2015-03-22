@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
+import com.troop.freedcam.camera2.AutoFitTextureView;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;

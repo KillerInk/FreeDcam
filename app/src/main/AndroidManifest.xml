@@ -30,14 +30,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="FreeDCam"
+
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
         android:largeHeap="true"
         android:name=".utils.ApplicationContextProvider">
 
         <activity
-            android:name=".ui.MainActivity_v2"
-            android:label="FreeDCam"
+            android:name="com.troop.freedcam.ui.MainActivity_v2"
+
 
             android:icon="@drawable/ic_launcher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
@@ -56,7 +57,7 @@
         </activity>
 
         <activity
-            android:name=".ui.ShareActivity"
+            android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/ic_launcher"
@@ -86,19 +87,7 @@
 
         </activity>
 
-        <activity
-            android:name="troop.com.androiddng.MainActivity"
-            android:label="androiddng"
-            android:icon="@drawable/ic_launcher">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-            </intent-filter>
-
-
-
-        </activity>
 
     </application>
 

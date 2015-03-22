@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.troop.freedcam.ui.TextureView;
+package com.troop.freedcam.camera2;
 
 import android.content.Context;
 import android.content.res.Configuration;

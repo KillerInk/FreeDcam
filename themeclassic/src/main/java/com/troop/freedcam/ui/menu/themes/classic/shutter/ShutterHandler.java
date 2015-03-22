@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.modules.BurstModule;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
+import com.troop.freedcam.ui.menu.themes.R;
 
 /**
  * Created by troop on 26.08.2014.
@@ -23,7 +24,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
     private AbstractCameraUiWrapper cameraUiWrapper;
     ImageView shutterButton;
     String currentModule;
-    LinearLayout flashScreen;
     Fragment fragment;
 
 
@@ -36,10 +36,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         shutterButton.setOnClickListener(this);
         //shutterButton.setOnLongClickListener(this);
         shutterButton.setOnTouchListener(this);
-
-        flashScreen = (LinearLayout)fragment.getActivity().findViewById(R.id.screen_flash);
-        flashScreen.setVisibility(View.GONE);
-
 
     }
 
@@ -68,14 +64,6 @@ public class ShutterHandler implements View.OnClickListener, I_ModuleEvent, View
         if (!currentModule.equals(ModuleHandler.MODULE_BURST))
         {
             cameraUiWrapper.DoWork();
-            flashScreen.setVisibility(View.VISIBLE);
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    flashScreen.setVisibility(View.GONE);
-                }
-            };
-            flashScreen.postDelayed(runnable, 20);
         }
     }
 
