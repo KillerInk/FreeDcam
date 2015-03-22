@@ -4,14 +4,16 @@ import android.content.Context;
 import android.view.SurfaceView;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.ExtendedSurfaceView;
+import com.troop.freedcam.camera.parameters.modes.LongExposureSetting;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.menu.LongExposureSetting;
+
+
+import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExternalShutter;
@@ -37,7 +39,6 @@ import java.util.ArrayList;
 public class MenuCreator
 {
     Context context;
-    MainActivity_v2 activityV2;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
     AbstractParameterHandler parameterHandler;
@@ -83,11 +84,10 @@ public class MenuCreator
 
     LinearLayout submenu;
 
-    public MenuCreator(MenuFragment context, MainActivity_v2 activityV2, AppSettingsManager appSettingsManager)
+    public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager)
     {
         this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
-        this.activityV2 = activityV2;
         this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
     }
 

@@ -13,6 +13,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
 
 

@@ -197,12 +197,12 @@ public class CamParametersHandler extends AbstractParameterHandler
             isDngActive = true;
         cameraHolder.SetCameraParameters(cameraParameters);
 
-        appSettingsManager.context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        //appSettingsManager.context.runOnUiThread(new Runnable() {
+          //  @Override
+            //public void run() {
                 ParametersEventHandler.ParametersHasLoaded();
-            }
-        });
+            //}
+        //});
     }
 
     class SetParameterRunner implements Runnable

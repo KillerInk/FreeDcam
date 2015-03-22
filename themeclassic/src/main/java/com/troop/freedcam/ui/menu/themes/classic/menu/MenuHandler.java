@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.menu.ExpandableGroup;
+import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.I_OnGroupClicked;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.SaveCamParasExpandableChild;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
  */
 public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent, I_OnGroupClicked
 {
-    MainActivity_v2 activityV2;
     MenuFragment context;
     AbstractCameraUiWrapper cameraUiWrapper;
     MenuCreator menuCreator;
@@ -54,15 +53,14 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MenuFragment context, MainActivity_v2 activityV2, AppSettingsManager appSettingsManager)
+    public MenuHandler(MenuFragment context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
-        this.activityV2 = activityV2;
         this.appSettingsManager = appSettingsManager;
         mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
-        menuCreator = new MenuCreator(context,activityV2, appSettingsManager);
+        menuCreator = new MenuCreator(context, appSettingsManager);
         //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
         context.settingsLayoutHolder.removeView(listView);
     }
@@ -182,9 +180,9 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     public String ModuleChanged(String module)
     {
         if (module == null || module.equals(""))
-            module = ModuleHandler.MODULE_PICTURE;
+            module = AbstractModuleHandler.MODULE_PICTURE;
         if (grouplist != null && mainMenuView != null) {
-            if (module.equals(ModuleHandler.MODULE_LONGEXPO)) {
+            if (module.equals(AbstractModuleHandler.MODULE_LONGEXPO)) {
                 if (grouplist.contains(picSettings))
                     grouplist.remove(picSettings);
                 if (grouplist.contains(videoSettings))
@@ -192,7 +190,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                 if (!grouplist.contains(previewSettings))
                     grouplist.add(previewSettings);
             }
-            if (module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR))
+            if (module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR))
             {
                 if (!grouplist.contains(picSettings))
                     grouplist.add(picSettings);
@@ -201,7 +199,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                 if (grouplist.contains(videoSettings))
                     grouplist.remove(videoSettings);
             }
-            if (module.equals(ModuleHandler.MODULE_VIDEO))
+            if (module.equals(AbstractModuleHandler.MODULE_VIDEO))
             {
                 if (grouplist.contains(picSettings))
                     grouplist.remove(picSettings);

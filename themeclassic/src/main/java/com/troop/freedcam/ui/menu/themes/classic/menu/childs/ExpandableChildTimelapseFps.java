@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.ExpandableGroup;
+import com.troop.freedcam.ui.menu.themes.R;
+import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
+
 
 import java.util.ArrayList;
 

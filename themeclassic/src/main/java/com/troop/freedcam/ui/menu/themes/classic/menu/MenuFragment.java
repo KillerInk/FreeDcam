@@ -10,12 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.R;
-import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
+
 
 /**
  * Created by troop on 27.02.2015.
@@ -46,7 +44,7 @@ public class MenuFragment extends Fragment
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new MenuHandler(this,getActivity(), appSettingsManager);
+        menuHandler = new MenuHandler(this, appSettingsManager);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
 

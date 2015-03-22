@@ -1,1 +1,1 @@
-include ':app', ':androiddng', ':seekarc', ':themeclassic', ':abstractcamera', ':sonyapi', ':camera1', ':longexposure'
+include ':app', ':androiddng', ':seekarc', ':themeclassic', ':abstractcamera', ':sonyapi', ':camera1', ':longexposure', ':language'
