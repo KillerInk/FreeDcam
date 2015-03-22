@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.camera.modules.ModuleHandler;
+
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.FlashSwitchHandler;
 
@@ -141,7 +142,7 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
     @Override
     public void onClick(View v)
     {
-        if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
+        if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
             if (HouseFlash.getVisibility() == View.GONE)
             {

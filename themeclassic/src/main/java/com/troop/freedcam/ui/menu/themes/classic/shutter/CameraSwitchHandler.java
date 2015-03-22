@@ -27,7 +27,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     AppSettingsManager appSettingsManager;
     ImageView imageView;
     int currentCamera;
-    protected Bitmap[] bitmaps;
+    public Bitmap[] bitmaps;
     SurfaceView surfaceView;
     private static String TAG = StringUtils.TAG + CameraSwitchHandler.class.getSimpleName();
 

@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.camera.modules.ModuleHandler;
+
+
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.themenubia.R;
+
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ModuleSwitchHandler;
 
@@ -99,7 +102,7 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     private void iconSwitcher()
     {
         String module = appSettingsManager.GetCurrentModule();
-        if (module.equals(ModuleHandler.MODULE_VIDEO))
+        if (module.equals(AbstractModuleHandler.MODULE_VIDEO))
         {
             ImageView VShit = (ImageView)activity.findViewById(R.id.shutter_imageview);
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_shutter_vstart);
@@ -116,22 +119,22 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
     private void initButtons()
     {
         String module = appSettingsManager.GetCurrentModule();
-        if (module.equals(ModuleHandler.MODULE_VIDEO))
+        if (module.equals(AbstractModuleHandler.MODULE_VIDEO))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_vid);
             moduleView.setImageBitmap(tmp);
         }
-        else if (module.equals(ModuleHandler.MODULE_PICTURE))
+        else if (module.equals(AbstractModuleHandler.MODULE_PICTURE))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_pic);
             moduleView.setImageBitmap(tmp);
         }
-        else if (module.equals(ModuleHandler.MODULE_HDR))
+        else if (module.equals(AbstractModuleHandler.MODULE_HDR))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_hdr);
             moduleView.setImageBitmap(tmp);
         }
-        else if (module.equals(ModuleHandler.MODULE_LONGEXPO))
+        else if (module.equals(AbstractModuleHandler.MODULE_LONGEXPO))
         {
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_mode_long);
             moduleView.setImageBitmap(tmp);
@@ -151,13 +154,13 @@ public class NubiaModuleSwitch extends ModuleSwitchHandler
             Movie.setOnClickListener(MovieLabel);
             HDR.setOnClickListener(HDRLabel);
             LongEx.setOnClickListener(LowExLabel);
-            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_PICTURE))
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(AbstractModuleHandler.MODULE_PICTURE))
                 Picture.setVisibility(View.GONE);
-            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_VIDEO))
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(AbstractModuleHandler.MODULE_VIDEO))
                 Movie.setVisibility(View.GONE);
-            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_HDR))
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(AbstractModuleHandler.MODULE_HDR))
                 HDR.setVisibility(View.GONE);
-            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(ModuleHandler.MODULE_LONGEXPO))
+            if (!cameraUiWrapper.moduleHandler.moduleList.containsKey(AbstractModuleHandler.MODULE_LONGEXPO))
                 LongEx.setVisibility(View.GONE);
 
 
