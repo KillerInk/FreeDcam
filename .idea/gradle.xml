@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/androiddng" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/seekarc" />
           </set>
         </option>
       </GradleProjectSettings>

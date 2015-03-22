@@ -53,7 +53,7 @@
                     android:textColor="#ffc8c8c8"
                     android:layout_gravity="center" />
 
-                <com.triggertrap.seekarc.SeekArc
+                <com.triggertap.seekarc.SeekArc
                     android:id="@+id/seekArc"
                     android:layout_width="183dp"
                     android:layout_height="wrap_content"

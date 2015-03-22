@@ -7,22 +7,19 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.triggertrap.seekarc.SeekArc;
+
+import com.triggertap.seekarc.SeekArc;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.fragments.ManualMenuFragment;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
-import java.util.logging.Handler;
 
 /**
  * Created by troop on 01.09.2014.

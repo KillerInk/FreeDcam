@@ -21,7 +21,7 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-package com.triggertrap.seekarc;
+package com.triggertap.seekarc;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -35,7 +35,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.troop.freedcam.R;
+
 
 /**
  * 
