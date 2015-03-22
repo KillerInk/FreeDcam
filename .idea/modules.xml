@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/abstractcamera/abstractcamera.iml" filepath="$PROJECT_DIR$/abstractcamera/abstractcamera.iml" />
       <module fileurl="file://$PROJECT_DIR$/androiddng/androiddng.iml" filepath="$PROJECT_DIR$/androiddng/androiddng.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/camera1/camera1.iml" filepath="$PROJECT_DIR$/camera1/camera1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/longexposure/longexposure.iml" filepath="$PROJECT_DIR$/longexposure/longexposure.iml" />
       <module fileurl="file://$PROJECT_DIR$/seekarc/seekarc.iml" filepath="$PROJECT_DIR$/seekarc/seekarc.iml" />
       <module fileurl="file://$PROJECT_DIR$/sonyapi/sonyapi.iml" filepath="$PROJECT_DIR$/sonyapi/sonyapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/themeclassic/themeclassic.iml" filepath="$PROJECT_DIR$/themeclassic/themeclassic.iml" />

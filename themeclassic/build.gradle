@@ -24,4 +24,6 @@ dependencies {
     compile files('libs/android-support-v4.jar')
     provided project(':seekarc')
     provided project(':sonyapi')
+    provided project(':androiddng')
+    provided project(':camera1')
 }

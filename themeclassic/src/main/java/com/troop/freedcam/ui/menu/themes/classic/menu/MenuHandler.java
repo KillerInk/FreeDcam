@@ -16,9 +16,9 @@ import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.ExpandableGroup;
-import com.troop.freedcam.ui.menu.childs.ExpandableChild;
-import com.troop.freedcam.ui.menu.childs.I_OnGroupClicked;
-import com.troop.freedcam.ui.menu.childs.SaveCamParasExpandableChild;
+import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
+import com.troop.freedcam.ui.menu.themes.classic.menu.childs.I_OnGroupClicked;
+import com.troop.freedcam.ui.menu.themes.classic.menu.childs.SaveCamParasExpandableChild;
 
 import java.util.ArrayList;
 
