@@ -584,7 +584,7 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
     if(0 == strcmp(writer->bayerformat , "gbrg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-    long white=0x400;
+    long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
     short CFARepeatPatternDim[] = { 2,2 };
