@@ -3,7 +3,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 import android.util.Log;
 
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.utils.StringUtils;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +18,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     int min = -1;
     int max = -1;
-    private static String TAG = StringUtils.TAG + ExposureCompManualParameterSony.class.getSimpleName();
+    private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
     public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }

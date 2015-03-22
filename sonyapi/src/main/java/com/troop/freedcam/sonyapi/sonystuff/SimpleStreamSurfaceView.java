@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.troop.freedcam.R;
+
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;

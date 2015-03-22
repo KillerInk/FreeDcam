@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.ui.menu.themes.R;
+
 
 /**
  * Created by troop on 01.09.2014.
@@ -22,7 +23,7 @@ import com.troop.freedcam.utils.StringUtils;
 public class ManualMenuItem extends LinearLayout implements View.OnClickListener, AbstractManualParameter.I_ManualParameterEvent, I_ManualParameter
 {
 
-    private static String TAG = StringUtils.TAG + ManualMenuItem.class.getSimpleName();
+    private static String TAG = ManualMenuItem.class.getSimpleName();
     Context context;
     public TextView textViewName;
     public TextView textViewValue;

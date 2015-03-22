@@ -19,8 +19,8 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.SonyUtils;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.utils.StringUtils;
+
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,9 +37,9 @@ import java.util.Set;
  */
 public class CameraHolderSony extends AbstractCameraHolder
 {
-    private static String TAG = StringUtils.TAG + CameraHolderSony.class.getSimpleName();
+    private static String TAG =CameraHolderSony.class.getSimpleName();
 
-    MainActivity_v2 context;
+    Context context;
 
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
@@ -182,7 +182,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner,Handler UIHandler)
     {
         super(cameraChangedListner, UIHandler);
-        this.context = (MainActivity_v2)context;
+        this.context = context;
         this.mLiveviewSurface = simpleStreamSurfaceView;
     }
 
@@ -250,11 +250,11 @@ public class CameraHolderSony extends AbstractCameraHolder
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
                             final String liveviewUrl = resultsObj.getString(0);
-                            context.runOnUiThread(new Runnable()
+                            /*context.runOnUiThread(new Runnable()
                             {
 
                                 @Override
-                                public void run() {
+                                public void run() {*/
 
                                     mLiveviewSurface.start(liveviewUrl, //
                                             new SimpleStreamSurfaceView.StreamErrorListener() {
@@ -264,8 +264,8 @@ public class CameraHolderSony extends AbstractCameraHolder
                                                     stopLiveview();
                                                 }
                                             });
-                                }
-                            });
+                                /*}
+                            });*/
                         }
                     }
                 } catch (IOException e) {
@@ -490,14 +490,14 @@ public class CameraHolderSony extends AbstractCameraHolder
     private void startOpenConnectionAfterChangeCameraState() {
         Log.d(TAG, "startOpenConectiontAfterChangeCameraState() exec");
 
-        context.runOnUiThread(new Runnable() {
+        //context.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
+          //  @Override
+            //public void run() {
                 mEventObserver.setEventChangeListener(mEventListener);
                 mEventObserver.start();
-            }
-        });
+        //}
+        //});
     }
 
 

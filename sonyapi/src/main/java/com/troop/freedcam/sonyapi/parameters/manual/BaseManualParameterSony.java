@@ -7,7 +7,7 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.utils.StringUtils;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +33,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     int val = -200;
     String value;
 
-    private static String TAG = StringUtils.TAG + BaseManualParameterSony.class.getSimpleName();
+    private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
     public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony)
     {

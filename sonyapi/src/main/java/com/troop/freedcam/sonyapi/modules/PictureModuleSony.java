@@ -2,12 +2,13 @@ package com.troop.freedcam.sonyapi.modules;
 
 import android.os.Environment;
 
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.camera.modules.ModuleHandler;
+
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.StringUtils;
+
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -23,7 +24,7 @@ import java.util.Date;
  */
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
-    private static String TAG = StringUtils.TAG + PictureModuleSony.class.getSimpleName();
+    private static String TAG = PictureModuleSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
     public PictureModuleSony() {
         super();
@@ -31,7 +32,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 
     public PictureModuleSony(CameraHolderSony cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
-        name = ModuleHandler.MODULE_PICTURE;
+        name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
         cameraHolder.CameraStatusListner = this;
     }

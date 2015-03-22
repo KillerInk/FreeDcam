@@ -6,7 +6,6 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.util.Log;
 
-import com.troop.freedcam.utils.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class SimpleRemoteApi {
 
-    private static final String TAG = StringUtils.TAG + SimpleRemoteApi.class.getSimpleName();
+    private static final String TAG = SimpleRemoteApi.class.getSimpleName();
 
     // If you'd like to suppress detailed log output, change this value into
     // false.

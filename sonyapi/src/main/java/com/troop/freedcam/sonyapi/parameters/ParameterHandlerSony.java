@@ -19,7 +19,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.StringUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.Set;
  */
 public class ParameterHandlerSony extends AbstractParameterHandler
 {
-    private static String TAG =  StringUtils.TAG + ParameterHandlerSony.class.getSimpleName();
+    private static String TAG = ParameterHandlerSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
@@ -107,14 +107,14 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ManualExposure = new ExposureCompManualParameterSony("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
-        appSettingsManager.context.runOnUiThread(new Runnable() {
+        /*appSettingsManager.context.runOnUiThread(new Runnable() {
             @Override
             public void run()
-            {
+            {*/
                 Log.d(TAG, "Throw ParametersHasLoaded");
                 ParametersEventHandler.ParametersHasLoaded();
-            }
-        });
+            //}
+        //});
 
     }
 
