@@ -9,3 +9,4 @@ app/libs/armeabi-v7a/libYuvMerge.so
 app/libs/armeabi/libRawToDng.so
 app/libs/armeabi/libYuvMerge.so
 androiddng/libs/
+app/build/

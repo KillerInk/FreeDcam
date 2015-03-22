@@ -1,27 +1,18 @@
 package com.troop.freedcam.ui.handler;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-
-import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.I_ModuleEvent;
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.TextureView.ExtendedSurfaceView;
-import com.troop.freedcam.ui.menu.fragments.MenuFragment;
-import com.troop.freedcam.ui.menu.fragments.MenuFragmentAmbient;
-import com.troop.freedcam.ui.menu.fragments.MenuFragmentMaterial;
-import com.troop.freedcam.ui.menu.fragments.MenuFragmentMinimal;
-import com.troop.freedcam.ui.menu.fragments.MenuFragmentNubia;
-import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentAmbient;
-import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMaterial;
-import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentMinimal;
-import com.troop.freedcam.ui.menu.fragments.ShutterItemFragmentNubia;
-import com.troop.freedcam.ui.menu.fragments.ShutterItemsFragments;
+import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
+import com.troop.freedcam.ui.menu.themes.ambient.menu.MenuFragmentAmbient;
+import com.troop.freedcam.ui.menu.themes.material.menu.MenuFragmentMaterial;
+import com.troop.freedcam.ui.menu.themes.minimal.menu.MenuFragmentMinimal;
+import com.troop.freedcam.ui.menu.themes.nubia.menu.MenuFragmentNubia;
+import com.troop.freedcam.ui.menu.themes.ambient.shutter.ShutterItemFragmentAmbient;
+import com.troop.freedcam.ui.menu.themes.material.shutter.ShutterItemFragmentMaterial;
+import com.troop.freedcam.ui.menu.themes.minimal.shutter.ShutterItemFragmentMinimal;
+import com.troop.freedcam.ui.menu.themes.nubia.shutter.ShutterItemFragmentNubia;
+import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 
 /**
  * Created by Ingo on 14.03.2015.
