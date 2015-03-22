@@ -5,8 +5,8 @@ import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.camera.modules.CameraFocusEvent;
-import com.troop.freedcam.camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.sonyapi.modules.I_CameraStatusChanged;

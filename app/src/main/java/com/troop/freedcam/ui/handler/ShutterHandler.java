@@ -5,15 +5,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.BurstModule;
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
  * Created by troop on 26.08.2014.

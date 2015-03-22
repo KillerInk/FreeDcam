@@ -6,6 +6,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;

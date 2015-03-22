@@ -1,1 +1,1 @@
-include ':app', ':androiddng', ':seekarc'
+include ':app', ':androiddng', ':seekarc', ':themeclassic', ':abstractcamera'

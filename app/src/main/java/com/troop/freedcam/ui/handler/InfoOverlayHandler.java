@@ -11,14 +11,12 @@ import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
-import android.text.format.Time;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.modules.VideoModule;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;

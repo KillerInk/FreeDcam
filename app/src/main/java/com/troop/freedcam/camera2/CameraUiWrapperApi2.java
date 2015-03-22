@@ -4,12 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.view.TextureView;
 
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;

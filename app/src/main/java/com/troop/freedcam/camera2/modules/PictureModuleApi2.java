@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -15,11 +14,9 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 
-import com.troop.freedcam.camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
@@ -35,7 +32,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**

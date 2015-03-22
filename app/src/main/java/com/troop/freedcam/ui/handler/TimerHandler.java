@@ -4,8 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
-import com.troop.freedcam.camera.modules.I_RecorderStateChanged;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.manager.MyTimer;
 import com.troop.freedcam.ui.MainActivity_v2;

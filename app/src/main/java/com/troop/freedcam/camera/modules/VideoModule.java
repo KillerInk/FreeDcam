@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
-import android.media.MediaMuxer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
@@ -11,6 +10,8 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 

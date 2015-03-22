@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FreeDCam.iml" filepath="$PROJECT_DIR$/FreeDCam.iml" />
+      <module fileurl="file://$PROJECT_DIR$/abstractcamera/abstractcamera.iml" filepath="$PROJECT_DIR$/abstractcamera/abstractcamera.iml" />
       <module fileurl="file://$PROJECT_DIR$/androiddng/androiddng.iml" filepath="$PROJECT_DIR$/androiddng/androiddng.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/seekarc/seekarc.iml" filepath="$PROJECT_DIR$/seekarc/seekarc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themeclassic/themeclassic.iml" filepath="$PROJECT_DIR$/themeclassic/themeclassic.iml" />
     </modules>
   </component>
 </project>

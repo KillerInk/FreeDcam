@@ -2,7 +2,6 @@ package com.troop.freedcam.ui.TextureView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
@@ -10,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -18,9 +16,9 @@ import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 

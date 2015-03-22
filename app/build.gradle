@@ -36,4 +36,5 @@ dependencies {
     compile files('libs/xmpcore-5.1.2.jar')
     compile project(':androiddng')
     compile project(':seekarc')
+    compile project(':themeclassic')
 }

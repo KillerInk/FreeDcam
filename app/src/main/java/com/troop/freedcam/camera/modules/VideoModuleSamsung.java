@@ -8,6 +8,8 @@ import android.util.Log;
 import com.sec.android.secmediarecorder.SecMediaRecorder;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
+import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 

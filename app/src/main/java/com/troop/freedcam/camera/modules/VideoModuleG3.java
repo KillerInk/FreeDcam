@@ -7,6 +7,7 @@ import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**

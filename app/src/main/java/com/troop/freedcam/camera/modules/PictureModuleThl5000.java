@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 

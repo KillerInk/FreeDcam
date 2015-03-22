@@ -1,6 +1,6 @@
 package com.troop.freedcam.ui.handler;
 
-import com.troop.freedcam.camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;

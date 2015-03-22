@@ -4,10 +4,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.troop.freedcam.camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;

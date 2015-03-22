@@ -3,7 +3,7 @@ package com.troop.freedcam.sonyapi.parameters;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
@@ -17,7 +17,6 @@ import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
-import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;

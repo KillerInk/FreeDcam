@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
