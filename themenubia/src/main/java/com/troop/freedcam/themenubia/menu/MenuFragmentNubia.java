@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.nubia.menu;
+package com.troop.freedcam.themenubia.menu;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.ui.MainActivity_v2;
+
+import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
 

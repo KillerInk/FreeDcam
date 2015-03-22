@@ -45,7 +45,7 @@ public class HdrModule extends PictureModule
         {
             files = new File[3];
             hdrCount = 0;
-            if (baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+            if (baseCameraHolder.ParameterHandler.ZSL != null && baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
             {
                 baseCameraHolder.errorHandler.OnError("Error: Disable ZSL for Raw or Dng capture");
                 this.isWorking = false;

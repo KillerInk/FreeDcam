@@ -1,17 +1,21 @@
 package com.troop.freedcam.ui.handler;
 
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+
+
+import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
+import com.troop.freedcam.themenubia.shutter.ShutterItemFragmentNubia;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.ambient.menu.MenuFragmentAmbient;
 import com.troop.freedcam.ui.menu.themes.material.menu.MenuFragmentMaterial;
 import com.troop.freedcam.ui.menu.themes.minimal.menu.MenuFragmentMinimal;
-import com.troop.freedcam.ui.menu.themes.nubia.menu.MenuFragmentNubia;
+
 import com.troop.freedcam.ui.menu.themes.ambient.shutter.ShutterItemFragmentAmbient;
 import com.troop.freedcam.ui.menu.themes.material.shutter.ShutterItemFragmentMaterial;
 import com.troop.freedcam.ui.menu.themes.minimal.shutter.ShutterItemFragmentMinimal;
-import com.troop.freedcam.ui.menu.themes.nubia.shutter.ShutterItemFragmentNubia;
+
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 
 /**

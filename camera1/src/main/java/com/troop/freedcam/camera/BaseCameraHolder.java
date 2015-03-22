@@ -98,6 +98,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             hasLGFrameWork = false;
             Log.d(TAG, "No LG Framework");
         }
+        catch (UnsatisfiedLinkError er)
+        {
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
 
     }
 

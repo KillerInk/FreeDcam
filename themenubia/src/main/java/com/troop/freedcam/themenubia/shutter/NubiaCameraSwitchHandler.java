@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.nubia.shutter;
+package com.troop.freedcam.themenubia.shutter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
