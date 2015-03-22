@@ -74,13 +74,13 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
                     //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
                     img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
                 }
-                else if(str.equals("Instagram 1:1")){
+                else if(str.equals("Square 1:1")){
                     //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
                     img.setImageResource(R.drawable.ic_guide_insta_1_1);
                 }
-                else if (str.equals("Instagram 4:3"))
+                else if (str.equals("Square 4:3"))
                     img.setImageResource(R.drawable.ic_guide_insta_4_3);
-                else if (str.equals("Instagram 16:9"))
+                else if (str.equals("Square 16:9"))
                     img.setImageResource(R.drawable.ic_guide_insta_16_9);
                 else if (str.equals("Diagonal Type 1"))
                     img.setImageResource(R.drawable.ic_guide_diagonal_type_1_4_3);
@@ -116,6 +116,10 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
                     img.setImageResource(R.drawable.ic_guide_groupshot_outfocusing);
                 else if (str.equals("Group Center Lead"))
                     img.setImageResource(R.drawable.ic_guide_groupshot_center_leader);
+                else if (str.equals("Center Type x"))
+                    img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
+                else if (str.equals("Center Type +"))
+                    img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
                 else if (str.equals("None"))
                     img.setImageBitmap(null);
             }
