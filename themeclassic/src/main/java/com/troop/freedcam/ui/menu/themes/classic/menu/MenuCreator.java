@@ -13,6 +13,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildDngSupport;
@@ -84,11 +85,15 @@ public class MenuCreator
 
     LinearLayout submenu;
 
-    public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager)
+    I_Activity activityV2;
+
+    public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activityV2)
     {
         this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
+        this.activityV2 = activityV2;
         this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
+
     }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -493,7 +498,7 @@ public class MenuCreator
         settingsGroup = getNewGroup(context.getString(R.string.settings));
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
-        sonyExpandableChild = new SwitchApiExpandableChild(activityV2, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
+        sonyExpandableChild = new SwitchApiExpandableChild(context,activityV2, settingsGroup,context.getString(R.string.settings_switchapi) ,appSettingsManager, AppSettingsManager.SETTING_SONYAPI);
         childlist.add(sonyExpandableChild);
 
         //defcomg was here
@@ -515,7 +520,7 @@ public class MenuCreator
         rotationHack = new ExpandableChildOrientationHack(context, settingsGroup, context.getString(R.string.settings_orientatiohack), appSettingsManager, AppSettingsManager.SETTING_OrientationHack);
         childlist.add(rotationHack);
 
-        Theme = new ExpandableChildTheme(activityV2, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
+        Theme = new ExpandableChildTheme(context,activityV2, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
         childlist.add(Theme);
 
         settingsGroup.setItems(childlist);

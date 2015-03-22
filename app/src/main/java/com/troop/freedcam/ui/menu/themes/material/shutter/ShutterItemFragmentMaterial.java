@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.ui.handler.ExposureLockHandler;
-import com.troop.freedcam.ui.handler.ShutterHandler;
+import com.troop.freedcam.ui.menu.themes.classic.shutter.ExposureLockHandler;
+import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 
 

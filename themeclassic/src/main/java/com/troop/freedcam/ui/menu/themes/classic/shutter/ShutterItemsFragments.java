@@ -9,11 +9,11 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.handler.ExposureLockHandler;
-import com.troop.freedcam.ui.handler.ShutterHandler;
+import com.troop.freedcam.ui.menu.themes.R;
+
 
 /**
  * Created by troop on 12.03.2015.

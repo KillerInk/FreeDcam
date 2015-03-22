@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.handler;
+package com.troop.freedcam.ui.menu.themes.classic.shutter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -15,6 +15,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.I_OnGroupClicked;
@@ -53,14 +54,14 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     ExpandableChild selectedChild;
     AppSettingsManager appSettingsManager;
 
-    public MenuHandler(MenuFragment context, AppSettingsManager appSettingsManager)
+    public MenuHandler(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activity)
     {
         this.context = context;
         this.appSettingsManager = appSettingsManager;
         mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
-        menuCreator = new MenuCreator(context, appSettingsManager);
+        menuCreator = new MenuCreator(context, appSettingsManager,activity);
         //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
         context.settingsLayoutHolder.removeView(listView);
     }

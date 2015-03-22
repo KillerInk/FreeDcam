@@ -8,6 +8,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExternalShutter;
+import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 
 
 /**

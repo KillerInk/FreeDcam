@@ -1,11 +1,13 @@
 package com.troop.freedcam.ui.menu.themes.classic.menu.childs;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.menu.ExpandableGroup;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
+
 
 import java.util.ArrayList;
 
@@ -14,10 +16,10 @@ import java.util.ArrayList;
  */
 public class ExpandableChildTheme extends ExpandableChild
 {
-    MainActivity_v2 activity_v2;
-    public ExpandableChildTheme(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+    I_Activity activity_v2;
+    public ExpandableChildTheme(Context context,I_Activity activity_v2, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
-        this.activity_v2 = context;
+        this.activity_v2 = activity_v2;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class ExpandableChildTheme extends ExpandableChild
         valueTextView.setText(value);
         parameterHolder.SetValue(value, true);
         appSettingsManager.SetTheme(value);
-        activity_v2.themeHandler.SetTheme(value);
+        activity_v2.SetTheme(value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
     }
 

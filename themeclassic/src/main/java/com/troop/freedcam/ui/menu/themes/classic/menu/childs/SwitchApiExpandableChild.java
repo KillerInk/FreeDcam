@@ -1,9 +1,11 @@
 package com.troop.freedcam.ui.menu.themes.classic.menu.childs;
 
+import android.content.Context;
 import android.os.Build;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
 
 import java.util.ArrayList;
@@ -13,12 +15,12 @@ import java.util.ArrayList;
  */
 public class SwitchApiExpandableChild extends ExpandableChild
 {
-    MainActivity_v2 context;
+    I_Activity activity;
 
 
-    public SwitchApiExpandableChild(MainActivity_v2 context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
+    public SwitchApiExpandableChild(Context context,I_Activity activity, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
-        this.context = context;
+        this.activity = activity;
         this.parameterHolder = new simpleModeParam();
     }
 
@@ -45,7 +47,7 @@ public class SwitchApiExpandableChild extends ExpandableChild
     {
         appSettingsManager.setCamApi(value);
         valueTextView.setText(value);
-        context.ActivateSonyApi(value);
+        activity.ActivateSonyApi(value);
     }
 
     @Override

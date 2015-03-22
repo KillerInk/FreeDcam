@@ -49,7 +49,7 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orientation, I_error, I_CameraChangedListner
+public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orientation, I_error, I_CameraChangedListner, I_Activity
 {
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
@@ -256,12 +256,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
 
-previewHandler.surfaceView.post(new Runnable() {
-    @Override
-    public void run() {
-        updatePreviewHandler();
-    }
-});
+        previewHandler.surfaceView.post(new Runnable() {
+            @Override
+            public void run() {
+                updatePreviewHandler();
+            }
+        });
 
 
 

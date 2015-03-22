@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.ExpandableGroup;
+import com.troop.freedcam.ui.menu.themes.R;
+import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
+
 
 /**
  * Created by troop on 09.02.2015.
