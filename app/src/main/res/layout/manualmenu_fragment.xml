@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:seekarc="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="horizontal"
@@ -16,23 +18,53 @@
         android:layout_height="fill_parent"
         android:id="@+id/v2_seekbar_layout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView_seekbar"
-            android:rotation="0"
-            android:textColor="#ffc8c8c8"
-            android:layout_gravity="center_horizontal" />
-
         <SeekBar
             android:layout_width="280dp"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/seekBar_manual"
             android:splitTrack="false"
             android:background="#785a5555"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="74dp"
+                android:layout_marginEnd="74dp"
+                android:layout_marginTop="-20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="0"
+                    android:id="@+id/textView_seekbar"
+                    android:rotation="0"
+                    android:textColor="#ffc8c8c8"
+                    android:layout_gravity="center" />
+
+                <com.triggertrap.seekarc.SeekArc
+                    android:id="@+id/seekArc"
+                    android:layout_width="183dp"
+                    android:layout_height="wrap_content"
+                    android:padding="30dp"
+                    seekarc:rotation="-90"
+                    seekarc:startAngle="0"
+                    seekarc:sweepAngle="360"
+                    seekarc:touchInside="true"
+                    android:layout_gravity="left|top" />
+            </FrameLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

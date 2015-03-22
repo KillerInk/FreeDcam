@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.triggertrap.seekarc.SeekArc;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -20,6 +21,7 @@ import com.troop.freedcam.ui.menu.fragments.ManualMenuFragment;
 
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 /**
  * Created by troop on 01.09.2014.
@@ -63,13 +65,59 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
 
+    private SeekArc mSeekArc;
+
+
     public ManualMenuHandler(View activity, AppSettingsManager appSettingsManager, ManualMenuFragment fragment)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
+
         manualSeekbar = (SeekBar)activity.findViewById(R.id.seekBar_manual);
+        mSeekArc = (SeekArc) activity.findViewById(R.id.seekArc);
+
+
         seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
-        manualSeekbar.setOnSeekBarChangeListener(this);
+       // manualSeekbar.setOnSeekBarChangeListener(this);
+
+        appSettingsManager.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSeekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+
+                    @Override
+                    public void onStopTrackingTouch(SeekArc seekArc) {
+                        userIsSeeking = false;
+                        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+                            setValueToParameters(mSeekArc.getProgres());
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekArc seekArc) {
+                        userIsSeeking = true;
+                    }
+
+
+                    @Override
+                    public void onProgressChanged(SeekArc seekArc, int progress,
+                                                  boolean fromUser) {
+                        seekbarText.setText(String.valueOf(progress));
+                        if (fromUser && currentItem != null)
+                        {
+                            if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
+                                setValueToParameters(mSeekArc.getProgres());
+                            if (realMin < 0)
+                                setValueToTextBox(progress + realMin);
+                            else
+                                setValueToTextBox(progress);
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
         manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
         this.menuFragment = fragment;
 
@@ -160,8 +208,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                         int max = item.manualParameter.GetMaxValue();
                         setSeekbar_Min_Max(min, max);
                         setSeekbarProgress(item.manualParameter.GetValue());
-                        if (realMin < 0)
+                        if (realMin < 0) {
                             setValueToTextBox(manualSeekbar.getProgress() + realMin);
+
+                        }
                         else
                             setValueToTextBox(manualSeekbar.getProgress());
                     }
@@ -328,13 +378,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     private void showSeekbar()
     {
-        manualSeekbar.setVisibility(View.VISIBLE);
+      //  manualSeekbar.setVisibility(View.VISIBLE);
+        mSeekArc.setVisibility(View.VISIBLE);
         seekbarVisible = true;
         seekbarText.setVisibility(View.VISIBLE);
     }
     private void hideSeekbar()
     {
         manualSeekbar.setVisibility(View.GONE);
+        mSeekArc.setVisibility(View.GONE);
         seekbarVisible = false;
         seekbarText.setVisibility(View.GONE);
     }
@@ -347,9 +399,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         {
             int m = max + min * -1;
             manualSeekbar.setMax(m);
+            mSeekArc.setmMax(m);
         }
-        else
+        else {
             manualSeekbar.setMax(realMax);
+            mSeekArc.setmMax(realMax);
+        }
 
     }
 
@@ -358,11 +413,14 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (realMin < 0)
         {
             manualSeekbar.setProgress(value - realMin);
+            mSeekArc.setProgress(value -realMin);
+
 
         }
         else
         {
             manualSeekbar.setProgress(value);
+            mSeekArc.setProgress(value);
         }
     }
 
