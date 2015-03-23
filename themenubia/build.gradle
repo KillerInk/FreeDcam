@@ -24,4 +24,7 @@ dependencies {
     provided project(':language')
     provided project(':seekarc')
     provided project(':abstractcamera')
+    provided project(':camera1')
+    provided project(':camera2')
+    provided project(':sonyapi')
 }

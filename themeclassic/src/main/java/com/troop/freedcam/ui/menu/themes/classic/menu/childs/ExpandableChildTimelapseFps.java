@@ -53,7 +53,7 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.expandable_childs_number, this);
+        inflateTheme(inflater);
         this.plus = (Button)findViewById(R.id.button_plus);
         this.minus = (Button)findViewById(R.id.button_minus);
         this.editText = (EditText)findViewById(R.id.editText_number);
@@ -95,6 +95,11 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
         current = Float.parseFloat(fps);
 
         this.modulesToShow = new ArrayList<String>();
+    }
+
+    @Override
+    protected void inflateTheme(LayoutInflater inflater) {
+        inflater.inflate(R.layout.expandable_childs_number, this);
     }
 
     public void setMinMax(float min, float max)

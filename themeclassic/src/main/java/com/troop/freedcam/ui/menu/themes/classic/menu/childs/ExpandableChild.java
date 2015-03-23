@@ -28,8 +28,8 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     protected AbstractModeParameter parameterHolder;
     protected AppSettingsManager appSettingsManager;
     Context context;
-    TextView nameTextView;
-    TextView valueTextView;
+    protected TextView nameTextView;
+    protected TextView valueTextView;
     protected String settingsname;
     protected ArrayList<String> modulesToShow;
     ExpandableGroup group;

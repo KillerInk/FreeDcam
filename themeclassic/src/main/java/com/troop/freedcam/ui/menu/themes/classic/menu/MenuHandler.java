@@ -30,7 +30,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 {
     MenuFragment context;
     AbstractCameraUiWrapper cameraUiWrapper;
-    MenuCreator menuCreator;
+    public MenuCreator menuCreator;
     SurfaceView surfaceView;
     ArrayList<ExpandableGroup> grouplist;
     ExpandableGroup picSettings;
@@ -61,9 +61,13 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
         listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
         listView.setOnItemClickListener(this);
-        menuCreator = new MenuCreator(context, appSettingsManager,activity);
+        loadMenuCreator(context, appSettingsManager, activity);
         //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
         context.settingsLayoutHolder.removeView(listView);
+    }
+
+    public void loadMenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activity) {
+        menuCreator = new MenuCreator(context, appSettingsManager,activity);
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)

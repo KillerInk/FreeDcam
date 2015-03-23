@@ -39,53 +39,53 @@ import java.util.ArrayList;
  */
 public class MenuCreator
 {
-    Context context;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    AppSettingsManager appSettingsManager;
-    AbstractParameterHandler parameterHandler;
+    protected Context context;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
+    protected AppSettingsManager appSettingsManager;
+    protected AbstractParameterHandler parameterHandler;
 
-    ExpandableGroup settingsGroup;
+    protected ExpandableGroup settingsGroup;
 
-    PreviewExpandableChild picSize;
-    PictureFormatExpandableChild picformat;
-    ExpandableChild jpegquality;
-    ExpandableChild redeye;
-    ExpandableChild color;
-    ExpandableChild iso;
-    ExpandableChild exposureMode;
-    ExpandableChild whitebalanceMode;
-    ExpandableChild sceneMode;
-    ExpandableChild focusMode;
-    ExpandableChild objectTrackingMode;
-    ExpandableChild antibandingMode;
-    ExpandableChild ippMode;
-    ExpandableChild lensShadeMode;
-    ExpandableChild sceneDectecMode;
-    ExpandableChild denoiseMode;
-    ExpandableChild nonZSLMode;
-    ExpandableChild digitalImageStabilization;
-    ExpandableChild mce;
-    ExpandableChild zsl;
-    ExpandableChild guide;
-    ExpandableChild contShootMode;
-    ExpandableChild contShootModeSpeed;
-    PreviewExpandableChild previewSize;
-    LongExposureChild longExposureTime;
-    VideoProfileExpandableChild videoProfile;
-    ExpandableChild videoHdr;
-    ExpandableChildTimelapseFps timelapseframes;
-    SaveCamParasExpandableChild saveCamparas;
-    SwitchApiExpandableChild sonyExpandableChild;
-    ExpandableChildDngSupport dngSwitch;
-    ExpandbleChildAeBracket aeBracketSwitch;
-    ExpandableChildGps gps;
-    ExpandableChild externalShutter;
-    ExpandableChildOrientationHack rotationHack;
-    ExpandableChildTheme Theme;
+    protected PreviewExpandableChild picSize;
+    protected PictureFormatExpandableChild picformat;
+    protected ExpandableChild jpegquality;
+    protected ExpandableChild redeye;
+    protected ExpandableChild color;
+    protected ExpandableChild iso;
+    protected ExpandableChild exposureMode;
+    protected ExpandableChild whitebalanceMode;
+    protected ExpandableChild sceneMode;
+    protected ExpandableChild focusMode;
+    protected ExpandableChild objectTrackingMode;
+    protected ExpandableChild antibandingMode;
+    protected ExpandableChild ippMode;
+    protected ExpandableChild lensShadeMode;
+    protected ExpandableChild sceneDectecMode;
+    protected ExpandableChild denoiseMode;
+    protected ExpandableChild nonZSLMode;
+    protected ExpandableChild digitalImageStabilization;
+    protected ExpandableChild mce;
+    protected ExpandableChild zsl;
+    protected ExpandableChild guide;
+    protected ExpandableChild contShootMode;
+    protected ExpandableChild contShootModeSpeed;
+    protected PreviewExpandableChild previewSize;
+    protected LongExposureChild longExposureTime;
+    protected VideoProfileExpandableChild videoProfile;
+    protected ExpandableChild videoHdr;
+    protected ExpandableChildTimelapseFps timelapseframes;
+    protected SaveCamParasExpandableChild saveCamparas;
+    protected SwitchApiExpandableChild sonyExpandableChild;
+    protected ExpandableChildDngSupport dngSwitch;
+    protected ExpandbleChildAeBracket aeBracketSwitch;
+    protected ExpandableChildGps gps;
+    protected ExpandableChild externalShutter;
+    protected ExpandableChildOrientationHack rotationHack;
+    protected ExpandableChildTheme Theme;
 
-    LinearLayout submenu;
+    protected LinearLayout submenu;
 
-    I_Activity activityV2;
+    protected I_Activity activityV2;
 
     public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activityV2)
     {
