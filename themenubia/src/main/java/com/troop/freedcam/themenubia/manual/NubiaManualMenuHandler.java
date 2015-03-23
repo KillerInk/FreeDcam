@@ -80,28 +80,18 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
         switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
-            font = Typeface.createFromAsset(appSettingsManager.context.getAssets(),"fonts/arial.ttf");
-            seekbarText.setTypeface(font);
-
+                font = Typeface.createFromAsset(appSettingsManager.context.getAssets(),"fonts/arial.ttf");
+                seekbarText.setTypeface(font);
             break;
             case "Minimal":
                 font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BRADHITC.TTF");
                 seekbarText.setTypeface(font);
-
-
                 break;
-
             case "Material":
                 font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BOOKOS.TTF");
                 seekbarText.setTypeface(font);
-
-
                 break;
-
-
         }
-
-
 
 
         mSeekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
@@ -153,12 +143,6 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
                 }
             }
         });
-
-
-
-
-
-
 
         manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
         this.menuFragment = fragment;
