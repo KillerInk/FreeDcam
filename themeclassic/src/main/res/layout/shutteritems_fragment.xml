@@ -5,39 +5,40 @@
     android:layout_alignParentRight="true"
     android:clickable="true"
     android:layout_alignParentEnd="false"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_centerVertical="true"
     android:layout_alignParentBottom="false"
     android:id="@+id/ShutterFragmentDefault">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="false">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="false">
+            android:id="@+id/moduleSwitch_placeholder"
+            android:layout_gravity="bottom">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+            <ListView
+                android:layout_width="@dimen/submenuWidth"
                 android:layout_height="wrap_content"
-                android:id="@+id/moduleSwitch_placeholder"
-                android:layout_gravity="bottom">
-
-                <ListView
-                    android:layout_width="@dimen/submenuWidth"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/listView_popup"
-                    android:headerDividersEnabled="false"
-                    android:background="#b0000000" />
-
-            </LinearLayout>
+                android:id="@+id/listView_popup"
+                android:headerDividersEnabled="false"
+                android:background="#b0000000" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
         android:layout_width="@dimen/SizeCameraControls"

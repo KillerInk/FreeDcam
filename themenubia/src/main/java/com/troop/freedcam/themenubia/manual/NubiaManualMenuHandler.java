@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.classic.manual;
+package com.troop.freedcam.themenubia.manual;
 
 import android.graphics.Typeface;
 import android.util.Log;
@@ -7,9 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
 import com.triggertap.seekarc.SeekArc;
-
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -24,21 +22,20 @@ import java.util.ArrayList;
 /**
  * Created by troop on 01.09.2014.
  */
-public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ManualParameterEvent
+public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_ParametersLoaded, AbstractManualParameter.I_ManualParameterEvent
 {
     private final View activity;
     private final AppSettingsManager appSettingsManager;
     private AbstractCameraUiWrapper cameraUiWrapper;
-    private final SeekBar manualSeekbar;
     public final LinearLayout manualMenu;
-    ManualMenuFragment menuFragment;
+    NubiaManualMenuFragment menuFragment;
 
     TextView seekbarText;
-    ManualMenuItem currentItem;
+    NubiaManualMenuItem currentItem;
     AbstractParameterHandler parametersHandler;
     boolean userIsSeeking= false;
     int current = 0;
-    final String TAG = ManualMenuHandler.class.getSimpleName();
+    final String TAG = NubiaManualMenuHandler.class.getSimpleName();
 
     boolean seekbarVisible = false;
 
@@ -46,67 +43,169 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     int realMax;
     int realCurrent;
 
-    ArrayList<ManualMenuItem> manualItems;
+    ArrayList<NubiaManualMenuItem> manualItems;
 
-    ManualMenuItem burst;
-    ManualMenuItem brightnes;
-    ManualMenuItem cct;
-    ManualMenuItem contrast;
-    ManualMenuItem convergence;
-    ManualMenuItem exposure;
-    ManualMenuItem fx;
-    ManualMenuItem focus;
-    ManualMenuItem saturation;
-    ManualMenuItem sharp;
-    ManualMenuItem shutter;
-    ManualMenuItem iso;
-    ManualMenuItem zoom;
-    ManualMenuItem fnumber;
+    NubiaManualMenuItem burst;
+    NubiaManualMenuItem brightnes;
+    NubiaManualMenuItem cct;
+    NubiaManualMenuItem contrast;
+    NubiaManualMenuItem convergence;
+    NubiaManualMenuItem exposure;
+    NubiaManualMenuItem fx;
+    NubiaManualMenuItem focus;
+    NubiaManualMenuItem saturation;
+    NubiaManualMenuItem sharp;
+    NubiaManualMenuItem shutter;
+    NubiaManualMenuItem iso;
+    NubiaManualMenuItem zoom;
+    NubiaManualMenuItem fnumber;
+    Thread progressq;
 
-    public ManualMenuHandler(View activity, AppSettingsManager appSettingsManager, ManualMenuFragment fragment)
+    private SeekArc mSeekArc;
+
+
+    public NubiaManualMenuHandler(View activity, AppSettingsManager appSettingsManager, NubiaManualMenuFragment fragment)
     {
         this.activity = activity;
         this.appSettingsManager = appSettingsManager;
-        manualSeekbar = (SeekBar)activity.findViewById(R.id.seekBar_manual);
+
+        mSeekArc = (SeekArc) activity.findViewById(R.id.seekArc);
+
+
         seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
-        manualSeekbar.setOnSeekBarChangeListener(this);
+       // manualSeekbar.setOnSeekBarChangeListener(this);
+        Typeface font;
+
+        switch (appSettingsManager.GetTheme())
+        {
+            case "Ambient": case "Nubia":
+            font = Typeface.createFromAsset(appSettingsManager.context.getAssets(),"fonts/arial.ttf");
+            seekbarText.setTypeface(font);
+
+            break;
+            case "Minimal":
+                font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BRADHITC.TTF");
+                seekbarText.setTypeface(font);
+
+
+                break;
+
+            case "Material":
+                font = Typeface.createFromAsset(appSettingsManager.context.getAssets(), "fonts/BOOKOS.TTF");
+                seekbarText.setTypeface(font);
+
+
+                break;
+
+
+        }
+
+
+
+
+        mSeekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekArc seekArc) {
+                userIsSeeking = false;
+                if (cameraUiWrapper instanceof CameraUiWrapperSony)
+                    setValueToParameters(mSeekArc.getProgres());
+                if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && currentItem.name.equals("Shutter"))
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            setValueToParameters(mSeekArc.getProgres());
+                        }
+                    }.start();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekArc seekArc) {
+                userIsSeeking = true;
+            }
+
+
+
+
+
+
+            @Override
+            public void onProgressChanged(SeekArc seekArc, final int progress,
+                                          boolean fromUser) {
+
+
+               // seekbarText.setText(String.valueOf(progress));
+                if (fromUser && currentItem != null) {
+                    if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                setValueToParameters(mSeekArc.getProgres());
+                            }
+                        }.start();
+
+                    if (realMin < 0) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                setValueToTextBox(progress + realMin);
+                            }
+                        }.start();
+                    } else {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                setValueToTextBox(progress);
+                            }
+                        }.start();
+
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
+
         manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
         this.menuFragment = fragment;
 
-        manualItems = new ArrayList<ManualMenuItem>();
+        manualItems = new ArrayList<NubiaManualMenuItem>();
 
-        brightnes = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_brightness), this,appSettingsManager);
+        brightnes = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_brightness), this,appSettingsManager);
         addToLists(brightnes);
 
-        burst = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_burst), this,appSettingsManager);
+        burst = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_burst), this,appSettingsManager);
         addToLists(burst);
 
-        cct = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_cct), this,appSettingsManager);
+        cct = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_cct), this,appSettingsManager);
         addToLists(cct);
 
-        contrast = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_contrast), this,appSettingsManager);
+        contrast = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_contrast), this,appSettingsManager);
         addToLists(contrast);
-        convergence = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_convergence), this,appSettingsManager);
+        convergence = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_convergence), this,appSettingsManager);
         addToLists(convergence);
-        exposure = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_exposure), this,appSettingsManager);
+        exposure = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_exposure), this,appSettingsManager);
         addToLists(exposure);
-        focus = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_focus), this,appSettingsManager);
+        focus = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_focus), this,appSettingsManager);
         addToLists(focus);
 
-        fx = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_fx), this,appSettingsManager);
+        fx = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_fx), this,appSettingsManager);
         addToLists(fx);
 
-        saturation = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_saturation), this,appSettingsManager);
+        saturation = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_saturation), this,appSettingsManager);
         addToLists(saturation);
-        sharp = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_sharpness), this,appSettingsManager);
+        sharp = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_sharpness), this,appSettingsManager);
         addToLists(sharp);
-        shutter = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_shutter), this,appSettingsManager);
+        shutter = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_shutter), this,appSettingsManager);
         addToLists(shutter);
-        iso = new ManualMenuItem(activity.getContext(), "iso" , this,appSettingsManager);
+        iso = new NubiaManualMenuItem(activity.getContext(), "iso" , this,appSettingsManager);
         addToLists(iso);
-        zoom = new ManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_zoom), this,appSettingsManager);
+        zoom = new NubiaManualMenuItem(activity.getContext(), fragment.getString(R.string.manualmenu_zoom), this,appSettingsManager);
         addToLists(zoom);
-        fnumber = new ManualMenuItem(activity.getContext(), "FNumber",this,appSettingsManager);
+        fnumber = new NubiaManualMenuItem(activity.getContext(), "FNumber",this,appSettingsManager);
         addToLists(fnumber);
 
 
@@ -120,14 +219,14 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         ParametersLoaded();
     }
 
-    private void addToLists(ManualMenuItem item)
+    private void addToLists(NubiaManualMenuItem item)
     {
         manualItems.add(item);
     }
 
     public void DisableOtherItems(String name)
     {
-        for(ManualMenuItem item : manualItems)
+        for(NubiaManualMenuItem item : manualItems)
         {
             if (item.manualParameter != null)
             {
@@ -160,10 +259,12 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                         int max = item.manualParameter.GetMaxValue();
                         setSeekbar_Min_Max(min, max);
                         setSeekbarProgress(item.manualParameter.GetValue());
-                        if (realMin < 0)
-                            setValueToTextBox(manualSeekbar.getProgress() + realMin);
+                        if (realMin < 0) {
+                            setValueToTextBox(mSeekArc.getProgres() + realMin);
+
+                        }
                         else
-                            setValueToTextBox(manualSeekbar.getProgress());
+                            setValueToTextBox(mSeekArc.getProgres());
                     }
                 }
             }
@@ -328,13 +429,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
 
     private void showSeekbar()
     {
-        manualSeekbar.setVisibility(View.VISIBLE);
+      //  manualSeekbar.setVisibility(View.VISIBLE);
+        mSeekArc.setVisibility(View.VISIBLE);
         seekbarVisible = true;
         seekbarText.setVisibility(View.VISIBLE);
     }
     private void hideSeekbar()
     {
-        manualSeekbar.setVisibility(View.GONE);
+
+        mSeekArc.setVisibility(View.GONE);
         seekbarVisible = false;
         seekbarText.setVisibility(View.GONE);
     }
@@ -346,10 +449,13 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (min <0)
         {
             int m = max + min * -1;
-            manualSeekbar.setMax(m);
+
+            mSeekArc.setmMax(m);
         }
-        else
-            manualSeekbar.setMax(realMax);
+        else {
+
+            mSeekArc.setmMax(realMax);
+        }
 
     }
 
@@ -357,12 +463,15 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     {
         if (realMin < 0)
         {
-            manualSeekbar.setProgress(value - realMin);
+
+            mSeekArc.setProgress(value -realMin);
+
 
         }
         else
         {
-            manualSeekbar.setProgress(value);
+
+            mSeekArc.setProgress(value);
         }
     }
 
@@ -431,24 +540,5 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         userIsSeeking = false;
         if (cameraUiWrapper instanceof CameraUiWrapperSony)
             setValueToParameters(seekBar.getProgress());
-    }
-
-
-    public void Incrase()
-    {
-        if (currentItem != null && manualSeekbar.getProgress() + 1 <= manualSeekbar.getMax())
-        {
-            setSeekbarProgress(manualSeekbar.getProgress() + 1);
-            setValueToParameters(manualSeekbar.getProgress());
-        }
-    }
-
-    public void Decrase()
-    {
-        if (currentItem != null && manualSeekbar.getProgress() - 1 >= 0)
-        {
-            setSeekbarProgress(manualSeekbar.getProgress() - 1);
-            setValueToParameters(manualSeekbar.getProgress());
-        }
     }
 }
