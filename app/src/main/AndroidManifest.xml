@@ -38,7 +38,7 @@
 
         <activity
             android:name="com.troop.freedcam.ui.MainActivity_v2"
-
+            android:label="FreeDCam"
 
             android:icon="@drawable/ic_launcher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
