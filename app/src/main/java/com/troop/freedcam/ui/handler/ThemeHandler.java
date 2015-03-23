@@ -3,10 +3,12 @@ package com.troop.freedcam.ui.handler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 
 
+import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
 import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
 import com.troop.freedcam.themenubia.shutter.ShutterItemFragmentNubia;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
+import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.ambient.menu.MenuFragmentAmbient;
 import com.troop.freedcam.ui.menu.themes.material.menu.MenuFragmentMaterial;
@@ -89,6 +91,32 @@ public class ThemeHandler implements I_ModuleEvent
 
     }
 
+    public void GetManualMenuFragment()
+    {
+        String theme = appSettingsManager.GetTheme();
+
+        if (activity_v2.manualMenuFragment != null)
+        {
+            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+            transaction.remove(activity_v2.manualMenuFragment);
+            transaction.commit();
+            activity_v2.manualMenuFragment.onDestroyView();
+
+            activity_v2.manualMenuFragment = null;
+        }
+
+        if (theme.equals("Ambient"))
+            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
+        if (theme.equals("Classic"))
+            activity_v2.manualMenuFragment = new ManualMenuFragment();
+        if (theme.equals("Material"))
+            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
+        if (theme.equals("Minimal"))
+            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
+        if (theme.equals("Nubia"))
+            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
+    }
+
     public void SetTheme(String theme)
     {
         GetThemeFragment();
@@ -96,7 +124,9 @@ public class ThemeHandler implements I_ModuleEvent
 
 
         SettingsMenuFragment();
+        GetManualMenuFragment();
         activity_v2.inflateMenuFragment();
+        activity_v2.inflateManualMenuFragment();
         activity_v2.updatePreviewHandler();
 
 

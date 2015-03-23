@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
 
 
 /**
  * Created by troop on 16.03.2015.
  */
-public class NubiaManualMenuFragment extends Fragment
+public class NubiaManualMenuFragment extends ManualMenuFragment
 {
 
     AbstractCameraUiWrapper cameraUiWrapper;

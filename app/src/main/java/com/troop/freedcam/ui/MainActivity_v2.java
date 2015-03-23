@@ -185,6 +185,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
         themeHandler.GetThemeFragment();
         themeHandler.SettingsMenuFragment();
+        themeHandler.GetManualMenuFragment();
         shutterItemsFragment.SetAppSettings(appSettingsManager);
       //  sensorsUtil.init();
       //  sensorsUtil.setUp();
@@ -358,7 +359,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     {
         if (menuFragment == null)
         {
-            menuFragment = new MenuFragment();
+            themeHandler.SettingsMenuFragment();
         }
         menuFragment.SetAppSettings(appSettingsManager, this);
         menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
@@ -367,6 +368,22 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack so the user can navigate back
         transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
+        transaction.commit();
+    }
+
+    public void inflateManualMenuFragment()
+    {
+        if (manualMenuFragment == null)
+        {
+            themeHandler.GetManualMenuFragment();
+        }
+        //manualMenuFragment.SetAppSettings(appSettingsManager, this);
+        manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
+        transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");
         transaction.commit();
     }
 
@@ -653,7 +670,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             if (!manualMenuOpen)
             {
                 if (manualMenuFragment == null)
-                    manualMenuFragment = new ManualMenuFragment();
+                    themeHandler.GetManualMenuFragment();
                 manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");

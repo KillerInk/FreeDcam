@@ -1,14 +1,11 @@
 package com.troop.freedcam.ui.menu.themes.classic.manual;
 
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
-import com.triggertap.seekarc.SeekArc;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;

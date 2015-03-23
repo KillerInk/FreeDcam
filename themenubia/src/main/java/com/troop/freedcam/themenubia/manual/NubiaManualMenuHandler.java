@@ -14,8 +14,9 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
+import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.themes.R;
+
 
 import java.util.ArrayList;
 
@@ -133,31 +134,14 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
                                           boolean fromUser) {
 
 
-               // seekbarText.setText(String.valueOf(progress));
+                // seekbarText.setText(String.valueOf(progress));
                 if (fromUser && currentItem != null) {
                     if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                setValueToParameters(mSeekArc.getProgres());
-                            }
-                        }.start();
-
+                        setValueToParameters(mSeekArc.getProgres());
                     if (realMin < 0) {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                setValueToTextBox(progress + realMin);
-                            }
-                        }.start();
+                        setValueToTextBox(progress + realMin);
                     } else {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                setValueToTextBox(progress);
-                            }
-                        }.start();
-
+                        setValueToTextBox(progress);
                     }
                 }
             }

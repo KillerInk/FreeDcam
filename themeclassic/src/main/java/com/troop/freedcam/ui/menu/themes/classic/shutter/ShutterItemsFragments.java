@@ -7,6 +7,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -49,6 +50,8 @@ public class ShutterItemsFragments extends Fragment
         nightModeSwitchHandler = new NightModeSwitchHandler(view, appSettingsManager,this);
         exposureLockHandler = new ExposureLockHandler(view, appSettingsManager);
         exitButton = (TextView)view.findViewById(R.id.textView_Exit);
+        ListView listView = (ListView) view.findViewById(R.id.listView_popup);
+        listView.setVisibility(View.GONE);
 
         if( ViewConfiguration.get(getActivity()).hasPermanentMenuKey())
         {

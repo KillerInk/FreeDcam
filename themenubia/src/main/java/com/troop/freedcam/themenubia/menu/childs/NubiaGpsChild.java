@@ -18,6 +18,6 @@ public class NubiaGpsChild extends ExpandableChildGps {
 
     @Override
     protected void inflateTheme(LayoutInflater inflater) {
-        inflater.inflate(R.layout.expandable_childs_nubia, this);
+        super.inflateTheme(inflater);
     }
 }

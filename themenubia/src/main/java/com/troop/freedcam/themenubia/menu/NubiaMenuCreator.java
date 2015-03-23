@@ -33,8 +33,6 @@ import java.util.ArrayList;
  */
 public class NubiaMenuCreator extends MenuCreator
 {
-    public NubiaPreviewExpandableChild picSize;
-    public NubiaPictureFormatExpandableChild picformat;
 
     public NubiaMenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activityV2) {
         super(context, appSettingsManager, activityV2);
