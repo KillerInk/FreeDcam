@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.androiddng.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 

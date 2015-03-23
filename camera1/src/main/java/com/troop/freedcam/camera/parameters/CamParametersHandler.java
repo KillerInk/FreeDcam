@@ -47,7 +47,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.androiddng.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 import java.util.Map;
