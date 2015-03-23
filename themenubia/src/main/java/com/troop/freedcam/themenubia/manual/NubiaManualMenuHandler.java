@@ -135,14 +135,21 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
 
 
                 // seekbarText.setText(String.valueOf(progress));
-                if (fromUser && currentItem != null) {
-                    if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
-                        setValueToParameters(mSeekArc.getProgres());
-                    if (realMin < 0) {
-                        setValueToTextBox(progress + realMin);
-                    } else {
-                        setValueToTextBox(progress);
-                    }
+                if (fromUser && currentItem != null)
+                {
+                    seekbarText.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
+                                setValueToParameters(mSeekArc.getProgres());
+                            if (realMin < 0) {
+                                setValueToTextBox(progress + realMin);
+                            } else {
+                                setValueToTextBox(progress);
+                            }
+                        }
+                    });
+
                 }
             }
         });

@@ -74,17 +74,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                 time.setTypeface(font);
                 batteryLoad.setTypeface(font);
                 break;
-
-
         }
-
-
-
-
-
-
-
-
     }
 
     public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
