@@ -76,7 +76,8 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else if (/*DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 ||*/ DeviceUtils.isSonyADV())
         {
-            this.isSupported = true;
+            if (!parameters.get("sony-max-shutter-speed").equals(""))
+                this.isSupported = true;
         }
         //TODO add missing logic
     }
@@ -89,7 +90,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public int GetMaxValue() {
     	if (DeviceUtils.isSonyADV())
-            return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
+            return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
         else if (DeviceUtils.isLGADV())
            return Integer.parseInt(parameters.get("max-exposure-time"));
         else
@@ -99,7 +100,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public int GetMinValue() {
     	if (DeviceUtils.isSonyADV())
-            return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
+            return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
     	else if (DeviceUtils.isLGADV())
             return Integer.parseInt(parameters.get("min-exposure-time"));
         return 0;
