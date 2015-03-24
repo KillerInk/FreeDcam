@@ -42,4 +42,6 @@ dependencies {
     compile project(':language')
     compile project(':longexposure')
     compile project(':themenubia')
+    compile project(':themeambient')
+    compile project(':themematerial')
 }

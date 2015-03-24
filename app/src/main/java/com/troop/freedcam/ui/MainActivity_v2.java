@@ -4,6 +4,7 @@ package com.troop.freedcam.ui;
 import android.content.Context;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -536,6 +537,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     public void SetTheme(String Theme)
     {
         themeHandler.SetTheme(Theme);
+    }
+
+    @Override
+    public Bitmap GetBackground() {
+        return previewHandler.AmbientCover;
     }
 
     @Override

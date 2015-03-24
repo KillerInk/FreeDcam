@@ -12,7 +12,9 @@
       <module fileurl="file://$PROJECT_DIR$/longexposure/longexposure.iml" filepath="$PROJECT_DIR$/longexposure/longexposure.iml" />
       <module fileurl="file://$PROJECT_DIR$/seekarc/seekarc.iml" filepath="$PROJECT_DIR$/seekarc/seekarc.iml" />
       <module fileurl="file://$PROJECT_DIR$/sonyapi/sonyapi.iml" filepath="$PROJECT_DIR$/sonyapi/sonyapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themeambient/themeambient.iml" filepath="$PROJECT_DIR$/themeambient/themeambient.iml" />
       <module fileurl="file://$PROJECT_DIR$/themeclassic/themeclassic.iml" filepath="$PROJECT_DIR$/themeclassic/themeclassic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themematerial/themematerial.iml" filepath="$PROJECT_DIR$/themematerial/themematerial.iml" />
       <module fileurl="file://$PROJECT_DIR$/themenubia/themenubia.iml" filepath="$PROJECT_DIR$/themenubia/themenubia.iml" />
     </modules>
   </component>
