@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.minimal.menu;
+package com.troop.theme.minimal.menu;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
+import com.troop.theme.minimal.R;
 
 /**
  * Created by George on 3/20/2015.

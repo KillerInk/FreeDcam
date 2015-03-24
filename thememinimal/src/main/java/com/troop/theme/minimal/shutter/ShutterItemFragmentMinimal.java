@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.minimal.shutter;
+package com.troop.theme.minimal.shutter;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,11 +8,13 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ExposureLockHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 import com.troop.freedcam.utils.ApplicationContextProvider;
+import com.troop.theme.minimal.R;
+
 
 /**
  * Created by George on 3/17/2015.

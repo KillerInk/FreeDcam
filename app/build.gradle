@@ -44,4 +44,5 @@ dependencies {
     compile project(':themenubia')
     compile project(':themeambient')
     compile project(':themematerial')
+    compile project(':thememinimal')
 }

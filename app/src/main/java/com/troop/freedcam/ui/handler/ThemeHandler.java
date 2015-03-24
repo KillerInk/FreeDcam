@@ -11,10 +11,10 @@ import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 
-import com.troop.freedcam.ui.menu.themes.minimal.menu.MenuFragmentMinimal;
+import com.troop.theme.minimal.menu.MenuFragmentMinimal;
 
 
-import com.troop.freedcam.ui.menu.themes.minimal.shutter.ShutterItemFragmentMinimal;
+import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
 
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 import com.troop.theme.ambient.menu.MenuFragmentAmbient;

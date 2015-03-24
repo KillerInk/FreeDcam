@@ -15,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/themeambient/themeambient.iml" filepath="$PROJECT_DIR$/themeambient/themeambient.iml" />
       <module fileurl="file://$PROJECT_DIR$/themeclassic/themeclassic.iml" filepath="$PROJECT_DIR$/themeclassic/themeclassic.iml" />
       <module fileurl="file://$PROJECT_DIR$/themematerial/themematerial.iml" filepath="$PROJECT_DIR$/themematerial/themematerial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thememinimal/thememinimal.iml" filepath="$PROJECT_DIR$/thememinimal/thememinimal.iml" />
       <module fileurl="file://$PROJECT_DIR$/themenubia/themenubia.iml" filepath="$PROJECT_DIR$/themenubia/themenubia.iml" />
     </modules>
   </component>

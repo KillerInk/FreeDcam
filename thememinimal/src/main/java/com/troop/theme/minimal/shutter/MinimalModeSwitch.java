@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.minimal.shutter;
+package com.troop.theme.minimal.shutter;
 
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -7,10 +7,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ModuleSwitchHandler;
 import com.troop.freedcam.utils.ApplicationContextProvider;
+import com.troop.theme.minimal.R;
+
 
 /**
  * Created by George on 3/17/2015.

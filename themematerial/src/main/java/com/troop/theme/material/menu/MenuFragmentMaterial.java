@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
+import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
 import com.troop.theme.material.R;
@@ -18,7 +19,7 @@ import com.troop.theme.material.R;
 /**
  * Created by George on 3/20/2015.
  */
-public class MenuFragmentMaterial extends MenuFragment {
+public class MenuFragmentMaterial extends MenuFragmentNubia {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
