@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:id="@+id/layout__cameraControls"
+        android:clickable="true"
+        android:layout_alignParentEnd="false"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="false"
+        android:focusableInTouchMode="false" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:id="@+id/manualMenuHolder" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/v2_settings_menu"
+        android:layout_alignParentLeft="true" />
+</RelativeLayout>

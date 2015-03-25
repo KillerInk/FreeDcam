@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -40,32 +41,28 @@ import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.I_swipe;
-import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
+import com.troop.freedcam.ui.menu.SwipeMenuListner;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.OrientationHandler;
-import com.troop.freedcam.ui.menu.SwipeMenuListner;
-import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orientation, I_error, I_CameraChangedListner, I_Activity
+public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity , I_swipe
 {
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
     boolean settingsLayloutOpen = false;
-    public MenuFragment menuFragment;
-    public ManualMenuFragment manualMenuFragment;
-    public ShutterItemsFragments shutterItemsFragment;
+
 
 
 
     boolean manualMenuOpen = false;
     protected boolean helpOverlayOpen = false;
 
-    SwipeMenuListner swipeMenuListner;
+
     OrientationHandler orientationHandler;
     int flags;
     int flags2;
@@ -97,6 +94,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     MessageHandler messageHandler;
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
+    SwipeMenuListner swipeMenuListner;
 
 
     //bitmaps
@@ -148,7 +146,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
 
     private void createUI() {
-        swipeMenuListner = new SwipeMenuListner(this);
+
         orientationHandler = new OrientationHandler(this, this);
 
         this.activity =this;
@@ -183,11 +181,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         guideHandler = (GuideHandler)findViewById(R.id.GuideView);
 
         timerHandler = new TimerHandler(this);
+        swipeMenuListner = new SwipeMenuListner(this);
 
-        themeHandler.GetThemeFragment();
-        themeHandler.SettingsMenuFragment();
-        themeHandler.GetManualMenuFragment();
-        shutterItemsFragment.SetAppSettings(appSettingsManager);
+
+
+
       //  sensorsUtil.init();
       //  sensorsUtil.setUp();
        // sensorsUtil.start();
@@ -246,13 +244,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        inflateShutterItemFragment();
+        themeHandler.SetCameraUIWrapper(cameraUiWrapper);
+        themeHandler.GetThemeFragment();
 
-        if (menuFragment != null && menuFragment.isAdded())
-            menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
-        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper, shutterItemsFragment.shutterHandler);
-        if (manualMenuFragment != null && manualMenuFragment.isAdded())
-            manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
+
+        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
+
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
 
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
@@ -334,50 +331,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
 
 
 
-    public void inflateShutterItemFragment()
-    {
-        shutterItemsFragment.SetAppSettings(appSettingsManager);
-        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
 
-        if (!shutterItemsFragment.isAdded())
-        {
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
-            transaction.commit();
-        }
-    }
-
-    public void inflateMenuFragment()
-    {
-        if (menuFragment == null)
-        {
-            themeHandler.SettingsMenuFragment();
-        }
-        menuFragment.SetAppSettings(appSettingsManager, this);
-        menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
-        transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
-        transaction.commit();
-    }
-
-    public void inflateManualMenuFragment()
-    {
-        if (manualMenuFragment == null)
-        {
-            themeHandler.GetManualMenuFragment();
-        }
-        //manualMenuFragment.SetAppSettings(appSettingsManager, this);
-        manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
-        transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");
-        transaction.commit();
-    }
 
     public void HIDENAVBAR()
     {
@@ -545,6 +499,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
     }
 
     @Override
+    public SurfaceView GetSurfaceView() {
+        return previewHandler.surfaceView;
+    }
+
+    @Override
     public void onCameraOpen(String message)
     {
         try {
@@ -625,19 +584,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         {
             if (!settingsLayloutOpen)
             {
-                if (menuFragment == null)
-                {
-                    menuFragment = new MenuFragment();
-                }
-                menuFragment.SetAppSettings(appSettingsManager, this);
-                menuFragment.SetCameraUIWrapper(cameraUiWrapper, previewHandler.surfaceView);
-                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
-                transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
-                transaction.commit();
-
+                themeHandler.inflateMenu();
 
 
 
@@ -649,9 +596,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
             if (settingsLayloutOpen)
             {
 
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.remove(menuFragment);
-                fragmentTransaction.commit();
+                themeHandler.deflateMenu();
 
                 settingsLayloutOpen = false;
 
@@ -666,13 +611,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         {
             if (!manualMenuOpen)
             {
-                if (manualMenuFragment == null)
-                    themeHandler.GetManualMenuFragment();
-                manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
-                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");
-                transaction.commit();
-
+                themeHandler.inflateManualMenuFragment();
                 manualMenuOpen = true;
             }
         }
@@ -680,9 +619,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_swipe, I_orie
         {
             if (manualMenuOpen)
             {
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.remove(manualMenuFragment);
-                fragmentTransaction.commit();
+                themeHandler.deflateManualMenuFragment();
                 manualMenuOpen = false;
             }
         }
