@@ -4,7 +4,6 @@ package com.troop.freedcam.ui;
 import android.content.Context;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,9 +28,8 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
+import com.troop.freedcam.ui.handler.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
-import com.troop.freedcam.ui.menu.themes.classic.FocusImageHandler;
 import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;

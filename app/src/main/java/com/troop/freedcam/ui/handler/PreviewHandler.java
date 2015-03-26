@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.TextureView;
+package com.troop.freedcam.ui.handler;
 
 import android.content.Context;
 import android.util.AttributeSet;

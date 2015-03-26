@@ -9,7 +9,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
 
 /**
  * Created by troop on 11.12.2014.
