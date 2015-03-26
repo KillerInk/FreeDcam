@@ -1,26 +1,17 @@
 package com.troop.freedcam.ui.TextureView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.view.TextureView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.camera2.AutoFitTextureView;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.utils.BitmapUtil;
 
 /**
  * Created by troop on 21.11.2014.
@@ -34,9 +25,7 @@ public class PreviewHandler extends RelativeLayout
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
 
 
-    Bitmap AmbientCoverSML;
-    Bitmap TMPBMP;
-    public Bitmap AmbientCover;
+
     public MainActivity_v2 activity;
 
     I_PreviewSizeEvent previewSizeEvent;

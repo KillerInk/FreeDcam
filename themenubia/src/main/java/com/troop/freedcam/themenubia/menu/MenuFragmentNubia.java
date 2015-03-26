@@ -30,7 +30,6 @@ public class MenuFragmentNubia extends MenuFragment {
         menuHandler = new NubiaMenuHandler(this, appSettingsManager,i_activity);
         menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
-        settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
 
 
         settingsLayoutHolder.setBackgroundColor(Color.TRANSPARENT);

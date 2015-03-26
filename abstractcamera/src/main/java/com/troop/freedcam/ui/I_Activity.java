@@ -10,7 +10,6 @@ public interface I_Activity
 {
     void ActivateSonyApi(String Api);
     void SetTheme(String Theme);
-    Bitmap GetBackground();
     SurfaceView GetSurfaceView();
     int GetPreviewWidth();
     int GetPreviewHeight();
@@ -18,5 +17,6 @@ public interface I_Activity
     int GetPreviewRightMargine();
     int GetPreviewTopMargine();
     void SetPreviewSizeChangedListner(I_PreviewSizeEvent event);
+    int[] GetScreenSize();
 
 }

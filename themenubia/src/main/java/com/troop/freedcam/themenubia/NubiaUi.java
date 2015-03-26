@@ -42,6 +42,7 @@ public class NubiaUi extends ClassicUi implements I_PreviewSizeEvent
         rightview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
         leftview.setVisibility(View.VISIBLE);
         leftview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
+        leftview.setAlpha(0.2f);
         OnPreviewSizeChanged(0,0);
     }
 

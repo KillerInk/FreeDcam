@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
+import com.troop.theme.ambient.AmbientUi;
 import com.troop.theme.ambient.R;
 
 /**
@@ -23,6 +24,13 @@ import com.troop.theme.ambient.R;
  */
     public class MenuFragmentAmbient extends MenuFragmentNubia
 {
+    AmbientUi ambientUi;
+
+    public MenuFragmentAmbient(AmbientUi ambientUi)
+    {
+        this.ambientUi = ambientUi;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -44,13 +52,13 @@ import com.troop.theme.ambient.R;
                 settingsLayoutHolder.setBackgroundColor(Color.TRANSPARENT);
                 if (Build.VERSION.SDK_INT < 16)
                 {
-                    final Drawable drawable = new BitmapDrawable(i_activity.GetBackground());
+                    final Drawable drawable = new BitmapDrawable(ambientUi.AmbientCover);
                     drawable.setBounds(0,0, view.getWidth(), view.getHeight());
                     settingsLayoutHolder.setBackgroundDrawable(drawable);
                 }
                 else
                 {
-                    final Drawable drawable = new BitmapDrawable(getResources(),i_activity.GetBackground());
+                    final Drawable drawable = new BitmapDrawable(getResources(),ambientUi.AmbientCover);
                     drawable.setBounds(0,0, view.getWidth(), view.getHeight());
                     settingsLayoutHolder.setBackground(drawable);
                     settingsLayoutHolder.refreshDrawableState();
@@ -63,5 +71,10 @@ import com.troop.theme.ambient.R;
 
 
         return view;
+    }
+
+    public void SetAmbientUI(AmbientUi ambientUi)
+    {
+        this.ambientUi = ambientUi;
     }
 }

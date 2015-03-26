@@ -5,11 +5,13 @@ import android.content.Context;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -470,10 +472,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         themeHandler.SetTheme(Theme);
     }
 
-    @Override
-    public Bitmap GetBackground() {
-        return previewHandler.AmbientCover;
-    }
 
     @Override
     public SurfaceView GetSurfaceView() {
@@ -508,6 +506,44 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void SetPreviewSizeChangedListner(I_PreviewSizeEvent event) {
         previewHandler.setPreviewSizeEventListner(event);
+    }
+
+    @Override
+    public int[] GetScreenSize() {
+        int width = 0;
+        int height = 0;
+
+        if (Build.VERSION.SDK_INT >= 17)
+        {
+            WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+            Point size =  new Point();
+            wm.getDefaultDisplay().getRealSize(size);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                width = size.x;
+                height = size.y;
+            }
+            else
+            {
+                height = size.x;
+                width = size.y;
+            }
+        }
+        else
+        {
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                width = metrics.widthPixels;
+                height = metrics.heightPixels;
+            }
+            else
+            {
+                width = metrics.heightPixels;
+                height = metrics.widthPixels;
+            }
+
+        }
+        return new int[]{width,height};
     }
 
     @Override

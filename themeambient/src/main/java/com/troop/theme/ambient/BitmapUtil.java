@@ -1,4 +1,4 @@
-package com.troop.freedcam.utils;
+package com.troop.theme.ambient;
 
 import android.annotation.TargetApi;
 import android.app.WallpaperManager;
@@ -119,6 +119,8 @@ public class BitmapUtil {
         else
             return Bitmap.createBitmap(crop,X[0],0,X[2],X[3]);
     }
+
+
 
     public static Bitmap RotateBitmap(Bitmap source,float angle,int SysW,int SysH)
     {
