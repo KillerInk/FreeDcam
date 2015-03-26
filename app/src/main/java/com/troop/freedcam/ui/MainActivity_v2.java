@@ -251,9 +251,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     public void updatePreviewHandler() {
-        previewHandler.SwitchTheme();
+        /*previewHandler.SwitchTheme();
         previewHandler.setRalphas();
-        previewHandler.setLalphas();
+        previewHandler.setLalphas();*/
     }
 
 

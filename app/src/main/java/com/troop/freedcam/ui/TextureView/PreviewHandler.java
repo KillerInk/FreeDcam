@@ -31,8 +31,7 @@ public class PreviewHandler extends RelativeLayout
     public
     Context context;
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
-    ImageView leftview;
-    ImageView rightview;
+
 
     Bitmap AmbientCoverSML;
     Bitmap TMPBMP;
@@ -65,8 +64,7 @@ public class PreviewHandler extends RelativeLayout
 
     public void Init()
     {
-        leftview = (ImageView)activity.findViewById(R.id.imageViewLeft);
-        rightview = (ImageView)activity.findViewById(R.id.imageViewRight);
+
         if (surfaceView != null)
         {
             surfaceView = null;
@@ -161,13 +159,9 @@ public class PreviewHandler extends RelativeLayout
     {
         String theme = appSettingsManager.GetTheme();
 
-        LinearLayout.LayoutParams Rparams = new LinearLayout.LayoutParams(getWidth()-getMargineRight(), getHeight());
-        rightview.setLayoutParams(Rparams);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getMargineLeft(), getWidth());
-        leftview.setLayoutParams(Rparams);
 
-        if (!theme.equals("Ambient"))
+        /*if (!theme.equals("Ambient"))
         {
             if (Build.VERSION.SDK_INT < 16)
                 PreviewHandler.this.setBackgroundDrawable(null);
@@ -193,10 +187,7 @@ public class PreviewHandler extends RelativeLayout
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Nubia":
-                rightview.setVisibility(View.VISIBLE);
-                rightview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
-                leftview.setVisibility(View.VISIBLE);
-                leftview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_left_bg));
+
                 System.out.println("Snoop" + " " + theme);
                 break;
             case "Material":
@@ -236,12 +227,12 @@ public class PreviewHandler extends RelativeLayout
 
                 break;
         }
-        System.out.println("Snoop" +" "+theme);
+        System.out.println("Snoop" +" "+theme);*/
 
 
     }
 
-    public void setLalphas()
+    /*public void setLalphas()
     {
         String theme = appSettingsManager.GetTheme();
         String module = appSettingsManager.getString(AppSettingsManager.SETTING_CURRENTMODULE);
@@ -314,7 +305,7 @@ public class PreviewHandler extends RelativeLayout
                 break;
         }
 
-    }
+    }*/
 
 
 }

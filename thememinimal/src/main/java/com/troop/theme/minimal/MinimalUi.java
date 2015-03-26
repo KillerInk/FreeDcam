@@ -15,7 +15,7 @@ public class MinimalUi extends ClassicUi
 {
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.classicui, container, false);
+        view = inflater.inflate(R.layout.nubiaui, container, false);
         shutterItemsFragment = new ShutterItemFragmentMinimal();
         menuFragment = new MenuFragmentMinimal();
         manualMenuFragment = new NubiaManualMenuFragment();
