@@ -452,8 +452,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
         runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 messageHandler.ShowMessage(error);
             }
         });
@@ -504,6 +503,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public int GetPreviewTopMargine() {
         return previewHandler.getMargineTop();
+    }
+
+    @Override
+    public void SetPreviewSizeChangedListner(I_PreviewSizeEvent event) {
+        previewHandler.setPreviewSizeEventListner(event);
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.camera2.AutoFitTextureView;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_PreviewSizeEvent;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.utils.BitmapUtil;
 
@@ -37,6 +38,8 @@ public class PreviewHandler extends RelativeLayout
     Bitmap TMPBMP;
     public Bitmap AmbientCover;
     public MainActivity_v2 activity;
+
+    I_PreviewSizeEvent previewSizeEvent;
 
     public PreviewHandler(Context context) {
         super(context);
@@ -80,6 +83,7 @@ public class PreviewHandler extends RelativeLayout
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             surfaceView = new SimpleStreamSurfaceView(context);
+
             this.addView(surfaceView);
         }
         else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
@@ -95,6 +99,32 @@ public class PreviewHandler extends RelativeLayout
         }
 
     }
+
+    public void setPreviewSizeEventListner(I_PreviewSizeEvent i_previewSizeEvent)
+    {
+        this.previewSizeEvent = i_previewSizeEvent;
+        if (surfaceView != null)
+        {
+            if (surfaceView instanceof ExtendedSurfaceView)
+            {
+                ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)surfaceView;
+                extendedSurfaceView.SetOnPreviewSizeCHangedListner(i_previewSizeEvent);
+            }
+            else if (surfaceView instanceof SimpleStreamSurfaceView)
+            {
+                SimpleStreamSurfaceView s = (SimpleStreamSurfaceView)surfaceView;
+                s.SetOnPreviewSizeCHangedListner(i_previewSizeEvent);
+            }
+        }
+        else if (textureView != null)
+        {
+            AutoFitTextureView view = (AutoFitTextureView)textureView;
+            view.SetOnPreviewSizeCHangedListner(i_previewSizeEvent);
+        }
+
+
+    }
+
 
     public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager)
     {

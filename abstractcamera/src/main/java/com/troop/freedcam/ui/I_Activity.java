@@ -17,5 +17,6 @@ public interface I_Activity
     int GetPreviewLeftMargine();
     int GetPreviewRightMargine();
     int GetPreviewTopMargine();
+    void SetPreviewSizeChangedListner(I_PreviewSizeEvent event);
 
 }

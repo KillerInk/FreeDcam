@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
@@ -49,6 +50,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     public AbstractParameterHandler ParametersHandler;
     String currentModule;
 
+    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
+
     public ExtendedSurfaceView(Context context) {
         super(context);
         init(context);
@@ -67,6 +70,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     private void init(Context context)
     {
         this.context = context;
+
+
         if (Build.VERSION.SDK_INT < 21)
         {
 
@@ -123,6 +128,18 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             Log.d(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (uiPreviewSizeCHangedListner != null)
+            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
+    }
+
+    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
+    {
+        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     public  void SwitchViewMode()
@@ -190,13 +207,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             ParametersHandler.PreviewSize.SetValue(w+"x"+h, true);
             setPreviewToDisplay(w, h);
         }
-
         //[1.00 = square] [1.25 = 5:4] [1.33 = 4:3] [1.50 = 3:2] [1.60 = 16:10] [1.67 = 5:3] [1.71 = 128:75] [1.78 = 16:9] [1.85] [2.33 = 21:9 (1792x768)] [2.35 = Cinamascope] [2.37 = "21:9" (2560x1080)] [2.39 = Panavision]
 
-
     }
-
-
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.2;
@@ -342,6 +355,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 layoutParams.leftMargin = newwidthdiff / 2;
             }
             this.setLayoutParams(layoutParams);
+
         }
         else
         {
@@ -365,7 +379,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         }
     }
 
-
     @Override
     public String ModuleChanged(String module)
     {
@@ -382,4 +395,13 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
             setPreviewSize(ParametersHandler.PreviewSize.GetValue());
         return null;
     }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    }
+
+
 }

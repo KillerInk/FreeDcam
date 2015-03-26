@@ -26,6 +26,8 @@ import android.view.TextureView;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.troop.freedcam.ui.I_PreviewSizeEvent;
+
 /**
  * A {@link android.view.TextureView} that can be adjusted to a specified aspect ratio.
  */
@@ -34,6 +36,7 @@ public class AutoFitTextureView extends TextureView {
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
     Context context;
+    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
 
     public AutoFitTextureView(Context context) {
         this(context, null);
@@ -48,6 +51,11 @@ public class AutoFitTextureView extends TextureView {
     public AutoFitTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
+    }
+
+    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
+    {
+        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     /**
@@ -171,6 +179,15 @@ public class AutoFitTextureView extends TextureView {
 
             this.setLayoutParams(layoutParams);
         }
+
+
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (uiPreviewSizeCHangedListner != null)
+            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
     }
 
     private double getRatio(int w, int h)

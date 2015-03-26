@@ -19,6 +19,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 
+import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -42,6 +43,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private  Paint paint;
     private StreamErrorListener mErrorListener;
     Bitmap[] crosshairs;
+    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
 
 
     /**
@@ -84,6 +86,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
         initBitmaps(context);
+    }
+
+    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
+    {
+        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     private void initBitmaps(Context context)
@@ -365,8 +372,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         drawBlackFrame();
         drawBlackFrame();
         drawBlackFrame(); // delete triple buffers
+
     }
 
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (uiPreviewSizeCHangedListner != null)
+            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
+    }
     /**
      * Draw black screen.
      */
