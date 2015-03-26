@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu.themes.classic;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,35 +16,62 @@ import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 
+import java.util.zip.Inflater;
+
 /**
  * Created by troop on 24.03.2015.
  */
-public class ClassicUi extends AbstractFragment implements I_Fragment
+public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
 {
-    public MenuFragment menuFragment;
-    public ManualMenuFragment manualMenuFragment;
-    public ShutterItemsFragments shutterItemsFragment;
-    AppSettingsManager appSettingsManager;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    I_Activity i_activity;
+    protected MenuFragment menuFragment;
+    protected ManualMenuFragment manualMenuFragment;
+    protected ShutterItemsFragments shutterItemsFragment;
+    protected AppSettingsManager appSettingsManager;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
+    protected I_Activity i_activity;
+    protected View view;
+    protected SwipeMenuListner swipeMenuListner;
+    protected boolean settingsLayloutOpen = false;
+    protected boolean manualMenuOpen = false;
+    protected FocusImageHandler focusImageHandler;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.classicui, container, false);
+        inflate(inflater,container);
+        view.setOnTouchListener(onTouchListener);
+
+        setcameraWrapper();
+        inflateShutterItemFragment();
+        swipeMenuListner = new SwipeMenuListner(this);
+        return view;
+    }
+
+    protected void inflate(LayoutInflater inflater, ViewGroup container)
+    {
+        view = inflater.inflate(R.layout.classicui, container, false);
         menuFragment = new MenuFragment();
         shutterItemsFragment = new ShutterItemsFragments();
         manualMenuFragment = new ManualMenuFragment();
-        setcameraWrapper();
-        inflateShutterItemFragment();
-        return view;
+        focusImageHandler = new FocusImageHandler(view, this, i_activity);
     }
+
+    View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    {
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            focusImageHandler.onTouchEvent(event);
+            return swipeMenuListner.onTouchEvent(event);
+        }
+
+    };
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.cameraUiWrapper = wrapper;
+        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         setcameraWrapper();
     }
 
@@ -67,7 +95,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment
     }
 
 
-    public void inflateShutterItemFragment()
+    private void inflateShutterItemFragment()
     {
         shutterItemsFragment.SetAppSettings(appSettingsManager);
         shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView());
@@ -80,7 +108,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment
         }
     }
 
-    public void inflateMenuFragment()
+    private void inflateMenuFragment()
     {
 
         menuFragment.SetAppSettings(appSettingsManager, i_activity);
@@ -95,14 +123,13 @@ public class ClassicUi extends AbstractFragment implements I_Fragment
         }
     }
 
-    @Override
-    public void deflateMenuFragment() {
+    private void deflateMenuFragment() {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.remove(menuFragment);
         fragmentTransaction.commit();
     }
 
-    public void inflateManualMenuFragment()
+    private void inflateManualMenuFragment()
     {
 
         manualMenuFragment.SetCameraUIWrapper(cameraUiWrapper, appSettingsManager);
@@ -116,15 +143,54 @@ public class ClassicUi extends AbstractFragment implements I_Fragment
         }
     }
 
-    @Override
-    public void deflateManualMenuFragment() {
+
+    private void deflateManualMenuFragment() {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.remove(manualMenuFragment);
         fragmentTransaction.commit();
     }
 
-    public ShutterHandler getShutterHandler()
+
+    @Override
+    public void doHorizontalSwipe()
     {
-        return shutterItemsFragment.shutterHandler;
+        if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
+        {
+            if (!settingsLayloutOpen)
+            {
+                inflateMenuFragment();
+                settingsLayloutOpen = true;
+            }
+        }
+        else
+        {
+            if (settingsLayloutOpen)
+            {
+                deflateMenuFragment();
+                settingsLayloutOpen = false;
+
+            }
+        }
+    }
+
+    @Override
+    public void doVerticalSwipe()
+    {
+        if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
+        {
+            if (!manualMenuOpen)
+            {
+                inflateManualMenuFragment();
+                manualMenuOpen = true;
+            }
+        }
+        else
+        {
+            if (manualMenuOpen)
+            {
+                deflateManualMenuFragment();
+                manualMenuOpen = false;
+            }
+        }
     }
 }

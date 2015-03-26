@@ -1,32 +1,36 @@
-package com.troop.freedcam.ui.handler;
+package com.troop.freedcam.ui.menu.themes.classic;
+
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.TextureView.PreviewHandler;
-import com.troop.freedcam.ui.menu.TouchHandler;
+import com.troop.freedcam.ui.I_Activity;
+
+import com.troop.freedcam.ui.menu.themes.R;
+import com.troop.freedcam.ui.menu.themes.classic.TouchHandler;
 
 /**
  * Created by troop on 02.09.2014.
  */
 public class FocusImageHandler extends TouchHandler implements I_Focus
 {
-    private final MainActivity_v2 activity;
+    private final I_Activity activity;
     private AbstractCameraUiWrapper wrapper;
     ImageView imageView;
     final int crosshairShowTime = 5000;
@@ -36,16 +40,19 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     ImageView cancelFocus;
     ImageView meteringArea;
     FocusRect meteringRect;
+    View view;
+    Fragment fragment;
 
-    PreviewHandler surfaceView;
 
-    public FocusImageHandler(MainActivity_v2 activity)
+    public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
     {
         this.activity = activity;
-        imageView = (ImageView)activity.findViewById(R.id.imageView_Crosshair);
-        recthalf = activity.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
+        this.view = view;
+        this.fragment = fragment;
+        imageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+        recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
         //imageView.setVisibility(View.GONE);
-        cancelFocus = (ImageView)activity.findViewById(R.id.imageViewFocusClose);
+        cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,15 +63,14 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             }
         });
 
-        meteringArea = (ImageView)activity.findViewById(R.id.imageView_meteringarea);
+        meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
         meteringArea.setOnTouchListener(new MeteringAreaTouch());
         meteringArea.setVisibility(View.GONE);
 
     }
 
-    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, PreviewHandler surfaceView)
+    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.surfaceView = surfaceView;
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper) {
             centerMeteringArea();
@@ -81,11 +87,11 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony) && surfaceView != null)
+        if (!(wrapper instanceof CameraUiWrapperSony) && activity.GetSurfaceView() != null)
         {
-            disWidth = surfaceView.getLayoutParams().width;
-            disHeight = surfaceView.getLayoutParams().height;
-            int margineleft = surfaceView.getMargineLeft();
+            disWidth = activity.GetPreviewWidth();
+            disHeight = activity.GetPreviewHeight();
+            int margineleft = activity.GetPreviewLeftMargine();
             //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
@@ -157,8 +163,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         if (wrapper == null || wrapper.Focus == null)
             return;
-        disWidth = surfaceView.getWidth();
-        disHeight = surfaceView.getHeight();
+        disWidth = activity.GetPreviewWidth();
+        disHeight = activity.GetPreviewHeight();
 
         FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
         if (wrapper.Focus != null)
@@ -191,9 +197,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     int xd = getDistance(startX, (int)difx);
                     int yd = getDistance(startY, (int)dify);
 
-                    if (event.getX() - difx > surfaceView.getLeft() && event.getX() - difx + meteringArea.getWidth() < surfaceView.getLeft() + surfaceView.getWidth())
+                    if (event.getX() - difx > activity.GetPreviewLeftMargine() && event.getX() - difx + meteringArea.getWidth() < activity.GetPreviewLeftMargine() + activity.GetPreviewWidth())
                         meteringArea.setX(event.getX() - difx);
-                    if (event.getY() - dify > surfaceView.getTop() && event.getY() - dify + meteringArea.getHeight() < surfaceView.getTop() + surfaceView.getHeight())
+                    if (event.getY() - dify > activity.GetPreviewTopMargine() && event.getY() - dify + meteringArea.getHeight() < activity.GetPreviewTopMargine() + activity.GetPreviewHeight())
                         meteringArea.setY(event.getY() - dify);
                     if (xd >= distance || yd >= distance) {
 
@@ -212,7 +218,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                         dify = 0;
                         meteringRect = new FocusRect((int) meteringArea.getX() - recthalf, (int) meteringArea.getX() + recthalf, (int) meteringArea.getY() - recthalf, (int) meteringArea.getY() + recthalf);
                         if (wrapper != null)
-                            wrapper.Focus.SetMeteringAreas(meteringRect, surfaceView.getWidth(), surfaceView.getHeight());
+                            wrapper.Focus.SetMeteringAreas(meteringRect, activity.GetPreviewWidth(), activity.GetPreviewHeight());
                     }
                     else
                     {
@@ -231,10 +237,10 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
         if (Build.VERSION.SDK_INT >= 17)
         {
-            WindowManager wm = (WindowManager)activity.getSystemService(Context.WINDOW_SERVICE);
+            WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
-            if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 width = size.x;
                 height = size.y;
             }
@@ -246,8 +252,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         }
         else
         {
-            DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
-            if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
+            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             {
                 width = metrics.widthPixels;
                 height = metrics.heightPixels;

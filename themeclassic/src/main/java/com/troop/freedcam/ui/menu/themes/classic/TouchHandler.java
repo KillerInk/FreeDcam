@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu;
+package com.troop.freedcam.ui.menu.themes.classic;
 
 import android.view.MotionEvent;
 

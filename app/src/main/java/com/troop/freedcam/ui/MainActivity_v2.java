@@ -29,7 +29,7 @@ import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.ui.TextureView.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
-import com.troop.freedcam.ui.handler.FocusImageHandler;
+import com.troop.freedcam.ui.menu.themes.classic.FocusImageHandler;
 import com.troop.freedcam.ui.handler.GuideHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
@@ -40,9 +40,6 @@ import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
-import com.troop.freedcam.ui.menu.I_swipe;
-import com.troop.freedcam.ui.menu.SwipeMenuListner;
-import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
@@ -50,16 +47,11 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity , I_swipe
+public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity
 {
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
-    boolean settingsLayloutOpen = false;
 
-
-
-
-    boolean manualMenuOpen = false;
     protected boolean helpOverlayOpen = false;
 
 
@@ -80,7 +72,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
 
-    FocusImageHandler focusImageHandler;
+
 
     MainActivity_v2 activity;
     ApiHandler apiHandler;
@@ -94,7 +86,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     MessageHandler messageHandler;
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
-    SwipeMenuListner swipeMenuListner;
+
 
 
     //bitmaps
@@ -167,7 +159,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
-        focusImageHandler = new FocusImageHandler(this);
+
 
 
         infoOverlayHandler= new InfoOverlayHandler(MainActivity_v2.this, appSettingsManager);
@@ -181,7 +173,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler = (GuideHandler)findViewById(R.id.GuideView);
 
         timerHandler = new TimerHandler(this);
-        swipeMenuListner = new SwipeMenuListner(this);
+
 
 
 
@@ -198,7 +190,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
         destroyCameraUiWrapper();
         previewHandler.Init();
-        previewHandler.SetAppSettingsAndTouch(appSettingsManager, surfaceTouche);
+        previewHandler.SetAppSettingsAndTouch(appSettingsManager);
 
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
         cameraUiWrapper.SetCameraChangedListner(this);
@@ -250,7 +242,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
-        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper, previewHandler);
+
 
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
@@ -443,23 +435,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        return  swipeMenuListner.onTouchEvent(event);
+        return  super.onTouchEvent(event);
     }
 
-    View.OnTouchListener surfaceTouche = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event)
-        {
-
-            if (focusImageHandler != null)
-            {
-                activity.onTouchEvent(event);
-                return focusImageHandler.onTouchEvent(event);
-            }
-            else
-                return activity.onTouchEvent(event);
-        }
-    };
 
     @Override
     public int OrientationChanged(int orientation)
@@ -501,6 +479,31 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public SurfaceView GetSurfaceView() {
         return previewHandler.surfaceView;
+    }
+
+    @Override
+    public int GetPreviewWidth() {
+        return previewHandler.getPreviewWidth();
+    }
+
+    @Override
+    public int GetPreviewHeight() {
+        return previewHandler.getPreviewHeight();
+    }
+
+    @Override
+    public int GetPreviewLeftMargine() {
+        return previewHandler.getMargineLeft();
+    }
+
+    @Override
+    public int GetPreviewRightMargine() {
+        return previewHandler.getMargineRight();
+    }
+
+    @Override
+    public int GetPreviewTopMargine() {
+        return previewHandler.getMargineTop();
     }
 
     @Override
@@ -573,56 +576,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         Log.d(TAG, "conf changed");
         int or =  newConfig.orientation;
         super.onConfigurationChanged(newConfig);
-    }
-
-
-
-    @Override
-    public void doHorizontalSwipe()
-    {
-        if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
-        {
-            if (!settingsLayloutOpen)
-            {
-                themeHandler.inflateMenu();
-
-
-
-                settingsLayloutOpen = true;
-            }
-        }
-        else
-        {
-            if (settingsLayloutOpen)
-            {
-
-                themeHandler.deflateMenu();
-
-                settingsLayloutOpen = false;
-
-            }
-        }
-    }
-
-    @Override
-    public void doVerticalSwipe()
-    {
-        if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
-        {
-            if (!manualMenuOpen)
-            {
-                themeHandler.inflateManualMenuFragment();
-                manualMenuOpen = true;
-            }
-        }
-        else
-        {
-            if (manualMenuOpen)
-            {
-                themeHandler.deflateManualMenuFragment();
-                manualMenuOpen = false;
-            }
-        }
     }
 
     /*private void rotateViews(int orientation)

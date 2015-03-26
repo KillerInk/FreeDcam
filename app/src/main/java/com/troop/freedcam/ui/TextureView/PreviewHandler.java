@@ -98,23 +98,12 @@ public class PreviewHandler extends RelativeLayout
 
     }
 
-    public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager, View.OnTouchListener surfaceTouche)
+    public void SetAppSettingsAndTouch(AppSettingsManager appSettingsManager)
     {
-        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
-        {
-            SimpleStreamSurfaceView simplesurfaceView = (SimpleStreamSurfaceView)surfaceView;
-            simplesurfaceView.setOnTouchListener(surfaceTouche);
-        }
-        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+       if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {
             ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)surfaceView;
             extendedSurfaceView.appSettingsManager = appSettingsManager;
-            extendedSurfaceView.setOnTouchListener(surfaceTouche);
-        }
-        else
-        {
-            textureView.setOnTouchListener(surfaceTouche);
-
         }
     }
 
@@ -134,6 +123,36 @@ public class PreviewHandler extends RelativeLayout
             return surfaceView.getRight();
         else if (textureView != null)
             return textureView.getRight();
+        else
+            return 0;
+    }
+
+    public int getMargineTop()
+    {
+        if (surfaceView != null)
+            return surfaceView.getTop();
+        else if (textureView != null)
+            return textureView.getTop();
+        else
+            return 0;
+    }
+
+    public int getPreviewWidth()
+    {
+        if (surfaceView != null)
+            return surfaceView.getWidth();
+        else if (textureView != null)
+            return textureView.getWidth();
+        else
+            return 0;
+    }
+
+    public int getPreviewHeight()
+    {
+        if (surfaceView != null)
+            return surfaceView.getHeight();
+        else if (textureView != null)
+            return textureView.getHeight();
         else
             return 0;
     }

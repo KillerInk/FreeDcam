@@ -165,26 +165,6 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/imageView_Crosshair"
-        android:background="@drawable/ic_cross_focus"
-        android:visibility="gone" />
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/imageView_meteringarea"
-        android:background="@drawable/crosshair_exposure" />
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/imageViewFocusClose"
-        android:background="@drawable/focusclose"
-        android:layout_centerVertical="true" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"

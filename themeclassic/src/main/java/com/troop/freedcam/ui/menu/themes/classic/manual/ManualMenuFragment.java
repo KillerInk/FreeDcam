@@ -20,8 +20,6 @@ public class ManualMenuFragment extends Fragment
 
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
-
-
     public ManualMenuHandler manualMenuHandler;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

@@ -12,4 +12,10 @@ public interface I_Activity
     void SetTheme(String Theme);
     Bitmap GetBackground();
     SurfaceView GetSurfaceView();
+    int GetPreviewWidth();
+    int GetPreviewHeight();
+    int GetPreviewLeftMargine();
+    int GetPreviewRightMargine();
+    int GetPreviewTopMargine();
+
 }

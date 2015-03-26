@@ -5,12 +5,16 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.shutter.ShutterItemFragmentNubia;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.AbstractFragment;
 import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
+import com.troop.theme.ambient.AmbientUi;
+import com.troop.theme.material.MaterialUi;
+import com.troop.theme.minimal.MinimalUi;
 import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
 import com.troop.theme.ambient.shutter.ShutterItemFragmentAmbient;
 import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
@@ -53,8 +57,14 @@ public class ThemeHandler implements I_ModuleEvent
             uiFragment = null;
         }
 
-        if (theme.equals("Ambient")) {
-            //activity_v2.shutterItemsFragment = new ShutterItemFragmentAmbient();
+        if (theme.equals("Ambient"))
+        {
+            AmbientUi ambientUi = new AmbientUi();
+            ambientUi.SetI_Activity(activity_v2);
+            ambientUi.SetAppSettings(appSettingsManager);
+            ambientUi.SetCameraUIWrapper(cameraUiWrapper);
+            uiFragment = ambientUi;
+            inflateFragment(ambientUi);
         }
         if (theme.equals("Classic"))
         {
@@ -63,111 +73,50 @@ public class ThemeHandler implements I_ModuleEvent
             CuiFragment.SetAppSettings(appSettingsManager);
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
-            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.themeFragmentholder, CuiFragment, "Main");
-            transaction.commit();
+            inflateFragment(CuiFragment);
         }
 
         if (theme.equals("Material")) {
-            //activity_v2.shutterItemsFragment = new ShutterItemFragmentMaterial();
+            MaterialUi materialUi = new MaterialUi();
+            materialUi.SetI_Activity(activity_v2);
+            materialUi.SetAppSettings(appSettingsManager);
+            materialUi.SetCameraUIWrapper(cameraUiWrapper);
+            uiFragment = materialUi;
+            inflateFragment(materialUi);
         }
         if (theme.equals("Minimal")) {
-            //activity_v2.shutterItemsFragment = new ShutterItemFragmentMinimal();
+            MinimalUi minimalUi = new MinimalUi();
+            minimalUi.SetI_Activity(activity_v2);
+            minimalUi.SetAppSettings(appSettingsManager);
+            minimalUi.SetCameraUIWrapper(cameraUiWrapper);
+            uiFragment = minimalUi;
+            inflateFragment(minimalUi);
         }
         if (theme.equals("Nubia")) {
-            //activity_v2.shutterItemsFragment = new ShutterItemFragmentNubia();
+            NubiaUi nubiaUi = new NubiaUi();
+            nubiaUi.SetI_Activity(activity_v2);
+            nubiaUi.SetAppSettings(appSettingsManager);
+            nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
+            uiFragment = nubiaUi;
+            inflateFragment(nubiaUi);
         }
-
-
     }
 
-    public void inflateMenu()
+    private void inflateFragment(AbstractFragment fragment)
     {
-        uiFragment.inflateMenuFragment();
+        android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.themeFragmentholder, fragment, "Main");
+        transaction.commit();
     }
 
-    public void deflateMenu()
-    {
-        uiFragment.deflateMenuFragment();
-    }
-
-    public void inflateManualMenuFragment()
-    {
-        uiFragment.inflateManualMenuFragment();
-    }
-
-    public void deflateManualMenuFragment()
-    {
-        uiFragment.deflateManualMenuFragment();
-    }
-
-    public ShutterHandler getShutterHandler()
-    {
-        return uiFragment.getShutterHandler();
-    }
-
-    /*public void SettingsMenuFragment()
-    {
-        String theme = appSettingsManager.GetTheme();
-
-        if (activity_v2.menuFragment != null)
-        {
-            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-            transaction.remove(activity_v2.menuFragment);
-            transaction.commit();
-            activity_v2.menuFragment.onDestroyView();
-
-            activity_v2.menuFragment = null;
-        }
-
-        if (theme.equals("Ambient"))
-            activity_v2.menuFragment = new MenuFragmentAmbient();
-        if (theme.equals("Classic"))
-            activity_v2.menuFragment = new MenuFragment();
-        if (theme.equals("Material"))
-            activity_v2.menuFragment = new MenuFragmentMaterial();
-        if (theme.equals("Minimal"))
-            activity_v2.menuFragment = new MenuFragmentMinimal();
-        if (theme.equals("Nubia"))
-            activity_v2.menuFragment = new MenuFragmentNubia();
 
 
-    }*/
-
-    /*public void GetManualMenuFragment()
-    {
-        String theme = appSettingsManager.GetTheme();
-
-        if (activity_v2.manualMenuFragment != null)
-        {
-            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-            transaction.remove(activity_v2.manualMenuFragment);
-            transaction.commit();
-            activity_v2.manualMenuFragment.onDestroyView();
-
-            activity_v2.manualMenuFragment = null;
-        }
-
-        if (theme.equals("Ambient"))
-            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
-        if (theme.equals("Classic"))
-            activity_v2.manualMenuFragment = new ManualMenuFragment();
-        if (theme.equals("Material"))
-            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
-        if (theme.equals("Minimal"))
-            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
-        if (theme.equals("Nubia"))
-            activity_v2.manualMenuFragment = new NubiaManualMenuFragment();
-    }*/
 
     public void SetTheme(String theme)
     {
         GetThemeFragment();
 
         activity_v2.updatePreviewHandler();
-
-
-        //activity_v2.shutterItemsFragment.ParametersLoaded();
     }
 
     @Override
