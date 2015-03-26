@@ -63,7 +63,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     {
         public boolean onTouch(View v, MotionEvent event)
         {
-            focusImageHandler.onTouchEvent(event);
+            if (focusImageHandler != null)
+                focusImageHandler.onTouchEvent(event);
             return swipeMenuListner.onTouchEvent(event);
         }
 
