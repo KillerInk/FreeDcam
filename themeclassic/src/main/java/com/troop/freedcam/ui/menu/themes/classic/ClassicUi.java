@@ -45,6 +45,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         setcameraWrapper();
         inflateShutterItemFragment();
         swipeMenuListner = new SwipeMenuListner(this);
+        focusImageHandler = new FocusImageHandler(view, this, i_activity);
+        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         return view;
     }
 
@@ -54,7 +56,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         menuFragment = new MenuFragment();
         shutterItemsFragment = new ShutterItemsFragments();
         manualMenuFragment = new ManualMenuFragment();
-        focusImageHandler = new FocusImageHandler(view, this, i_activity);
+
     }
 
     View.OnTouchListener onTouchListener = new View.OnTouchListener()
@@ -71,7 +73,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.cameraUiWrapper = wrapper;
-        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
+        if (focusImageHandler != null)
+            focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         setcameraWrapper();
     }
 
