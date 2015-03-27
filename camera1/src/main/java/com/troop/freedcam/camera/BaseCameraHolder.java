@@ -152,8 +152,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
             catch (Exception ex)
             {
                 ex.printStackTrace();
+                isRdy = false;
                 Log.e(TAG, "Error on Samsung Camera close");
             }
+            isRdy = false;
         }
         else if (mCamera != null)
         {
@@ -168,6 +170,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
             finally {
                 mCamera = null;
+                isRdy = false;
                 Log.d(TAG, "Camera closed");
             }
         }
@@ -275,7 +278,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
 
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
+            cameraChangedListner.onPreviewClose("");
             isPreviewRunning = false;
             Log.d(TAG, "Camera was released");
             ex.printStackTrace();
@@ -400,6 +405,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
         this.previewCallback = previewCallback;
+        if (!isPreviewRunning && !isRdy)
+            return;
         if (hasSamsungFrameWork)
         {
             if (previewCallback == null)
@@ -432,7 +439,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             samsungCamera.setErrorCallback(new SecCamera.ErrorCallback() {
                 @Override
-                public void onError(int i, SecCamera secCamera) {
+                public void onError(int i, SecCamera secCamera)
+                {
+                    isRdy = false;
                     errorCallback.onError(i);
                 }
             });
@@ -441,7 +450,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             mCamera.setErrorCallback(new Camera.ErrorCallback() {
                 @Override
-                public void onError(int error, Camera camera) {
+                public void onError(int error, Camera camera)
+                {
+                    isRdy = false;
                     errorCallback.onError(error);
                 }
             });
@@ -630,6 +641,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetOrientation(int or)
     {
+        if (!isRdy)
+            return;
         this.Orientation = or;
         if(hasSamsungFrameWork && samsungCamera != null)
         {
@@ -649,6 +662,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetCameraRotation(int rotation)
     {
+        if (!isRdy)
+            return;
         if (samsungCamera == null && mCamera == null)
             return;
         if (hasSamsungFrameWork)

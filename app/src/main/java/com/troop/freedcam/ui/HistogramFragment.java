@@ -76,7 +76,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
     public void load(Bitmap dr)
     {
-        System.out.println("Freed Loaded Color Bins");
+        //System.out.println("Freed Loaded Color Bins");
         histogram.setBitmap(dr);
     }
 
@@ -92,13 +92,17 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
         int width = Integer.parseInt(split[0]);
         int height = Integer.parseInt(split[1]);
-        YuvImage yuvImage = new YuvImage(PreviewFrame, ImageFormat.NV21,width,height,null);
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final YuvImage yuvImage = new YuvImage(PreviewFrame, ImageFormat.NV21,width,height,null);
+        if (!doWork)
+            return;
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         yuvImage.compressToJpeg(new Rect(0,0,width,height),100,byteArrayOutputStream);
-
-        Bitmap LiveYuv = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size());
+        if (!doWork)
+            return;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        final Bitmap LiveYuv = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size(), options);
 
         load(LiveYuv);
 
@@ -126,8 +130,18 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     }
     public void strtLsn()
     {
-        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null)
-            ((BaseCameraHolder)cameraUiWrapper.cameraHolder).SetPreviewCallback(this);
+        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning)
+        {
+            try {
+                ((BaseCameraHolder) cameraUiWrapper.cameraHolder).SetPreviewCallback(this);
+            }
+            catch (java.lang.RuntimeException ex)
+            {
+                ex.printStackTrace();
+                return;
+            }
+
+        }
         else return;
         doWork = true;
         new Thread() {
@@ -242,7 +256,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
                int [] histo = new int [ 256 * 3 ];
                Bitmap bitmap = params [ 0 ];
-               System.out.println("Histogram Async "+bitmap.getByteCount());
+               //System.out.println("Histogram Async "+bitmap.getByteCount());
                int w = bitmap . getWidth ();
                int h = bitmap . getHeight ();
                int [] pixels = new int [ w * h ];
@@ -263,25 +277,26 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
            @Override
            protected void onPostExecute ( int [] result ) {
-               System.out.println("Histogram Async Post " +result.length);
+               //System.out.println("Histogram Async Post " +result.length);
                System . arraycopy( result , 0 , redHistogram , 0 , 256 );
                System . arraycopy( result , 256 , greenHistogram , 0 , 256 );
                System . arraycopy( result , 512 , blueHistogram , 0 , 256 );
                invalidate ();
-               System.out.println("Histogram Draw");
+               //System.out.println("Histogram Draw");
            }
        }
 
-       public void setBitmap ( Bitmap bitmap ) {
+       public void setBitmap ( Bitmap bitmap )
+       {
            mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-           System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
+           //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
            new ComputeHistogramTask().execute(mBitmap);
 
        }
 
        private void drawHistogram ( Canvas canvas , int [] histogram , int color , PorterDuff . Mode mode ) {
            int max = 0 ;
-           System.out.println("Histogram drawin");
+           //System.out.println("Histogram drawin");
            for ( int i = 0 ; i < histogram . length ; i ++) {
                if ( histogram [ i ] > max ) {
                    max = histogram [ i ];
