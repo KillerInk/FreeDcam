@@ -173,7 +173,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.themeFragmentholder, guideHandler, "Guide");
+        transaction.add(R.id.guideHolder, guideHandler, "Guide");
         transaction.commit();
 
         timerHandler = new TimerHandler(this);
