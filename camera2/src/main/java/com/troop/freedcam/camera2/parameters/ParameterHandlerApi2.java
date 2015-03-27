@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
@@ -19,6 +18,7 @@ import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 

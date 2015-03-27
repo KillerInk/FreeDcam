@@ -1,8 +1,8 @@
 package com.troop.freedcam.ui.menu.themes.classic.menu;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;

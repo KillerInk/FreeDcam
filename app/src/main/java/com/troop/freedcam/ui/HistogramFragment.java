@@ -1,7 +1,6 @@
 package com.troop.freedcam.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,31 +8,25 @@ import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android . graphics . PorterDuff ;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.BaseCameraHolder;
-
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.ApplicationContextProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ArrayBlockingQueue;

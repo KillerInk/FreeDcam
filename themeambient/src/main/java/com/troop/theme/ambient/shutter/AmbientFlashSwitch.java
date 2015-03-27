@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.FlashSwitchHandler;

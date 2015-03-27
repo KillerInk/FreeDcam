@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.NightModeSwitchHandler;
 import com.troop.theme.ambient.R;

@@ -9,12 +9,12 @@ import android.view.SurfaceHolder;
 
 import com.lge.hardware.LGCamera;
 import com.sec.android.seccamera.SecCamera;
-import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 
 import java.io.IOException;
 import java.util.ArrayList;

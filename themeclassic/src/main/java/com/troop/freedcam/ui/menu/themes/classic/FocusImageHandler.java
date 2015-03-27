@@ -8,12 +8,10 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -21,9 +19,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.I_Activity;
-
 import com.troop.freedcam.ui.menu.themes.R;
-import com.troop.freedcam.ui.menu.themes.classic.TouchHandler;
 
 /**
  * Created by troop on 02.09.2014.

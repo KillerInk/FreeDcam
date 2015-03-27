@@ -7,7 +7,6 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
 
-
 import java.util.ArrayList;
 
 /**

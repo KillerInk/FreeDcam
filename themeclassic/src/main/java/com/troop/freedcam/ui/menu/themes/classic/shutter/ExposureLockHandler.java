@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.R;
 

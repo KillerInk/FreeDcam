@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-
 import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
-import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
 
 /**
  * Created by George on 3/20/2015.

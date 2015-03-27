@@ -4,13 +4,11 @@ import android.support.v4.app.Fragment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-
 
 import com.troop.freedcam.camera.modules.BurstModule;
-import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.menu.themes.R;
 

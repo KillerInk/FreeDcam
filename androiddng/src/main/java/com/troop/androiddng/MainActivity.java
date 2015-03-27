@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.troop.androiddng.RawToDng;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

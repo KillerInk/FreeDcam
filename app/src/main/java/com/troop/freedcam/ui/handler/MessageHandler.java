@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.ui.MainActivity_v2;
 

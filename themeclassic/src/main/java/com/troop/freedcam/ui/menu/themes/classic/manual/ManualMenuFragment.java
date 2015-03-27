@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.R;
-import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuHandler;
 
 /**
  * Created by troop on 16.03.2015.

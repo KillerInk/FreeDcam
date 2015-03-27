@@ -16,14 +16,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
-import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 

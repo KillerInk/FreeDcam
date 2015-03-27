@@ -7,7 +7,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ExposureLockHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;

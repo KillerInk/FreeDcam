@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 import java.io.IOException;

@@ -17,7 +17,6 @@ import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-
 import java.util.ArrayList;
 
 /**

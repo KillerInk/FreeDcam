@@ -2,7 +2,6 @@ package com.troop.freedcam.i_camera.parameters;
 
 import android.os.Handler;
 
-
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.ui.AppSettingsManager;

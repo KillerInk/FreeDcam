@@ -4,7 +4,6 @@ import android.location.Location;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
-
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;

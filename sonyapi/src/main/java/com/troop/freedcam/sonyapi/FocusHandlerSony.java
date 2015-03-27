@@ -2,10 +2,10 @@ package com.troop.freedcam.sonyapi;
 
 import android.util.Log;
 
-import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 /**

@@ -5,10 +5,10 @@ import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.sonyapi.modules.I_CameraStatusChanged;
 import com.troop.freedcam.sonyapi.modules.I_PictureCallback;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
@@ -19,8 +19,6 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.SonyUtils;
-
-
 
 import org.json.JSONArray;
 import org.json.JSONException;

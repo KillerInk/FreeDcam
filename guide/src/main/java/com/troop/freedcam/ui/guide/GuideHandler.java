@@ -3,7 +3,6 @@ package com.troop.freedcam.ui.guide;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 
 /**
  * Created by George on 1/19/2015.

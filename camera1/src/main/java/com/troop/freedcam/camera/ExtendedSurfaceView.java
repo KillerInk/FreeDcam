@@ -11,17 +11,16 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 import java.util.ArrayList;

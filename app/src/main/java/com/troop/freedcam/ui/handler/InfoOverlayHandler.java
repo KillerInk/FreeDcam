@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 

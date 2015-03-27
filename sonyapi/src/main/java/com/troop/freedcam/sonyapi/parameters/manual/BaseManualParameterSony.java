@@ -8,7 +8,6 @@ import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

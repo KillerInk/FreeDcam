@@ -13,10 +13,7 @@ import com.troop.freedcam.ui.I_Fragment;
 import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
-import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
-
-import java.util.zip.Inflater;
 
 /**
  * Created by troop on 24.03.2015.

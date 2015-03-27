@@ -9,11 +9,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.FlashSwitchHandler;
-
 import com.troop.freedcam.utils.ApplicationContextProvider;
 import com.troop.theme.minimal.R;
 

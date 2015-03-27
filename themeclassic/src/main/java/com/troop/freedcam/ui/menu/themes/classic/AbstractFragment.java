@@ -6,7 +6,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_Fragment;
-import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 
 /**
  * Created by troop on 25.03.2015.

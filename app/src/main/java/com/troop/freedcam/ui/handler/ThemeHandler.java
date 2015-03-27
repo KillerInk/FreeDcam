@@ -6,18 +6,13 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.themenubia.NubiaUi;
-import com.troop.freedcam.themenubia.shutter.ShutterItemFragmentNubia;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.AbstractFragment;
 import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
-import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
 import com.troop.theme.ambient.AmbientUi;
 import com.troop.theme.material.MaterialUi;
 import com.troop.theme.minimal.MinimalUi;
-import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
-import com.troop.theme.ambient.shutter.ShutterItemFragmentAmbient;
-import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
 
 /**
  * Created by Ingo on 14.03.2015.

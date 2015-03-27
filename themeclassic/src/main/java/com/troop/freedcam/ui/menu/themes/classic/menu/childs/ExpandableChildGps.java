@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;

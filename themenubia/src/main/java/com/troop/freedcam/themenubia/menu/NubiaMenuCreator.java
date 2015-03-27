@@ -1,6 +1,7 @@
 package com.troop.freedcam.themenubia.menu;
 
 import android.view.SurfaceView;
+
 import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.themenubia.R;
 import com.troop.freedcam.themenubia.menu.childs.NubiaExpandableChild;

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

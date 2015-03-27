@@ -3,8 +3,6 @@ package com.troop.freedcam.camera.parameters.modes;
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.modules.VideoModuleG3;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;

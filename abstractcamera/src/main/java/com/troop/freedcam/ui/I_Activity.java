@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui;
 
-import android.graphics.Bitmap;
 import android.view.SurfaceView;
 
 /**

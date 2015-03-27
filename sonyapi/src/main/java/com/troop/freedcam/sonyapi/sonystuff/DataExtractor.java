@@ -1,7 +1,5 @@
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

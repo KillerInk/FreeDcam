@@ -3,12 +3,11 @@ package com.troop.freedcam.ui.handler;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExternalShutter;
-import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 
 /**

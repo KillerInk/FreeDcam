@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
-import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
 import com.troop.theme.material.menu.MenuFragmentMaterial;
 import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
 

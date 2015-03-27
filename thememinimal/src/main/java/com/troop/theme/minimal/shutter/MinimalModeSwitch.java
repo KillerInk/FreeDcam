@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ModuleSwitchHandler;
 import com.troop.freedcam.utils.ApplicationContextProvider;

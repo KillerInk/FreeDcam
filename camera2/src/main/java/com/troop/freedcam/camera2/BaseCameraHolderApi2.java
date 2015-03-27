@@ -34,7 +34,6 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

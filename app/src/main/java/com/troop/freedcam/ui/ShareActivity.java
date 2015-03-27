@@ -6,9 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.modules.PictureModule;
+import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 
 import java.io.File;
 

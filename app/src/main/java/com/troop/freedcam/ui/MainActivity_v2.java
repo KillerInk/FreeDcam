@@ -2,13 +2,11 @@ package com.troop.freedcam.ui;
 
 
 import android.content.Context;
-
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,20 +20,19 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.ui.guide.GuideHandler;
-import com.troop.freedcam.ui.handler.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
-
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.MessageHandler;
+import com.troop.freedcam.ui.handler.PreviewHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;

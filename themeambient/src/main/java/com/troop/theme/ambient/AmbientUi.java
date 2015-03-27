@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
-import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
 import com.troop.theme.ambient.menu.MenuFragmentAmbient;
 import com.troop.theme.ambient.shutter.ShutterItemFragmentAmbient;
 
