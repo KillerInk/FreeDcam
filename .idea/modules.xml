@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/camera1/camera1.iml" filepath="$PROJECT_DIR$/camera1/camera1.iml" />
       <module fileurl="file://$PROJECT_DIR$/camera2/camera2.iml" filepath="$PROJECT_DIR$/camera2/camera2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/guide/guide.iml" filepath="$PROJECT_DIR$/guide/guide.iml" />
       <module fileurl="file://$PROJECT_DIR$/language/language.iml" filepath="$PROJECT_DIR$/language/language.iml" />
       <module fileurl="file://$PROJECT_DIR$/longexposure/longexposure.iml" filepath="$PROJECT_DIR$/longexposure/longexposure.iml" />
       <module fileurl="file://$PROJECT_DIR$/seekarc/seekarc.iml" filepath="$PROJECT_DIR$/seekarc/seekarc.iml" />

@@ -45,4 +45,5 @@ dependencies {
     compile project(':themeambient')
     compile project(':themematerial')
     compile project(':thememinimal')
+    compile project(':guide')
 }

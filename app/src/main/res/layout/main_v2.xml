@@ -16,12 +16,11 @@
         android:id="@+id/CameraPreview" />
 
 
-    <com.troop.freedcam.ui.handler.GuideHandler
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/GuideView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/guideHolder"></LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"

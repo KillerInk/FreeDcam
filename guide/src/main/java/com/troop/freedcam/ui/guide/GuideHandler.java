@@ -1,13 +1,16 @@
-package com.troop.freedcam.ui.handler;
+package com.troop.freedcam.ui.guide;
 
 import android.content.Context;
-import android.util.AttributeSet;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -15,32 +18,21 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends LinearLayout implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded {
-    LinearLayout linearLayout;
+public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded {
+    View view;
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
 
 
-    public GuideHandler(Context context) {
-
-        super(context);
-        init(context);
-        this.contextt = context;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        view = inflater.inflate(R.layout.guides, container);
+        img = (ImageView) view.findViewById(R.id.imageViewGyide);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public GuideHandler(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-        alignment();
-
-    }
-
-    public GuideHandler(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-        alignment();
-    }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -49,15 +41,6 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
 
     }
 
-
-
-    private void init(Context context)
-    {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.guides, this);
-        img = (ImageView) findViewById(R.id.imageViewGyide);
-
-    }
 
     public void SetViewG(final String str)
     {
@@ -132,13 +115,13 @@ public class GuideHandler extends LinearLayout implements AbstractModeParameter.
 
     private void alignment()
     {
-       linearLayout = (LinearLayout)findViewById(R.id.GuideView);
+
 
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = RelativeLayout.ALIGN_PARENT_RIGHT;
         layoutParams.height = 20;
-        linearLayout.setLayoutParams(layoutParams);
+        view.setLayoutParams(layoutParams);
 
         //hytythy
 

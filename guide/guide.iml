@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":app" />
+        <option name="GRADLE_PROJECT_PATH" value=":guide" />
       </configuration>
     </facet>
     <facet type="android" name="Android">
@@ -20,6 +20,7 @@
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
         <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
+        <option name="LIBRARY_PROJECT" value="true" />
       </configuration>
     </facet>
   </component>
@@ -85,25 +86,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="xmpcore-5.1.2" level="project" />
-    <orderEntry type="library" exported="" name="com.lge.frameworks" level="project" />
-    <orderEntry type="library" exported="" name="metadata-extractor-2.7.0" level="project" />
-    <orderEntry type="library" exported="" name="real3d" level="project" />
-    <orderEntry type="library" exported="" name="samsung" level="project" />
-    <orderEntry type="library" exported="" name="extended_framework_hardware" level="project" />
-    <orderEntry type="module" module-name="guide" exported="" />
-    <orderEntry type="module" module-name="themeclassic" exported="" />
-    <orderEntry type="module" module-name="themeambient" exported="" />
-    <orderEntry type="module" module-name="themenubia" exported="" />
-    <orderEntry type="module" module-name="themematerial" exported="" />
-    <orderEntry type="module" module-name="thememinimal" exported="" />
-    <orderEntry type="module" module-name="seekarc" exported="" />
-    <orderEntry type="module" module-name="androiddng" exported="" />
-    <orderEntry type="module" module-name="longexposure" exported="" />
-    <orderEntry type="module" module-name="sonyapi" exported="" />
-    <orderEntry type="module" module-name="language" exported="" />
-    <orderEntry type="module" module-name="camera2" exported="" />
-    <orderEntry type="module" module-name="camera1" exported="" />
     <orderEntry type="module" module-name="abstractcamera" exported="" />
   </component>
 </module>

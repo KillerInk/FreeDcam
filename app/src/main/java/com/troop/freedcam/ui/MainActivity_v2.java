@@ -28,9 +28,10 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
+import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.PreviewHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
-import com.troop.freedcam.ui.handler.GuideHandler;
+
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
@@ -170,7 +171,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
 
-        guideHandler = (GuideHandler)findViewById(R.id.GuideView);
+        guideHandler = new GuideHandler();
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.themeFragmentholder, guideHandler, "Guide");
+        transaction.commit();
 
         timerHandler = new TimerHandler(this);
 
