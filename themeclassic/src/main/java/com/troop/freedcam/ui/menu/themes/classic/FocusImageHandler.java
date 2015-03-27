@@ -101,7 +101,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-            mParams.leftMargin = rect.left + margineleft;
+            mParams.leftMargin = rect.left;
             //mParams.rightMargin = x +half;
             mParams.topMargin = rect.top;
 
@@ -222,7 +222,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     }
                     else
                     {
-                        OnClick((int)meteringArea.getX()-recthalf,(int)meteringArea.getY()+recthalf);
+                        OnClick((int)meteringArea.getX()+recthalf,(int)meteringArea.getY()+recthalf);
                     }
                 }
             }
