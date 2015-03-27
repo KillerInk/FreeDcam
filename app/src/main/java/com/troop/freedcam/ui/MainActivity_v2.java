@@ -88,7 +88,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
 
-
+    HistogramFragment histogramFragment;
 
     //bitmaps
 
@@ -174,11 +174,18 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
-        transaction.commit();
+
 
         timerHandler = new TimerHandler(this);
 
 
+
+
+
+        histogramFragment = new HistogramFragment();
+        histogramFragment.SetAppSettings(appSettingsManager);
+        transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
+        transaction.commit();
 
 
 
@@ -251,6 +258,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
+        histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
         updatePreviewHandler();
     }
 
@@ -364,6 +372,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             loadCameraUiWrapper();
         orientationHandler.Start();
         infoOverlayHandler.StartUpdating();
+
 
         //sensorsUtil.start();
 

@@ -146,12 +146,12 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     @Override
     public void onPreviewOpen(String message) {
-
+        super.onPreviewOpen(message);
     }
 
     @Override
     public void onPreviewClose(String message) {
-
+        super.onPreviewClose(message);
     }
 
     @Override
