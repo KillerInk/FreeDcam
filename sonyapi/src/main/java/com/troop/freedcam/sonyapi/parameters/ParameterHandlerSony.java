@@ -1,6 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -106,14 +107,13 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ManualExposure = new ExposureCompManualParameterSony("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
-        /*appSettingsManager.context.runOnUiThread(new Runnable() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void run()
-            {*/
+            public void run() {
                 Log.d(TAG, "Throw ParametersHasLoaded");
                 ParametersEventHandler.ParametersHasLoaded();
-            //}
-        //});
+            }
+        });
 
     }
 

@@ -215,8 +215,10 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             this.values = getStringValues();
 
         }
-        if (values != null && values.length > 0)
+        if (values != null && values.length > 0 && val < values.length)
         {
+            if (val == -200)
+                GetValue();
             Log.d(TAG, "GetStringValue() = " +values[val] );
             return values[val];
         }
