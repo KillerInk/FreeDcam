@@ -116,6 +116,8 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (cameraUiWrapper == null)
+            return;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.SetCameraChangedListner(this);
 
@@ -166,6 +168,8 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     void stopLsn()
     {
         doWork = false;
+        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null)
+            ((BaseCameraHolder) cameraUiWrapper.cameraHolder).SetPreviewCallback(null);
     }
 
     @Override

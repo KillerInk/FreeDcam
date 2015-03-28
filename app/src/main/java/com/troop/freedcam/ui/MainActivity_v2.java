@@ -223,7 +223,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         //cameraUiWrapper.StartCamera();
     }
 
-    private void destroyCameraUiWrapper() {
+    private void destroyCameraUiWrapper()
+    {
+        if (histogramFragment != null)
+        {
+            histogramFragment.stopLsn();
+            histogramFragment.SetCameraUIWrapper(null);
+        }
         if (cameraUiWrapper != null)
         {
             Log.d(TAG, "loading new cameraUIWrapper, Destroying Old");
@@ -256,14 +262,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
         histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
-        updatePreviewHandler();
     }
 
-    public void updatePreviewHandler() {
-        /*previewHandler.SwitchTheme();
-        previewHandler.setRalphas();
-        previewHandler.setLalphas();*/
-    }
 
 
     /*private void CoverCamUI(Boolean shown)

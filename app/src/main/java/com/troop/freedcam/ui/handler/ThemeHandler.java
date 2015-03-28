@@ -111,12 +111,10 @@ public class ThemeHandler implements I_ModuleEvent
     {
         GetThemeFragment();
 
-        activity_v2.updatePreviewHandler();
     }
 
     @Override
     public String ModuleChanged(String module) {
-        activity_v2.updatePreviewHandler();
 
         return null;
 
