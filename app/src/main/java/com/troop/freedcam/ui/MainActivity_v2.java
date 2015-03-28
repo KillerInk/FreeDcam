@@ -51,6 +51,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     //public LinearLayout settingsLayout;
 
     protected boolean helpOverlayOpen = false;
+    boolean histogramFragmentOpen = false;
 
 
     OrientationHandler orientationHandler;
@@ -171,26 +172,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
-
+        transaction.commit();
 
         timerHandler = new TimerHandler(this);
 
-
-
-
-
-        histogramFragment = new HistogramFragment();
-        histogramFragment.SetAppSettings(appSettingsManager);
-        transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
-        transaction.commit();
-
-
-
-      //  sensorsUtil.init();
-      //  sensorsUtil.setUp();
-       // sensorsUtil.start();
-
-        System.out.println("Snoop "+sensorsUtil.getMotion());
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
+            ShowHistogram(true);
     }
 
     private void loadCameraUiWrapper()
@@ -261,7 +248,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
-        histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
+        if (histogramFragment != null && histogramFragment.isAdded())
+            histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
     }
 
 
@@ -555,6 +543,35 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
+    public void ShowHistogram(boolean enable)
+    {
+        if (enable)
+        {
+            histogramFragmentOpen = true;
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            histogramFragment = new HistogramFragment();
+            if (cameraUiWrapper != null)
+            {
+                histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
+                if (cameraUiWrapper.cameraHolder.isPreviewRunning)
+                    histogramFragment.strtLsn();
+            }
+            histogramFragment.SetAppSettings(appSettingsManager);
+            transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
+            transaction.commit();
+        }
+        else
+        {
+            histogramFragmentOpen = false;
+            histogramFragment.stopLsn();
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.remove(histogramFragment);
+            transaction.commit();
+        }
+
+    }
+
+    @Override
     public void onCameraOpen(String message)
     {
         try {
@@ -626,34 +643,4 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         super.onConfigurationChanged(newConfig);
     }
 
-    /*private void rotateViews(int orientation)
-    {
-        TextView textView = (TextView)seekbarLayout.findViewById(R.id.textView_seekbar);
-        textView.setRotation(orientation);
-        if (helpOverlayOpen)
-        {
-            helpOverlayHandler.animate().rotation(orientation).setDuration(animationtime).start();
-        }
-
-
-        rotateSettingsMenu(orientation);
-        for (int i = 0; i < manualSettingsLayout.getChildCount(); i++)
-        {
-            View view =  manualSettingsLayout.getChildAt(i);
-            view.animate().rotation(orientation).setDuration(animationtime).start();
-        }
-    }*/
-
-    /*private void rotateSettingsMenu(int orientation)
-    {
-        settingsLayoutHolder.animate().rotation(orientation).setDuration(animationtime).start();
-
-        int h = settingsLayout.getLayoutParams().height;
-        int w = settingsLayout.getLayoutParams().width;
-        ViewGroup.LayoutParams params = settingsLayout.getLayoutParams();
-        params.height = w;
-        params.width = h;
-
-        settingsLayout.setLayoutParams(params);
-    }*/
 }

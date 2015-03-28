@@ -13,6 +13,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
+import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandAbleChildHistogram;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChild;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildDngSupport;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExternalShutter;
@@ -80,6 +81,7 @@ public class MenuCreator
     protected ExpandableChild externalShutter;
     protected ExpandableChildOrientationHack rotationHack;
     protected ExpandableChildTheme Theme;
+    protected ExpandAbleChildHistogram Histogram;
 
     protected LinearLayout submenu;
 
@@ -191,6 +193,7 @@ public class MenuCreator
 
 
 
+
         //used for longexposuremodule
         if (parameterHandler.PreviewSize != null)
         {
@@ -243,6 +246,8 @@ public class MenuCreator
 
         externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
         rotationHack.SetCameraUIWrapper(cameraUiWrapper);
+        if (Histogram != null)
+            Histogram.SetCameraUIWrapper(cameraUiWrapper);
 
         if(parameterHandler.ThemeList != null)
         {
@@ -288,7 +293,8 @@ public class MenuCreator
         piclist.add(contShootModeSpeed);
 
 
-
+        Histogram = new ExpandAbleChildHistogram(context,group, "Histogram", appSettingsManager,AppSettingsManager.SETTING_HISTOGRAM, activityV2);
+        piclist.add(Histogram);
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(parameterHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);

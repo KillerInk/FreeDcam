@@ -17,5 +17,5 @@ public interface I_Activity
     int GetPreviewTopMargine();
     void SetPreviewSizeChangedListner(I_PreviewSizeEvent event);
     int[] GetScreenSize();
-
+    void ShowHistogram(boolean enable);
 }
