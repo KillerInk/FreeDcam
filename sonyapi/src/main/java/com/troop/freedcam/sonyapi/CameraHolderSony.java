@@ -661,6 +661,11 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     }
 
+    @Override
+    public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback) {
+
+    }
+
     public boolean canCancelFocus()
     {
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition") || mAvailableCameraApiSet.contains("cancelTrackingFocus"))

@@ -128,7 +128,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning)
         {
             try {
-                ((BaseCameraHolder) cameraUiWrapper.cameraHolder).SetPreviewCallback(this);
+                cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
             }
             catch (java.lang.RuntimeException ex)
             {
@@ -169,7 +169,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     {
         doWork = false;
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null)
-            ((BaseCameraHolder) cameraUiWrapper.cameraHolder).SetPreviewCallback(null);
+            cameraUiWrapper.cameraHolder.SetPreviewCallback(null);
     }
 
     @Override

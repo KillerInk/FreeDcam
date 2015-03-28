@@ -32,6 +32,7 @@ import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -366,6 +367,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     @Override
     public void SetLocation(Location loc) {
+
+    }
+
+    @Override
+    public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback) {
 
     }
 

@@ -86,4 +86,6 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public void CancelFocus(){};
 
     public abstract void SetLocation(Location loc);
+
+    public abstract void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback);
 }
