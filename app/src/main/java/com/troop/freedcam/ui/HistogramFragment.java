@@ -283,11 +283,41 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
            }
        }
 
+        private void createHistogramm(Bitmap bitmap)
+        {
+            int [] histo = new int [ 256 * 3 ];
+            int w = bitmap . getWidth ();
+            int h = bitmap . getHeight ();
+            int [] pixels = new int [ w * h ];
+            bitmap . getPixels( pixels , 0 , w , 0 , 0 , w , h );
+            for ( int i = 0 ; i < w ; i ++) {
+                for ( int j = 0 ; j < h ; j ++) {
+                    int index = j * w + i ;
+                    int r = Color . red ( pixels [ index ]);
+                    int g = Color . green ( pixels [ index ]);
+                    int b = Color . blue ( pixels [ index ]);
+                    histo [ r ]++;
+                    histo [ 256 + g ]++;
+                    histo [ 512 + b ]++;
+                }
+            }
+            System . arraycopy( histo , 0 , redHistogram , 0 , 256 );
+            System . arraycopy( histo , 256 , greenHistogram , 0 , 256 );
+            System . arraycopy( histo , 512 , blueHistogram , 0 , 256 );
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    invalidate();
+                }
+            });
+
+        }
+
        public void setBitmap ( Bitmap bitmap )
        {
-           mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
            //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-           new ComputeHistogramTask().execute(mBitmap);
+           createHistogramm(bitmap);
 
        }
 
