@@ -156,7 +156,6 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
                             }
                         }
                     });
-
                 }
             }
         });
@@ -494,15 +493,9 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
     {
         if (currentItem !=null)
         {
-            seekbarText.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    if (currentItem == null || currentItem.name == null)
-                        return;
-                    seekbarText.setText(currentItem.name + ": " + value);
-                }
-            });
+            if (currentItem == null || currentItem.name == null)
+                return;
+            seekbarText.setText(currentItem.name + ": " + value);
         }
 
     }
