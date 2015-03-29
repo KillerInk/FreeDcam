@@ -249,7 +249,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try
         {
             ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
-            cameraHolder.SetCameraParameters(cameraParameters);
+            
         }
         catch (Exception ex)
         {

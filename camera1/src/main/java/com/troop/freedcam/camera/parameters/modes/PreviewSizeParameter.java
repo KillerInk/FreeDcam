@@ -29,9 +29,11 @@ public class PreviewSizeParameter extends BaseModeParameter
         //if (baseCameraHolder.IsPreviewRunning())
             //baseCameraHolder.StopPreview();
 
-        parameters.put(value, valueToSet);
-        try {
-            baseCameraHolder.SetCameraParameters(parameters);
+        //parameters.put(value, valueToSet);
+
+        try
+        {
+            ((BaseCameraHolder)baseCameraHolder).SetPreviewSize(valueToSet);
         }
         catch (Exception ex)
         {

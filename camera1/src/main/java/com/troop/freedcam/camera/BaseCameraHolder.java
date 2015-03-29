@@ -709,6 +709,29 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
+    public void SetPreviewSize(String size)
+    {
+        String split[] = size.split("x");
+        int width = Integer.parseInt(split[0]);
+        int height = Integer.parseInt(split[1]);
+
+
+        if (hasSamsungFrameWork && samsungCamera != null)
+        {
+            SecCamera.Parameters paras = samsungCamera.getParameters();
+            paras.setPreviewSize(width,height);
+            samsungCamera.setParameters(paras);
+        }
+        else
+        {
+            if (mCamera != null) {
+                Camera.Parameters paras = mCamera.getParameters();
+                paras.setPreviewSize(width,height);
+                mCamera.setParameters(paras);
+            }
+        }
+    }
+
     public void SetCameraRotation(int rotation)
     {
         if (!isRdy)
