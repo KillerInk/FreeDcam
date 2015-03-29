@@ -60,7 +60,6 @@ public class BitmapUtil {
         return ((BitmapDrawable)source).getBitmap();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static void initBlur(Context ctx,Bitmap Source)
     {
         if(Source.getHeight() != currentBlurBitmapHeight || Source.getWidth() != currentBlurBitmapWIdth)
@@ -75,7 +74,8 @@ public class BitmapUtil {
             rs = RenderScript.create(ctx);
             blurInputAllocation = Allocation.createFromBitmap(rs,Source, Allocation.MipmapControl.MIPMAP_NONE,Allocation.USAGE_SCRIPT);
             blurOutpuAllocation = Allocation.createTyped(rs,blurInputAllocation.getType());
-            blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            if (Build.VERSION.SDK_INT > 16)
+                blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
             currentBlurBitmapWIdth = Source.getWidth();
             currentBlurBitmapHeight = Source.getHeight();
@@ -86,9 +86,11 @@ public class BitmapUtil {
     {
 
         blurInputAllocation.copyFrom(Source);
-        blurScript.setRadius(BlurRadius);
-        blurScript.setInput(blurInputAllocation);
-        blurScript.forEach(blurOutpuAllocation);
+        if (Build.VERSION.SDK_INT > 16) {
+            blurScript.setRadius(BlurRadius);
+            blurScript.setInput(blurInputAllocation);
+            blurScript.forEach(blurOutpuAllocation);
+        }
         blurOutpuAllocation.copyTo(output);
 
 
