@@ -66,18 +66,45 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 Log.d(TAG, "Has SamsungMediaRecorder Framework");
                 hasSamsungFrameWork = true;
 
-            } catch (Exception e) {
+            }
+            catch (ClassNotFoundException e)
+            {
+                hasSamsungFrameWork = false;
+                Log.d(TAG, "No Samsung Framework");
+            }
+            catch (Exception e) {
 
                 hasSamsungFrameWork = false;
-                Log.d(TAG, "No SamsungMediaRecorder Framework");
+                Log.d(TAG, "No Samsung Framework");
+            }
+            catch (UnsatisfiedLinkError er)
+            {
+                hasSamsungFrameWork = false;
+                Log.d(TAG, "No Samsung Framework");
+            }
+            catch (ExceptionInInitializerError error)
+            {
+                hasSamsungFrameWork = false;
+                Log.d(TAG, "No Samsung Framework");
             }
 
-        } catch (Exception e) {
+        }
+        catch (ClassNotFoundException e)
+        {
+            hasSamsungFrameWork = false;
+            Log.d(TAG, "No Samsung Framework");
+        }
+        catch (Exception e) {
 
             hasSamsungFrameWork = false;
             Log.d(TAG, "No Samsung Framework");
         }
         catch (UnsatisfiedLinkError er)
+        {
+            hasSamsungFrameWork = false;
+            Log.d(TAG, "No Samsung Framework");
+        }
+        catch (ExceptionInInitializerError error)
         {
             hasSamsungFrameWork = false;
             Log.d(TAG, "No Samsung Framework");
@@ -93,13 +120,23 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "Has Lg Framework");
             hasLGFrameWork = true;
 
-        } catch (Exception e) {
+        } catch (ExceptionInInitializerError e) {
 
             hasLGFrameWork = false;
             Log.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
+        catch (Exception e) {
+
             hasLGFrameWork = false;
             Log.d(TAG, "No LG Framework");
         }
