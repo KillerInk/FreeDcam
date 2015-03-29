@@ -1,5 +1,7 @@
 package com.troop.freedcam.ui.menu.themes.classic.manual;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -58,6 +60,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem iso;
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
+    HandlerThread thread;
+    Handler handler;
 
     public ManualMenuHandler(View activity, AppSettingsManager appSettingsManager, ManualMenuFragment fragment)
     {
@@ -68,6 +72,9 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         manualSeekbar.setOnSeekBarChangeListener(this);
         manualMenu = (LinearLayout)activity.findViewById(R.id.v2_manual_menu);
         this.menuFragment = fragment;
+        thread = new HandlerThread("seekbarThread");
+        thread.start();
+        handler = new Handler(thread.getLooper());
 
         manualItems = new ArrayList<ManualMenuItem>();
 
@@ -130,8 +137,6 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                 if (!item.name.equals(name)) {
                     item.DisableItem();
                     item.manualParameter.removeEventListner(this);
-
-
                 }
                 else
                 {
@@ -403,16 +408,23 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    public void onProgressChanged(final SeekBar seekBar,final int progress, boolean fromUser)
     {
         if (fromUser && currentItem != null)
         {
-            if (!(cameraUiWrapper instanceof CameraUiWrapperSony))
-                setValueToParameters(seekBar.getProgress());
-            if (realMin < 0)
-                setValueToTextBox(progress + realMin);
-            else
-                setValueToTextBox(progress);
+            if (!(cameraUiWrapper instanceof CameraUiWrapperSony)) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setValueToParameters(seekBar.getProgress());
+                        if (realMin < 0)
+                            setValueToTextBox(progress + realMin);
+                        else
+                            setValueToTextBox(progress);
+                    }
+                });
+
+            }
         }
     }
 
