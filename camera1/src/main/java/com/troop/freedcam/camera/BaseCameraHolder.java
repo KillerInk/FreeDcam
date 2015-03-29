@@ -530,9 +530,21 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 });
             }
         }
+        catch (RuntimeException ex)
+        {
+            ex.printStackTrace();
+            CameraFocusEvent focusEvent = new CameraFocusEvent();
+
+            focusEvent.success = false;
+            autoFocusCallback.onAutoFocus(focusEvent);
+        }
         catch (Exception ex)
         {
             ex.printStackTrace();
+            CameraFocusEvent focusEvent = new CameraFocusEvent();
+
+            focusEvent.success = false;
+            autoFocusCallback.onAutoFocus(focusEvent);
         }
     }
 
