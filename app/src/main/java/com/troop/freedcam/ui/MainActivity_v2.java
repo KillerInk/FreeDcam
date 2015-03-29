@@ -21,10 +21,12 @@ import android.widget.ImageView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
+import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
@@ -45,7 +47,7 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity
+public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent
 {
     protected ViewGroup appViewGroup;
     //public LinearLayout settingsLayout;
@@ -176,8 +178,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
         timerHandler = new TimerHandler(this);
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
-            ShowHistogram(true);
+
     }
 
     private void loadCameraUiWrapper()
@@ -207,6 +208,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         //cameraUiWrapper.StartCamera();
     }
 
@@ -545,22 +547,27 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void ShowHistogram(boolean enable)
     {
-        if (enable)
+        if (enable && !histogramFragmentOpen)
         {
             histogramFragmentOpen = true;
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            histogramFragment = new HistogramFragment();
+            if(histogramFragment == null)
+                histogramFragment = new HistogramFragment();
+
+
             if (cameraUiWrapper != null)
             {
                 histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
                 if (cameraUiWrapper.cameraHolder.isPreviewRunning)
                     histogramFragment.strtLsn();
             }
-            histogramFragment.SetAppSettings(appSettingsManager);
-            transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
-            transaction.commit();
+            histogramFragment.SetAppSettings(appSettingsManager, this);
+            if (!histogramFragment.isAdded()) {
+                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
+                transaction.commit();
+            }
         }
-        else
+        else if (!enable && histogramFragmentOpen)
         {
             histogramFragmentOpen = false;
             histogramFragment.stopLsn();
@@ -630,7 +637,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(I_Module module)
+    {
 
 
     }
@@ -643,4 +651,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         super.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public String ModuleChanged(String module)
+    {
+        if ((module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) && appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true") && !histogramFragmentOpen)
+            ShowHistogram(true);
+        else
+            ShowHistogram(false);
+        return null;
+    }
 }

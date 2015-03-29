@@ -342,7 +342,7 @@ public class RawToDng
             else
             {
                 if (filepath.contains("qcom")) {
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, false);
+                    SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, false);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }
                 else {

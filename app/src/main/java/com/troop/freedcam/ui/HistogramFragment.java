@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
@@ -44,8 +45,13 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     MyHistogram histogram;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     LinearLayout ll;
+    I_Activity i_activity;
 
     boolean doWork = false;
+    boolean stoppedOnModuleChange = false;
+
+    int width;
+    int height;
 
 
 
@@ -73,24 +79,22 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         histogram.setBitmap(dr);
     }
 
-    public void SetAppSettings(AppSettingsManager appSettingsManager)
+    public void SetAppSettings(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
         this.appSettingsManager = appSettingsManager;
-
+        this.i_activity = i_activity;
     }
 
 
     private void extactMutable(byte[] PreviewFrame)
     {
-        String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
-        int width = Integer.parseInt(split[0]);
-        int height = Integer.parseInt(split[1]);
+
         final YuvImage yuvImage = new YuvImage(PreviewFrame, ImageFormat.NV21,width,height,null);
         if (!doWork)
             return;
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        yuvImage.compressToJpeg(new Rect(0,0,width,height),100,byteArrayOutputStream);
+        yuvImage.compressToJpeg(new Rect(0,0,width,height),70,byteArrayOutputStream);
         if (!doWork)
             return;
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -125,6 +129,9 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     }
     public void strtLsn()
     {
+        String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
+        width = Integer.parseInt(split[0]);
+        height = Integer.parseInt(split[1]);
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning)
         {
             try {
@@ -188,6 +195,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     public String ModuleChanged(String module)
     {
 
+
         return null;
     }
 
@@ -207,13 +215,17 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     }
 
     @Override
-    public void onPreviewOpen(String message) {
-        strtLsn();
+    public void onPreviewOpen(String message)
+    {
+        if (!doWork)
+            strtLsn();
     }
 
     @Override
-    public void onPreviewClose(String message) {
-        stopLsn();
+    public void onPreviewClose(String message)
+    {
+        if (doWork)
+            stopLsn();
     }
 
     @Override
