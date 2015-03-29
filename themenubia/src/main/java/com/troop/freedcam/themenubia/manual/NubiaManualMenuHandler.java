@@ -1,6 +1,8 @@
 package com.troop.freedcam.themenubia.manual;
 
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -59,7 +61,8 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
     NubiaManualMenuItem iso;
     NubiaManualMenuItem zoom;
     NubiaManualMenuItem fnumber;
-    Thread progressq;
+    HandlerThread thread;
+    Handler handler;
 
     private SeekArc mSeekArc;
 
@@ -70,6 +73,9 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
         this.appSettingsManager = appSettingsManager;
 
         mSeekArc = (SeekArc) activity.findViewById(R.id.seekArc);
+        thread = new HandlerThread("seekbarThread");
+        thread.start();
+        handler = new Handler(thread.getLooper());
 
 
         seekbarText = (TextView)activity.findViewById(R.id.textView_seekbar);
@@ -101,21 +107,21 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
                 if (cameraUiWrapper instanceof CameraUiWrapperSony)
                     setValueToParameters(mSeekArc.getProgres());
                 if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && currentItem.name.equals("Shutter"))
-                    new Thread() {
+                {
+                    handler.post(new Runnable() {
                         @Override
                         public void run() {
                             setValueToParameters(mSeekArc.getProgres());
                         }
-                    }.start();
+                    });
+                }
+
             }
             @Override
-            public void onStartTrackingTouch(SeekArc seekArc) {
+            public void onStartTrackingTouch(SeekArc seekArc)
+            {
                 userIsSeeking = true;
             }
-
-
-
-
 
 
             @Override
@@ -130,11 +136,23 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
                         @Override
                         public void run() {
                             if (!(cameraUiWrapper instanceof CameraUiWrapperSony) && !currentItem.name.equals("Shutter"))
-                                setValueToParameters(mSeekArc.getProgres());
-                            if (realMin < 0) {
-                                setValueToTextBox(progress + realMin);
-                            } else {
-                                setValueToTextBox(progress);
+                            {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setValueToParameters(mSeekArc.getProgres());
+                                        seekbarText.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (realMin < 0) {
+                                                    setValueToTextBox(progress + realMin);
+                                                } else {
+                                                    setValueToTextBox(progress);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         }
                     });
