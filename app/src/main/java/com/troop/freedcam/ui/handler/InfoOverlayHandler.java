@@ -121,7 +121,9 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                 } else {
 
                     if (cameraUiWrapper.camParametersHandler.PictureSize != null) {
-                        String RESRAY[] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+                        String RESRAY[] = cameraUiWrapper.camParametersHandler.PictureSize.GetValue().split("x");
+                        if (RESRAY.length < 2)
+                            return;
                         double mp = (Integer.parseInt(RESRAY[0]) * Integer.parseInt(RESRAY[1])) / 1000000;
                         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
