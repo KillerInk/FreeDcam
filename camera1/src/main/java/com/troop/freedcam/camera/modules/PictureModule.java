@@ -98,9 +98,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             this.isWorking = true;
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-            if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
+            if (baseCameraHolder.ParameterHandler.isDngActive && (lastBayerFormat.contains("bayer") || lastBayerFormat.contains("raw")))
             {
-                if (baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+                if (baseCameraHolder.ParameterHandler.ZSL != null && baseCameraHolder.ParameterHandler.ZSL.IsSupported() && baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
                 {
                     sendMsg("Error: Disable ZSL for Raw or Dng capture");
                     this.isWorking = false;
@@ -195,7 +195,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             if (dngcapture && !dngJpegShot)
             {
-                if (baseCameraHolder.ParameterHandler.isDngActive && lastBayerFormat.contains("bayer"))
+                if (baseCameraHolder.ParameterHandler.isDngActive && (lastBayerFormat.contains("bayer")|| lastBayerFormat.contains("raw")))
                 {
 
                     lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
