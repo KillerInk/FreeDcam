@@ -62,6 +62,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     //this is needed for the preview...
     public CaptureRequest.Builder mPreviewRequestBuilder;
+    I_Callbacks.PreviewCallback previewCallback;
 
 
     /**
@@ -292,6 +293,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
+
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -372,7 +374,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     @Override
     public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback) {
-
+        this.previewCallback = previewCallback;
     }
 
     public Camera.Parameters GetCameraParameters() {
