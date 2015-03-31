@@ -1,6 +1,8 @@
 package com.troop.freedcam.camera.modules;
 
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -49,8 +51,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     RawToDng dngConverter;
     boolean dngcapture = false;
 
-    //private HandlerThread backgroundThread;
-    //Handler handler;
+    private HandlerThread backgroundThread;
+    Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -89,7 +91,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void DoWork()
     {
-               dowork();
+        if (!this.isWorking)
+            handler.post(new Runnable() {
+            @Override
+            public void run() {
+                dowork();
+            }
+        });
+
     }
 
     private void dowork() {
@@ -169,13 +178,15 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     public void onPictureTaken(final byte[] data)
     {
-        new Thread() {
+
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 processImage(data);
                 isWorking=false;
             }
-        }.start();
+        });
+
     }
 
     private void processImage(byte[] data)
@@ -188,6 +199,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 if (dngConverter != null)
                     dngConverter.RELEASE();
                 dngConverter = RawToDng.GetInstance();
+
+
             }
             if (processCallbackData(data))
             {
@@ -221,7 +234,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
             dngJpegShot = false;
             dngConverter.WriteDNG();
-            dngConverter.RELEASE();
+
             workfinished(true);
             Log.d(TAG, "work finished");
         }
@@ -318,9 +331,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 saveBytesToFile(bytes, file);
             } else
             {
+                int w = 0;
+                int h = 0;
                 String raw[] = getRawSize();
-                int w = Integer.parseInt(raw[0]);
-                int h = Integer.parseInt(raw[1]);
+                if (raw != null) {
+                    w = Integer.parseInt(raw[0]);
+                    h = Integer.parseInt(raw[1]);
+                }
 
 
 
@@ -372,15 +389,17 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     protected String[] getRawSize()
     {
-        String raw[];
+        String raw[] =null;
         if (DeviceUtils.isXperiaL())
         {
             raw = RawToDng.SonyXperiaLRawSize.split("x");
         }
         else
         {
-            String rawSize = parametersHandler.GetRawSize();
-            raw = rawSize.split("x");
+            if (parametersHandler.GetRawSize() != "") {
+                String rawSize = parametersHandler.GetRawSize();
+                raw = rawSize.split("x");
+            }
         }
         return raw;
     }
@@ -460,9 +479,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        /*backgroundThread = new HandlerThread("PictureModuleThread");
+        backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
-        handler = new Handler(backgroundThread.getLooper());*/
+        handler = new Handler(backgroundThread.getLooper());
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"))
@@ -484,5 +503,13 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void UnloadNeededParameters()
     {
+        backgroundThread.quitSafely();
+        try {
+            backgroundThread.join();
+            backgroundThread = null;
+            handler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
