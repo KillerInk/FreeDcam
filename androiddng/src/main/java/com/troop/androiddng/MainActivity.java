@@ -74,7 +74,12 @@ public class MainActivity extends Activity {
 			String out = filetosave.getAbsolutePath();
             int r = data.length / g3H;
             int rowsize = data.length/ 3120;  //Integer.parseInt(box.getEditableText().toString());
-
+            RawToDng dng = RawToDng.GetInstance();
+            dng.OverWriteRowSize = Integer.parseInt(box.getEditableText().toString());
+            dng.SetBayerData(data, out, 5388, 3752);
+            dng.setExifData(0,0,0,0,0,"0","0",0);
+            dng.WriteDNG();
+            dng.RELEASE();
 			//RawToDng.convertRawBytesToDng(data.clone(),filetosave.getAbsolutePath(), 4208,3120, RawToDng.g3_color1, RawToDng.g3_color2, RawToDng.g3_neutral,0, "bggr", rowsize, "test", true);
 			data = null;
 			Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

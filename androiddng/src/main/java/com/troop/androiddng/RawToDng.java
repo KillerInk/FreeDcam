@@ -16,6 +16,9 @@ import java.nio.ByteBuffer;
  */
 public class RawToDng
 {
+
+    public int OverWriteRowSize = -1;
+
     static
     {
         System.loadLibrary("RawToDng");
@@ -38,8 +41,8 @@ public class RawToDng
         XperiaL(                10788864 , 64,  BGGR,3282,2448, false,  XperiaL_rowSize),
         OneSV(                6746112 , 0,  BGGR,2592,1944, false,  XperiaL_rowSize),
         MT4G(                10782464 , 64,  RGGb,3282,2448, false,  XperiaL_rowSize),
-        M9Mipi(25677824 ,0,"gbrg", 5388, 3752, true,7230),
-        M9Qcom(27127808,0,"gbrg", 5388, 3752, false,7230);
+        M9Mipi(25677824 ,0,GRBG, 5388, 3752, true,0),
+        M9Qcom(27127808,0,GRBG, 5388, 3752, false,7230);
         //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
@@ -324,8 +327,21 @@ public class RawToDng
                 }
                 else
                 {
-                    if (device.tightraw) {
-                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, device.rowsize, Build.MODEL, device.tightraw);
+                    int rowsize = 0;
+
+                    if (OverWriteRowSize == -1) {
+
+                        if (device.rowsize == 0) {
+                            rowsize = Calculate_rowSize((int) GetRawSize(), device.height);
+                        } else
+                            rowsize = device.rowsize;
+                    }
+                    else
+                        rowsize = OverWriteRowSize;
+
+                    if (device.tightraw)
+                    {
+                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                         setRawHeight(device.height);
                     }
                     else
