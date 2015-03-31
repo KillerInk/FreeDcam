@@ -26,6 +26,7 @@ import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 
@@ -36,7 +37,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by George on 3/26/2015.
  */
-public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCallback, I_ModuleEvent, I_CameraChangedListner {
+public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCallback, I_ModuleEvent, I_CameraChangedListner, AbstractModuleHandler.I_worker {
 
     private AppSettingsManager appSettingsManager;
     AbstractCameraUiWrapper cameraUiWrapper;
@@ -73,11 +74,6 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         return view;
     }
 
-    public void load(Bitmap dr)
-    {
-        //System.out.println("Freed Loaded Color Bins");
-        histogram.setBitmap(dr);
-    }
 
     public void SetAppSettings(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
@@ -94,14 +90,18 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             return;
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        yuvImage.compressToJpeg(new Rect(0,0,width,height),70,byteArrayOutputStream);
+        yuvImage.compressToJpeg(new Rect(0,0,width,height),50,byteArrayOutputStream);
+
         if (!doWork)
             return;
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-        final Bitmap LiveYuv = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size(), options);
-
-        load(LiveYuv);
+        options.inSampleSize = 8;
+        options.inMutable = true;
+        //options.inJustDecodeBounds = true;
+        options.inDither = false ; // Disable Dithering mode
+        options.inPurgeable = true ; // Tell to gc that whether it needs free memory, // the Bitmap can be cleared
+        options.inInputShareable = true;
+        histogram.setBitmap(BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size(), options));
 
     }
 
@@ -243,6 +243,25 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
     }
 
+    @Override
+    public void onWorkStarted()
+    {
+        if (doWork) {
+            stopLsn();
+        }
+    }
+
+    @Override
+    public void onWorkFinished(boolean finished)
+    {
+        if (stoppedOnModuleChange)
+        {
+            stoppedOnModuleChange = false;
+            strtLsn();
+
+        }
+    }
+
 
     public class MyHistogram extends View {
 
@@ -250,8 +269,6 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             super(context);
 
         }
-
-        Bitmap mBitmap ;
         Paint mPaint = new Paint ();
         int [] redHistogram = new int [ 256 ];
         int [] greenHistogram = new int [ 256 ];
@@ -297,6 +314,8 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
         private void createHistogramm(Bitmap bitmap)
         {
+            if(bitmap == null)
+                return;
             int [] histo = new int [ 256 * 3 ];
             int w = bitmap . getWidth ();
             int h = bitmap . getHeight ();
@@ -322,6 +341,12 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
                     invalidate();
                 }
             });
+            bitmap.recycle();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
 

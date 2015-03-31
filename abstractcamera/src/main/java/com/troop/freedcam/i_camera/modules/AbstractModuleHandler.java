@@ -20,6 +20,8 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         void onWorkFinished(boolean finished);
     }
 
+    ArrayList<I_worker> workers;
+
     private static String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
     public ArrayList<String> PictureModules;
@@ -46,7 +48,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;
         moduleList  = new HashMap<String, AbstractModule>();
+
         moduleEventHandler = new ModuleEventHandler();
+        workers = new ArrayList<I_worker>();
         PictureModules = new ArrayList<String>();
         PictureModules.add(MODULE_PICTURE);
         PictureModules.add(MODULE_BURST);
@@ -62,6 +66,38 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         HDRModule = new ArrayList<String>();
         HDRModule.add(MODULE_HDR);
 
+        workerListner = new I_worker() {
+            @Override
+            public void onWorkStarted() {
+                for (int i =0; i < workers.size(); i++)
+                {
+                    if (workers.get(i) == null) {
+                        workers.remove(i);
+                        i--;
+                    }
+                    else
+                    {
+                        workers.get(i).onWorkStarted();
+                    }
+                }
+            }
+
+            @Override
+            public void onWorkFinished(final boolean finished)
+            {
+                for (int i =0; i < workers.size(); i++)
+                {
+                    if (workers.get(i) == null) {
+                        workers.remove(i);
+                        i--;
+                    }
+                    else
+                    {
+                        workers.get(i).onWorkFinished(finished);
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -105,7 +141,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     @Override
     public void SetWorkListner(I_worker workerListner) {
-        this.workerListner = workerListner;
+        workers.add(workerListner);
     }
 
     protected void initModules()

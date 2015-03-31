@@ -176,6 +176,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
         transaction.commit();
 
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
+            ShowHistogram(true);
+
         timerHandler = new TimerHandler(this);
 
 
@@ -191,6 +194,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
         cameraUiWrapper.SetCameraChangedListner(this);
         cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
+        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
 
 
         initCameraUIStuff(cameraUiWrapper);
@@ -251,7 +255,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
         if (histogramFragment != null && histogramFragment.isAdded())
+        {
             histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
+            cameraUiWrapper.moduleHandler.SetWorkListner(histogramFragment);
+        }
     }
 
 
@@ -549,22 +556,21 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
         if (enable && !histogramFragmentOpen)
         {
-            histogramFragmentOpen = true;
             if(histogramFragment == null)
                 histogramFragment = new HistogramFragment();
-
-
-            if (cameraUiWrapper != null)
-            {
-                histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
-                if (cameraUiWrapper.cameraHolder.isPreviewRunning)
-                    histogramFragment.strtLsn();
-            }
             histogramFragment.SetAppSettings(appSettingsManager, this);
             if (!histogramFragment.isAdded()) {
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
                 transaction.commit();
+                histogramFragmentOpen = true;
+            }
+            if (cameraUiWrapper != null)
+            {
+                histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
+                cameraUiWrapper.moduleHandler.SetWorkListner(histogramFragment);
+                if (cameraUiWrapper.cameraHolder.isPreviewRunning)
+                    histogramFragment.strtLsn();
             }
         }
         else if (!enable && histogramFragmentOpen)
@@ -656,7 +662,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
         if ((module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) && appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true") && !histogramFragmentOpen)
             ShowHistogram(true);
-        else
+        else if (!module.equals(""))
             ShowHistogram(false);
         return null;
     }

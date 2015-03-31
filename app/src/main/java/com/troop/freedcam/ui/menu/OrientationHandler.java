@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.hardware.SensorManager;
 import android.view.OrientationEventListener;
 
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+
 /**
  * Created by troop on 17.09.2014.
  */
-public class OrientationHandler
+public class OrientationHandler implements AbstractModuleHandler.I_worker
 {
     private int currentOrientation = 0;
     OrientationEventListener orientationEventListener;
@@ -56,4 +58,13 @@ public class OrientationHandler
         return orientationToRet;
     }
 
+    @Override
+    public void onWorkStarted() {
+        Stop();
+    }
+
+    @Override
+    public void onWorkFinished(boolean finished) {
+        Start();
+    }
 }
