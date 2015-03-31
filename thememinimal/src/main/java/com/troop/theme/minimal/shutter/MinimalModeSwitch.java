@@ -49,8 +49,8 @@ public class MinimalModeSwitch extends ModuleSwitchHandler {
 
         Sviewx = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
 
-        in = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(), R.anim.slidein);
-        out = AnimationUtils.loadAnimation(ApplicationContextProvider.getContext(),R.anim.slideout);
+        in = AnimationUtils.loadAnimation(activity.getContext(), R.anim.slidein);
+        out = AnimationUtils.loadAnimation(activity.getContext(),R.anim.slideout);
 
 
 

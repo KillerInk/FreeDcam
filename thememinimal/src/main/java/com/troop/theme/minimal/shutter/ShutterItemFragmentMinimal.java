@@ -59,7 +59,7 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
         fragmentloaded = true;
         Typeface font;
 
-        font = Typeface.createFromAsset(ApplicationContextProvider.getContext().getAssets(), "fonts/BRADHITC.TTF");
+        font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/BRADHITC.TTF");
 
         /*TextView it1 = (TextView)view.findViewById(R.id.horTextItem1);
         it1.setTypeface(font);
