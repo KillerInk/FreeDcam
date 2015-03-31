@@ -498,7 +498,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
     {
-
+        if (!isRdy)
+            return;
         try {
             if (hasSamsungFrameWork)
             {
@@ -550,7 +551,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetFocusAreas(FocusRect focusRect, FocusRect meteringRect)
     {
-
+        if (!isRdy)
+            return;
         try {
             if (hasSamsungFrameWork) {
                 Log.d(TAG, "Set Samsung Focus");
@@ -607,6 +609,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void CancelFocus()
     {
+        if (!isRdy)
+            return;
         if (hasSamsungFrameWork)
         {
             samsungCamera.cancelAutoFocus();
@@ -690,7 +694,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetOrientation(int or)
     {
-        if (!isRdy)
+        if (!isRdy || or == Orientation)
             return;
         this.Orientation = or;
         if(hasSamsungFrameWork && samsungCamera != null)
