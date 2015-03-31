@@ -19,9 +19,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     provided project(':abstractcamera')
-    compile files('libs/android-support-v4.jar')
+    provided files('libs/android-support-v4.jar')
     provided project(':seekarc')
     provided project(':sonyapi')
     provided project(':androiddng')

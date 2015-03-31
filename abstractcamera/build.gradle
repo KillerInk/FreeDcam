@@ -19,6 +19,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided files('libs/android-support-v4.jar')
+    compile files('libs/android-support-v4.jar')
+    provided files('libs/samsung.jar')
 }

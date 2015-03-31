@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 17
-        versionName "3.3.80"
+        versionCode 18
+        versionName "3.3.81"
         applicationId "troop.com.freedcam"
     }
     lintOptions{checkReleaseBuilds false}
@@ -32,10 +32,10 @@ dependencies {
     provided files('libs/real3d.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     compile files('libs/xmpcore-5.1.2.jar')
+    compile project(':abstractcamera')
     compile project(':androiddng')
     compile project(':seekarc')
     compile project(':themeclassic')
-    compile project(':abstractcamera')
     compile project(':sonyapi')
     compile project(':camera1')
     compile project(':camera2')

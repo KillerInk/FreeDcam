@@ -19,7 +19,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     provided project(':abstractcamera')
     provided project(':camera1')
     provided project(':camera2')

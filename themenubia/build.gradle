@@ -19,7 +19,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     provided project(':themeclassic')
     provided project(':language')
     provided project(':seekarc')
