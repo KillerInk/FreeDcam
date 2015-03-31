@@ -343,7 +343,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             });
             bitmap.recycle();
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
