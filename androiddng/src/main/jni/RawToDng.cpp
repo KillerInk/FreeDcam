@@ -177,14 +177,20 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, j
         free(writer->bayerBytes);
     if(writer->_thumbData != NULL)
         free(writer->_thumbData);*/
-    free(writer);
+    if (writer != NULL)
+        free(writer);
     writer = NULL;
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jstring fileout,jint width,jint height)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    LOGD("Try to set Bayerdata");
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    LOGD("init bayerbytes");
+    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    LOGD(" set Bayerdata");
     writer->fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
     writer->rawheight = height;
     writer->rawwidht = width;
@@ -210,6 +216,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
+
 }
 
 TIFF *openfTIFF(char* fileSavePath)
@@ -423,8 +430,8 @@ void processTight(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
-    buffer =(unsigned char *)malloc(writer->rowSize);
+    unsigned short * pixel =(unsigned short *)_TIFFmalloc(writer->rawwidht); // array holds 16 bits per pixel
+    buffer =(unsigned char *)_TIFFmalloc(writer->rowSize);
     LOGD("buffer set");
     j=0;
 	for (row=0; row < writer->rawheight; row ++)
@@ -434,7 +441,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 		i = 0;
 		for(b = row * writer->rowSize; b < row * writer->rowSize + writer->rowSize; b++)
 			buffer[i++] = writer->bayerBytes[b];
-
+        //memcpy(buffer, &writer->bayerBytes[row * writer->rowSize],  writer->rowSize);
 		// offset into buffer
 		j = 0;
 		/*
@@ -469,7 +476,11 @@ void processTight(TIFF *tif,DngWriter *writer)
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
-	//free(buffer);
+
+        _TIFFfree(buffer);
+
+        _TIFFfree(pixel);
+
 	//free(pixel);
 	LOGD("Mem Released");
 }
@@ -643,5 +654,10 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
     writeRawStuff(tif,writer);
+
+    if (writer->bayerBytes == NULL)
+        return;
+    delete[] writer->bayerBytes;
+    writer->bayerBytes = NULL;
 
 }

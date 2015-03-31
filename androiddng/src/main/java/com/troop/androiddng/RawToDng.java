@@ -249,7 +249,7 @@ public class RawToDng
             SetModelAndMake(nativeHandler,model,make);
     }
 
-    public void SetBayerData(byte[] fileBytes, String fileout,int width,int height)
+    public void SetBayerData(final byte[] fileBytes, String fileout,int width,int height)
     {
         filepath = fileout;
         bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
@@ -287,6 +287,7 @@ public class RawToDng
 
     public void WriteDNG()
     {
+
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
@@ -305,7 +306,7 @@ public class RawToDng
         else
         {
 
-            SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
+            final SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
             if (device!= null)
             {
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
@@ -341,7 +342,7 @@ public class RawToDng
             }
             else
             {
-                if (filepath.contains("qcom")) {
+                if (filepath.contains("qcom") || filepath.contains("raw")) {
                     SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, false);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }
@@ -353,7 +354,8 @@ public class RawToDng
 
         }
         WriteDNG(nativeHandler);
-
+        RELEASE();
+        //System.gc();
     }
 
     public static byte[] readFile(File file) throws IOException {
