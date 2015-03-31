@@ -331,10 +331,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(ImageReader reader) {
             try {
-                File file = new File(getStringAddTime() +".dng");
-                DngCreator dngCreator = new DngCreator(cameraHolder.manager.getCameraCharacteristics("0"), mDngResult);
-                dngCreator.writeImage(new FileOutputStream(file), reader.acquireNextImage());
-                isWorking = false;
+                if (Settings.getString(AppSettingsManager.SETTING_DNG).equals(true)) {
+                    File file = new File(getStringAddTime() + ".dng");
+                    DngCreator dngCreator = new DngCreator(cameraHolder.manager.getCameraCharacteristics("0"), mDngResult);
+                    final Image image = reader.acquireNextImage();
+                    dngCreator.writeImage(new FileOutputStream(file), image);
+                    image.close();
+                    isWorking = false;
+                }
+                else
+                {
+                    File file = new File(getStringAddTime() +".raw");
+                    new ImageSaver(reader.acquireNextImage(), file).run();
+                }
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
