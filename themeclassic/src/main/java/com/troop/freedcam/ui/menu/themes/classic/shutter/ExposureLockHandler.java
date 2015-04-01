@@ -119,15 +119,17 @@ public class ExposureLockHandler implements View.OnClickListener, I_ParametersLo
 
     private void setBitmap(final String value)
     {
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                if (value.equals("true"))
-                    view.setImageBitmap(bitmaps[1]);
-                else
-                    view.setImageBitmap(bitmaps[0]);
-            }
-        });
+        if(view != null && value != null) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (value.equals("true"))
+                        view.setImageBitmap(bitmaps[1]);
+                    else
+                        view.setImageBitmap(bitmaps[0]);
+                }
+            });
+        }
 
     }
 
