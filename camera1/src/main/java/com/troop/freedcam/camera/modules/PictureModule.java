@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -503,7 +504,10 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     @Override
     public void UnloadNeededParameters()
     {
-        backgroundThread.quitSafely();
+        if (Build.VERSION.SDK_INT>17)
+            backgroundThread.quitSafely();
+        else
+            backgroundThread.quit();
         try {
             backgroundThread.join();
             backgroundThread = null;

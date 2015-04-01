@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 18
-        versionName "3.3.81"
+        versionCode 19
+        versionName "3.3.82"
         applicationId "troop.com.freedcam"
     }
     lintOptions{checkReleaseBuilds false}
