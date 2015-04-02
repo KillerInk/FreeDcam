@@ -428,12 +428,14 @@ void processTight(TIFF *tif,DngWriter *writer)
 {
     LOGD("IN SXXXXl0");
     int i, j, row, col, b;
-    unsigned char *buffer;
+    unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
     unsigned short * pixel =(unsigned short *)_TIFFmalloc(writer->rawwidht); // array holds 16 bits per pixel
     buffer =(unsigned char *)_TIFFmalloc(writer->rowSize);
     LOGD("buffer set");
     j=0;
+    writer->rowSize= (writer->rawwidht+5)/6 << 3;
+    writer->rowSize=- (-5*writer->rawwidht>>5) << 3;
 	for (row=0; row < writer->rawheight; row ++)
 	{
 
@@ -448,22 +450,12 @@ void processTight(TIFF *tif,DngWriter *writer)
 		 * get 5 bytes from buffer and move first 4bytes to 16bit
 		 * split the 5th byte and add the value to the first 4 bytes
 		 * */
-		for (col = 0; col < writer->rawwidht; col+= 4) { // iterate over pixel columns
-			pixel[col+0] = buffer[j++] << 2;
-			pixel[col+1] = buffer[j++] << 2;
-			pixel[col+2] = buffer[j++] << 2;
-			pixel[col+3] = buffer[j++] << 2;
-			//LOGD("Unpacked 4bytes");
-			split = buffer[j++]; // low-order packed bits from previous 4 pixels
-			//LOGD("Unpack 5th byte and move to last 4bytes pixel %d", col + 5);
-			pixel[col+0] += (split & 0b00000011); // unpack them bits, add to 16-bit values, left-justified
-
-			pixel[col+1] += (split & 0b00001100)>>2;
-
-			pixel[col+2] += (split & 0b00110000)>>4;
-
-			pixel[col+3] += (split & 0b11000000)>>6;
-
+		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=5, col+= 4)
+		{
+			for(int i = 0; i< 4; i++)
+			{
+			    pixel[col+i] = (dp[i] <<2) | (dp[4] >> (i << 1) & 3);
+			}
 		}
 		if (TIFFWriteScanline(tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
