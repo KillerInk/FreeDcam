@@ -42,7 +42,7 @@ public class RawToDng
         OneSV(                6746112 , 0,  BGGR,2592,1944, false,  XperiaL_rowSize),
         MT4G(                10782464 , g3_blacklevel,  RGGb,3282,2448, false,  XperiaL_rowSize),
         M9Mipi(25677824 ,g3_blacklevel,GRBG, 5388, 3752, true,0),
-        M9Qcom(27127808,g3_blacklevel,GRBG, 5388, 3752, false,7230);
+        M9Qcom(27127808,g3_blacklevel,GRBG, 5388, 3752, false,0);
         //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
@@ -314,11 +314,20 @@ public class RawToDng
             final SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
             if (device!= null)
             {
+                int rowsize = 0;
+
+                if (OverWriteRowSize == -1)
+                {
+                    if (device.rowsize > 0)
+                        rowsize = device.rowsize;
+                }
+                else
+                    rowsize = OverWriteRowSize;
                 Log.d(TAG, "is Hardcoded format: " + device.toString());
                 //defcomg was here 24/01/2015 messed up if status with a random number
                 if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
                 {
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, device.rowsize, Build.MODEL,device.tightraw);
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
                     /*convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
@@ -327,18 +336,6 @@ public class RawToDng
                 }
                 else
                 {
-                    int rowsize = 0;
-
-                    if (OverWriteRowSize == -1) {
-
-                        if (device.rowsize == 0) {
-                            rowsize = Calculate_rowSize((int) GetRawSize(), device.height);
-                        } else
-                            rowsize = device.rowsize;
-                    }
-                    else
-                        rowsize = OverWriteRowSize;
-
                     if (device.tightraw)
                     {
                         SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
@@ -347,12 +344,12 @@ public class RawToDng
                     else
                     {
                         if (filepath.contains("ideal-qcom")) {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                         else
                         {
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, Calculate_rowSize((int) GetRawSize(), device.height), Build.MODEL, device.tightraw);
+                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                     }
@@ -361,11 +358,11 @@ public class RawToDng
             else
             {
                 if (filepath.contains("qcom") || filepath.contains("raw")) {
-                    SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, false);
+                    SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, 0, Build.MODEL, false);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }
                 else {
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, Calculate_rowSize((int) GetRawSize(), GetRawHeight(nativeHandler)), Build.MODEL, true);
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, 0, Build.MODEL, true);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }
             }

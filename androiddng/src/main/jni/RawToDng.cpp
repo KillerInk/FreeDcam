@@ -434,22 +434,16 @@ void processTight(TIFF *tif,DngWriter *writer)
     buffer =(unsigned char *)_TIFFmalloc(writer->rowSize);
     LOGD("buffer set");
     j=0;
-    writer->rowSize= (writer->rawwidht+5)/6 << 3;
-    writer->rowSize=- (-5*writer->rawwidht>>5) << 3;
+    if(writer->rowSize == 0)
+        writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
+    LOGD("rowsize:%i", writer->rowSize);
 	for (row=0; row < writer->rawheight; row ++)
 	{
-
-		//LOGD("read row: %d", row);
 		i = 0;
 		for(b = row * writer->rowSize; b < row * writer->rowSize + writer->rowSize; b++)
 			buffer[i++] = writer->bayerBytes[b];
-        //memcpy(buffer, &writer->bayerBytes[row * writer->rowSize],  writer->rowSize);
-		// offset into buffer
 		j = 0;
-		/*
-		 * get 5 bytes from buffer and move first 4bytes to 16bit
-		 * split the 5th byte and add the value to the first 4 bytes
-		 * */
+
 		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=5, col+= 4)
 		{
 			for(int i = 0; i< 4; i++)
