@@ -217,7 +217,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     @Override
     public void onPreviewOpen(String message)
     {
-        if (!doWork)
+        if (!doWork && isAdded())
             strtLsn();
     }
 
@@ -246,7 +246,9 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     @Override
     public void onWorkStarted()
     {
-        if (doWork) {
+        if (doWork)
+        {
+            stoppedOnModuleChange = true;
             stopLsn();
         }
     }
@@ -254,7 +256,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     @Override
     public void onWorkFinished(boolean finished)
     {
-        if (stoppedOnModuleChange)
+        if (stoppedOnModuleChange && isAdded())
         {
             stoppedOnModuleChange = false;
             strtLsn();
