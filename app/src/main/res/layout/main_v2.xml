@@ -143,26 +143,6 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="false">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView_Thumbnail"
-            android:layout_gravity="bottom|left"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/thumbnail"
-            android:maxWidth="60dp"
-            android:maxHeight="60dp" />
-    </LinearLayout>
-
 
     <ImageView
         android:layout_width="fill_parent"
@@ -180,6 +160,28 @@
 
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="false">
+
+        <ImageView
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/imageView_Thumbnail"
+            android:layout_gravity="bottom|left"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/thumbnail"
+            android:maxWidth="60dp"
+            android:maxHeight="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 
     <com.troop.freedcam.ui.handler.HelpOverlayHandler
