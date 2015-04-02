@@ -197,8 +197,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             if (dngcapture)
             {
-                if (dngConverter != null)
-                    dngConverter.RELEASE();
+
                 dngConverter = RawToDng.GetInstance();
 
 
