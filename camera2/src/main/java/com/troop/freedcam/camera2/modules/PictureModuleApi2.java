@@ -23,6 +23,7 @@ import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -321,6 +322,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.d(TAG, "Recieved on onImageAvailabel");
             isWorking = false;
             workfinished(true);
+            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
             //StartPreview();
         }
 
@@ -338,11 +340,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     dngCreator.writeImage(new FileOutputStream(file), image);
                     image.close();
                     isWorking = false;
+                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                 }
                 else
                 {
                     File file = new File(getStringAddTime() +".raw");
                     new ImageSaver(reader.acquireNextImage(), file).run();
+                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                 }
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -399,6 +403,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 e.printStackTrace();
             } finally {
                 mImage.close();
+
                 if (null != output) {
                     try {
                         output.close();
