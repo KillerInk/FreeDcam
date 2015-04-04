@@ -267,8 +267,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                 // Set Auto Exposure to On to disable flash handling
-                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                        CaptureRequest.CONTROL_AE_MODE_ON);
+                //mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
                 /*if (ParameterHandler.Zoom != null) {
                     Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), textureView.getWidth(), textureView.getHeight());
@@ -457,33 +456,50 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         if (ParameterHandler.ColorMode.IsSupported())
         {
-            String set = Settings.getString(AppSettingsManager.SETTING_COLORMODE);
+            final String set = Settings.getString(AppSettingsManager.SETTING_COLORMODE);
             if (set.equals(""))
             {
-                ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue());
-                Settings.setString(AppSettingsManager.SETTING_COLORMODE, colorModes.toString());
+                Settings.setString(AppSettingsManager.SETTING_COLORMODE, Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue()).toString());
             }
-            ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, Settings.getString(AppSettingsManager.SETTING_COLORMODE));
+            ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, set);
             builder.set(CaptureRequest.CONTROL_EFFECT_MODE, colorModes.ordinal());
         }
-
         if (ParameterHandler.SceneMode.IsSupported())
         {
-            try {
-                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue());
+            try
+            {
+                final String scene = Settings.getString(AppSettingsManager.SETTING_SCENEMODE);
+                if (scene.equals(""))
+                {
+                    Settings.setString(AppSettingsManager.SETTING_SCENEMODE, Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue()).toString());
+                }
+                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, scene);
                 builder.set(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
             }
             catch (Exception ex)
             {
 
             }
-
         }
-
-        if (ParameterHandler.FlashMode.IsSupported()) {
-            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue());
-            builder.set(CaptureRequest.FLASH_MODE,
-                    flashModes.ordinal());
+        if (ParameterHandler.FlashMode.IsSupported())
+        {
+            final String flash = Settings.getString(AppSettingsManager.SETTING_FLASHMODE);
+            if (flash.equals(""))
+            {
+                Settings.setString(AppSettingsManager.SETTING_FLASHMODE, Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue()).toString());
+            }
+            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class,flash);
+            builder.set(CaptureRequest.FLASH_MODE, flashModes.ordinal());
+        }
+        if (ParameterHandler.ExposureMode.IsSupported())
+        {
+            final String controls = Settings.getString(AppSettingsManager.SETTING_EXPOSUREMODE);
+            if (controls.equals(""))
+            {
+                Settings.setString(AppSettingsManager.SETTING_EXPOSUREMODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).toString());
+            }
+            ControlModesApi2.ControlModes controlModes = Enum.valueOf(ControlModesApi2.ControlModes.class, controls);
+            builder.set(CaptureRequest.FLASH_MODE, controlModes.ordinal());
         }
     }
 
