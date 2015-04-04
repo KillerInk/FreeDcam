@@ -113,7 +113,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else
             cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
 
-        lockFocus();
+        captureStillPicture();
+        //lockFocus();
     }
 
     /**
@@ -153,10 +154,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
                         // CONTROL_AE_STATE can be null on some devices
                         Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                        if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                        if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED || aeState == CaptureResult.CONTROL_AE_STATE_LOCKED)
                         {
-                            mState = STATE_WAITING_NON_PRECAPTURE;
-                            //captureStillPicture();
+                            mState = STATE_PICTURE_TAKEN;
+                            captureStillPicture();
                         } else {
                             runPrecaptureSequence();
                         }
@@ -240,8 +241,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON);
+            //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
 
             cameraHolder.SetLastUsedParameters(captureBuilder);
@@ -278,15 +278,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             // Reset the autofucos trigger
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON);
+            //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
             cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
-                    null);
+            //cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback, null);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequest, CaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
                     null);
 
         } catch (CameraAccessException e) {
