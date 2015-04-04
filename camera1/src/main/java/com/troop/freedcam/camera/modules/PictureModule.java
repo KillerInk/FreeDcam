@@ -331,6 +331,22 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                 saveBytesToFile(bytes, file);
             } else
             {
+                try
+                {
+                    final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(bytes)));
+                    final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+                    int iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
+                    if (iso > 0)
+                    {
+                        sendMsg("Error: Returned Stream is not a RawStream");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
                 int w = 0;
                 int h = 0;
                 String raw[] = getRawSize();
@@ -356,23 +372,6 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
                 }
                 dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
-                /*if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("qcom"))
-                {
-                    RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue((int)bytes.length);
-                    if (device == null)
-                        dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(),w,h);
-                    else
-                        dngConverter.SetBayerData(RawToDng.SixTeenBit(bytes, device.width, device.height), file.getAbsolutePath(),device.width, device.height);
-
-                }
-                    //new RawToDng().ConvertRawBytesToDng(RawToDng.SixTeenBit(bytes, w, h), file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", false, Altitude,Latitude, Longitude, Provider,gpsTime);
-                else
-                {
-                    dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
-                    //new RawToDng().ConvertRawBytesToDng(bytes, file.getAbsolutePath(), w, h, Build.MODEL, iso, calculatedExpo, l, flash, fNumber, focalLength, IMGDESC, Thumb, "0", true, Altitude, Latitude, Longitude, Provider, gpsTime);
-                }*/
-
-                //}
             }
         }
         else
