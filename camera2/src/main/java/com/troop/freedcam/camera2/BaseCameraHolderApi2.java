@@ -234,13 +234,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     height = Integer.parseInt(split[1]);
                 }
                 //create new ImageReader with the size and format for the image
-                mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 2);
+                mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
 
             }
             else
             {
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 2);
+                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
 
             }
 
@@ -287,7 +287,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                 // Flash is automatically enabled when necessary.
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                        CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                        CaptureRequest.CONTROL_AE_MODE_ON);
 
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();

@@ -20,6 +20,7 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
+import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -148,7 +149,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         // CONTROL_AE_STATE can be null on some devices
                         Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                         if (aeState == null ||
-                                aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
+                                aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED
+                                || aeState == CaptureResult.CONTROL_AE_STATE_INACTIVE) {
                             mState = STATE_WAITING_NON_PRECAPTURE;
                             captureStillPicture();
                         } else {
@@ -230,7 +232,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                    CaptureRequest.CONTROL_AE_MODE_ON);
+            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue());
+            captureBuilder.set(CaptureRequest.FLASH_MODE,
+                    flashModes.ordinal());
 
             if (cameraHolder.ParameterHandler.Zoom != null) {
                 Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), cameraHolder.textureView.getWidth(), cameraHolder.textureView.getHeight());
@@ -292,7 +297,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                    CaptureRequest.CONTROL_AE_MODE_ON);
             cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
                     null);
             // After this, the camera will go back to the normal state of preview.

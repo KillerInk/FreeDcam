@@ -13,6 +13,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
+import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
@@ -50,7 +51,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             Log.d(TAG, keys.get(i).getName());
         }
         boolean muh = this.cameraHolder.characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE );
-        //FlashMode = new FlashModeApi2(this.cameraHolder);
+        FlashMode = new FlashModeApi2(this.cameraHolder);
         SceneMode = new SceneModeApi2(this.cameraHolder);
         ColorMode = new ColorModeApi2(this.cameraHolder);
         ExposureMode = new ControlModesApi2(this.cameraHolder);
