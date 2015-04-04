@@ -60,6 +60,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
         Zoom = new ZoomApi2(this, cameraHolder);
         ManualShutter = new ManualExposureTimeApi2(this, cameraHolder);
+        SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override
             public void run() {

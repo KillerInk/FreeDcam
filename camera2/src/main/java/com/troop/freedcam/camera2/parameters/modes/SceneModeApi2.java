@@ -65,9 +65,13 @@ public class SceneModeApi2 extends  BaseModeApi2
     @Override
     public String GetValue()
     {
-        int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE);
-        SceneModes sceneModes = SceneModes.values()[i];
-        return sceneModes.toString();
+        if (cameraHolder != null && cameraHolder.mPreviewRequest != null) {
+            int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE);
+            SceneModes sceneModes = SceneModes.values()[i];
+            return sceneModes.toString();
+        }
+        else
+            return "";
     }
 
     @Override

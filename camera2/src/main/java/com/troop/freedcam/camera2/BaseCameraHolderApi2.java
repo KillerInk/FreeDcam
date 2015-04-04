@@ -198,7 +198,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-
+        if (textureView == null)
+            return;
         try {
             Size largest = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
@@ -320,7 +321,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 e.printStackTrace();
             }
         }
-        else
+        else if (mPreviewRequestBuilder != null)
         {
             mPreviewRequestBuilder.set(key, value);
         }
