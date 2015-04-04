@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -29,6 +30,11 @@ import android.view.TextureView;
 import android.view.WindowManager;
 
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
+import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
+import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -95,26 +101,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         this.Settings = Settings;
     }
 
-    /*HandlerThread mBackgroundThread;
-    public Handler mBackgroundHandler;
-
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-
-    private void stopBackgroundThread() {
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public boolean OpenCamera(int camera)
@@ -151,16 +137,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            /*if (null != mImageReader) {
-                mImageReader.close();
-                mImageReader = null;
-            }*/
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         } finally {
             mCameraOpenCloseLock.release();
         }
-        //stopBackgroundThread();
     }
 
     @Override
@@ -236,7 +217,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 }
                 //create new ImageReader with the size and format for the image
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
-
             }
             else
             {
@@ -286,10 +266,16 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 // Auto focus should be continuous for camera preview.
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                // Flash is automatically enabled when necessary.
+                // Set Auto Exposure to On to disable flash handling
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
                         CaptureRequest.CONTROL_AE_MODE_ON);
 
+                /*if (ParameterHandler.Zoom != null) {
+                    Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), textureView.getWidth(), textureView.getHeight());
+                    mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
+                }*/
+
+                SetLastUsedParameters(mPreviewRequestBuilder);
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
@@ -453,6 +439,53 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
 
+    public void SetLastUsedParameters(CaptureRequest.Builder builder)
+    {
+        Log.d(TAG, "set last used parameters");
+        if (ParameterHandler.ManualExposure.IsSupported())
+        {
+            builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
+        }
+        if (ParameterHandler.ExposureMode.IsSupported())
+        {
+            builder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
+        }
+        if (ParameterHandler.ManualShutter.IsSupported())
+        {
+            builder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());
+        }
+
+        if (ParameterHandler.ColorMode.IsSupported())
+        {
+            String set = Settings.getString(AppSettingsManager.SETTING_COLORMODE);
+            if (set.equals(""))
+            {
+                ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue());
+                Settings.setString(AppSettingsManager.SETTING_COLORMODE, colorModes.toString());
+            }
+            ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, Settings.getString(AppSettingsManager.SETTING_COLORMODE));
+            builder.set(CaptureRequest.CONTROL_EFFECT_MODE, colorModes.ordinal());
+        }
+
+        if (ParameterHandler.SceneMode.IsSupported())
+        {
+            try {
+                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue());
+                builder.set(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        if (ParameterHandler.FlashMode.IsSupported()) {
+            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue());
+            builder.set(CaptureRequest.FLASH_MODE,
+                    flashModes.ordinal());
+        }
+    }
 
 
 

@@ -120,7 +120,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      * Lock the focus as the first step for a still image capture.
      */
     private void lockFocus() {
-        try {
+        try
+        {
+
             // This is how to tell the camera to lock focus.
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_START);
@@ -138,28 +140,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         private void process(CaptureResult result) {
             switch (mState) {
-                case STATE_PREVIEW: {
+                case STATE_PREVIEW:
+                {
                     // We have nothing to do when the camera preview is working normally.
                     break;
                 }
-                case STATE_WAITING_LOCK: {
+                case STATE_WAITING_LOCK:
+                {
+                    Log.d(TAG, "STATE WAITING LOCK");
                     int afState = result.get(CaptureResult.CONTROL_AF_STATE);
                     if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
                         // CONTROL_AE_STATE can be null on some devices
                         Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                        if (aeState == null ||
-                                aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED
-                                || aeState == CaptureResult.CONTROL_AE_STATE_INACTIVE) {
+                        if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                        {
                             mState = STATE_WAITING_NON_PRECAPTURE;
-                            captureStillPicture();
+                            //captureStillPicture();
                         } else {
                             runPrecaptureSequence();
                         }
                     }
                     break;
                 }
-                case STATE_WAITING_PRECAPTURE: {
+                case STATE_WAITING_PRECAPTURE:
+                {
+                    Log.d(TAG, "STATE WAITING PRECAPTURE");
                     // CONTROL_AE_STATE can be null on some devices
                     Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                     if (aeState == null ||
@@ -169,7 +175,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     }
                     break;
                 }
-                case STATE_WAITING_NON_PRECAPTURE: {
+                case STATE_WAITING_NON_PRECAPTURE:
+                {
+                    Log.d(TAG, "STATE WAITING NON PRECAPTURE");
                     // CONTROL_AE_STATE can be null on some devices
                     Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                     if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
@@ -204,6 +212,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     private void runPrecaptureSequence() {
         try {
+            Log.d(TAG, "Run Precapture");
             // This is how to tell the camera to trigger.
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                     CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
@@ -222,7 +231,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     private void captureStillPicture() {
         try {
-
+            Log.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder =
                     cameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
@@ -233,37 +242,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,
                     CaptureRequest.CONTROL_AE_MODE_ON);
-            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue());
-            captureBuilder.set(CaptureRequest.FLASH_MODE,
-                    flashModes.ordinal());
 
-            if (cameraHolder.ParameterHandler.Zoom != null) {
-                Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), cameraHolder.textureView.getWidth(), cameraHolder.textureView.getHeight());
-                captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
-            }
 
-            if (ParameterHandler.ManualExposure.IsSupported())
-            {
-                captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
-            }
-            if (ParameterHandler.ExposureMode.IsSupported())
-            {
-                captureBuilder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
-            }
-            if (ParameterHandler.ManualShutter.IsSupported())
-            {
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());
-            }
-
-            if (ParameterHandler.ColorMode.IsSupported()) {
-                ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue());
-                captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, colorModes.ordinal());
-            }
-
-            if (ParameterHandler.SceneMode.IsSupported()) {
-                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue());
-                captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
-            }
+            cameraHolder.SetLastUsedParameters(captureBuilder);
 
 
             // Orientation
@@ -280,7 +261,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     unlockFocus();
                 }
             };
-            Log.d(TAG, "StartCapture");
+
             cameraHolder.mCaptureSession.stopRepeating();
             cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
@@ -293,17 +274,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     private void unlockFocus() {
         try {
+            Log.d(TAG, "CaptureDone Unlock Focus");
             // Reset the autofucos trigger
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
                     CaptureRequest.CONTROL_AE_MODE_ON);
+
+            cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
                     null);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequest, CaptureCallback,
                     null);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -324,7 +309,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             File file = new File(getStringAddTime() +".jpg");
             new ImageSaver(reader.acquireNextImage(), file).run();
             //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
-            Log.d(TAG, "Recieved on onImageAvailabel");
+            Log.d(TAG, "create Jpeg");
             isWorking = false;
             workfinished(true);
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
@@ -338,7 +323,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(ImageReader reader) {
             try {
-                if (Settings.getString(AppSettingsManager.SETTING_DNG).equals(true)) {
+                if (Settings.getString(AppSettingsManager.SETTING_DNG).equals(true))
+                {
+                    Log.d(TAG, "Create DNG");
                     File file = new File(getStringAddTime() + ".dng");
                     DngCreator dngCreator = new DngCreator(cameraHolder.manager.getCameraCharacteristics("0"), mDngResult);
                     final Image image = reader.acquireNextImage();
@@ -349,6 +336,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 }
                 else
                 {
+                    Log.d(TAG, "Create RAW");
                     File file = new File(getStringAddTime() +".raw");
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
