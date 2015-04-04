@@ -339,6 +339,8 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     if (iso > 0)
                     {
                         sendMsg("Error: Returned Stream is not a RawStream");
+                        dngJpegShot =false;
+                        dngcapture = false;
                         return;
                     }
                 }
