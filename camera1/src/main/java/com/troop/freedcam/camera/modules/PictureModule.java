@@ -106,14 +106,14 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
         if (!this.isWorking)
         {
-            this.isWorking = true;
+            startworking();
             lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
             if (baseCameraHolder.ParameterHandler.isDngActive && (lastBayerFormat.contains("bayer") || lastBayerFormat.contains("raw")))
             {
                 if (baseCameraHolder.ParameterHandler.ZSL != null && baseCameraHolder.ParameterHandler.ZSL.IsSupported() && baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
                 {
                     sendMsg("Error: Disable ZSL for Raw or Dng capture");
-                    this.isWorking = false;
+                    stopworking();
                     return;
                 }
                 dngcapture = true;
@@ -136,7 +136,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     protected void takePicture()
     {
-        workstarted();
+
 
         Log.d(TAG, "Start Taking Picture");
         try
@@ -184,7 +184,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             @Override
             public void run() {
                 processImage(data);
-                isWorking=false;
+
             }
         });
 
@@ -222,7 +222,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             else
             {
-                workfinished(true);
+                stopworking();
                 Log.d(TAG, "work finished");
             }
         }
@@ -235,7 +235,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             dngJpegShot = false;
             dngConverter.WriteDNG();
 
-            workfinished(true);
+            stopworking();
             Log.d(TAG, "work finished");
         }
     }
@@ -515,5 +515,17 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void startworking()
+    {
+        isWorking = true;
+        workstarted();
+    }
+
+    private void stopworking()
+    {
+        isWorking = false;
+        workfinished(true);
     }
 }
