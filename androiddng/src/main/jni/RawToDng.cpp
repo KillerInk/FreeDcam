@@ -173,9 +173,12 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *e
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    /*if(writer->bayerBytes != NULL)
+    if(writer->bayerBytes != NULL)
+    {
         free(writer->bayerBytes);
-    if(writer->_thumbData != NULL)
+        writer->bayerBytes = NULL;
+    }
+    /*if(writer->_thumbData != NULL)
         free(writer->_thumbData);*/
     if (writer != NULL)
         free(writer);
@@ -186,7 +189,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     LOGD("Try to set Bayerdata");
-    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    writer->bayerBytes = (unsigned char*) malloc(env->GetArrayLength(fileBytes) *(sizeof(unsigned char)));
     LOGD("init bayerbytes");
     //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
     memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
@@ -430,8 +433,8 @@ void processTight(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short * pixel =(unsigned short *)_TIFFmalloc(writer->rawwidht); // array holds 16 bits per pixel
-    buffer =(unsigned char *)_TIFFmalloc(writer->rowSize);
+    unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht +(sizeof(unsigned short)));
+    buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
     LOGD("buffer set");
     j=0;
     if(writer->rowSize == 0)
@@ -463,9 +466,8 @@ void processTight(TIFF *tif,DngWriter *writer)
     TIFFClose(tif);
     LOGD("Free Memory");
 
-        _TIFFfree(buffer);
-
-        _TIFFfree(pixel);
+    free(buffer);
+    free(pixel);
 
 	//free(pixel);
 	LOGD("Mem Released");
@@ -477,8 +479,8 @@ void processLoose(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
-    buffer =(unsigned char *)malloc(writer->rowSize);
+   unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht *(sizeof(unsigned short)));
+   buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
     uint64 colorchannel;
 
     j=0;
@@ -522,8 +524,8 @@ void processLoose(TIFF *tif,DngWriter *writer)
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
-	//free(buffer);
-    //free(pixel);
+	free(buffer);
+    free(pixel);
 
 }
 
@@ -533,8 +535,8 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
-    buffer =(unsigned char *)malloc(writer->rowSize);
+    unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht *(sizeof(unsigned short)));
+    buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
     j=0;
 	for (row=0; row < writer->rawheight; row ++)
 	{
