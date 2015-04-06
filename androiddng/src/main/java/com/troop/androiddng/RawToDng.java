@@ -329,6 +329,7 @@ public class RawToDng
                 {
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, rowsize, Build.MODEL,device.tightraw);
                     setRawHeight(3120);
+                    Log.d(TAG, "mipi");
                     /*convertRawBytesToDng(data, fileToSave, device.width, 3120,
                             g3_color1, g3_color2, g3_neutral,
                             device.blacklvl, device.imageformat, device.rowsize,
@@ -338,17 +339,20 @@ public class RawToDng
                 {
                     if (device.tightraw)
                     {
+                        Log.d(TAG, "mipi");
                         SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                         setRawHeight(device.height);
                     }
                     else
                     {
                         if (filepath.contains("ideal-qcom")) {
+                            Log.d(TAG, "ideal");
                             SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
                         else
                         {
+                            Log.d(TAG, "qcom");
                             SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
                             setRawHeight(device.height);
                         }
@@ -357,11 +361,14 @@ public class RawToDng
             }
             else
             {
-                if (filepath.contains("qcom") || filepath.contains("raw")) {
+                if (filepath.contains("qcom") || filepath.contains("raw"))
+                {
+                    Log.d(TAG, "qcom/ideal");
                     SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, 0, Build.MODEL, false);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }
                 else {
+                    Log.d(TAG, "mipi");
                     SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, 0, Build.MODEL, true);
                     setRawHeight(GetRawHeight(nativeHandler));
                 }

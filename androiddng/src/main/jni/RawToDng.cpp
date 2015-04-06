@@ -189,7 +189,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     LOGD("Try to set Bayerdata");
-    writer->bayerBytes = (unsigned char*) malloc(env->GetArrayLength(fileBytes) *(sizeof(unsigned char)));
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
     LOGD("init bayerbytes");
     //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
     memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
@@ -433,12 +433,13 @@ void processTight(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht +(sizeof(unsigned short)));
-    buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
+    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
+
     LOGD("buffer set");
     j=0;
     if(writer->rowSize == 0)
         writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
+    buffer =(unsigned char *)malloc(writer->rowSize);
     LOGD("rowsize:%i", writer->rowSize);
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -466,8 +467,11 @@ void processTight(TIFF *tif,DngWriter *writer)
     TIFFClose(tif);
     LOGD("Free Memory");
 
-    free(buffer);
-    free(pixel);
+    if(buffer != NULL)
+        free(buffer);
+    if(pixel != NULL)
+        free(pixel);
+
 
 	//free(pixel);
 	LOGD("Mem Released");
@@ -479,13 +483,14 @@ void processLoose(TIFF *tif,DngWriter *writer)
     int i, j, row, col, b;
     unsigned char *buffer, *dp;
     unsigned char split; // single byte with 4 pairs of low-order bits
-   unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht *(sizeof(unsigned short)));
-   buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
+    unsigned short pixel[writer->rawwidht]; // array holds 16 bits per pixel
+
     uint64 colorchannel;
 
     j=0;
 
     writer->rowSize= (writer->rawwidht+5)/6 << 3;
+    buffer =(unsigned char *)malloc(writer->rowSize);
 
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -524,9 +529,11 @@ void processLoose(TIFF *tif,DngWriter *writer)
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
-	free(buffer);
-    free(pixel);
-
+    if(buffer != NULL)
+	    free(buffer);
+    if(pixel != NULL)
+        free(pixel);
+    LOGD("Mem Released");
 }
 
 void processSXXX16(TIFF *tif,DngWriter *writer)
