@@ -50,7 +50,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
         super(cameraChangedListner, UIHandler);
-        hasSamsungFramework();
+        //hasSamsungFramework();
         hasLGFramework();
     }
 
