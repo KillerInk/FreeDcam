@@ -27,22 +27,21 @@ public class RawToDng
     private static final String TAG = RawToDng.class.getSimpleName();
 
     public enum SupportedDevices
-    {
-        //tightraws             filesize  name                      blacklvl        matrix1     matrix2     neutral                     tight
-        //G3_Mipi_KK(             16424960, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4208,3120, true,   0),
-        G3_Mipi_LL(             16224256, g3_blacklevel, BGGR,4208,3082, true, getG3_rowSizeL),
-        G3_Qcom(17326080, g3_blacklevel, BGGR,4164,3120,false, getG3_rowSizeL),
-        K910Qcom(17522688, g3_blacklevel, BGGR,4212,3120,false, getG3_rowSizeL),
-        IMX135_214(             16424960, g3_blacklevel, BGGR,4208,3120, true, g3_rowSizeKitKat),
+    {                           //size       blacklevlel   pattern  width  height  tight    rowsize=filesize/height = 0
+        G3_Mipi_LL(             16224256,   g3_blacklevel,  BGGR,    4208, 3082,    true,    getG3_rowSizeL),
+        G3_Qcom(                17326080,   g3_blacklevel,  BGGR,    4164, 3120,    false,   getG3_rowSizeL),
+        K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL),
+        IMX135_214(             16424960,   g3_blacklevel,  BGGR,    4208, 3120,    true,    g3_rowSizeKitKat),
         //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
         //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
         //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
         //looseraws
-        XperiaL(                10788864 , g3_blacklevel,  BGGR,3282,2448, false,  XperiaL_rowSize),
-        OneSV(                6746112 , 0,  BGGR,2592,1944, false,  XperiaL_rowSize),
-        MT4G(                10782464 , g3_blacklevel,  RGGb,3282,2448, false,  XperiaL_rowSize),
-        M9Mipi(25677824 ,g3_blacklevel,GRBG, 5388, 3752, true,0),
-        M9Qcom(27127808,g3_blacklevel,GRBG, 5388, 3752, false,0);
+        XperiaL(                10788864,   g3_blacklevel,  BGGR,    3282, 2448,    false,   XperiaL_rowSize),
+        OneSV(                  6746112 ,   0,              BGGR,    2592, 1944,    false,   XperiaL_rowSize),
+        MT4G(                   10782464,   g3_blacklevel,  RGGb,    3282, 2448,    false,   XperiaL_rowSize),
+        HtcOneSv(               6746112 ,   0,              GRBG,    2592, 1952,    false,   0),
+        M9Mipi(                 25677824,   g3_blacklevel,  GRBG,    5388, 3752,    true,    0),
+        M9Qcom(                 27127808,   g3_blacklevel,  GRBG,    5388, 3752,    false,   0);
         //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
         //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
