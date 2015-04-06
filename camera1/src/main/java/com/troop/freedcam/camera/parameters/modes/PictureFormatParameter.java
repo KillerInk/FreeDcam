@@ -34,6 +34,8 @@ public class PictureFormatParameter extends BaseModeParameter
         else
         {
             super.SetValue(valueToSet, true);
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.StartPreview();
         }
 
     }
@@ -43,10 +45,10 @@ public class PictureFormatParameter extends BaseModeParameter
     {
         if (DeviceUtils.isMediaTekDevice())
             return new String[]{"jpeg", "raw"};
-        else if(DeviceUtils.isG2())
+        /*else if(DeviceUtils.isG2())
         {
             return new String[]{"jpeg", "bayer-mipi-10bggr"};
-        }
+        }*/
         else
         {
             String[] supervals = super.GetValues();
