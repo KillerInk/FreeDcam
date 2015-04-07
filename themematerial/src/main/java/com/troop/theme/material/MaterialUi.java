@@ -1,5 +1,6 @@
 package com.troop.theme.material;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,13 +25,31 @@ public class MaterialUi extends NubiaUi
         manualMenuFragment = new NubiaManualMenuFragment();
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
+
         rightview.setVisibility(View.VISIBLE);
-        rightview.setImageDrawable(null);
-        rightview.setBackgroundColor(Color.argb(130, 50, 50, 50));
         leftview.setVisibility(View.VISIBLE);
-        leftview.setImageDrawable(null);
-        leftview.setBackgroundColor(Color.argb(130, 50, 50, 50));
-        leftview.setAlpha(0.2f);
-        OnPreviewSizeChanged(0,0);
+
+        i_activity.GetSurfaceView().post(new Runnable() {
+            @Override
+            public void run() {
+                rightview.setImageBitmap(colorBitmap(130,50,50,50));
+                leftview.setImageBitmap(colorBitmap(130,50,50,50));
+            }
+        });
+        OnPreviewSizeChanged(0, 0);
+    }
+
+    private Bitmap colorBitmap(int a,int r,int g,int b )
+    {
+        int[] size = i_activity.GetScreenSize();
+
+        int width = (size[0] -  i_activity.GetSurfaceView().getWidth())/2;
+
+        System.out.println("Skreen Width"+width);
+
+        Bitmap img = Bitmap.createBitmap(width,size[1], Bitmap.Config.ARGB_4444);
+        img.eraseColor(Color.argb(a,r,g,b));
+
+        return img;
     }
 }

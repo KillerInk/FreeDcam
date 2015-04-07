@@ -28,7 +28,7 @@ public class AmbientUi extends NubiaUi
         menuFragment = new MenuFragmentAmbient(this);
 
         manualMenuFragment = new NubiaManualMenuFragment();
-        int[] size = i_activity.GetScreenSize();
+       final int[] size = i_activity.GetScreenSize();
         TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(view.getContext()), -90f, size[0], size[1]);
         BitmapUtil.initBlur(view.getContext(), TMPBMP);
         AmbientCoverSML = TMPBMP;
@@ -36,6 +36,17 @@ public class AmbientUi extends NubiaUi
         AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size[0], size[1]);
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
+
+        rightview.setVisibility(View.VISIBLE);
+        leftview.setVisibility(View.VISIBLE);
+        i_activity.GetSurfaceView().post(new Runnable() {
+            @Override
+            public void run() {
+                leftview.setImageBitmap(Bitmap.createBitmap(AmbientCover, 0, 0, i_activity.GetPreviewLeftMargine(), i_activity.GetPreviewHeight()));
+                rightview.setImageBitmap(Bitmap.createBitmap(AmbientCover, i_activity.GetPreviewRightMargine(), 0, size[0] - i_activity.GetPreviewRightMargine(), size[1]));
+            }
+        });
+
 
     }
 

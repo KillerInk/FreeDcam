@@ -54,11 +54,24 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/themeFragmentholder"
+
+        android:layout_alignParentLeft="true">
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:id="@+id/infoOverLay">
 
         <TextView
             android:layout_width="wrap_content"
@@ -149,18 +162,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/SettingsCover"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/themeFragmentholder"
-
-        android:layout_alignParentLeft="true">
-
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

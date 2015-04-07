@@ -7,6 +7,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
@@ -43,8 +44,11 @@ public class MenuFragmentMinimal extends MenuFragment {
                 settingsLayoutHolder.setBackgroundColor(Color.argb(200,20,20,20));
             }
         });
+        i_activity.MenuActive(true);
 
 
         return view;
     }
+
+
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ExposureLockHandler;
@@ -20,11 +21,12 @@ import com.troop.theme.minimal.R;
  */
 public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
 
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.shutteritems_minimal_fragment, container, false);
+         view = inflater.inflate(R.layout.shutteritems_minimal_fragment, container, false);
 
         cameraSwitchHandler = new MiniamalCameraSwitchHandler(view, appSettingsManager);
 
@@ -95,6 +97,22 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
 
 
         return view;
+    }
+
+    @Override
+    public void MenuActive(boolean status)
+    {
+        ImageView Shut = (ImageView)view.findViewById(R.id.shutter_imageview);
+        if (status)
+        {
+            Shut.setEnabled(false);
+        }
+        else
+        {
+            Shut.setEnabled(true);
+        }
+
+
     }
 
     public void setFontStyle()

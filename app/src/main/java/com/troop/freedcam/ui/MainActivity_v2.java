@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
@@ -89,6 +90,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public SensorsUtil sensorsUtil;
 
     HistogramFragment histogramFragment;
+    LinearLayout ll;
 
     //bitmaps
 
@@ -139,6 +141,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     private void createUI() {
+        ll = (LinearLayout)findViewById(R.id.infoOverLay);
 
         orientationHandler = new OrientationHandler(this, this);
 
@@ -307,10 +310,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             LockWidgets(true);
         }
     }*/
-
-    private void LockWidgets(boolean status)
+    @Override
+    public void MenuActive(boolean status)
     {
-        ImageView shutter_key = (ImageView)findViewById(R.id.SettingsCover);
+       /* ImageView shutter_key = (ImageView)findViewById(R.id.SettingsCover);
         ImageView cam_switch = (ImageView)findViewById(R.id.SettingsCover);
         ImageView modes_switch = (ImageView)findViewById(R.id.SettingsCover);
         ImageView flash_switch = (ImageView)findViewById(R.id.SettingsCover);
@@ -324,7 +327,18 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         flash_switch.setEnabled(status);
         night_switch.setEnabled(status);
         exposure_lock.setEnabled(status);
-        exit_key.setEnabled(status);
+        exit_key.setEnabled(status);*/
+
+
+        if (status)
+        {
+
+            ll.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            ll.setVisibility(View.VISIBLE);
+        }
     }
 
 

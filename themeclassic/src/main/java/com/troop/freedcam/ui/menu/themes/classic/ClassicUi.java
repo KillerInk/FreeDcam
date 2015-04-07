@@ -90,6 +90,11 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         this.appSettingsManager = appSettingsManager;
     }
 
+    protected void doStuffInMain( boolean stat)
+    {
+        i_activity.MenuActive(stat);
+    }
+
     @Override
     public void SetI_Activity(I_Activity i_activity) {
         this.i_activity = i_activity;
@@ -161,6 +166,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             {
                 inflateMenuFragment();
                 settingsLayloutOpen = true;
+                i_activity.MenuActive(true);
             }
         }
         else
@@ -169,6 +175,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             {
                 deflateMenuFragment();
                 settingsLayloutOpen = false;
+                i_activity.MenuActive(false);
 
             }
         }
