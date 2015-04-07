@@ -32,8 +32,15 @@ public class MaterialUi extends NubiaUi
         i_activity.GetSurfaceView().post(new Runnable() {
             @Override
             public void run() {
-                rightview.setImageBitmap(colorBitmap(130,50,50,50));
-                leftview.setImageBitmap(colorBitmap(130,50,50,50));
+                try {
+                    rightview.setImageBitmap(colorBitmap(130,50,50,50));
+                    leftview.setImageBitmap(colorBitmap(130,50,50,50));
+                }
+                catch (IllegalArgumentException ex)
+                {
+                    ex.printStackTrace();
+                }
+
             }
         });
         OnPreviewSizeChanged(0, 0);

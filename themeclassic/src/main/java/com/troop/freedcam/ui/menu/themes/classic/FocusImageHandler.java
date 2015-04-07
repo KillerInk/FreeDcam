@@ -38,6 +38,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     FocusRect meteringRect;
     View view;
     Fragment fragment;
+    long start;
+    long duration;
+    static final int MAX_DURATION = 3500;
 
 
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
@@ -182,6 +185,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     y = event.getY();
                     startX = (int)event.getX() - (int)meteringArea.getX();
                     startY =(int) event.getY() - (int)meteringArea.getY();
+                    start = System.currentTimeMillis();
 
                 }
                 break;
@@ -205,6 +209,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 break;
                 case MotionEvent.ACTION_UP:
                 {
+                    long time = System.currentTimeMillis() - start;
+                    duration = duration+time;
+
                     if (moving)
                     {
                         moving = false;
@@ -219,6 +226,16 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     else
                     {
                         OnClick((int)meteringArea.getX()+recthalf,(int)meteringArea.getY()+recthalf);
+
+
+
+                    }
+
+                    if (duration >= MAX_DURATION) {
+                        System.out.println("Long Press Time: " + duration);
+                        //George Was Here On a tuesday lol
+                        System.out.println("Insert AE Code here: ");
+
                     }
                 }
             }
