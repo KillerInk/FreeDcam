@@ -24,7 +24,7 @@ public class NonZslManualModeParameter extends BaseModeParameter
 
     @Override
     public boolean IsSupported() {
-        if (DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
             return true;
         else
             return false;

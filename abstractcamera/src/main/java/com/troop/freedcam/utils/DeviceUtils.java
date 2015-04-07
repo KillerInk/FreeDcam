@@ -64,6 +64,12 @@ public class DeviceUtils
         return s.equals("HTC One_M8");
     }
 
+    public static boolean isHTC_M9()
+    {
+        String s = Build.MODEL;
+        return s.equals("HTC One_M9") || s.equals("HTC One M9") ;
+    }
+
     public static boolean isHTC_M7()
     {
         String s = Build.MODEL;

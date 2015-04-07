@@ -31,7 +31,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8())
+        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return true;
         else
             return false;
@@ -45,7 +45,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 return 79;
             /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
-            if (DeviceUtils.isHTC_M8())
+            if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
                 return Integer.parseInt(parameters.get("max-focus"));
             else return 0;
         }
@@ -58,7 +58,7 @@ public class FocusManualParameter extends  BaseManualParameter
 // HTC Focus Step "focus-step"
     @Override
     public int GetMinValue() {
-    	if (DeviceUtils.isHTC_M8())
+    	if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return Integer.parseInt(parameters.get("min-focus"));
         /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
             return parameters.getInt("min-focus-pos-index");*/
@@ -76,7 +76,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 i=  Integer.parseInt(parameters.get("focus-pos"));*/
             if (DeviceUtils.isZTEADV());
                 i = -1;
-            if (DeviceUtils.isHTC_M8())
+            if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
                 i = Integer.parseInt(parameters.get("focus"));
         }
         catch (Exception ex)
@@ -111,9 +111,16 @@ public class FocusManualParameter extends  BaseManualParameter
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
         }
-        if (DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
         {
-            parameters.put("focus", valueToSet + "");
+
+
+            if(valueToSet != -1)
+            {
+                parameters.put("focus", valueToSet + "");
+            }
+            else
+                camParametersHandler.FocusMode.SetValue("auto", true);
         }
         camParametersHandler.SetParametersToCamera();
 

@@ -24,7 +24,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV())
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()|| DeviceUtils.isHTC_M9())
             return true;
         else
             return false;
@@ -34,7 +34,7 @@ public class CCTManualParameter extends BaseManualParameter {
     public int GetMaxValue() {
     	if (DeviceUtils.isZTEADV())
     		return Integer.parseInt(parameters.get("max-wb-cct"));
-			if (DeviceUtils.isHTC_M8())
+			if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
     		return Integer.parseInt(parameters.get("max-wb-ct"));
         return 80;
     }
@@ -43,7 +43,7 @@ public class CCTManualParameter extends BaseManualParameter {
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV())
 			return -1;
-		if (DeviceUtils.isHTC_M8())
+		if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
 			return Integer.parseInt(parameters.get("min-wb-ct"));
 		return 0;
     }
@@ -53,7 +53,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isHTC_M8())
+            if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 i = Integer.parseInt(parameters.get("wb-current-ct"));
             if (DeviceUtils.isZTEADV())
                 i = -1;
@@ -85,7 +85,7 @@ public class CCTManualParameter extends BaseManualParameter {
 
 
     }
-        if (DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             parameters.put("wb-ct", valueToSet + "");
         camParametersHandler.SetParametersToCamera();
 
