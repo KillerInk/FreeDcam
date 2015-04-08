@@ -20,9 +20,18 @@ http://developer.android.com/reference/android/hardware/camera2/package-summary.
 sony camera remote api (PlayMemories)  
 https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/
 
-projects used by freedcam:
-MetadataExtractor
+
+Projects used by FreeDcam
+=========================
+
+MetadataExtractor  
 https://github.com/drewnoakes/metadata-extractor
 
-libtiff
+ArcSeekBar  
+https://github.com/carlosrobles/ArcSeekBar
+
+libtiff  
 http://www.remotesensing.org/libtiff/
+
+Special Thanks @ Dave Coffin for dcraw and the bayer extracting to 16bit  
+https://www.cybercom.net/~dcoffin/dcraw/
