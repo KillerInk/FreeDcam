@@ -17,6 +17,33 @@ public class PictureFormatParameter extends BaseModeParameter
     AppSettingsManager appSettingsManager;
     public PictureFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
         super(parameters, parameterChanged, value, values);
+        try
+        {
+            final String t = parameters.get("picture-format");
+            if (t != null && !t.equals(""))
+            {
+                this.value = "picture-format";
+                this.values = "picture-format-values";
+                this.isSupported = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            isSupported =false;
+        }
+        if (!isSupported) {
+            try {
+                final String t = parameters.get("sony-postview-format");
+                if (t != null && !t.equals("")) {
+                    this.value = "sony-postview-format";
+                    this.values = "sony-postview-format-values";
+                    this.isSupported = true;
+                }
+            } catch (Exception ex) {
+
+            }
+        }
+
         this.camParametersHandler = camParametersHandler;
         this.appSettingsManager = appSettingsManager;
     }

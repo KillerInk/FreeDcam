@@ -18,6 +18,38 @@ public class VideoHDRModeParameter extends  BaseModeParameter
         super(parameters, parameterChanged, value, values);
         if (DeviceUtils.isLGADV())
             this.value = "hdr-mode";
+        else
+        {
+            try
+            {
+                String tmp = parameters.get("sony-video-hdr");
+                if(tmp != null && !tmp.equals("")) {
+                    isSupported = true;
+                    this.values = "sony-video-hdr-values";
+                    this.value = "sony-video-hdr";
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            if (isSupported == false)
+            {
+                try
+                {
+                    String tmp = parameters.get("video-hdr");
+                    if(tmp != null && !tmp.equals("")) {
+                        isSupported = true;
+                        this.values = "video-hdr-values";
+                        this.value = "video-hdr";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
     }
 

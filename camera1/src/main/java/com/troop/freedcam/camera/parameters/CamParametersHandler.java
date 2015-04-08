@@ -137,15 +137,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         AntiBandingMode = new AntiBandingModeParameter(cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
         WhiteBalanceMode = new WhiteBalanceModeParameter(cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
         PictureSize = new PictureSizeParameter(cameraParameters,baseCameraHolder, "picture-size", "picture-size-values");
-        if(DeviceUtils.isSonyADV())
-            PictureFormat = new PictureFormatParameter(cameraParameters, baseCameraHolder, "sony-postview-format", "sony-postview-format-values", this, appSettingsManager);
-        else
-            PictureFormat = new PictureFormatParameter(cameraParameters, baseCameraHolder, "picture-format", "picture-format-values", this, appSettingsManager);
+
+        PictureFormat = new PictureFormatParameter(cameraParameters, baseCameraHolder, "", "", this, appSettingsManager);
 
 
         JpegQuality = new JpegQualityParameter(cameraParameters, baseCameraHolder, "jpeg-quality", "");
-        //defcomg was here
-
+        //defcomg was here // troopii saw it and fixed sony stuff
 
         AE_Bracket = new AE_Bracket_HdrModeParameter(cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(cameraParameters,baseCameraHolder, "ipp", "ipp-values");
@@ -161,10 +158,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         SceneDetect = new BaseModeParameter(cameraParameters, baseCameraHolder, "scene-detect", "scene-detect-values");
         Denoise = new BaseModeParameter(cameraParameters, baseCameraHolder, "denoise", "denoise-values");
 //sony-is for images sony-vs for video
-        if(DeviceUtils.isSonyADV())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "sony-vs", "sony-vs-values");
-        else
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "dis", "dis-values");
+
+        DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "", "");
 
         MemoryColorEnhancement = new BaseModeParameter(cameraParameters, baseCameraHolder, "mce", "mce-values");
         SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
@@ -178,10 +173,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         VideoSize = new VideoSizeParameter(cameraParameters,baseCameraHolder,"video-size","video-size");
-        if(DeviceUtils.isSonyADV())
-            VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "sony-video-hdr", "sony-video-hdr-values", cameraHolder);
-        else
-            VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "video-hdr", "video-hdr-values", cameraHolder);
+
+        VideoHDR = new VideoHDRModeParameter(cameraParameters, baseCameraHolder, "", "", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);

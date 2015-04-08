@@ -77,8 +77,14 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else if (/*DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 ||*/ DeviceUtils.isSonyADV())
         {
-            if (!parameters.get("sony-max-shutter-speed").equals(""))
-                this.isSupported = true;
+            try {
+                if (!parameters.get("sony-max-shutter-speed").equals(""))
+                    this.isSupported = true;
+            }
+            catch (NullPointerException ex)
+            {
+                isSupported = false;
+            }
         }
         //TODO add missing logic
     }
