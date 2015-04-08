@@ -65,9 +65,9 @@ public class AppSettingsManager
     public static String SETTING_DUALMODE = "dualMode";
     public static String SETTING_Theme = "theme";
 
-    public static String API_SONY = "sony";
-    public static String API_1 = "api1";
-    public static String API_2 = "api2";
+    public static String API_SONY = "playmemories";
+    public static String API_1 = "camera1";
+    public static String API_2 = "camera2";
 
 
 
