@@ -36,30 +36,37 @@ public class AmbientUi extends NubiaUi
         AmbientCover = BitmapUtil.ScaleUP(AmbientCoverSML,size[0], size[1]);
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
-
         rightview.setVisibility(View.VISIBLE);
         leftview.setVisibility(View.VISIBLE);
-        i_activity.GetSurfaceView().post(new Runnable() {
+        /*rightview.post(new Runnable() {
             @Override
             public void run() {
-                leftview.setImageBitmap(Bitmap.createBitmap(AmbientCover, 0, 0, i_activity.GetPreviewLeftMargine(), i_activity.GetPreviewHeight()));
-                rightview.setImageBitmap(Bitmap.createBitmap(AmbientCover, i_activity.GetPreviewRightMargine(), 0, size[0] - i_activity.GetPreviewRightMargine(), size[1]));
+                OnPreviewSizeChanged(0,0);
             }
-        });
+        });*/
 
 
     }
 
+    boolean loadingPics = false;
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
         super.OnPreviewSizeChanged(w,h);
-        if (i_activity.GetPreviewLeftMargine() > 0)
+        if (i_activity.GetPreviewLeftMargine() > 0 && !loadingPics)
         {
+            leftview.post(new Runnable() {
+                @Override
+                public void run()
+                {
+                    loadingPics = true;
+                    int[] size = i_activity.GetScreenSize();
+                    leftview.setImageBitmap(Bitmap.createBitmap(AmbientCover, 0, 0, i_activity.GetPreviewLeftMargine(), i_activity.GetPreviewHeight()));
+                    rightview.setImageBitmap(Bitmap.createBitmap(AmbientCover, i_activity.GetPreviewRightMargine(), 0, size[0] - i_activity.GetPreviewRightMargine(), size[1]));
+                    loadingPics = false;
+                }
+            });
 
-            int[] size = i_activity.GetScreenSize();
-            leftview.setImageBitmap(Bitmap.createBitmap(AmbientCover, 0, 0, i_activity.GetPreviewLeftMargine(), i_activity.GetPreviewHeight()));
-            rightview.setImageBitmap(Bitmap.createBitmap(AmbientCover, i_activity.GetPreviewRightMargine(), 0, size[0] - i_activity.GetPreviewRightMargine(), size[1]));
         }
 
     }
