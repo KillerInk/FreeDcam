@@ -162,7 +162,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     {
         if (swipeMenuListner.startX - swipeMenuListner.currentX < 0)
         {
-            if (!settingsLayloutOpen)
+            if (!settingsLayloutOpen && cameraUiWrapper != null)
             {
                 inflateMenuFragment();
                 settingsLayloutOpen = true;
@@ -186,7 +186,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     {
         if (swipeMenuListner.startY  - swipeMenuListner.currentY < 0)
         {
-            if (!manualMenuOpen)
+            if (!manualMenuOpen && cameraUiWrapper != null)
             {
                 inflateManualMenuFragment();
                 manualMenuOpen = true;
