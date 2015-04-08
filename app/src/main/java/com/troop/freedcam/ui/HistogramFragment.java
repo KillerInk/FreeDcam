@@ -129,7 +129,11 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     }
     public void strtLsn()
     {
+        if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PreviewSize == null)
+            return;
         String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
+        if(split.length < 2)
+            return;
         width = Integer.parseInt(split[0]);
         height = Integer.parseInt(split[1]);
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning)
