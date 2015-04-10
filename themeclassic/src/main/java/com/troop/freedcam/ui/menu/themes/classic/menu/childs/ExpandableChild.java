@@ -134,8 +134,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(final String val)
     {
-        String settingValue = val;
-        set(settingValue);
+        set(val);
     }
     private void set(final String settingValue)
     {
