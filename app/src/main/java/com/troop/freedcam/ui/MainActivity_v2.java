@@ -187,35 +187,40 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     }
 
+    boolean loadingWrapper = false;
     private void loadCameraUiWrapper()
     {
+        if(!loadingWrapper)
+        {
+            loadingWrapper = true;
+            destroyCameraUiWrapper();
+            previewHandler.Init();
+            previewHandler.SetAppSettingsAndTouch(appSettingsManager);
 
-        destroyCameraUiWrapper();
-        previewHandler.Init();
-        previewHandler.SetAppSettingsAndTouch(appSettingsManager);
-
-        cameraUiWrapper = apiHandler.getCameraUiWrapper(this,previewHandler, appSettingsManager, this, cameraUiWrapper);
-        cameraUiWrapper.SetCameraChangedListner(this);
-        cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
-        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+            cameraUiWrapper = apiHandler.getCameraUiWrapper(this, previewHandler, appSettingsManager, this, cameraUiWrapper);
+            cameraUiWrapper.SetCameraChangedListner(this);
+            cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
+            cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
 
 
-        initCameraUIStuff(cameraUiWrapper);
+            initCameraUIStuff(cameraUiWrapper);
 
 
-        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-        if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView && appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
-            ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView)previewHandler.surfaceView;
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
+            //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
+            if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView && appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
+                ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView) previewHandler.surfaceView;
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
+                cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
+            }
+
+
+            cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+            loadingWrapper = false;
         }
-
-
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         //cameraUiWrapper.StartCamera();
     }
 
