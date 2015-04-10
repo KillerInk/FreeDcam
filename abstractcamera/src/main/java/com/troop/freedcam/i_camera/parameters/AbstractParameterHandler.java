@@ -128,6 +128,8 @@ public abstract class AbstractParameterHandler
         setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
+        setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
 
     }
 
