@@ -29,7 +29,7 @@ public class MaterialUi extends NubiaUi
         rightview.setVisibility(View.VISIBLE);
         leftview.setVisibility(View.VISIBLE);
 
-        i_activity.GetSurfaceView().post(new Runnable() {
+        rightview.post(new Runnable() {
             @Override
             public void run() {
                 try {
