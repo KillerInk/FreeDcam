@@ -61,8 +61,11 @@ public class PictureFormatParameter extends BaseModeParameter
         else
         {
             super.SetValue(valueToSet, true);
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+            if(baseCameraHolder.hasLGFrameWork)
+            {
+                baseCameraHolder.StopPreview();
+                baseCameraHolder.StartPreview();
+            }
         }
 
     }
