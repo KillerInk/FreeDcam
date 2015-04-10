@@ -19,7 +19,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
     public enum FlashModes
     {
         off,
-        single,
+        on,
         torch,
 
     }

@@ -202,6 +202,31 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
             Bitmap tmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.material_ui_flash_torch);
             textView.setImageBitmap(tmp);
         }
+        String[] val = cameraUiWrapper.camParametersHandler.FlashMode.GetValues();
+        String merge = "";
+        for (String v : val)
+        {
+            merge += " " +v;
+
+        }
+        if (merge.contains("torch"))
+            Torch.setVisibility(View.VISIBLE);
+        else
+            Torch.setVisibility(View.GONE);
+        if (merge.contains("on"))
+        {
+            On.setVisibility(View.VISIBLE);
+        }
+        else
+            On.setVisibility(View.GONE);
+        if (merge.contains("off"))
+            Off.setVisibility(View.VISIBLE);
+        else
+            Off.setVisibility(View.GONE);
+        if (merge.contains("auto"))
+            Auto.setVisibility(View.VISIBLE);
+        else
+            Auto.setVisibility(View.GONE);
 
     }
 
