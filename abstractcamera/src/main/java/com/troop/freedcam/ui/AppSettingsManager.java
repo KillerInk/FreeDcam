@@ -64,6 +64,7 @@ public class AppSettingsManager
     public static String SETTING_CAMERAMODE = "camMode";
     public static String SETTING_DUALMODE = "dualMode";
     public static String SETTING_Theme = "theme";
+    public static String SETTING_CDS = "cds";
 
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";

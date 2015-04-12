@@ -82,6 +82,7 @@ public class MenuCreator
     protected ExpandableChildOrientationHack rotationHack;
     protected ExpandableChildTheme Theme;
     protected ExpandAbleChildHistogram Histogram;
+    protected ExpandableChild CDS;
 
     protected LinearLayout submenu;
 
@@ -190,6 +191,8 @@ public class MenuCreator
         {
             zsl.setParameterHolder(parameterHandler.ZSL, cameraUiWrapper.moduleHandler.AllModules);
         }
+        if (parameterHandler.CDS_Mode != null && parameterHandler.CDS_Mode.IsSupported())
+            CDS.setParameterHolder(parameterHandler.CDS_Mode, cameraUiWrapper.moduleHandler.AllModules);
 
 
 
@@ -346,6 +349,9 @@ public class MenuCreator
 
         objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking), appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
         childlist.add(objectTrackingMode);
+
+        CDS = new ExpandableChild(context,group, "CDS", appSettingsManager, AppSettingsManager.SETTING_CDS);
+        childlist.add(CDS);
 
         group.setItems(childlist);
     }

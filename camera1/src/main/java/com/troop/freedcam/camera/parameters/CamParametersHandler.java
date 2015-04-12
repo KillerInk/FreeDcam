@@ -22,6 +22,7 @@ import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
+import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
@@ -180,6 +181,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             VideoProfilesG3 = new VideoProfilesG3Parameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
         else
             VideoProfiles = new VideoProfilesParameter(cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
+
+        CDS_Mode = new CDS_Mode_Parameter(cameraParameters,baseCameraHolder,"","");
 
         SetCameraRotation();
         SetPictureOrientation(0);

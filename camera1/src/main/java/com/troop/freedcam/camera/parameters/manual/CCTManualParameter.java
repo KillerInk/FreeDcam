@@ -11,8 +11,6 @@ public class CCTManualParameter extends BaseManualParameter {
 	I_CameraHolder baseCameraHolder;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (DeviceUtils.isZTEADV())
-            this.isSupported = true;
         try {
             String t = parameters.get("max-wb-cct");
             if (t != null || t.equals(""))
@@ -102,6 +100,9 @@ public class CCTManualParameter extends BaseManualParameter {
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
         }
+        if (DeviceUtils.isLGADV())
+            parameters.put("cct", valueToSet + "");
+
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             parameters.put("wb-ct", valueToSet + "");
         camParametersHandler.SetParametersToCamera();
