@@ -32,13 +32,13 @@ public class ApiHandler
             ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager);
 
         }
-        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
-            ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
+            ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager);
         }
         else
         {
-            ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager);
+            ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
         }
         return ret;
 

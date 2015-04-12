@@ -15,7 +15,7 @@ public class AppSettingsManager
     SharedPreferences appSettings;
     public Context context;
     private int currentcamera = 0;
-    String camApiString = "api1";
+    String camApiString = API_1;
 
     public static String SETTING_CURRENTCAMERA = "currentcamera";
     public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
