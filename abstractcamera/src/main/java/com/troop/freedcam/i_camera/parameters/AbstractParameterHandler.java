@@ -29,6 +29,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter FX;
     public AbstractManualParameter ISOManual;
     public AbstractManualParameter Zoom;
+    public AbstractManualParameter Skintone;
 
     public AbstractModeParameter ColorMode;
     public AbstractModeParameter ExposureMode;

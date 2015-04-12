@@ -60,6 +60,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem iso;
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
+    ManualMenuItem skintone;
     HandlerThread thread;
     Handler handler;
 
@@ -111,6 +112,8 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         addToLists(zoom);
         fnumber = new ManualMenuItem(activity.getContext(), "FNumber",this,appSettingsManager);
         addToLists(fnumber);
+        skintone =new ManualMenuItem(activity.getContext(), "Skintone", this, appSettingsManager);
+        addToLists(skintone);
 
 
     }
@@ -274,6 +277,9 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
             DisableOtherItems(zoom.name);*/
         }
         else zoom.onIsSupportedChanged(false);
+        if (parametersHandler.Skintone != null)
+            skintone.SetAbstractManualParameter(parametersHandler.Skintone);
+        else skintone.onIsSupportedChanged(false);
         hideSeekbar();
     }
 

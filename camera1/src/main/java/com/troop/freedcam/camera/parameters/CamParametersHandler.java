@@ -18,6 +18,7 @@ import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
 import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
@@ -119,6 +120,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder, this);
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
+        Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
 
         FX = new FXManualParameter(cameraParameters,"","","", this);
 
