@@ -13,7 +13,7 @@ public class CCTManualParameter extends BaseManualParameter {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         if (DeviceUtils.isZTEADV())
             this.isSupported = true;
-        /*try {
+        try {
             String t = parameters.get("max-wb-cct");
             if (t != null || t.equals(""))
             {
@@ -39,7 +39,7 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             catch (Exception ex)
             {}
-        }*/
+        }
         //TODO add missing logic
     }
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
