@@ -31,7 +31,10 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        if (((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
+                DeviceUtils.isZTEADV() ||
+                DeviceUtils.isHTC_M8()||
+                DeviceUtils.isHTC_M9())
             return true;
         else
             return false;
