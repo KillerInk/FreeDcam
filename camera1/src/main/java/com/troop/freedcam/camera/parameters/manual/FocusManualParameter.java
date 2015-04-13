@@ -44,7 +44,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         try {
-            if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isZTEADV())
+            if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
                 return 79;
             /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
@@ -73,7 +73,7 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         int i = 0;
         try {
-            if (DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21)
+            if ((DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
             /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
                 i=  Integer.parseInt(parameters.get("focus-pos"));*/
@@ -93,11 +93,12 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21)
+        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("normal", true);
+            parameters.put("manualfocus_step", valueToSet+"");
         }
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("manual", true);
             parameters.put("focus-pos", valueToSet + "");
