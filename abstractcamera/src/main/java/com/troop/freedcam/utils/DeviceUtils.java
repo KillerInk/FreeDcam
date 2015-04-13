@@ -47,10 +47,9 @@ public class DeviceUtils
         return s.equals("Nexus 7") || s.equals("Nexus 10");
     }
 
-    public static boolean isG2()
-    {
-        String s = Build.MODEL;
-        return s.equals("LG-D800") || s.equals("LG-D801") || s.equals("LG-D802") || s.equals("LG-D803") || s.equals("LG-D804") || s.equals("LG-D805") || s.equals("LG-D820") || s.equals("LG-F320") || s.equals("LG-F320S") || s.equals("LG-F320L") || s.equals("F320K") || s.equals("LG-VS980");
+    public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980";
+    public static boolean isG2() {
+        return G2Models.contains(Build.MODEL);
     }
 
     public static boolean isEvo3d()
