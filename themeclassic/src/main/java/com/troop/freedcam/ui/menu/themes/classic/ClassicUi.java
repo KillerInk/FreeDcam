@@ -70,6 +70,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
+        if (cameraUiWrapper == null)
+            return;
         this.cameraUiWrapper = wrapper;
         if (focusImageHandler != null)
             focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
