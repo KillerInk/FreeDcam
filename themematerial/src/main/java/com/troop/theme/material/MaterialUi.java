@@ -50,7 +50,7 @@ public class MaterialUi extends NubiaUi
     {
         int[] size = i_activity.GetScreenSize();
 
-        int width = (size[0] -  i_activity.GetSurfaceView().getWidth())/2;
+        int width = (size[0] -  i_activity.GetPreviewWidth())/2;
 
         System.out.println("Skreen Width"+width);
 
