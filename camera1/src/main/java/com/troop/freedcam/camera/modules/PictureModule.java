@@ -14,6 +14,10 @@ import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.modules.image_saver.DngSaver;
+import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
+import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
+import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
@@ -39,7 +43,7 @@ import java.util.Date;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_Callbacks.PictureCallback {
+public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     private static String TAG = PictureModule.class.getSimpleName();
 
@@ -93,389 +97,34 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public void DoWork()
     {
         if (!this.isWorking)
-            handler.post(new Runnable() {
-            @Override
-            public void run() {
-                dowork();
-            }
-        });
-
-    }
-
-    private void dowork() {
-        Log.d(TAG, "PictureFormat: " + baseCameraHolder.ParameterHandler.PictureFormat.GetValue());
-        if (!this.isWorking)
         {
             startworking();
-            lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-            if (baseCameraHolder.ParameterHandler.isDngActive && (lastBayerFormat.contains("bayer") || lastBayerFormat.contains("raw")))
+            final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+            if (picFormat.equals("jpeg"))
             {
-                if (baseCameraHolder.ParameterHandler.ZSL != null && baseCameraHolder.ParameterHandler.ZSL.IsSupported() && baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
-                {
-                    sendMsg("Error: Disable ZSL for Raw or Dng capture");
-                    stopworking();
-                    return;
-                }
-                dngcapture = true;
-
+                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler);
+                jpegSaver.TakePicture();
             }
-            else
+            else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw")))
             {
-                dngcapture = false;
-                dngJpegShot = false;
+                final RawSaver rawSaver =  new RawSaver(baseCameraHolder,this, handler);
+                rawSaver.TakePicture();
             }
-            takePicture();
-        }
-    }
-
-    @Override
-    public boolean IsWorking() {
-        return isWorking;
-    }
-//I_Module END
-
-    protected void takePicture()
-    {
-
-
-        Log.d(TAG, "Start Taking Picture");
-        try
-        {
-
-            baseCameraHolder.TakePicture(shutterCallback,rawCallback,this);
-            Log.d(TAG, "Picture Taking is Started");
-
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG,"Take Picture Failed");
-            baseCameraHolder.errorHandler.OnError("Take Picture Failed");
-            workfinished(true);
-            ex.printStackTrace();
-        }
-    }
-
-
-    I_Callbacks.ShutterCallback shutterCallback = new I_Callbacks.ShutterCallback() {
-        @Override
-        public void onShutter()
-        {
-
-        }
-    };
-
-    public I_Callbacks.PictureCallback rawCallback = new I_Callbacks.PictureCallback() {
-        public void onPictureTaken(byte[] data)
-        {
-            if (data!= null)
+            else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw")))
             {
-                Log.d(TAG, "RawCallback data size: " + data.length);
-            }
-            else
-                Log.d(TAG, "RawCallback data size is null" );
-        }
-    };
-
-
-    public void onPictureTaken(final byte[] data)
-    {
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                processImage(data);
-
-            }
-        });
-
-    }
-
-    private void processImage(byte[] data)
-    {
-        baseCameraHolder.StartPreview();
-        if (!dngJpegShot)
-        {
-            if (dngcapture)
-            {
-
-                dngConverter = RawToDng.GetInstance();
-
-
-            }
-            if (processCallbackData(data))
-            {
-                return;
-            }
-            if (dngcapture && !dngJpegShot)
-            {
-                if (baseCameraHolder.ParameterHandler.isDngActive && (lastBayerFormat.contains("bayer")|| lastBayerFormat.contains("raw")))
-                {
-
-                    lastBayerFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-                    baseCameraHolder.ParameterHandler.PictureFormat.SetValue("jpeg", true);
-                    String sizes[] = baseCameraHolder.ParameterHandler.PictureSize.GetValues();
-                    lastPicSize = baseCameraHolder.ParameterHandler.PictureSize.GetValue();
-                    baseCameraHolder.ParameterHandler.PictureSize.SetValue(sizes[sizes.length-1], true);
-                    dngJpegShot = true;
-                }
-                takePicture();
-            }
-            else
-            {
-                stopworking();
-                Log.d(TAG, "work finished");
+                DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler);
+                dngSaver.TakePicture();
             }
         }
-        else
-        {
-            addExifAndThumbToDng(data);
 
-            baseCameraHolder.ParameterHandler.PictureFormat.SetValue(lastBayerFormat, true);
-            baseCameraHolder.ParameterHandler.PictureSize.SetValue(lastPicSize, true);
-            dngJpegShot = false;
-            dngConverter.WriteDNG();
-
-            stopworking();
-            Log.d(TAG, "work finished");
-        }
-    }
-
-    private void addExifAndThumbToDng(byte[] data)
-    {
-
-        double x;
-        double y;
-        double calculatedExpo = 0;
-
-        int iso =0,flash = 0;
-        float fNumber =0, focalLength =0, exposureIndex = 0;
-        try
-        {
-            final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
-            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            try
-            {
-                iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-            } catch (MetadataException e) {
-                e.printStackTrace();
-            }
-            try
-            {
-                flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);
-            } catch (MetadataException e) {
-                e.printStackTrace();
-            }
-            try
-            {
-                fNumber = exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);
-            } catch (MetadataException e) {
-                e.printStackTrace();
-            }
-            try
-            {
-                focalLength = exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);
-            } catch (MetadataException e) {
-                e.printStackTrace();
-            }
-            try
-            {
-                exposureIndex = exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
-            } catch (MetadataException e) {
-                e.printStackTrace();
-            }
-        }
-        catch (JpegProcessingException e)
-        {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
-
-        dngConverter.setExifData(iso, exposureIndex, flash, fNumber, focalLength,IMGDESC, baseCameraHolder.Orientation +"", 0);
     }
 
     private void sendMsg(final String msg)
     {
-
           baseCameraHolder.errorHandler.OnError(msg);
-
-    }
-
-    protected boolean processCallbackData(byte[] data) {
-        if(data.length < 4500)
-        {
-
-            sendMsg("Data size is < 4kb");
-
-            //baseCameraHolder.StartPreview();
-            return true;
-        }
-        else
-        {
-            sendMsg("Datasize : " + StringUtils.readableFileSize(data.length));
-        }
-        saveFile(data, createFileName());
-        
-
-
-        /*if (ParameterHandler.isExposureAndWBLocked)
-            ParameterHandler.LockExposureAndWhiteBalance(false);*/
-        return false;
-    }
-
-    private void saveFile(byte[] bytes, File file) {
-        if (OverRidePath.equals(""))
-        {
-            if (!file.getAbsolutePath().endsWith(".dng")) {
-                saveBytesToFile(bytes, file);
-            } else
-            {
-                try
-                {
-                    final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(bytes)));
-                    final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-                    int iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-                    if (iso > 0)
-                    {
-                        sendMsg("Error: Returned Stream is not a RawStream");
-                        dngJpegShot =false;
-                        dngcapture = false;
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                int w = 0;
-                int h = 0;
-                String raw[] = getRawSize();
-                if (raw != null) {
-                    w = Integer.parseInt(raw[0]);
-                    h = Integer.parseInt(raw[1]);
-                }
-
-
-
-                double Altitude = 0;
-                double Latitude = 0;
-                double Longitude = 0;
-                String Provider = "ASCII";
-                long gpsTime = 0;
-                if (baseCameraHolder.gpsLocation != null)
-                {
-                    Altitude = baseCameraHolder.gpsLocation.getAltitude();
-                    Latitude = baseCameraHolder.gpsLocation.getLatitude();
-                    Longitude = baseCameraHolder.gpsLocation.getLongitude();
-                    Provider = baseCameraHolder.gpsLocation.getProvider();
-                    gpsTime = baseCameraHolder.gpsLocation.getTime();
-                    dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
-                }
-                dngConverter.SetBayerData(bytes,file.getAbsolutePath(),w,h);
-            }
-        }
-        else
-        {
-            file = new File(OverRidePath);
-            saveBytesToFile(bytes, file);
-        }
-        Log.d(TAG, "Start Media Scan " + file.getName());
-        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
-        eventHandler.WorkFinished(file);
-
-
-    };
-
-    protected String[] getRawSize()
-    {
-        String raw[] =null;
-        if (DeviceUtils.isXperiaL())
-        {
-            raw = RawToDng.SonyXperiaLRawSize.split("x");
-        }
-        else
-        {
-            if (parametersHandler.GetRawSize() != "") {
-                String rawSize = parametersHandler.GetRawSize();
-                raw = rawSize.split("x");
-            }
-        }
-        return raw;
-    }
-
-    protected void saveBytesToFile(byte[] bytes, File fileName)
-    {
-        Log.d(TAG, "Start Saving Bytes");
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(fileName);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "End Saving Bytes");
-
     }
 
 
-    private void setUpQuickJpeg()
-    {
-        ParameterHandler.PictureFormat.SetValue("jpeg", true);
-
-        ParameterHandler.PictureSize.SetValue(ParameterHandler.PictureSize.GetValues()[ParameterHandler.PictureSize.GetValues().length-1],true);
-
-
-    }
-
-    protected File createFileName()
-    {
-        Log.d(TAG, "Create FileName");
-        String s1 = getStringAddTime();
-        return  getFileAndChooseEnding(s1);
-    }
-
-    protected String getStringAddTime()
-    {
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-        if (!file.exists())
-            file.mkdirs();
-        Date date = new Date();
-        String s = (new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date);
-        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-    }
-
-    protected File getFileAndChooseEnding(String s1)
-    {
-        String pictureFormat = ParameterHandler.PictureFormat.GetValue();
-        if (rawFormats.contains(pictureFormat))
-        {
-            if (pictureFormat.contains("bayer") && parametersHandler.isDngActive)
-                return new File(s1 +"_" + pictureFormat +".dng");
-            else
-                return new File(s1 + "_" + pictureFormat + ".raw");
-
-        }
-        else if (pictureFormat.contains("yuv"))
-        {
-            return new File(s1 + "_" + pictureFormat + ".yuv");
-        }
-        else
-        {
-            if (jpegFormat.contains(pictureFormat))
-                return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
-            if (jpsFormat.contains(pictureFormat))
-                return new File((new StringBuilder(String.valueOf(s1))).append(".jps").toString());
-        }
-        return null;
-    }
 
     @Override
     public void LoadNeededParameters()
@@ -527,5 +176,22 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     {
         isWorking = false;
         workfinished(true);
+    }
+
+    @Override
+    public void OnWorkDone(File file)
+    {
+        baseCameraHolder.StartPreview();
+        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
+        stopworking();
+        eventHandler.WorkFinished(file);
+    }
+
+    @Override
+    public void OnError(String error)
+    {
+        sendMsg(error);
+        stopworking();
+
     }
 }

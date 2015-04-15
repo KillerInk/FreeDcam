@@ -111,7 +111,7 @@ public class HdrModule extends PictureModule
                     }
 
                     //soundPlayer.PlayShutter();
-                    baseCameraHolder.TakePicture(shutterCallback,rawCallback,HdrModule.this);
+                    //baseCameraHolder.TakePicture(shutterCallback,rawCallback,HdrModule.this);
                     Log.d(TAG, "Picture Taking is Started");
                 }
                 catch (Exception ex)
@@ -143,7 +143,7 @@ public class HdrModule extends PictureModule
 
     public void onPictureTaken(final byte[] data)
     {
-        if (processCallbackData(data, createFileName(true))) return;
+        /*if (processCallbackData(data, createFileName(true))) return;
 
         if (hdrCount == 3)
         {
@@ -203,19 +203,19 @@ public class HdrModule extends PictureModule
             baseCameraHolder.StartPreview();
             //ParameterHandler.LockExposureAndWhiteBalance(true);
             takePicture();
-        }
+        }*/
     }
 
-    protected File createFileName(boolean bevorShot)
+    /*protected File createFileName(boolean bevorShot)
     {
         Log.d(TAG, "Create FileName");
-        String s1 = getStringAddTime();
-        s1 += "HDR" + this.hdrCount;
+        //String s1 = getStringAddTime();
+        //s1 += "HDR" + this.hdrCount;
         hdrCount++;
         return  getFileAndChooseEnding(s1, bevorShot);
-    }
+    }*/
 
-    protected boolean processCallbackData(final byte[] data,final File file) {
+    /*protected boolean processCallbackData(final byte[] data,final File file) {
         if(data.length < 4500)
         {
             baseCameraHolder.errorHandler.OnError("Data size is < 4kb");
@@ -241,7 +241,7 @@ public class HdrModule extends PictureModule
 
 
         return false;
-    }
+    }*/
 
     /*protected Runnable saveFileRunner = new Runnable() {
         @Override
@@ -270,7 +270,7 @@ public class HdrModule extends PictureModule
         }
     };*/
 
-    private void saveFile(File file, byte[] bytes)
+    /*private void saveFile(File file, byte[] bytes)
     {
         if (OverRidePath.equals(""))
         {
@@ -288,7 +288,7 @@ public class HdrModule extends PictureModule
             saveBytesToFile(bytes, file);
 
         }
-    }
+    }*/
 
     protected File getFileAndChooseEnding(String s1, boolean bevorShot)
     {

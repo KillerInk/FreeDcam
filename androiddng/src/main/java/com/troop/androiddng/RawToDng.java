@@ -256,7 +256,8 @@ public class RawToDng
     public void SetBayerData(final byte[] fileBytes, String fileout,int width,int height)
     {
         filepath = fileout;
-        bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
+        if (filepath.contains("bayer"))
+            bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout, width,height);
     }

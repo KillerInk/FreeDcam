@@ -33,16 +33,16 @@ public class PictureModuleO3D extends PictureModule
         return RawToDng.Optimus3DRawSize.split("x");
     }
 
-    @Override
+    /*@Override
     protected void takePicture()
     {
         File dataDirectory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/Bayer_Raw/");
         if (!dataDirectory.exists())
             dataDirectory.mkdirs();
         super.takePicture();
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onPictureTaken(byte[] data) {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
@@ -74,7 +74,7 @@ public class PictureModuleO3D extends PictureModule
             if (processCallbackData(data)) return;
             baseCameraHolder.StartPreview();
         }
-    }
+    }*/
 
     public static byte[] readBytesFromFile(File file) throws IOException {
         InputStream is = new FileInputStream(file);
@@ -111,7 +111,7 @@ public class PictureModuleO3D extends PictureModule
     }
 
 
-    @Override
+    /*@Override
     protected File getFileAndChooseEnding(String s1)
     {
         String zsl = ParameterHandler.ZSL.GetValue();
@@ -119,5 +119,5 @@ public class PictureModuleO3D extends PictureModule
             return new File((new StringBuilder(String.valueOf(s1))).append("_").append(".raw").toString());
         else
             return new File((new StringBuilder(String.valueOf(s1))).append(".jpg").toString());
-    }
+    }*/
 }

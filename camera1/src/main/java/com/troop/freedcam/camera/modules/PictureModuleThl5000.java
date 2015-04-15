@@ -21,7 +21,7 @@ public class PictureModuleThl5000 extends PictureModule
         super(baseCameraHolder, appSettingsManager, eventHandler);
     }
 
-    @Override
+    /*@Override
     protected void takePicture()
     {
         this.isWorking = true;
@@ -34,9 +34,9 @@ public class PictureModuleThl5000 extends PictureModule
                 lastFile = createFileName().getAbsolutePath();
                 Log.d(TAG, "Save File To :" + lastFile);
                 parametersHandler.setTHL5000rawFilename(lastFile);
-                baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
+                //baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
             } else
-                baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
+                //baseCameraHolder.TakePicture(shutterCallback, rawCallback, this);
             Log.d(TAG, "Picture Taking is Started");
         }
         catch (Exception ex)
@@ -44,9 +44,9 @@ public class PictureModuleThl5000 extends PictureModule
             Log.d(TAG,"Take Picture Failed");
             ex.printStackTrace();
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onPictureTaken(byte[] data) {
         Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         String format = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
@@ -62,5 +62,5 @@ public class PictureModuleThl5000 extends PictureModule
             if (processCallbackData(data)) return;
             baseCameraHolder.StartPreview();
         }
-    }
+    }*/
 }
