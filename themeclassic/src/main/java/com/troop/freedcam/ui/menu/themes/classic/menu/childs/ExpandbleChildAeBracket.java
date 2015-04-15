@@ -38,11 +38,10 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
         aSwitch.setText(Name);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                appSettingsManager.setString(settingsname, isChecked +"");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                appSettingsManager.setString(settingsname, isChecked + "");
                 parameterHandler.isAeBracketActive = isChecked;
-                setAeBracketValue(parameterHandler, isChecked +"");
+                setAeBracketValue(parameterHandler, isChecked + "");
             }
         });
 
@@ -70,7 +69,8 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
             appSettingsManager.setString(AppSettingsManager.SETTING_AEBRACKETACTIVE, "false");
             dng = "false";
         }
-        setAeBracketValue(parameterHandler, dng);
+        aSwitch.setChecked(Boolean.getBoolean(dng));
+        //setAeBracketValue(parameterHandler, dng);
         ModuleChanged("");
 
     }

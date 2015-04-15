@@ -19,7 +19,7 @@ public class ExpandableChildGuide extends ExpandableChild {
 
     @Override
     public void setValue(String value) {
-        valueTextView.setText(value);
+
         parameterHolder.SetValue(value, true);
         appSettingsManager.setString(settingsname, value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
@@ -37,7 +37,7 @@ public class ExpandableChildGuide extends ExpandableChild {
         String s = appSettingsManager.getString(settingsname);
         if (s.equals(""))
             s = "Golden Ratio";
-        setValue(s);
+        valueTextView.setText(s);
 
     }
 }
