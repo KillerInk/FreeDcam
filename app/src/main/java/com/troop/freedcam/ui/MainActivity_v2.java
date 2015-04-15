@@ -226,6 +226,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     private void destroyCameraUiWrapper()
     {
+        themeHandler.SetCameraUIWrapper(null);
         if (histogramFragment != null)
         {
             histogramFragment.stopLsn();
@@ -251,6 +252,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
+
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
         themeHandler.GetThemeFragment();
 

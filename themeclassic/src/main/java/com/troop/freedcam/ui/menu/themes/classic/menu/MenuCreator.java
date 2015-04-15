@@ -191,7 +191,7 @@ public class MenuCreator
         {
             zsl.setParameterHolder(parameterHandler.ZSL, cameraUiWrapper.moduleHandler.AllModules);
         }
-        if (parameterHandler.CDS_Mode != null && parameterHandler.CDS_Mode.IsSupported())
+        if (parameterHandler.CDS_Mode != null && parameterHandler.CDS_Mode.IsSupported() && CDS != null)
             CDS.setParameterHolder(parameterHandler.CDS_Mode, cameraUiWrapper.moduleHandler.AllModules);
 
 

@@ -43,7 +43,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         inflateShutterItemFragment();
         swipeMenuListner = new SwipeMenuListner(this);
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
-        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
+        if (cameraUiWrapper != null)
+            focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         return view;
     }
 
@@ -70,8 +71,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        if (cameraUiWrapper == null)
-            return;
+
         this.cameraUiWrapper = wrapper;
         if (focusImageHandler != null)
             focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
