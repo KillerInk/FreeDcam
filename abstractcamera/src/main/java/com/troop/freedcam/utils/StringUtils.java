@@ -1,8 +1,11 @@
 package com.troop.freedcam.utils;
 
+import android.content.Context;
 import android.hardware.Camera;
+import android.os.Environment;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -66,5 +69,15 @@ public class StringUtils
             e.printStackTrace();
         }
         return board_platform;
+    }
+
+    public static String GetExternalSDCARD()
+    {
+        return System.getenv("SECONDARY_STORAGE");
+    }
+
+    public static String GetInternalSDCARD()
+    {
+        return Environment.getExternalStorageDirectory().getAbsolutePath();
     }
 }
