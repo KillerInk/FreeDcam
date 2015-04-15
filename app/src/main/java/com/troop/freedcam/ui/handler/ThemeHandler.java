@@ -46,7 +46,7 @@ public class ThemeHandler implements I_ModuleEvent
         {
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
             transaction.remove(uiFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
             uiFragment.onDestroyView();
 
             uiFragment = null;
@@ -101,7 +101,7 @@ public class ThemeHandler implements I_ModuleEvent
     {
         android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.themeFragmentholder, fragment, "Main");
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 
