@@ -66,18 +66,13 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
         super.setParameterHolder(parameterHolder, modulesToShow);
         String dng  = appSettingsManager.getString(AppSettingsManager.SETTING_DNG);
         this.parameterHandler = parameterHandler;
-        if (dng.equals(""))
-        {
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-            dng = "false";
-        }
         if (dng.equals("false")) {
             aSwitch.setChecked(false);
-            parameterHandler.isDngActive = false;
+            //parameterHandler.isDngActive = false;
         }
         else
         {
-            parameterHandler.isDngActive = true;
+            //parameterHandler.isDngActive = true;
             aSwitch.setChecked(true);
         }
     }

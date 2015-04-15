@@ -311,6 +311,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             isWorking = false;
             workfinished(true);
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            eventHandler.WorkFinished(file);
             //StartPreview();
         }
 
@@ -321,7 +322,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(ImageReader reader) {
             try {
-                if (Settings.getString(AppSettingsManager.SETTING_DNG).equals(true))
+                if (cameraHolder.ParameterHandler.isDngActive)
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(getStringAddTime() + ".dng");
@@ -331,6 +332,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     image.close();
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                    eventHandler.WorkFinished(file);
                 }
                 else
                 {
@@ -338,6 +340,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     File file = new File(getStringAddTime() +".raw");
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                    eventHandler.WorkFinished(file);
                 }
             } catch (CameraAccessException e) {
                 e.printStackTrace();

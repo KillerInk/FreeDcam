@@ -120,7 +120,7 @@ public abstract class AbstractParameterHandler
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
         setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
         setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
-        setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
+        //setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
         setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
         setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
@@ -131,6 +131,9 @@ public abstract class AbstractParameterHandler
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
+            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
+        isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
 
     }
 

@@ -49,6 +49,9 @@ public class PictureFormatExpandableChild extends ExpandableChild
        super.setParameterHolder(parameterHolder,modulesToShow);
        if (PictureFormatChangedHandler != null) {
            String campara = parameterHolder.GetValue();
+           if (campara.equals(""))
+               campara = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+           onValueChanged(campara);
            PictureFormatChangedHandler.VideoProfileChanged(campara);
        }
 

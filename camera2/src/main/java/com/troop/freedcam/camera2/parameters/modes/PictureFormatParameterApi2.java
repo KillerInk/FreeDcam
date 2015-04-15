@@ -29,6 +29,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+
         if (valueToSet.equals("jpeg"))
         {
 
@@ -53,7 +54,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public String GetValue() {
-        return "jpeg";
+        return "";
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -62,11 +63,11 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     {
         ArrayList<String> ret = new ArrayList<String>();
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            ret.add("raw_sensor");
+            ret.add(BaseCameraHolderApi2.RAW_SENSOR);
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
-            ret.add("raw10");
+            ret.add(BaseCameraHolderApi2.RAW10);
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
-            ret.add("jpeg");
+            ret.add(BaseCameraHolderApi2.JPEG);
         return ret.toArray(new String[ret.size()]);
     }
 }

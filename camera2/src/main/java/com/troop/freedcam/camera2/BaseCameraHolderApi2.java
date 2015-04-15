@@ -70,6 +70,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CaptureRequest.Builder mPreviewRequestBuilder;
     I_Callbacks.PreviewCallback previewCallback;
 
+    public static String JPEG = "jpeg";
+    public static String RAW_SENSOR = "raw_sensor";
+    public static String RAW10 = "raw10";
+
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -200,8 +204,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             String picformat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
             if (picformat.equals(""))
-                picformat="jpeg";
-            if (picformat.equals("jpeg"))
+                picformat=JPEG;
+            if (picformat.equals(JPEG))
             {
                 String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
                 int width, height;
@@ -218,11 +222,16 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 //create new ImageReader with the size and format for the image
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             }
-            else
+            else if (picformat.equals(RAW_SENSOR))
             {
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
 
+            }
+            else if (picformat.equals(RAW10))
+            {
+                largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
+                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW10, 1);
             }
 
 
