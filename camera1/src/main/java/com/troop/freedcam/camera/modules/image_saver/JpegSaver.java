@@ -28,7 +28,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     I_WorkeDone iWorkeDone;
     Handler handler;
 
-    final String fileEnding = ".jpg";
+    final public String fileEnding = ".jpg";
 
     public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
     {
@@ -55,7 +55,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    protected void saveBytesToFile(byte[] bytes, File fileName)
+    public void saveBytesToFile(byte[] bytes, File fileName)
     {
         Log.d(TAG, "Start Saving Bytes");
         FileOutputStream outStream = null;
@@ -76,7 +76,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    protected String getStringAddTime()
+    public static String getStringAddTime()
     {
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         if (!file.exists())

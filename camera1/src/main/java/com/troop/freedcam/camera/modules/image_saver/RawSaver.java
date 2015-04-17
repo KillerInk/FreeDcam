@@ -9,7 +9,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
  */
 public class RawSaver extends JpegSaver
 {
-    final String fileEnding = ".raw";
+    final public String fileEnding = ".raw";
     public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
         super(cameraHolder, i_workeDone, handler);
     }

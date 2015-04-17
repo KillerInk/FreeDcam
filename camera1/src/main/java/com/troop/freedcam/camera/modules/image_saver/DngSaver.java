@@ -56,7 +56,7 @@ public class DngSaver extends JpegSaver
 
     }
 
-    private void processData(byte[] data)
+    public void processData(byte[] data)
     {
         try
         {
