@@ -129,9 +129,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        backgroundThread = new HandlerThread("PictureModuleThread");
-        backgroundThread.start();
-        handler = new Handler(backgroundThread.getLooper());
+        startThread();
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"))
@@ -150,9 +148,19 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     }
 
+    protected void startThread() {
+        backgroundThread = new HandlerThread("PictureModuleThread");
+        backgroundThread.start();
+        handler = new Handler(backgroundThread.getLooper());
+    }
+
     @Override
     public void UnloadNeededParameters()
     {
+        stopThread();
+    }
+
+    protected void stopThread() {
         if (Build.VERSION.SDK_INT>17)
             backgroundThread.quitSafely();
         else
@@ -166,13 +174,13 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         }
     }
 
-    private void startworking()
+    protected void startworking()
     {
         isWorking = true;
         workstarted();
     }
 
-    private void stopworking()
+    protected void stopworking()
     {
         isWorking = false;
         workfinished(true);
