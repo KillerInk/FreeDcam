@@ -111,7 +111,8 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         public void run()
         {
             time.setText(dateFormat.format(new Date()));
-            if (cameraUiWrapper instanceof CameraUiWrapper) {
+            if (true)
+            {
                 if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO)) {
 
                     if (!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO)) {
@@ -130,11 +131,8 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                         pictureSize.setText(String.valueOf(decimalFormat.format(mp)) + "MP");
                     }
 
-
-
-
-
-                    if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer") || appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw")) {
+                    if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer") || appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw"))
+                    {
                         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
                             pictureFormat.setText("DNG");
                         else
