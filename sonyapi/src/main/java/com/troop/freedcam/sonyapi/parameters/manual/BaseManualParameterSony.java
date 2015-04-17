@@ -56,6 +56,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
         }
         BackgroundIsSupportedChanged(isSupported);
+        BackgroundIsSetSupportedChanged(false);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
@@ -99,6 +100,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
                         values = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                        BackgroundValuesChanged(values);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -111,18 +113,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     }
                 }
             }).start();
-            int count = 0;
-            while (values == null)
-            {
-                try {
-                    Thread.sleep(100);
-                    count++;
-                    if (count == 20)
-                        break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
         return values;
@@ -189,6 +179,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 if (valueToSet == values.length || valueToSet < 0)
                     return;
                 String val = values[valueToSet];
+                value = val;
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, val);
@@ -210,16 +201,16 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     public String GetStringValue()
     {
-        if (this.values == null)
-        {
+
+        if (this.values == null) {
             this.values = getStringValues();
 
         }
-        if (values != null && values.length > 0 && val < values.length)
-        {
+        if (values != null && values.length > 0 && val < values.length) {
             if (val == -200)
                 GetValue();
-            Log.d(TAG, "GetStringValue() = " +values[val] );
+            if (val == -1)
+                return value;
             return values[val];
         }
         return value;
@@ -266,6 +257,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public void onCurrentStringValueChanged(String value)
     {
-
+        this.value = value;
     }
 }
