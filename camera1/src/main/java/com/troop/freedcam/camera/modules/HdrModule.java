@@ -7,6 +7,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
+import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -177,7 +178,12 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             if (picFormat.equals("jpeg")) {
                 final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone, handler);
                 jpegSaver.saveBytesToFile(data, new File(JpegSaver.getStringAddTime() +"_HDR" + hdrCount + jpegSaver.fileEnding));
-            } else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+            }
+            else if (picFormat.equals("jps")) {
+                final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, aeBracketDone, handler);
+                jpsSaver.saveBytesToFile(data, new File(JpegSaver.getStringAddTime() + "_HDR" + hdrCount + jpsSaver.fileEnding));
+            }
+            else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                 final RawSaver rawSaver = new RawSaver(baseCameraHolder, aeBracketDone, handler);
                 rawSaver.saveBytesToFile(data, new File(JpegSaver.getStringAddTime() +"_HDR" + hdrCount + rawSaver.fileEnding));
             } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
