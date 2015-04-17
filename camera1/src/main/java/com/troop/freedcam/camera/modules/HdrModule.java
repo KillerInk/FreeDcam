@@ -182,7 +182,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 rawSaver.saveBytesToFile(data, new File(JpegSaver.getStringAddTime() +"_HDR" + hdrCount + rawSaver.fileEnding));
             } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                 DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone, handler);
-                dngSaver.processData(data);
+                dngSaver.processData(data,new File(dngSaver.getStringAddTime() +"_HDR" + dngSaver.fileEnding));
             }
         }
     };

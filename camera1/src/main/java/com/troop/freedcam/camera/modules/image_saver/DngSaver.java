@@ -22,7 +22,7 @@ import java.io.File;
  */
 public class DngSaver extends JpegSaver
 {
-    final String fileEnding = ".dng";
+    final public String fileEnding = ".dng";
     private String lastBayerFormat;
     final RawToDng dngConverter;
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
@@ -50,13 +50,13 @@ public class DngSaver extends JpegSaver
         handler.post(new Runnable() {
             @Override
             public void run() {
-                processData(data);
+                processData(data, new File(getStringAddTime() + fileEnding));
             }
         });
 
     }
 
-    public void processData(byte[] data)
+    public void processData(byte[] data, File file)
     {
         try
         {
@@ -100,7 +100,6 @@ public class DngSaver extends JpegSaver
             w = Integer.parseInt(raw[0]);
             h = Integer.parseInt(raw[1]);
         }
-        final File file = new File(getStringAddTime() + fileEnding);
         dngConverter.SetBayerData(data, file.getAbsolutePath(), w, h);
         dngConverter.setExifData(0, 0, 0, 0, 0, "0", cameraHolder.Orientation + "", 0);
         dngConverter.WriteDNG();
