@@ -134,7 +134,7 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
             if (!isVisible)
             {
                 isVisible =true;
-                group.submenu.addView(this);
+                group.fillSubMenuItems();
                 parameterHolder.setIsSupported(true);
             }
         }
@@ -143,7 +143,7 @@ public class ExpandableChildTimelapseFps extends ExpandableChild implements I_Vi
             if (isVisible)
             {
                 isVisible = false;
-                group.getItems().remove(this);
+                group.fillSubMenuItems();
                 parameterHolder.setIsSupported(false);
             }
 

@@ -75,11 +75,11 @@ public class VideoProfileExpandableChild extends ExpandableChild
         if (settingValue == null || settingValue.equals("")) {
             settingValue = parameterHolder.GetValues()[0];
             appSettingsManager.setString(settingsname, settingValue);
-            if (videoProfileChanged != null)
-                videoProfileChanged.VideoProfileChanged(settingValue);
+
         }
 
-
+        if (videoProfileChanged != null)
+            videoProfileChanged.VideoProfileChanged(settingValue);
         nameTextView.setText(Name);
         valueTextView.setText(appSettingsManager.getString(settingsname));
         //appSettingsManager.setString(settingsname, settingValue);

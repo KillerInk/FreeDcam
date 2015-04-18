@@ -206,6 +206,7 @@ public class MenuCreator
         longExposureTime.setParameterHolder(new LongExposureSetting(null,null,"",""), cameraUiWrapper.moduleHandler.LongeExpoModules);
         timelapseframes.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.VideoModules);
 
+
         if (parameterHandler.VideoProfiles != null)
         {
             videoProfile.videoProfileChanged = timelapseframes;
@@ -228,6 +229,7 @@ public class MenuCreator
         {
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
             aeBracketSwitch.setParameterHolder(parameterHandler.AE_Bracket, cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
+
         }
 
         if (parameterHandler.ContShootMode != null)
@@ -256,6 +258,8 @@ public class MenuCreator
         {
             Theme.setParameterHolder(parameterHandler.ThemeList,cameraUiWrapper.moduleHandler.AllModules);
         }
+        cameraUiWrapper.moduleHandler.moduleEventHandler.ModuleHasChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+
     }
 
     public ExpandableGroup CreatePictureSettings(SurfaceView surfaceView)
@@ -311,6 +315,7 @@ public class MenuCreator
 
 
         aeBracketSwitch = new ExpandbleChildAeBracket(context, group, appSettingsManager, context.getString(R.string.picture_hdr_aebracket), AppSettingsManager.SETTING_AEBRACKETACTIVE);
+
         piclist.add(aeBracketSwitch);
         piclist.add(dngSwitch);
         group.setItems(piclist);

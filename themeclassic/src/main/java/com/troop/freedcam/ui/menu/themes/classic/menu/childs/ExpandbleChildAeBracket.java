@@ -44,7 +44,6 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
                 setAeBracketValue(parameterHandler, isChecked + "");
             }
         });
-
     }
 
     @Override
@@ -71,7 +70,7 @@ public class ExpandbleChildAeBracket extends ExpandableChildDngSupport
         }
         aSwitch.setChecked(Boolean.getBoolean(dng));
         //setAeBracketValue(parameterHandler, dng);
-        ModuleChanged("");
+        //ModuleChanged("");
 
     }
 
