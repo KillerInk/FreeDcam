@@ -292,6 +292,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
+        if (samsungCamera == null && mCamera == null)
+            return;
         if (hasSamsungFrameWork)
             samsungCamera.startPreview();
         else
