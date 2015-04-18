@@ -35,11 +35,11 @@ public class BaseModeParameter extends AbstractModeParameter {
         {
             String tmp = parameters.get(values);
             if (!tmp.isEmpty())
-                isSupported = true;
+                this.isSupported = true;
         }
         catch (Exception ex)
         {
-            isSupported = false;
+            this.isSupported = false;
         }
         Log.d(TAG, "is Supported :" + isSupported);
         BackgroundSetIsSupportedHasChanged(isSupported);
