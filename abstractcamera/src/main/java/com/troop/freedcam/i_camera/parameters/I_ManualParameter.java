@@ -6,6 +6,7 @@ package com.troop.freedcam.i_camera.parameters;
 public interface I_ManualParameter
 {
     public boolean IsSupported();
+    public boolean IsSetSupported();
 
     public int GetMaxValue();
 

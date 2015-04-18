@@ -423,14 +423,14 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
                     @Override
                     public void run() {
                         setValueToParameters(seekBar.getProgress());
-                        if (realMin < 0)
-                            setValueToTextBox(progress + realMin);
-                        else
-                            setValueToTextBox(progress);
                     }
                 });
 
             }
+            if (realMin < 0)
+                setValueToTextBox(progress + realMin);
+            else
+                setValueToTextBox(progress);
         }
     }
 

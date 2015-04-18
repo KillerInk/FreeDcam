@@ -278,6 +278,11 @@ public class NubiaManualMenuItem extends LinearLayout implements View.OnClickLis
     }
 
     @Override
+    public boolean IsSetSupported() {
+        return manualParameter.IsSetSupported();
+    }
+
+    @Override
     public int GetMaxValue() {
         return manualParameter.GetMaxValue();
     }

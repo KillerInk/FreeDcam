@@ -156,6 +156,8 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         return false;
     }
 
+    public boolean IsSetSupported() {return false;}
+
     /**
      *
      * @return returns the max value as int

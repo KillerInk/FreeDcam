@@ -70,4 +70,9 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
     public boolean IsSupported() {
         return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
     }
+
+    @Override
+    public boolean IsSetSupported() {
+        return true;
+    }
 }

@@ -74,6 +74,11 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
+    public boolean IsSetSupported() {
+        return isSetSupported;
+    }
+
+    @Override
     public int GetMaxValue()
     {
         if(values == null)

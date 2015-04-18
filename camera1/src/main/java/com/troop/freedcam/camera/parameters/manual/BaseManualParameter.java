@@ -62,6 +62,11 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         return isSupported;
     }
 
+    @Override
+    public boolean IsSetSupported() {
+        return true;
+    }
+
     public int GetMaxValue()
     {
         int max = 100;

@@ -78,6 +78,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
         Drawable background = toggleButton.getBackground();
         if (background instanceof ColorDrawable)
             btncolor = ((ColorDrawable) background).getColor();
+        //manualParameter.IsSupported();
+
 
     }
 
@@ -106,9 +108,9 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
                 writeLog("loading int value: " + textViewValue.getText());
             }
             toggleButton.setOnClickListener(this);
-            isSetSupported = true;
-            onIsSupportedChanged(true);
-            onIsSetSupportedChanged(true);
+            isSetSupported = false;
+            onIsSupportedChanged(manualParameter.IsSupported());
+            onIsSetSupportedChanged(manualParameter.IsSetSupported());
         }
         else
         {
@@ -274,6 +276,11 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public boolean IsSupported() {
         return manualParameter.IsSupported();
+    }
+
+    @Override
+    public boolean IsSetSupported() {
+        return manualParameter.IsSetSupported();
     }
 
     @Override
