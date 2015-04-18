@@ -261,7 +261,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
 
-        guideHandler.setCameraUiWrapper(cameraUiWrapper);
+        guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
         if (histogramFragment != null && histogramFragment.isAdded())

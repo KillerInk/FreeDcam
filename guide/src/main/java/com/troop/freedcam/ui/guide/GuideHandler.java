@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +19,18 @@ import android.widget.RelativeLayout;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded {
+public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded, I_PreviewSizeEvent {
     View view;
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
+    I_Activity i_activity;
 
 
     @Override
@@ -38,9 +42,11 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     }
 
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, I_Activity i_activity)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        this.i_activity = i_activity;
+        i_activity.SetPreviewSizeChangedListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
 
     }
@@ -223,5 +229,13 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
             cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
             onValueChanged(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
         }
+    }
+
+    @Override
+    public void OnPreviewSizeChanged(int w, int h)
+    {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
+        layoutParams.gravity = Gravity.CENTER;
+        img.setLayoutParams(layoutParams);
     }
 }
