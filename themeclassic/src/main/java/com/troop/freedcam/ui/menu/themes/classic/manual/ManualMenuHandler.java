@@ -61,6 +61,7 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
     ManualMenuItem zoom;
     ManualMenuItem fnumber;
     ManualMenuItem skintone;
+    ManualMenuItem programShift;
     HandlerThread thread;
     Handler handler;
 
@@ -114,6 +115,9 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         addToLists(fnumber);
         skintone =new ManualMenuItem(activity.getContext(), "Skintone", this, appSettingsManager);
         addToLists(skintone);
+        programShift = new ManualMenuItem(activity.getContext(), "ProgramShift", this, appSettingsManager);
+        addToLists(programShift);
+
 
 
     }
@@ -280,6 +284,10 @@ public class ManualMenuHandler implements SeekBar.OnSeekBarChangeListener, I_Par
         if (parametersHandler.Skintone != null)
             skintone.SetAbstractManualParameter(parametersHandler.Skintone);
         else skintone.onIsSupportedChanged(false);
+        if (parametersHandler.ProgramShift != null)
+            programShift.SetAbstractManualParameter(parametersHandler.ProgramShift);
+        else
+            programShift.onIsSupportedChanged(false);
         hideSeekbar();
     }
 

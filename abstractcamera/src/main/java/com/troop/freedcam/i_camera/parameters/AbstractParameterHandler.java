@@ -30,6 +30,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter ISOManual;
     public AbstractManualParameter Zoom;
     public AbstractManualParameter Skintone;
+    public AbstractManualParameter ProgramShift;
 
     public AbstractModeParameter ColorMode;
     public AbstractModeParameter ExposureMode;
