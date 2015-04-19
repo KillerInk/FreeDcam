@@ -43,16 +43,19 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void DoWork()
     {
-        String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
-        if (!this.isWorking && shootmode.equals("Single"))
-            takePicture();
-        else if (!this.isWorking)
-        {
-            cameraHolder.startContShoot(this);
+        if (cameraHolder.ParameterHandler.ContShootMode != null && cameraHolder.ParameterHandler.ContShootMode.IsSupported()) {
+            String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
+            if (!this.isWorking && shootmode.equals("Single"))
+                takePicture();
+            else if (!this.isWorking) {
+                cameraHolder.startContShoot(this);
+            } else {
+                cameraHolder.stopContShoot(this);
+            }
         }
-        else {
-            cameraHolder.stopContShoot(this);
-        }
+        else
+            if (!this.isWorking)
+                takePicture();
     }
 
     @Override
