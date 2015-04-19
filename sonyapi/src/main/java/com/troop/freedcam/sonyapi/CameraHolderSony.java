@@ -147,6 +147,16 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onWhiteBalanceValueChanged(String wb) {
+            ParameterHandler.WhiteBalanceMode.BackgroundValueHasChanged(wb);
+        }
+
+        @Override
+        public void onWbColorTemperatureChanged(int colortemp) {
+
+        }
+
+        @Override
         public void onFnumberChanged(String fnumber) {
             ParameterHandler.ManualFNumber.currentValueStringCHanged(fnumber);
         }

@@ -89,6 +89,8 @@ public class SimpleCameraEventObserver {
         public void onShutterSpeedValuesChanged(String[]  shuttervals);
         void onFlashChanged(String flash);
         void onFocusLocked(boolean locked);
+        void onWhiteBalanceValueChanged(String wb);
+        void onWbColorTemperatureChanged(int colortemp);
 
     }
 
@@ -421,7 +423,12 @@ public class SimpleCameraEventObserver {
         }
         Log.d(TAG, "focusstate: " + focusStatus);
 
-
+        String wbval = JsonUtils.findStringInformation(replyJson,33, "whiteBalance", "currentWhiteBalanceMode");
+        if (!wbval.equals(""))
+        {
+            fireWbChangeListener(wbval);
+            Log.d(TAG, "WB mode: " + wbval);
+        }
         // :
         // : add implementation for Event data as necessary.
     }
@@ -800,6 +807,17 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onFocusLocked(locked);
+                }
+            }
+        });
+    }
+
+    private void fireWbChangeListener(final String wb) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onWhiteBalanceValueChanged(wb);
                 }
             }
         });
