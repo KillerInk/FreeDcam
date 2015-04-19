@@ -155,10 +155,10 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         group.post(new Runnable() {
             @Override
             public void run() {
-                if (isSupported) {
+                if (isSupported && !isVisible) {
                     isVisible = true;
                     group.submenu.addView(ExpandableChild.this);
-                } else if (!isSupported) {
+                } else if (!isSupported && isVisible) {
                     isVisible = false;
                     group.submenu.removeView(ExpandableChild.this);
                 }

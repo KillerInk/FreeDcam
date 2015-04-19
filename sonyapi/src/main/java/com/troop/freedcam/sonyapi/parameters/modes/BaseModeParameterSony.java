@@ -63,6 +63,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         {
             boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
             Log.d(TAG, VALUE_TO_GET + " is supported: " +sup);
+            BackgroundIsSupportedChanged(sup);
             return sup;
         }else
             return false;

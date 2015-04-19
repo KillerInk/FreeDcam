@@ -149,6 +149,10 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onWhiteBalanceValueChanged(String wb) {
             ParameterHandler.WhiteBalanceMode.BackgroundValueHasChanged(wb);
+            if (ParameterHandler.WhiteBalanceMode.GetValue().equals("Color Temperature") && ParameterHandler.CCT != null)
+                ParameterHandler.CCT.BackgroundIsSupportedChanged(true);
+            else
+                ParameterHandler.CCT.BackgroundIsSupportedChanged(false);
         }
 
         @Override

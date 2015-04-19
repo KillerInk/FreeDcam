@@ -11,6 +11,7 @@ import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureCompManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ProgramShiftManualSony;
+import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
@@ -114,6 +115,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         ProgramShift = new ProgramShiftManualSony("", "getSupportedProgramShift", "setProgramShift", this);
         parametersChangedList.add((BaseManualParameterSony)ProgramShift);
+
+        CCT = new WbCTManualSony("","","", this);
+        parametersChangedList.add((BaseManualParameterSony) CCT);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
