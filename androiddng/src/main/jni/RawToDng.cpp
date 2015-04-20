@@ -440,6 +440,11 @@ void processTight(TIFF *tif,DngWriter *writer)
     if(writer->rowSize == 0)
         writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
     buffer =(unsigned char *)malloc(writer->rowSize);
+    if (buffer == NULL)
+    {
+        LOGD("allocating buffer failed try again");
+        buffer =(unsigned char *)malloc(writer->rowSize);
+    }
     LOGD("rowsize:%i", writer->rowSize);
 	for (row=0; row < writer->rawheight; row ++)
 	{
@@ -491,6 +496,12 @@ void processLoose(TIFF *tif,DngWriter *writer)
 
     writer->rowSize= (writer->rawwidht+5)/6 << 3;
     buffer =(unsigned char *)malloc(writer->rowSize);
+    if (buffer == NULL)
+    {
+        LOGD("allocating buffer failed try again");
+        buffer =(unsigned char *)malloc(writer->rowSize);
+    }
+
 
 	for (row=0; row < writer->rawheight; row ++)
 	{
