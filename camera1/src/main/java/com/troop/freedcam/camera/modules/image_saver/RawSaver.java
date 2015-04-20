@@ -21,8 +21,10 @@ public class RawSaver extends JpegSaver
     {
         handler.post(new Runnable() {
             @Override
-            public void run() {
-                saveBytesToFile(data, new File(getStringAddTime() + fileEnding));
+            public void run()
+            {
+                final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
+                saveBytesToFile(data, new File(getStringAddTime() + lastBayerFormat + fileEnding));
             }
         });
     }
