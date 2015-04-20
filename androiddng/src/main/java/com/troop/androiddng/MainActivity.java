@@ -75,8 +75,9 @@ public class MainActivity extends Activity {
             int r = data.length / g3H;
             int rowsize = data.length/ 3120;  //Integer.parseInt(box.getEditableText().toString());
             RawToDng dng = RawToDng.GetInstance();
+			RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue(data.length);
             dng.OverWriteRowSize = Integer.parseInt(box.getEditableText().toString());
-            dng.SetBayerData(data, out, 5388, 3752);
+            dng.SetBayerData(data, out, device.width, device.height);
             dng.setExifData(0,0,0,0,0,"0","0",0);
             dng.WriteDNG();
             dng.RELEASE();
