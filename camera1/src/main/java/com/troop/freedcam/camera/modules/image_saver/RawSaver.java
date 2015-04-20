@@ -17,6 +17,18 @@ public class RawSaver extends JpegSaver
     }
 
     @Override
+    public void TakePicture()
+    {
+        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        {
+            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
+
+            return;
+        }
+        super.TakePicture();
+    }
+
+    @Override
     public void onPictureTaken(final byte[] data)
     {
         handler.post(new Runnable() {
