@@ -440,6 +440,7 @@ void processTight(TIFF *tif,DngWriter *writer)
     if(writer->rowSize == 0)
         writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
     buffer =(unsigned char *)malloc(writer->rowSize);
+    memset( buffer, 0, writer->rowSize);
     if (buffer == NULL)
     {
         LOGD("allocating buffer failed try again");
@@ -473,9 +474,13 @@ void processTight(TIFF *tif,DngWriter *writer)
     LOGD("Free Memory");
 
     if(buffer != NULL)
+    {
+        LOGD("Free Buffer");
         free(buffer);
-    if(pixel != NULL)
-        free(pixel);
+        buffer = NULL;
+        LOGD("Freed Buffer");
+    }
+
 
 
 	//free(pixel);
@@ -496,6 +501,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 
     writer->rowSize= (writer->rawwidht+5)/6 << 3;
     buffer =(unsigned char *)malloc(writer->rowSize);
+    memset( buffer, 0, writer->rowSize);
     if (buffer == NULL)
     {
         LOGD("allocating buffer failed try again");
@@ -541,9 +547,13 @@ void processLoose(TIFF *tif,DngWriter *writer)
     TIFFClose(tif);
     LOGD("Free Memory");
     if(buffer != NULL)
-	    free(buffer);
-    if(pixel != NULL)
-        free(pixel);
+    {
+        LOGD("Free Buffer");
+        free(buffer);
+        buffer = NULL;
+        LOGD("Freed Buffer");
+    }
+
     LOGD("Mem Released");
 }
 
