@@ -32,20 +32,12 @@ public class RawToDng
         G3_Qcom(                17326080,   g3_blacklevel,  BGGR,    4164, 3120,    false,   getG3_rowSizeL),
         K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL),
         IMX135_214(             16424960,   g3_blacklevel,  BGGR,    4208, 3120,    true,    g3_rowSizeKitKat),
-        //G3_Qcom_LL(             17326080, "LG G3",                  g3_blacklevel,  g3_color1, g3_color2, g3_neutral, "bggr",4096,2592, false,   getG3_rowSizeL),
-        //ElifeE7(                19906560, "Gionee Elife E7",        0,              g3_color1, g3_color2, g3_neutral, "grbg",4608,3456, true,   0),
-        //OmniVision_OV5648(       6721536, "OmniVision_OV5648",      0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, true,   0),
-        //looseraws
         XperiaL(                10788864,   g3_blacklevel,  BGGR,    3282, 2448,    false,   XperiaL_rowSize),
         OneSV(                  6746112 ,   0,              BGGR,    2592, 1944,    false,   XperiaL_rowSize),
         MT4G(                   10782464,   g3_blacklevel,  RGGb,    3282, 2448,    false,   XperiaL_rowSize),
         HtcOneSv(               6746112 ,   0,              GRBG,    2592, 1952,    false,   0),
         M9Mipi(                 25677824,   g3_blacklevel,  GRBG,    5388, 3752,    true,    0),
         M9Qcom(                 27127808,   g3_blacklevel,  GRBG,    5388, 3752,    false,   0);
-        //OmniVision_OV5648_1(    6721536,  "OmniVision_OV5648_1",    0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
-        //HTCOneSV(               6746112,  "HTCOneSV",               0,              g3_color1, g3_color2, g3_neutral, "grbg",2592,1944, false,  0),
-        //HTC_MyTouch_4G_Slide(   10782464, "HTC_MyTouch_4G_Slide",   0,              g3_color1, g3_color2, g3_neutral, "grbg",3282,2448, false,  0);
-
 
         private final int filesize;
         private final int blacklvl;
@@ -296,88 +288,95 @@ public class RawToDng
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
         if (DeviceUtils.isHTC_M8())
         {
-            if (filepath.contains("qcom")) {
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
-                setRawHeight(1520);
-            }
-            else {
-                Log.d(TAG, "is htc m8 raw");
-                //convertRawBytesToDng(data, fileToSave, width, height, nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, RawToDng.HTCM8_rowSize, "HTC M8", true, iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);
-                SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", true);
-                setRawHeight(1520);
-            }
-
+            //on m8 the raw size change with each shot. We use the Build.model to check and then use the hardcoded rowsize
+            processM8();
         }
         else
         {
-
             final SupportedDevices device = SupportedDevices.GetValue((int)GetRawSize());
             if (device!= null)
             {
-                int rowsize = 0;
-
-                if (OverWriteRowSize == -1)
-                {
-                    if (device.rowsize > 0)
-                        rowsize = device.rowsize;
-                }
-                else
-                    rowsize = OverWriteRowSize;
-                Log.d(TAG, "is Hardcoded format: " + device.toString());
-                //defcomg was here 24/01/2015 messed up if status with a random number
-                if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
-                {
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, rowsize, Build.MODEL,device.tightraw);
-                    setRawHeight(3120);
-                    Log.d(TAG, "mipi");
-                    /*convertRawBytesToDng(data, fileToSave, device.width, 3120,
-                            g3_color1, g3_color2, g3_neutral,
-                            device.blacklvl, device.imageformat, device.rowsize,
-                            Name, device.tightraw,iso, exposure,Build.MANUFACTURER,Build.MODEL,Flash,Aperture,Focal,IDESC,Thumb,orr,Altitude,Latitude,Longitude,Provider, gpsTime);*/
-                }
-                else
-                {
-                    if (device.tightraw)
-                    {
-                        Log.d(TAG, "mipi");
-                        SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
-                        setRawHeight(device.height);
-                    }
-                    else
-                    {
-                        if (filepath.contains("ideal-qcom")) {
-                            Log.d(TAG, "ideal");
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, rowsize, Build.MODEL, device.tightraw);
-                            setRawHeight(device.height);
-                        }
-                        else
-                        {
-                            Log.d(TAG, "qcom");
-                            SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
-                            setRawHeight(device.height);
-                        }
-                    }
-                }
+                processSupportedDevices(device);
             }
             else
             {
-                if (filepath.contains("qcom") || filepath.contains("raw"))
-                {
-                    Log.d(TAG, "qcom/ideal");
-                    SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, 0, Build.MODEL, false);
-                    setRawHeight(GetRawHeight(nativeHandler));
-                }
-                else {
-                    Log.d(TAG, "mipi");
-                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, 0, Build.MODEL, true);
-                    setRawHeight(GetRawHeight(nativeHandler));
-                }
+                processUnknownDevices();
             }
 
         }
         WriteDNG(nativeHandler);
         RELEASE();
-        //System.gc();
+    }
+
+    private void processUnknownDevices() {
+        if (filepath.contains("qcom") || filepath.contains("raw"))
+        {
+            Log.d(TAG, "qcom/ideal");
+            SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, bayerpattern, 0, Build.MODEL, false);
+            setRawHeight(GetRawHeight(nativeHandler));
+        }
+        else {
+            Log.d(TAG, "mipi");
+            SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, bayerpattern, 0, Build.MODEL, true);
+            setRawHeight(GetRawHeight(nativeHandler));
+        }
+    }
+
+    private void processSupportedDevices(SupportedDevices device) {
+        int rowsize = 0;
+
+        if (OverWriteRowSize == -1)
+        {
+            if (device.rowsize > 0)
+                rowsize = device.rowsize;
+        }
+        else
+            rowsize = OverWriteRowSize;
+        Log.d(TAG, "is Hardcoded format: " + device.toString());
+
+        //lenovo k910 has samefilesize as g3, but g3 height is smaller
+        if (GetRawSize() == 164249650 && !DeviceUtils.isLGADV())
+        {
+            SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, rowsize, Build.MODEL,device.tightraw);
+            setRawHeight(3120);
+            Log.d(TAG, "mipi");
+        }
+        else
+        {
+            if (device.tightraw)
+            {
+                Log.d(TAG, "mipi");
+                SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
+                setRawHeight(device.height);
+            }
+            else
+            {
+                if (filepath.contains("ideal-qcom")) {
+                    Log.d(TAG, "ideal");
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, 0, device.imageformat, rowsize, Build.MODEL, device.tightraw);
+                    setRawHeight(device.height);
+                }
+                else
+                {
+                    Log.d(TAG, "qcom");
+                    SetBayerInfo(g3_color1, g3_color2, g3_neutral, device.blacklvl, device.imageformat, rowsize, Build.MODEL, device.tightraw);
+                    setRawHeight(device.height);
+                }
+            }
+        }
+    }
+
+    private void processM8()
+    {
+        Log.d(TAG, "is htc m8 raw");
+        if (filepath.contains("qcom")) {
+            SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
+            setRawHeight(1520);
+        }
+        else {
+            SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", true);
+            setRawHeight(1520);
+        }
     }
 
     public static byte[] readFile(File file) throws IOException {
