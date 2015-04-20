@@ -1,6 +1,8 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
+import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
@@ -25,6 +27,8 @@ public class DngSaver extends JpegSaver
     final public String fileEnding = ".dng";
     private String lastBayerFormat;
     final RawToDng dngConverter;
+
+    final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
     {
         super(cameraHolder, i_workeDone, handler);
@@ -34,6 +38,7 @@ public class DngSaver extends JpegSaver
     @Override
     public void TakePicture()
     {
+        Log.d(TAG, "Start Take Picture");
         lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
         if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
         {
@@ -47,6 +52,7 @@ public class DngSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        Log.d(TAG, "Take Picture Callback");
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +66,7 @@ public class DngSaver extends JpegSaver
     {
         try
         {
+            Log.d(TAG, "Check if if rawStream");
             final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
             final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
             int iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
@@ -68,6 +75,7 @@ public class DngSaver extends JpegSaver
                 iWorkeDone.OnError("Error: Returned Stream is not a RawStream");
                 //dngJpegShot =false;
                 //dngcapture = false;
+                Log.d(TAG, "Error no RAw stream!!!!");
                 return;
             }
         }
@@ -76,7 +84,7 @@ public class DngSaver extends JpegSaver
 
         }
 
-
+        Log.d(TAG, "Is raw stream");
         int w = 0;
         int h = 0;
 
@@ -88,6 +96,7 @@ public class DngSaver extends JpegSaver
         long gpsTime = 0;
         if (cameraHolder.gpsLocation != null)
         {
+            Log.d(TAG, "Has GPS");
             Altitude = cameraHolder.gpsLocation.getAltitude();
             Latitude = cameraHolder.gpsLocation.getLatitude();
             Longitude = cameraHolder.gpsLocation.getLongitude();
@@ -96,9 +105,27 @@ public class DngSaver extends JpegSaver
             dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
         }
         String raw[] = getRawSize();
-        if (raw != null) {
+        if (raw != null && raw.length == 2)
+        {
             w = Integer.parseInt(raw[0]);
             h = Integer.parseInt(raw[1]);
+            Log.d(TAG, "Found RawSize:" + w + "x" + h);
+        }
+        else
+        {
+            Log.d(TAG, "Cant find rawSize from Parameters, search HardCoded DEvices");
+            RawToDng.SupportedDevices devices = RawToDng.SupportedDevices.GetValue(data.length);
+            if (devices != null)
+            {
+                w = devices.width;
+                h = devices.height;
+                Log.d(TAG, "Found RawSize:" + w + "x" + h);
+            }
+            else
+            {
+                Log.d(TAG, "No HardCoded device found! Start Crashing....");
+                throw new NullPointerException("ERROR NO RAWSIZE FOUND! " + Build.MANUFACTURER + " " + Build.DEVICE);
+            }
         }
         dngConverter.SetBayerData(data, file.getAbsolutePath(), w, h);
         dngConverter.setExifData(0, 0, 0, 0, 0, "0", cameraHolder.Orientation + "", 0);
