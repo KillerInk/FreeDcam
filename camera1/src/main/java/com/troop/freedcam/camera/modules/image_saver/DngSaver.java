@@ -146,7 +146,8 @@ public class DngSaver extends JpegSaver
         {
             if (((CamParametersHandler)cameraHolder.ParameterHandler).GetRawSize() != "") {
                 String rawSize = ((CamParametersHandler)cameraHolder.ParameterHandler).GetRawSize();
-                raw = rawSize.split("x");
+                if(rawSize != null && !rawSize.equals(""))
+                    raw = rawSize.split("x");
             }
         }
         return raw;
