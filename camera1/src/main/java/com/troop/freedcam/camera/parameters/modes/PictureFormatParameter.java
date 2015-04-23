@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Build;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -73,6 +75,8 @@ public class PictureFormatParameter extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
+        if((Build.MANUFACTURER.contains("samsung") || Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
+            return  new String[]{"jpeg"};
         if (DeviceUtils.isMediaTekDevice())
             return new String[]{"jpeg", "raw"};
         /*else if(DeviceUtils.isG2())
