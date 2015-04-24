@@ -37,17 +37,19 @@ public class ExpandAbleChildHistogram extends ExpandableChildOrientationHack
             {
                 fromSettings = true;
                 aSwitch.setChecked(true);
+
             }
         }
         else
             ((SimpleModeParameter)parameterHolder).setIsSupported(false);
+        aSwitch.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
         final String check = aSwitch.isChecked() +"";
-        appSettingsManager.setString(settingsname,  check);
+        appSettingsManager.setString(AppSettingsManager.SETTING_HISTOGRAM,  check);
         if (!fromSettings)
             i_activity.ShowHistogram(aSwitch.isChecked());
         else

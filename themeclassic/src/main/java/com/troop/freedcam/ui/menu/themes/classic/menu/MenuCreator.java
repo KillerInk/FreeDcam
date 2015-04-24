@@ -93,7 +93,7 @@ public class MenuCreator
         this.context = context.getActivity().getApplicationContext();
         this.appSettingsManager = appSettingsManager;
         this.activityV2 = activityV2;
-        this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.groupSubMenu);
+        //this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.GroupSubMenu);
 
     }
 

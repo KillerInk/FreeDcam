@@ -96,10 +96,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
 
         videoSettings = menuCreator.CreateVideoSettings(surfaceView);
         grouplist.add(videoSettings);
-        for(ExpandableGroup g : grouplist)
-        {
-            g.SetOnGroupItemClickListner(this);
-        }
+
         //if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
 
 
@@ -215,7 +212,7 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
             fillMainMenu();
             for(ExpandableGroup g : grouplist)
                 g.ModuleChanged(module);
-            picSettings.submenu.removeAllViews();
+            //picSettings.submenu.removeAllViews();
         }
         return null;
     }
@@ -229,11 +226,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         {
             //get values from child attached parameter
             String[] values = selectedChild.getParameterHolder().GetValues();
-            if (selectedChild.getName().equals(context.getString(R.string.picture_format)))
-            {
-                values = getPictureFormats();
-            }
-
             //set values to the adapter
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getActivity().getApplicationContext(),
                     R.layout.simpel_list_item_v2, R.id.textView_simple_list_item_v2, values);
@@ -262,8 +254,9 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     };
 
     @Override
-    public void onGroupClicked(ExpandableGroup group) {
-        if (lastGroupView != null && lastGroupView == group) {
+    public void onGroupClicked(ExpandableGroup group)
+    {
+        /*if (lastGroupView != null && lastGroupView == group) {
             group.submenu.removeAllViews();
             lastGroupView = null;
         }
@@ -273,6 +266,6 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
                 hideChildsSubMenu();
             group.fillSubMenuItems();
             lastGroupView = group;
-        }
+        }*/
     }
 }

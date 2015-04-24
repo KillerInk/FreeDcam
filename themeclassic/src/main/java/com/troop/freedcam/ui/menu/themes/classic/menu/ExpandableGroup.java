@@ -38,7 +38,7 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
 
     public ExpandableGroup(Context context, LinearLayout submenu, AppSettingsManager appSettingsManager) {
         super(context);
-        this.submenu = submenu;
+
         this.appSettingsManager = appSettingsManager;
         init(context);
     }
@@ -61,20 +61,19 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         if (theme.equals("Nubia"))
             inflater.inflate(R.layout.expandable_groups_nubia, this);*/
         //inflater.inflate(R.layout.expandable_groups, this);
-
+        this.submenu = (LinearLayout)findViewById(R.id.GroupSubMenu);
         this.textView = (TextView)findViewById(R.id.tvGroup);
         this.textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v)
             {
-
-                if (onGroupClicked != null)
-                    onGroupClicked.onGroupClicked(ExpandableGroup.this);
+                OnGROUPCLick();
             }
         });
         this.groupcontainer = (LinearLayout)findViewById(R.id.GroupContainer);
 
         //groupcontainer.removeView(submenu);
+        submenu.setVisibility(GONE);
         submenuVisible =false;
     }
 
@@ -119,9 +118,10 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
 
 
     @Override
-    public String ModuleChanged(String module) {
+    public String ModuleChanged(String module)
+    {
         fillSubMenuItems();
-        return null;
+        return module;
     }
 
     public void setOnChildClick(OnClickListener onChildClick)
@@ -131,5 +131,13 @@ public class ExpandableGroup extends LinearLayout implements I_ModuleEvent
         {
             child.setOnClickListener(onChildclick);
         }
+    }
+
+    public void OnGROUPCLick()
+    {
+        if(submenu.getVisibility() == VISIBLE)
+            submenu.setVisibility(GONE);
+        else
+            submenu.setVisibility(VISIBLE);
     }
 }

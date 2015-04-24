@@ -36,7 +36,7 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
         aSwitch = (Switch)findViewById(R.id.switch1);
         aSwitch.setText(Name);
         parameterHolder = new SimpleModeParameter();
-        aSwitch.setOnCheckedChangeListener(this);
+
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -45,10 +45,15 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
         if (cameraUiWrapper instanceof CameraUiWrapper) {
             ((SimpleModeParameter) parameterHolder).setIsSupported(true);
             if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+            {
                 aSwitch.setChecked(true);
+
+            }
+            else aSwitch.setChecked(false);
         }
         else
             ((SimpleModeParameter)parameterHolder).setIsSupported(false);
+        aSwitch.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -112,7 +117,7 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
         final String check = aSwitch.isChecked() +"";
-        appSettingsManager.setString(settingsname,  check);
+        appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  check);
         ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetCameraRotation();
         ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
 
