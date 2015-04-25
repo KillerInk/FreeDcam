@@ -272,7 +272,9 @@ public class CameraHolderSony extends AbstractCameraHolder
                                             new SimpleStreamSurfaceView.StreamErrorListener() {
 
                                                 @Override
-                                                public void onError(StreamErrorReason reason) {
+                                                public void onError(StreamErrorReason reason)
+                                                {
+                                                    Log.e(TAG, "Error StartingLiveView");
                                                     stopLiveview();
                                                 }
                                             });
@@ -465,17 +467,18 @@ public class CameraHolderSony extends AbstractCameraHolder
      */
     private void closeConnection() {
 
-        if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
-        {
 
-            SetLiveViewFrameInfo(false);
-        }
         Log.d(TAG, "closeConnection(): exec.");
         if (mLiveviewSurface == null || mEventObserver == null || mAvailableCameraApiSet == null)
             return;
         // Liveview stop
         Log.d(TAG, "closeConnection(): LiveviewSurface.stop()");
-        if (mLiveviewSurface != null) {
+        if (mLiveviewSurface != null)
+        {
+            if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+            {
+                SetLiveViewFrameInfo(false);
+            }
             mLiveviewSurface.stop();
             mLiveviewSurface = null;
             stopLiveview();

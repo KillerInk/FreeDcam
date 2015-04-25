@@ -134,7 +134,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             mErrorListener.onError(StreamErrorListener.StreamErrorReason.OPEN_ERROR);
             return false;
         }
-
         if (mWhileFetching) {
             Log.w(TAG, "start() already starting.");
             return false;
@@ -202,7 +201,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     DataExtractor frameExtractor =null;
                     try {
                         dataExtractor = mJpegQueue.take();
-                        frameExtractor = frameQueue.take();
+                        if (!frameQueue.isEmpty())
+                            frameExtractor = frameQueue.take();
 
 
                     } catch (IllegalArgumentException e) {
