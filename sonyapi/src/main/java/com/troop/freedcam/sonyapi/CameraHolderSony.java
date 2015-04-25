@@ -430,8 +430,10 @@ public class CameraHolderSony extends AbstractCameraHolder
                         startLiveview();
                     }
 
-                    if(JsonUtils.isCameraApiAvailable("setLiveviewFrameInfo", mAvailableCameraApiSet))
+                    if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+                    {
                         SetLiveViewFrameInfo(true);
+                    }
 
                     // prepare UIs
                     if (JsonUtils.isCameraApiAvailable("getAvailableShootMode", mAvailableCameraApiSet)) {
@@ -463,6 +465,11 @@ public class CameraHolderSony extends AbstractCameraHolder
      */
     private void closeConnection() {
 
+        if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+        {
+
+            SetLiveViewFrameInfo(false);
+        }
         Log.d(TAG, "closeConnection(): exec.");
         if (mLiveviewSurface == null || mEventObserver == null || mAvailableCameraApiSet == null)
             return;
