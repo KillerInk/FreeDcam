@@ -32,7 +32,7 @@ public class ExpandableChildGps extends ExpandableChild implements LocationListe
 
     public ExpandableChildGps(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
-        parameterHolder = new SimpleModeParameter();
+        parameterHolder = new SimpleModeParameter(null);
         ((SimpleModeParameter)parameterHolder).setIsSupported(true);
     }
 

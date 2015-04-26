@@ -109,7 +109,7 @@ public class MenuCreator
             picSize.setParameterHolder(parameterHandler.PictureSize,cameraUiWrapper.moduleHandler.PictureModules);
         }
         if (dngSwitch != null)
-            dngSwitch.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.PictureModules, parameterHandler);
+            dngSwitch.setParameterHolder(new SimpleModeParameter(null), cameraUiWrapper.moduleHandler.PictureModules, parameterHandler);
         if (parameterHandler.PictureFormat != null)
         {
             picformat.PictureFormatChangedHandler = dngSwitch;
@@ -206,8 +206,8 @@ public class MenuCreator
             previewSize.setParameterHolder(parameterHandler.PreviewSize, cameraUiWrapper.moduleHandler.LongeExpoModules);
         }
 
-        longExposureTime.setParameterHolder(new LongExposureSetting(null,null,"",""), cameraUiWrapper.moduleHandler.LongeExpoModules);
-        timelapseframes.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.VideoModules);
+        longExposureTime.setParameterHolder(new LongExposureSetting(null,null,null,"",""), cameraUiWrapper.moduleHandler.LongeExpoModules);
+        timelapseframes.setParameterHolder(new SimpleModeParameter(null), cameraUiWrapper.moduleHandler.VideoModules);
 
 
         if (parameterHandler.VideoProfiles != null)
@@ -224,7 +224,7 @@ public class MenuCreator
             videoHdr.setParameterHolder(parameterHandler.VideoHDR,cameraUiWrapper.moduleHandler.VideoModules);
         }
         if(cameraUiWrapper instanceof CameraUiWrapper)
-            saveCamparas.setParameterHolder(new SimpleModeParameter(), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
+            saveCamparas.setParameterHolder(new SimpleModeParameter(null), cameraUiWrapper.moduleHandler.AllModules, cameraUiWrapper);
         if (sonyExpandableChild != null && sonyExpandableChild.getParameterHolder() != null && sonyExpandableChild.getParameterHolder().IsSupported())
             sonyExpandableChild.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
 

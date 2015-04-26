@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -13,12 +15,8 @@ public class NonZslManualModeParameter extends BaseModeParameter
 {
     BaseCameraHolder baseCameraHolder;
 
-    public NonZslManualModeParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
-    }
-
-    public NonZslManualModeParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
-        super(parameters, parameterChanged, value, values);
+    public NonZslManualModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+        super(handler,parameters, parameterChanged, value, values);
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
     }
 

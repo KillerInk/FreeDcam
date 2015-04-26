@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -13,9 +15,9 @@ public class VideoHDRModeParameter extends  BaseModeParameter
 {
     BaseCameraHolder baseCameraHolder;
 
-    public VideoHDRModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public VideoHDRModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
-        super(parameters, parameterChanged, value, values);
+        super(handler,parameters, parameterChanged, value, values);
         if (DeviceUtils.isLGADV()) {
             this.value = "hdr-mode";
             this.isSupported = true;

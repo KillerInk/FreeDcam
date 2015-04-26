@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
@@ -12,15 +14,15 @@ public class IsoModeParameter extends BaseModeParameter
 {
     I_CameraHolder baseCameraHolder;
 
-    public IsoModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values)
+    public IsoModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
-        super(parameters, parameterChanged, value, values);
+        super(handler, parameters, parameterChanged, value, values);
         isIso();
     }
 
-    public IsoModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public IsoModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
-        super(parameters, parameterChanged, value, values);
+        super(handler, parameters, parameterChanged, value, values);
         isIso();
         this.baseCameraHolder = baseCameraHolder;
     }

@@ -51,12 +51,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             Log.d(TAG, keys.get(i).getName());
         }
         boolean muh = this.cameraHolder.characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE );
-        FlashMode = new FlashModeApi2(this.cameraHolder);
-        SceneMode = new SceneModeApi2(this.cameraHolder);
-        ColorMode = new ColorModeApi2(this.cameraHolder);
-        ExposureMode = new ControlModesApi2(this.cameraHolder);
-        PictureSize = new PictureSizeModeApi2(this.cameraHolder);
-        PictureFormat = new PictureFormatParameterApi2(this.cameraHolder);
+        FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
+        SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
+        ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
+        ExposureMode = new ControlModesApi2(uiHandler,this.cameraHolder);
+        PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
+        PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
         Zoom = new ZoomApi2(this, cameraHolder);
         ManualShutter = new ManualExposureTimeApi2(this, cameraHolder);

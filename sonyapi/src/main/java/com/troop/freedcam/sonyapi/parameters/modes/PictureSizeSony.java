@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
 import org.json.JSONArray;
@@ -13,9 +15,9 @@ import java.io.IOException;
  */
 public class PictureSizeSony extends BaseModeParameterSony
 {
-    public PictureSizeSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi api)
+    public PictureSizeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi api)
     {
-        super(VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, api);
+        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, api);
     }
 
     @Override

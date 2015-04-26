@@ -22,6 +22,8 @@ public class CameraParametersEventHandler
 
     public void ParametersHasLoaded()
     {
+        if (parametersLoadedListner == null)
+            return;
         for(int i= 0; i< parametersLoadedListner.size(); i++)
         {
             if (parametersLoadedListner.get(i) == null) {

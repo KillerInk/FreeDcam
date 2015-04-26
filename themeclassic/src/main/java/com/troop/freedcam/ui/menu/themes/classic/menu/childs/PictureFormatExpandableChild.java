@@ -51,6 +51,8 @@ public class PictureFormatExpandableChild extends ExpandableChild
            String campara = parameterHolder.GetValue();
            if (campara.equals(""))
                campara = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+           if (campara.equals(""))
+               return;
            onValueChanged(campara);
            PictureFormatChangedHandler.VideoProfileChanged(campara);
        }

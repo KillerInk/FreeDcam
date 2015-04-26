@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 
@@ -12,8 +13,8 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class FlashModeApi2 extends BaseModeApi2 {
-    public FlashModeApi2(BaseCameraHolderApi2 baseCameraHolderApi2) {
-        super(baseCameraHolderApi2);
+    public FlashModeApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2) {
+        super(handler,baseCameraHolderApi2);
     }
 
     public enum FlashModes

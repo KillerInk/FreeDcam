@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -16,9 +17,9 @@ public class VideoSizeParameter extends BaseModeParameter
     public final String UHDSIZE = "3840x2160";
     private static String TAG = StringUtils.TAG + VideoSizeParameter.class.getSimpleName();
 
-    public VideoSizeParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values)
+    public VideoSizeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
-        super(parameters, parameterChanged, value, values);
+        super(handler,parameters, parameterChanged, value, values);
         String[] sizes = null;
         try {
             sizes = parameters.get("video-size-values").split(",");

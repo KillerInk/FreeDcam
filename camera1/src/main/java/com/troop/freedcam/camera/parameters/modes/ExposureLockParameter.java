@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
@@ -8,8 +10,8 @@ import java.util.HashMap;
  * Created by Ingo on 25.12.2014.
  */
 public class ExposureLockParameter extends BaseModeParameter {
-    public ExposureLockParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
+    public ExposureLockParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler, parameters, parameterChanged, value, values);
     }
 
     @Override

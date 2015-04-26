@@ -2,6 +2,7 @@ package com.troop.freedcam.camera2.parameters.modes;
 
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 
@@ -19,8 +20,8 @@ public class ControlModesApi2 extends BaseModeApi2
         OFF_KEEP_STATE
     }
 
-    public ControlModesApi2(BaseCameraHolderApi2 baseCameraHolderApi2) {
-        super(baseCameraHolderApi2);
+    public ControlModesApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2) {
+        super(handler,baseCameraHolderApi2);
 
     }
 

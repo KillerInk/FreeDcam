@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -10,8 +12,8 @@ import java.util.HashMap;
  */
 public class NightModeParameter extends BaseModeParameter
 {
-    public NightModeParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
+    public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler, parameters, parameterChanged, value, values);
     }
 
     @Override

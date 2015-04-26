@@ -89,8 +89,8 @@ public abstract class AbstractParameterHandler
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
-        GuideList = new GuideList();
-        ThemeList = new ThemeList();
+        GuideList = new GuideList(uiHandler);
+        ThemeList = new ThemeList(uiHandler);
     }
 
     public void SetParametersToCamera() {};

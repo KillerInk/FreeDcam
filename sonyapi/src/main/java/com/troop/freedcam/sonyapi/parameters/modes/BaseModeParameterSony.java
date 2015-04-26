@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -30,12 +31,13 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
 
     protected boolean isSupported =false;
     protected boolean isSetSupported = false;
-    protected String value;
+    protected String value ="";
     protected String[] values;
     private static String TAG = BaseModeParameterSony.class.getSimpleName();
 
-    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
+    public BaseModeParameterSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
+        super(handler);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.VALUES_TO_GET = VALUES_TO_GET;
@@ -103,28 +105,22 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String GetValue()
     {
-        if (value == null) {
+        if (value == null || value.equals("")) {
             jsonObject = null;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                        value = processGetString();
+                        BackgroundValueHasChanged(value);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }).start();
-            while (jsonObject == null) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            String ret = processGetString();
-            value = ret;
-            return ret;
+
+            return value;
         }
         else
             return value;

@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 
@@ -11,12 +13,9 @@ import java.util.HashMap;
 public class PreviewFormatParameter extends BaseModeParameter
 {
     I_CameraHolder cameraHolder;
-    public PreviewFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
-    }
 
-    public PreviewFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
-        super(parameters, parameterChanged, value, values);
+    public PreviewFormatParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
+        super(handler,parameters, parameterChanged, value, values);
         this.cameraHolder = cameraHolder;
     }
 

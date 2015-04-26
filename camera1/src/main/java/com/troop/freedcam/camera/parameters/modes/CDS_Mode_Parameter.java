@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -11,9 +13,9 @@ import java.util.HashMap;
 public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
+    public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
-        super(parameters, cameraHolder, value, values);
+        super(handler,parameters, cameraHolder, value, values);
         try {
             final String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))

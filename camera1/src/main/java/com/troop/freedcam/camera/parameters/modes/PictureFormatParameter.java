@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -17,8 +18,8 @@ public class PictureFormatParameter extends BaseModeParameter
 {
     CamParametersHandler camParametersHandler;
     AppSettingsManager appSettingsManager;
-    public PictureFormatParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
-        super(parameters, parameterChanged, value, values);
+    public PictureFormatParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CamParametersHandler camParametersHandler, AppSettingsManager appSettingsManager) {
+        super(handler, parameters, parameterChanged, value, values);
         try
         {
             final String t = parameters.get("picture-format");

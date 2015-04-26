@@ -96,7 +96,9 @@ public class ExpandableChildExternalShutter extends ExpandableChild
         private String[] values = {VoLP, VoLM, Hook};
 
         public ParameterExternalShutter()
-        {}
+        {
+            super(null);
+        }
 
         public boolean IsSupported()
         {

@@ -2,6 +2,8 @@ package com.troop.freedcam.i_camera.parameters;
 
 //defcomg was here
 
+import android.os.Handler;
+
 /**
  * Created by George on 1/19/2015.
  */
@@ -9,8 +11,8 @@ public class GuideList extends AbstractModeParameter
 {
 
     String value;
-    public GuideList() {
-
+    public GuideList(Handler uiHandler) {
+        super(uiHandler);
         //this.appSettingsManager = appSettingsManager;
 
 

@@ -108,7 +108,7 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameterHolder.IsSupported())
         {
             String campara = parameterHolder.GetValue();
-            if (campara != null)
+            if (campara != null && !campara.equals(""))
                 onValueChanged(campara);
             //onIsSupportedChanged(true);
         }
@@ -138,33 +138,23 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
     }
     private void set(final String settingValue)
     {
-        if (valueTextView != null)
-            valueTextView.post(new Runnable() {
-            @Override
-            public void run() {
+        if (valueTextView == null)
+            return;
+        valueTextView.setText(settingValue);
+        valueTextView.invalidate();
 
-                if (valueTextView != null)
-                    valueTextView.setText(settingValue);
-            }
-        });
     }
 
     @Override
     public void onIsSupportedChanged(final boolean isSupported)
     {
-        group.post(new Runnable() {
-            @Override
-            public void run() {
-                if (isSupported && !isVisible) {
-                    isVisible = true;
-                    ExpandableChild.this.setVisibility(VISIBLE);
-                } else if (!isSupported && isVisible) {
-                    isVisible = false;
-                    ExpandableChild.this.setVisibility(GONE);
-                }
-            }
-        });
-
+        if (isSupported && !isVisible) {
+            isVisible = true;
+            ExpandableChild.this.setVisibility(VISIBLE);
+        } else if (!isSupported && isVisible) {
+            isVisible = false;
+            ExpandableChild.this.setVisibility(GONE);
+        }
     }
 
     @Override

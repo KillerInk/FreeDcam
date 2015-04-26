@@ -35,7 +35,7 @@ public class ExpandableChildOrientationHack extends ExpandableChild implements C
         inflater.inflate(R.layout.expandablechildboolean_on_off, this);
         aSwitch = (Switch)findViewById(R.id.switch1);
         aSwitch.setText(Name);
-        parameterHolder = new SimpleModeParameter();
+        parameterHolder = new SimpleModeParameter(null);
 
     }
 

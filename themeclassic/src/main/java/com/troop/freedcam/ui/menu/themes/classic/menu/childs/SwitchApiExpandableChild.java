@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu.themes.classic.menu.childs;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -21,7 +22,7 @@ public class SwitchApiExpandableChild extends ExpandableChild
     public SwitchApiExpandableChild(Context context,I_Activity activity, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
         super(context, group, name, appSettingsManager, settingsname);
         this.activity = activity;
-        this.parameterHolder = new simpleModeParam();
+        this.parameterHolder = new simpleModeParam(null);
     }
 
 
@@ -68,6 +69,10 @@ public class SwitchApiExpandableChild extends ExpandableChild
 
     class simpleModeParam extends AbstractModeParameter
     {
+        public simpleModeParam(Handler uiHandler) {
+            super(uiHandler);
+        }
+
         @Override
         public boolean IsSupported() {
             return true;

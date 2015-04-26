@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -15,8 +16,9 @@ public class BaseModeApi2 extends AbstractModeParameter {
     BaseCameraHolderApi2 cameraHolder;
     boolean isSupported = false;
 
-    public BaseModeApi2(BaseCameraHolderApi2 baseCameraHolderApi2)
+    public BaseModeApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
     {
+        super(handler);
         this.cameraHolder = baseCameraHolderApi2;
     }
 

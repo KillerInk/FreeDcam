@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -19,9 +20,9 @@ public class BaseModeParameter extends AbstractModeParameter {
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
-    public BaseModeParameter(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
+    public BaseModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
-        super();
+        super(uihandler);
         this.parameters = parameters;
         this.value = value;
         this.values = values;

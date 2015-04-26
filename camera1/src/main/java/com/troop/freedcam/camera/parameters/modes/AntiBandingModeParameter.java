@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
@@ -9,8 +11,8 @@ import java.util.HashMap;
  */
 public class AntiBandingModeParameter extends BaseModeParameter
 {
-    public AntiBandingModeParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters,parameterChanged, value, values);
+    public AntiBandingModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters,parameterChanged, value, values);
 
     }
 }

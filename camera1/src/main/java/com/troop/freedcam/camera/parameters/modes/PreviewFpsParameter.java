@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
@@ -10,12 +12,9 @@ import java.util.HashMap;
 public class PreviewFpsParameter extends  BaseModeParameter
 {
     BaseCameraHolder cameraHolder;
-    public PreviewFpsParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(parameters, parameterChanged, value, values);
-    }
 
-    public PreviewFpsParameter(HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, BaseCameraHolder holder) {
-        super(parameters, parameterChanged, value, values);
+    public PreviewFpsParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, BaseCameraHolder holder) {
+        super(handler ,parameters, parameterChanged, value, values);
         this.cameraHolder = holder;
     }
 

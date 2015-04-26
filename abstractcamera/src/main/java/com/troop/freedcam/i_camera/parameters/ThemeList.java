@@ -1,5 +1,7 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.os.Handler;
+
 /**
  * Created by George on 3/9/2015.
  */
@@ -7,7 +9,9 @@ public class ThemeList extends AbstractModeParameter
 {
 
     String value;
-    public ThemeList() {
+    public ThemeList(Handler uiHandler)
+    {
+        super(uiHandler);
     }
 
 
