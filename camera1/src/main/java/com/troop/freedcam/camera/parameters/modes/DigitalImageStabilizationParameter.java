@@ -18,7 +18,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
         {
             String tmp = parameters.get("sony-vs");
             if(tmp != null && !tmp.equals("")) {
-                isSupported = true;
+                this.isSupported = true;
                 this.values = "sony-vs-values";
                 this.value = "sony-vs";
             }
@@ -33,7 +33,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
             {
                 String tmp = parameters.get("dis");
                 if(tmp != null && !tmp.equals("")) {
-                    isSupported = true;
+                    this.isSupported = true;
                     this.values = "dis-values";
                     this.value = "dis";
                 }
@@ -43,6 +43,11 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
 
             }
         }
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return this.isSupported;
     }
 
     public DigitalImageStabilizationParameter(HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {

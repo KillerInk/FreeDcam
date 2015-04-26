@@ -162,7 +162,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         Denoise = new BaseModeParameter(cameraParameters, baseCameraHolder, "denoise", "denoise-values");
 //sony-is for images sony-vs for video
 
-        DigitalImageStabilization = new BaseModeParameter(cameraParameters, baseCameraHolder, "", "");
+        DigitalImageStabilization = new DigitalImageStabilizationParameter(cameraParameters, baseCameraHolder, "", "");
 
         MemoryColorEnhancement = new BaseModeParameter(cameraParameters, baseCameraHolder, "mce", "mce-values");
         SkinToneEnhancment = new DigitalImageStabilizationParameter(cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
