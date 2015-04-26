@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.theme.material.menu.MenuFragmentMaterial;
 import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
 
@@ -17,12 +19,17 @@ import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
  */
 public class MaterialUi extends NubiaUi
 {
+    public MaterialUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super(appSettingsManager, iActivity);
+        shutterItemsFragment = new ShutterItemFragmentMaterial();
+        menuFragment = new MenuFragmentMaterial(appSettingsManager, i_activity);
+        manualMenuFragment = new NubiaManualMenuFragment();
+    }
+
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.nubiaui, container, false);
-        shutterItemsFragment = new ShutterItemFragmentMaterial();
-        menuFragment = new MenuFragmentMaterial();
-        manualMenuFragment = new NubiaManualMenuFragment();
+
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
 

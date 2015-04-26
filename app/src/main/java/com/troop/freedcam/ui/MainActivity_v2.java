@@ -606,6 +606,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
+    public Context GetActivityContext() {
+        return getApplicationContext();
+    }
+
+    @Override
     public void onCameraOpen(String message)
     {
         try {

@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
 import com.troop.theme.ambient.AmbientUi;
 import com.troop.theme.ambient.R;
@@ -24,8 +26,9 @@ import com.troop.theme.ambient.R;
 {
     AmbientUi ambientUi;
 
-    public MenuFragmentAmbient(AmbientUi ambientUi)
+    public MenuFragmentAmbient(AmbientUi ambientUi, AppSettingsManager appSettingsManager, I_Activity iActivity)
     {
+        super(appSettingsManager, iActivity);
         this.ambientUi = ambientUi;
     }
 

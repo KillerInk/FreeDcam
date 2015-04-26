@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.menu.themes.classic.menu;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -25,19 +26,19 @@ import java.util.ArrayList;
 /**
  * Created by troop on 19.08.2014.
  */
-public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ParametersLoaded, I_ModuleEvent, I_OnGroupClicked
+public class MenuHandler  implements ListView.OnItemClickListener, TextureView.OnClickListener, I_ModuleEvent, I_OnGroupClicked
 {
     MenuFragment context;
     AbstractCameraUiWrapper cameraUiWrapper;
     public MenuCreator menuCreator;
     SurfaceView surfaceView;
-    ArrayList<ExpandableGroup> grouplist;
-    ExpandableGroup picSettings;
-    ExpandableGroup previewSettings;
-    ExpandableGroup videoSettings;
     boolean childsSubmenuVisible = false;
-    ExpandableGroup lastGroupView;
-    //public ScrollView scrollView;
+    ExpandableGroup settings;
+    ExpandableGroup modes;
+    ExpandableGroup quality;
+    ExpandableGroup longexpo;
+    ExpandableGroup picSettings;
+    ExpandableGroup videoSettings;
 
     /**
      * this holds the mainmenu
@@ -57,59 +58,59 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     {
         this.context = context;
         this.appSettingsManager = appSettingsManager;
-        mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
-        listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
-        listView.setOnItemClickListener(this);
+
         loadMenuCreator(context, appSettingsManager, activity);
-        //scrollView = (ScrollView)context.settingsLayoutHolder.findViewById(R.id.scrollView_ExpandAbleListView);
-        context.settingsLayoutHolder.removeView(listView);
     }
 
     public void loadMenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activity) {
         menuCreator = new MenuCreator(context, appSettingsManager,activity);
     }
 
+    public void INIT()
+    {
+        mainMenuView = (LinearLayout) context.settingsLayoutHolder.findViewById(R.id.expandableListViewSettings);
+        listView = (ListView) context.settingsLayoutHolder.findViewById(R.id.subMenuSettings);
+        listView.setOnItemClickListener(this);
+        context.settingsLayoutHolder.removeView(listView);
+        if (settings.getParent() == null)
+        {
+            mainMenuView.addView(settings);
+            mainMenuView.addView(modes);
+            mainMenuView.addView(quality);
+            mainMenuView.addView(picSettings);
+            mainMenuView.addView(videoSettings);
+            mainMenuView.addView(longexpo);
+        }
+        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+
+
+    }
+
+    public void CLEARPARENT()
+    {
+        mainMenuView.removeAllViews();
+    }
+
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.surfaceView = surfaceView;
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-
-        fillMenu();
-        menuCreator.setCameraUiWrapper(cameraUiWrapper);
-        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
-
-    }
-
-
-    private ArrayList<ExpandableGroup> createMenu() {
-        ArrayList<ExpandableGroup> grouplist = new ArrayList<ExpandableGroup>();
-        grouplist.add(menuCreator.CreateSettings());
-        grouplist.add(menuCreator.CreateModeSettings());
-        grouplist.add(menuCreator.CreateQualitySettings());
-        previewSettings = menuCreator.CreatePreviewSettings(surfaceView);
-        grouplist.add(previewSettings);
-
+        settings = menuCreator.CreateSettings();
+        settings.setOnChildClick(this);
+        modes =menuCreator.CreateModeSettings();
+        modes.setOnChildClick(this);
+        quality =menuCreator.CreateQualitySettings();
+        quality.setOnChildClick(this);
+        longexpo = menuCreator.CreatePreviewSettings(surfaceView);
+        longexpo.setOnChildClick(this);
         picSettings = menuCreator.CreatePictureSettings(surfaceView);
-        grouplist.add(picSettings);
-
+        picSettings.setOnChildClick(this);
         videoSettings = menuCreator.CreateVideoSettings(surfaceView);
-        grouplist.add(videoSettings);
+        videoSettings.setOnChildClick(this);
+        menuCreator.setCameraUiWrapper(cameraUiWrapper);
 
-        //if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_VIDEO))
-
-
-        return grouplist;
     }
-
-    private String[] getPictureFormats() {
-        String[] values;
-
-            values = cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
-        return values;
-    }
-
 
     private void showChildsSubMenu()
     {
@@ -125,50 +126,15 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
         //context.settingsLayoutHolder.addView(scrollView);
     }
 
-
-
-    //this get fired when the cameraparametershandler has finished loading the parameters and all values are availible
-    @Override
-    public void ParametersLoaded()
-    {
-        /*appSettingsManager.context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fillMenu();
-            }
-        });*/
-        //SetCameraUiWrapper(cameraUiWrapper);
-        menuCreator.setCameraUiWrapper(cameraUiWrapper);
-    }
-
-    private void fillMenu()
-    {
-        grouplist = createMenu();
-
-    }
-
-    private void fillMainMenu() {
-        mainMenuView.removeAllViews();
-        for (ExpandableGroup g:grouplist)
-        {
-            g.setOnChildClick(this);
-            mainMenuView.addView(g);
-        }
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-
-
         if (selectedChild != null)
         {
             String value = (String) listView.getItemAtPosition(position);
             selectedChild.setValue(value);
             selectedChild = null;
-
         }
-
         if (childsSubmenuVisible)
             hideChildsSubMenu();
         else
@@ -182,36 +148,31 @@ public class MenuHandler  implements ListView.OnItemClickListener, TextureView.O
     {
         if (module == null || module.equals(""))
             module = AbstractModuleHandler.MODULE_PICTURE;
-        if (grouplist != null && mainMenuView != null) {
-            if (module.equals(AbstractModuleHandler.MODULE_LONGEXPO)) {
-                if (grouplist.contains(picSettings))
-                    grouplist.remove(picSettings);
-                if (grouplist.contains(videoSettings))
-                    grouplist.remove(videoSettings);
-                if (!grouplist.contains(previewSettings))
-                    grouplist.add(previewSettings);
+        if (mainMenuView != null) {
+            if (module.equals(AbstractModuleHandler.MODULE_LONGEXPO))
+            {
+                picSettings.setVisibility(View.GONE);
+                videoSettings.setVisibility(View.GONE);
+                longexpo.setVisibility(View.VISIBLE);
             }
             if (module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR))
             {
-                if (!grouplist.contains(picSettings))
-                    grouplist.add(picSettings);
-                if (grouplist.contains(previewSettings))
-                    grouplist.remove(previewSettings);
-                if (grouplist.contains(videoSettings))
-                    grouplist.remove(videoSettings);
+                picSettings.setVisibility(View.VISIBLE);
+                longexpo.setVisibility(View.GONE);
+                videoSettings.setVisibility(View.GONE);
             }
             if (module.equals(AbstractModuleHandler.MODULE_VIDEO))
             {
-                if (grouplist.contains(picSettings))
-                    grouplist.remove(picSettings);
-                if (grouplist.contains(previewSettings))
-                    grouplist.remove(previewSettings);
-                if (!grouplist.contains(videoSettings))
-                    grouplist.add(videoSettings);
+                picSettings.setVisibility(View.GONE);
+                longexpo.setVisibility(View.GONE);
+                videoSettings.setVisibility(View.VISIBLE);
             }
-            fillMainMenu();
-            for(ExpandableGroup g : grouplist)
-                g.ModuleChanged(module);
+            settings.ModuleChanged(module);
+            picSettings.ModuleChanged(module);
+            videoSettings.ModuleChanged(module);
+            longexpo.ModuleChanged(module);
+            quality.ModuleChanged(module);
+            modes.ModuleChanged(module);
             //picSettings.submenu.removeAllViews();
         }
         return null;

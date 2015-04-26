@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.content.Context;
 import android.view.SurfaceView;
 
 /**
@@ -19,4 +20,5 @@ public interface I_Activity
     int[] GetScreenSize();
     void MenuActive(boolean status);
     void ShowHistogram(boolean enable);
+    Context GetActivityContext();
 }

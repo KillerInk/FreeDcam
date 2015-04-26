@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuHandler;
 import com.troop.theme.minimal.R;
@@ -20,6 +22,9 @@ import com.troop.theme.minimal.R;
 public class MenuFragmentMinimal extends MenuFragment {
 
 
+    public MenuFragmentMinimal(AppSettingsManager appSettingsManager, I_Activity i_activity) {
+        super(appSettingsManager, i_activity);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

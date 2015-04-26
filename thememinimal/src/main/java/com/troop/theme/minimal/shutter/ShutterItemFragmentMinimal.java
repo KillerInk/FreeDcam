@@ -99,7 +99,6 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
         return view;
     }
 
-    @Override
     public void MenuActive(boolean status)
     {
         ImageView Shut = (ImageView)view.findViewById(R.id.shutter_imageview);

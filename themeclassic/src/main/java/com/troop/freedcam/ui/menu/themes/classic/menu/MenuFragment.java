@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
@@ -19,7 +20,7 @@ import com.troop.freedcam.ui.menu.themes.R;
 /**
  * Created by troop on 27.02.2015.
  */
-public class MenuFragment extends Fragment
+public class MenuFragment extends Fragment implements I_ParametersLoaded
 {
     public LinearLayout settingsLayoutHolder;
     public MenuHandler menuHandler;
@@ -30,6 +31,17 @@ public class MenuFragment extends Fragment
 
     public View view;
 
+    public MenuFragment(AppSettingsManager appSettingsManager, I_Activity i_activity)
+    {
+        this.appSettingsManager = appSettingsManager;
+        this.i_activity = i_activity;
+        menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
+    }
+
+    public void CLEAR()
+    {
+        menuHandler.CLEARPARENT();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,23 +58,15 @@ public class MenuFragment extends Fragment
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
-        menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
-
-
+        menuHandler.INIT();
         return view;
-    }
-
-    public void SetAppSettings(AppSettingsManager appSettingsManager, I_Activity activity)
-    {
-        this.appSettingsManager = appSettingsManager;
-        this.i_activity = activity;
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
     {
         this.surfaceView =surfaceView;
         this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if (menuHandler != null)
             menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
 
@@ -76,5 +80,10 @@ public class MenuFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        menuHandler.SetCameraUiWrapper(cameraUiWrapper,surfaceView);
     }
 }

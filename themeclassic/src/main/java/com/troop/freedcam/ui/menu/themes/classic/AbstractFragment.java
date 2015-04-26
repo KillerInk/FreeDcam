@@ -17,14 +17,4 @@ public class AbstractFragment extends Fragment implements I_Fragment
 
     }
 
-    @Override
-    public void SetAppSettings(AppSettingsManager appSettingsManager) {
-
-    }
-
-
-    @Override
-    public void SetI_Activity(I_Activity i_activity) {
-
-    }
 }

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class MenuCreator
 {
     protected Context context;
+    MenuFragment fragment;
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected AppSettingsManager appSettingsManager;
     protected AbstractParameterHandler parameterHandler;
@@ -90,7 +91,8 @@ public class MenuCreator
 
     public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activityV2)
     {
-        this.context = context.getActivity().getApplicationContext();
+        this.fragment = context;
+        this.context = activityV2.GetActivityContext();
         this.appSettingsManager = appSettingsManager;
         this.activityV2 = activityV2;
         //this.submenu = (LinearLayout)context.settingsLayoutHolder.findViewById(R.id.GroupSubMenu);
@@ -99,6 +101,7 @@ public class MenuCreator
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
+
         this.cameraUiWrapper = cameraUiWrapper;
         this.parameterHandler = cameraUiWrapper.camParametersHandler;
         if (parameterHandler.PictureSize != null)

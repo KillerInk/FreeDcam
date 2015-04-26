@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.theme.minimal.menu.MenuFragmentMinimal;
 import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
 
@@ -15,12 +17,17 @@ import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
  */
 public class MinimalUi extends NubiaUi
 {
+    public MinimalUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super(appSettingsManager, iActivity);
+        shutterItemsFragment = new ShutterItemFragmentMinimal();
+        menuFragment = new MenuFragmentMinimal(appSettingsManager, i_activity);
+        manualMenuFragment = new NubiaManualMenuFragment();
+    }
+
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.nubiaui, container, false);
-        shutterItemsFragment = new ShutterItemFragmentMinimal();
-        menuFragment = new MenuFragmentMinimal();
-        manualMenuFragment = new NubiaManualMenuFragment();
+
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
         rightview.setVisibility(View.VISIBLE);

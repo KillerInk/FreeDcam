@@ -8,6 +8,4 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 public interface I_Fragment
 {
     void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper);
-    void SetAppSettings(AppSettingsManager appSettingsManager);
-    void SetI_Activity(I_Activity i_activity);
 }

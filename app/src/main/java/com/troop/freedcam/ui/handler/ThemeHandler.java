@@ -54,43 +54,35 @@ public class ThemeHandler implements I_ModuleEvent
 
         if (theme.equals("Ambient"))
         {
-            AmbientUi ambientUi = new AmbientUi();
-            ambientUi.SetI_Activity(activity_v2);
-            ambientUi.SetAppSettings(appSettingsManager);
+            AmbientUi ambientUi = new AmbientUi(appSettingsManager, activity_v2);
             ambientUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = ambientUi;
             inflateFragment(ambientUi);
         }
         if (theme.equals("Classic"))
         {
-            ClassicUi CuiFragment = new ClassicUi();
-            CuiFragment.SetI_Activity(activity_v2);
-            CuiFragment.SetAppSettings(appSettingsManager);
+            ClassicUi CuiFragment = new ClassicUi(appSettingsManager, activity_v2);
+
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
             inflateFragment(CuiFragment);
         }
 
         if (theme.equals("Material")) {
-            MaterialUi materialUi = new MaterialUi();
-            materialUi.SetI_Activity(activity_v2);
-            materialUi.SetAppSettings(appSettingsManager);
+            MaterialUi materialUi = new MaterialUi(appSettingsManager, activity_v2);
             materialUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = materialUi;
             inflateFragment(materialUi);
         }
         if (theme.equals("Minimal")) {
-            MinimalUi minimalUi = new MinimalUi();
-            minimalUi.SetI_Activity(activity_v2);
-            minimalUi.SetAppSettings(appSettingsManager);
+            MinimalUi minimalUi = new MinimalUi(appSettingsManager, activity_v2);
             minimalUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = minimalUi;
             inflateFragment(minimalUi);
         }
         if (theme.equals("Nubia")) {
-            NubiaUi nubiaUi = new NubiaUi();
-            nubiaUi.SetI_Activity(activity_v2);
-            nubiaUi.SetAppSettings(appSettingsManager);
+            NubiaUi nubiaUi = new NubiaUi(appSettingsManager, activity_v2);
+
             nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = nubiaUi;
             inflateFragment(nubiaUi);

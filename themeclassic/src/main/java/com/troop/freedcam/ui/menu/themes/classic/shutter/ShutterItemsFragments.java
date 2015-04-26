@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.menu.themes.classic.shutter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import com.troop.freedcam.ui.menu.themes.R;
 /**
  * Created by troop on 12.03.2015.
  */
-public class ShutterItemsFragments extends Fragment implements I_Activity
+public class ShutterItemsFragments extends Fragment
 {
     public ShutterHandler shutterHandler;
     public CameraSwitchHandler cameraSwitchHandler;
@@ -114,74 +115,6 @@ public class ShutterItemsFragments extends Fragment implements I_Activity
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @Override
-   public void ActivateSonyApi(String Api)
-    {
-
-    }
-
-    @Override
-   public void SetTheme(String Theme){}
-
-    @Override
-   public SurfaceView GetSurfaceView()
-   {
-       return null;
-   }
-
-    @Override
-    public int GetPreviewWidth()
-    {
-        return 0;
-    }
-    @Override
-    public int GetPreviewHeight()
-    {
-        return 0;
-    }
-
-    @Override
-    public int GetPreviewLeftMargine()
-    {
-        return 0;
-
-    }
-    @Override
-    public int GetPreviewRightMargine()
-    {
-        return 0;
-    }
-
-    @Override
-    public int GetPreviewTopMargine()
-    {
-       return 0;
-
-    }
-
-    @Override
-    public void SetPreviewSizeChangedListner(I_PreviewSizeEvent event)
-    {
-
-    }
-
-    public int[] GetScreenSize()
-    {
-        return null;
-    }
-
-    @Override
-    public void MenuActive(boolean status)
-    {
-
-    }
-
-    @Override
-    public void ShowHistogram(boolean enable)
-    {
-
     }
 
 

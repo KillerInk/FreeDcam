@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
 import com.troop.freedcam.themenubia.menu.MenuFragmentNubia;
 import com.troop.freedcam.themenubia.shutter.ShutterItemFragmentNubia;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
 
@@ -20,6 +22,13 @@ public class NubiaUi extends ClassicUi implements I_PreviewSizeEvent
 {
     protected ImageView leftview;
     protected ImageView rightview;
+
+    public NubiaUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super(appSettingsManager, iActivity);
+        shutterItemsFragment = new ShutterItemFragmentNubia();
+        menuFragment = new MenuFragmentNubia(appSettingsManager, i_activity);
+        manualMenuFragment = new NubiaManualMenuFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,9 +44,7 @@ public class NubiaUi extends ClassicUi implements I_PreviewSizeEvent
         view = inflater.inflate(R.layout.nubiaui, container, false);
         leftview = (ImageView)view.findViewById(R.id.imageViewLeft);
         rightview = (ImageView)view.findViewById(R.id.imageViewRight);
-        shutterItemsFragment = new ShutterItemFragmentNubia();
-        menuFragment = new MenuFragmentNubia();
-        manualMenuFragment = new NubiaManualMenuFragment();
+
         rightview.setVisibility(View.VISIBLE);
         rightview.setImageDrawable(getResources().getDrawable(R.drawable.nubia_ui_right_bg));
         leftview.setVisibility(View.VISIBLE);

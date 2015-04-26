@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.themenubia.manual.NubiaManualMenuFragment;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.theme.ambient.menu.MenuFragmentAmbient;
 import com.troop.theme.ambient.shutter.ShutterItemFragmentAmbient;
 
@@ -20,14 +22,20 @@ public class AmbientUi extends NubiaUi
     Bitmap AmbientCoverSML;
     Bitmap TMPBMP;
     public Bitmap AmbientCover;
+
+    public AmbientUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super(appSettingsManager, iActivity);
+        shutterItemsFragment = new ShutterItemFragmentAmbient();
+        menuFragment = new MenuFragmentAmbient(this, appSettingsManager, i_activity);
+
+        manualMenuFragment = new NubiaManualMenuFragment();
+    }
+
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container)
     {
         view = inflater.inflate(R.layout.nubiaui, container, false);
-        shutterItemsFragment = new ShutterItemFragmentAmbient();
-        menuFragment = new MenuFragmentAmbient(this);
 
-        manualMenuFragment = new NubiaManualMenuFragment();
        final int[] size = i_activity.GetScreenSize();
         TMPBMP = BitmapUtil.RotateBitmap(BitmapUtil.getWallpaperBitmap(view.getContext()), -90f, size[0], size[1]);
         BitmapUtil.initBlur(view.getContext(), TMPBMP);
