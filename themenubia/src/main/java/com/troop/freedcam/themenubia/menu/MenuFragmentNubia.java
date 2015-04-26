@@ -31,8 +31,7 @@ public class MenuFragmentNubia extends MenuFragment {
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_nubia_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new NubiaMenuHandler(this, appSettingsManager,i_activity);
-        menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
+        menuHandler.INIT();
 
 
 

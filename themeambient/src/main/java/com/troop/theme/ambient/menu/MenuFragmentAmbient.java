@@ -40,9 +40,7 @@ import com.troop.theme.ambient.R;
         inflater = getActivity().getLayoutInflater().cloneInContext(contextThemeWrapper);
         view = inflater.inflate(R.layout.menu_ambient_fragment, container, false);
         settingsLayoutHolder = (LinearLayout)view.findViewById(R.id.settings_menuHolder);
-        menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
-        menuHandler.SetCameraUiWrapper(cameraUiWrapper, surfaceView);
-
+        menuHandler.INIT();
 
 
         settingsLayoutHolder.setBackgroundColor(Color.TRANSPARENT);
