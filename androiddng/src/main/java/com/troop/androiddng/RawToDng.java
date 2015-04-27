@@ -34,7 +34,7 @@ public class RawToDng
         IMX135_214(             16424960,   g3_blacklevel,  BGGR,    4208, 3120,    true,    g3_rowSizeKitKat),
         XperiaL(                10788864,   g3_blacklevel,  BGGR,    3282, 2448,    false,   XperiaL_rowSize),
         OneSV(                  6746112 ,   0,              BGGR,    2592, 1944,    false,   XperiaL_rowSize),
-        MT4G(                   10782464,   g3_blacklevel,  RGGb,    3282, 2448,    false,   XperiaL_rowSize),
+        MT4G(                   10782464,   g3_blacklevel,  GRBG,    3282, 2448,    false,   XperiaL_rowSize),//HTC ONE XL
         HtcOneSv(               6746112 ,   0,              GRBG,    2592, 1952,    false,   0),
         M9Mipi(                 25677824,   g3_blacklevel,  GRBG,    5388, 3752,    true,    0),
         M9Qcom(                 27127808,   g3_blacklevel,  GRBG,    5388, 3752,    false,   0);
