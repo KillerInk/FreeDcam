@@ -51,7 +51,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         if (cds != null && !cds.equals(""))
             return cds;
         else
-            return "auto";
+            return "off";
     }
 
     @Override
