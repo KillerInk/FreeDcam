@@ -71,6 +71,11 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter CameraMode;
 
+    //yet only seen on m9
+    public AbstractModeParameter RdiMode;
+    public AbstractModeParameter TnrMode;
+    public AbstractModeParameter SecureMode;
+
     //SonyApi
     public AbstractModeParameter ContShootMode;
     public AbstractModeParameter ContShootModeSpeed;

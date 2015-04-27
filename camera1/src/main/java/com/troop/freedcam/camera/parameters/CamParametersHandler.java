@@ -39,6 +39,7 @@ import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
+import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoHDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
@@ -185,6 +186,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
 
         CDS_Mode = new CDS_Mode_Parameter(uiHandler,cameraParameters,baseCameraHolder,"","");
+
+        RdiMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "rdi-mode", "rdi-mode-values");
+        SecureMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "secure-mode", "secure-mode-values");
+        TnrMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "tnr-mode", "tnr-mode-values");
 
         SetCameraRotation();
         SetPictureOrientation(0);

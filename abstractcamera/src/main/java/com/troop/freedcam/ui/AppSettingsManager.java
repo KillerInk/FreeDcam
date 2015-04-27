@@ -65,6 +65,9 @@ public class AppSettingsManager
     public static String SETTING_DUALMODE = "dualMode";
     public static String SETTING_Theme = "theme";
     public static String SETTING_CDS = "cds";
+    public static String SETTING_SECUREMODE = "securemode";
+    public static String SETTING_TNR = "tnr";
+    public static String SETTING_RDI = "rdi";
 
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";
