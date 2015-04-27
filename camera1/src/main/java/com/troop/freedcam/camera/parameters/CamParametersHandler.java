@@ -187,9 +187,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         CDS_Mode = new CDS_Mode_Parameter(uiHandler,cameraParameters,baseCameraHolder,"","");
 
+        //####No idea what they do, m9 specific, only thing they do is to freez the app####
         RdiMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "rdi-mode", "rdi-mode-values");
         SecureMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "secure-mode", "secure-mode-values");
         TnrMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "tnr-mode", "tnr-mode-values");
+        //############################
 
         SetCameraRotation();
         SetPictureOrientation(0);

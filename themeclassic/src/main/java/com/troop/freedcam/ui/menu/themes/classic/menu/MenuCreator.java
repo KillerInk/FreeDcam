@@ -84,9 +84,9 @@ public class MenuCreator
     protected ExpandableChildTheme Theme;
     protected ExpandAbleChildHistogram Histogram;
     protected ExpandableChild CDS;
-    protected ExpandableChild SecureMode;
+    /*protected ExpandableChild SecureMode;
     protected ExpandableChild RdiMode;
-    protected ExpandableChild TnrMode;
+    protected ExpandableChild TnrMode;*/
 
     protected LinearLayout submenu;
 
@@ -236,12 +236,12 @@ public class MenuCreator
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
             aeBracketSwitch.setParameterHolder(parameterHandler.AE_Bracket, cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
         }
-        if (parameterHandler.TnrMode != null && parameterHandler.TnrMode.IsSupported())
+        /*if (parameterHandler.TnrMode != null && parameterHandler.TnrMode.IsSupported())
             TnrMode.setParameterHolder(parameterHandler.TnrMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.RdiMode != null && parameterHandler.RdiMode.IsSupported())
             RdiMode.setParameterHolder(parameterHandler.RdiMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.SecureMode != null && parameterHandler.SecureMode.IsSupported())
-            SecureMode.setParameterHolder(parameterHandler.SecureMode, cameraUiWrapper.moduleHandler.AllModules);
+            SecureMode.setParameterHolder(parameterHandler.SecureMode, cameraUiWrapper.moduleHandler.AllModules);*/
 
         if (parameterHandler.ContShootMode != null)
         {
@@ -418,13 +418,13 @@ public class MenuCreator
         nonZSLMode = new ExpandableChild(context, group, context.getString(R.string.quality_nonmanualzsl), appSettingsManager,AppSettingsManager.SETTING_NONZSLMANUALMODE);
         childlist.add(nonZSLMode);
 
-        SecureMode = new ExpandableChild(context,group,"SecureMode", appSettingsManager, AppSettingsManager.SETTING_SECUREMODE);
+        /*SecureMode = new ExpandableChild(context,group,"SecureMode", appSettingsManager, AppSettingsManager.SETTING_SECUREMODE);
         childlist.add(SecureMode);
 
         TnrMode = new ExpandableChild(context,group,"TnrMode",appSettingsManager,AppSettingsManager.SETTING_TNR);
         childlist.add(TnrMode);
         RdiMode = new ExpandableChild(context,group, "RdiMode", appSettingsManager, AppSettingsManager.SETTING_RDI);
-        childlist.add(RdiMode);
+        childlist.add(RdiMode);*/
 
         /*if(parameterHandler.Histogram.IsSupported())
         {
