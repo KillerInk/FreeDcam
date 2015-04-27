@@ -85,8 +85,8 @@ public class MenuCreator
     protected ExpandAbleChildHistogram Histogram;
     protected ExpandableChild CDS;
     /*protected ExpandableChild SecureMode;
-    protected ExpandableChild RdiMode;
-    protected ExpandableChild TnrMode;*/
+    protected ExpandableChild RdiMode;*/
+    protected ExpandableChild TnrMode;
 
     protected LinearLayout submenu;
 
@@ -236,9 +236,9 @@ public class MenuCreator
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(aeBracketSwitch);
             aeBracketSwitch.setParameterHolder(parameterHandler.AE_Bracket, cameraUiWrapper.moduleHandler.HDRModule, parameterHandler);
         }
-        /*if (parameterHandler.TnrMode != null && parameterHandler.TnrMode.IsSupported())
+        if (parameterHandler.TnrMode != null && parameterHandler.TnrMode.IsSupported())
             TnrMode.setParameterHolder(parameterHandler.TnrMode, cameraUiWrapper.moduleHandler.AllModules);
-        if (parameterHandler.RdiMode != null && parameterHandler.RdiMode.IsSupported())
+        /*if (parameterHandler.RdiMode != null && parameterHandler.RdiMode.IsSupported())
             RdiMode.setParameterHolder(parameterHandler.RdiMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.SecureMode != null && parameterHandler.SecureMode.IsSupported())
             SecureMode.setParameterHolder(parameterHandler.SecureMode, cameraUiWrapper.moduleHandler.AllModules);*/
@@ -366,8 +366,7 @@ public class MenuCreator
         objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking), appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
         childlist.add(objectTrackingMode);
 
-        CDS = new ExpandableChild(context,group, "CDS", appSettingsManager, AppSettingsManager.SETTING_CDS);
-        childlist.add(CDS);
+
 
         group.setItems(childlist);
     }
@@ -397,7 +396,7 @@ public class MenuCreator
         sceneDectecMode = new ExpandableChild(context, group, context.getString(R.string.quality_scenedetect), appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         childlist.add(sceneDectecMode);
 
-        denoiseMode = new ExpandableChild(context, group, context.getString(R.string.quality_denoise), appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
+        denoiseMode = new ExpandableChild(context, group, "WaveletDenoise", appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
         childlist.add(denoiseMode);
 
         digitalImageStabilization = new ExpandableChild(context,group,context.getString(R.string.quality_digitalimagestab),appSettingsManager, AppSettingsManager.SETTING_DIS_MODE);
@@ -418,13 +417,20 @@ public class MenuCreator
         nonZSLMode = new ExpandableChild(context, group, context.getString(R.string.quality_nonmanualzsl), appSettingsManager,AppSettingsManager.SETTING_NONZSLMANUALMODE);
         childlist.add(nonZSLMode);
 
+        //http://en.m.wikipedia.org/wiki/Correlated_double_sampling
+        CDS = new ExpandableChild(context,group, "CorrelatedDoubleSampling", appSettingsManager, AppSettingsManager.SETTING_CDS);
+        childlist.add(CDS);
+
+        TnrMode = new ExpandableChild(context,group,"TemporalNoiseReduction",appSettingsManager,AppSettingsManager.SETTING_TNR);
+        childlist.add(TnrMode);
+
         /*SecureMode = new ExpandableChild(context,group,"SecureMode", appSettingsManager, AppSettingsManager.SETTING_SECUREMODE);
         childlist.add(SecureMode);
 
-        TnrMode = new ExpandableChild(context,group,"TnrMode",appSettingsManager,AppSettingsManager.SETTING_TNR);
-        childlist.add(TnrMode);
         RdiMode = new ExpandableChild(context,group, "RdiMode", appSettingsManager, AppSettingsManager.SETTING_RDI);
-        childlist.add(RdiMode);*/
+        childlist.add(RdiMode);
+
+        */
 
         /*if(parameterHandler.Histogram.IsSupported())
         {
