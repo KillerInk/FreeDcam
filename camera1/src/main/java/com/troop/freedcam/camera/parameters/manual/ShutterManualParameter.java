@@ -21,7 +21,7 @@ public class ShutterManualParameter extends BaseManualParameter
     float Cur;
     public static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
 
-    public static String HTCM9ShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
+    public static String HTCM9ShutterValues = "Auto,1/8000,1/7000/1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
     /*public static String Z5SShutterValues = "0,31.0,30.0,29.0,28.0,27.0,26.0,25.0,24.0,23.0,22.0,21.0,"+
     										"20.0,19.0,18.0,17.0,16.0,15.0,14.0,13.0,12.0,11.0,10.0" +
     										",9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.6,1.3,1.0,0.8,0.6," +
@@ -96,19 +96,19 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMaxValue() {
-    	if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
         else if (DeviceUtils.isLGADV())
-           return Integer.parseInt(parameters.get("max-exposure-time"));
+            return Integer.parseInt(parameters.get("max-exposure-time"));
         else
             return shutterValues.length-1;
     }
 
     @Override
     public int GetMinValue() {
-    	if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-    	else if (DeviceUtils.isLGADV())
+        else if (DeviceUtils.isLGADV())
             return Integer.parseInt(parameters.get("min-exposure-time"));
         return 0;
     }
@@ -121,14 +121,13 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-    	if(DeviceUtils.isSonyADV())
+        if(DeviceUtils.isSonyADV())
         {
-        	parameters.put("sony-ae-mode", "manual");
-    		parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
+            parameters.put("sony-ae-mode", "manual");
+            parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-
-        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9() || DeviceUtils.isZTEADV())
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -140,28 +139,29 @@ public class ShutterManualParameter extends BaseManualParameter
 
             }
 
-            if(!shutterValues[current].equals("Auto")){
+            if(!shutterValues[current].equals("Auto"))
+            {
 
-            if (DeviceUtils.isZTEADV()){
+                if (DeviceUtils.isZTEADV()){
 
-                parameters.put("slow_shutter", shutterstring);
-                parameters.put("slow_shutter_addition", "1");
+                    parameters.put("slow_shutter", shutterstring);
+                    parameters.put("slow_shutter_addition", "1");
 
-                baseCameraHolder.SetCameraParameters(parameters);
-                if(Float.parseFloat(shutterstring) < 1.0)
-                {
-                    baseCameraHolder.StopPreview();
-                    baseCameraHolder.StartPreview();
+                    baseCameraHolder.SetCameraParameters(parameters);
+                    if(Float.parseFloat(shutterstring) < 1.0)
+                    {
+                        baseCameraHolder.StopPreview();
+                        baseCameraHolder.StartPreview();
+
+                    }
 
                 }
 
-            }
+                else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
+                    shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
+                    parameters.put("shutter", shutterstring);
 
-            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
-                shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
-                parameters.put("shutter", shutterstring);
-
-            }
+                }
             }
             else {
                 if (DeviceUtils.isZTEADV()) {
@@ -170,7 +170,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 }
                 if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                     parameters.put("shutter", "-1");
-               // parameters.put("slow_shutter_addition", "0");
+                // parameters.put("slow_shutter_addition", "0");
                 baseCameraHolder.StopPreview();
                 baseCameraHolder.StartPreview();
 
@@ -189,9 +189,9 @@ public class ShutterManualParameter extends BaseManualParameter
         }
 
 
-       // camParametersHandler.SetParametersToCamera();
+        // camParametersHandler.SetParametersToCamera();
 
-       
+
     }
 /* HTC M8 Value -1 = off
  * 
