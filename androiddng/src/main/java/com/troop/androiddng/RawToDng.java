@@ -30,7 +30,7 @@ public class RawToDng
     {                           //size       blacklevlel   pattern  width  height  tight    rowsize=filesize/height = 0
         G3_Mipi_LL(             16224256,   g3_blacklevel,  BGGR,    4208, 3082,    true,    getG3_rowSizeL),
         G3_Qcom(                17326080,   g3_blacklevel,  BGGR,    4164, 3120,    false,   getG3_rowSizeL),
-        K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL),
+        K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL), //OnePlusOne has the same size but use rggb haha
         IMX135_214(             16424960,   g3_blacklevel,  BGGR,    4208, 3120,    true,    g3_rowSizeKitKat),
         XperiaL(                10788864,   g3_blacklevel,  BGGR,    3282, 2448,    false,   XperiaL_rowSize),
         OneSV(                  6746112 ,   0,              BGGR,    2592, 1944,    false,   XperiaL_rowSize),
@@ -202,7 +202,7 @@ public class RawToDng
     {
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
-            SetGPSData(nativeHandler, Altitude,parseGpsvalue(Latitude),parseGpsvalue(Longitude),Provider,gpsTime);
+            SetGPSData(nativeHandler, Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
     }
 
     public void setExifData(int iso,
@@ -242,7 +242,7 @@ public class RawToDng
     public void SetModelAndMake(String model, String make)
     {
         if (nativeHandler !=null)
-            SetModelAndMake(nativeHandler,model,make);
+            SetModelAndMake(nativeHandler, model, make);
     }
 
     public void SetBayerData(final byte[] fileBytes, String fileout,int width,int height)
@@ -251,7 +251,7 @@ public class RawToDng
         if (filepath.contains("bayer"))
             bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
         if (nativeHandler != null)
-            SetBayerData(nativeHandler, fileBytes, fileout, width,height);
+            SetBayerData(nativeHandler, fileBytes, fileout, width, height);
     }
 
     private void SetBayerInfo(float[] colorMatrix1,
@@ -340,6 +340,12 @@ public class RawToDng
             SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, device.imageformat, rowsize, Build.MODEL,device.tightraw);
             setRawHeight(3120);
             Log.d(TAG, "mipi");
+        }
+        //OnePlusOne has same size as K910....
+        else if (GetRawSize() == 17522688 && !DeviceUtils.isLenovoK910())
+        {
+            SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, RGGb, rowsize, Build.MODEL,device.tightraw);
+            setRawHeight(3082);
         }
         else
         {

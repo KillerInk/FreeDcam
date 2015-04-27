@@ -125,6 +125,10 @@ public class DeviceUtils
         return isLGADV() || isHTC_M8() || isZTEADV() || isMediaTekDevice();
     }
 
+    public static boolean isLenovoK910()
+    {
+        return Build.MODEL.contains("Lenovo K910");
+    }
 
     static String xperiaLModels = "C2104";
     public static  boolean isXperiaL()
