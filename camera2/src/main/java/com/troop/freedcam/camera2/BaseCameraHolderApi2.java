@@ -373,7 +373,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     }
                     try {
                         final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                        ParameterHandler.ISOManual.currentValueStringCHanged("ISO"+iso);
+                        ParameterHandler.ISOManual.currentValueStringCHanged(""+iso);
+                    }
+                    catch (NullPointerException ex) {}
+                    try {
+                        final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
+                        ParameterHandler.ManualFocus.currentValueStringCHanged(mf+"");
                     }
                     catch (NullPointerException ex) {}
 

@@ -55,7 +55,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2
         if (current < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue())
             return "ISOauto";
         else
-            return "ISO"+ GetValue();
+            return ""+ GetValue();
     }
 
     @Override
