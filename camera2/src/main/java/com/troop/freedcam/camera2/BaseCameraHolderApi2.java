@@ -16,6 +16,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
@@ -30,6 +31,7 @@ import android.view.TextureView;
 import android.view.WindowManager;
 
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
@@ -346,11 +348,57 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
-    public CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback() {
+    public CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback()
+    {
+        @Override
+        public void onCaptureSequenceCompleted(CameraCaptureSession session, int sequenceId, long frameNumber) {
+            super.onCaptureSequenceCompleted(session, sequenceId, frameNumber);
+        }
+
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
+            {
+
+                if (result != null && result.getPartialResults().size() > 0)
+                {
+                    try {
+                        final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+                        String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDS(expores);
+                        ParameterHandler.ManualShutter.currentValueStringCHanged(sec);
+                    }
+                    catch (NullPointerException ex)
+                    {
+
+                    }
+
+                }
+            }
+        }
+
+        @Override
+        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp) {
+            super.onCaptureStarted(session, request, timestamp);
+        }
+
+        @Override
+        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
+            super.onCaptureProgressed(session, request, partialResult);
+        }
+
+        @Override
+        public void onCapturePartial(CameraCaptureSession session, CaptureRequest request, CaptureResult result)
+        {
+
+        }
 
         private void process(CaptureResult result)
         {
-
+            if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
+            {
+                String sec = ((ManualExposureTimeApi2)ParameterHandler.ManualShutter).getSECONDS(result.get(CaptureResult.SENSOR_EXPOSURE_TIME)) +"";
+                ParameterHandler.ManualShutter.currentValueStringCHanged(sec);
+            }
         }
     };
 
@@ -492,13 +540,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
         if (ParameterHandler.FlashMode.IsSupported())
         {
-            final String flash = Settings.getString(AppSettingsManager.SETTING_FLASHMODE);
+            String flash = Settings.getString(AppSettingsManager.SETTING_FLASHMODE);
             if (flash.equals(""))
             {
-                Settings.setString(AppSettingsManager.SETTING_FLASHMODE, Enum.valueOf(FlashModeApi2.FlashModes.class, ParameterHandler.FlashMode.GetValue()).toString());
+                Settings.setString(AppSettingsManager.SETTING_FLASHMODE, FlashModeApi2.OFF);
+                flash = FlashModeApi2.OFF;
             }
-            FlashModeApi2.FlashModes flashModes = Enum.valueOf(FlashModeApi2.FlashModes.class,flash);
-            builder.set(CaptureRequest.FLASH_MODE, flashModes.ordinal());
+            ((FlashModeApi2)ParameterHandler.FlashMode).SetToBuilder(builder, flash);
         }
         if (ParameterHandler.ExposureMode.IsSupported())
         {

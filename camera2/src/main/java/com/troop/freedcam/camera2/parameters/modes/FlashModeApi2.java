@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
@@ -17,13 +18,14 @@ public class FlashModeApi2 extends BaseModeApi2 {
         super(handler,baseCameraHolderApi2);
     }
 
-    public enum FlashModes
-    {
-        off,
-        on,
-        torch,
+    public static String OFF = "off";
+    public static String ON = "on";
+    public static String AUTO = "auto";
+    public static String TORCH = "torch";
 
-    }
+    String lastvalue = "off";
+
+    String flashvals[] ={ OFF, ON, AUTO, TORCH };
 
     @Override
     public boolean IsSupported() {
@@ -31,40 +33,56 @@ public class FlashModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-        FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+    public void SetValue(String valueToSet, boolean setToCamera)
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null && cameraHolder.mCaptureSession != null) {
+            SetToBuilder(cameraHolder.mPreviewRequestBuilder, valueToSet);
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(),
+                        cameraHolder.mCaptureCallback, null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void SetToBuilder(CaptureRequest.Builder builder, String valueToSet)
+    {
+        if (lastvalue.equals(TORCH))
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+        lastvalue = valueToSet;
+        if (valueToSet.equals(OFF))
+        {
+            builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+        }
+        else if (valueToSet.equals(ON))
+        {
+            builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
+        }
+        else if (valueToSet.equals(AUTO))
+        {
+            builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
+        }
+        else if (valueToSet.equals(TORCH))
+        {
+            builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+        }
     }
 
     @Override
     public String GetValue()
     {
-        if(cameraHolder.mPreviewRequest != null) {
-            int value = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE);
-            final FlashModes mode = FlashModes.values()[value];
-            return mode.toString();
-        }
-        else
-            return "off";
+        return lastvalue;
+
     }
 
     @Override
     public String[] GetValues()
     {
-
-        String[] retvals = new String[3];
-        for (int i = 0; i < 3; i++)
-        {
-            try {
-                final FlashModes sceneModes = FlashModes.values()[i];
-                retvals[i] = sceneModes.toString();
-            }
-            catch (Exception ex)
-            {
-                retvals[i] = "unknown Scene" + i;
-            }
-
-        }
-        return retvals;
+        return flashvals;
     }
 }

@@ -24,29 +24,44 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
         this.camParametersHandler = camParametersHandler;
     }
 
+    int current = 0;
 
     @Override
     public int GetMaxValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue();
+        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue()/1000;
     }
 
     @Override
-    public int GetMinValue() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue();
+    public int GetMinValue()
+    {
+        //if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
+        //    return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue();
+        return 0;
     }
 
     @Override
-    public int GetValue() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue();
+    public int GetValue()
+    {
+
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue();
     }
 
     @Override
     public String GetStringValue()
     {
-        long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) /1000000;
-        double sec = (double)mili /100;
+        if (current < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()))
+            return "auto";
+        else {
+            long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+            return getSECONDS(mili) + "";
+        }
+    }
 
-        return sec + "";
+    public String getSECONDS (long time)
+    {
+        double mili = time /1000000  ;
+        double sec =  mili / 1000;
+        return sec +"";
     }
 
     @Override
@@ -56,8 +71,19 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void SetValue(int valueToSet) {
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long)valueToSet);
+    public void SetValue(int valueToSet)
+    {
+        current = valueToSet;
+        if (valueToSet < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()))
+        {
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+        }
+        else
+        {
+            if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
+                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long)valueToSet * 1000);
+        }
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
@@ -75,4 +101,6 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
     public boolean IsSetSupported() {
         return true;
     }
+
+
 }
