@@ -19,6 +19,7 @@ import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -64,6 +65,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Zoom = new ZoomApi2(this, cameraHolder);
         ManualShutter = new ManualExposureTimeApi2(this, cameraHolder);
         ManualFocus = new ManualFocus(this,cameraHolder);
+        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override

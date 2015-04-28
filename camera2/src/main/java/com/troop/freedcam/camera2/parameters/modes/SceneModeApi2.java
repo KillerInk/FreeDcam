@@ -72,7 +72,7 @@ public class SceneModeApi2 extends  BaseModeApi2
             return sceneModes.toString();
         }
         else
-            return "";
+            return "disable";
     }
 
     @Override
