@@ -79,8 +79,8 @@ public class IsoModeParameter extends BaseModeParameter
     {
         if (setToCam)
         {
-            baseCameraHolder.StopPreview();
             super.SetValue(valueToSet, setToCam);
+            baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
         }
         else
