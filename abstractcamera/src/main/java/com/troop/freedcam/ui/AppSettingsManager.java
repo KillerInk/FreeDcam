@@ -74,6 +74,18 @@ public class AppSettingsManager
     public static String API_2 = "camera2";
 
 
+    public static String MWB = "mbw";
+    public static String MCONTRAST = "mcontrast";
+    public static String MCONVERGENCE = "mconvergence";
+    public static String MEXPOSURE = "mexposure";
+    public static String MF = "mf";
+    public static String MSHARPNESS = "msharpness";
+    public static String MSHUTTERSPEED = "mshutterspeed";
+    public static String MBRIGHTNESS = "mbrightness";
+    public static String MISO = "miso";
+    public static String MSATURATION = "msaturation";
+
+
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {

@@ -39,13 +39,15 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     String[] stringValues;
     ManualMenuItem manualMenuItem;
     protected AppSettingsManager appSettingsManager;
+    String settingsval;
 
-    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AppSettingsManager appSettingsManager) {
+    public ManualMenuItem(Context context, String name, ManualMenuHandler manualMenuHandler, AppSettingsManager appSettingsManager, String settingsval) {
         super(context);
         this.context =context;
         this.appSettingsManager = appSettingsManager;
 
         String theme = appSettingsManager.GetTheme();
+        this.settingsval = settingsval;
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -324,6 +326,8 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     public void SetValue(int valueToSet)
     {
         writeLog("set value to: " + valueToSet);
+        if (!settingsval.equals(""))
+            appSettingsManager.setString(settingsval, valueToSet+"");
         manualParameter.SetValue(valueToSet);
         onCurrentValueChanged(valueToSet);
     }

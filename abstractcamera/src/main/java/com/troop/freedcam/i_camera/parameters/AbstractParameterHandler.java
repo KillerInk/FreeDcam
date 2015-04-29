@@ -141,6 +141,17 @@ public abstract class AbstractParameterHandler
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
         isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
 
+        setManualMode(ManualBrightness, AppSettingsManager.MWB);
+        setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
+        setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
+        setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
+        setManualMode(ManualFocus, AppSettingsManager.MF);
+        setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
+        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
+        setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
+        setManualMode(ISOManual, AppSettingsManager.MISO);
+        setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
+
     }
 
     private void setMode(AbstractModeParameter parameter, String settingsval)
@@ -151,6 +162,17 @@ public abstract class AbstractParameterHandler
                 appSettingsManager.setString(settingsval, parameter.GetValue());
             else
                 parameter.SetValue(appSettingsManager.getString(settingsval), false);
+        }
+    }
+
+    private void setManualMode(AbstractManualParameter parameter, String settingsval)
+    {
+        if (parameter != null && parameter.IsSupported())
+        {
+            if (appSettingsManager.getString(settingsval).equals(""))
+                appSettingsManager.setString(settingsval, parameter.GetValue()+"");
+            else
+                parameter.SetValue(Integer.parseInt(appSettingsManager.getString(settingsval)));
         }
     }
 }
