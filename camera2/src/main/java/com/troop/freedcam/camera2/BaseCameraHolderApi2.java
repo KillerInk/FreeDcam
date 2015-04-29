@@ -548,7 +548,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             }
         }
-        if (ParameterHandler.FlashMode.IsSupported())
+        /*if (ParameterHandler.FlashMode.IsSupported())
         {
             String flash = Settings.getString(AppSettingsManager.SETTING_FLASHMODE);
             if (flash.equals(""))
@@ -557,8 +557,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 flash = FlashModeApi2.OFF;
             }
             ((FlashModeApi2)ParameterHandler.FlashMode).SetToBuilder(builder, flash);
-        }
-        if (ParameterHandler.ExposureMode.IsSupported())
+        }*/
+        /*if (ParameterHandler.ExposureMode.IsSupported())
         {
             final String controls = Settings.getString(AppSettingsManager.SETTING_EXPOSUREMODE);
             if (controls.equals(""))
@@ -567,7 +567,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
             ControlModesApi2.ControlModes controlModes = Enum.valueOf(ControlModesApi2.ControlModes.class, controls);
             builder.set(CaptureRequest.FLASH_MODE, controlModes.ordinal());
-        }
+        }*/
     }
 
 
