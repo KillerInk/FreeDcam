@@ -284,7 +284,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), textureView.getWidth(), textureView.getHeight());
                     mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
                 }*/
-
+                ((ParameterHandlerApi2)ParameterHandler).Init();
                 SetLastUsedParameters(mPreviewRequestBuilder);
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
@@ -450,7 +450,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 }
             });
 
-            ((ParameterHandlerApi2)ParameterHandler).Init();
+
         }
 
         @Override

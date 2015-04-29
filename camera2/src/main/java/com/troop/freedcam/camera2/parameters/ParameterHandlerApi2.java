@@ -69,8 +69,16 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override
-            public void run() {
-                ParametersEventHandler.ParametersHasLoaded();
+            public void run()
+            {
+                try {
+                    ParametersEventHandler.ParametersHasLoaded();
+                }
+                catch (NullPointerException ex)
+                {
+
+                }
+
             }
         });
 
