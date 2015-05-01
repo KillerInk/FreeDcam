@@ -80,4 +80,9 @@ public class StringUtils
     {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
     }
+
+    public static String TrimmFloatString(String toTrim)
+    {
+        return String.format("%01.4f", Float.parseFloat(toTrim));
+    }
 }

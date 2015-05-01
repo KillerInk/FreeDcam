@@ -42,6 +42,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -365,7 +366,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     try {
                         final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                         String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDS(expores);
-                        ParameterHandler.ManualShutter.currentValueStringCHanged(sec);
+                        ParameterHandler.ManualShutter.currentValueStringCHanged(StringUtils.TrimmFloatString(sec));
                     }
                     catch (NullPointerException ex)
                     {
@@ -378,7 +379,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     catch (NullPointerException ex) {}
                     try {
                         final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                        ParameterHandler.ManualFocus.currentValueStringCHanged(mf+"");
+                        ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf+""));
                     }
                     catch (NullPointerException ex) {}
 
@@ -400,6 +401,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
         }
     };
+
+
 
     @Override
     public void StopPreview()
@@ -501,10 +504,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         {
             builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
         }
-        if (ParameterHandler.ExposureMode.IsSupported())
+        /*if (ParameterHandler.ExposureMode.IsSupported())
         {
             builder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
-        }
+        }*/
         if (ParameterHandler.ManualShutter.IsSupported())
         {
             builder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());

@@ -9,6 +9,7 @@ import android.os.Build;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 28.04.2015.
@@ -41,8 +42,10 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     @Override
     public String GetStringValue()
     {
-        return  String.format("%01.4f", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+        return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
     }
+
+
 
     @Override
     public String[] getStringValues() {

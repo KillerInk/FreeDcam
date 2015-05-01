@@ -10,6 +10,8 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 06.03.2015.
@@ -53,7 +55,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     {
 
         long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-        return String.format("%01.4f", Float.parseFloat(getSECONDS(mili)));
+        return StringUtils.TrimmFloatString(getSECONDS(mili));
 
     }
 
