@@ -14,6 +14,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualFocus;
 import com.troop.freedcam.camera2.parameters.manual.ManualISoApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.AeModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.AntibandingApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
@@ -59,8 +60,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
         WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
+        //AE mode start
         final AeModeApi2 AE = new AeModeApi2(uiHandler,this.cameraHolder);
         ExposureMode = AE;
+        //ae mode end
+        AntiBandingMode = new AntibandingApi2(uiHandler,cameraHolder);
         PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
         PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
         FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
