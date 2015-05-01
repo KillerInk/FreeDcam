@@ -53,7 +53,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     {
 
         long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-        return getSECONDS(mili) + "";
+        return String.format("%01.4f", Float.parseFloat(getSECONDS(mili)));
 
     }
 
