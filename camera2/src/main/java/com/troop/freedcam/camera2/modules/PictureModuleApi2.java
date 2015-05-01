@@ -240,9 +240,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                    cameraHolder.mPreviewRequest.get(CaptureRequest.CONTROL_AF_MODE));
-            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequest.get(CaptureRequest.CONTROL_AE_MODE));
-            captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequest.get(CaptureRequest.FLASH_MODE));
+                    cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
+            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
+            captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
             //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
 
