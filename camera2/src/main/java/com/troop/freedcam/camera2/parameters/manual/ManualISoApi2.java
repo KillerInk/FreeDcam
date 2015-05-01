@@ -9,13 +9,14 @@ import android.os.Build;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 /**
  * Created by troop on 28.04.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualISoApi2 extends ManualExposureTimeApi2
+public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
 
@@ -27,11 +28,6 @@ public class ManualISoApi2 extends ManualExposureTimeApi2
     @Override
     public boolean IsSupported() {
         return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE) != null;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
     }
 
     @Override
@@ -52,9 +48,6 @@ public class ManualISoApi2 extends ManualExposureTimeApi2
     @Override
     public String GetStringValue()
     {
-        if (current < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue())
-            return "ISOauto";
-        else
             return ""+ GetValue();
     }
 
@@ -67,19 +60,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if (valueToSet < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower().intValue()))
-        {
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
-        }
-        else
-        {
-            if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
-            }
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet);
-        }
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
@@ -87,4 +68,43 @@ public class ManualISoApi2 extends ManualExposureTimeApi2
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean IsSetSupported() {
+        return canSet;
+    }
+
+    //implementation I_ModeParameterEvent
+
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        if (val.equals("off"))
+        {
+            canSet = true;
+            BackgroundIsSetSupportedChanged(true);
+        }
+        else {
+            canSet = false;
+            BackgroundIsSetSupportedChanged(false);
+        }
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    //implementation I_ModeParameterEvent END
 }

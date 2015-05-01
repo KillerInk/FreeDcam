@@ -9,15 +9,17 @@ import android.os.Build;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 /**
  * Created by troop on 06.03.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualExposureTimeApi2 extends AbstractManualParameter
+public class ManualExposureTimeApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
     ParameterHandlerApi2 camParametersHandler;
     BaseCameraHolderApi2 cameraHolder;
+    boolean canSet = false;
     public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
@@ -35,26 +37,24 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
     public int GetMinValue()
     {
         //if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
-        //    return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue();
-        return 0;
+        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue();
+        //return 0;
     }
 
     @Override
     public int GetValue()
     {
 
-            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue();
+        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue();
     }
 
     @Override
     public String GetStringValue()
     {
-        if (current < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()))
-            return "auto";
-        else {
-            long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-            return getSECONDS(mili) + "";
-        }
+
+        long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+        return getSECONDS(mili) + "";
+
     }
 
     public String getSECONDS (long time)
@@ -74,19 +74,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if (valueToSet < (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()))
-        {
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
-        }
-        else
-        {
-            if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
-            }
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long)valueToSet * 1000);
-        }
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long)valueToSet * 1000);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
@@ -102,8 +90,41 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter
 
     @Override
     public boolean IsSetSupported() {
-        return true;
+        return canSet;
     }
 
+    //implementation I_ModeParameterEvent
+
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        if (val.equals("off"))
+        {
+            canSet = true;
+            BackgroundIsSetSupportedChanged(true);
+        }
+        else {
+            canSet = false;
+            BackgroundIsSetSupportedChanged(false);
+        }
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    //implementation I_ModeParameterEvent END
 
 }

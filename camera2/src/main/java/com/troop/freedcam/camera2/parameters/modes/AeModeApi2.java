@@ -44,6 +44,7 @@ public class AeModeApi2 extends  BaseModeApi2
             return;
         AEModes sceneModes = Enum.valueOf(AEModes.class, valueToSet);
         cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AE_MODE, sceneModes.ordinal());
+        BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
