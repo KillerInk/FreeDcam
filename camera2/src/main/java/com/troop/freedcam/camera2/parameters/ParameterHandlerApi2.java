@@ -17,6 +17,7 @@ import com.troop.freedcam.camera2.parameters.modes.AeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
@@ -54,24 +55,33 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Log.d(TAG, keys.get(i).getName());
         }
-        boolean muh = this.cameraHolder.characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE );
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
+        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
         final AeModeApi2 AE = new AeModeApi2(uiHandler,this.cameraHolder);
         ExposureMode = AE;
         PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
         PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
+        FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
+        //manual iso
         final ManualISoApi2 miso = new ManualISoApi2(this,cameraHolder);
         AE.addEventListner(miso);
         ISOManual = miso;
+        //manual iso END
         Zoom = new ZoomApi2(this, cameraHolder);
+        //shuttertime
         final ManualExposureTimeApi2 ManualExposureTIme = new ManualExposureTimeApi2(this, cameraHolder);
         ManualShutter = ManualExposureTIme;
         AE.addEventListner(ManualExposureTIme);
-        ManualFocus = new ManualFocus(this,cameraHolder);
-        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
+        //shuttertime END
+        //MF
+        final ManualFocus mf = new ManualFocus(this,cameraHolder);
+        ManualFocus = mf;
+        FocusMode.addEventListner(mf);
+        //MF END
+
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override

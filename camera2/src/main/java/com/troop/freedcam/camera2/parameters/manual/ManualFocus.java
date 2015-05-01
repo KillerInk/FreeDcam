@@ -8,12 +8,13 @@ import android.os.Build;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 /**
  * Created by troop on 28.04.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualFocus extends ManualExposureTimeApi2
+public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
     int current = -1;
@@ -40,10 +41,7 @@ public class ManualFocus extends ManualExposureTimeApi2
     @Override
     public String GetStringValue()
     {
-        if (current == -1)
-            return "auto";
-        else
-            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) +"" ;
+        return  String.format("%01.4f", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
     }
 
     @Override
@@ -55,16 +53,8 @@ public class ManualFocus extends ManualExposureTimeApi2
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if (valueToSet < cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE))
-        {
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-        }
-        else
-        {
-            if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF)
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float)valueToSet /100);
-        }
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float)valueToSet /100);
+
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
@@ -89,8 +79,40 @@ public class ManualFocus extends ManualExposureTimeApi2
         return  supported;
     }
 
+    //implementation I_ModeParameterEvent
+
     @Override
     public boolean IsSetSupported() {
-        return true;
+        return canSet;
     }
+    @Override
+    public void onValueChanged(String val)
+    {
+        if (val.equals("off"))
+        {
+            canSet = true;
+            BackgroundIsSetSupportedChanged(true);
+        }
+        else {
+            canSet = false;
+            BackgroundIsSetSupportedChanged(false);
+        }
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    //implementation I_ModeParameterEvent END
 }
