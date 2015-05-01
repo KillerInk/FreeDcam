@@ -387,19 +387,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
 
         @Override
-        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp) {
-            super.onCaptureStarted(session, request, timestamp);
-        }
-
-        @Override
         public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
             super.onCaptureProgressed(session, request, partialResult);
-        }
-
-        @Override
-        public void onCapturePartial(CameraCaptureSession session, CaptureRequest request, CaptureResult result)
-        {
-
         }
 
         private void process(CaptureResult result)
