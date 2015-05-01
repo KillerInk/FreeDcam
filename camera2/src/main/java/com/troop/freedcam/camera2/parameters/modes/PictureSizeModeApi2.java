@@ -15,7 +15,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public PictureSizeModeApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2) {
         super(handler, baseCameraHolderApi2);
     }
-
+    boolean firststart = true;
     @Override
     public boolean IsSupported() {
         return true;
@@ -25,6 +25,13 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         //super.SetValue(valueToSet, setToCamera);
+        if (!firststart)
+        {
+            cameraHolder.StopPreview();
+            cameraHolder.StartPreview();
+        }
+        else
+            firststart = false;
     }
 
     @Override
