@@ -206,8 +206,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             surface = new Surface(texture);
 
             String picformat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
-            if (picformat.equals(""))
-                picformat=JPEG;
+            if (picformat.equals("")) {
+                picformat = JPEG;
+                Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, JPEG);
+            }
             if (picformat.equals(JPEG))
             {
                 String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
@@ -379,7 +381,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     catch (NullPointerException ex) {}
                     try {
                         final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                        ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf+""));
+                        ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
                     }
                     catch (NullPointerException ex) {}
 
