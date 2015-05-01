@@ -88,6 +88,8 @@ public class MenuCreator
     protected ExpandableChild RdiMode;*/
     protected ExpandableChild TnrMode;
 
+    protected ExpandableChild EdgeMode;
+
     protected LinearLayout submenu;
 
     protected I_Activity activityV2;
@@ -258,6 +260,9 @@ public class MenuCreator
         }
 
         gps.SetCameraUIWrapper(cameraUiWrapper);
+
+        if (parameterHandler.EdgeMode != null && parameterHandler.EdgeMode.IsSupported())
+            EdgeMode.setParameterHolder(parameterHandler.EdgeMode, cameraUiWrapper.moduleHandler.AllModules);
 
 
         externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
@@ -431,6 +436,9 @@ public class MenuCreator
         childlist.add(RdiMode);
 
         */
+
+        EdgeMode = new ExpandableChild(context,group,"Edge Mode", appSettingsManager, AppSettingsManager.SETTING_EDGE);
+        childlist.add(EdgeMode);
 
         /*if(parameterHandler.Histogram.IsSupported())
         {

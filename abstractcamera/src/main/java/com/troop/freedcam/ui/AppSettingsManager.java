@@ -68,6 +68,7 @@ public class AppSettingsManager
     public static String SETTING_SECUREMODE = "securemode";
     public static String SETTING_TNR = "tnr";
     public static String SETTING_RDI = "rdi";
+    public static String SETTING_EDGE = "edge";
 
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";

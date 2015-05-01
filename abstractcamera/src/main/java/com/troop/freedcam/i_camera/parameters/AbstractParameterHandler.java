@@ -89,6 +89,9 @@ public abstract class AbstractParameterHandler
     public AbstractCameraHolder cameraHolder;
     protected AppSettingsManager appSettingsManager;
 
+    //camera2 modes
+    public AbstractModeParameter EdgeMode;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
