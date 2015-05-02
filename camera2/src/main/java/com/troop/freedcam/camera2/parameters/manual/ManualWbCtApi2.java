@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.ColorSpaceTransform;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualWbCtApi2  extends ManualExposureTimeApi2
 {
-    int current = 50;
+    int current = 100;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     boolean isSupported = false;
@@ -69,7 +70,13 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
                     1.0f ,
                     1.0f +i);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, rggbChannelVector);
-            cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE,CaptureRequest.CONTROL_AWB_MODE_OFF);
+        try {
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                    null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        //cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE,CaptureRequest.CONTROL_AWB_MODE_OFF);
 
         /*int[] rationalArray = new int[18];
         if (colorSpaceTransform != null)
