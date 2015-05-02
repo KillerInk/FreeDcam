@@ -392,12 +392,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         ((ManualWbCtApi2)ParameterHandler.CCT).colorSpaceTransform = res;
                     }
                     catch (NullPointerException ex) {}
-                    try {
-                        final RggbChannelVector res = result.get(TotalCaptureResult.COLOR_CORRECTION_GAINS);
-                        ((ManualWbCtApi2)ParameterHandler.CCT).rggbChannelVector = res;
 
-                    }
-                    catch (NullPointerException ex) {}
 
                 }
             }

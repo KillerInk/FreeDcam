@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
@@ -243,6 +244,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
             captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
+            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE));
+            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, ((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector);
+            int awb = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
+            captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
+            captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.EDGE_MODE));
             //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
 

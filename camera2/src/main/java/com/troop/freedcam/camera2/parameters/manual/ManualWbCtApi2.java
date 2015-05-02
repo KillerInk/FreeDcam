@@ -59,16 +59,15 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
     public void SetValue(int valueToSet)
     {
         float i = (float)valueToSet/100;
-        if (rggbChannelVector != null)
-        {
-            RggbChannelVector vector =  new RggbChannelVector(
+
+            rggbChannelVector =  new RggbChannelVector(
                     1.0f + i,
                     1.0f  ,
                     1.0f ,
                     1.0f +i);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, vector);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, rggbChannelVector);
             cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE,CaptureRequest.CONTROL_AWB_MODE_OFF);
-        }
+
         /*int[] rationalArray = new int[18];
         if (colorSpaceTransform != null)
         {
