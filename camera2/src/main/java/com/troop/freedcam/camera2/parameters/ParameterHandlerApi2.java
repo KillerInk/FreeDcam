@@ -12,6 +12,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualFocus;
 import com.troop.freedcam.camera2.parameters.manual.ManualISoApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.AeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.AntibandingApi2;
@@ -87,6 +88,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         FocusMode.addEventListner(mf);
         //MF END
+
+        CCT = new ManualWbCtApi2(this,cameraHolder);
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
         ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);

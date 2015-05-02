@@ -17,6 +17,8 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.ColorSpaceTransform;
+import android.hardware.camera2.params.RggbChannelVector;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
@@ -32,6 +34,7 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
@@ -382,6 +385,17 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     try {
                         final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                         ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
+                    }
+                    catch (NullPointerException ex) {}
+                    try {
+                        final ColorSpaceTransform res = result.get(TotalCaptureResult.COLOR_CORRECTION_TRANSFORM);
+                        ((ManualWbCtApi2)ParameterHandler.CCT).colorSpaceTransform = res;
+                    }
+                    catch (NullPointerException ex) {}
+                    try {
+                        final RggbChannelVector res = result.get(TotalCaptureResult.COLOR_CORRECTION_GAINS);
+                        ((ManualWbCtApi2)ParameterHandler.CCT).rggbChannelVector = res;
+
                     }
                     catch (NullPointerException ex) {}
 
