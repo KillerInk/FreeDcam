@@ -39,7 +39,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     public int GetMinValue()
     {
         //if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
-        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue();
+        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()/1000;
         //return 0;
     }
 
@@ -47,7 +47,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     public int GetValue()
     {
 
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue();
+        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue()/1000;
     }
 
     @Override
