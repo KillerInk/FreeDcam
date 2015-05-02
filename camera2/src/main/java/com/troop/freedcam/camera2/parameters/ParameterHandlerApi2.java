@@ -88,11 +88,15 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         FocusMode.addEventListner(mf);
         //MF END
-
-        CCT = new ManualWbCtApi2(this,cameraHolder);
+        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+        //CCT START
+        final  ManualWbCtApi2 cct = new ManualWbCtApi2(this,cameraHolder);
+        CCT = cct;
+        ColorCorrectionMode.addEventListner(cct);
+        //cct end
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
-        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+
 
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {

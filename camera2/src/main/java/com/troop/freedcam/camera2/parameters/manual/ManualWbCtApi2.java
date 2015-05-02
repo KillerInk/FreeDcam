@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.hardware.camera2.params.RggbChannelVector;
@@ -25,9 +26,11 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
     int current = 50;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
+    boolean isSupported = false;
 
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler, cameraHolder);
+
     }
 
     @Override
@@ -96,12 +99,25 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
 
     @Override
     public boolean IsSupported() {
-        return true;
+        return isSupported;
     }
 
     @Override
-    public void onValueChanged(String val) {
-
+    public void onValueChanged(String val)
+    {
+        if (val.equals("TRANSFORM_MATRIX"))
+        {
+            canSet = true;
+            BackgroundIsSetSupportedChanged(true);
+            isSupported = true;
+            BackgroundIsSupportedChanged(true);
+        }
+        else {
+            canSet = false;
+            BackgroundIsSetSupportedChanged(false);
+            isSupported = false;
+            BackgroundIsSupportedChanged(false);
+        }
     }
 
     @Override
