@@ -325,7 +325,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
     @Override
     public void SetValue(int valueToSet)
     {
-        writeLog("set value to: " + valueToSet);
+        //writeLog("set value to: " + valueToSet);
         if (!settingsval.equals(""))
             appSettingsManager.setString(settingsval, valueToSet+"");
         manualParameter.SetValue(valueToSet);
@@ -340,7 +340,7 @@ public class ManualMenuItem extends LinearLayout implements View.OnClickListener
 
     private void setTextToTextView(final String txt)
     {
-        writeLog("set text value: " +txt);
+        //writeLog("set text value: " +txt);
         textViewValue.post(new Runnable() {
             @Override
             public void run() {
