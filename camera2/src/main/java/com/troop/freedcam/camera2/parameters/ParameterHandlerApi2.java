@@ -15,6 +15,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualISoApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.AeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.AntibandingApi2;
+import com.troop.freedcam.camera2.parameters.modes.ColorCorrectionModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.EdgeModeApi2;
@@ -88,6 +89,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //MF END
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
+        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
 
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {

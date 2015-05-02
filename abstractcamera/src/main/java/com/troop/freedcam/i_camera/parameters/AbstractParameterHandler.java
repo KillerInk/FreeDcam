@@ -91,6 +91,7 @@ public abstract class AbstractParameterHandler
 
     //camera2 modes
     public AbstractModeParameter EdgeMode;
+    public AbstractModeParameter ColorCorrectionMode;
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {

@@ -89,6 +89,7 @@ public class MenuCreator
     protected ExpandableChild TnrMode;
 
     protected ExpandableChild EdgeMode;
+    protected ExpandableChild ColorCorrectionMode;
 
     protected LinearLayout submenu;
 
@@ -263,6 +264,8 @@ public class MenuCreator
 
         if (parameterHandler.EdgeMode != null && parameterHandler.EdgeMode.IsSupported())
             EdgeMode.setParameterHolder(parameterHandler.EdgeMode, cameraUiWrapper.moduleHandler.AllModules);
+        if (parameterHandler.ColorCorrectionMode != null && parameterHandler.ColorCorrectionMode.IsSupported())
+            ColorCorrectionMode.setParameterHolder(parameterHandler.ColorCorrectionMode, cameraUiWrapper.moduleHandler.AllModules);
 
 
         externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
@@ -439,6 +442,8 @@ public class MenuCreator
 
         EdgeMode = new ExpandableChild(context,group,"Edge Mode", appSettingsManager, AppSettingsManager.SETTING_EDGE);
         childlist.add(EdgeMode);
+        ColorCorrectionMode = new ExpandableChild(context,group,"ColorCorrection", appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION);
+        childlist.add(ColorCorrectionMode);
 
         /*if(parameterHandler.Histogram.IsSupported())
         {
