@@ -32,23 +32,23 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
 
     @Override
     public int GetMaxValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper()).intValue();
+        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper()).intValue()/50;
     }
 
     @Override
     public int GetMinValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue();
+        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue()/50;
     }
 
     @Override
     public int GetValue() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY).intValue();
+        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY).intValue()/50;
     }
 
     @Override
     public String GetStringValue()
     {
-            return ""+ GetValue();
+            return ""+ GetValue()*50;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet);
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet*50);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
