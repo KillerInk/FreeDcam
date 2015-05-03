@@ -33,6 +33,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
+        while (preview.getHolder() == null)
+        {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         preview.getHolder().addCallback(this);
 
         this.errorHandler = errorHandler;
