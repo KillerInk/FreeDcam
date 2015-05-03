@@ -90,6 +90,7 @@ public class PictureFormatParameter extends BaseModeParameter
             ArrayList<String> list = new ArrayList<String>();
             for (String s : supervals)
             {
+                if (!s.contains("yuv"))
                   list.add(s);
             }
             return list.toArray(new String[list.size()]);
