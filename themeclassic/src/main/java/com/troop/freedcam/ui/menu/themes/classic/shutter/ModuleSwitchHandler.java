@@ -53,6 +53,11 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (cameraUiWrapper == null)
+        {
+            this.moduleHandler = null;
+            return;
+        }
         this.moduleHandler = cameraUiWrapper.moduleHandler;
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
@@ -75,7 +80,10 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
         listView.setVisibility(View.VISIBLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if (moduleHandler == null && cameraUiWrapper == null)
+                    return;
                 String value = (String) listView.getItemAtPosition(position);
                 for (HashMap.Entry<String,AbstractModule> module : cameraUiWrapper.moduleHandler.moduleList.entrySet())
                 {
@@ -99,6 +107,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void ParametersLoaded()
     {
+        if (moduleHandler == null)
+            return;
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());
         moduleViewx.setVisibility(View.VISIBLE);
