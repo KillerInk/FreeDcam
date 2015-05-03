@@ -286,7 +286,7 @@ public class RawToDng
     {
 
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        if (DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8() || (GetRawSize() < 6000000 && GetRawSize() > 500000))
         {
             //on m8 the raw size change with each shot. We use the Build.model to check and then use the hardcoded rowsize
             processM8();
@@ -375,7 +375,7 @@ public class RawToDng
     private void processM8()
     {
         Log.d(TAG, "is htc m8 raw");
-        if (filepath.contains("qcom")) {
+        if (GetRawSize() < 6000000 && GetRawSize() > 5382641 ) {
             SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, Calculate_rowSize((int) GetRawSize(), 1520), "HTC M8", false);
             setRawHeight(1520);
         }
