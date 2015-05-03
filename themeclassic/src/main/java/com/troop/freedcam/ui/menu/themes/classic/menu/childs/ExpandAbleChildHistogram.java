@@ -13,6 +13,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
+import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 28.03.2015.
@@ -31,13 +32,13 @@ public class ExpandAbleChildHistogram extends ExpandableChildOrientationHack
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper) {
+        if (cameraUiWrapper instanceof CameraUiWrapper && (!DeviceUtils.isHTC_M9() && !DeviceUtils.isHTC_M8() && !DeviceUtils.isHTC_M7()))
+        {
             ((SimpleModeParameter) parameterHolder).setIsSupported(true);
             if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
             {
                 fromSettings = true;
                 aSwitch.setChecked(true);
-
             }
         }
         else
