@@ -47,7 +47,8 @@ public class FlashSwitchHandler implements View.OnClickListener, I_ParametersLoa
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        if (cameraUiWrapper != null)
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         Log.d(TAG,"Set Camera UI Wrapper");
 
     }

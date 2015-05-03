@@ -233,6 +233,8 @@ public class NubiaFlashSwitch extends FlashSwitchHandler
     @Override
     public void ParametersLoaded()
     {
+        if (cameraUiWrapper == null)
+            return;
         if (cameraUiWrapper.camParametersHandler.FlashMode != null)
         {
             flashmode = cameraUiWrapper.camParametersHandler.FlashMode;
