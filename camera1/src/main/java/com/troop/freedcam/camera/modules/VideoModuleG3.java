@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
+import android.util.Log;
 
 import com.lge.media.CamcorderProfileEx;
 import com.lge.media.MediaRecorderEx;
@@ -18,6 +19,7 @@ public class VideoModuleG3 extends VideoModule
     protected MediaRecorderEx recorder;
     CamParametersHandler camParametersHandler;
 
+    final static String TAG = VideoModuleG3.class.getSimpleName();
 
     public VideoModuleG3(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
@@ -95,13 +97,13 @@ public class VideoModuleG3 extends VideoModule
 
     private void loadProfileSpecificParameters()
     {
-        if (ParameterHandler.PreviewFormat == null && ParameterHandler.VideoSize == null)
+        if (camParametersHandler.PreviewFormat == null && ParameterHandler.VideoSize == null)
             return;
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
         {
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
+            camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
+            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            camParametersHandler.Denoise.SetValue("denoise-off", true);
 
             camParametersHandler.setString("dual-recorder", "0");
             camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
@@ -112,14 +114,22 @@ public class VideoModuleG3 extends VideoModule
         }
         else
         {
-            ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+            camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
+        String size;
+        if (prof == null)
+        {
+            Log.e(TAG , "Error: CamcorderProfileEx is NULL!!!!!!!!!");
+            size = camParametersHandler.VideoSize.GetValue();
+        }
+        else {
+            size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
+        }
         ParameterHandler.PreviewSize.SetValue(size, false);
         camParametersHandler.VideoSize.SetValue(size,true);
 
