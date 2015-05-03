@@ -51,10 +51,6 @@ public class ExpandAbleChildHistogram extends ExpandableChildOrientationHack
     {
         final String check = aSwitch.isChecked() +"";
         appSettingsManager.setString(AppSettingsManager.SETTING_HISTOGRAM,  check);
-        if (!fromSettings)
-            i_activity.ShowHistogram(aSwitch.isChecked());
-        else
-            fromSettings = false;
-
+        i_activity.ShowHistogram(aSwitch.isChecked());
     }
 }

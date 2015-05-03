@@ -179,8 +179,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
         transaction.commit();
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
-            ShowHistogram(true);
+        //if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
+        //    ShowHistogram(true);
 
         timerHandler = new TimerHandler(this);
 
@@ -586,13 +586,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 transaction.commit();
                 histogramFragmentOpen = true;
             }
-            if (cameraUiWrapper != null)
-            {
-                histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
-                cameraUiWrapper.moduleHandler.SetWorkListner(histogramFragment);
-                if (cameraUiWrapper.cameraHolder.isPreviewRunning)
-                    histogramFragment.strtLsn();
-            }
         }
         else if (!enable && histogramFragmentOpen)
         {
@@ -602,6 +595,17 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             transaction.remove(histogramFragment);
             transaction.commit();
         }
+        if (enable && histogramFragmentOpen)
+        {
+            if (cameraUiWrapper != null)
+            {
+                histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
+                cameraUiWrapper.moduleHandler.SetWorkListner(histogramFragment);
+                if (cameraUiWrapper.cameraHolder.isPreviewRunning)
+                    histogramFragment.strtLsn();
+            }
+        }
+
 
     }
 
@@ -686,7 +690,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public String ModuleChanged(String module)
     {
-        if ((module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) && appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true") && !histogramFragmentOpen)
+        if ((module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) && appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
             ShowHistogram(true);
         else if (!module.equals(""))
             ShowHistogram(false);
