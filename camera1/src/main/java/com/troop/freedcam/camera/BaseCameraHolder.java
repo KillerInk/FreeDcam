@@ -140,6 +140,31 @@ public class BaseCameraHolder extends AbstractCameraHolder
             hasLGFrameWork = false;
             Log.d(TAG, "No LG Framework");
         }
+        try {
+            Class c = Class.forName("com.lge.media.CamcorderProfileEx");
+            Log.d(TAG, "Has Lg Framework");
+            hasLGFrameWork = true;
+
+        } catch (ExceptionInInitializerError e) {
+
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
+        catch (Exception e) {
+
+            hasLGFrameWork = false;
+            Log.d(TAG, "No LG Framework");
+        }
 
     }
 
