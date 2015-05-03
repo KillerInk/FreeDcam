@@ -428,7 +428,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 
             }
         };
-        this.mCamera.takePicture(sh, r, pic);
+        try {
+            this.mCamera.takePicture(sh, r, pic);
+        }
+        catch (RuntimeException ex)
+        {
+            errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
+        }
+
     }
 
     private void takeSamsungPicture() {
