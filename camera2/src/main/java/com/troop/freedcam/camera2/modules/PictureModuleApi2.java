@@ -264,7 +264,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
-                                               TotalCaptureResult result) {
+                                               TotalCaptureResult result)
+                {
+                    mDngResult = result;
                     //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
                     unlockFocus();
                 }
@@ -334,7 +336,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(getStringAddTime() + ".dng");
-                    DngCreator dngCreator = new DngCreator(cameraHolder.manager.getCameraCharacteristics("0"), mDngResult);
+                    DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
                     final Image image = reader.acquireNextImage();
                     dngCreator.writeImage(new FileOutputStream(file), image);
                     image.close();
@@ -350,9 +352,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
                 }
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
+            }  catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
