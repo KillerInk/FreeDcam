@@ -22,6 +22,7 @@ import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
 import com.troop.freedcam.camera2.parameters.modes.EdgeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.ImageStabApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
@@ -96,6 +97,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //cct end
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
+        DigitalImageStabilization = new ImageStabApi2(uiHandler,cameraHolder);
 
 
         SetAppSettingsToParameters();
