@@ -75,16 +75,15 @@ public class PreviewHandler extends RelativeLayout
 
             this.addView(surfaceView);
         }
-        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
-        {
-            surfaceView = new ExtendedSurfaceView(context);
-            this.addView(surfaceView);
-
-        }
-        else
+        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
             textureView = new AutoFitTextureView(context);
             this.addView(textureView);
+        }
+        else
+        {
+            surfaceView = new ExtendedSurfaceView(context);
+            this.addView(surfaceView);
         }
 
     }
