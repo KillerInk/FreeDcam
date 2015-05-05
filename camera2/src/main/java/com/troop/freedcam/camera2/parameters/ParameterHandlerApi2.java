@@ -19,6 +19,7 @@ import com.troop.freedcam.camera2.parameters.modes.AntibandingApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorCorrectionModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
+import com.troop.freedcam.camera2.parameters.modes.DenoiseModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.EdgeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
@@ -100,6 +101,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
         DigitalImageStabilization = new ImageStabApi2(uiHandler,cameraHolder);
         HotPixelMode = new HotPixelModeApi2(uiHandler,cameraHolder);
+        Denoise = new DenoiseModeApi2(uiHandler,cameraHolder);
 
 
         SetAppSettingsToParameters();
