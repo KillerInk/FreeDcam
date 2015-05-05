@@ -70,6 +70,7 @@ public class AppSettingsManager
     public static String SETTING_RDI = "rdi";
     public static String SETTING_EDGE = "edge";
     public static String SETTING_COLORCORRECTION = "colorcorrection";
+    public static String SETTING_HOTPIXEL = "hotpixel";
 
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";

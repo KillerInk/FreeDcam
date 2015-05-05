@@ -92,6 +92,7 @@ public abstract class AbstractParameterHandler
     //camera2 modes
     public AbstractModeParameter EdgeMode;
     public AbstractModeParameter ColorCorrectionMode;
+    public AbstractModeParameter HotPixelMode;
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
@@ -143,6 +144,7 @@ public abstract class AbstractParameterHandler
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
         setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
+        setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
         isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));

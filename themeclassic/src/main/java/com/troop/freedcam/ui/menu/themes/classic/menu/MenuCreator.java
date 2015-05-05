@@ -90,6 +90,7 @@ public class MenuCreator
 
     protected ExpandableChild EdgeMode;
     protected ExpandableChild ColorCorrectionMode;
+    protected ExpandableChild HotPixelMode;
 
     protected LinearLayout submenu;
 
@@ -245,7 +246,8 @@ public class MenuCreator
             RdiMode.setParameterHolder(parameterHandler.RdiMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.SecureMode != null && parameterHandler.SecureMode.IsSupported())
             SecureMode.setParameterHolder(parameterHandler.SecureMode, cameraUiWrapper.moduleHandler.AllModules);*/
-
+        if (parameterHandler.HotPixelMode != null && parameterHandler.HotPixelMode.IsSupported())
+            HotPixelMode.setParameterHolder(parameterHandler.HotPixelMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.ContShootMode != null)
         {
             contShootMode.setParameterHolder(parameterHandler.ContShootMode, cameraUiWrapper.moduleHandler.PictureModules);
@@ -365,6 +367,9 @@ public class MenuCreator
         whitebalanceMode =  new ExpandableChild(context, group,context.getString(R.string.mode_whitebalance),appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         childlist.add(whitebalanceMode);
 
+        ColorCorrectionMode = new ExpandableChild(context,group,"ColorCorrection", appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION);
+        childlist.add(ColorCorrectionMode);
+
         sceneMode = new ExpandableChild(context, group , context.getString(R.string.mode_scene), appSettingsManager, AppSettingsManager.SETTING_SCENEMODE);
         childlist.add(sceneMode);
 
@@ -442,8 +447,10 @@ public class MenuCreator
 
         EdgeMode = new ExpandableChild(context,group,"Edge Mode", appSettingsManager, AppSettingsManager.SETTING_EDGE);
         childlist.add(EdgeMode);
-        ColorCorrectionMode = new ExpandableChild(context,group,"ColorCorrection", appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION);
-        childlist.add(ColorCorrectionMode);
+
+
+        HotPixelMode = new ExpandableChild(context,group,"HotPixelCorrection", appSettingsManager, AppSettingsManager.SETTING_HOTPIXEL);
+        childlist.add(HotPixelMode);
 
         /*if(parameterHandler.Histogram.IsSupported())
         {
