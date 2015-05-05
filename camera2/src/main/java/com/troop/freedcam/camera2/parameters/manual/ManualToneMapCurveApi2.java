@@ -36,7 +36,7 @@ public class ManualToneMapCurveApi2
 
     public class Contrast extends ManualExposureApi2
     {
-        int current = 50;
+        int current = 150;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
 
@@ -45,7 +45,7 @@ public class ManualToneMapCurveApi2
 
         @Override
         public int GetMaxValue() {
-            return 200;
+            return 300;
         }
 
         @Override
@@ -74,7 +74,7 @@ public class ManualToneMapCurveApi2
             current = valueToSet;
 
             float toset = 0;
-            if (valueToSet > 100)
+            if (valueToSet > 150)
             {
                 toset = (valueToSet - 100) * 0.001f;
                 highlights[0] = 0.75f - toset;
@@ -82,7 +82,7 @@ public class ManualToneMapCurveApi2
                 shadows[0] = 0.25f - toset;
                 shadows[1] = 0.25f + toset;
             }
-            if (valueToSet == 100)
+            if (valueToSet == 150)
             {
                 highlights[0] = 0.75f;
                 highlights[1] = 0.75f;
@@ -91,7 +91,7 @@ public class ManualToneMapCurveApi2
             }
             else
             {
-                toset = (100 - valueToSet) * 0.001f;
+                toset = (150 - valueToSet) * 0.001f;
                 highlights[0] = 0.75f + toset;
                 highlights[1] = 0.75f - toset;
                 shadows[0] = 0.25f + toset;
