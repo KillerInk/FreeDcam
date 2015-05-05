@@ -141,6 +141,8 @@ public abstract class AbstractParameterHandler
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
+        setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
         isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
@@ -155,6 +157,7 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
         setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
+        setManualMode(CCT,AppSettingsManager.MWB);
 
     }
 
