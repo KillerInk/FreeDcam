@@ -93,6 +93,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter EdgeMode;
     public AbstractModeParameter ColorCorrectionMode;
     public AbstractModeParameter HotPixelMode;
+    public AbstractModeParameter ToneMapMode;
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
@@ -145,6 +146,7 @@ public abstract class AbstractParameterHandler
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
         setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
+        setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
         isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));

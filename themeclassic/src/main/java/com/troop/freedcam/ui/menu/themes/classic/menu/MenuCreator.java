@@ -91,6 +91,7 @@ public class MenuCreator
     protected ExpandableChild EdgeMode;
     protected ExpandableChild ColorCorrectionMode;
     protected ExpandableChild HotPixelMode;
+    protected ExpandableChild ToneMapMode;
 
     protected LinearLayout submenu;
 
@@ -248,6 +249,8 @@ public class MenuCreator
             SecureMode.setParameterHolder(parameterHandler.SecureMode, cameraUiWrapper.moduleHandler.AllModules);*/
         if (parameterHandler.HotPixelMode != null && parameterHandler.HotPixelMode.IsSupported())
             HotPixelMode.setParameterHolder(parameterHandler.HotPixelMode, cameraUiWrapper.moduleHandler.AllModules);
+        if (parameterHandler.ToneMapMode != null && parameterHandler.ToneMapMode.IsSupported())
+            ToneMapMode.setParameterHolder(parameterHandler.ToneMapMode, cameraUiWrapper.moduleHandler.AllModules);
         if (parameterHandler.ContShootMode != null)
         {
             contShootMode.setParameterHolder(parameterHandler.ContShootMode, cameraUiWrapper.moduleHandler.PictureModules);
@@ -379,7 +382,8 @@ public class MenuCreator
         objectTrackingMode = new ExpandableChild(context, group, context.getString(R.string.mode_objecttracking), appSettingsManager,AppSettingsManager.SETTING_OBJECTTRACKING);
         childlist.add(objectTrackingMode);
 
-
+        ToneMapMode = new ExpandableChild(context,group,"ToneMap", appSettingsManager, AppSettingsManager.SETTING_TONEMAP);
+        childlist.add(ToneMapMode);
 
         group.setItems(childlist);
     }

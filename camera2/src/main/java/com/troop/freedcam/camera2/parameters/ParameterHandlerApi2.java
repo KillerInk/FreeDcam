@@ -12,6 +12,7 @@ import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualFocus;
 import com.troop.freedcam.camera2.parameters.manual.ManualISoApi2;
+import com.troop.freedcam.camera2.parameters.manual.ManualToneMapCurveApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
 import com.troop.freedcam.camera2.parameters.modes.AeModeApi2;
@@ -28,6 +29,7 @@ import com.troop.freedcam.camera2.parameters.modes.ImageStabApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -44,6 +46,7 @@ import java.util.List;
 public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
+    private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     BaseCameraHolderApi2 cameraHolder;
 
@@ -102,6 +105,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         DigitalImageStabilization = new ImageStabApi2(uiHandler,cameraHolder);
         HotPixelMode = new HotPixelModeApi2(uiHandler,cameraHolder);
         Denoise = new DenoiseModeApi2(uiHandler,cameraHolder);
+        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(this,cameraHolder);
+        ManualContrast = manualToneMapCurveApi2.contrast;
+        ToneMapMode = new ToneMapModeApi2(uiHandler,cameraHolder);
 
 
         SetAppSettingsToParameters();
