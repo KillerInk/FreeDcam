@@ -539,8 +539,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 samsungCamera.autoFocus(new SecCamera.AutoFocusCallback() {
                     @Override
-                    public void onAutoFocus(int i, SecCamera secCamera)
-                    {
+                    public void onAutoFocus(int i, SecCamera secCamera) {
                         CameraFocusEvent focusEvent = new CameraFocusEvent();
                         focusEvent.samsungCamera = secCamera;
                         if (i == 1) //no idea if this correct
@@ -702,6 +701,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void SetLocation(Location loc)
     {
         this.gpsLocation = loc;
+        if(!isRdy)
+            return;
         if(hasSamsungFrameWork && samsungCamera != null)
         {
             SecCamera.Parameters paras = samsungCamera.getParameters();
@@ -721,7 +722,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 paras.setGpsLongitude(loc.getLongitude());
                 paras.setGpsProcessingMethod(loc.getProvider());
                 paras.setGpsTimestamp(loc.getTime());
-                mCamera.setParameters(paras);
+                try {
+                    mCamera.setParameters(paras);
+                }
+                catch (RuntimeException ex)
+                {
+                    errorHandler.OnError("Set Location failed");
+                }
+
             }
         }
     }
