@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
@@ -51,16 +52,17 @@ public class ImageStabApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        String[] retvals = new String[2];
-        for (int i = 0; i < 2; i++)
+        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
+        String[] retvals = new String[values.length];
+        for (int i = 0; i < values.length; i++)
         {
             try {
-                final ImageStabsValues sceneModes = ImageStabsValues.values()[i];
+                ImageStabsValues sceneModes = ImageStabsValues.values()[values[i]];
                 retvals[i] = sceneModes.toString();
             }
             catch (Exception ex)
             {
-                retvals[i] = "unknown Scene" + i;
+                retvals[i] = "unknown Focus" + values[i];
             }
 
         }

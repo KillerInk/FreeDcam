@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
@@ -53,16 +54,17 @@ public class HotPixelModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        String[] retvals = new String[3];
-        for (int i = 0; i < 3; i++)
+        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES);
+        String[] retvals = new String[values.length];
+        for (int i = 0; i < values.length; i++)
         {
             try {
-                final HotPixelModes sceneModes = HotPixelModes.values()[i];
+                HotPixelModes sceneModes = HotPixelModes.values()[values[i]];
                 retvals[i] = sceneModes.toString();
             }
             catch (Exception ex)
             {
-                retvals[i] = "unknown Scene" + i;
+                retvals[i] = "unknown Focus" + values[i];
             }
 
         }
