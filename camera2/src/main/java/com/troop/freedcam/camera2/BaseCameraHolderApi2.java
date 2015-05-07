@@ -362,7 +362,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
 
         @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
+        {
             if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
             {
 
@@ -396,6 +397,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
                 }
             }
+            int afState = result.get(CaptureResult.CONTROL_AF_STATE);
+            if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState)
+            {
+                if (Focus.focusEvent != null)
+                    Focus.focusEvent.FocusFinished(true);
+
+            }
+            else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
+            {
+                if (Focus.focusEvent != null)
+                    Focus.focusEvent.FocusFinished(false);
+            }
+
         }
 
         @Override
