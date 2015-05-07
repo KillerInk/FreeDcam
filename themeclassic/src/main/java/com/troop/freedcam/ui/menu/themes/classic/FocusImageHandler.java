@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
@@ -71,7 +72,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.wrapper = cameraUiWrapper;
-        if(cameraUiWrapper instanceof CameraUiWrapper) {
+        if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             centerMeteringArea();
             meteringArea.setVisibility(View.VISIBLE);
         }

@@ -26,4 +26,5 @@ dependencies {
     provided project(':androiddng')
     provided project(':camera1')
     provided project(':language')
+    provided project(':camera2')
 }

@@ -75,7 +75,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
                     CameraMetadata.CONTROL_AF_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the lock.
             mState = PictureModuleApi2.STATE_WAITING_LOCK;
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
             if (focusEvent != null)
                 focusEvent.FocusStarted(focusRect);
@@ -141,11 +141,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
                                        TotalCaptureResult result) {
             process(result);
-
-
         }
-
-
     };
 
     /**
@@ -153,19 +149,35 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
      * get a response in {@link #CaptureCallback} from {@link #lockFocus()}.
      */
 
-    private void runPrecaptureSequence() {
+    private void lockAE() {
         try {
             Log.d(TAG, "Run Precapture");
             // This is how to tell the camera to trigger.
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                     CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.
-            mState = PictureModuleApi2.STATE_WAITING_PRECAPTURE;
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
+            //mState = PictureModuleApi2.STATE_WAITING_PRECAPTURE;
+            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void SetMeteringAreas(FocusRect rect, int width, int height) {
+        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        if (rect.left < m.left)
+            rect.left = m.left;
+        if (rect.right > m.right)
+            rect.right = m.right;
+        if (rect.top < m.top)
+            rect.top = m.top;
+        if (rect.bottom > m.bottom)
+            rect.bottom = m.bottom;
+        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
+        MeteringRectangle[] mre = { rectangle};
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        lockAE();
+    }
 }

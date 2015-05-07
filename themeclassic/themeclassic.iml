@@ -91,6 +91,7 @@
     <orderEntry type="module" module-name="androiddng" exported="" />
     <orderEntry type="module" module-name="seekarc" exported="" />
     <orderEntry type="module" module-name="sonyapi" exported="" />
+    <orderEntry type="module" module-name="camera2" exported="" />
     <orderEntry type="module" module-name="language" exported="" />
     <orderEntry type="module" module-name="camera1" exported="" />
     <orderEntry type="module" module-name="abstractcamera" exported="" />
