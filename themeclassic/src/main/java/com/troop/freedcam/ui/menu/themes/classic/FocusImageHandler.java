@@ -86,7 +86,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony) && activity.GetSurfaceView() != null)
+        if (!(wrapper instanceof CameraUiWrapperSony))
         {
             disWidth = activity.GetPreviewWidth();
             disHeight = activity.GetPreviewHeight();

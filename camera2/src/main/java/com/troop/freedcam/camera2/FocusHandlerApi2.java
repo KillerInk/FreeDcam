@@ -1,12 +1,15 @@
 package com.troop.freedcam.camera2;
 
 import android.annotation.TargetApi;
+import android.graphics.Rect;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.util.Log;
 
@@ -27,6 +30,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     private final CameraUiWrapperApi2 cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
     int mState;
+    FocusRect focusRect;
 
     final String TAG = FocusHandlerApi2.class.getSimpleName();
 
@@ -42,8 +46,22 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height) {
-        super.StartTouchToFocus(rect, null, width, height);
+    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
+    {
+        focusRect = rect;
+        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        if (rect.left < m.left)
+            rect.left = m.left;
+        if (rect.right > m.right)
+            rect.right = m.right;
+        if (rect.top < m.top)
+            rect.top = m.top;
+        if (rect.bottom > m.bottom)
+            rect.bottom = m.bottom;
+        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
+        MeteringRectangle[] mre = { rectangle};
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        lockFocus();
     }
 
     /**
@@ -52,7 +70,6 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     private void lockFocus() {
         try
         {
-
             // This is how to tell the camera to lock focus.
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_START);
@@ -60,6 +77,8 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
             mState = PictureModuleApi2.STATE_WAITING_LOCK;
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), CaptureCallback,
                     null);
+            if (focusEvent != null)
+                focusEvent.FocusStarted(focusRect);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -90,52 +109,25 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
 
         private void process(CaptureResult result) {
             switch (mState) {
-                case PictureModuleApi2.STATE_PREVIEW:
-                {
-                    // We have nothing to do when the camera preview is working normally.
-                    break;
-                }
+
                 case PictureModuleApi2.STATE_WAITING_LOCK:
                 {
                     Log.d(TAG, "STATE WAITING LOCK");
                     int afState = result.get(CaptureResult.CONTROL_AF_STATE);
-                    if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
-                            CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
-                        // CONTROL_AE_STATE can be null on some devices
-                        Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                        if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED || aeState == CaptureResult.CONTROL_AE_STATE_LOCKED)
-                        {
-                            mState = PictureModuleApi2.STATE_PICTURE_TAKEN;
-                            //captureStillPicture();
-                        } else {
-                            runPrecaptureSequence();
-                        }
+                    if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState)
+                    {
+                        if (focusEvent != null)
+                            focusEvent.FocusFinished(true);
+
+                    }
+                    else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
+                    {
+                        if (focusEvent != null)
+                            focusEvent.FocusFinished(false);
                     }
                     break;
                 }
-                case PictureModuleApi2.STATE_WAITING_PRECAPTURE:
-                {
-                    Log.d(TAG, "STATE WAITING PRECAPTURE");
-                    // CONTROL_AE_STATE can be null on some devices
-                    Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                    if (aeState == null ||
-                            aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
-                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED) {
-                        mState = PictureModuleApi2.STATE_WAITING_NON_PRECAPTURE;
-                    }
-                    break;
-                }
-                case PictureModuleApi2.STATE_WAITING_NON_PRECAPTURE:
-                {
-                    Log.d(TAG, "STATE WAITING NON PRECAPTURE");
-                    // CONTROL_AE_STATE can be null on some devices
-                    Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                    if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
-                        mState = PictureModuleApi2.STATE_PICTURE_TAKEN;
-                        //captureStillPicture();
-                    }
-                    break;
-                }
+
             }
         }
 
