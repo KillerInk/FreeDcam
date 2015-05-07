@@ -40,7 +40,7 @@ public class ZoomApi2 extends AbstractManualParameter
 
     @Override
     public int GetMaxValue() {
-        return Math.round(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
+        return (int)(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
     }
 
     @Override
@@ -68,8 +68,17 @@ public class ZoomApi2 extends AbstractManualParameter
     public void SetValue(int valueToSet)
     {
         zoom = valueToSet;
-        float toset = (float)zoom /10F / 2F;
-        Rect zoom = getZoomRect(toset, cameraHolder.textureView.getWidth(), cameraHolder.textureView.getHeight());
+        float maxzoom = cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
+        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        int minW = (int) (m.width() / maxzoom);
+        int minH = (int) (m.height() / maxzoom);
+        int difW = m.width() - minW;
+        int difH = m.height() - minH;
+        int cropW = difW /100 *zoom;
+        int cropH = difH /100 *zoom;
+        cropW -= cropW & 3;
+        cropH -= cropH & 3;
+        Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
@@ -79,17 +88,21 @@ public class ZoomApi2 extends AbstractManualParameter
         }
     }
 
-    public static Rect getZoomRect(float zoom, int imgWidth, int imgHeight)
+    public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)
     {
-        int cropWidth = (int) (imgWidth / zoom);
-        int cropHeight = (int) (imgHeight / zoom);
+
+        int cropWidth = (int) ((imgWidth / 100) * zoom);
+        int cropHeight = (int) ((imgHeight / 100)* zoom);
+        int newX = cropWidth;
+        int newW = imgWidth -cropWidth;
+        int newY = cropHeight;
+        int newH = imgHeight-cropHeight;
 // ensure crop w,h divisible by 4 (SZ requirement)
-        cropWidth -= cropWidth & 3;
-        cropHeight -= cropHeight & 3;
+        //cropWidth -= cropWidth & 3;
+        //cropHeight -= cropHeight & 3;
 // crop area for standard frame
         int cropWidthStd = cropWidth;
         int cropHeightStd = cropHeight;
-        return new Rect((imgWidth - cropWidthStd) / 2, (imgHeight - cropHeightStd) / 2, (imgWidth + cropWidthStd) / 2,
-                (imgHeight + cropHeightStd) / 2);
+        return new Rect(newX, newY, newW,newH);
     }
 }
