@@ -107,7 +107,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Denoise = new DenoiseModeApi2(uiHandler,cameraHolder);
         manualToneMapCurveApi2 = new ManualToneMapCurveApi2(this,cameraHolder);
         ManualContrast = manualToneMapCurveApi2.contrast;
+        ManualBrightness = manualToneMapCurveApi2.brightness;
+
         ToneMapMode = new ToneMapModeApi2(uiHandler,cameraHolder);
+        ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
 
         SetAppSettingsToParameters();
