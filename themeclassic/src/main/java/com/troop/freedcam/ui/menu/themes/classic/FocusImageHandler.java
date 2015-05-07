@@ -10,6 +10,9 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -108,6 +111,17 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             imageView.setLayoutParams(mParams);
             imageView.setBackgroundResource(R.drawable.crosshair_normal);
             imageView.setVisibility(View.VISIBLE);
+
+            RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+//Setup anim with desired properties
+            anim.setInterpolator(new LinearInterpolator());
+            anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
+            anim.setDuration(1000); //Put desired duration per anim cycle here, in milliseconds
+
+//Start animation
+            imageView.startAnimation(anim);
+//Later on, use view.setAnimation(null) to stop it.
             //imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
     }
@@ -124,7 +138,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     else
                         imageView.setBackgroundResource(R.drawable.crosshair_failed);
 
-
+                    imageView.setAnimation(null);
                     //handler.postDelayed(hideCrosshair, crosshairShowTime);
                 }
             });
