@@ -11,6 +11,8 @@ import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.sonyapi.modules.I_CameraStatusChanged;
 import com.troop.freedcam.sonyapi.modules.I_PictureCallback;
+import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
+import com.troop.freedcam.sonyapi.modules.PictureModuleSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
@@ -25,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +48,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     public FocusHandlerSony focusHandlerSony;
 
     private SimpleCameraEventObserver mEventObserver;
+    public ModuleHandlerSony moduleHandlerSony;
 
 
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
@@ -147,7 +151,8 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onWhiteBalanceValueChanged(String wb) {
+        public void onWhiteBalanceValueChanged(String wb)
+        {
             ParameterHandler.WhiteBalanceMode.BackgroundValueHasChanged(wb);
             if (ParameterHandler.WhiteBalanceMode.GetValue().equals("Color Temperature") && ParameterHandler.CCT != null)
                 ParameterHandler.CCT.BackgroundIsSupportedChanged(true);
@@ -158,6 +163,41 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onWbColorTemperatureChanged(int colortemp) {
 
+        }
+
+        @Override
+        public void onPostViewImageRevieved(String url) {
+
+        }
+
+        @Override
+        public void onImageRecieved(String url) {
+
+        }
+
+        @Override
+        public void onImagesRecieved(String[] url)
+        {
+            for (final String s : url)
+            {
+                if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
+                {
+                    final PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    pictureModuleSony.onPictureTaken(new URL(s));
+                                }catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }).start();
+
+                }
+            }
         }
 
         @Override

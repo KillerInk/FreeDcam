@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,6 +92,9 @@ public class SimpleCameraEventObserver {
         void onFocusLocked(boolean locked);
         void onWhiteBalanceValueChanged(String wb);
         void onWbColorTemperatureChanged(int colortemp);
+        void onPostViewImageRevieved(String url);
+        void onImageRecieved(String url);
+        void onImagesRecieved(String[] url);
 
     }
 
@@ -429,8 +433,39 @@ public class SimpleCameraEventObserver {
             fireWbChangeListener(wbval);
             Log.d(TAG, "WB mode: " + wbval);
         }
+
+        processImage(replyJson);
+
         // :
         // : add implementation for Event data as necessary.
+    }
+
+    private void processImage(JSONObject replyJson)
+    {
+        //String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 40, "contShooting", "contShootingUrl");
+        ArrayList<String> values = new ArrayList<String>();
+
+        JSONArray resultsObj = null;
+        try {
+            resultsObj = replyJson.getJSONArray("result");
+
+        if (!resultsObj.isNull(40)) {
+            JSONObject InformationObj = resultsObj.getJSONObject(40);
+            String type = InformationObj.getString("type");
+            if ("contShooting".equals(type))
+            {
+                JSONArray array = InformationObj.getJSONArray("contShootingUrl");
+                for (int i = 0; i<array.length();i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    values.add(ob.getString("thumbnailUrl"));
+                }
+                fireImageListener(values.toArray(new String[values.size()]));
+            }
+        }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void processShutterSpeedStuff(JSONObject replyJson) throws JSONException
@@ -618,6 +653,17 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onFnumberChanged(pfnum);
+                }
+            }
+        });
+    }
+
+    private void fireImageListener(final String[] pfnum) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onImagesRecieved(pfnum);
                 }
             }
         });

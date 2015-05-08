@@ -41,6 +41,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;
+        cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
     }
 
     @Override
@@ -219,8 +220,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        new Thread(){ public void run(){StartCamera();}}.start();
-
+        StartCamera();
     }
 
     @Override
