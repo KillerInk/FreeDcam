@@ -39,7 +39,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     int recthalf;
     ImageView cancelFocus;
     ImageView meteringArea;
+    ImageView awbArea;
     FocusRect meteringRect;
+    FocusRect awbRect;
     View view;
     Fragment fragment;
     long start;
@@ -70,6 +72,11 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         meteringArea.setOnTouchListener(new MeteringAreaTouch());
         meteringArea.setVisibility(View.GONE);
 
+
+        awbArea = (ImageView)view.findViewById(R.id.imageView_awbarea);
+        awbArea.setOnTouchListener(new AwbAreaTouch());
+        awbArea.setVisibility(View.GONE);
+
     }
 
     public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -83,6 +90,12 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         {
             meteringArea.setVisibility(View.GONE);
         }
+        if(cameraUiWrapper instanceof CameraUiWrapperApi2)
+        {
+            awbArea.setVisibility(View.VISIBLE);
+        }
+        else
+            awbArea.setVisibility(View.GONE);
         if (wrapper.Focus != null)
             wrapper.Focus.focusEvent = this;
     }
@@ -241,9 +254,6 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                     else
                     {
                         OnClick((int)meteringArea.getX()+recthalf,(int)meteringArea.getY()+recthalf);
-
-
-
                     }
 
                     if (duration >= MAX_DURATION) {
@@ -297,5 +307,75 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         meteringArea.setY(height/2 - recthalf);
 
         meteringRect = new FocusRect((int)meteringArea.getX() - recthalf, (int)meteringArea.getX() + recthalf, (int)meteringArea.getY() - recthalf, (int)meteringArea.getY() + recthalf);
+    }
+
+    private class AwbAreaTouch implements View.OnTouchListener
+    {
+        float x, y, difx, dify;
+        int distance = 10;
+        boolean moving = false;
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            switch(event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN: {
+                    x = event.getX();
+                    y = event.getY();
+                    startX = (int)event.getX() - (int)awbArea.getX();
+                    startY =(int) event.getY() - (int)awbArea.getY();
+                    start = System.currentTimeMillis();
+
+                }
+                break;
+                case MotionEvent.ACTION_MOVE:
+                {
+
+                    difx = x - awbArea.getX();
+                    dify = y - awbArea.getY();
+                    int xd = getDistance(startX, (int)difx);
+                    int yd = getDistance(startY, (int)dify);
+
+                    if (event.getX() - difx > activity.GetPreviewLeftMargine() && event.getX() - difx + awbArea.getWidth() < activity.GetPreviewLeftMargine() + activity.GetPreviewWidth())
+                        awbArea.setX(event.getX() - difx);
+                    if (event.getY() - dify > activity.GetPreviewTopMargine() && event.getY() - dify + awbArea.getHeight() < activity.GetPreviewTopMargine() + activity.GetPreviewHeight())
+                        awbArea.setY(event.getY() - dify);
+                    if (xd >= distance || yd >= distance) {
+
+                        moving = true;
+                    }
+                }
+                break;
+                case MotionEvent.ACTION_UP:
+                {
+                    long time = System.currentTimeMillis() - start;
+                    duration = duration+time;
+
+                    if (moving)
+                    {
+                        moving = false;
+                        x = 0;
+                        y = 0;
+                        difx = 0;
+                        dify = 0;
+                        awbRect = new FocusRect((int) awbArea.getX() - recthalf, (int) awbArea.getX() + recthalf, (int) awbArea.getY() - recthalf, (int) awbArea.getY() + recthalf);
+                        if (wrapper != null)
+                            wrapper.Focus.SetAwbAreas(awbRect, activity.GetPreviewWidth(), activity.GetPreviewHeight());
+                    }
+                    else
+                    {
+                        OnClick((int)awbArea.getX()+recthalf,(int)awbArea.getY()+recthalf);
+                    }
+
+                    if (duration >= MAX_DURATION) {
+                        System.out.println("Long Press Time: " + duration);
+                        //George Was Here On a tuesday lol
+                        System.out.println("Insert AE Code here: ");
+
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

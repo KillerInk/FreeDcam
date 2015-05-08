@@ -71,10 +71,9 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         try
         {
             // This is how to tell the camera to lock focus.
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_START);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the lock.
-            mState = PictureModuleApi2.STATE_WAITING_LOCK;
+            //mState = PictureModuleApi2.STATE_WAITING_LOCK;
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
             if (focusEvent != null)
@@ -91,8 +90,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         try {
             Log.d(TAG, "CaptureDone Unlock Focus");
             // Reset the autofucos trigger
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+            //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             // After this, the camera will go back to the normal state of preview.
             mState = PictureModuleApi2.STATE_PREVIEW;
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
@@ -104,57 +102,14 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
 
     }
 
-    CameraCaptureSession.CaptureCallback CaptureCallback
-            = new CameraCaptureSession.CaptureCallback() {
 
-        private void process(CaptureResult result) {
-            switch (mState) {
 
-                case PictureModuleApi2.STATE_WAITING_LOCK:
-                {
-                    Log.d(TAG, "STATE WAITING LOCK");
-                    int afState = result.get(CaptureResult.CONTROL_AF_STATE);
-                    if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState)
-                    {
-                        if (focusEvent != null)
-                            focusEvent.FocusFinished(true);
-
-                    }
-                    else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
-                    {
-                        if (focusEvent != null)
-                            focusEvent.FocusFinished(false);
-                    }
-                    break;
-                }
-
-            }
-        }
-
-        @Override
-        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request,
-                                        CaptureResult partialResult) {
-            process(partialResult);
-        }
-
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
-                                       TotalCaptureResult result) {
-            process(result);
-        }
-    };
-
-    /**
-     * Run the precapture sequence for capturing a still image. This method should be called when we
-     * get a response in {@link #CaptureCallback} from {@link #lockFocus()}.
-     */
 
     private void lockAE() {
         try {
             Log.d(TAG, "Run Precapture");
             // This is how to tell the camera to trigger.
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
-                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.
             //mState = PictureModuleApi2.STATE_WAITING_PRECAPTURE;
             cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
@@ -165,7 +120,9 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     }
 
     @Override
-    public void SetMeteringAreas(FocusRect rect, int width, int height) {
+    public void SetMeteringAreas(FocusRect rect, int width, int height)
+    {
+
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (rect.left < m.left)
             rect.left = m.left;
@@ -179,5 +136,31 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         MeteringRectangle[] mre = { rectangle};
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, mre);
         lockAE();
+    }
+
+    @Override
+    public void SetAwbAreas(FocusRect rect, int width, int height)
+    {
+        /*cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, false);
+        try {
+            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                    null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }*/
+        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        if (rect.left < m.left)
+            rect.left = m.left;
+        if (rect.right > m.right)
+            rect.right = m.right;
+        if (rect.top < m.top)
+            rect.top = m.top;
+        if (rect.bottom > m.bottom)
+            rect.bottom = m.bottom;
+        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
+        MeteringRectangle[] mre = { rectangle};
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_REGIONS, mre);
+        lockAE();
+
     }
 }

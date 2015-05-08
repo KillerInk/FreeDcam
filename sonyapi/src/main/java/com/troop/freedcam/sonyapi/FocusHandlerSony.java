@@ -64,6 +64,11 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
         //super.StartTouchToFocus(rect, width, height);
     }
 
+    @Override
+    public void SetAwbAreas(FocusRect awbRect, int width, int height) {
+
+    }
+
 
     @Override
     public void onAutoFocus(CameraFocusEvent event)

@@ -14,10 +14,12 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
@@ -94,6 +96,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CameraCharacteristics characteristics;
     public Surface surface;
     AppSettingsManager Settings;
+    public ColorSpaceTransform colorSpaceTransform;
 
 
 
@@ -351,6 +354,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         textureView.setTransform(matrix);
     }
 
+
+    int afState;
+    int aeState;
+    int awbState;
+    int lastAwbState;
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
@@ -397,17 +405,94 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
                 }
             }
-            int afState = result.get(CaptureResult.CONTROL_AF_STATE);
-            if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState)
+
+            if (afState != result.get(CaptureResult.CONTROL_AF_STATE))
             {
-                if (Focus.focusEvent != null)
-                    Focus.focusEvent.FocusFinished(true);
+                afState =  result.get(CaptureResult.CONTROL_AF_STATE);
+                if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState) {
+                    if (Focus.focusEvent != null)
+                        Focus.focusEvent.FocusFinished(true);
+
+                } else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
+                    if (Focus.focusEvent != null)
+                        Focus.focusEvent.FocusFinished(false);
+                }
+                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                        CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                try {
+                    mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                            null);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
 
             }
-            else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
+            if(aeState != result.get(CaptureResult.CONTROL_AE_STATE))
             {
-                if (Focus.focusEvent != null)
-                    Focus.focusEvent.FocusFinished(false);
+                aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                if (aeState == CaptureResult.CONTROL_AE_STATE_LOCKED || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED )
+                {
+                    mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                            CameraMetadata.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE);
+                    try {
+                        if (mCaptureSession == null)
+                            return;
+                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                null);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            if (awbState != result.get(CaptureResult.CONTROL_AWB_STATE))
+            {
+                awbState = result.get(CaptureResult.CONTROL_AWB_STATE);
+                if (awbState == CaptureResult.CONTROL_AWB_STATE_LOCKED)
+                {
+                    //colorSpaceTransform = result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM);
+                    //RggbChannelVector vector = result.get(CaptureResult.COLOR_CORRECTION_GAINS);
+                    Log.d(TAG, "AWB LOCKED");
+                }
+                if (awbState == CaptureResult.CONTROL_AWB_STATE_CONVERGED)
+                {
+                    //colorSpaceTransform = result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM);
+                    //RggbChannelVector vector = result.get(CaptureResult.COLOR_CORRECTION_GAINS);
+                    Log.d(TAG, "AWB LOCKED");
+                }
+
+                if (awbState == CaptureResult.CONTROL_AWB_STATE_INACTIVE)
+                    Log.d(TAG, "AWB INACTIVE");
+                if (awbState == CaptureResult.CONTROL_AWB_STATE_SEARCHING)
+                    Log.d(TAG, "AWB SEARCHING");
+                if (awbState == CaptureResult.CONTROL_AWB_STATE_CONVERGED)
+                {
+                    /*mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, true);
+                    try {
+                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                null);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }*/
+                }
+            }
+
+
+            if (lastAwbState != result.get(CaptureResult.CONTROL_AWB_MODE))
+            {
+                lastAwbState = result.get(CaptureResult.CONTROL_AWB_MODE);
+                if (lastAwbState == CaptureResult.CONTROL_AWB_MODE_OFF)
+                {
+                    /*mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM,colorSpaceTransform);
+                    try {
+                        if (mCaptureSession == null)
+                            return;
+                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                null);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }*/
+                }
             }
 
         }
@@ -435,6 +520,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         if (mCaptureSession != null)
             mCaptureSession.close();
+        mCaptureSession = null;
     }
 
     @Override
