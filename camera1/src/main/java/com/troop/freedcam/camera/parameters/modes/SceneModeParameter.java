@@ -17,7 +17,7 @@ public class SceneModeParameter extends BaseModeParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
         super.SetValue(valueToSet, setToCam);
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
+        //baseCameraHolder.StopPreview();
+        //baseCameraHolder.StartPreview();
     }
 }
