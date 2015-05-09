@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
+import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -109,9 +110,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void TakePicture()
     {
         isWorking = true;
-        if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("jpeg"))
-            cameraHolder.mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
-        else
+        Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        Log.d(TAG, "dng:"+ Boolean.toString(ParameterHandler.isDngActive));
+
             cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
 
         captureStillPicture();
@@ -134,18 +135,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
-            captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
+            /*captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
             captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE));
-            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, ((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector);
+            if(((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector != null)
+                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, ((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector);
             int awb = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
             captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
             captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.EDGE_MODE));
             captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE));
             captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE));
+            captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
+            captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
+            //captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));*/
             //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
 
-            cameraHolder.SetLastUsedParameters(captureBuilder);
+            //cameraHolder.SetLastUsedParameters(captureBuilder);
 
 
             // Orientation
@@ -153,15 +159,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
             CameraCaptureSession.CaptureCallback CaptureCallback
-                    = new CameraCaptureSession.CaptureCallback() {
+                    = new CameraCaptureSession.CaptureCallback()
+            {
 
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
                                                TotalCaptureResult result)
                 {
                     mDngResult = result;
+                    Log.d(TAG, "CaptureResult Recieved");
                     //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
-                    finishCapture();
+
                 }
             };
 
@@ -206,6 +214,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             workfinished(true);
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
+            workfinished(true);
+            finishCapture();
             //StartPreview();
         }
 
@@ -215,8 +225,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         @Override
         public void onImageAvailable(ImageReader reader) {
-            try {
-                if (cameraHolder.ParameterHandler.isDngActive)
+            try
+            {
+                if (reader.getImageFormat() == ImageFormat.JPEG)
+                {
+                    Log.d(TAG, "Create RAW");
+                    File file = new File(getStringAddTime() +".jpg");
+                    new ImageSaver(reader.acquireNextImage(), file).run();
+                    isWorking = false;
+                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                    eventHandler.WorkFinished(file);
+                }
+                else if (reader.getImageFormat() == ImageFormat.JPEG && cameraHolder.ParameterHandler.isDngActive)
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(getStringAddTime() + ".dng");
@@ -233,6 +253,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     Log.d(TAG, "Create RAW");
                     File file = new File(getStringAddTime() +".raw");
                     new ImageSaver(reader.acquireNextImage(), file).run();
+                    isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
                 }
@@ -242,6 +263,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 e.printStackTrace();
             }
             workfinished(true);
+            finishCapture();
         }
     };
 

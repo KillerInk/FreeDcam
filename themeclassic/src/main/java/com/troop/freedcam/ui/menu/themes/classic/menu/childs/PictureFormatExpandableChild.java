@@ -25,10 +25,10 @@ public class PictureFormatExpandableChild extends ExpandableChild
     @Override
     public void setValue(String value)
     {
-        parameterHolder.SetValue(value, true);
-        valueTextView.setText(value);
         if (!(parameterHolder instanceof BaseModeParameterSony))
             appSettingsManager.setString(settingsname, value);
+        parameterHolder.SetValue(value, true);
+        valueTextView.setText(value);
         Log.d(getTAG(), "Set " + Name + ":" + value);
         if (PictureFormatChangedHandler != null)
             PictureFormatChangedHandler.VideoProfileChanged(value);

@@ -120,7 +120,7 @@ public abstract class AbstractParameterHandler
         setMode(AntiBandingMode, AppSettingsManager.SETTING_ANTIBANDINGMODE);
         setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
-        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+
         setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);
         setMode(GuideList, AppSettingsManager.SETTING_GUIDE);
         setMode(ImagePostProcessing, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
@@ -164,6 +164,7 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         setManualMode(CCT,AppSettingsManager.MWB);
 
+        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
     }
 
     private void setMode(AbstractModeParameter parameter, String settingsval)

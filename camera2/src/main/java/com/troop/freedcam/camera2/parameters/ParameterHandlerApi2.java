@@ -75,7 +75,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //ae mode end
         AntiBandingMode = new AntibandingApi2(uiHandler,cameraHolder);
         PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
-        PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
+
         FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
         //manual iso
@@ -112,7 +112,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ToneMapMode = new ToneMapModeApi2(uiHandler,cameraHolder);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
-
+        PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override

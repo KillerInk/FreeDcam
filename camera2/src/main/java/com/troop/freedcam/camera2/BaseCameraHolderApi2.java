@@ -218,6 +218,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
             if (picformat.equals(JPEG))
             {
+
                 String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
                 int width, height;
                 if (split.length < 2)
@@ -231,16 +232,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     height = Integer.parseInt(split[1]);
                 }
                 //create new ImageReader with the size and format for the image
+                Log.d(TAG, "ImageReader JPEG");
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             }
             else if (picformat.equals(RAW_SENSOR))
             {
+                Log.d(TAG, "ImageReader RAW_SENOSR");
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
 
             }
             else if (picformat.equals(RAW10))
             {
+                Log.d(TAG, "ImageReader RAW10");
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW10, 1);
             }
@@ -253,9 +257,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            if (mImageReader == null)
-                mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
-            else
+            //if (mImageReader == null)
+            //    mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
+            //else
                 mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBack, null);
 
 
@@ -283,18 +287,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // When the session is ready, we start displaying the preview.
             mCaptureSession = cameraCaptureSession;
             try {
-                // Auto focus should be continuous for camera preview.
-                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                // Set Auto Exposure to On to disable flash handling
-                //mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
-
-                /*if (ParameterHandler.Zoom != null) {
-                    Rect zoom = ZoomApi2.getZoomRect(ParameterHandler.Zoom.GetValue(), textureView.getWidth(), textureView.getHeight());
-                    mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
-                }*/
                 ((ParameterHandlerApi2)ParameterHandler).Init();
-                SetLastUsedParameters(mPreviewRequestBuilder);
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
