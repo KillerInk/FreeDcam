@@ -80,6 +80,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ContShootMode;
     public AbstractModeParameter ContShootModeSpeed;
     public AbstractModeParameter ObjectTracking;
+    public AbstractModeParameter PostViewSize;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;

@@ -93,6 +93,8 @@ public class MenuCreator
     protected ExpandableChild HotPixelMode;
     protected ExpandableChild ToneMapMode;
 
+    protected ExpandableChild PostViewSize;
+
     protected LinearLayout submenu;
 
     protected I_Activity activityV2;
@@ -272,6 +274,8 @@ public class MenuCreator
         if (parameterHandler.ColorCorrectionMode != null && parameterHandler.ColorCorrectionMode.IsSupported())
             ColorCorrectionMode.setParameterHolder(parameterHandler.ColorCorrectionMode, cameraUiWrapper.moduleHandler.AllModules);
 
+        if (parameterHandler.PostViewSize != null)
+            PostViewSize.setParameterHolder(parameterHandler.PostViewSize, cameraUiWrapper.moduleHandler.AllModules);
 
         externalShutter.setParameterHolder(null, cameraUiWrapper.moduleHandler.AllModules);
         rotationHack.SetCameraUIWrapper(cameraUiWrapper);
@@ -384,6 +388,9 @@ public class MenuCreator
 
         ToneMapMode = new ExpandableChild(context,group,"ToneMap", appSettingsManager, AppSettingsManager.SETTING_TONEMAP);
         childlist.add(ToneMapMode);
+
+        PostViewSize = new ExpandableChild(context,group,"PostViewSize", appSettingsManager, "");
+        childlist.add(PostViewSize);
 
         group.setItems(childlist);
     }

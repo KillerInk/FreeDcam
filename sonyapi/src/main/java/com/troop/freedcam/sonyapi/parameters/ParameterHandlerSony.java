@@ -119,6 +119,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         CCT = new WbCTManualSony("","","", this);
         parametersChangedList.add((BaseManualParameterSony) CCT);
 
+        PostViewSize = new BaseModeParameterSony(uiHandler, "getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony)PostViewSize);
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
