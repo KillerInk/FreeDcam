@@ -5,6 +5,7 @@ import android.os.Environment;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -132,7 +133,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-
+        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
 
 

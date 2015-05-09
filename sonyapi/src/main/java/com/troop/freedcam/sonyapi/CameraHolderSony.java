@@ -176,28 +176,29 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onImagesRecieved(String[] url)
+        public void onImagesRecieved(final String[] url)
         {
-            for (final String s : url)
-            {
-                if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
-                {
-                    final PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (final String s : url)
+                    {
+                        if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
+                        {
+                            final PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    pictureModuleSony.onPictureTaken(new URL(s));
-                                }catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                }
 
+                            try {
+                                pictureModuleSony.onPictureTaken(new URL(s));
+                            }catch (MalformedURLException e) {
+                                e.printStackTrace();
                             }
-                        }).start();
 
-                }
-            }
+                        }
+
+
+                    }
+                }}).start();
         }
 
         @Override
@@ -308,16 +309,16 @@ public class CameraHolderSony extends AbstractCameraHolder
                                 @Override
                                 public void run() {*/
 
-                                    mLiveviewSurface.start(liveviewUrl, //
-                                            new SimpleStreamSurfaceView.StreamErrorListener() {
+                            mLiveviewSurface.start(liveviewUrl, //
+                                    new SimpleStreamSurfaceView.StreamErrorListener() {
 
-                                                @Override
-                                                public void onError(StreamErrorReason reason)
-                                                {
-                                                    Log.e(TAG, "Error StartingLiveView");
-                                                    stopLiveview();
-                                                }
-                                            });
+                                        @Override
+                                        public void onError(StreamErrorReason reason)
+                                        {
+                                            Log.e(TAG, "Error StartingLiveView");
+                                            stopLiveview();
+                                        }
+                                    });
                                 /*}
                             });*/
                         }
@@ -554,10 +555,10 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         //context.runOnUiThread(new Runnable() {
 
-          //  @Override
-            //public void run() {
-                mEventObserver.setEventChangeListener(mEventListener);
-                mEventObserver.start();
+        //  @Override
+        //public void run() {
+        mEventObserver.setEventChangeListener(mEventListener);
+        mEventObserver.start();
         //}
         //});
     }
@@ -565,7 +566,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public void TakePicture(final I_PictureCallback pictureCallback)
     {
-            actTakePicture(pictureCallback);
+        actTakePicture(pictureCallback);
     }
 
     public void startContShoot(final I_PictureCallback pictureCallback)
@@ -685,20 +686,20 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition"))
         {
-                Log.d(TAG, "Cancel Focus");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run()
+            Log.d(TAG, "Cancel Focus");
+            new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    try
                     {
-                        try
-                        {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.d(TAG, "Cancel Focus failed");
-                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Cancel Focus failed");
                     }
-                }).start();
+                }
+            }).start();
 
         }
         else if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))

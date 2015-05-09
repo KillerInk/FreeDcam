@@ -458,7 +458,7 @@ public class SimpleCameraEventObserver {
                 for (int i = 0; i<array.length();i++)
                 {
                     JSONObject ob = array.getJSONObject(i);
-                    values.add(ob.getString("thumbnailUrl"));
+                    values.add(ob.getString("postviewUrl"));
                 }
                 fireImageListener(values.toArray(new String[values.size()]));
             }
