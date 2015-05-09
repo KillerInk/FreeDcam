@@ -135,7 +135,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
-            /*captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
+            captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
             captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE));
             if(((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector != null)
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, ((ManualWbCtApi2)cameraHolder.ParameterHandler.CCT).rggbChannelVector);
@@ -147,7 +147,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
             captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
-            //captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));*/
+            captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
             //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
 
 
@@ -236,7 +236,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
                 }
-                else if (reader.getImageFormat() == ImageFormat.JPEG && cameraHolder.ParameterHandler.isDngActive)
+                else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR && cameraHolder.ParameterHandler.isDngActive)
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(getStringAddTime() + ".dng");
