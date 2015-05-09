@@ -48,7 +48,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     public void onClick(View v) {
         if (lastFile != null)
         {
-            if (lastFile.getName().endsWith(".jpg"))
+            /*if (lastFile.getName().endsWith(".jpg"))
             {
                 if (showThumb)
                 {
@@ -65,7 +65,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                 }
             }
             else
-            {
+            {*/
                 Uri uri = Uri.fromFile(lastFile);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 if (lastFile.getAbsolutePath().endsWith("mp4"))
@@ -73,7 +73,7 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
                 else
                     i.setDataAndType(uri, "image/*");
                 activity.startActivity(i);
-            }
+            //}
         }
     }
 
