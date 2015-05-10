@@ -17,6 +17,10 @@ import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -436,6 +440,61 @@ public class BaseCameraHolder extends AbstractCameraHolder
             errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
         }
 
+    }
+
+    private void setHistogramReflection()
+    {
+        try
+        {
+            Class camera = Class.forName("android.hardware.Camera");
+            Class[] intefaces = camera.getClasses();
+            Class datacallback = null;
+            for (Class i : intefaces)
+            {
+                if (i.getSimpleName().equals("CameraDataCallback"))
+                    datacallback = i;
+            }
+            if (datacallback == null)
+                throw new NoClassDefFoundError();
+
+            Object dcb = (Object) Proxy.newProxyInstance(datacallback.getClassLoader(), new Class[]{datacallback}, new InvocationHandler()
+            {
+
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                    //Handle the invocations
+                    if(method.getName().equals("onCameraData")){
+                        return 1;
+                    }
+                    else return -1;
+                }
+            });
+            Method[] meths = camera.getMethods();
+            Method setHistogramMode = null;
+            Method sendHistogramData = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setHistogramMode"))
+                    setHistogramMode = m;
+                if (m.getName().equals("sendHistogramData"))
+                    sendHistogramData = m;
+            }
+            if (sendHistogramData == null || setHistogramMode == null)
+                throw new  NoSuchMethodException();
+            setHistogramMode.invoke(mCamera, dcb);
+
+
+            sendHistogramData.invoke(mCamera, null);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void takeSamsungPicture() {
