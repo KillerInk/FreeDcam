@@ -27,7 +27,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) != null;
+        return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
     }
 
     @Override
