@@ -41,8 +41,11 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     }
 
     @Override
-    public int GetValue() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY).intValue()/50;
+    public int GetValue()
+    {
+        if (IsSupported())
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY).intValue()/50;
+        return 0;
     }
 
     @Override

@@ -54,8 +54,12 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     public String GetStringValue()
     {
 
-        long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-        return StringUtils.TrimmFloatString(getSECONDS(mili));
+        if (IsSupported()) {
+            long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+            return StringUtils.TrimmFloatString(getSECONDS(mili));
+        }
+        else
+            return "";
 
     }
 
