@@ -18,7 +18,8 @@ import com.troop.freedcam.utils.StringUtils;
 public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-    int current = -1;
+    int current = 0;
+    boolean supported = false;
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {
         super(camParametersHandler, cameraHolder);
@@ -31,7 +32,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
     @Override
     public int GetMinValue() {
-        return -1;
+        return 0;
     }
 
     @Override
@@ -42,7 +43,9 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     @Override
     public String GetStringValue()
     {
-        return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        if (supported)
+            return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        return "";
     }
 
 
@@ -77,7 +80,8 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
             if (i == CameraCharacteristics.CONTROL_AF_MODE_OFF)
                 supported = true;
         }
-        if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null)
+        if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
+                || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) > 0)
             supported = false;
         return  supported;
     }
