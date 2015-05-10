@@ -442,6 +442,30 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void runObjectTrackingReflection()
+    {
+        try {
+            Class camera = Class.forName("com.lge.hardware.LGCamera");
+            Method[] meths = camera.getMethods();
+            Method obtrack = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("runObjectTracking"))
+                    obtrack = m;
+            }
+            if (obtrack == null)
+                throw new  NoSuchMethodException();
+            obtrack.invoke(lgCamera,null);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
     private void setHistogramReflection()
     {
         try
