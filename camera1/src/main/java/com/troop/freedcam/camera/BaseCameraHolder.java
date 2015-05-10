@@ -429,7 +429,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             @Override
             public void onPictureTaken(byte[] bytes, Camera secCamera) {
                 pictureCallback.onPictureTaken(bytes);
-                
+
             }
         };
         try {
@@ -493,6 +493,63 @@ public class BaseCameraHolder extends AbstractCameraHolder
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SetMetaDataCallbackReflection()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Class[] intefaces = camera.getClasses();
+
+            Class metadatacallback = null;
+            for (Class i : intefaces)
+            {
+                if (i.getSimpleName().equals("CameraMetaDataCallback"))
+                    metadatacallback = i;
+            }
+            if (metadatacallback == null)
+                throw new NoClassDefFoundError();
+
+            Object dcb = (Object) Proxy.newProxyInstance(metadatacallback.getClassLoader(), new Class[]{metadatacallback}, new InvocationHandler()
+            {
+
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                    //Handle the invocations
+                    if(method.getName().equals("onCameraMetaData")){
+                        return 1;
+                    }
+                    else return -1;
+                }
+            });
+
+            Method[] meths = camera.getMethods();
+            Method setMetaDataCB = null;
+            Method sendMetaData = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setMetadataCb"))
+                    setMetaDataCB = m;
+                if (m.getName().equals("sendMetaData"))
+                    sendMetaData = m;
+            }
+            if (sendMetaData == null || setMetaDataCB == null)
+                throw new  NoSuchMethodException();
+            setMetaDataCB.invoke(mCamera, dcb);
+
+
+            sendMetaData.invoke(mCamera, null);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -723,7 +780,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 SecCamera.Parameters p = samsungCamera.getParameters();
                 if(p.getMaxNumMeteringAreas() > 0);
-                    p.setMeteringAreas(meteringList);
+                p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
@@ -739,7 +796,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 Camera.Parameters p = mCamera.getParameters();
                 if(p.getMaxNumMeteringAreas() > 0);
-                    p.setMeteringAreas(meteringList);
+                p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
