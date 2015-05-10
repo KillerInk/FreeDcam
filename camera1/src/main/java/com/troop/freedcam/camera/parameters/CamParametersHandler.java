@@ -67,7 +67,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public HashMap<String, String> getParameters(){return cameraParameters;}
 
     boolean moreParametersToSet = false;
-    BaseCameraHolder baseCameraHolder;
+    public BaseCameraHolder baseCameraHolder;
     public BaseModeParameter DualMode;
     CameraUiWrapper cameraUiWrapper;
 
