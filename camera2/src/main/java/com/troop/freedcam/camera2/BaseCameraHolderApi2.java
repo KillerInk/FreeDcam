@@ -365,9 +365,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
+            boolean setTOCam = false;
             if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
             {
-
                 if (result != null && result.getPartialResults().size() > 0)
                 {
                     try {
@@ -399,7 +399,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 }
             }
 
-            if (afState != result.get(CaptureResult.CONTROL_AF_STATE))
+            if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
             {
                 afState =  result.get(CaptureResult.CONTROL_AF_STATE);
                 if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState) {
@@ -412,33 +412,22 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 }
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                         CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
-                try {
-                    mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
-                            null);
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
+                setTOCam = true;
+
 
             }
-            if(aeState != result.get(CaptureResult.CONTROL_AE_STATE))
+            if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
             {
                 aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                 if (aeState == CaptureResult.CONTROL_AE_STATE_LOCKED || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED )
                 {
                     mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                             CameraMetadata.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE);
-                    try {
-                        if (mCaptureSession == null)
-                            return;
-                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
-                                null);
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
+                    setTOCam = true;
                 }
             }
 
-            if (awbState != result.get(CaptureResult.CONTROL_AWB_STATE))
+            if (result.get(CaptureResult.CONTROL_AWB_STATE)!= null && awbState != result.get(CaptureResult.CONTROL_AWB_STATE))
             {
                 awbState = result.get(CaptureResult.CONTROL_AWB_STATE);
                 if (awbState == CaptureResult.CONTROL_AWB_STATE_LOCKED)
@@ -471,7 +460,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
 
 
-            if (lastAwbState != result.get(CaptureResult.CONTROL_AWB_MODE))
+            if (result.get(CaptureResult.CONTROL_AWB_MODE) != null && lastAwbState != result.get(CaptureResult.CONTROL_AWB_MODE))
             {
                 lastAwbState = result.get(CaptureResult.CONTROL_AWB_MODE);
                 if (lastAwbState == CaptureResult.CONTROL_AWB_MODE_OFF)
@@ -485,6 +474,16 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
                     }*/
+                }
+            }
+            if (setTOCam)
+            {
+                try
+                {
+                    mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                            null);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
                 }
             }
 
