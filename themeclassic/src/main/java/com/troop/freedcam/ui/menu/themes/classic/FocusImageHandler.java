@@ -174,6 +174,29 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 
     }
 
+    @Override
+    public void TouchToFocusSupported(boolean isSupported)
+    {
+        if (!isSupported)
+            imageView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void AEMeteringSupported(boolean isSupported) {
+        if (isSupported)
+            meteringArea.setVisibility(View.VISIBLE);
+        else
+            meteringArea.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void AWBMeteringSupported(boolean isSupported) {
+        if (isSupported)
+            awbArea.setVisibility(View.VISIBLE);
+        else
+            awbArea.setVisibility(View.GONE);
+    }
+
 
     /*private Handler handler = new Handler();
     Runnable hideCrosshair = new Runnable() {

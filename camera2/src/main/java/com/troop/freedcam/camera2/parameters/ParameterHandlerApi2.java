@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.FocusHandlerApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualFocus;
@@ -113,6 +114,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
         PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
+
+        FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
+        WhiteBalanceMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).awbModeListner);
+        ExposureMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).aeModeListner);
+
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override

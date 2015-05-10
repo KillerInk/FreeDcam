@@ -14,23 +14,29 @@ import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.modules.PictureModuleApi2;
+import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class FocusHandlerApi2 extends AbstractFocusHandler
+public class FocusHandlerApi2 extends AbstractFocusHandler implements I_ParametersLoaded
 {
 
     private final BaseCameraHolderApi2 cameraHolder;
     private final CameraUiWrapperApi2 cameraUiWrapper;
-    private final AbstractParameterHandler parametersHandler;
+    private final ParameterHandlerApi2 parametersHandler;
     int mState;
     FocusRect focusRect;
+    boolean focusenabled = false;
+
+
 
     final String TAG = FocusHandlerApi2.class.getSimpleName();
 
@@ -38,8 +44,43 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     {
         this.cameraUiWrapper = (CameraUiWrapperApi2) cameraUiWrapper;
         this.cameraHolder = (BaseCameraHolderApi2) cameraUiWrapper.cameraHolder;
-        this.parametersHandler = cameraUiWrapper.camParametersHandler;
+        this.parametersHandler = (ParameterHandlerApi2) cameraUiWrapper.camParametersHandler;
     }
+
+    public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.contains("continous")|| val.equals("off"))
+            {
+                focusenabled = false;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(false);
+            }
+            else
+            {
+                focusenabled = true;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(true);
+            }
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
+
     @Override
     public void StartFocus() {
         super.StartFocus();
@@ -48,6 +89,8 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
+        if (!focusenabled)
+            return;
         focusRect = rect;
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (rect.left < m.left)
@@ -104,6 +147,37 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
 
 
 
+    public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.equals("off"))
+            {
+                if (focusEvent != null)
+                    focusEvent.AEMeteringSupported(false);
+            }
+            else {
+                if (focusEvent != null)
+                    focusEvent.AEMeteringSupported(true);
+            }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 
     private void lockAE() {
         try {
@@ -122,7 +196,6 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
     @Override
     public void SetMeteringAreas(FocusRect rect, int width, int height)
     {
-
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (rect.left < m.left)
             rect.left = m.left;
@@ -137,6 +210,36 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, mre);
         lockAE();
     }
+
+    public AbstractModeParameter.I_ModeParameterEvent awbModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val) {
+            if (val.equals("OFF"))
+            {
+                if (focusEvent != null)
+                    focusEvent.AWBMeteringSupported(false);
+            }
+            else {
+                if (focusEvent != null)
+                    focusEvent.AWBMeteringSupported(true);
+            }
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 
     @Override
     public void SetAwbAreas(FocusRect rect, int width, int height)
@@ -162,5 +265,9 @@ public class FocusHandlerApi2 extends AbstractFocusHandler
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_REGIONS, mre);
         lockAE();
 
+    }
+
+    @Override
+    public void ParametersLoaded() {
     }
 }
