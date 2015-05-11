@@ -87,7 +87,7 @@ public class DngSupportedDevices
         else if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-            return new DngProfile(0, 2688, 1520,false, GRBG, HTCM8_rowSize,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,nocal_color2,g3_color2,nocal_nutral);
         return null;
     }
 
