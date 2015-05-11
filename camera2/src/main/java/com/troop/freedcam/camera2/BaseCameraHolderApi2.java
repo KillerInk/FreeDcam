@@ -476,10 +476,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     }*/
                 }
             }
-            if (setTOCam)
+            if (setTOCam && mCaptureSession != null && mPreviewRequestBuilder != null)
             {
                 try
                 {
+
                     mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
                             null);
                 } catch (CameraAccessException e) {
