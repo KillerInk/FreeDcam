@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
 import android.util.Log;
@@ -150,7 +151,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public boolean IsSupported() {
-            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
+            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
+                return true;
+            else return false;
         }
 
         @Override
@@ -228,6 +232,20 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                 e.printStackTrace();
             }
 
+        }
+
+        @Override
+        public boolean IsSupported()
+        {
+            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
+                return true;
+            else return false;
+        }
+
+        @Override
+        public boolean IsSetSupported() {
+            return true;
         }
     }
 }
