@@ -136,4 +136,6 @@ public class DeviceUtils
         return xperiaLModels.contains(Build.MODEL);
     }
 
+    public static boolean isYureka(){ return Build.MODEL.toLowerCase().contains("yureka");}
+
 }

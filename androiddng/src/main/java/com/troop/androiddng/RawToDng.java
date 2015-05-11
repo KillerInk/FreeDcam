@@ -30,7 +30,7 @@ public class RawToDng
     {                           //size       blacklevlel   pattern  width  height  tight    rowsize=filesize/height = 0
         G3_Mipi_LL(             16224256,   g3_blacklevel,  BGGR,    4208, 3082,    true,    getG3_rowSizeL),
         G3_Qcom(                17326080,   g3_blacklevel,  BGGR,    4164, 3120,    false,   getG3_rowSizeL),
-        K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL), //OnePlusOne has the same size but use rggb haha
+        K910Qcom(               17522688,   g3_blacklevel,  BGGR,    4212, 3120,    false,   getG3_rowSizeL), //OnePlusOne has the same size but use rggb haha, yureka too...
         IMX135_214(             16424960,   g3_blacklevel,  BGGR,    4208, 3120,    true,    g3_rowSizeKitKat),
         XperiaL(                10788864,   g3_blacklevel,  BGGR,    3282, 2448,    false,   XperiaL_rowSize),
         OneSV(                  6746112 ,   0,              BGGR,    2592, 1944,    false,   XperiaL_rowSize),
@@ -341,12 +341,26 @@ public class RawToDng
             setRawHeight(3120);
             Log.d(TAG, "mipi");
         }
-        //OnePlusOne has same size as K910....
-        else if (GetRawSize() == 17522688 && !DeviceUtils.isLenovoK910())
+        //OnePlusOne has same size as K910...., yureka, g3, qcom profiles
+        //handel g3
+        else if (GetRawSize() == 17522688 && DeviceUtils.isLGADV())
         {
-            SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, RGGb, rowsize, Build.MODEL,device.tightraw);
+            SetBayerInfo(g3_color1, g3_color2, g3_neutral,device.blacklvl, BGGR, rowsize, Build.MODEL,device.tightraw);
             setRawHeight(3082);
         }
+        //handel yureka
+        else if (GetRawSize() == 17522688 && DeviceUtils.isYureka())
+        {
+            SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral,0, BGGR, rowsize, Build.MODEL,device.tightraw);
+            setRawHeight(3082);
+        }
+        //handel oneplusOne
+        else if(GetRawSize() == 17522688 && !DeviceUtils.isLenovoK910())
+        {
+            SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral,device.blacklvl, RGGb, rowsize, Build.MODEL,device.tightraw);
+            setRawHeight(3082);
+        }
+        //handel as it is in from the device
         else
         {
             if (device.tightraw)
