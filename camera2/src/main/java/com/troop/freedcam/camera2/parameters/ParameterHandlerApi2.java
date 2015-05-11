@@ -118,6 +118,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
         WhiteBalanceMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).awbModeListner);
         ExposureMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).aeModeListner);
+        ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
 
         SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {

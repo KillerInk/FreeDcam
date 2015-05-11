@@ -268,6 +268,19 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
+        if (focusEvent == null
+                || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null
+                || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB) == null)
+            return;
+        if (cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB)> 0)
+            focusEvent.AWBMeteringSupported(true);
+        else
+            focusEvent.AWBMeteringSupported(false);
+        if (cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE)>0)
+            focusEvent.AEMeteringSupported(true);
+        else
+            focusEvent.AEMeteringSupported(false);
     }
 }
