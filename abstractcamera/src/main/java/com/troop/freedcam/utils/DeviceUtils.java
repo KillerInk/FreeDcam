@@ -138,4 +138,6 @@ public class DeviceUtils
 
     public static boolean isYureka(){ return Build.MODEL.toLowerCase().contains("yureka");}
 
+    public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
+
 }
