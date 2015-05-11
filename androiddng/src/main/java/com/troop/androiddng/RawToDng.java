@@ -37,7 +37,10 @@ public class RawToDng
         MT4G(                   10782464,   g3_blacklevel,  GRBG,    3282, 2448,    false,   XperiaL_rowSize),//HTC ONE XL
         HtcOneSv(               6746112 ,   0,              GRBG,    2592, 1952,    false,   0),
         M9Mipi(                 25677824,   g3_blacklevel,  GRBG,    5388, 3752,    true,    0),
-        M9Qcom(                 27127808,   g3_blacklevel,  GRBG,    5388, 3752,    false,   0);
+        M9Qcom(                 27127808,   g3_blacklevel,  GRBG,    5388, 3752,    false,   0),
+        E7mipi(                 19906560,   0,              BGGR,    4608, 3456,    true,    0),
+        E7qcom(                 21233664,   0,              BGGR,    4608, 3456,    false,   0);
+
 
         private final int filesize;
         private final int blacklvl;
