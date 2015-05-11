@@ -130,7 +130,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
 //Setup anim with desired properties
             anim.setInterpolator(new LinearInterpolator());
             anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-            anim.setDuration(1000); //Put desired duration per anim cycle here, in milliseconds
+            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds
 
 //Start animation
             imageView.startAnimation(anim);
