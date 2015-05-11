@@ -81,7 +81,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
                 supported = true;
         }
         if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
-                || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) > 0)
+                || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
             supported = false;
         return  supported;
     }
