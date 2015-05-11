@@ -100,6 +100,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         final  ManualWbCtApi2 cct = new ManualWbCtApi2(this,cameraHolder);
         CCT = cct;
         ColorCorrectionMode.addEventListner(cct);
+        WhiteBalanceMode.addEventListner(cct);
         //cct end
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);

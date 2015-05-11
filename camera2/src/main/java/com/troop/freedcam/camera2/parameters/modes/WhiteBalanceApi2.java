@@ -57,6 +57,7 @@ public class WhiteBalanceApi2 extends BaseModeApi2
             WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
             cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
         }
+        BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
