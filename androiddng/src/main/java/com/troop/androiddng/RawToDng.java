@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
+import javax.crypto.spec.DESedeKeySpec;
+
 /**
  * Created by troop on 15.02.2015.
  */
@@ -158,7 +160,7 @@ public class RawToDng
     private static native void Release(ByteBuffer nativeHandler);
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
-    private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout,int width,int height);
+    private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
     private static native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,
@@ -167,7 +169,7 @@ public class RawToDng
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
-                                     boolean tight);
+                                     boolean tight,int width,int height);
 
     private static native ByteBuffer Create();
     private static native void SetExifData(ByteBuffer nativeHandler,
@@ -218,7 +220,7 @@ public class RawToDng
                             double exposureIndex)
     {
         if (nativeHandler != null)
-        SetExifData(nativeHandler,iso,expo,flash,fNum,focalL,imagedescription,orientation,exposureIndex);
+        SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
@@ -248,13 +250,13 @@ public class RawToDng
             SetModelAndMake(nativeHandler, model, make);
     }
 
-    public void SetBayerData(final byte[] fileBytes, String fileout,int width,int height)
+    public void SetBayerData(final byte[] fileBytes, String fileout)
     {
         filepath = fileout;
         if (filepath.contains("bayer"))
             bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
         if (nativeHandler != null)
-            SetBayerData(nativeHandler, fileBytes, fileout, width, height);
+            SetBayerData(nativeHandler, fileBytes, fileout);
     }
 
     private void SetBayerInfo(float[] colorMatrix1,
@@ -264,10 +266,10 @@ public class RawToDng
                              String bayerformat,
                              int rowSize,
                              String devicename,
-                             boolean tight)
+                             boolean tight,int width,int height)
     {
         if (nativeHandler != null)
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, blacklevel, bayerformat, rowSize, devicename, tight);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, blacklevel, bayerformat, rowSize, devicename, tight,width,height);
     }
 
     public void RELEASE()
@@ -285,11 +287,51 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    public void WriteDNG()
+    private DngSupportedDevices.SupportedDevices getDevice()
     {
+        if (DeviceUtils.isYureka())
+            return DngSupportedDevices.SupportedDevices.yureka;
+        if (DeviceUtils.isLGADV())
+            return DngSupportedDevices.SupportedDevices.LG_G3;
+        if (DeviceUtils.isGioneE7())
+            return DngSupportedDevices.SupportedDevices.Gione_E7;
+        if (DeviceUtils.isHTC_M8())
+            return DngSupportedDevices.SupportedDevices.HTC_One_m8;
+        if (DeviceUtils.isHTC_M9())
+            return DngSupportedDevices.SupportedDevices.HTC_One_m9;
+        if (DeviceUtils.isHtc_One_SV())
+            return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
+        if (DeviceUtils.isLenovoK910())
+            return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+        if(DeviceUtils.isG2())
+            return DngSupportedDevices.SupportedDevices.LG_G2;
+        if (DeviceUtils.isZTEADV())
+            return DngSupportedDevices.SupportedDevices.zteAdv;
+        if (DeviceUtils.isXperiaL())
+            return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+        return null;
+    }
 
-        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        if (DeviceUtils.isHTC_M8() || (GetRawSize() < 6000000 && GetRawSize() > 500000))
+    public void WriteDNG(DngSupportedDevices.SupportedDevices device)
+    {
+        DngSupportedDevices.SupportedDevices devices = device;
+        if (device == null)
+            devices = getDevice();
+        else
+            devices = device;
+
+        if (devices != null)
+        {
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            if (profile.rowsize == 0)
+                profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
+            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.isTightRAw,profile.widht,profile.height);
+            WriteDNG(nativeHandler);
+            RELEASE();
+        }
+
+        /*if (DeviceUtils.isHTC_M8() || (GetRawSize() < 6000000 && GetRawSize() > 500000))
         {
             //on m8 the raw size change with each shot. We use the Build.model to check and then use the hardcoded rowsize
             processM8();
@@ -308,10 +350,10 @@ public class RawToDng
 
         }
         WriteDNG(nativeHandler);
-        RELEASE();
+        RELEASE();*/
     }
 
-    private void processUnknownDevices() {
+    /*private void processUnknownDevices() {
         if (filepath.contains("qcom") || filepath.contains("raw"))
         {
             Log.d(TAG, "qcom/ideal");
@@ -400,7 +442,7 @@ public class RawToDng
             SetBayerInfo(nocal_color1, nocal_color2, nocal_nutral, 0, GRBG, HTCM8_rowSize, "HTC M8", true);
             setRawHeight(1520);
         }
-    }
+    }*/
 
     public static byte[] readFile(File file) throws IOException {
         // Open file

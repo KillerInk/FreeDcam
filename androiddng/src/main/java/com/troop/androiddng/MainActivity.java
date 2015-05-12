@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +23,6 @@ import troop.com.androiddng.R;
 
 public class MainActivity extends Activity {
 
-	EditText box;
     final int g3W = 4160;
     final int g3H = 3120;
 	
@@ -30,18 +32,31 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(buttonclick);
-		/*Button button2 = (Button)findViewById(R.id.button2);
-		button2.setOnClickListener(buttonclick2);*/
-		box =(EditText)findViewById(R.id.textView1);
-		
-		Button buttonPlus = (Button)findViewById(R.id.button2);
-		buttonPlus.setOnClickListener(buttonclick2);
-		Button buttonMinus = (Button)findViewById(R.id.button3);
-		buttonMinus.setOnClickListener(buttonclick3);
-		
-		box.setText(""+3584);
-		
-		
+	}
+
+	private DngSupportedDevices.SupportedDevices getDevice(String filename)
+	{
+		if (filename.toLowerCase().contains("yureka"))
+			return DngSupportedDevices.SupportedDevices.yureka;
+		if (filename.toLowerCase().contains("lg_g3"))
+			return DngSupportedDevices.SupportedDevices.LG_G3;
+		if (filename.toLowerCase().contains("gione_e7"))
+			return DngSupportedDevices.SupportedDevices.Gione_E7;
+		if (filename.toLowerCase().contains("one_m8"))
+			return DngSupportedDevices.SupportedDevices.HTC_One_m8;
+		if (filename.toLowerCase().contains("one_m9"))
+			return DngSupportedDevices.SupportedDevices.HTC_One_m9;
+		if (filename.toLowerCase().contains("htc_one_sv"))
+			return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
+		if (filename.toLowerCase().contains("k910"))
+			return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+		if(filename.toLowerCase().contains("lg_g2"))
+			return DngSupportedDevices.SupportedDevices.LG_G2;
+		if (DeviceUtils.isZTEADV())
+			return DngSupportedDevices.SupportedDevices.zteAdv;
+		if (filename.toLowerCase().contains("xperial"))
+			return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+		return null;
 	}
 	
 	Button.OnClickListener buttonclick = new Button.OnClickListener() {
@@ -49,71 +64,44 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			File filetoread = new File(Environment.getExternalStorageDirectory()+"/test.raw");
-			File filetosave = new File(Environment.getExternalStorageDirectory()+"/test.dng");
-			//4128x3096
-			int width = 3282; //4208;
-			int height =  2448; //3120;
-			
-			String in = filetoread.getAbsolutePath();
-			byte[] data = null;
-			
-			
-			try 
+			File rawCollectionFolder = new File(Environment.getExternalStorageDirectory()+"/android_raw_collection");
+			File[] rawfiles = rawCollectionFolder.listFiles();
+			for (File file : rawfiles)
 			{
-				data = RawToDng.readFile(filetoread);
-				Log.d("Main", "Filesize: " + data.length);
+				if (!file.isDirectory() && file.getAbsolutePath().endsWith(".raw")) {
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					DngSupportedDevices.SupportedDevices devices = getDevice(file.getName());
+					if (devices == null) {
+						//Toast.makeText(null, "Unkown RAWFILE: " + file.getName(), Toast.LENGTH_LONG).show();
+						Log.d("rawtodng", "Unkown RAWFILE: " + file.getName());
+					} else {
+						byte[] data = null;
+						try {
+							data = RawToDng.readFile(file);
+							Log.d("Main", "Filesize: " + data.length + " File:" +file.getAbsolutePath());
+
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+						String out = file.getAbsolutePath().replace(".raw", ".dng");
+						RawToDng dng = RawToDng.GetInstance();
+						dng.SetBayerData(data, out);
+						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+						dng.WriteDNG(devices);
+						data = null;
+						Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+						intent.setData(Uri.fromFile(file));
+						sendBroadcast(intent);
+					}
+				}
 			}
-			String out = filetosave.getAbsolutePath();
-            int r = data.length / g3H;
-            int rowsize = data.length/ 3120;  //Integer.parseInt(box.getEditableText().toString());
-            RawToDng dng = RawToDng.GetInstance();
-			RawToDng.SupportedDevices device = RawToDng.SupportedDevices.GetValue(data.length);
-            dng.OverWriteRowSize = Integer.parseInt(box.getEditableText().toString());
-            dng.SetBayerData(data, out, device.width, device.height);
-            dng.setExifData(0,0,0,0,0,"0","0",0);
-            dng.WriteDNG();
-            dng.RELEASE();
-			//RawToDng.convertRawBytesToDng(data.clone(),filetosave.getAbsolutePath(), 4208,3120, RawToDng.g3_color1, RawToDng.g3_color2, RawToDng.g3_neutral,0, "bggr", rowsize, "test", true);
-			data = null;
-			Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-	        intent.setData(Uri.fromFile(filetosave));
-	        sendBroadcast(intent);
-	        
-	        Intent i=new Intent(Intent.ACTION_VIEW);
-	        Uri uri = Uri.fromFile(filetosave);
-            i.setDataAndType(uri, "image/*");
-            
-            startActivity(i);
 		}
 	};
 	
-Button.OnClickListener buttonclick2 = new Button.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			int rowsize = Integer.parseInt(box.getEditableText().toString());
-			rowsize++;
-			box.setText(""+rowsize);
-		}
-	};
-	
-Button.OnClickListener buttonclick3 = new Button.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			int rowsize = Integer.parseInt(box.getEditableText().toString());
-			rowsize--;
-			box.setText(""+rowsize);
-		}
-	};
+
 	
 
 

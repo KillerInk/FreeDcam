@@ -37,7 +37,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height);
-    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout, jint width,jint height);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
@@ -52,7 +52,9 @@ extern "C"
     	jstring bayerformat,
     	jint rowSize,
     	jstring devicename,
-    	jboolean tight);
+    	jboolean tight,
+    	jint width,
+    	jint height);
 }
 
 
@@ -185,7 +187,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, j
     writer = NULL;
 }
 
-JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jstring fileout,jint width,jint height)
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jstring fileout)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     LOGD("Try to set Bayerdata");
@@ -195,8 +197,6 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
     memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
     LOGD(" set Bayerdata");
     writer->fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
-    writer->rawheight = height;
-    writer->rawwidht = width;
     writer->rawSize = env->GetArrayLength(fileBytes);
 }
 
@@ -208,7 +208,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
 	jstring bayerformat,
 	jint rowSize,
 	jstring devicename,
-	jboolean tight)
+	jboolean tight,
+	jint width,
+	jint height)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
 
@@ -219,6 +221,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
+    writer->rawheight = height;
+    writer->rawwidht = width;
 
 }
 

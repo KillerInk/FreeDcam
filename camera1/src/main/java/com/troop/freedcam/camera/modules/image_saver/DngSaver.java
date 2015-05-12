@@ -127,9 +127,9 @@ public class DngSaver extends JpegSaver
                 throw new NullPointerException("ERROR NO RAWSIZE FOUND! " + Build.MANUFACTURER + " " + Build.DEVICE);
             }
         }
-        dngConverter.SetBayerData(data, file.getAbsolutePath(), w, h);
+        dngConverter.SetBayerData(data, file.getAbsolutePath());
         dngConverter.setExifData(0, 0, 0, 0, 0, "0", cameraHolder.Orientation + "", 0);
-        dngConverter.WriteDNG();
+        dngConverter.WriteDNG(null);
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);
 
