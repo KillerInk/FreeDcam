@@ -30,7 +30,7 @@ public class PictureModuleO3D extends PictureModule
 
     protected String[] getRawSize()
     {
-        return RawToDng.Optimus3DRawSize.split("x");
+        return null;// RawToDng.Optimus3DRawSize.split("x");
     }
 
     /*@Override

@@ -104,29 +104,7 @@ public class DngSaver extends JpegSaver
             gpsTime = cameraHolder.gpsLocation.getTime();
             dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
         }
-        String raw[] = getRawSize();
-        if (raw != null && raw.length == 2)
-        {
-            w = Integer.parseInt(raw[0]);
-            h = Integer.parseInt(raw[1]);
-            Log.d(TAG, "Found RawSize:" + w + "x" + h);
-        }
-        else
-        {
-            Log.d(TAG, "Cant find rawSize from Parameters, search HardCoded DEvices");
-            RawToDng.SupportedDevices devices = RawToDng.SupportedDevices.GetValue(data.length);
-            if (devices != null)
-            {
-                w = devices.width;
-                h = devices.height;
-                Log.d(TAG, "Found RawSize:" + w + "x" + h);
-            }
-            else
-            {
-                Log.d(TAG, "No HardCoded device found! Start Crashing....");
-                throw new NullPointerException("ERROR NO RAWSIZE FOUND! " + Build.MANUFACTURER + " " + Build.DEVICE);
-            }
-        }
+
         dngConverter.SetBayerData(data, file.getAbsolutePath());
         dngConverter.setExifData(0, 0, 0, 0, 0, "0", cameraHolder.Orientation + "", 0);
         dngConverter.WriteDNG(null);
@@ -135,23 +113,7 @@ public class DngSaver extends JpegSaver
 
     }
 
-    protected String[] getRawSize()
-    {
-        String raw[] =null;
-        if (DeviceUtils.isXperiaL())
-        {
-            raw = RawToDng.SonyXperiaLRawSize.split("x");
-        }
-        else
-        {
-            if (((CamParametersHandler)cameraHolder.ParameterHandler).GetRawSize() != "") {
-                String rawSize = ((CamParametersHandler)cameraHolder.ParameterHandler).GetRawSize();
-                if(rawSize != null && !rawSize.equals(""))
-                    raw = rawSize.split("x");
-            }
-        }
-        return raw;
-    }
+
 
     private void addExifAndThumbToDng(byte[] data)
     {
