@@ -24,7 +24,7 @@ public class DngSupportedDevices
 
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
-        if (filesize == 16224256)//MIPI g3
+        if (filesize == 16224256)//MIPI g2
         {
             return new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
         }
@@ -47,9 +47,9 @@ public class DngSupportedDevices
 
             }
         }
-        else if (filesize == 16424960)//lenovo k910 mipi , g3 kk mipi
+        else if (filesize == 16424960)//lenovo k910 mipi , g3 kk mipi, zte
         {
-            return new DngProfile(64, 4212, 3120,true, BGGR, 0,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(64, 4212, 3120,true, BGGR, getG3_rowSizeL,nocal_color2,g3_color2,nocal_nutral);
         }
         else if (filesize == 10788864)//XperiaL
         {
@@ -65,12 +65,11 @@ public class DngSupportedDevices
         }
         else if (filesize == 25677824)//m9 mipi
         {
-            //TODO somethings wrong with it;
-            return new DngProfile(0, 5388, 3752,true, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(64, 5388, 3752,true, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
         }
         else if (filesize == 27127808)//m9 qcom
         {
-            return new DngProfile(0, 5388, 3752,false, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(64, 5388, 3752,false, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
         }
         else if (filesize == 19906560)//e7mipi
         {
@@ -82,12 +81,12 @@ public class DngSupportedDevices
         }
         else if (filesize == 9990144)//e7 front mipi
         {
-            return new DngProfile(0, 2040 , 2448,true, BGGR, 0,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(0, 2040 , 2448,true, BGGR, 4080,nocal_color2,g3_color2,nocal_nutral);
         }
         else if (filesize == 10653696)//e7 front qcom
         {
             //TODO somethings wrong with it;
-            return new DngProfile(0,2174 , 2448,false, BGGR, 0,nocal_color2,g3_color2,nocal_nutral);
+            return new DngProfile(0,2176 , 2448,false, BGGR, 0,nocal_color2,g3_color2,nocal_nutral);
         }
         else if (filesize == 2658304) //g3 front mipi
         {
@@ -97,6 +96,10 @@ public class DngSupportedDevices
         {
             //TODO somethings wrong with it;
             return new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+        }
+        else if (filesize == 2969600)//g2 mipi front
+        {
+            return new DngProfile(64, 1236 ,1200 ,true, BGGR, 2472,g3_color1,g3_color2,g3_neutral);
         }
         else if (filesize == 6721536) //zte front qcom
         {

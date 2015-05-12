@@ -203,8 +203,8 @@ public class RawToDng
         if (devices != null)
         {
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
-            if (profile.rowsize == 0)
-                profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
+            //if (profile.rowsize == 0)
+                //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
             SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.isTightRAw,profile.widht,profile.height);
             WriteDNG(nativeHandler);
