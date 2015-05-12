@@ -75,6 +75,12 @@ public class DeviceUtils
         return s.equals("HTC One_M7");
     }
 
+    public static boolean isHtc_One_SV()
+    {
+        return Build.MODEL.contains("HTC One SV");
+    }
+
+
 
     public static String G3Models = "LG-D800,LG-D802,LG-D855,LGLS990";
     public static boolean isLGADV()
