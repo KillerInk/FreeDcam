@@ -91,8 +91,7 @@ public class DngSupportedDevices
         }
         else if (filesize == 2658304) //g3 front mipi
         {
-            //TODO somethings wrong with it;
-            return new DngProfile(64,1212 ,1096 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+            return new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,g3_color1,g3_color2,g3_neutral);
         }
         else if (filesize == 2842624)//g3 front qcom
         {
