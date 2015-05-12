@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Lenovo_k910;
 		if(filename.toLowerCase().contains("lg_g2"))
 			return DngSupportedDevices.SupportedDevices.LG_G2;
-		if (DeviceUtils.isZTEADV())
+		if (filename.toLowerCase().contains("zte"))
 			return DngSupportedDevices.SupportedDevices.zteAdv;
 		if (filename.toLowerCase().contains("xperial"))
 			return DngSupportedDevices.SupportedDevices.Sony_XperiaL;

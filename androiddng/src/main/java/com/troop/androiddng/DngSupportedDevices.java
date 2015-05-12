@@ -38,6 +38,8 @@ public class DngSupportedDevices
                     return new DngProfile(64, 4212, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
                 case LG_G3:
                     return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+                case zteAdv:
+                    return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
                 case yureka:
                     return new DngProfile(0, 4212, 3082,false, BGGR, getG3_rowSizeL,nocal_color2,nocal_color2,nocal_nutral);
                 case OnePlusOne:
@@ -96,6 +98,14 @@ public class DngSupportedDevices
         {
             //TODO somethings wrong with it;
             return new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+        }
+        else if (filesize == 6721536) //zte front qcom
+        {
+            return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+        }
+        else if (filesize == 6299648)//zte front mipi
+        {
+            return new DngProfile(64, 2592 ,1296 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
         }
         else if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,nocal_color2,g3_color2,nocal_nutral);
