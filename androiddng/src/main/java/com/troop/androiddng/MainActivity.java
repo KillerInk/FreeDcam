@@ -56,6 +56,10 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.zteAdv;
 		if (filename.toLowerCase().contains("xperial"))
 			return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+		if (filename.toLowerCase().contains("htc_one_xl"))
+			return DngSupportedDevices.SupportedDevices.HTC_One_XL;
+		if (filename.toLowerCase().contains("one_plus_one"))
+			return DngSupportedDevices.SupportedDevices.OnePlusOne;
 		return null;
 	}
 	

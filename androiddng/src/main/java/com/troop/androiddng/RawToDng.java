@@ -181,6 +181,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.HTC_One_m9;
         if (DeviceUtils.isHtc_One_SV())
             return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
+        if (DeviceUtils.isHtc_One_XL())
+            return DngSupportedDevices.SupportedDevices.HTC_One_XL;
         if (DeviceUtils.isLenovoK910())
             return DngSupportedDevices.SupportedDevices.Lenovo_k910;
         if(DeviceUtils.isG2())
