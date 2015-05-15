@@ -42,7 +42,7 @@ public class BaseModeParameter extends AbstractModeParameter {
         {
             this.isSupported = false;
         }
-        Log.d(TAG, "is Supported :" + isSupported);
+        //Log.d(TAG, "is Supported :" + isSupported);
         BackgroundSetIsSupportedHasChanged(isSupported);
         return isSupported;
     }

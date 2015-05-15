@@ -103,8 +103,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     boolean initDone = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+
 
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -192,21 +194,26 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
         if(!loadingWrapper)
         {
+            Log.d(TAG, "loading cameraWrapper");
             loadingWrapper = true;
             destroyCameraUiWrapper();
             previewHandler.Init();
             previewHandler.SetAppSettingsAndTouch(appSettingsManager);
 
+            Log.d(TAG, "create cameraWrapper");
             cameraUiWrapper = apiHandler.getCameraUiWrapper(this, previewHandler, appSettingsManager, this, cameraUiWrapper);
             cameraUiWrapper.SetCameraChangedListner(this);
             cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
             cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+            Log.d(TAG, "created cameraWrapper");
 
 
+            Log.d(TAG, "InitUiStuff");
             initCameraUIStuff(cameraUiWrapper);
 
 
             //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+            Log.d(TAG, "add events");
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
             if (previewHandler.surfaceView != null && previewHandler.surfaceView instanceof ExtendedSurfaceView && appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)) {
                 ExtendedSurfaceView extendedSurfaceView = (ExtendedSurfaceView) previewHandler.surfaceView;
@@ -220,6 +227,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
             loadingWrapper = false;
+            Log.d(TAG, "loaded cameraWrapper");
         }
         //cameraUiWrapper.StartCamera();
     }
@@ -234,7 +242,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         }
         if (cameraUiWrapper != null)
         {
-            Log.d(TAG, "loading new cameraUIWrapper, Destroying Old");
+            Log.d(TAG, "Destroying Wrapper");
             cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
             cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
             cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
@@ -245,6 +253,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
             cameraUiWrapper = null;
+            Log.d(TAG, "destroyed cameraWrapper");
 
         }
     }
@@ -262,6 +271,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
         guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
+        guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
         if (histogramFragment != null && histogramFragment.isAdded())

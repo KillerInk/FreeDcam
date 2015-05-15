@@ -64,7 +64,7 @@ public class AbstractModeParameter implements I_ModeParameter
     {
         if (events == null || events.size() == 0 || value.equals(""))
             return;
-        Log.d(TAG, "BackgroundValueHasCHanged:" + value);
+        //Log.d(TAG, "BackgroundValueHasCHanged:" + value);
         uihandler.post(new Runnable() {
             @Override
             public void run() {
@@ -110,7 +110,7 @@ public class AbstractModeParameter implements I_ModeParameter
         uihandler.post(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "BackgroundSupportedCHanged:" + value);
+                //Log.d(TAG, "BackgroundSupportedCHanged:" + value);
                 for (int i= 0; i< events.size(); i ++)
                 {
                     if (events.get(i) == null)
@@ -132,7 +132,7 @@ public class AbstractModeParameter implements I_ModeParameter
         uihandler.post(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
+                //Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
                 for (int i= 0; i< events.size(); i ++)
                 {
                     if (events.get(i) == null)
