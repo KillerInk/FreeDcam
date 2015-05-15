@@ -191,6 +191,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.zteAdv;
         if (DeviceUtils.isXperiaL())
             return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+        if(DeviceUtils.isOnePlusOne())
+            return DngSupportedDevices.SupportedDevices.OnePlusOne;
         return null;
     }
 
