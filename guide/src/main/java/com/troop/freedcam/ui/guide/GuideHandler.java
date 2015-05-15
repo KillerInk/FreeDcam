@@ -25,32 +25,28 @@ import com.troop.freedcam.ui.I_PreviewSizeEvent;
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_ParametersLoaded, I_PreviewSizeEvent {
+public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_PreviewSizeEvent {
     View view;
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
     I_Activity i_activity;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.guides, container);
+        view = inflater.inflate(R.layout.guides, container,false);
         img = (ImageView) view.findViewById(R.id.imageViewGyide);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
-
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, I_Activity i_activity)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.i_activity = i_activity;
         i_activity.SetPreviewSizeChangedListner(this);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-
+        cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
     }
-
 
     public int[] GetScreenSize() {
         int width = 0;
@@ -181,24 +177,6 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
         }
 
-
-
-
-    }
-
-    private void alignment()
-    {
-
-
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = RelativeLayout.ALIGN_PARENT_RIGHT;
-        layoutParams.height = 20;
-        view.setLayoutParams(layoutParams);
-
-        //hytythy
-
-
     }
 
     @Override
@@ -219,16 +197,6 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void onValuesChanged(String[] values) {
 
-    }
-
-    @Override
-    public void ParametersLoaded()
-    {
-        if (cameraUiWrapper.camParametersHandler.GuideList != null)
-        {
-            cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
-            onValueChanged(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
-        }
     }
 
     @Override

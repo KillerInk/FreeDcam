@@ -51,81 +51,46 @@ import com.troop.freedcam.utils.StringUtils;
 public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent
 {
     protected ViewGroup appViewGroup;
-    //public LinearLayout settingsLayout;
-
     protected boolean helpOverlayOpen = false;
     boolean histogramFragmentOpen = false;
-
-
     OrientationHandler orientationHandler;
     int flags;
-    int flags2;
-
     protected HelpOverlayHandler helpOverlayHandler;
     protected GuideHandler guideHandler;
-
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    //ExtendedSurfaceView cameraPreview;
     AbstractCameraUiWrapper cameraUiWrapper;
     AppSettingsManager appSettingsManager;
-
-
     ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
-
-
-
     MainActivity_v2 activity;
     ApiHandler apiHandler;
     TimerHandler timerHandler;
     public PreviewHandler previewHandler;
-
-    //OrientationHandler orientationHandler;
-    //HelpOverlayHandler helpOverlayHandler;
-
     InfoOverlayHandler infoOverlayHandler;
     MessageHandler messageHandler;
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
-
     HistogramFragment histogramFragment;
     LinearLayout ll;
-
-    //bitmaps
-
-    /////////////////
-    int a,b = 0;
-
-
     WorkHandler workHandler;
 
-    boolean initDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-
-
         HIDENAVBAR();
-
         createUI();
-
         if (!appSettingsManager.getShowHelpOverlay())
         {
 
@@ -136,8 +101,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             helpOverlayOpen = true;
         }
-
-        //loadCameraUiWrapper();
     }
 
 
@@ -180,10 +143,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
         transaction.commit();
-
-        //if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
-        //    ShowHistogram(true);
-
         timerHandler = new TimerHandler(this);
 
 
@@ -207,11 +166,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
             Log.d(TAG, "created cameraWrapper");
 
-
             Log.d(TAG, "InitUiStuff");
             initCameraUIStuff(cameraUiWrapper);
-
-
             //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
             Log.d(TAG, "add events");
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
@@ -220,8 +176,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
                 cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
             }
-
-
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
@@ -229,7 +183,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             loadingWrapper = false;
             Log.d(TAG, "loaded cameraWrapper");
         }
-        //cameraUiWrapper.StartCamera();
     }
 
     private void destroyCameraUiWrapper()
@@ -250,14 +203,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             cameraUiWrapper.moduleHandler.SetWorkListner(null);
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
-
-
             cameraUiWrapper = null;
             Log.d(TAG, "destroyed cameraWrapper");
-
         }
     }
-
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -265,13 +214,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
         themeHandler.GetThemeFragment();
 
-
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
-
-
 
         guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
+
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         workHandler.HideSpinner();
         if (histogramFragment != null && histogramFragment.isAdded())
@@ -281,72 +228,9 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         }
     }
 
-
-
-    /*private void CoverCamUI(Boolean shown)
-    {
-        ImageView tmp = (ImageView)findViewById(R.id.SettingsCover);
-
-        if(shown)
-        {
-            LockWidgets(false);
-            String theme = appSettingsManager.GetTheme();
-            tmp.setVisibility(View.VISIBLE);
-
-            switch (theme) {
-                case "Minimal":
-                        tmp.setImageDrawable(null);
-                        //tmp.setImageBitmap(null);
-                        tmp.setBackgroundColor(Color.argb(200,20,20,20));
-                    break;
-                case "Classic":
-                    tmp.setImageDrawable(null);
-                    tmp.setBackgroundColor(Color.TRANSPARENT);
-                case "Nubia":
-                    tmp.setImageDrawable(null);
-                    tmp.setBackgroundColor(Color.argb(200,90,90,90));
-                    break;
-                case "Material":
-                    tmp.setImageDrawable(null);
-                    tmp.setBackgroundColor(Color.argb(230,50,50,50));
-
-
-                    break;
-                case "Ambient":
-                    tmp.setBackgroundColor(Color.TRANSPARENT);
-                    tmp.setImageBitmap(previewHandler.AmbientCover);
-
-
-                    break;
-            }
-
-        }
-        else
-        {
-            tmp.setVisibility(View.GONE);
-            LockWidgets(true);
-        }
-    }*/
     @Override
     public void MenuActive(boolean status)
     {
-       /* ImageView shutter_key = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView cam_switch = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView modes_switch = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView flash_switch = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView night_switch = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView exposure_lock = (ImageView)findViewById(R.id.SettingsCover);
-        ImageView exit_key = (ImageView)findViewById(R.id.SettingsCover);
-
-        shutter_key.setEnabled(status);
-        cam_switch.setEnabled(status);
-        modes_switch.setEnabled(status);
-        flash_switch.setEnabled(status);
-        night_switch.setEnabled(status);
-        exposure_lock.setEnabled(status);
-        exit_key.setEnabled(status);*/
-
-
         if (status)
         {
 
@@ -357,10 +241,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             ll.setVisibility(View.VISIBLE);
         }
     }
-
-
-
-
 
     public void HIDENAVBAR()
     {
@@ -397,11 +277,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             loadCameraUiWrapper();
         orientationHandler.Start();
         infoOverlayHandler.StartUpdating();
-
-
-        //sensorsUtil.start();
-
-
         Log.d(TAGLIFE, "Activity onResume");
     }
 
@@ -412,13 +287,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         messageHandler.close();
         infoOverlayHandler.StopUpdating();
         orientationHandler.Stop();
-
-      //  sensorsUtil.stop();
         destroyCameraUiWrapper();
-
-
-
-
         Log.d(TAGLIFE, "Activity onPause");
     }
 
@@ -615,8 +484,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                     histogramFragment.strtLsn();
             }
         }
-
-
     }
 
     @Override
