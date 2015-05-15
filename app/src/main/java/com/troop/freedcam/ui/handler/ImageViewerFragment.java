@@ -131,7 +131,7 @@ public class ImageViewerFragment extends Fragment
         List<File> jpegs = new ArrayList<File>();
         for (File f : files)
         {
-            if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")))
+            if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
                 jpegs.add(f);
         }
         files = jpegs.toArray(new File[jpegs.size()]);
@@ -149,12 +149,21 @@ public class ImageViewerFragment extends Fragment
         {
             processJpeg(file);
             exifinfo.setVisibility(View.VISIBLE);
+            play.setVisibility(View.GONE);
         }
         if (file.getAbsolutePath().endsWith(".mp4"))
         {
             exifinfo.setVisibility(View.GONE);
+            play.setText("Play");
             play.setVisibility(View.VISIBLE);
             imageView.setImageBitmap(ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND));
+        }
+        if (file.getAbsolutePath().endsWith(".dng"))
+        {
+            play.setText("Open DNG");
+            exifinfo.setVisibility(View.GONE);
+            play.setVisibility(View.VISIBLE);
+            imageView.setImageBitmap(null);
         }
     }
 
@@ -172,7 +181,7 @@ public class ImageViewerFragment extends Fragment
         } catch (JpegProcessingException e) {
             e.printStackTrace();
         }
-        play.setVisibility(View.GONE);
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file.getAbsolutePath(), options);
