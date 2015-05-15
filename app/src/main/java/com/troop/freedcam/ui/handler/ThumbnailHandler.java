@@ -45,36 +45,12 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
     }
 
     @Override
-    public void onClick(View v) {
-        if (lastFile != null)
-        {
-            /*if (lastFile.getName().endsWith(".jpg"))
-            {
-                if (showThumb)
-                {
-                    thumbView.setLayoutParams(params);
-                    showThumb = false;
-                    Log.d(TAG, "small thumbview");
-                }
-                else
-                {
-                    LinearLayout.LayoutParams layoutParams  = new LinearLayout.LayoutParams(activity.getWindowManager().getDefaultDisplay().getWidth(),activity.getWindowManager().getDefaultDisplay().getHeight());
-                    thumbView.setLayoutParams(layoutParams);
-                    showThumb = true;
-                    Log.d(TAG, "big thumbview");
-                }
-            }
-            else
-            {*/
-                Uri uri = Uri.fromFile(lastFile);
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                if (lastFile.getAbsolutePath().endsWith("mp4"))
-                    i.setDataAndType(uri, "video/*");
-                else
-                    i.setDataAndType(uri, "image/*");
-                activity.startActivity(i);
-            //}
-        }
+    public void onClick(View v)
+    {
+        ImageViewerFragment imageViewerFragment = new ImageViewerFragment();
+        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.MainLayout, imageViewerFragment, "ImageViewer");
+        transaction.commit();
     }
 
     @Override
@@ -102,16 +78,8 @@ public class ThumbnailHandler implements View.OnClickListener, I_WorkEvent
 
     private Bitmap loadThumbViewImage(File file)
     {
-        if(file.getAbsolutePath().endsWith("jpg")) {
-            /*BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-            options.inSampleSize = 4;
-            options.inJustDecodeBounds = false;
-            Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-            Log.d(TAG, "Bitmap loaded");
-            //options =null;
-            return map;*/
+        if(file.getAbsolutePath().endsWith("jpg"))
+        {
             byte[] thum = null;
             try {
                 thum = new ExifInterface(file.getAbsolutePath()).getThumbnail();

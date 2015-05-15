@@ -6,7 +6,8 @@
     android:background="#ff000000"
     android:keepScreenOn="true"
     android:longClickable="false"
-    android:touchscreenBlocksFocus="true">
+    android:touchscreenBlocksFocus="true"
+    android:id="@+id/MainLayout">
 
 
 
