@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.defcomk.jni.libraw.RawUtils;
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
@@ -184,7 +185,22 @@ public class ImageViewerFragment extends Fragment
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(null);
+            new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    //returns always null hmmm
+                    final byte[] bytes = RawUtils.unpackThumbNailToBytes(file.getAbsolutePath());
+                    final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(map);
+                        }
+                    });
+                }
+            }).start();
+
         }
     }
 

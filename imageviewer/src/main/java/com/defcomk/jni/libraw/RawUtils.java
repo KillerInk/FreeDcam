@@ -43,6 +43,11 @@ public class RawUtils {
     private static native void parseExif(String fileName, Object exifMap);
 
 
+    public static byte[] unpackThumbNailToBytes(String filename)
+    {
+        return unpackThumbnailBytes(filename);
+    }
+
     /**
      
      * @param fileName
