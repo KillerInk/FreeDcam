@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -58,6 +59,7 @@ public class ImageViewerFragment extends Fragment
     TextView focal;
     TextView fnumber;
     LinearLayout exifinfo;
+    ProgressBar spinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -115,6 +117,9 @@ public class ImageViewerFragment extends Fragment
         fnumber = (TextView)view.findViewById(R.id.textView_fnumber);
         fnumber.setText("");
 
+        spinner = (ProgressBar)view.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
+
         loadFilePaths();
         current = files.length -1;
         if (files.length > 0)
@@ -143,7 +148,7 @@ public class ImageViewerFragment extends Fragment
     }
 
 
-    private void setBitmap(File file)
+    private void setBitmap(final File file)
     {
         if (file.getAbsolutePath().endsWith(".jpg"))
         {
@@ -156,7 +161,23 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setText("Play");
             play.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND));
+            spinner.setVisibility(View.VISIBLE);
+            new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(bitmap);
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+
+                }
+            }).start();
+
         }
         if (file.getAbsolutePath().endsWith(".dng"))
         {
@@ -167,7 +188,7 @@ public class ImageViewerFragment extends Fragment
         }
     }
 
-    private void processJpeg(File file)
+    private void processJpeg(final File file)
     {
         try {
             final Metadata metadata = JpegMetadataReader.readMetadata(file);
@@ -181,16 +202,31 @@ public class ImageViewerFragment extends Fragment
         } catch (JpegProcessingException e) {
             e.printStackTrace();
         }
+        spinner.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        options.inSampleSize = 2;
-        options.inJustDecodeBounds = false;
-        final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        Log.d(TAG, "Bitmap loaded");
-        //options =null;
-        imageView.setImageBitmap(map);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                options.inSampleSize = 2;
+                options.inJustDecodeBounds = false;
+                final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                Log.d(TAG, "Bitmap loaded");
+                //options =null;
+                imageView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageBitmap(map);
+                        spinner.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+        }).start();
+
     }
 
     private void loadNextImage()
