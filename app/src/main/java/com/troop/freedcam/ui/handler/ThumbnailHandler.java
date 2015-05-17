@@ -1,17 +1,14 @@
 package com.troop.freedcam.ui.handler;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
@@ -20,6 +17,8 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+
+import troop.com.imageviewer.ImageViewerFragment;
 
 /**
  * Created by troop on 25.08.2014.
