@@ -82,24 +82,24 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="extended_framework_hardware" level="project" />
-    <orderEntry type="module" module-name="guide" exported="" />
+    <orderEntry type="module" module-name="imageviewer" exported="" />
     <orderEntry type="module" module-name="themeclassic" exported="" />
-    <orderEntry type="module" module-name="themeambient" exported="" />
-    <orderEntry type="module" module-name="themenubia" exported="" />
     <orderEntry type="module" module-name="themematerial" exported="" />
     <orderEntry type="module" module-name="thememinimal" exported="" />
-    <orderEntry type="module" module-name="seekarc" exported="" />
     <orderEntry type="module" module-name="androiddng" exported="" />
-    <orderEntry type="module" module-name="longexposure" exported="" />
     <orderEntry type="module" module-name="sonyapi" exported="" />
+    <orderEntry type="module" module-name="guide" exported="" />
+    <orderEntry type="module" module-name="themeambient" exported="" />
+    <orderEntry type="module" module-name="themenubia" exported="" />
+    <orderEntry type="module" module-name="seekarc" exported="" />
+    <orderEntry type="module" module-name="longexposure" exported="" />
     <orderEntry type="module" module-name="language" exported="" />
     <orderEntry type="module" module-name="camera2" exported="" />
-    <orderEntry type="module" module-name="camera1" exported="" />
     <orderEntry type="module" module-name="abstractcamera" exported="" />
+    <orderEntry type="module" module-name="camera1" exported="" />
   </component>
 </module>
