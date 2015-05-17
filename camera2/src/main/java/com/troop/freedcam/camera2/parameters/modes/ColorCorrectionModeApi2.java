@@ -44,9 +44,14 @@ public class ColorCorrectionModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE);
-        ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
-        return sceneModes.toString();
+        try {
+            int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE);
+            ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
+            return sceneModes.toString();
+        }
+        catch (NullPointerException ex){}
+        return "";
+
 
     }
 

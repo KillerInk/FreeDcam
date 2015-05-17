@@ -161,7 +161,7 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
     @Override
     public void onValueChanged(String val)
     {
-        if (camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF"))
+        if (camParametersHandler.ColorCorrectionMode.GetValue() != null && camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF"))
         {
             canSet = true;
             BackgroundIsSetSupportedChanged(true);
