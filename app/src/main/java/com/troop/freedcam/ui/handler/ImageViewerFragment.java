@@ -58,6 +58,7 @@ public class ImageViewerFragment extends Fragment
     TextView shutter;
     TextView focal;
     TextView fnumber;
+    TextView filename;
     LinearLayout exifinfo;
     ProgressBar spinner;
     @Override
@@ -119,6 +120,7 @@ public class ImageViewerFragment extends Fragment
 
         spinner = (ProgressBar)view.findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
+        filename = (TextView)view.findViewById(R.id.textView_filename);
 
         loadFilePaths();
         current = files.length -1;
@@ -150,6 +152,8 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
+        imageView.setImageBitmap(null);
+        filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
         {
             processJpeg(file);
@@ -207,19 +211,11 @@ public class ImageViewerFragment extends Fragment
             @Override
             public void run()
             {
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                options.inSampleSize = 2;
-                options.inJustDecodeBounds = false;
-                final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                Log.d(TAG, "Bitmap loaded");
-                //options =null;
-                imageView.post(new Runnable() {
+                //loadBitmapSampleSized(16, file);
+                loadBitmapSampleSized(2, file);
+                spinner.post(new Runnable() {
                     @Override
                     public void run() {
-                        imageView.setImageBitmap(map);
                         spinner.setVisibility(View.GONE);
                     }
                 });
@@ -227,6 +223,22 @@ public class ImageViewerFragment extends Fragment
             }
         }).start();
 
+    }
+
+    private void loadBitmapSampleSized(int samplesize, File file)
+    {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = samplesize;
+        final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        Log.d(TAG, "Bitmap loaded");
+        //options =null;
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageBitmap(map);
+
+            }
+        });
     }
 
     private void loadNextImage()

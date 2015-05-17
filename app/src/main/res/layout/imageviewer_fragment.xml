@@ -105,4 +105,13 @@
         android:layout_below="@+id/exif_info"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView_filename"
+        android:layout_below="@+id/exif_info"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
