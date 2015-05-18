@@ -2,6 +2,7 @@
 #include <android/log.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <android/bitmap.h>
 
 #include "../libraw/libraw.h"
 
@@ -279,4 +280,80 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif
     (env)->CallObjectMethod(jexifMap, methodPut, (env)->NewStringUTF("Orientation"), (env)->NewStringUTF(buf));
 
 	raw.recycle();
+}
+
+extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename)
+{
+	int ret, output_thumbs = 0;
+	LibRaw raw;
+	jbyteArray jb;
+	#define P1 raw.imgdata.idata
+    #define S raw.imgdata.sizes
+    #define C raw.imgdata.color
+    #define T raw.imgdata.thumbnail
+    #define P2 raw.imgdata.other
+    #define OUT raw.imgdata.params
+
+    jboolean bIsCopy;
+    const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
+	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
+    {
+
+		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "cannot open file");
+    }
+    else
+    	__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "File opend");
+    if( (ret = raw.unpack() ) != LIBRAW_SUCCESS)
+	{
+
+    	__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "cannot unpack img");
+	}
+	else
+		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "unpack img");
+	ret = raw.dcraw_process();
+	if(LIBRAW_SUCCESS !=ret)
+	{
+        	if(LIBRAW_FATAL_ERROR(ret))
+        		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "error processing dcraw");
+	}
+	else
+		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "processing dcraw");
+	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+
+	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
+    jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
+    jstring configName = env->NewStringUTF("ARGB_8888");
+    jclass bitmapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
+    jmethodID valueOfBitmapConfigFunction = env->GetStaticMethodID(bitmapConfigClass, "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$Config;");
+    jobject bitmapConfig = env->CallStaticObjectMethod(bitmapConfigClass, valueOfBitmapConfigFunction, configName);
+    jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, image->width, image->height, bitmapConfig);
+	if(image)
+	{
+
+
+    	void* bitmapPixels;
+        if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
+        {
+
+        	return NULL;
+        }
+        uint32_t* newBitmapPixels = (uint32_t*) bitmapPixels;
+        int pixelsCount = image->height * image->width;
+        memcpy(newBitmapPixels, image->data, sizeof(uint32_t) * pixelsCount);
+        AndroidBitmap_unlockPixels(env, newBitmap);
+
+		/*if(image->type == LIBRAW_IMAGE_BITMAP)
+			__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "image type bitmap");
+		if(image->type == LIBRAW_IMAGE_JPEG)
+			__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "image type jpeg");
+		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "processing thumb mem");
+        unsigned int length = image->data_size;
+    	jb = (env)->NewByteArray(length);
+        env->SetByteArrayRegion(jb,0,length,(jbyte *)image);*/
+        LibRaw::dcraw_clear_mem(image);
+	}
+
+	raw.recycle();
+    __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "raw file : %c", strFilename);
+    return newBitmap;
 }

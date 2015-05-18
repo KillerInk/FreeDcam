@@ -201,13 +201,14 @@ public class ImageViewerFragment extends Fragment
 
                  //   System.out.print("DEE_EN_GEE ThUMB" + RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file),64).length  );
 
-                    final byte[] bytes = RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file), 64);
+                    //final byte[] bytes = RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file), 64);
 
-                    Log.d("THUMB Size",String.valueOf(bytes.length));
 
-                    saveBytesToFile(bytes,file);
 
-                    final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+                    final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
+                    //saveBytesToFile(bytes,file);
+                    //Log.d("THUMB Size",String.valueOf(bytes.length));
+                    //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {

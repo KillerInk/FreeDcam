@@ -39,6 +39,8 @@ public class RawUtils {
     private static native void native_init();
 
     private static native byte[] unpackThumbnailBytes(String fileName);
+
+    private static native Bitmap unpackRAW(String fileName);
     
     public static native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
 
@@ -52,6 +54,11 @@ public class RawUtils {
     public static byte[] unpackThumbNailToBytes(String filename)
     {
         return unpackThumbnailBytes(filename);
+    }
+
+    public static Bitmap UnPackRAW(String file)
+    {
+        return unpackRAW(file);
     }
 
 
