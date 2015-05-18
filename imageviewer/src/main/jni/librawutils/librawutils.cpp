@@ -7,9 +7,84 @@
 
 #define TAG_DEBUG "RAW"
 
+#define  LOG_TAG    "freedcam.Librawutils"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
 
 extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_native_init(JNIEnv * env) {
 
+}
+
+extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_BitmapExtractor(JNIEnv * env, jobject obj,jbyteArray bufferBytes, jint blackLevel)
+{
+	char outfn[1024];
+	LibRaw raw;
+	jbyte* buffer;
+	jsize len;
+	jbyteArray ret;
+	libraw_processed_image_t* image = NULL;
+
+	jboolean buff = false;
+	int kv = blackLevel;
+
+
+
+#define P1  raw.imgdata.idata
+#define S   raw.imgdata.sizes
+#define C   raw.imgdata.color
+#define T   raw.imgdata.thumbnail
+#define P2  raw.imgdata.other
+#define OUT raw.imgdata.params
+
+
+	OUT.output_bps = 8;
+//	OUT.gamm[0] = OUT.gamm[1] = OUT.no_auto_bright = 1;
+//	OUT.user_black = kv;
+	OUT.user_qual = 0;
+	OUT.half_size=1;
+
+//	OUT.use_auto_wb = 1;
+//	OUT.android_raw = 1;
+//	OUT.android_aperture = 2.0f;
+//	OUT.android_focal = 3.83f;
+
+    LOGD("init thumb Ext");
+
+	len = (env)->GetArrayLength(bufferBytes);
+
+	LOGD("Buffer Length",len);
+
+	buffer = (env)->GetByteArrayElements(bufferBytes,NULL);
+
+	raw.open_buffer(buffer,len);
+
+	int errorCode;
+ 	LOGD("buffer opened");
+	raw.unpack();
+	 LOGD("buffer unpacked");
+	raw.dcraw_process();
+	 LOGD("buffer demosaiced");
+
+
+
+	image = raw.dcraw_make_mem_image(&errorCode);
+	 LOGD("pulling to memeory");
+
+    image->type = LIBRAW_IMAGE_JPEG;
+
+
+	ret = (env)->NewByteArray(image->data_size);
+
+	(env)->SetByteArrayRegion(ret,0,image->data_size,(jbyte *)image->data);
+
+	 LOGD("free input bytwa");
+	(env)->ReleaseByteArrayElements(bufferBytes,buffer,0);
+	// Finally, let us free the image processor for work with the next image
+
+		//raw.recycle();
+		raw.dcraw_clear_mem(image);
+
+	return ret;
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackThumbnailBytes(JNIEnv * env, jobject obj, jstring jfilename)
@@ -121,6 +196,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRaw
 	//raw.dcraw_make_mem_image();
 	raw.dcraw_ppm_tiff_writer(strFilename);
 	(env)->ReleaseStringUTFChars(jfilename, strFilename);// release j
+
 	//raw.dcraw_ppm_tiff_writer(outfn);
 	//ret = (*env)->NewByteArray(env, image->data_size);
 	//	(*env)->SetByteArrayRegion(env, ret, 0, image->data_size, (jbyte *) image->data);

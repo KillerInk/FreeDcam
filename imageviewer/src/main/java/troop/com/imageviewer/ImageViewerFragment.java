@@ -31,6 +31,8 @@ import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
 import com.troop.freedcam.ui.menu.themes.classic.SwipeMenuListner;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,6 +184,9 @@ public class ImageViewerFragment extends Fragment
         }
         if (file.getAbsolutePath().endsWith(".dng"))
         {
+
+            //RawUtils.convertFileToByteArray(file);
+
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
@@ -190,7 +195,18 @@ public class ImageViewerFragment extends Fragment
                 public void run()
                 {
                     //returns always null hmmm
-                    final byte[] bytes = RawUtils.unpackThumbNailToBytes(file.getAbsolutePath());
+
+                    //let defcomk try something 2015/05/18 12:38am
+
+
+                 //   System.out.print("DEE_EN_GEE ThUMB" + RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file),64).length  );
+
+                    final byte[] bytes = RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file), 64);
+
+                    Log.d("THUMB Size",String.valueOf(bytes.length));
+
+                    saveBytesToFile(bytes,file);
+
                     final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
                     imageView.post(new Runnable() {
                         @Override
@@ -202,6 +218,27 @@ public class ImageViewerFragment extends Fragment
             }).start();
 
         }
+    }
+
+    public void saveBytesToFile(byte[] bytes, File fileName)
+    {
+        File newy = new File(fileName.getAbsoluteFile().getAbsolutePath().replace(".dng","_thumb.jpg"));
+        Log.d(TAG, "Start Saving Bytes");
+        FileOutputStream outStream = null;
+        try {
+            outStream = new FileOutputStream(newy);
+            outStream.write(bytes);
+            outStream.flush();
+            outStream.close();
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void processJpeg(final File file)

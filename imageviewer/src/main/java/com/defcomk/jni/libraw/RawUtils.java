@@ -8,9 +8,13 @@ import android.media.ThumbnailUtils;
 import android.util.Log;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class RawUtils {
@@ -38,6 +42,8 @@ public class RawUtils {
     
     public static native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
 
+    public static native byte[] BitmapExtractor(byte[] xraw, int blackLevel);
+
     private static native int unpackThumbnailToFile(String rawFileName, String thumbFileName);
 
     private static native void parseExif(String fileName, Object exifMap);
@@ -46,6 +52,31 @@ public class RawUtils {
     public static byte[] unpackThumbNailToBytes(String filename)
     {
         return unpackThumbnailBytes(filename);
+    }
+
+
+    public static byte[] convertFileToByteArray(File f)
+    {
+        byte[] byteArray = null;
+        try
+        {
+            InputStream inputStream = new FileInputStream(f);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024*8];
+            int bytesRead =0;
+
+            while ((bytesRead = inputStream.read(b)) != -1)
+            {
+                bos.write(b, 0, bytesRead);
+            }
+
+            byteArray = bos.toByteArray();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return byteArray;
     }
 
     /**
