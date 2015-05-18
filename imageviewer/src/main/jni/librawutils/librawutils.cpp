@@ -293,8 +293,11 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     #define T raw.imgdata.thumbnail
     #define P2 raw.imgdata.other
     #define OUT raw.imgdata.params
-
     jboolean bIsCopy;
+    void* bitmapPixels;
+    unsigned char*bufptr;
+    unsigned char* dataptr;
+
     const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
 	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
     {
@@ -320,6 +323,8 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "processing dcraw");
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
 
+
+
 	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
     jstring configName = env->NewStringUTF("ARGB_8888");
@@ -329,31 +334,57 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, image->width, image->height, bitmapConfig);
 	if(image)
 	{
+		LOGD("malloc newBitmapPixels");
+		dataptr =(unsigned char*) malloc((image->width * image->height) * sizeof(uint32_t));
+		LOGD("malloc newBitmapPixels done");
+
+    	bufptr = (unsigned char*)image->data;
 
 
-    	void* bitmapPixels;
-        if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
+
+		LOGD("adding alpha");
+		int row = 0;
+		int bufrow = 0;
+		int size = image->width* image->height;
+    	for (int count = 0; count < size-1; count++)
+    	{
+    	// No need to set Alpha as we are ignoring it in CGBitmapContextCreate
+    	//                      *dataptr = 0xFF; // Alpha
+    		if(row > size *4 || bufrow > size*3)
+            	LOGD("row to big");
+    		dataptr[row+1] = bufptr[bufrow]; // Red
+    		dataptr[row+2] = bufptr[bufrow+1]; // Green
+    		dataptr[row+3] = bufptr[bufrow+2]; // Blue
+
+    		row += 4;
+    		bufrow += 3;
+
+    	}
+		LOGD("adding alpha done");
+		LibRaw::dcraw_clear_mem(image);
+		LOGD("dcraw mem cleared");
+
+		if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
         {
-
-        	return NULL;
+             return NULL;
         }
-        uint32_t* newBitmapPixels = (uint32_t*) bitmapPixels;
+        LOGD("pixel locked");
+        uint32_t *newBitmapPixels = (uint32_t*) bitmapPixels;
         int pixelsCount = image->height * image->width;
-        memcpy(newBitmapPixels, image->data, sizeof(uint32_t) * pixelsCount);
+        LOGD("memcopy start");
+        memcpy(newBitmapPixels, dataptr, sizeof(uint32_t) * pixelsCount);
+        LOGD("memcopy end");
         AndroidBitmap_unlockPixels(env, newBitmap);
+        LOGD("pixel unlocked");
 
-		/*if(image->type == LIBRAW_IMAGE_BITMAP)
-			__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "image type bitmap");
-		if(image->type == LIBRAW_IMAGE_JPEG)
-			__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "image type jpeg");
-		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "processing thumb mem");
-        unsigned int length = image->data_size;
-    	jb = (env)->NewByteArray(length);
-        env->SetByteArrayRegion(jb,0,length,(jbyte *)image);*/
-        LibRaw::dcraw_clear_mem(image);
+
+        if(dataptr != NULL)
+        	free(dataptr);
+        LOGD("bitmappixels freed");
 	}
 
 	raw.recycle();
-    __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "raw file : %c", strFilename);
+	LOGD("rawdata recycled");
+
     return newBitmap;
 }
