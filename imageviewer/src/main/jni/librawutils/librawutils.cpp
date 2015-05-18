@@ -333,37 +333,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, image->width, image->height, bitmapConfig);
 	if(image)
 	{
-		LOGD("malloc newBitmapPixels");
-		dataptr =(uint32_t*) malloc((image->width * image->height)* sizeof(uint32_t));
-		LOGD("malloc newBitmapPixels done size:%i", (image->width * image->height) * sizeof(uint32_t));
-
     	LOGD("orginal size: %i",image->data_size);
-
-		LOGD("adding alpha");
-		int row = 0;
-		int bufrow = 0;
-		int size = image->width* image->height;
-    	for (int count = 0; count < size; count++)
-    	{
-    		uint32_t p =  (0 << 24) |
-                             (image->data[bufrow] << 16) |
-                             (image->data[bufrow+1] << 8) |
-                             image->data[bufrow+2];
-            //LOGD("row -18 dataptr %i", p);
-            dataptr[count] = p;
-            /*dataptr[row] = 0;
-    		dataptr[row+1] = image->data[bufrow]; // Red
-    		dataptr[row+2] = image->data[bufrow+1]; // Green
-    		dataptr[row+3] = image->data[bufrow+2]; // Blue
-    		//LOGD("image data %i", dataptr[row+1]);
-
-    		row += 4;*/
-    		bufrow += 3;
-
-    	}
-		LOGD("adding alpha done");
-		raw.dcraw_clear_mem(image);
-		LOGD("dcraw mem cleared");
 
 		if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
         {
@@ -373,11 +343,21 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
         }
         LOGD("pixel locked");
         uint32_t *newBitmapPixels = (uint32_t*) bitmapPixels;
-        int pixelsCount = image->height * image->width;
         LOGD("memcopy start");
-        memcpy(newBitmapPixels, dataptr, sizeof(uint32_t) * pixelsCount);
+        int bufrow = 0;
+        int size = image->width* image->height;
+        for (int count = 0; count < size; count++)
+        {
+        	uint32_t p =  (0 << 24) |
+        					(image->data[bufrow] << 16) |
+                            (image->data[bufrow+1] << 8) |
+                            image->data[bufrow+2];
+            newBitmapPixels[count] = p;
+            bufrow += 3;
+        }
         LOGD("memcopy end");
-
+		raw.dcraw_clear_mem(image);
+		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
 
