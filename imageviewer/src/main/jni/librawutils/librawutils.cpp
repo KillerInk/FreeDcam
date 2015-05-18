@@ -295,8 +295,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     #define OUT raw.imgdata.params
     jboolean bIsCopy;
     void* bitmapPixels;
-    unsigned char*bufptr;
-    unsigned char* dataptr;
+    uint32_t* dataptr;
 
     const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
 	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
@@ -335,37 +334,41 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 	if(image)
 	{
 		LOGD("malloc newBitmapPixels");
-		dataptr =(unsigned char*) malloc((image->width * image->height) * sizeof(uint32_t));
-		LOGD("malloc newBitmapPixels done");
+		dataptr =(uint32_t*) malloc((image->width * image->height)* sizeof(uint32_t));
+		LOGD("malloc newBitmapPixels done size:%i", (image->width * image->height) * sizeof(uint32_t));
 
-    	bufptr = (unsigned char*)image->data;
-
-
+    	LOGD("orginal size: %i",image->data_size);
 
 		LOGD("adding alpha");
 		int row = 0;
 		int bufrow = 0;
 		int size = image->width* image->height;
-    	for (int count = 0; count < size-1; count++)
+    	for (int count = 0; count < size; count++)
     	{
-    	// No need to set Alpha as we are ignoring it in CGBitmapContextCreate
-    	//                      *dataptr = 0xFF; // Alpha
-    		if(row > size *4 || bufrow > size*3)
-            	LOGD("row to big");
-    		dataptr[row+1] = bufptr[bufrow]; // Red
-    		dataptr[row+2] = bufptr[bufrow+1]; // Green
-    		dataptr[row+3] = bufptr[bufrow+2]; // Blue
+    		uint32_t p =  (0 << 24) |
+                             (image->data[bufrow] << 16) |
+                             (image->data[bufrow+1] << 8) |
+                             image->data[bufrow+2];
+            //LOGD("row -18 dataptr %i", p);
+            dataptr[count] = p;
+            /*dataptr[row] = 0;
+    		dataptr[row+1] = image->data[bufrow]; // Red
+    		dataptr[row+2] = image->data[bufrow+1]; // Green
+    		dataptr[row+3] = image->data[bufrow+2]; // Blue
+    		//LOGD("image data %i", dataptr[row+1]);
 
-    		row += 4;
+    		row += 4;*/
     		bufrow += 3;
 
     	}
 		LOGD("adding alpha done");
-		LibRaw::dcraw_clear_mem(image);
+		raw.dcraw_clear_mem(image);
 		LOGD("dcraw mem cleared");
 
 		if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
         {
+        	LOGD("AndroidBitmap_lockPixels() failed ! error=%d", ret);
+
              return NULL;
         }
         LOGD("pixel locked");
@@ -374,6 +377,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
         LOGD("memcopy start");
         memcpy(newBitmapPixels, dataptr, sizeof(uint32_t) * pixelsCount);
         LOGD("memcopy end");
+
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
 
