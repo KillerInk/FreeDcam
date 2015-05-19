@@ -284,9 +284,8 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif
 
 extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename)
 {
-	int ret, output_thumbs = 0;
+	int ret;
 	LibRaw raw;
-	jbyteArray jb;
 	#define P1 raw.imgdata.idata
     #define S raw.imgdata.sizes
     #define C raw.imgdata.color
@@ -295,34 +294,25 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     #define OUT raw.imgdata.params
     jboolean bIsCopy;
     void* bitmapPixels;
-    uint32_t* dataptr;
 
     const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
 	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
-    {
-
-		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "cannot open file");
-    }
+		LOGD("cannot open file");
     else
-    	__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "File opend");
+    	LOGD("File opend");
     if( (ret = raw.unpack() ) != LIBRAW_SUCCESS)
-	{
-
-    	__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "cannot unpack img");
-	}
+    	LOGD("cannot unpack img");
 	else
-		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "unpack img");
+		LOGD("unpack img");
 	ret = raw.dcraw_process();
 	if(LIBRAW_SUCCESS !=ret)
 	{
-        	if(LIBRAW_FATAL_ERROR(ret))
-        		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "error processing dcraw");
+        if(LIBRAW_FATAL_ERROR(ret))
+        	LOGD("error processing dcraw");
 	}
 	else
-		__android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "processing dcraw");
+		LOGD("processing dcraw");
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
-
-
 
 	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
@@ -360,11 +350,6 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
-
-
-        if(dataptr != NULL)
-        	free(dataptr);
-        LOGD("bitmappixels freed");
 	}
 
 	raw.recycle();

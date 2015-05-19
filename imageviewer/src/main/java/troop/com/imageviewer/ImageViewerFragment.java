@@ -151,6 +151,8 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
+        System.gc();
+        System.gc();
         imageView.setImageBitmap(null);
         filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
@@ -190,6 +192,7 @@ public class ImageViewerFragment extends Fragment
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.VISIBLE);
             new Thread(new Runnable() {
                 @Override
                 public void run()
@@ -206,6 +209,7 @@ public class ImageViewerFragment extends Fragment
 
 
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
+                    map.setHasAlpha(true);
                     //saveBytesToFile(bytes,file);
                     //Log.d("THUMB Size",String.valueOf(bytes.length));
                     //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
@@ -213,6 +217,7 @@ public class ImageViewerFragment extends Fragment
                         @Override
                         public void run() {
                             imageView.setImageBitmap(map);
+                            spinner.setVisibility(View.GONE);
                         }
                     });
                 }
