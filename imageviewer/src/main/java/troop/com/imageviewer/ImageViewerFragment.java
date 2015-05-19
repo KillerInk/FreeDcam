@@ -151,8 +151,6 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
-        System.gc();
-        System.gc();
         imageView.setImageBitmap(null);
         filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
@@ -193,10 +191,10 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
-            new Thread(new Runnable() {
-                @Override
-                public void run()
-                {
+            //new Thread(new Runnable() {
+                //@Override
+                //public void run()
+                //{
                     //returns always null hmmm
 
                     //let defcomk try something 2015/05/18 12:38am
@@ -220,8 +218,8 @@ public class ImageViewerFragment extends Fragment
                             spinner.setVisibility(View.GONE);
                         }
                     });
-                }
-            }).start();
+                //}
+            //}).start();
 
         }
     }

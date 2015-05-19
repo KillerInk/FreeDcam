@@ -292,6 +292,9 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     #define T raw.imgdata.thumbnail
     #define P2 raw.imgdata.other
     #define OUT raw.imgdata.params
+	OUT.output_bps = 8;
+	OUT.user_qual = 0;
+	OUT.half_size=1;
     jboolean bIsCopy;
     void* bitmapPixels;
 
@@ -347,12 +350,12 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
         }
         LOGD("memcopy end");
 		raw.dcraw_clear_mem(image);
+
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
 	}
 
-	raw.recycle();
 	LOGD("rawdata recycled");
 
     return newBitmap;
