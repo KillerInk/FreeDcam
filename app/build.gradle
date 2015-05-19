@@ -41,4 +41,5 @@ dependencies {
     compile project(':themematerial')
     compile project(':thememinimal')
     compile project(':guide')
+    compile project(':imageviewer')
 }
