@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -60,6 +63,9 @@ public class ImageViewerFragment extends Fragment
     TextView filename;
     LinearLayout exifinfo;
     ProgressBar spinner;
+    private HandlerThread backgroundThread;
+    Handler handler;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -71,6 +77,7 @@ public class ImageViewerFragment extends Fragment
                 android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.remove(ImageViewerFragment.this);
                 transaction.commit();
+                stopThread();
             }
         });
 
@@ -122,12 +129,32 @@ public class ImageViewerFragment extends Fragment
         filename = (TextView)view.findViewById(R.id.textView_filename);
 
         loadFilePaths();
+        startThread();
         current = files.length -1;
         if (files.length > 0)
             setBitmap(files[current]);
         return view;
     }
 
+    private void startThread() {
+        backgroundThread = new HandlerThread("PictureModuleThread");
+        backgroundThread.start();
+        handler = new Handler(backgroundThread.getLooper());
+    }
+
+    private void stopThread() {
+        if (Build.VERSION.SDK_INT>17)
+            backgroundThread.quitSafely();
+        else
+            backgroundThread.quit();
+        try {
+            backgroundThread.join();
+            backgroundThread = null;
+            handler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void loadFilePaths()
     {
@@ -165,7 +192,8 @@ public class ImageViewerFragment extends Fragment
             play.setText("Play");
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
-            new Thread(new Runnable() {
+
+            handler.post(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -179,7 +207,7 @@ public class ImageViewerFragment extends Fragment
                     });
 
                 }
-            }).start();
+            });
 
         }
         if (file.getAbsolutePath().endsWith(".dng"))
@@ -191,21 +219,10 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
-            //new Thread(new Runnable() {
-                //@Override
-                //public void run()
-                //{
-                    //returns always null hmmm
-
-                    //let defcomk try something 2015/05/18 12:38am
-
-
-                 //   System.out.print("DEE_EN_GEE ThUMB" + RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file),64).length  );
-
-                    //final byte[] bytes = RawUtils.BitmapExtractor(RawUtils.convertFileToByteArray(file), 64);
-
-
-
+            handler.post(new Runnable() {
+                @Override
+                public void run()
+                {
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
                     map.setHasAlpha(true);
                     //saveBytesToFile(bytes,file);
@@ -218,8 +235,8 @@ public class ImageViewerFragment extends Fragment
                             spinner.setVisibility(View.GONE);
                         }
                     });
-                //}
-            //}).start();
+                }
+            });
 
         }
     }
@@ -260,7 +277,7 @@ public class ImageViewerFragment extends Fragment
             e.printStackTrace();
         }
         spinner.setVisibility(View.VISIBLE);
-        new Thread(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run()
             {
@@ -274,7 +291,7 @@ public class ImageViewerFragment extends Fragment
                 });
 
             }
-        }).start();
+        });
 
     }
 
