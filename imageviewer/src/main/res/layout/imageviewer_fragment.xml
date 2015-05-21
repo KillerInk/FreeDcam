@@ -16,7 +16,7 @@
         android:layout_height="@dimen/app_icon_size"
         android:id="@+id/exif_info"
         android:layout_centerHorizontal="true"
-        android:background="#c1000000">
+        android:background="#7d000000">
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,8 +73,9 @@
         android:text="Play"
         android:id="@+id/button_play"
         android:background="@drawable/button_clean"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_above="@+id/button_last"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="@dimen/appiconsizedouble"
@@ -112,7 +113,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView_filename"
-        android:layout_below="@+id/exif_info"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#7d000000" />
 
 </RelativeLayout>
