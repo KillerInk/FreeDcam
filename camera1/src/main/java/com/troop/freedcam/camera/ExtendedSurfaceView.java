@@ -69,8 +69,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     private void init(Context context)
     {
         this.context = context;
-
-
         if (Build.VERSION.SDK_INT < 21)
         {
 
@@ -181,7 +179,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-
+        Log.d(TAG, "#########PREVIEW SIZE CHANGED##########");
         if (currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
@@ -286,6 +284,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
 
         double newratio = getRatio(w, h);
+        Log.d(TAG, "preview Ratio : " + newratio + " w:"+ w+ " h:" +h);
         int width = 0;
         int height = 0;
 
@@ -320,7 +319,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
         }
         double displayratio = getRatio(width, height);
-
+        Log.d(TAG, "display Ratio : " + displayratio + " w:"+ width+ " h:" +height);
         if (newratio == displayratio)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
