@@ -21,7 +21,7 @@ public class ShutterItemFragmentAmbient extends ShutterItemsFragments {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.shutteritems_ambient_fragment, container, false);
-        cameraSwitchHandler = new AmbientCameraSwitchHandler(view, appSettingsManager);
+        cameraSwitchHandler = new AmbientCameraSwitchHandler(activity, appSettingsManager,view);
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new AmbientModuleSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new AmbientFlashSwitch(view, appSettingsManager, this);

@@ -88,14 +88,14 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         if (menuFragment != null)
             menuFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView());
         if (shutterItemsFragment != null)
-            shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView());
+            shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView(), i_activity);
     }
 
 
     private void inflateShutterItemFragment()
     {
         shutterItemsFragment.SetAppSettings(appSettingsManager);
-        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView());
+        shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView(), i_activity);
 
         if (!shutterItemsFragment.isAdded())
         {

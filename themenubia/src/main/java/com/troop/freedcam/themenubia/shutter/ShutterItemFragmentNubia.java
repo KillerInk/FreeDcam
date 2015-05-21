@@ -21,7 +21,7 @@ public class ShutterItemFragmentNubia extends ShutterItemsFragments
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.shutteritems_nubia_fragment, container, false);
-        cameraSwitchHandler = new NubiaCameraSwitchHandler(view, appSettingsManager);
+        cameraSwitchHandler = new NubiaCameraSwitchHandler(activity, appSettingsManager, view);
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new NubiaModuleSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new NubiaFlashSwitch(view, appSettingsManager, this);

@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu.themes.classic.shutter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -21,19 +23,21 @@ import com.troop.freedcam.utils.StringUtils;
 public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLoaded
 {
     AbstractCameraUiWrapper cameraUiWrapper;
-    protected View activity;
+    protected I_Activity activity;
     AppSettingsManager appSettingsManager;
     ImageView imageView;
     int currentCamera;
     public Bitmap[] bitmaps;
     SurfaceView surfaceView;
+    protected View fragment;
     private static String TAG = StringUtils.TAG + CameraSwitchHandler.class.getSimpleName();
 
-    public CameraSwitchHandler(View activity, AppSettingsManager appSettingsManager)
+    public CameraSwitchHandler(I_Activity activity, AppSettingsManager appSettingsManager, View fragment)
     {
         this.activity = activity;
+        this.fragment = fragment;
         this.appSettingsManager = appSettingsManager;
-        imageView = (ImageView)activity.findViewById(R.id.imageView_cameraSwitch);
+        imageView = (ImageView)fragment.findViewById(R.id.imageView_cameraSwitch);
         imageView.setOnClickListener(this);
         currentCamera = appSettingsManager.GetCurrentCamera();
         initBitmaps();
@@ -44,11 +48,11 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
     protected void initBitmaps()
     {
         bitmaps = new Bitmap[3];
-        Bitmap back = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_rear);
+        Bitmap back = BitmapFactory.decodeResource(fragment.getResources(), R.drawable.ic_freed_mode_rear);
         bitmaps[0] = back;
-        Bitmap front = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_front);
+        Bitmap front = BitmapFactory.decodeResource(fragment.getResources(), R.drawable.ic_freed_mode_front);
         bitmaps[1] = front;
-        Bitmap back3d = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_freed_mode_3d);
+        Bitmap back3d = BitmapFactory.decodeResource(fragment.getResources(), R.drawable.ic_freed_mode_3d);
         bitmaps[2] = back3d;
     }
 
@@ -82,12 +86,12 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         appSettingsManager.SetCurrentCamera(currentCamera);
         Log.d(TAG, "Stop Preview and Camera");
         //cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StopCamera();
+
         if (surfaceView instanceof ExtendedSurfaceView)
         {
             ((ExtendedSurfaceView)surfaceView).SwitchViewMode();
         }
-        cameraUiWrapper.StartCamera();
+        activity.ActivateSonyApi(appSettingsManager.getCamApi());
         //cameraUiWrapper.StartPreview();
 
     }

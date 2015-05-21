@@ -21,7 +21,7 @@ public class ShutterItemFragmentMaterial extends ShutterItemsFragments {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.shutteritems_material_fragment, container, false);
-        cameraSwitchHandler = new MaterialCameraSwitchHandler(view, appSettingsManager);
+        cameraSwitchHandler = new MaterialCameraSwitchHandler(activity, appSettingsManager, view);
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new MaterialModeSwitch(view, appSettingsManager, this);
         flashSwitchHandler = new MaterialFlashSwitch(view, appSettingsManager, this);

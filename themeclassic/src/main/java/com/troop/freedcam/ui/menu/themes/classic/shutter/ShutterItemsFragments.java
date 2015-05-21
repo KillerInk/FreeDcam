@@ -34,6 +34,7 @@ public class ShutterItemsFragments extends Fragment
     public AbstractCameraUiWrapper cameraUiWrapper;
     public SurfaceView surfaceView;
     public boolean fragmentloaded = false;
+    protected I_Activity activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,7 +46,7 @@ public class ShutterItemsFragments extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.shutteritems_fragment, container, false);
-        cameraSwitchHandler = new CameraSwitchHandler(view, appSettingsManager);
+        cameraSwitchHandler = new CameraSwitchHandler(activity, appSettingsManager, view);
         shutterHandler = new ShutterHandler(view, this);
         moduleSwitchHandler = new ModuleSwitchHandler(view, appSettingsManager, this);
         flashSwitchHandler = new FlashSwitchHandler(view, appSettingsManager, this);
@@ -98,10 +99,11 @@ public class ShutterItemsFragments extends Fragment
 
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, SurfaceView surfaceView, I_Activity activity)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.surfaceView = surfaceView;
+        this.activity = activity;
         if (fragmentloaded) {
             setCameraUIwrapper();
         }

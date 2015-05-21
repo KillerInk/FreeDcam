@@ -28,7 +28,7 @@ public class ShutterItemFragmentMinimal extends ShutterItemsFragments {
     {
          view = inflater.inflate(R.layout.shutteritems_minimal_fragment, container, false);
 
-        cameraSwitchHandler = new MiniamalCameraSwitchHandler(view, appSettingsManager);
+        cameraSwitchHandler = new MiniamalCameraSwitchHandler(activity, appSettingsManager,view);
 
         shutterHandler = new ShutterHandler(view, this);
 
