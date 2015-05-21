@@ -8,8 +8,11 @@ import java.util.ArrayList;
  */
 public class ModuleEventHandler
 {
+    //holds all listner for the modulechanged event
     ArrayList<I_ModuleEvent> moduleChangedListner;
+    //holds all listner for workfinishedlistner
     ArrayList<I_WorkEvent> WorkFinishedListners;
+    //holds all listner for recorstatechanged
     ArrayList<I_RecorderStateChanged> RecorderStateListners;
 
     public  ModuleEventHandler()
@@ -19,11 +22,19 @@ public class ModuleEventHandler
         RecorderStateListners = new ArrayList<I_RecorderStateChanged>();
     }
 
+    /**
+     * Add a listner for Moudlechanged events
+     * @param listner the listner for the event
+     */
     public  void addListner(I_ModuleEvent listner)
     {
         moduleChangedListner.add(listner);
     }
 
+    /**
+     * Gets thrown when the module has changed
+     * @param module the new module that gets loaded
+     */
     public void ModuleHasChanged(String module)
     {
         for (int i =0; i < moduleChangedListner.size(); i++)
@@ -39,6 +50,10 @@ public class ModuleEventHandler
         }
     }
 
+    /**
+     * add listner for workfinished
+     * @param i_workEvent the listner for that event
+     */
     public void AddWorkFinishedListner(I_WorkEvent i_workEvent)
     {
         WorkFinishedListners.add(i_workEvent);
@@ -61,6 +76,7 @@ public class ModuleEventHandler
             lisn.RecordingStateChanged(state);
     }
 
+    //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
         moduleChangedListner.clear();

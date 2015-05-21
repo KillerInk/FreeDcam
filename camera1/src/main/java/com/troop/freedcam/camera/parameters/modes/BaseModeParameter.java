@@ -20,6 +20,19 @@ public class BaseModeParameter extends AbstractModeParameter {
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
+    /***
+     *
+     * @param uihandler
+     * Holds the ui Thread to invoke the ui from antother thread
+     * @param parameters
+     * Hold the Camera Parameters
+     * @param cameraHolder
+     * Hold the camera object
+     * @param value
+     * The String to get/set the value from the parameters
+     * @param values
+     * the string to get the values avail/supported for @param value
+     */
     public BaseModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
         super(uihandler);
