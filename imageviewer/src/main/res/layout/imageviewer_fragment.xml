@@ -4,9 +4,10 @@
     android:layout_height="fill_parent"
     android:background="#ff000000">
 
-    <ImageView
+    <view
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        class="com.ortiz.touch.TouchImageView"
         android:id="@+id/imageView_PicView" />
 
     <LinearLayout
@@ -67,12 +68,13 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/appiconsizedouble"
+        android:layout_height="@dimen/appiconsizedouble"
         android:text="Play"
         android:id="@+id/button_play"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button_clean" />
+        android:background="@drawable/button_clean"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="@dimen/appiconsizedouble"
@@ -102,8 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
-        android:layout_below="@+id/exif_info"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:layout_width="wrap_content"

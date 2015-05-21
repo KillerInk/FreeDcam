@@ -30,6 +30,8 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import troop.com.imageviewer.R;
+
+import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
 import com.troop.freedcam.ui.menu.themes.classic.SwipeMenuListner;
 
@@ -50,7 +52,7 @@ public class ImageViewerFragment extends Fragment
     final String TAG = ImageViewerFragment.class.getSimpleName();
     View view;
     Button closeButton;
-    ImageView imageView;
+    TouchImageView imageView;
     File[] files;
     int current = 0;
     Button play;
@@ -81,7 +83,7 @@ public class ImageViewerFragment extends Fragment
             }
         });
 
-        this.imageView = (ImageView)view.findViewById(R.id.imageView_PicView);
+        this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
         this.play = (Button)view.findViewById(R.id.button_play);
         play.setVisibility(View.GONE);
         play.setOnClickListener(new View.OnClickListener() {
@@ -197,12 +199,17 @@ public class ImageViewerFragment extends Fragment
                 @Override
                 public void run()
                 {
+                    final int itemint = current;
                     final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                     imageView.post(new Runnable() {
                         @Override
-                        public void run() {
-                            imageView.setImageBitmap(bitmap);
-                            spinner.setVisibility(View.GONE);
+                        public void run()
+                        {
+                            if (itemint == current)
+                            {
+                                imageView.setImageBitmap(bitmap);
+                                spinner.setVisibility(View.GONE);
+                            }
                         }
                     });
 
@@ -223,6 +230,7 @@ public class ImageViewerFragment extends Fragment
                 @Override
                 public void run()
                 {
+                    final int itemint = current;
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
                     map.setHasAlpha(true);
                     //saveBytesToFile(bytes,file);
@@ -231,8 +239,10 @@ public class ImageViewerFragment extends Fragment
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
-                            imageView.setImageBitmap(map);
-                            spinner.setVisibility(View.GONE);
+                            if (itemint == current) {
+                                imageView.setImageBitmap(map);
+                                spinner.setVisibility(View.GONE);
+                            }
                         }
                     });
                 }
@@ -251,8 +261,6 @@ public class ImageViewerFragment extends Fragment
             outStream.write(bytes);
             outStream.flush();
             outStream.close();
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -281,15 +289,9 @@ public class ImageViewerFragment extends Fragment
             @Override
             public void run()
             {
+
                 //loadBitmapSampleSized(16, file);
                 loadBitmapSampleSized(2, file);
-                spinner.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        spinner.setVisibility(View.GONE);
-                    }
-                });
-
             }
         });
 
@@ -297,6 +299,7 @@ public class ImageViewerFragment extends Fragment
 
     private void loadBitmapSampleSized(int samplesize, File file)
     {
+        final int itemint = current;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = samplesize;
         final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
@@ -304,9 +307,12 @@ public class ImageViewerFragment extends Fragment
         //options =null;
         imageView.post(new Runnable() {
             @Override
-            public void run() {
-                imageView.setImageBitmap(map);
-
+            public void run()
+            {
+                if (itemint == current) {
+                    imageView.setImageBitmap(map);
+                    spinner.setVisibility(View.GONE);
+                }
             }
         });
     }
