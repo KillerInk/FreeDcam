@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defcomk.jni.libraw.RawUtils;
@@ -71,6 +72,8 @@ public class ImageViewerFragment extends Fragment
     Handler handler;
     MyHistogram myHistogram;
     LinearLayout ll;
+    RelativeLayout ui_holder;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -93,6 +96,15 @@ public class ImageViewerFragment extends Fragment
         ll.addView(myHistogram);
 
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ui_holder.getVisibility() == View.GONE)
+                    ui_holder.setVisibility(View.VISIBLE);
+                else
+                    ui_holder.setVisibility(View.GONE);
+            }
+        });
         this.play = (Button)view.findViewById(R.id.button_play);
         play.setVisibility(View.GONE);
         play.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +150,8 @@ public class ImageViewerFragment extends Fragment
         spinner = (ProgressBar)view.findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
         filename = (TextView)view.findViewById(R.id.textView_filename);
+        ui_holder = (RelativeLayout)view.findViewById(R.id.ui_holder);
+
 
         loadFilePaths();
         startThread();

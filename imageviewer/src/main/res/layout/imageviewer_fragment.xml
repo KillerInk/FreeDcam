@@ -10,121 +10,127 @@
         class="com.ortiz.touch.TouchImageView"
         android:id="@+id/imageView_PicView" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/app_icon_size"
-        android:id="@+id/exif_info"
-        android:layout_centerHorizontal="true"
-        android:background="#7d000000">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textView_iso" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Shutter"
-            android:id="@+id/textView_shutter"
-            android:layout_marginLeft="2dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Shutter"
-            android:id="@+id/textView_focal"
-            android:layout_marginLeft="2dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Shutter"
-            android:id="@+id/textView_fnumber"
-            android:layout_marginLeft="2dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="0dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/BotBar">
+        android:layout_height="match_parent"
+        android:id="@+id/ui_holder">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:id="@+id/histoView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true" />
 
         <Button
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:text=">"
+            android:id="@+id/button_next"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button_clean"
+            android:textSize="@dimen/app_icon_size"
+            android:layout_marginRight="10dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="0dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/BotBar">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_closeView"
+                android:background="@drawable/focusclose" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:text="Play"
+            android:id="@+id/button_play"
+            android:background="@drawable/button_clean"
+            android:layout_above="@+id/button_last"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button_closeView"
-            android:background="@drawable/focusclose" />
-    </LinearLayout>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView_filename"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="#7d000000"
+            android:layout_toLeftOf="@+id/histoView" />
 
-    <Button
-        android:layout_width="@dimen/appiconsizedouble"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:text="Play"
-        android:id="@+id/button_play"
-        android:background="@drawable/button_clean"
-        android:layout_above="@+id/button_last"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:text="&lt;"
+            android:id="@+id/button_last"
+            android:background="@drawable/button_clean"
+            android:textSize="@dimen/app_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="@dimen/appiconsizedouble"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:text=">"
-        android:id="@+id/button_next"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/button_clean"
-        android:textSize="@dimen/app_icon_size"
-        android:layout_marginRight="10dp" />
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_centerInParent="true" />
 
-    <Button
-        android:layout_width="@dimen/appiconsizedouble"
-        android:layout_height="@dimen/appiconsizedouble"
-        android:text="&lt;"
-        android:id="@+id/button_last"
-        android:background="@drawable/button_clean"
-        android:textSize="@dimen/app_icon_size"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/exif_info"
+            android:layout_centerHorizontal="true"
+            android:background="#7d000000">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textView_iso" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView_filename"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:background="#7d000000"
-        android:layout_toLeftOf="@+id/histoView" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_shutter"
+                android:layout_marginLeft="2dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="180dp"
-        android:layout_height="100dp"
-        android:id="@+id/histoView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_focal"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_fnumber"
+                android:layout_marginLeft="2dp" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
