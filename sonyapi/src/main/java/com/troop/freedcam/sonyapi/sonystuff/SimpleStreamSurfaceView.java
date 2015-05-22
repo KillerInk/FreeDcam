@@ -249,7 +249,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             mJpegQueue.add(payload);
             if (previewFrameCallback != null)
             {
-                previewFrameCallback.onPreviewFrame(payload.jpegData.clone());
+                previewFrameCallback.onPreviewFrame(payload.jpegData.clone(), I_Callbacks.JPEG);
             }
         }
         if (payload.commonHeader.PayloadType == 2) {

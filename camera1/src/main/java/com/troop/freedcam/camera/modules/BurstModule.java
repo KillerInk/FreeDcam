@@ -54,7 +54,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     }
 
     @Override
-    public void onPreviewFrame(byte[] data)
+    public void onPreviewFrame(byte[] data, int imageFormat)
     {
         if (doBurst)
         {

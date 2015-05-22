@@ -24,10 +24,13 @@ public class I_Callbacks
         void onPictureTaken(byte[] data);
     };
 
+
+    public static int YUV = 1;
+    public static int JPEG = 2;
     public interface PreviewCallback
     {
 
-        void onPreviewFrame(byte[] data);
+        void onPreviewFrame(byte[] data, int imageFormat);
     };
 
     public interface AutoFocusCallback

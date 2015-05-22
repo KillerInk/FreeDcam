@@ -321,6 +321,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                                     });
                                 /*}
                             });*/
+                            isPreviewRunning = true;
                         }
                     }
                 } catch (IOException e) {
@@ -338,6 +339,7 @@ public class CameraHolderSony extends AbstractCameraHolder
             public void run() {
                 try {
                     mRemoteApi.stopLiveview();
+                    isPreviewRunning = false;
                 } catch (IOException e) {
                     Log.w(TAG, "stopLiveview IOException: " + e.getMessage());
 

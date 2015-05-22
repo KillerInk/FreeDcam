@@ -626,7 +626,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 samsungCamera.setPreviewCallback(new SecCamera.PreviewCallback() {
                     @Override
                     public void onPreviewFrame(byte[] bytes, SecCamera secCamera) {
-                        previewCallback.onPreviewFrame(bytes);
+                        previewCallback.onPreviewFrame(bytes, I_Callbacks.YUV);
                     }
                 });
         }
@@ -638,7 +638,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.setPreviewCallback(new Camera.PreviewCallback() {
                     @Override
                     public void onPreviewFrame(byte[] data, Camera camera) {
-                        previewCallback.onPreviewFrame(data);
+                        previewCallback.onPreviewFrame(data, I_Callbacks.YUV);
                     }
                 });
         }

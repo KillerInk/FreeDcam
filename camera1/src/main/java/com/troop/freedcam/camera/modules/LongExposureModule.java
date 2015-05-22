@@ -134,7 +134,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     }
 
     @Override
-    public void onPreviewFrame(final byte[] data)
+    public void onPreviewFrame(final byte[] data, int imageFormat)
     {
         if (mYuvFrameQueue.size() == 2)
         {

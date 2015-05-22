@@ -55,10 +55,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
     int width;
     int height;
-
-
-
-
+    int imageFormat = 0;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -110,8 +107,9 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
 
     @Override
-    public void onPreviewFrame(final byte[] data)
+    public void onPreviewFrame(final byte[] data, int imageFormat)
     {
+        this.imageFormat = imageFormat;
         if (mYuvFrameQueue.size() == 2)
         {
             mYuvFrameQueue.remove();
@@ -126,55 +124,74 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             return;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.SetCameraChangedListner(this);
-
-
     }
     public void strtLsn()
     {
-        if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PreviewSize == null)
-            return;
-        String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
-        if(split.length < 2)
-            return;
-        width = Integer.parseInt(split[0]);
-        height = Integer.parseInt(split[1]);
-        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning)
-        {
+        if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning) {
             try {
                 cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
-            }
-            catch (java.lang.RuntimeException ex)
-            {
+            } catch (java.lang.RuntimeException ex) {
                 ex.printStackTrace();
                 return;
             }
 
-        }
-        else return;
+        } else return;
         doWork = true;
-        new Thread() {
-            @Override
-            public void run()
-            {
-                byte[] data = null;
-                try {
-                    while (doWork)
-                    {
-                        data = mYuvFrameQueue.take();
-                        if (data != null)
-                            extactMutable(data);
+        if (imageFormat == I_Callbacks.YUV)
+        {
+            if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PreviewSize == null)
+                return;
+            String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
+            if (split.length < 2)
+                return;
+            width = Integer.parseInt(split[0]);
+            height = Integer.parseInt(split[1]);
+            doWork = true;
+            new Thread() {
+                @Override
+                public void run() {
+                    byte[] data = null;
+                    try {
+                        while (doWork) {
+                            data = mYuvFrameQueue.take();
+                            if (data != null)
+                                extactMutable(data);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mYuvFrameQueue.clear();
+                        doWork = false;
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-                finally
-                {
-                    mYuvFrameQueue.clear();
-                    doWork = false;
-                }
-            }
-        }.start();
+            }.start();
+        }
+        else if (imageFormat == I_Callbacks.JPEG)
+        {
+            new Thread()
+            {
+                @Override
+                public void run() {
+                    byte[] data = null;
+                    try {
+                        while (doWork) {
+                            data = mYuvFrameQueue.take();
+                            if (data != null)
+                            {
+                                final Bitmap map = BitmapFactory.decodeByteArray(data, 0 ,data.length);
+                                histogram.setBitmap(map,true);
+                            }
 
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mYuvFrameQueue.clear();
+                        doWork = false;
+                    }
+                }
+            }.start();
+        }
 
     }
 

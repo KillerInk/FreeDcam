@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.R;
@@ -32,7 +33,7 @@ public class ExpandAbleChildHistogram extends ExpandableChildOrientationHack
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper && (!DeviceUtils.isHTC_M9() && !DeviceUtils.isHTC_M8() && !DeviceUtils.isHTC_M7()))
+        if (cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperSony)
         {
             ((SimpleModeParameter) parameterHolder).setIsSupported(true);
             if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
