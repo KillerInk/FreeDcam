@@ -35,3 +35,9 @@ http://www.remotesensing.org/libtiff/
 
 Special Thanks @ Dave Coffin for dcraw and the bayer extracting to 16bit  
 https://www.cybercom.net/~dcoffin/dcraw/
+
+libraw
+https://github.com/LibRaw/LibRaw
+
+TouchImageview
+https://github.com/MikeOrtiz/TouchImageView
