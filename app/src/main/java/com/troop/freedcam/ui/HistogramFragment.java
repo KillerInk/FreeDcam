@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -136,9 +137,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             }
 
         } else return;
-        doWork = true;
-        if (imageFormat == I_Callbacks.YUV)
-        {
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
             if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PreviewSize == null)
                 return;
             String[] split = cameraUiWrapper.camParametersHandler.PreviewSize.GetValue().split("x");
@@ -146,52 +145,34 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
                 return;
             width = Integer.parseInt(split[0]);
             height = Integer.parseInt(split[1]);
-            doWork = true;
-            new Thread() {
-                @Override
-                public void run() {
-                    byte[] data = null;
-                    try {
-                        while (doWork) {
-                            data = mYuvFrameQueue.take();
-                            if (data != null)
-                                extactMutable(data);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        mYuvFrameQueue.clear();
-                        doWork = false;
-                    }
-                }
-            }.start();
         }
-        else if (imageFormat == I_Callbacks.JPEG)
-        {
-            new Thread()
-            {
-                @Override
-                public void run() {
-                    byte[] data = null;
-                    try {
-                        while (doWork) {
-                            data = mYuvFrameQueue.take();
-                            if (data != null)
+        doWork = true;
+        new Thread() {
+            @Override
+            public void run() {
+                byte[] data = null;
+                try {
+                    while (doWork) {
+                        data = mYuvFrameQueue.take();
+                        if (data != null)
+                        {
+                            if (imageFormat == I_Callbacks.YUV)
+                                extactMutable(data);
+                            else if (imageFormat == I_Callbacks.JPEG)
                             {
                                 final Bitmap map = BitmapFactory.decodeByteArray(data, 0 ,data.length);
                                 histogram.setBitmap(map,true);
                             }
-
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        mYuvFrameQueue.clear();
-                        doWork = false;
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    mYuvFrameQueue.clear();
+                    doWork = false;
                 }
-            }.start();
-        }
+            }
+        }.start();
 
     }
 
