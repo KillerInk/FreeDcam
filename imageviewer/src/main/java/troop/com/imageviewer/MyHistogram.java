@@ -60,7 +60,7 @@ public class MyHistogram extends View {
         }
     }
 
-    private void createHistogramm(Bitmap bitmap)
+    private void createHistogramm(Bitmap bitmap, boolean recyle)
     {
         if(bitmap == null)
             return;
@@ -89,7 +89,8 @@ public class MyHistogram extends View {
                 invalidate();
             }
         });
-        bitmap.recycle();
+        if (recyle)
+            bitmap.recycle();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -98,11 +99,11 @@ public class MyHistogram extends View {
 
     }
 
-    public void setBitmap ( Bitmap bitmap )
+    public void setBitmap ( Bitmap bitmap, boolean recycle)
     {
 
         //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-        createHistogramm(bitmap);
+        createHistogramm(bitmap, recycle);
 
     }
 

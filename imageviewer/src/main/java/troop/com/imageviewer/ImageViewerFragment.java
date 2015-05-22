@@ -195,6 +195,7 @@ public class ImageViewerFragment extends Fragment
         {
             processJpeg(file);
             exifinfo.setVisibility(View.VISIBLE);
+            myHistogram.setVisibility(View.VISIBLE);
             play.setVisibility(View.GONE);
         }
         if (file.getAbsolutePath().endsWith(".mp4"))
@@ -203,6 +204,7 @@ public class ImageViewerFragment extends Fragment
             play.setText("Play");
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
+            myHistogram.setVisibility(View.GONE);
 
             handler.post(new Runnable() {
                 @Override
@@ -235,6 +237,7 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
+            myHistogram.setVisibility(View.VISIBLE);
             handler.post(new Runnable() {
                 @Override
                 public void run()
@@ -243,7 +246,7 @@ public class ImageViewerFragment extends Fragment
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
 
                     map.setHasAlpha(true);
-                    myHistogram.setBitmap(map);
+
                     //saveBytesToFile(bytes,file);
                     //Log.d("THUMB Size",String.valueOf(bytes.length));
                     //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
@@ -252,9 +255,7 @@ public class ImageViewerFragment extends Fragment
                         public void run() {
                             if (itemint == current) {
                                 imageView.setImageBitmap(map);
-
-
-
+                                myHistogram.setBitmap(map, false);
                                 spinner.setVisibility(View.GONE);
                             }
                         }
@@ -326,6 +327,7 @@ public class ImageViewerFragment extends Fragment
             {
                 if (itemint == current) {
                     imageView.setImageBitmap(map);
+                    myHistogram.setBitmap(map, false);
                     spinner.setVisibility(View.GONE);
                 }
             }

@@ -103,7 +103,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         options.inDither = false ; // Disable Dithering mode
         options.inPurgeable = true ; // Tell to gc that whether it needs free memory, // the Bitmap can be cleared
         options.inInputShareable = true;
-        histogram.setBitmap(BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size(), options));
+        histogram.setBitmap(BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.size(), options), true);
 
     }
 
