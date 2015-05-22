@@ -434,13 +434,41 @@ public class SimpleCameraEventObserver {
             Log.d(TAG, "WB mode: " + wbval);
         }
 
-        processImage(replyJson);
+        processContShootImage(replyJson);
+        processActShotImage(replyJson);
 
         // :
         // : add implementation for Event data as necessary.
     }
 
-    private void processImage(JSONObject replyJson)
+    private void processActShotImage(JSONObject replyJson)
+    {
+        ArrayList<String> values = new ArrayList<String>();
+
+        JSONArray resultsObj = null;
+        try {
+            resultsObj = replyJson.getJSONArray("result");
+
+            if (!resultsObj.isNull(5)) {
+                JSONArray InformationObj = resultsObj.getJSONArray(5);
+                JSONObject object = InformationObj.getJSONObject(0);
+                String type = object.getString("type");
+                if ("takePicture".equals(type))
+                {
+                    JSONObject val = InformationObj.getJSONObject(0);
+                    for (int i = 0; i<val.getJSONArray("takePictureUrl").length();i++)
+                    {
+                        values.add(val.getJSONArray("takePictureUrl").getString(i));
+                    }
+                    fireImageListener(values.toArray(new String[values.size()]));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void processContShootImage(JSONObject replyJson)
     {
         //String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 40, "contShooting", "contShootingUrl");
         ArrayList<String> values = new ArrayList<String>();
