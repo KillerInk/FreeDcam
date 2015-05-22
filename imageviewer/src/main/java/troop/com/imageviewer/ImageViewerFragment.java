@@ -30,6 +30,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import troop.com.imageviewer.R;
+import troop.com.imageviewer.MyHistogram;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
@@ -51,6 +52,7 @@ public class ImageViewerFragment extends Fragment
 {
     final String TAG = ImageViewerFragment.class.getSimpleName();
     View view;
+    View viewHist;
     Button closeButton;
     TouchImageView imageView;
     File[] files;
@@ -67,11 +69,15 @@ public class ImageViewerFragment extends Fragment
     ProgressBar spinner;
     private HandlerThread backgroundThread;
     Handler handler;
+    MyHistogram myHistogram;
+    LinearLayout ll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.imageviewer_fragment, container, false);
+
+
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +88,9 @@ public class ImageViewerFragment extends Fragment
                 stopThread();
             }
         });
+        myHistogram = new MyHistogram(container.getContext());
+        ll = (LinearLayout)view.findViewById(R.id.histoView);
+        ll.addView(myHistogram);
 
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
         this.play = (Button)view.findViewById(R.id.button_play);
@@ -232,7 +241,9 @@ public class ImageViewerFragment extends Fragment
                 {
                     final int itemint = current;
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
+
                     map.setHasAlpha(true);
+                    myHistogram.setBitmap(map);
                     //saveBytesToFile(bytes,file);
                     //Log.d("THUMB Size",String.valueOf(bytes.length));
                     //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
@@ -241,6 +252,9 @@ public class ImageViewerFragment extends Fragment
                         public void run() {
                             if (itemint == current) {
                                 imageView.setImageBitmap(map);
+
+
+
                                 spinner.setVisibility(View.GONE);
                             }
                         }
@@ -304,6 +318,7 @@ public class ImageViewerFragment extends Fragment
         options.inSampleSize = samplesize;
         final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         Log.d(TAG, "Bitmap loaded");
+
         //options =null;
         imageView.post(new Runnable() {
             @Override

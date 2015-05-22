@@ -58,7 +58,8 @@
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="false"
         android:layout_marginTop="0dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/BotBar">
 
         <Button
             android:layout_width="wrap_content"
@@ -116,5 +117,14 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="#7d000000" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="180dp"
+        android:layout_height="100dp"
+        android:id="@+id/histoView"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignRight="@+id/button_next"
+        android:layout_alignEnd="@+id/button_next" />
 
 </RelativeLayout>
