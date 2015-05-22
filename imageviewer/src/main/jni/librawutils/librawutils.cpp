@@ -292,6 +292,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     #define T raw.imgdata.thumbnail
     #define P2 raw.imgdata.other
     #define OUT raw.imgdata.params
+    OUT.gamm[0] = OUT.gamm[1] = OUT.no_auto_bright = 1;
 	OUT.output_bps = 8;
 	OUT.user_qual = 0;
 	OUT.half_size=1;
