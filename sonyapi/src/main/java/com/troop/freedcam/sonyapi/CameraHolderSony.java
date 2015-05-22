@@ -727,8 +727,10 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
     @Override
-    public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback) {
-
+    public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback)
+    {
+        if (mLiveviewSurface != null)
+            mLiveviewSurface.SetOnPreviewFrame(previewCallback);
     }
 
     public boolean canCancelFocus()

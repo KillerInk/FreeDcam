@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private StreamErrorListener mErrorListener;
     Bitmap[] crosshairs;
     I_PreviewSizeEvent uiPreviewSizeCHangedListner;
+    I_Callbacks.PreviewCallback previewFrameCallback;
 
 
     /**
@@ -90,6 +92,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
     {
         this.uiPreviewSizeCHangedListner = previewSizeEventListner;
+    }
+
+    public void SetOnPreviewFrame(I_Callbacks.PreviewCallback previewCallback)
+    {
+        this.previewFrameCallback = previewCallback;
     }
 
     private void initBitmaps(Context context)
@@ -234,11 +241,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             //Log.e(TAG, "Liveview Payload is null.");
             return true;
         }
-        if (payload.commonHeader.PayloadType == 1) {
+        if (payload.commonHeader.PayloadType == 1)
+        {
             if (mJpegQueue.size() == 2) {
                 mJpegQueue.remove();
             }
             mJpegQueue.add(payload);
+            if (previewFrameCallback != null)
+            {
+                previewFrameCallback.onPreviewFrame(payload.jpegData.clone());
+            }
         }
         if (payload.commonHeader.PayloadType == 2) {
             if (frameQueue.size() == 2) {
