@@ -202,6 +202,25 @@ public class DngSupportedDevices
                     0.515625f, 1f, 0.671875f
             };
 
+    private static final float[] nubia_color1 =
+            {
+                    1.138859978f, -0.6577000025f, -0.1728000046f,
+                    -0.1580000073f, 0.8415899877f, 0.3164100052f,
+                    0.001599999611f, 0.1135400013f, 0.5451700094f
+            };
+    private static final float[] nubia_color2 =
+            {
+                    0.8400400285f, -0.1959100069f, -0.06722000244f,
+                    -0.3785200121f, 1.17735006f, 0.2011699975f,
+                    -0.05178000035f, 0.2078399957f, 0.5102199914f
+            };
+
+    public static final float[] nubia_neutral =
+            {
+                    0.6075999738f, 1f, 0.4993000032f
+            };
+
+
     private static final int g3_blacklevel = 64;
 
     //16424960,4208,3120
