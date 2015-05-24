@@ -8,6 +8,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,14 +28,16 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     protected BaseCameraHolder cameraHolder;
     I_WorkeDone iWorkeDone;
     Handler handler;
+    boolean externalSd = false;
 
     final public String fileEnding = ".jpg";
 
-    public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
+    public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSd)
     {
         this.cameraHolder = cameraHolder;
         this.iWorkeDone = i_workeDone;
         this.handler = handler;
+        this.externalSd = externalSd;
     }
 
     public void TakePicture()
@@ -48,7 +51,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         handler.post(new Runnable() {
             @Override
             public void run() {
-                saveBytesToFile(data, new File(getStringAddTime() + fileEnding));
+                saveBytesToFile(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
             }
         });
 
@@ -74,15 +77,5 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         Log.d(TAG, "End Saving Bytes");
         iWorkeDone.OnWorkDone(fileName);
 
-    }
-
-    public static String getStringAddTime()
-    {
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-        if (!file.exists())
-            file.mkdirs();
-        Date date = new Date();
-        String s = (new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date);
-        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
     }
 }

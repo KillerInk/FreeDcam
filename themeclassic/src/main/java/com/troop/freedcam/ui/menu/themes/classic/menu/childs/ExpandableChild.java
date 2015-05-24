@@ -46,25 +46,9 @@ public class ExpandableChild extends LinearLayout implements I_ModuleEvent, Abst
 
     protected void init(Context context)
     {
-        String theme = appSettingsManager.GetTheme();
-
         this.context = context;
-
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        /*if (theme.equals("Ambient"))
-            inflater.inflate(R.layout.expandable_childs_ambient, this);
-
-
-        if (theme.equals("Material"))
-            inflater.inflate(R.layout.expandable_childs_material, this);
-        if (theme.equals("Minimal"))
-            inflater.inflate(R.layout.expandable_childs_minimal, this);
-        if (theme.equals("Nubia"))
-            inflater.inflate(R.layout.expandable_childs_nubia, this);*/
-
-
-
         nameTextView = (TextView)findViewById(R.id.tvChild);
         nameTextView.setText(Name);
         valueTextView = (TextView)findViewById(R.id.tvChildValue);

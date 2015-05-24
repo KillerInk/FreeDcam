@@ -3,13 +3,16 @@ package com.troop.freedcam.utils;
 import android.content.Context;
 import android.hardware.Camera;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,7 +68,6 @@ public class StringUtils
             }
             p.destroy();
         } catch (IOException e) {
-// TODO Auto-generated catch block
             e.printStackTrace();
         }
         return board_platform;
@@ -84,5 +86,56 @@ public class StringUtils
     public static String TrimmFloatString(String toTrim)
     {
         return String.format("%01.4f", Float.parseFloat(toTrim));
+    }
+
+    public static String freedcamFolder = "/DCIM/FreeCam/";
+
+    public static String getFilePath(boolean externalSd, String fileEnding)
+    {
+        final StringBuilder builder = new StringBuilder();
+        if (externalSd)
+            builder.append(GetExternalSDCARD());
+        else
+            builder.append(GetInternalSDCARD());
+        builder.append(freedcamFolder);
+        try
+        {
+            final File f = new File(builder.toString());
+            if (!f.mkdirs())
+            {
+                Log.d("StringUTILS", "Writing externalSD failed");
+                builder.delete(0, builder.length());
+                builder.append(GetInternalSDCARD()).append(freedcamFolder);
+            }
+        }
+        catch (Exception ex)
+        {}
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        Date date = new Date();
+        builder.append((new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date));
+        builder.append(fileEnding);
+        return builder.toString();
+    }
+
+    public static String getFilePathHDR(boolean externalSd, String fileEnding, int hdrcount)
+    {
+        final StringBuilder builder = new StringBuilder();
+        if (externalSd)
+            builder.append(GetExternalSDCARD());
+        else
+            builder.append(GetInternalSDCARD());
+        builder.append(freedcamFolder);
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        Date date = new Date();
+        builder.append((new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date));
+        builder.append("_HDR" + hdrcount);
+        builder.append(fileEnding);
+        return builder.toString();
     }
 }

@@ -103,22 +103,22 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg"))
             {
-                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler);
+                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                 jpegSaver.TakePicture();
             }
             else if (picFormat.equals("jps"))
             {
-                final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler);
+                final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler,Settings.GetWriteExternal());
                 jpsSaver.TakePicture();
             }
             else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw")))
             {
-                final RawSaver rawSaver =  new RawSaver(baseCameraHolder,this, handler);
+                final RawSaver rawSaver =  new RawSaver(baseCameraHolder,this, handler,Settings.GetWriteExternal());
                 rawSaver.TakePicture();
             }
             else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw")))
             {
-                DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler);
+                DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler,Settings.GetWriteExternal());
                 dngSaver.TakePicture();
             }
         }

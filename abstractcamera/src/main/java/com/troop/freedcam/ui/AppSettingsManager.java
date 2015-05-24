@@ -73,6 +73,8 @@ public class AppSettingsManager
     public static String SETTING_HOTPIXEL = "hotpixel";
     public static String SETTING_TONEMAP = "tonemap";
 
+    public static String SETTING_EXTERNALSD = "extSD";
+
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";
     public static String API_2 = "camera2";
@@ -100,7 +102,7 @@ public class AppSettingsManager
     public void setCamApi(String api)
     {
         camApiString = api;
-        appSettings.edit().putString(SETTING_SONYAPI, api).commit();
+        appSettings.edit().putString(SETTING_SONYAPI, api).apply();
     }
 
     public String getCamApi()
@@ -111,7 +113,7 @@ public class AppSettingsManager
 
     public void setshowHelpOverlay(boolean value)
     {
-        appSettings.edit().putBoolean("showhelpoverlay", value).commit();
+        appSettings.edit().putBoolean("showhelpoverlay", value).apply();
     }
 
     public boolean getShowHelpOverlay()
@@ -121,7 +123,7 @@ public class AppSettingsManager
 
     public void SetTheme(String theme)
     {
-        appSettings.edit().putString(AppSettingsManager.SETTING_Theme, theme).commit();
+        appSettings.edit().putString(AppSettingsManager.SETTING_Theme, theme).apply();
     }
 
     public String GetTheme()
@@ -133,7 +135,7 @@ public class AppSettingsManager
     public void SetCurrentCamera(int currentcamera)
     {
         this.currentcamera = currentcamera;
-        appSettings.edit().putInt(SETTING_CURRENTCAMERA, currentcamera).commit();
+        appSettings.edit().putInt(SETTING_CURRENTCAMERA, currentcamera).apply();
     }
 
     public int GetCurrentCamera()
@@ -151,7 +153,7 @@ public class AppSettingsManager
             newstring = SETTING_CURRENTMODULE;
         else
             newstring = SETTING_CURRENTMODULE + API_2;
-        appSettings.edit().putString(newstring, modulename).commit();
+        appSettings.edit().putString(newstring, modulename).apply();
     }
 
     public String GetCurrentModule()
@@ -187,6 +189,16 @@ public class AppSettingsManager
             newstring = valueToSet + currentcamera;
         else
             newstring = valueToSet + currentcamera + API_2;
-        appSettings.edit().putString(newstring, Value).commit();
+        appSettings.edit().putString(newstring, Value).apply();
+    }
+
+    public boolean GetWriteExternal()
+    {
+        return appSettings.getBoolean(AppSettingsManager.SETTING_EXTERNALSD, false);
+    }
+
+    public void SetWriteExternal(boolean write)
+    {
+        appSettings.edit().putBoolean(AppSettingsManager.SETTING_EXTERNALSD, write).apply();
     }
 }

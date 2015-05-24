@@ -14,6 +14,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -29,9 +30,9 @@ public class DngSaver extends JpegSaver
     final RawToDng dngConverter;
 
     final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
+    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
     {
-        super(cameraHolder, i_workeDone, handler);
+        super(cameraHolder, i_workeDone, handler, externalSD);
         dngConverter = RawToDng.GetInstance();
     }
 
@@ -56,7 +57,7 @@ public class DngSaver extends JpegSaver
         handler.post(new Runnable() {
             @Override
             public void run() {
-                processData(data, new File(getStringAddTime() + fileEnding));
+                processData(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
             }
         });
 

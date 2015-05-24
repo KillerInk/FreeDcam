@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
@@ -13,8 +14,8 @@ import java.io.File;
 public class RawSaver extends JpegSaver
 {
     final public String fileEnding = ".raw";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
-        super(cameraHolder, i_workeDone, handler);
+    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
+        super(cameraHolder, i_workeDone, handler, externalSD);
     }
 
     final String TAG = "RawSaver";
@@ -41,7 +42,7 @@ public class RawSaver extends JpegSaver
             public void run()
             {
                 final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-                saveBytesToFile(data, new File(getStringAddTime() + lastBayerFormat + fileEnding));
+                saveBytesToFile(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
             }
         });
     }

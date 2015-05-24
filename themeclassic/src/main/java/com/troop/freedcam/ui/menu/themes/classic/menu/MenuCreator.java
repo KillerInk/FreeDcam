@@ -20,6 +20,7 @@ import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExte
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildGps;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildGuide;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildOrientationHack;
+import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildSaveSD;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildTheme;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildTimelapseFps;
 import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandbleChildAeBracket;
@@ -94,6 +95,7 @@ public class MenuCreator
     protected ExpandableChild ToneMapMode;
 
     protected ExpandableChild PostViewSize;
+    protected ExpandableChildSaveSD SaveToSD;
 
     protected LinearLayout submenu;
 
@@ -281,6 +283,8 @@ public class MenuCreator
         rotationHack.SetCameraUIWrapper(cameraUiWrapper);
         if (Histogram != null)
             Histogram.SetCameraUIWrapper(cameraUiWrapper);
+
+        SaveToSD.SetCameraUIWrapper(cameraUiWrapper);
 
         if(parameterHandler.ThemeList != null)
         {
@@ -593,6 +597,9 @@ public class MenuCreator
 
         Theme = new ExpandableChildTheme(context,activityV2, settingsGroup, context.getString(R.string.settings_theme), appSettingsManager, AppSettingsManager.SETTING_Theme);
         childlist.add(Theme);
+
+        SaveToSD = new ExpandableChildSaveSD(context, settingsGroup, "Save to", appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+        childlist.add(SaveToSD);
 
         settingsGroup.setItems(childlist);
 
