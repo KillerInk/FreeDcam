@@ -98,18 +98,7 @@ public class StringUtils
         else
             builder.append(GetInternalSDCARD());
         builder.append(freedcamFolder);
-        try
-        {
-            final File f = new File(builder.toString());
-            if (!f.mkdirs())
-            {
-                Log.d("StringUTILS", "Writing externalSD failed");
-                builder.delete(0, builder.length());
-                builder.append(GetInternalSDCARD()).append(freedcamFolder);
-            }
-        }
-        catch (Exception ex)
-        {}
+
         if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
             builder.append(File.separator).append("IMG_");
         if (fileEnding.equals(".mp4"))

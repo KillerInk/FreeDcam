@@ -39,13 +39,12 @@ public class ExpandableChildSaveSD extends ExpandableChild
         if (value.equals(external))
         {
             boolean canWriteExternal = false;
-            final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder;
+            final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "/test.t";
             final File f = new File(path);
             try {
-                if(!f.mkdirs())
-                    canWriteExternal = false;
-                else
-                    canWriteExternal = true;
+                f.createNewFile();
+                canWriteExternal = true;
+                f.delete();
             }
             catch (Exception ex)
             {
