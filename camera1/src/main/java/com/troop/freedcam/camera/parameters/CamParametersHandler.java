@@ -339,5 +339,16 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
 
+    public float GetFnumber()
+    {
+        final String fnum = cameraParameters.get("f-number");
+        return Float.parseFloat(fnum);
+    }
+
+    public float GetFocal()
+    {
+        final String focal = cameraParameters.get("focal-length");
+        return Float.parseFloat(focal);
+    }
 
 }

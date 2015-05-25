@@ -107,7 +107,10 @@ public class DngSaver extends JpegSaver
         }
 
         dngConverter.SetBayerData(data, file.getAbsolutePath());
-        dngConverter.setExifData(0, 0, 0, 0, 0, "0", cameraHolder.Orientation + "", 0);
+        float fnum, focal = 0;
+        fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
+        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();
+        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
         dngConverter.WriteDNG(null);
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);
