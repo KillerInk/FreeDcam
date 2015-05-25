@@ -147,7 +147,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                 pictureSize.setText(String.valueOf(decimalFormat.format(mp)) + "MP");
             }
         }
-        else
+        else if (cameraUiWrapper.camParametersHandler.PictureSize != null)
             pictureSize.setText(cameraUiWrapper.camParametersHandler.PictureSize.GetValue());
     }
 
@@ -162,7 +162,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
             } else
                 pictureFormat.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         }
-        else
+        else if (cameraUiWrapper.camParametersHandler.PictureFormat != null)
             pictureFormat.setText(cameraUiWrapper.camParametersHandler.PictureFormat.GetValue());
     }
 
