@@ -28,6 +28,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -206,7 +207,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(ImageReader reader)
         {
-            File file = new File(getStringAddTime() +".jpg");
+            File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
             new ImageSaver(reader.acquireNextImage(), file).run();
             //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
             Log.d(TAG, "create Jpeg");
@@ -230,7 +231,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 if (reader.getImageFormat() == ImageFormat.JPEG)
                 {
                     Log.d(TAG, "Create RAW");
-                    File file = new File(getStringAddTime() +".jpg");
+                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
@@ -239,7 +240,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR && cameraHolder.ParameterHandler.isDngActive)
                 {
                     Log.d(TAG, "Create DNG");
-                    File file = new File(getStringAddTime() + ".dng");
+                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
                     DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
                     final Image image = reader.acquireNextImage();
                     dngCreator.writeImage(new FileOutputStream(file), image);
@@ -251,7 +252,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
                     Log.d(TAG, "Create RAW");
-                    File file = new File(getStringAddTime() +".raw");
+                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(),".raw"));
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
@@ -266,16 +267,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             finishCapture();
         }
     };
-
-    protected String getStringAddTime()
-    {
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-        if (!file.exists())
-            file.mkdirs();
-        Date date = new Date();
-        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
-        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-    }
 
     /**
      * Saves a JPEG {@link android.media.Image} into the specified {@link File}.

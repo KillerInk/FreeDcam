@@ -8,6 +8,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -95,7 +96,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     public void onPictureTaken(URL url)
     {
 
-        File file = new File(getStringAddTime() + ".jpg");
+        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -139,15 +140,6 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 
     }
 
-    protected String getStringAddTime()
-    {
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-        if (!file.exists())
-            file.mkdirs();
-        Date date = new Date();
-        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
-        return (new StringBuilder(String.valueOf(file.getPath()))).append(File.separator).append("IMG_").append(s).toString();
-    }
 
     @Override
     public void onCameraStatusChanged(String status)

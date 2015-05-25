@@ -14,6 +14,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -118,13 +119,8 @@ public class VideoModule extends AbstractModule
                 }
             });
 
-            File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-            if (!file.exists())
-                file.mkdirs();
-            Date date = new Date();
-            String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+            mediaSavePath = StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4");
 
-            mediaSavePath = new StringBuilder(String.valueOf(file.getPath())).append(File.separator).append("VID_").append(s).append(".mp4").toString();
             setRecorderOutPutFile(mediaSavePath);
 
             if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
