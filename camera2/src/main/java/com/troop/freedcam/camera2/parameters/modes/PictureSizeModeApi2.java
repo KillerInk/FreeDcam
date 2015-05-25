@@ -2,6 +2,7 @@ package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Size;
@@ -38,7 +39,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public String GetValue()
     {
 
-        return GetValues()[0];
+        return "";
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

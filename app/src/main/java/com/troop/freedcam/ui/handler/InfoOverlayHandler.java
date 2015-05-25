@@ -93,6 +93,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
 
     public void StartUpdating()
     {
+        setThemeFonts();
         started = true;
         context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         startLooperThread();
@@ -119,26 +120,12 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                         pictureFormat.setText("H264");
                         pictureSize.setText(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
                     }
-                } else {
+                }
+                else
+                {
+                    setPictureSize();
 
-                    if (cameraUiWrapper.camParametersHandler.PictureSize != null) {
-                        String RESRAY[] = cameraUiWrapper.camParametersHandler.PictureSize.GetValue().split("x");
-                        if (RESRAY.length < 2)
-                            return;
-                        double mp = (Integer.parseInt(RESRAY[0]) * Integer.parseInt(RESRAY[1])) / 1000000;
-                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
-                        pictureSize.setText(String.valueOf(decimalFormat.format(mp)) + "MP");
-                    }
-
-                    if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer") || appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw"))
-                    {
-                        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                            pictureFormat.setText("DNG");
-                        else
-                            pictureFormat.setText("RAW");
-                    } else
-                        pictureFormat.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+                    setPictureFormat();
                 }
                 trySet();
             }
@@ -146,6 +133,38 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
 
         }
     };
+
+    private void setPictureSize()
+    {
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
+            if (cameraUiWrapper.camParametersHandler.PictureSize != null)
+            {
+                String RESRAY[] = cameraUiWrapper.camParametersHandler.PictureSize.GetValue().split("x");
+                if (RESRAY.length < 2)
+                    return;
+                double mp = (Integer.parseInt(RESRAY[0]) * Integer.parseInt(RESRAY[1])) / 1000000;
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                pictureSize.setText(String.valueOf(decimalFormat.format(mp)) + "MP");
+            }
+        }
+        else
+            pictureSize.setText(cameraUiWrapper.camParametersHandler.PictureSize.GetValue());
+    }
+
+    private void setPictureFormat()
+    {
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer") || appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw")) {
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+                    pictureFormat.setText("DNG");
+                else
+                    pictureFormat.setText("RAW");
+            } else
+                pictureFormat.setText(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        }
+        else
+            pictureFormat.setText(cameraUiWrapper.camParametersHandler.PictureFormat.GetValue());
+    }
 
     //defcomg was here this should go into some handler class that handles module change
     public void trySet()
@@ -165,10 +184,14 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
             Storage.setText("error");
         }
 
+
+    }
+
+    private void setThemeFonts() {
         switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
-            font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
+            font = Typeface.createFromAsset(context.getAssets(), "fonts/arial.ttf");
             Storage.setTypeface(font);
             pictureSize.setTypeface(font);
             pictureFormat.setTypeface(font);
