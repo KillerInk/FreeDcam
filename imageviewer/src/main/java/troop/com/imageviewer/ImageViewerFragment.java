@@ -36,6 +36,7 @@ import troop.com.imageviewer.MyHistogram;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
 import com.troop.freedcam.ui.menu.themes.classic.SwipeMenuListner;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -192,6 +193,16 @@ public class ImageViewerFragment extends Fragment
             if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
                 jpegs.add(f);
         }
+        try {
+            directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
+            files = directory.listFiles();
+            for (File f : files)
+            {
+                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                    jpegs.add(f);
+            }
+        }
+        catch (Exception ex){}
         files = jpegs.toArray(new File[jpegs.size()]);
         Arrays.sort(files, new Comparator<File>() {
             public int compare(File f1, File f2) {
