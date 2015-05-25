@@ -88,11 +88,18 @@ public class ExpandableChildSaveSD extends ExpandableChild
         @Override
         public boolean IsSupported()
         {
-            File file = new File(StringUtils.GetExternalSDCARD());
-            if (file.exists())
-                return true;
-            else
+            try {
+                File file = new File(StringUtils.GetExternalSDCARD());
+                if (file.exists())
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
                 return false;
+            }
+
         }
 
         @Override

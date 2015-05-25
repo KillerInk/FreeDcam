@@ -324,6 +324,10 @@ public class ImageViewerFragment extends Fragment
         } catch (JpegProcessingException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
         spinner.setVisibility(View.VISIBLE);
         handler.post(new Runnable() {
             @Override
