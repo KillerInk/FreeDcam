@@ -156,7 +156,7 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
-        setManualMode(ManualFocus, AppSettingsManager.MF);
+        //setManualMode(ManualFocus, AppSettingsManager.MF);
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
