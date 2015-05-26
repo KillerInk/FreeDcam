@@ -96,6 +96,8 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter HotPixelMode;
     public AbstractModeParameter ToneMapMode;
 
+    public AbstractModeParameter oismode;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -165,6 +167,7 @@ public abstract class AbstractParameterHandler
         setManualMode(CCT,AppSettingsManager.MWB);
 
         setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+        setMode(oismode, AppSettingsManager.SETTING_OIS);
     }
 
     private void setMode(AbstractModeParameter parameter, String settingsval)

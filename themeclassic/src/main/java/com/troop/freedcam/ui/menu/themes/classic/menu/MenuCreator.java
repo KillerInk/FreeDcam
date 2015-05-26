@@ -97,6 +97,8 @@ public class MenuCreator
     protected ExpandableChild PostViewSize;
     protected ExpandableChildSaveSD SaveToSD;
 
+    protected ExpandableChild OisChild;
+
     protected LinearLayout submenu;
 
     protected I_Activity activityV2;
@@ -210,7 +212,8 @@ public class MenuCreator
             CDS.setParameterHolder(parameterHandler.CDS_Mode, cameraUiWrapper.moduleHandler.AllModules);
 
 
-
+        if (parameterHandler.oismode != null && parameterHandler.oismode.IsSupported())
+            OisChild.setParameterHolder(parameterHandler.oismode, cameraUiWrapper.moduleHandler.AllModules);
 
         //used for longexposuremodule
         if (parameterHandler.PreviewSize != null)
@@ -466,6 +469,9 @@ public class MenuCreator
 
         HotPixelMode = new ExpandableChild(context,group,"HotPixelCorrection", appSettingsManager, AppSettingsManager.SETTING_HOTPIXEL);
         childlist.add(HotPixelMode);
+
+        OisChild = new ExpandableChild(context,group, "OIS", appSettingsManager, AppSettingsManager.SETTING_OIS);
+        childlist.add(OisChild);
 
         /*if(parameterHandler.Histogram.IsSupported())
         {

@@ -75,6 +75,8 @@ public class AppSettingsManager
 
     public static String SETTING_EXTERNALSD = "extSD";
 
+    public static String SETTING_OIS = "ois";
+
     public static String API_SONY = "playmemories";
     public static String API_1 = "camera1";
     public static String API_2 = "camera2";

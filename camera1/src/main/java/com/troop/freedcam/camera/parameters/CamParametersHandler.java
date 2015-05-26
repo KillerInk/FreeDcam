@@ -35,6 +35,7 @@ import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freedcam.camera.parameters.modes.NightModeParameter;
 import com.troop.freedcam.camera.parameters.modes.NonZslManualModeParameter;
+import com.troop.freedcam.camera.parameters.modes.OisParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
@@ -193,6 +194,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         //Temporal Noise Reduction http://nofilmschool.com/2012/03/temporal-noise-reduction-ipad-its-improvement
         TnrMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "tnr-mode", "tnr-mode-values");
         //############################
+
+        oismode = new OisParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
 
         SetCameraRotation();
         SetPictureOrientation(0);
