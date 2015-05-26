@@ -67,6 +67,11 @@ public class DngSaver extends JpegSaver
     {
         try
         {
+            if (data.length < 4500)
+            {
+                cameraHolder.errorHandler.OnError("Data size is < 4kb");
+                return;
+            }
             Log.d(TAG, "Check if if rawStream");
             final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
             final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
