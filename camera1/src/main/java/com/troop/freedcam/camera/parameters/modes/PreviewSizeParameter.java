@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -26,7 +27,8 @@ public class PreviewSizeParameter extends BaseModeParameter
         //if (baseCameraHolder.IsPreviewRunning())
             //baseCameraHolder.StopPreview();
 
-        parameters.put(value, valueToSet);
+        if(DeviceUtils.isZTEADV())
+            parameters.put(value, valueToSet);
 
         try
         {
