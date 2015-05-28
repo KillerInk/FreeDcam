@@ -187,11 +187,11 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.Lenovo_k910;
         if(DeviceUtils.isG2())
             return DngSupportedDevices.SupportedDevices.LG_G2;
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.hasIMX135())
             return DngSupportedDevices.SupportedDevices.zteAdv;
         if (DeviceUtils.isXperiaL())
             return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
-        if(DeviceUtils.isOnePlusOne())
+        if(DeviceUtils.hasIMX214())
             return DngSupportedDevices.SupportedDevices.OnePlusOne;
         return null;
     }

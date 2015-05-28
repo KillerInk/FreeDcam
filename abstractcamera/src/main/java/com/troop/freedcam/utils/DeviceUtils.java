@@ -100,7 +100,19 @@ public class DeviceUtils
     public static boolean isZTEADV()
     {
         String s = Build.MODEL;
-        return s.equals("NX503A") || s.equals("Z5S") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5") || s.equals("NX507J");
+        return s.equals("NX503A") || s.contains("NX") || s.equals("NX403A") || s.contains("Z5s") || s.equals("Z5") || s.contains("NX505") || s.contains("NX506") || s.contains("NX507");
+    }
+
+    public static boolean hasIMX135()
+    {
+        String s = Build.MODEL;
+        return s.equals("NX503A") || s.contains("NX501") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5") || s.contains("NX601");
+    }
+
+    public static boolean hasIMX214()
+    {
+        String s = Build.MODEL;
+        return s.contains("NX505") || s.contains("NX506") || s.contains("NX507") || s.contains("A0001");
     }
 
     public static boolean isXiaomiADV()
