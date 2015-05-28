@@ -423,7 +423,7 @@ public class NubiaManualMenuHandler implements SeekBar.OnSeekBarChangeListener, 
       //  manualSeekbar.setVisibility(View.VISIBLE);
         mSeekArc.setVisibility(View.VISIBLE);
         seekbarVisible = true;
-        seekbarText.setVisibility(View.VISIBLE);
+      //  seekbarText.setVisibility(View.VISIBLE);
     }
     private void hideSeekbar()
     {
