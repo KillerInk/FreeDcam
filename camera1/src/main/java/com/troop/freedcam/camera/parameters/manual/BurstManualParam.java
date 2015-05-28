@@ -37,8 +37,12 @@ public class BurstManualParam extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-
-        return 7;
+        if (DeviceUtils.isZTEADV())
+            return 7;
+        if (DeviceUtils.isLGADV())
+            return 32;
+        else
+            return 0;
     }
 
     @Override
