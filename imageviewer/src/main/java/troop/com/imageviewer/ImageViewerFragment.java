@@ -56,7 +56,8 @@ public class ImageViewerFragment extends Fragment
     View view;
     View viewHist;
     Button closeButton;
-    TouchImageView imageView;
+    //TouchImageView imageView;
+    ImageView imageView;
     File[] files;
     int current = 0;
     Button play;
@@ -96,7 +97,8 @@ public class ImageViewerFragment extends Fragment
         ll = (LinearLayout)view.findViewById(R.id.histoView);
         ll.addView(myHistogram);
 
-        this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
+        this.imageView = (ImageView)view.findViewById(R.id.Output);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,7 +281,9 @@ public class ImageViewerFragment extends Fragment
                         @Override
                         public void run() {
                             if (itemint == current) {
-                                imageView.setImageBitmap(map);
+                                //imageView.setImageBitmap(map);
+                                ImageView IV = (ImageView)view.findViewById(R.id.Output);
+                                IV.setImageBitmap(map);
                                 myHistogram.setBitmap(map, false);
                                 spinner.setVisibility(View.GONE);
                             }
@@ -315,10 +319,10 @@ public class ImageViewerFragment extends Fragment
         try {
             final Metadata metadata = JpegMetadataReader.readMetadata(file);
             final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            iso.setText("Iso:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-            shutter.setText("Shutter:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-            fnumber.setText("Fnumber:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-            focal.setText("Focal:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+            iso.setText("ISO: " +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+            shutter.setText("Exposure Time: " +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+            fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+            focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JpegProcessingException e) {
