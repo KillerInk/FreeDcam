@@ -1,5 +1,7 @@
 package com.troop.androiddng;
 
+import com.troop.freedcam.utils.DeviceUtils;
+
 /**
  * Created by troop on 11.05.2015.
  */
@@ -49,7 +51,15 @@ public class DngSupportedDevices
         }
         else if (filesize == 16424960)//lenovo k910 mipi , g3 kk mipi, zte
         {
-            return new DngProfile(64, 4212, 3120,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+            if(DeviceUtils.isZTEADV())
+            {
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,nubia_color1,nubia_color2,nubia_neutral);
+            }
+            else
+            {
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+            }
+
         }
         else if (filesize == 10788864)//XperiaL
         {
@@ -107,7 +117,7 @@ public class DngSupportedDevices
         }
         else if (filesize == 6299648)//k910/zte front mipi
         {
-            return new DngProfile(64, 2592 ,1296 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+            return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
         }
         else if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,nocal_color1,nocal_color2,nocal_nutral);
