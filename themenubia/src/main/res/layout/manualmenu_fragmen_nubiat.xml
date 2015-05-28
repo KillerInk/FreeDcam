@@ -51,6 +51,7 @@
                     seekarc:touchInside="true"
                     android:padding="30dp"
                     seekarc:thumb="@drawable/thumb"
+                    seekarc:progressColor="@color/material_grey"
                     seekarc:arcColor="@android:color/white"/>
             </LinearLayout>
 
