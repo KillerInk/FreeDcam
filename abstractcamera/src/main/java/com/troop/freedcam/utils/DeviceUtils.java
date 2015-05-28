@@ -143,7 +143,8 @@ public class DeviceUtils
         return xperiaLModels.contains(Build.MODEL);
     }
 
-    public static boolean isYureka(){ return Build.MODEL.toLowerCase().contains("yureka");}
+    public static String Yureka = "YUREKA,AO5510";
+    public static boolean isYureka(){ return Yureka.contains(Build.MODEL);}
 
     public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
 
