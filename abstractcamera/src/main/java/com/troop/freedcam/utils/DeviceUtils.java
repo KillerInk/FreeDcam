@@ -148,6 +148,6 @@ public class DeviceUtils
 
     public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
 
-    public static boolean isOnePlusOne(){ return Build.MODEL.equals("One");}
+    public static boolean isOnePlusOne(){ return Build.MODEL.equals("A0001");}
 
 }
