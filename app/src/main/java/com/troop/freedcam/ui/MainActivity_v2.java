@@ -73,6 +73,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public SensorsUtil sensorsUtil;
     HistogramFragment histogramFragment;
     LinearLayout ll;
+    LinearLayout ll2;
     WorkHandler workHandler;
 
 
@@ -107,6 +108,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     private void createUI() {
         ll = (LinearLayout)findViewById(R.id.infoOverLay);
+        ll2 = (LinearLayout)findViewById(R.id.Review);
 
         orientationHandler = new OrientationHandler(this, this);
 
@@ -235,12 +237,16 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
 
             ll.setVisibility(View.INVISIBLE);
+            ll2.setVisibility(View.GONE);
         }
         else
         {
             ll.setVisibility(View.VISIBLE);
+            ll2.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     public void HIDENAVBAR()
     {

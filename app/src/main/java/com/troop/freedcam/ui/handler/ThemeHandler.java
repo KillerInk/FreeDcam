@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui.handler;
 
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
@@ -95,6 +96,7 @@ public class ThemeHandler implements I_ModuleEvent
         transaction.add(R.id.themeFragmentholder, fragment, "Main");
         transaction.commitAllowingStateLoss();
     }
+
 
 
 

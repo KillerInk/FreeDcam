@@ -6,9 +6,10 @@
 
     <LinearLayout
         android:id="@+id/histoOverlay"
-        android:layout_width="257dp"
-        android:layout_height="140dp"
-        android:orientation="vertical">
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        android:alpha="0.93">
     </LinearLayout>
 
 </LinearLayout>
