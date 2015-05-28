@@ -228,7 +228,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
             } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                 DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
-                dngSaver.processData(data, new File(StringUtils.getFilePath(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
+                dngSaver.processData(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
             }
         }
     };

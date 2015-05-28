@@ -29,7 +29,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
             return true;
         else
             return false;
