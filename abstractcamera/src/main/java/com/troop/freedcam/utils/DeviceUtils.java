@@ -83,7 +83,7 @@ public class DeviceUtils
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
 
-    public static String G3Models = "LG-D800,LG-D802,LG-D855,LGLS990";
+    public static String G3Models = "LG-D800,LG-D802,LG-D855,LGLS990,LG VS985";
     public static boolean isLGADV()
     {
         return G3Models.contains(Build.MODEL);
