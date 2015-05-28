@@ -127,4 +127,23 @@ public class StringUtils
         builder.append(fileEnding);
         return builder.toString();
     }
+
+    public static String getFilePathBurst(boolean externalSd, String fileEnding, int hdrcount)
+    {
+        final StringBuilder builder = new StringBuilder();
+        if (externalSd)
+            builder.append(GetExternalSDCARD());
+        else
+            builder.append(GetInternalSDCARD());
+        builder.append(freedcamFolder);
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        Date date = new Date();
+        builder.append((new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss")).format(date));
+        builder.append("_BURST" + hdrcount);
+        builder.append(fileEnding);
+        return builder.toString();
+    }
 }
