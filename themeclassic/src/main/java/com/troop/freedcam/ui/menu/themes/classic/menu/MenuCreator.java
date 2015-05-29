@@ -293,7 +293,7 @@ public class MenuCreator
         {
             Theme.setParameterHolder(parameterHandler.ThemeList,cameraUiWrapper.moduleHandler.AllModules);
         }
-        cameraUiWrapper.moduleHandler.moduleEventHandler.ModuleHasChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+        //cameraUiWrapper.moduleHandler.moduleEventHandler.ModuleHasChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
     }
 

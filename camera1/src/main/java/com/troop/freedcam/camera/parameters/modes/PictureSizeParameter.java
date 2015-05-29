@@ -18,25 +18,15 @@ public class PictureSizeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        String tmp = parameters.get("picture-size");
         parameters.put("picture-size" , valueToSet);
 
         try {
             baseCameraHolder.SetCameraParameters(parameters);
+            BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-            try
-            {
-                parameters.put("picture-size" , tmp);
-                baseCameraHolder.SetCameraParameters(parameters);
-            }
-            catch (Exception ex1)
-            {
-                ex1.printStackTrace();
-
-            }
         }
     }
 }
