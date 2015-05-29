@@ -157,21 +157,27 @@ public class TouchImageView extends ImageView {
     }
 
     @Override
-    public void setImageBitmap(Bitmap bm) {
+    public void setImageBitmap(Bitmap bm)
+    {
+        imageRenderedAtLeastOnce = false;
         super.setImageBitmap(bm);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(Drawable drawable)
+    {
+        imageRenderedAtLeastOnce = false;
         super.setImageDrawable(drawable);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setImageURI(Uri uri) {
+    public void setImageURI(Uri uri)
+    {
+        imageRenderedAtLeastOnce = false;
         super.setImageURI(uri);
         savePreviousImageValues();
         fitImageToView();
