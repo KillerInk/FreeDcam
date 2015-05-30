@@ -451,16 +451,16 @@ public class SimpleCameraEventObserver {
 
             if (!resultsObj.isNull(5)) {
                 JSONArray InformationObj = resultsObj.getJSONArray(5);
-                JSONObject object = InformationObj.getJSONObject(0);
-                String type = object.getString("type");
-                if ("takePicture".equals(type))
-                {
-                    JSONObject val = InformationObj.getJSONObject(0);
-                    for (int i = 0; i<val.getJSONArray("takePictureUrl").length();i++)
-                    {
-                        values.add(val.getJSONArray("takePictureUrl").getString(i));
+                if (!InformationObj.isNull(0)) {
+                    JSONObject object = InformationObj.getJSONObject(0);
+                    String type = object.getString("type");
+                    if ("takePicture".equals(type)) {
+                        JSONObject val = InformationObj.getJSONObject(0);
+                        for (int i = 0; i < val.getJSONArray("takePictureUrl").length(); i++) {
+                            values.add(val.getJSONArray("takePictureUrl").getString(i));
+                        }
+                        fireImageListener(values.toArray(new String[values.size()]));
                     }
-                    fireImageListener(values.toArray(new String[values.size()]));
                 }
             }
         } catch (JSONException e) {

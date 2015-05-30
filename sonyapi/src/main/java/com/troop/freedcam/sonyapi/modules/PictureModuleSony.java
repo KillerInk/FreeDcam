@@ -1,6 +1,7 @@
 package com.troop.freedcam.sonyapi.modules;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -90,6 +91,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     private void takePicture()
     {
         cameraHolder.TakePicture(this);
+        Log.d(TAG, "Start Take Picture");
     }
 
     @Override

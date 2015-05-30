@@ -50,6 +50,8 @@ public class CameraHolderSony extends AbstractCameraHolder
     private SimpleCameraEventObserver mEventObserver;
     public ModuleHandlerSony moduleHandlerSony;
 
+    private String cameraStatus = "IDLE";
+
 
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
     {
@@ -62,9 +64,10 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onCameraStatusChanged(String status)
         {
+            cameraStatus = status;
+            Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
-
         }
 
         @Override
@@ -623,8 +626,12 @@ public class CameraHolderSony extends AbstractCameraHolder
             @Override
             public void run() {
                 try {
+                    Log.d(TAG, "####################### ACT TAKE PICTURE");
                     JSONObject replyJson = mRemoteApi.actTakePicture();
+                    Log.d(TAG, "####################### ACT TAKE PICTURE REPLY RECIEVED");
+                    Log.d(TAG, replyJson.toString());
                     JSONArray resultsObj = replyJson.getJSONArray("result");
+                    Log.d(TAG, "####################### ACT TAKE PICTURE PARSED RESULT");
                     JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
                     String postImageUrl = null;
                     if (1 <= imageUrlsObj.length()) {
@@ -643,17 +650,46 @@ public class CameraHolderSony extends AbstractCameraHolder
                     //InputStream istream = new BufferedInputStream(url.openStream());
 
 
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
                     Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
-
+                    awaitTakePicture(pictureCallback);
                 } catch (JSONException e) {
                     Log.w(TAG, "JSONException while closing slicer");
-
-                } finally {
-
+                    //awaitTakePicture(pictureCallback);
                 }
             }
         }.start();
+    }
+
+
+    private void awaitTakePicture(I_PictureCallback pictureCallback)
+    {
+        Log.d(TAG, "Camerastatus:" + cameraStatus);
+        if (cameraStatus.equals("StillCapturing")) {
+            try {
+                Log.d(TAG, "####################### AWAIT TAKE");
+                JSONObject replyJson = mRemoteApi.awaitTakePicture();
+                Log.d(TAG, "####################### AWAIT TAKE PICTURE RECIEVED RESULT");
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+                Log.d(TAG, "####################### AWAIT TAKE PICTURE PARSED RESULT");
+                if (!resultsObj.isNull(0))
+                {
+                    Log.d(TAG, resultsObj.toString());
+                    JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
+                    URL url = new URL(imageUrlsObj.getString(0));
+                    pictureCallback.onPictureTaken(url);
+                }
+            } catch (IOException e1)
+            {
+                awaitTakePicture(pictureCallback);
+                e1.printStackTrace();
+            } catch (JSONException e1) {
+                //awaitTakePicture(pictureCallback);
+                e1.printStackTrace();
+            }
+        }
     }
 
     public void SetShootMode(final String mode)

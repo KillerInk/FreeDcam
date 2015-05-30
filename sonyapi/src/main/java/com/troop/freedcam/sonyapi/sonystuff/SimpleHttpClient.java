@@ -24,9 +24,9 @@ public final class SimpleHttpClient {
 
     private static final String TAG = SimpleHttpClient.class.getSimpleName();
 
-    private static final int DEFAULT_CONNECTION_TIMEOUT = 10000; // [msec]
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 15000; // [msec]
 
-    private static final int DEFAULT_READ_TIMEOUT = 10000; // [msec]
+    private static final int DEFAULT_READ_TIMEOUT = 15000; // [msec]
 
     private SimpleHttpClient() {
 
@@ -172,6 +172,7 @@ public final class SimpleHttpClient {
             outputStream = null;
 
             int responseCode = httpConn.getResponseCode();
+            //Log.d(TAG, "httpPost: Response Code: " + responseCode + ": " + url);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpConn.getInputStream();
             }
