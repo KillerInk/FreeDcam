@@ -21,6 +21,7 @@ public class DngSupportedDevices
         OnePlusOne,
         yureka,
         zteAdv,
+        Xiaomi_Redmi_Note,
 
     }
 
@@ -46,6 +47,8 @@ public class DngSupportedDevices
                     return new DngProfile(0, 4212, 3082,false, BGGR, getG3_rowSizeL,nocal_color2,nocal_color2,nocal_nutral);
                 case OnePlusOne:
                     return new DngProfile(0, 4212, 3082,false, RGGb, getG3_rowSizeL,nocal_color2,nocal_color2,nocal_nutral);
+                case Xiaomi_Redmi_Note:
+                    return new DngProfile(64,4212, 3082,false, BGGR, getG3_rowSizeL, nocal_color1,nocal_color2,nocal_nutral);
 
             }
         }

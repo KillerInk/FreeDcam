@@ -60,6 +60,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.HTC_One_XL;
 		if (filename.toLowerCase().contains("one_plus_one"))
 			return DngSupportedDevices.SupportedDevices.OnePlusOne;
+		if (filename.toLowerCase().contains("xiaomi_redmi_note"))
+			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
 		return null;
 	}
 	
