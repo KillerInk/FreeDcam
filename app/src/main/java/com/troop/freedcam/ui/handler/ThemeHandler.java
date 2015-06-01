@@ -55,14 +55,16 @@ public class ThemeHandler implements I_ModuleEvent
 
         if (theme.equals("Ambient"))
         {
-            AmbientUi ambientUi = new AmbientUi(appSettingsManager, activity_v2);
+            AmbientUi ambientUi = new AmbientUi();
+            ambientUi.SetStuff(appSettingsManager, activity_v2);
             ambientUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = ambientUi;
             inflateFragment(ambientUi);
         }
         if (theme.equals("Classic"))
         {
-            ClassicUi CuiFragment = new ClassicUi(appSettingsManager, activity_v2);
+            ClassicUi CuiFragment = new ClassicUi();
+            CuiFragment.SetStuff(appSettingsManager, activity_v2);
 
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
@@ -70,20 +72,22 @@ public class ThemeHandler implements I_ModuleEvent
         }
 
         if (theme.equals("Material")) {
-            MaterialUi materialUi = new MaterialUi(appSettingsManager, activity_v2);
+            MaterialUi materialUi = new MaterialUi();
+            materialUi.SetStuff(appSettingsManager, activity_v2);
             materialUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = materialUi;
             inflateFragment(materialUi);
         }
         if (theme.equals("Minimal")) {
-            MinimalUi minimalUi = new MinimalUi(appSettingsManager, activity_v2);
+            MinimalUi minimalUi = new MinimalUi();
+            minimalUi.SetStuff(appSettingsManager, activity_v2);
             minimalUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = minimalUi;
             inflateFragment(minimalUi);
         }
         if (theme.equals("Nubia")) {
-            NubiaUi nubiaUi = new NubiaUi(appSettingsManager, activity_v2);
-
+            NubiaUi nubiaUi = new NubiaUi();
+            nubiaUi.SetStuff(appSettingsManager, activity_v2);
             nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = nubiaUi;
             inflateFragment(nubiaUi);

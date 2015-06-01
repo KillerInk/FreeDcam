@@ -17,8 +17,12 @@ import com.troop.theme.minimal.shutter.ShutterItemFragmentMinimal;
  */
 public class MinimalUi extends NubiaUi
 {
-    public MinimalUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
-        super(appSettingsManager, iActivity);
+    public MinimalUi() {
+    }
+
+    @Override
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super.SetStuff(appSettingsManager, iActivity);
         shutterItemsFragment = new ShutterItemFragmentMinimal();
         menuFragment = new MenuFragmentMinimal(appSettingsManager, i_activity);
         manualMenuFragment = new NubiaManualMenuFragment();

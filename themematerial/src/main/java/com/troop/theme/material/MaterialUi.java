@@ -19,8 +19,12 @@ import com.troop.theme.material.shutter.ShutterItemFragmentMaterial;
  */
 public class MaterialUi extends NubiaUi
 {
-    public MaterialUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
-        super(appSettingsManager, iActivity);
+    public MaterialUi() {
+    }
+
+    @Override
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super.SetStuff(appSettingsManager, iActivity);
         shutterItemsFragment = new ShutterItemFragmentMaterial();
         menuFragment = new MenuFragmentMaterial(appSettingsManager, i_activity);
         manualMenuFragment = new NubiaManualMenuFragment();

@@ -23,8 +23,9 @@ public class AmbientUi extends NubiaUi
     Bitmap TMPBMP;
     public Bitmap AmbientCover;
 
-    public AmbientUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
-        super(appSettingsManager, iActivity);
+    @Override
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super.SetStuff(appSettingsManager, iActivity);
         shutterItemsFragment = new ShutterItemFragmentAmbient();
         menuFragment = new MenuFragmentAmbient(this, appSettingsManager, i_activity);
 

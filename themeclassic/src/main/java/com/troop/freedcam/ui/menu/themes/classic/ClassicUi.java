@@ -32,7 +32,9 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     protected boolean manualMenuOpen = false;
     protected FocusImageHandler focusImageHandler;
 
-    public ClassicUi(AppSettingsManager appSettingsManager, I_Activity iActivity)
+    public ClassicUi(){};
+
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity iActivity)
     {
         this.appSettingsManager = appSettingsManager;
         this.i_activity = iActivity;

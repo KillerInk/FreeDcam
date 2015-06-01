@@ -23,8 +23,12 @@ public class NubiaUi extends ClassicUi implements I_PreviewSizeEvent
     protected ImageView leftview;
     protected ImageView rightview;
 
-    public NubiaUi(AppSettingsManager appSettingsManager, I_Activity iActivity) {
-        super(appSettingsManager, iActivity);
+    public NubiaUi() {
+    }
+
+    @Override
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity iActivity) {
+        super.SetStuff(appSettingsManager, iActivity);
         shutterItemsFragment = new ShutterItemFragmentNubia();
         menuFragment = new MenuFragmentNubia(appSettingsManager, i_activity);
         manualMenuFragment = new NubiaManualMenuFragment();
