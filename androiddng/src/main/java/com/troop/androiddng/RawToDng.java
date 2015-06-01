@@ -193,6 +193,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
         if(DeviceUtils.hasIMX214())
             return DngSupportedDevices.SupportedDevices.OnePlusOne;
+        if (DeviceUtils.isRedmiNote())
+            return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
         return null;
     }
 

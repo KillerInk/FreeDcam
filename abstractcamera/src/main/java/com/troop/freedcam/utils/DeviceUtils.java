@@ -162,4 +162,6 @@ public class DeviceUtils
 
     public static boolean isOnePlusOne(){ return Build.MODEL.equals("A0001");}
 
+    public static boolean isRedmiNote() { return Build.MODEL.equals("HM NOTE 1LTE");}
+
 }
