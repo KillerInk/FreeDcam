@@ -1,5 +1,6 @@
 package troop.com.imageviewer;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -149,7 +150,7 @@ public class ImageViewerFragment extends Fragment
         fnumber.setText("");
 
         spinner = (ProgressBar)view.findViewById(R.id.progressBar);
-        spinner.setVisibility(View.GONE);
+        //spinner.setVisibility(View.GONE);
         filename = (TextView)view.findViewById(R.id.textView_filename);
         ui_holder = (RelativeLayout)view.findViewById(R.id.ui_holder);
 
@@ -216,9 +217,47 @@ public class ImageViewerFragment extends Fragment
     }
 
 
+    private int animationTime = 500;
+    private void crossfade()
+    {
+        imageView.animate().alpha(0f).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                imageView.animate().alpha(1f).setDuration(animationTime).setListener(null);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+    private void fadeout()
+    {
+        imageView.animate().alpha(0f).setDuration(animationTime).setListener(null);
+        spinner.animate().alpha(1f).setDuration(animationTime).setListener(null);
+    }
+
+    private void fadein()
+    {
+        spinner.animate().alpha(0f).setDuration(animationTime).setListener(null);
+        imageView.animate().alpha(1f).setDuration(animationTime).setListener(null);
+    }
+
     private void setBitmap(final File file)
     {
-        imageView.setImageBitmap(null);
+        fadeout();
+        //imageView.setImageBitmap(null);
         filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
         {
@@ -245,10 +284,10 @@ public class ImageViewerFragment extends Fragment
                         @Override
                         public void run()
                         {
-                            if (itemint == current)
-                            {
+                            if (itemint == current) {
                                 imageView.setImageBitmap(bitmap);
-                                spinner.setVisibility(View.GONE);
+                                //spinner.setVisibility(View.GONE);
+                                fadein();
                             }
                         }
                     });
@@ -276,13 +315,16 @@ public class ImageViewerFragment extends Fragment
 
                     map.setHasAlpha(true);
 
+
                     //saveBytesToFile(bytes,file);
                     //Log.d("THUMB Size",String.valueOf(bytes.length));
                     //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (itemint == current) {
+                            if (itemint == current)
+                            {
+                                fadein();
                                 imageView.setImageBitmap(map);
                                 myHistogram.setBitmap(map, false);
                                 spinner.setVisibility(View.GONE);
@@ -358,10 +400,13 @@ public class ImageViewerFragment extends Fragment
             @Override
             public void run()
             {
-                if (itemint == current) {
+                if (itemint == current)
+                {
+                    fadein();
                     imageView.setImageBitmap(map);
                     myHistogram.setBitmap(map, false);
-                    spinner.setVisibility(View.GONE);
+                    //spinner.setVisibility(View.GONE);
+
                 }
             }
         });

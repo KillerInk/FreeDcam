@@ -91,19 +91,21 @@ public class MyHistogram extends View {
         });
         if (recyle)
             bitmap.recycle();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 
-    public void setBitmap ( Bitmap bitmap, boolean recycle)
+    public void setBitmap ( final Bitmap bitmap, final boolean recycle)
     {
 
         //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-        createHistogramm(bitmap, recycle);
+        if (recycle)
+            createHistogramm(bitmap, recycle);
+        else
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    createHistogramm(bitmap,recycle);
+                }
+            }).start();
 
     }
 
