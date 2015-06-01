@@ -188,11 +188,15 @@ public class ImageViewerFragment extends Fragment
         File directory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         files = directory.listFiles();
         List<File> jpegs = new ArrayList<File>();
-        for (File f : files)
+        if(files != null || files.length > 0)
         {
-            if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
-                jpegs.add(f);
+            for (File f : files)
+            {
+                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                    jpegs.add(f);
+            }
         }
+
         try {
             directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
             files = directory.listFiles();
