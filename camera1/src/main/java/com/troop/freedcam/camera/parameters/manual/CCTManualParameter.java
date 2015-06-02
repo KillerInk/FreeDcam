@@ -15,36 +15,30 @@ import java.util.HashMap;
 public class CCTManualParameter extends BaseManualParameter {
 	
 	I_CameraHolder baseCameraHolder;
-    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler) {
+    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
+    {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        try {
-            String t = parameters.get("max-wb-cct");
-            if (t != null || t.equals(""))
-            {
-                this.value = "wb-cct";
-                this.max_value = "max-wb-cct";
-                this.min_value = "min-wb-cct";
-                this.isSupported = true;
-            }
-        }
-        catch (Exception ex)
-        {}
-        if (!isSupported)
+        if (parameters.containsKey("wb-cct"))
         {
-            try {
-                String t = parameters.get("max-wb-ct");
-                if (t != null || t.equals(""))
-                {
-                    this.value = "wb-ct";
-                    this.max_value = "max-wb-ct";
-                    this.min_value = "min-wb-ct";
-                    this.isSupported = true;
-                }
-            }
-            catch (Exception ex)
-            {}
+            this.value = "wb-cct";
+            this.max_value = "max-wb-cct";
+            this.min_value = "min-wb-cct";
+            this.isSupported = true;
         }
-        //TODO add missing logic
+        else if (parameters.containsKey("wb-ct"))
+        {
+            this.value = "wb-ct";
+            this.max_value = "max-wb-ct";
+            this.min_value = "min-wb-ct";
+            this.isSupported = true;
+        }
+        else if (parameters.containsKey("wb-manual-cct"))
+        {
+            this.value = "wb-manual-cct";
+            this.max_value = "max-wb-cct";
+            this.min_value = "min-wb-cct";
+            this.isSupported = true;
+        }
     }
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
@@ -75,7 +69,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isZTEADV())
+            if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
                 i = -1;
             else if (DeviceUtils.isLGADV())
                 i = getCTReflection();
@@ -98,7 +92,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
         {
             if(valueToSet != -1)
             {
