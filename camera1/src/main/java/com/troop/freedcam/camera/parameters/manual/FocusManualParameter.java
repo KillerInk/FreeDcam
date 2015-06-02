@@ -16,39 +16,43 @@ public class FocusManualParameter extends  BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocus";
-    public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
-        //TODO add missing logic
-    }
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
-        //TODO add missing logic
+
+        if (((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
+                DeviceUtils.isZTEADV() ||
+                DeviceUtils.isHTC_M8()||
+                DeviceUtils.isHTC_M9())
+            this.isSupported = true;
+        else if (parameters.containsKey("manual-focus-position"))
+        {
+            this.value = "manual-focus-position";
+            this.max_value = "min-focus-pos-dac"; // this is like camera2 it returns only the min lens position up to 0
+        }
+        else
+            this.isSupported = false;
     }
 
     @Override
     public boolean IsSupported()
     {
-        if (((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
-                DeviceUtils.isZTEADV() ||
-                DeviceUtils.isHTC_M8()||
-                DeviceUtils.isHTC_M9())
-            return true;
-        else
-            return false;
+        return isSupported;
     }
 
     @Override
     public int GetMaxValue()
     {
         try {
+            if (max_value != null || !max_value.equals(""))
+                return Integer.parseInt(parameters.get(max_value));
             if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
                 return 79;
             /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
-            if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
                 return Integer.parseInt(parameters.get("max-focus"));
             else return 0;
         }
@@ -63,6 +67,8 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMinValue() {
     	if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return Integer.parseInt(parameters.get("min-focus"));
+        if (value != null || !value.equals(""))
+            return 0;
         /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
             return parameters.getInt("min-focus-pos-index");*/
         return -1;
@@ -73,13 +79,13 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         int i = 0;
         try {
-            if ((DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+            if (value != null || !value.equals(""))
+                i = Integer.parseInt(parameters.get("manual-focus-position"));
+            else if ((DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
-            /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
-                i=  Integer.parseInt(parameters.get("focus-pos"));*/
-            if (DeviceUtils.isZTEADV());
+            else if (DeviceUtils.isZTEADV())
                 i = -1;
-            if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
                 i = Integer.parseInt(parameters.get("focus"));
         }
         catch (Exception ex)
@@ -93,17 +99,21 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+        if (value != null || !value.equals(""))
+        {
+            parameters.put(value, valueToSet+"");
+        }
+        else if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", valueToSet+"");
         }
-        if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
+        else if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("manual", true);
             parameters.put("focus-pos", valueToSet + "");
         }
-        if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV())
         {
             if(valueToSet != -1)
             {
@@ -115,10 +125,8 @@ public class FocusManualParameter extends  BaseManualParameter
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
         }
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
         {
-
-
             if(valueToSet != -1)
             {
                 parameters.put("focus", valueToSet + "");
