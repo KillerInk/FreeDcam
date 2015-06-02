@@ -86,6 +86,8 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
+        else if (parameters.containsKey("exposure-time"))
+            this.isSupported = true;
         //TODO add missing logic
     }
 
@@ -98,10 +100,10 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if (DeviceUtils.isLGADV())
-            return Integer.parseInt(parameters.get("max-exposure-time"));
-        else
+        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
             return shutterValues.length-1;
+        else
+            return Integer.parseInt(parameters.get("max-exposure-time"));
     }
 
     @Override
@@ -138,12 +140,10 @@ public class ShutterManualParameter extends BaseManualParameter
                 Cur = a;
 
             }
-
             if(!shutterValues[current].equals("Auto"))
             {
-
-                if (DeviceUtils.isZTEADV()){
-
+                if (DeviceUtils.isZTEADV())
+                {
                     parameters.put("slow_shutter", shutterstring);
                     parameters.put("slow_shutter_addition", "1");
 
@@ -154,13 +154,10 @@ public class ShutterManualParameter extends BaseManualParameter
                         baseCameraHolder.StartPreview();
 
                     }
-
                 }
-
                 else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
                     shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
                     parameters.put("shutter", shutterstring);
-
                 }
             }
             else {
@@ -173,19 +170,12 @@ public class ShutterManualParameter extends BaseManualParameter
                 // parameters.put("slow_shutter_addition", "0");
                 baseCameraHolder.StopPreview();
                 baseCameraHolder.StartPreview();
-
-
-
             }
-
-
-
             Log.e(TAG, shutterstring);
         }
         else
         {
             parameters.put("exposure-time", valueToSet + "");
-
         }
 
 
@@ -211,12 +201,10 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        if (DeviceUtils.isLGADV())
-            return  current +"";
-        else if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()|| DeviceUtils.isHTC_M9())
+        if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()|| DeviceUtils.isHTC_M9())
             return shutterValues[current];
         else
-            return shutterValues[current];
+            return  parameters.get("exposure-time");
     }
 
     @Override
