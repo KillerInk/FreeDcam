@@ -125,7 +125,8 @@ public class ImageViewerFragment extends Fragment
         this.last = (Button)view.findViewById(R.id.button_last);
         last.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 loadLastImage();
             }
         });
@@ -414,6 +415,8 @@ public class ImageViewerFragment extends Fragment
 
     private void loadNextImage()
     {
+        if (files.length == 0)
+            return;
         current++;
         if (current == files.length)
             current = 0;
@@ -422,6 +425,8 @@ public class ImageViewerFragment extends Fragment
 
     private void loadLastImage()
     {
+        if (files.length == 0)
+            return;
         current--;
         if (current < 0)
             current = files.length-1;
