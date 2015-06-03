@@ -22,7 +22,7 @@ public class FocusManualParameter extends  BaseManualParameter
 
         this.baseCameraHolder = cameraHolder;
 
-        if (((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
+        if (((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
                 DeviceUtils.isZTEADV() ||
                 DeviceUtils.isHTC_M8()||
                 DeviceUtils.isHTC_M9())
@@ -48,9 +48,9 @@ public class FocusManualParameter extends  BaseManualParameter
         try {
             if (max_value != null || !max_value.equals(""))
                 return Integer.parseInt(parameters.get(max_value));
-            if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
+            if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
                 return 79;
-            /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+            /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
             else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
                 return Integer.parseInt(parameters.get("max-focus"));
@@ -69,7 +69,7 @@ public class FocusManualParameter extends  BaseManualParameter
             return Integer.parseInt(parameters.get("min-focus"));
         if (value != null || !value.equals(""))
             return 0;
-        /*if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21)
+        /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
             return parameters.getInt("min-focus-pos-index");*/
         return -1;
     }
@@ -81,7 +81,7 @@ public class FocusManualParameter extends  BaseManualParameter
         try {
             if (value != null || !value.equals(""))
                 i = Integer.parseInt(parameters.get("manual-focus-position"));
-            else if ((DeviceUtils.isLGADV()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+            else if ((DeviceUtils.isLG_G3()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
             else if (DeviceUtils.isZTEADV())
                 i = -1;
@@ -103,12 +103,12 @@ public class FocusManualParameter extends  BaseManualParameter
         {
             parameters.put(value, valueToSet+"");
         }
-        else if ((DeviceUtils.isLGADV() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+        else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", valueToSet+"");
         }
-        else if (DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
+        else if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("manual", true);
             parameters.put("focus-pos", valueToSet + "");

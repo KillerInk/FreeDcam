@@ -29,7 +29,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV() || DeviceUtils.isLGADV())
+        if (DeviceUtils.isZTEADV() || DeviceUtils.isLG_G3())
             return true;
         else
             return false;
@@ -39,7 +39,7 @@ public class BurstManualParam extends BaseManualParameter {
     public int GetMaxValue() {
         if (DeviceUtils.isZTEADV())
             return 7;
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLG_G3())
             return 32;
         else
             return 0;

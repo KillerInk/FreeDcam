@@ -75,7 +75,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
         }
-        else if (/*DeviceUtils.isLGADV() && Build.VERSION.SDK_INT >= 21 ||*/ DeviceUtils.isSonyADV())
+        else if (/*DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21 ||*/ DeviceUtils.isSonyADV())
         {
             try {
                 if (!parameters.get("sony-max-shutter-speed").equals(""))
@@ -110,7 +110,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMinValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-        else if (DeviceUtils.isLGADV())
+        else if (DeviceUtils.isLG_G3())
             return Integer.parseInt(parameters.get("min-exposure-time"));
         return 0;
     }
@@ -226,7 +226,7 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("slow_shutter_addition", "1");
             baseCameraHolder.SetCameraParameters(parameters);
         }*/
-        /*if (DeviceUtils.isLGADV())
+        /*if (DeviceUtils.isLG_G3())
         {
             parameters.put("long-shot", "on");
             baseCameraHolder.SetCameraParameters(parameters);

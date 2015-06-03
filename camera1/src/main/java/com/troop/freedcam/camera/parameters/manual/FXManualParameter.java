@@ -46,7 +46,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isLGADV())
+            if (DeviceUtils.isLG_G3())
                 i = 0;
             if (DeviceUtils.isZTEADV());
                 i = 0;

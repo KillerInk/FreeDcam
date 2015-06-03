@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -71,7 +70,7 @@ public class CCTManualParameter extends BaseManualParameter {
         try {
             if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
                 i = -1;
-            else if (DeviceUtils.isLGADV())
+            else if (DeviceUtils.isLG_G3())
                 i = getCTReflection();
             else
                 i = Integer.parseInt(parameters.get(value));
@@ -102,7 +101,7 @@ public class CCTManualParameter extends BaseManualParameter {
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
         }
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);
             //parameters.put("cct", valueToSet + "");
 

@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
-import javax.crypto.spec.DESedeKeySpec;
-
 /**
  * Created by troop on 15.02.2015.
  */
@@ -171,7 +169,7 @@ public class RawToDng
     {
         if (DeviceUtils.isYureka())
             return DngSupportedDevices.SupportedDevices.yureka;
-        if (DeviceUtils.isLGADV())
+        if (DeviceUtils.isLG_G3())
             return DngSupportedDevices.SupportedDevices.LG_G3;
         if (DeviceUtils.isGioneE7())
             return DngSupportedDevices.SupportedDevices.Gione_E7;

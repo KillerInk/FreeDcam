@@ -83,8 +83,8 @@ public class DeviceUtils
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
 
-    public static String G3Models = "LG-D800,LG-D802,LG-D855,LGLS990,LG VS985";
-    public static boolean isLGADV()
+    public static String G3Models = "LG-D855,LGLS990,LG VS985";
+    public static boolean isLG_G3()
     {
         return G3Models.contains(Build.MODEL);
     }
@@ -141,7 +141,7 @@ public class DeviceUtils
 
     public static boolean isRawSupported()
     {
-        return isLGADV() || isHTC_M8() || isZTEADV() || isMediaTekDevice();
+        return isLG_G3() || isHTC_M8() || isZTEADV() || isMediaTekDevice();
     }
 
     public static boolean isLenovoK910()

@@ -47,7 +47,7 @@ public class VideoProfileExpandableChild extends ExpandableChild
 
         if (videoProfileChanged != null)
             videoProfileChanged.VideoProfileChanged(value);
-        /*if (DeviceUtils.isLGADV())
+        /*if (DeviceUtils.isLG_G3())
         {
             previewSizeEvent.OnPreviewSizeChanged(cameraUiWrapper.camParametersHandler.VideoProfilesG3.GetCameraProfile(value).videoFrameWidth,
                     cameraUiWrapper.camParametersHandler.VideoProfilesG3.GetCameraProfile(value).videoFrameHeight);

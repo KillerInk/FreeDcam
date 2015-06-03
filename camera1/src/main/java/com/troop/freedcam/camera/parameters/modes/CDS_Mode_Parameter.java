@@ -29,7 +29,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         if (!this.isSupported)
         {
-            if (DeviceUtils.isLGADV() || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9())
+            if (DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9())
                 this.isSupported = true;
         }
     }
