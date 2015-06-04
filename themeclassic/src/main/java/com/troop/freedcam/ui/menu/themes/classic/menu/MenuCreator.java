@@ -98,6 +98,7 @@ public class MenuCreator
     protected ExpandableChildSaveSD SaveToSD;
 
     protected ExpandableChild OisChild;
+    protected ExpandableChild ControlModeChild;
 
     protected LinearLayout submenu;
 
@@ -271,6 +272,8 @@ public class MenuCreator
         {
             objectTrackingMode.setParameterHolder(parameterHandler.ObjectTracking, cameraUiWrapper.moduleHandler.AllModules);
         }
+        if (parameterHandler.ControlMode != null && parameterHandler.ControlMode.IsSupported())
+            ControlModeChild.setParameterHolder(parameterHandler.ControlMode, cameraUiWrapper.moduleHandler.AllModules);
 
         gps.SetCameraUIWrapper(cameraUiWrapper);
 
@@ -398,6 +401,9 @@ public class MenuCreator
 
         PostViewSize = new ExpandableChild(context,group,"PostViewSize", appSettingsManager, "");
         childlist.add(PostViewSize);
+
+        ControlModeChild = new ExpandableChild(context,group,"ControlMode", appSettingsManager, AppSettingsManager.SETTING_CONTROLMODE);
+        childlist.add(ControlModeChild);
 
         group.setItems(childlist);
     }
