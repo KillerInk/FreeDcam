@@ -50,4 +50,9 @@ public class MenuFragmentNubia extends MenuFragment {
 
         return view;
     }
+
+    @Override
+    protected void createMenuHandler(AppSettingsManager appSettingsManager, I_Activity i_activity) {
+        menuHandler = new NubiaMenuHandler(this, appSettingsManager,i_activity);
+    }
 }

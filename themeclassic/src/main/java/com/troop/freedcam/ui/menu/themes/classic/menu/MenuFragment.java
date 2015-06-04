@@ -35,6 +35,11 @@ public class MenuFragment extends Fragment implements I_ParametersLoaded
     {
         this.appSettingsManager = appSettingsManager;
         this.i_activity = i_activity;
+        createMenuHandler(appSettingsManager, i_activity);
+    }
+
+    protected void createMenuHandler(AppSettingsManager appSettingsManager, I_Activity i_activity)
+    {
         menuHandler = new MenuHandler(this, appSettingsManager, i_activity);
     }
 
