@@ -161,6 +161,11 @@ public class ImageViewerFragment extends Fragment
         current = files.length -1;
         if (files.length > 0)
             setBitmap(files[current]);
+        else
+        {
+            spinner.setVisibility(View.GONE);
+            filename.setText("No Files in FreeDcam Folder");
+        }
         return view;
     }
 
@@ -287,7 +292,6 @@ public class ImageViewerFragment extends Fragment
                         {
                             if (itemint == current) {
                                 imageView.setImageBitmap(bitmap);
-                                //spinner.setVisibility(View.GONE);
                                 fadein();
                             }
                         }
@@ -299,9 +303,6 @@ public class ImageViewerFragment extends Fragment
         }
         if (file.getAbsolutePath().endsWith(".dng"))
         {
-
-            //RawUtils.convertFileToByteArray(file);
-
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
@@ -313,13 +314,7 @@ public class ImageViewerFragment extends Fragment
                 {
                     final int itemint = current;
                     final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
-
                     map.setHasAlpha(true);
-
-
-                    //saveBytesToFile(bytes,file);
-                    //Log.d("THUMB Size",String.valueOf(bytes.length));
-                    //final Bitmap map = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
@@ -334,7 +329,6 @@ public class ImageViewerFragment extends Fragment
                     });
                 }
             });
-
         }
     }
 
@@ -353,8 +347,6 @@ public class ImageViewerFragment extends Fragment
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void processJpeg(final File file)
