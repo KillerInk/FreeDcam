@@ -230,7 +230,7 @@ public class MenuCreator
             videoProfile.videoProfileChanged = timelapseframes;
             videoProfile.setParameterHolder(parameterHandler.VideoProfiles, cameraUiWrapper.moduleHandler.VideoModules);
         }
-        if (parameterHandler.VideoProfilesG3 != null && DeviceUtils.isLG_G3())
+        if (parameterHandler.VideoProfilesG3 != null && (DeviceUtils.isLG_G3() || DeviceUtils.isG2()))
         {
             videoProfile.videoProfileChanged = timelapseframes;
             videoProfile.setParameterHolder(parameterHandler.VideoProfilesG3,cameraUiWrapper.moduleHandler.VideoModules);
