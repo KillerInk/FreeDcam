@@ -2,6 +2,7 @@ package com.troop.freedcam.apis;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,10 +20,10 @@ public class Camera2Fragment extends AbstractCameraFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.cameraholder, container, false);
+        view = inflater.inflate(R.layout.cameraholder2, container, false);
         textureView = (AutoFitTextureView) view.findViewById(R.id.view);
-        textureView.SetOnPreviewSizeCHangedListner(i_previewSizeEvent);
         this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView,appSettingsManager);
+        super.onCreateView(inflater,container,savedInstanceState);
         return view;
     }
 
@@ -49,6 +50,16 @@ public class Camera2Fragment extends AbstractCameraFragment
     @Override
     public int getPreviewHeight() {
         return textureView.getHeight();
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return null;
+    }
+
+    @Override
+    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
+        textureView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
     }
 
 }

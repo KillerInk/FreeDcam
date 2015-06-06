@@ -10,12 +10,11 @@
     android:id="@+id/MainLayout">
 
 
-
-    <com.troop.freedcam.ui.handler.PreviewHandler
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/CameraPreview" />
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cameraFragmentHolder"></LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

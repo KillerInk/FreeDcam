@@ -1,8 +1,8 @@
 package com.troop.freedcam.apis;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,12 +20,12 @@ public class Camera1Fragment extends AbstractCameraFragment
     ExtendedSurfaceView extendedSurfaceView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.cameraholder, container, false);
+        view = inflater.inflate(R.layout.cameraholder1, container, false);
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
-        extendedSurfaceView.SetOnPreviewSizeCHangedListner(i_previewSizeEvent);
         this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView,appSettingsManager, errorHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
+        super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
@@ -54,6 +54,15 @@ public class Camera1Fragment extends AbstractCameraFragment
         return extendedSurfaceView.getHeight();
     }
 
+    @Override
+    public SurfaceView getSurfaceView() {
+        return extendedSurfaceView;
+    }
+
+    @Override
+    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
+        extendedSurfaceView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
+    }
 
 
 }

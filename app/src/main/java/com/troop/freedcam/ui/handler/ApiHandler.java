@@ -3,6 +3,10 @@ package com.troop.freedcam.ui.handler;
 import android.content.Context;
 import android.util.Log;
 
+import com.troop.apis.SonyCameraFragment;
+import com.troop.freedcam.apis.AbstractCameraFragment;
+import com.troop.freedcam.apis.Camera1Fragment;
+import com.troop.freedcam.apis.Camera2Fragment;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -16,29 +20,21 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class ApiHandler
 {
     private static String TAG = ApiHandler.class.getSimpleName();
-    public AbstractCameraUiWrapper getCameraUiWrapper(Context context, PreviewHandler preview, AppSettingsManager appSettingsManager, I_error errorHandler, AbstractCameraUiWrapper ret)
+    public AbstractCameraFragment getCameraFragment(AppSettingsManager appSettingsManager)
     {
-
-
-        if (ret != null)
-        {
-            Log.d(TAG, "Stop preview and cam");
-            ret.StopPreview();
-            ret.StopCamera();
-            ret = null;
-        }
+        AbstractCameraFragment ret;
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
-            ret = new CameraUiWrapperSony(preview.surfaceView, appSettingsManager);
+            ret = new SonyCameraFragment();
 
         }
         else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
-            ret = new CameraUiWrapperApi2(context, preview.textureView, appSettingsManager);
+            ret = new Camera2Fragment();
         }
         else
         {
-            ret = new CameraUiWrapper(preview.surfaceView, appSettingsManager, errorHandler);
+            ret = new Camera1Fragment();
         }
         return ret;
 

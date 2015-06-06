@@ -27,7 +27,7 @@ public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
         data = callerIntent.getData();
         Uri imageUri = (Uri) callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
 
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        /*cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
         if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
             cameraUiWrapper.moduleHandler.SetModule(ModuleHandler.MODULE_PICTURE);
         PictureModule pictureModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
@@ -35,7 +35,7 @@ public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
         if (pictureModule.OverRidePath.endsWith(".jpg"))
         {
             appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
-        }
+        }*/
 
     }
 

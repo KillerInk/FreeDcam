@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,14 +24,17 @@ public abstract class AbstractCameraFragment extends Fragment
     protected View view;
     protected AppSettingsManager appSettingsManager;
     protected I_error errorHandler;
-    protected I_PreviewSizeEvent i_previewSizeEvent;
+    protected CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()
     {
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        if (onrdy != null)
+            onrdy.onCameraUiWrapperRdy();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -39,17 +43,20 @@ public abstract class AbstractCameraFragment extends Fragment
         return cameraUiWrapper;
     }
 
-    public void Init(AppSettingsManager appSettings,I_error errorHandler,I_PreviewSizeEvent i_previewSizeEvent)
+    public void Init(AppSettingsManager appSettings,I_error errorHandler, CamerUiWrapperRdy rdy)
     {
         this.appSettingsManager = appSettings;
         this.errorHandler = errorHandler;
-        this.i_previewSizeEvent =i_previewSizeEvent;
+        this.onrdy = rdy;
     }
     public abstract int getMargineLeft();
     public abstract int getMargineRight();
     public abstract int getMargineTop();
     public abstract int getPreviewWidth();
     public abstract int getPreviewHeight();
+    public abstract SurfaceView getSurfaceView();
+
+    public abstract void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner);
 
     public void DestroyCameraUiWrapper()
     {
@@ -66,6 +73,11 @@ public abstract class AbstractCameraFragment extends Fragment
             cameraUiWrapper = null;
             Log.d(TAG, "destroyed cameraWrapper");
         }
+    }
+
+    public interface CamerUiWrapperRdy
+    {
+        void onCameraUiWrapperRdy();
     }
 
 }
