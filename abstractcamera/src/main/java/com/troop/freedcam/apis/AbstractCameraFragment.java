@@ -1,7 +1,8 @@
-package com.troop.freedcam;
+package com.troop.freedcam.apis;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import com.troop.freedcam.ui.I_PreviewSizeEvent;
  */
 public abstract class AbstractCameraFragment extends Fragment
 {
+    final static String TAG = AbstractCameraFragment.class.getSimpleName();
+
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     protected AppSettingsManager appSettingsManager;
     protected I_error errorHandler;
+    protected I_PreviewSizeEvent i_previewSizeEvent;
     public AbstractCameraFragment()
     {
 
@@ -30,22 +34,38 @@ public abstract class AbstractCameraFragment extends Fragment
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public abstract void setPreviewSizeEventListner(I_PreviewSizeEvent i_previewSizeEvent);
     public AbstractCameraUiWrapper GetCameraUiWrapper()
     {
         return cameraUiWrapper;
     }
 
-    public void Init(AppSettingsManager appSettings,I_error errorHandler)
+    public void Init(AppSettingsManager appSettings,I_error errorHandler,I_PreviewSizeEvent i_previewSizeEvent)
     {
         this.appSettingsManager = appSettings;
         this.errorHandler = errorHandler;
+        this.i_previewSizeEvent =i_previewSizeEvent;
     }
     public abstract int getMargineLeft();
     public abstract int getMargineRight();
     public abstract int getMargineTop();
     public abstract int getPreviewWidth();
     public abstract int getPreviewHeight();
-    public abstract void DestroyCameraUiWrapper();
+
+    public void DestroyCameraUiWrapper()
+    {
+        if (cameraUiWrapper != null)
+        {
+            Log.d(TAG, "Destroying Wrapper");
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
+            cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
+            cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
+            cameraUiWrapper.moduleHandler.moduleEventHandler = null;
+            cameraUiWrapper.moduleHandler.SetWorkListner(null);
+            cameraUiWrapper.StopPreview();
+            cameraUiWrapper.StopCamera();
+            cameraUiWrapper = null;
+            Log.d(TAG, "destroyed cameraWrapper");
+        }
+    }
 
 }
