@@ -25,7 +25,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
 
-    public CameraUiWrapper(){};
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager, I_error errorHandler)
     {
