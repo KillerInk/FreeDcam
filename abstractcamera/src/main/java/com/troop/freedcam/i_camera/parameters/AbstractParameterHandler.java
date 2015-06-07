@@ -11,8 +11,14 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractParameterHandler
 {
+    /**
+     * Holds the UI/Main Thread
+     */
     protected Handler uiHandler;
 
+    /**
+     * Holds the basic parameters has loaded event, listner should register there if the need to know if the parameters has loaded/changed
+     */
     public CameraParametersEventHandler ParametersEventHandler;
 
     public AbstractManualParameter ManualBrightness;
@@ -123,6 +129,8 @@ public abstract class AbstractParameterHandler
         setMode(AntiBandingMode, AppSettingsManager.SETTING_ANTIBANDINGMODE);
         setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
+        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+        setMode(oismode, AppSettingsManager.SETTING_OIS);
 
         setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);
         setMode(GuideList, AppSettingsManager.SETTING_GUIDE);
@@ -162,14 +170,13 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
         //setManualMode(ManualFocus, AppSettingsManager.MF);
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
-        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
+        //setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        setManualMode(ISOManual, AppSettingsManager.MISO);
+        //setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
-        setManualMode(CCT,AppSettingsManager.MWB);
+        //setManualMode(CCT,AppSettingsManager.MWB);
 
-        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
-        setMode(oismode, AppSettingsManager.SETTING_OIS);
+
     }
 
     private void setMode(AbstractModeParameter parameter, String settingsval)
