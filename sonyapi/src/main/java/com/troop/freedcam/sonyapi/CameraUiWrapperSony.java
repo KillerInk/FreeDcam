@@ -20,11 +20,9 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
 {
     protected SimpleStreamSurfaceView surfaceView;
 
-    private SimpleSsdpClient mSsdpClient;
-    ServerDevice serverDevice;
+    public ServerDevice serverDevice;
     CameraHolderSony cameraHolder;
     AppSettingsManager appSettingsManager;
-    WifiUtils wifiUtils;
 
 
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
@@ -36,8 +34,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
-        mSsdpClient = new SimpleSsdpClient();
-        wifiUtils = new WifiUtils(surfaceView.getContext());
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;
@@ -59,106 +55,12 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
                 startCamera();
             }
         }).start();
-
     }
 
     @Override
     protected void startCamera()
     {
-        String wifis = null;
-        try {
-            wifis = wifiUtils.getConnectedNetworkSSID();
-            if (wifis == null || wifis.equals("")) {
-                onCameraError("Wifi disabled");
-                return;
-            }
-
-        }
-        catch (Exception ex)
-        {
-            onCameraError("Wifi disabled");
-            return;
-        }
-        if (!wifis.contains("DIRECT"))
-        {
-            String[] configuredNetworks = null;
-            try {
-                configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
-            }
-            catch (Exception ex)
-            {
-                onCameraError("Wifi disabled");
-                return;
-            }
-
-            String confnet = "";
-            for (String s : configuredNetworks)
-            {
-                if (s.contains("DIRECT"))
-                {
-                    confnet = s;
-                    break;
-                }
-            }
-            if (confnet.equals(""))
-            {
-                onCameraError("No Sony Camera Device Configured in WifiSettings");
-                return;
-            }
-            String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
-            String foundnet = "";
-            for (String s : foundNetWorks)
-            {
-                if (confnet.equals(s))
-                {
-                    foundnet = s;
-                    break;
-                }
-            }
-            if (foundnet.equals(""))
-            {
-                onCameraError("Cant find Sony Camera WifiNetwork, Camera turned On?");
-                return;
-            }
-            wifiUtils.ConnectToSSID(foundnet);
-            while (!wifiUtils.getWifiConnected())
-            {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
-        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
-        {
-            @Override
-            public void onDeviceFound(ServerDevice device) {
-                serverDevice = device;
-                new Thread(){
-                    public void run()
-                    {
-                        cameraHolder.OpenCamera(serverDevice);
-                    }
-                }.start();
-
-            }
-            @Override
-            public void onFinished()
-            {
-                if (serverDevice == null)
-                    onCameraError("Cant find a sony remote Device");
-
-            }
-
-            @Override
-            public void onErrorFinished()
-            {
-                    onCameraError("Error happend while searching for sony remote device");
-            }
-        });
+        cameraHolder.OpenCamera(serverDevice);
         onCameraOpen("");
     }
 
@@ -220,7 +122,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        StartCamera();
+        //StartCamera();
     }
 
     @Override

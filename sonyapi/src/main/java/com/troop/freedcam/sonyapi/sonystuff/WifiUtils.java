@@ -26,9 +26,10 @@ public class WifiUtils
         connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
+    public void StartScan() { wifiManager.startScan();};
+
     public String[] getNetworkSSIDs()
     {
-        wifiManager.startScan();
         final List<ScanResult> results = wifiManager.getScanResults();
         final String[] ret = new String[results.size()];
         int i = 0;
