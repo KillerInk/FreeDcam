@@ -21,7 +21,7 @@ public class Camera2Fragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cameraholder2, container, false);
-        textureView = (AutoFitTextureView) view.findViewById(R.id.view);
+        textureView = (AutoFitTextureView) view.findViewById(R.id.autofitview);
         this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView,appSettingsManager);
         super.onCreateView(inflater,container,savedInstanceState);
         return view;
