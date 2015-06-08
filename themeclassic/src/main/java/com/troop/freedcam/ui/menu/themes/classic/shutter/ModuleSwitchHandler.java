@@ -89,8 +89,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
                 {
                     if (value.equals(module.getValue().LongName()))
                     {
-                        appSettingsManager.SetCurrentModule(module.getValue().name);
-                        moduleHandler.SetModule(module.getValue().name);
+                        appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
+                        moduleHandler.SetModule(module.getValue().ModuleName());
 
                         moduleViewx.setText(module.getValue().ShortName());
                         break;
@@ -107,7 +107,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void ParametersLoaded()
     {
-        if (moduleHandler == null)
+        if (moduleHandler == null || moduleHandler.GetCurrentModule() == null)
             return;
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());

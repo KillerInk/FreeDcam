@@ -52,13 +52,22 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     private String cameraStatus = "IDLE";
 
+    public I_CameraShotMode cameraShotMode;
+
+    public interface I_CameraShotMode
+    {
+        void onShootModeChanged(String mode);
+        void onShootModeValuesChanged(String[] modes);
+    }
+
 
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
     {
 
         @Override
         public void onShootModeChanged(String shootMode) {
-
+            if(cameraShotMode != null)
+                cameraShotMode.onShootModeChanged(shootMode);
         }
 
         @Override

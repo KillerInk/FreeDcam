@@ -101,11 +101,11 @@ public class CCTManualParameter extends BaseManualParameter {
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
         }
-        if (DeviceUtils.isLG_G3())
+        else if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);
             //parameters.put("cct", valueToSet + "");
 
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             parameters.put("wb-ct", valueToSet + "");
         camParametersHandler.SetParametersToCamera();
 

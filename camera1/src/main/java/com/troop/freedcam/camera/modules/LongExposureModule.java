@@ -246,14 +246,12 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     {
         if (ParameterHandler.PreviewFormat != null && !ParameterHandler.PreviewFormat.GetValue().equals("yuv420sp"))
             ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
-        super.LoadNeededParameters();
 
     }
 
     @Override
     public void UnloadNeededParameters()
     {
-        super.UnloadNeededParameters();
 
     }
 }

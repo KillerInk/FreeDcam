@@ -89,7 +89,13 @@ public class SonyCameraFragment extends AbstractCameraFragment
     {
         public void onReceive(Context c, Intent intent)
         {
-            getActivity().unregisterReceiver(wifiReciever);
+            try {
+                getActivity().unregisterReceiver(wifiReciever);
+            }
+            catch (NullPointerException ex)
+            {}
+            catch (RuntimeException ex)
+            {}
             if (confnet == null || confnet.equals(""))
                 return;
             String[] foundNetWorks = wifiUtils.getNetworkSSIDs();

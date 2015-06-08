@@ -59,25 +59,24 @@ public abstract class AbstractModule implements I_Module
     }
 
     @Override
-    public void DoWork()
-    {
-
-    }
+    public abstract void DoWork();
 
     @Override
     public boolean IsWorking() {
         return isWorking;
     }
 
+    /**
+     * this gets called when the module gets loaded. set here specific paramerters that are needed by the module
+     */
     @Override
-    public void LoadNeededParameters() {
+    public abstract void LoadNeededParameters();
 
-    }
-
+    /**
+     * this gets called when module gets unloaded reset the parameters that where set on LoadNeededParameters
+     */
     @Override
-    public void UnloadNeededParameters() {
-
-    }
+    public abstract void UnloadNeededParameters();
 
     @Override
     public String LongName() {

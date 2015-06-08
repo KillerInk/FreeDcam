@@ -74,7 +74,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 
     @Override
     public void UnloadNeededParameters() {
-        super.UnloadNeededParameters();
+
     }
 
     @Override
@@ -97,7 +97,6 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-
         File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
@@ -138,8 +137,6 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
-
-
     }
 
 

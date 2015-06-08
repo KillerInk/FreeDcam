@@ -50,7 +50,17 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
 
     @Override
     public void DoWork() {
-        super.DoWork();
+
+    }
+
+    @Override
+    public void LoadNeededParameters() {
+
+    }
+
+    @Override
+    public void UnloadNeededParameters() {
+
     }
 
     @Override
