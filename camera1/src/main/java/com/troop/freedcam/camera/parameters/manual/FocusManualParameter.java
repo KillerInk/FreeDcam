@@ -48,7 +48,7 @@ public class FocusManualParameter extends  BaseManualParameter
         try {
             if (max_value != null || !max_value.equals(""))
                 return Integer.parseInt(parameters.get(max_value));
-            if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
+            else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
                 return 79;
             /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
