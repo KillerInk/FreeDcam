@@ -22,17 +22,18 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
+import com.troop.freedcam.ui.AbstractFocusImageHandler;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.ImageViewTouchAreaHandler;
 import com.troop.freedcam.ui.menu.themes.R;
 
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusImageHandler extends TouchHandler implements I_Focus
+public class FocusImageHandler extends AbstractFocusImageHandler
 {
-    private final I_Activity activity;
     private AbstractCameraUiWrapper wrapper;
-    ImageView imageView;
+    ImageView focusImageView;
     final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
@@ -42,21 +43,15 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     ImageView awbArea;
     FocusRect meteringRect;
     FocusRect awbRect;
-    View view;
-    Fragment fragment;
-    long start;
-    long duration;
     static final int MAX_DURATION = 3500;
 
 
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
     {
-        this.activity = activity;
-        this.view = view;
-        this.fragment = fragment;
-        imageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+        super(view,fragment, activity);
+        focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
-        //imageView.setVisibility(View.GONE);
+        //focusImageView.setVisibility(View.GONE);
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new View.OnClickListener() {
@@ -67,14 +62,11 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 cancelFocus.setVisibility(View.GONE);
             }
         });
-
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
-        meteringArea.setOnTouchListener(new MeteringAreaTouch());
+        meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, activity, meteringTouch));
         meteringArea.setVisibility(View.GONE);
-
-
         awbArea = (ImageView)view.findViewById(R.id.imageView_awbarea);
-        awbArea.setOnTouchListener(new AwbAreaTouch());
+        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch));
         awbArea.setVisibility(View.GONE);
 
     }
@@ -83,7 +75,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     {
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
-            centerMeteringArea();
+            meteringRect = centerImageView(meteringArea);
             meteringArea.setVisibility(View.VISIBLE);
         }
         else
@@ -92,6 +84,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         }
         if(cameraUiWrapper instanceof CameraUiWrapperApi2)
         {
+            awbRect = centerImageView(awbArea);
             awbArea.setVisibility(View.VISIBLE);
         }
         else
@@ -116,14 +109,14 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
                 int halfheight = disHeight / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
-            RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+            RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
             mParams.leftMargin = rect.left;
             //mParams.rightMargin = x +half;
             mParams.topMargin = rect.top;
 
-            imageView.setLayoutParams(mParams);
-            imageView.setBackgroundResource(R.drawable.crosshair_normal);
-            imageView.setVisibility(View.VISIBLE);
+            focusImageView.setLayoutParams(mParams);
+            focusImageView.setBackgroundResource(R.drawable.crosshair_normal);
+            focusImageView.setVisibility(View.VISIBLE);
 
             RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -133,9 +126,9 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds
 
 //Start animation
-            imageView.startAnimation(anim);
+            focusImageView.startAnimation(anim);
 //Later on, use view.setAnimation(null) to stop it.
-            //imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            //focusImageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
     }
 
@@ -143,15 +136,15 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     public void FocusFinished(final boolean success)
     {
         if (!(wrapper instanceof CameraUiWrapperSony)) {
-            imageView.post(new Runnable() {
+            focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
                     if (success)
-                        imageView.setBackgroundResource(R.drawable.crosshair_success);
+                        focusImageView.setBackgroundResource(R.drawable.crosshair_success);
                     else
-                        imageView.setBackgroundResource(R.drawable.crosshair_failed);
+                        focusImageView.setBackgroundResource(R.drawable.crosshair_failed);
 
-                    imageView.setAnimation(null);
+                    focusImageView.setAnimation(null);
                     //handler.postDelayed(hideCrosshair, crosshairShowTime);
                 }
             });
@@ -178,7 +171,7 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
     public void TouchToFocusSupported(boolean isSupported)
     {
         if (!isSupported)
-            imageView.setVisibility(View.GONE);
+            focusImageView.setVisibility(View.GONE);
     }
 
     @Override
@@ -203,12 +196,37 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
         @Override
         public void run()
         {
-            imageView.setBackgroundResource(R.drawable.crosshair_normal);
-            imageView.setVisibility(View.GONE);
+            focusImageView.setBackgroundResource(R.drawable.crosshair_normal);
+            focusImageView.setVisibility(View.GONE);
         }
     };*/
 
-    @Override
+    ImageViewTouchAreaHandler.I_TouchListnerEvent meteringTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
+        @Override
+        public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
+            if (wrapper != null)
+                wrapper.Focus.SetMeteringAreas(imageRect,previewWidth, previewHeight);
+        }
+
+        @Override
+        public void OnAreaClick(int x, int y) {
+            OnClick(x,y);
+        }
+    };
+
+    ImageViewTouchAreaHandler.I_TouchListnerEvent awbTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
+        @Override
+        public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
+            if (wrapper != null)
+                wrapper.Focus.SetAwbAreas(imageRect, previewWidth, previewHeight);
+        }
+
+        @Override
+        public void OnAreaClick(int x, int y) {
+            OnClick(x,y);
+        }
+    };
+
     protected void OnClick(int x, int y)
     {
         if (wrapper == null || wrapper.Focus == null)
@@ -221,77 +239,8 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
     }
 
-    private class MeteringAreaTouch implements View.OnTouchListener
-    {
-        float x, y, difx, dify;
-        int distance = 10;
-        boolean moving = false;
-        @Override
-        public boolean onTouch(View v, MotionEvent event)
-        {
-            switch(event.getAction())
-            {
-                case MotionEvent.ACTION_DOWN: {
-                    x = event.getX();
-                    y = event.getY();
-                    startX = (int)event.getX() - (int)meteringArea.getX();
-                    startY =(int) event.getY() - (int)meteringArea.getY();
-                    start = System.currentTimeMillis();
 
-                }
-                break;
-                case MotionEvent.ACTION_MOVE:
-                {
-
-                    difx = x - meteringArea.getX();
-                    dify = y - meteringArea.getY();
-                    int xd = getDistance(startX, (int)difx);
-                    int yd = getDistance(startY, (int)dify);
-
-                    if (event.getX() - difx > activity.GetPreviewLeftMargine() && event.getX() - difx + meteringArea.getWidth() < activity.GetPreviewLeftMargine() + activity.GetPreviewWidth())
-                        meteringArea.setX(event.getX() - difx);
-                    if (event.getY() - dify > activity.GetPreviewTopMargine() && event.getY() - dify + meteringArea.getHeight() < activity.GetPreviewTopMargine() + activity.GetPreviewHeight())
-                        meteringArea.setY(event.getY() - dify);
-                    if (xd >= distance || yd >= distance) {
-
-                        moving = true;
-                    }
-                }
-                break;
-                case MotionEvent.ACTION_UP:
-                {
-                    long time = System.currentTimeMillis() - start;
-                    duration = duration+time;
-
-                    if (moving)
-                    {
-                        moving = false;
-                        x = 0;
-                        y = 0;
-                        difx = 0;
-                        dify = 0;
-                        meteringRect = new FocusRect((int) meteringArea.getX() - recthalf, (int) meteringArea.getX() + recthalf, (int) meteringArea.getY() - recthalf, (int) meteringArea.getY() + recthalf);
-                        if (wrapper != null)
-                            wrapper.Focus.SetMeteringAreas(meteringRect, activity.GetPreviewWidth(), activity.GetPreviewHeight());
-                    }
-                    else
-                    {
-                        OnClick((int)meteringArea.getX()+recthalf,(int)meteringArea.getY()+recthalf);
-                    }
-
-                    if (duration >= MAX_DURATION) {
-                        System.out.println("Long Press Time: " + duration);
-                        //George Was Here On a tuesday lol
-                        System.out.println("Insert AE Code here: ");
-
-                    }
-                }
-            }
-            return true;
-        }
-    }
-
-    private void centerMeteringArea()
+    private FocusRect centerImageView(ImageView imageview)
     {
         int width = 0;
         int height = 0;
@@ -326,79 +275,12 @@ public class FocusImageHandler extends TouchHandler implements I_Focus
             }
 
         }
-        meteringArea.setX(width/2 - recthalf);
-        meteringArea.setY(height/2 - recthalf);
+        imageview.setX(width/2 - recthalf);
+        imageview.setY(height/2 - recthalf);
 
-        meteringRect = new FocusRect((int)meteringArea.getX() - recthalf, (int)meteringArea.getX() + recthalf, (int)meteringArea.getY() - recthalf, (int)meteringArea.getY() + recthalf);
+        return new FocusRect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf);
     }
 
-    private class AwbAreaTouch implements View.OnTouchListener
-    {
-        float x, y, difx, dify;
-        int distance = 10;
-        boolean moving = false;
-        @Override
-        public boolean onTouch(View v, MotionEvent event)
-        {
-            switch(event.getAction())
-            {
-                case MotionEvent.ACTION_DOWN: {
-                    x = event.getX();
-                    y = event.getY();
-                    startX = (int)event.getX() - (int)awbArea.getX();
-                    startY =(int) event.getY() - (int)awbArea.getY();
-                    start = System.currentTimeMillis();
 
-                }
-                break;
-                case MotionEvent.ACTION_MOVE:
-                {
 
-                    difx = x - awbArea.getX();
-                    dify = y - awbArea.getY();
-                    int xd = getDistance(startX, (int)difx);
-                    int yd = getDistance(startY, (int)dify);
-
-                    if (event.getX() - difx > activity.GetPreviewLeftMargine() && event.getX() - difx + awbArea.getWidth() < activity.GetPreviewLeftMargine() + activity.GetPreviewWidth())
-                        awbArea.setX(event.getX() - difx);
-                    if (event.getY() - dify > activity.GetPreviewTopMargine() && event.getY() - dify + awbArea.getHeight() < activity.GetPreviewTopMargine() + activity.GetPreviewHeight())
-                        awbArea.setY(event.getY() - dify);
-                    if (xd >= distance || yd >= distance) {
-
-                        moving = true;
-                    }
-                }
-                break;
-                case MotionEvent.ACTION_UP:
-                {
-                    long time = System.currentTimeMillis() - start;
-                    duration = duration+time;
-
-                    if (moving)
-                    {
-                        moving = false;
-                        x = 0;
-                        y = 0;
-                        difx = 0;
-                        dify = 0;
-                        awbRect = new FocusRect((int) awbArea.getX() - recthalf, (int) awbArea.getX() + recthalf, (int) awbArea.getY() - recthalf, (int) awbArea.getY() + recthalf);
-                        if (wrapper != null)
-                            wrapper.Focus.SetAwbAreas(awbRect, activity.GetPreviewWidth(), activity.GetPreviewHeight());
-                    }
-                    else
-                    {
-                        OnClick((int)awbArea.getX()+recthalf,(int)awbArea.getY()+recthalf);
-                    }
-
-                    if (duration >= MAX_DURATION) {
-                        System.out.println("Long Press Time: " + duration);
-                        //George Was Here On a tuesday lol
-                        System.out.println("Insert AE Code here: ");
-
-                    }
-                }
-            }
-            return true;
-        }
-    }
 }
