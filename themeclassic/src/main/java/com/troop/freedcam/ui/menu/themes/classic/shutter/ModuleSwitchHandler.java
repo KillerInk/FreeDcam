@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * Created by troop on 20.08.2014.
  */
-public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLoaded
+public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLoaded , I_ModuleEvent
 {
 
     protected View activity;
@@ -60,6 +61,7 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
             return;
         }
         this.moduleHandler = cameraUiWrapper.moduleHandler;
+        moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
 
@@ -109,10 +111,17 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     public void ParametersLoaded()
     {
 
-        if ((moduleHandler instanceof ModuleHandlerSony) || moduleHandler == null || moduleHandler.GetCurrentModule() == null)
+        if ((moduleHandler instanceof ModuleHandlerSony) || moduleHandler == null)
             return;
-        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        if (moduleHandler.GetCurrentModule() == null)
+            moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());
         moduleViewx.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());
+        return null;
     }
 }
