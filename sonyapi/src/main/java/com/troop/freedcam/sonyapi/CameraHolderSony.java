@@ -727,6 +727,58 @@ public class CameraHolderSony extends AbstractCameraHolder
         }.start();
     }
 
+    public void StartRecording()
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.startMovieRec();
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    int resultCode = resultsObj.getInt(0);
+                    if (resultCode == 0) {
+                        // Success, but no refresh UI at the point.
+                        Log.v(TAG, "startRecording: success.");
+                    } else {
+                        Log.w(TAG, "startRecording: error: " + resultCode);
+
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "startRecording: IOException: " + e.getMessage());
+                } catch (JSONException e) {
+                    Log.w(TAG, "startRecording: JSON format error.");
+                }
+            }
+        }.start();
+    }
+
+    public void StopRecording()
+    {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    JSONObject replyJson = mRemoteApi.stopMovieRec();
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    int resultCode = resultsObj.getInt(0);
+                    if (resultCode == 0) {
+                        // Success, but no refresh UI at the point.
+                        Log.v(TAG, "StopRecording: success.");
+                    } else {
+                        Log.w(TAG, "StopRecording: error: " + resultCode);
+
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "StopRecording: IOException: " + e.getMessage());
+                } catch (JSONException e) {
+                    Log.w(TAG, "StopRecording: JSON format error.");
+                }
+            }
+        }.start();
+    }
+
     @Override
     public void CancelFocus()
     {

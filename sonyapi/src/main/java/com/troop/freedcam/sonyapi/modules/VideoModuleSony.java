@@ -34,7 +34,11 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     @Override
     public void DoWork()
     {
-
+        if (!isWorking)
+        {
+            cameraHolder.StartRecording();
+        }
+        else cameraHolder.StopRecording();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
             this.isWorking = false;
             workfinished(true);
         }
-        else if (status.equals("StillCapturing") && !isWorking) {
+        else if (status.equals("MovieWaitRecStart") && !isWorking) {
             this.isWorking = true;
             workstarted();
         }

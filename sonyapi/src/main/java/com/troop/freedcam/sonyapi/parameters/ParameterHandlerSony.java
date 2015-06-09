@@ -122,6 +122,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         PostViewSize = new BaseModeParameterSony(uiHandler, "getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PostViewSize);
 
+        VideoSize = new BaseModeParameterSony(uiHandler, "getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony) VideoSize);
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {

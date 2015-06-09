@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.R;
 
@@ -107,7 +108,8 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
     @Override
     public void ParametersLoaded()
     {
-        if (moduleHandler == null || moduleHandler.GetCurrentModule() == null)
+
+        if ((moduleHandler instanceof ModuleHandlerSony) || moduleHandler == null || moduleHandler.GetCurrentModule() == null)
             return;
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
         moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());

@@ -68,9 +68,11 @@ public class PictureSizeSony extends BaseModeParameterSony
         {
             JSONObject size = array.getJSONObject(0);
             ret = size.getString("aspect") + "+" +size.getString("size");
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
+        catch (NullPointerException ex){ex.printStackTrace();};
         return ret;
     }
 }
