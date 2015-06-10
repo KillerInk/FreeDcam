@@ -33,17 +33,23 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView, I_Activity i_activity, I_TouchListnerEvent touchListnerEvent)
+    public ImageViewTouchAreaHandler(ImageView imageView, I_Activity i_activity, I_TouchListnerEvent touchListnerEvent, boolean allowDrag)
     {
         this.imageView = imageView;
         this.recthalf = imageView.getWidth()/2;
         this.i_activity = i_activity;
         this.touchListnerEvent = touchListnerEvent;
+        this.allowDrag = allowDrag;
     }
     I_TouchListnerEvent touchListnerEvent;
     I_Activity i_activity;
     ImageView imageView;
     float x, y, difx, dify;
+
+    /**
+     * if set to true the imageview is dragable
+     */
+    boolean allowDrag = false;
     /**
      * distance in pixel? to move bevor it gets detected as move
      */
@@ -102,13 +108,15 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 int xd = getDistance(startX, (int)difx);
                 int yd = getDistance(startY, (int)dify);
 
-                if (event.getX() - difx > i_activity.GetPreviewLeftMargine() && event.getX() - difx + imageView.getWidth() < i_activity.GetPreviewLeftMargine() + i_activity.GetPreviewWidth())
-                    imageView.setX(event.getX() - difx);
-                if (event.getY() - dify > i_activity.GetPreviewTopMargine() && event.getY() - dify + imageView.getHeight() < i_activity.GetPreviewTopMargine() + i_activity.GetPreviewHeight())
-                    imageView.setY(event.getY() - dify);
-                if (xd >= distance || yd >= distance) {
+                if (allowDrag) {
+                    if (event.getX() - difx > i_activity.GetPreviewLeftMargine() && event.getX() - difx + imageView.getWidth() < i_activity.GetPreviewLeftMargine() + i_activity.GetPreviewWidth())
+                        imageView.setX(event.getX() - difx);
+                    if (event.getY() - dify > i_activity.GetPreviewTopMargine() && event.getY() - dify + imageView.getHeight() < i_activity.GetPreviewTopMargine() + i_activity.GetPreviewHeight())
+                        imageView.setY(event.getY() - dify);
+                    if (xd >= distance || yd >= distance) {
 
-                    moving = true;
+                        moving = true;
+                    }
                 }
             }
             break;

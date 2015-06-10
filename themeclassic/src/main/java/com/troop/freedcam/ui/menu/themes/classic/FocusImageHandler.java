@@ -63,10 +63,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             }
         });
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
-        meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, activity, meteringTouch));
+        meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, activity, meteringTouch, true));
         meteringArea.setVisibility(View.GONE);
         awbArea = (ImageView)view.findViewById(R.id.imageView_awbarea);
-        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch));
+        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch, true));
         awbArea.setVisibility(View.GONE);
 
     }
