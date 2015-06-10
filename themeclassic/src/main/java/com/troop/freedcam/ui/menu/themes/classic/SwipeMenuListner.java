@@ -25,4 +25,8 @@ public class SwipeMenuListner extends TouchHandler
             swipehandler.doVerticalSwipe();
     }
 
+    @Override
+    protected void OnClick(int x, int y) {
+        swipehandler.onClick(x,y);
+    }
 }

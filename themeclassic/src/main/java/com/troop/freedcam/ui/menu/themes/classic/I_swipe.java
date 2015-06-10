@@ -7,4 +7,5 @@ public interface I_swipe
 {
     void doHorizontalSwipe();
     void doVerticalSwipe();
+    void onClick(int x, int y);
 }

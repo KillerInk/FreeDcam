@@ -68,8 +68,6 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     {
         public boolean onTouch(View v, MotionEvent event)
         {
-            if (focusImageHandler != null)
-                focusImageHandler.OnClick((int)event.getX(), (int)event.getY());
             return swipeMenuListner.onTouchEvent(event);
         }
 
@@ -195,5 +193,11 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
                 manualMenuOpen = false;
             }
         }
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+        if (focusImageHandler != null)
+            focusImageHandler.OnClick(x, y);
     }
 }
