@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff4a484a">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/shuttericon_size"
+        android:layout_height="match_parent"
+        android:id="@+id/left_ui_holder"
+        android:gravity="center_vertical">
+
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Flash"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="Flash"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Iso"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="Iso"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Ae"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="AE"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/wb"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="WB"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/focus"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="Focus"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/night"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="Night"/>
+        <troop.com.themesample.views.UiSettingsChild
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/format"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="1dp"
+            app:HeaderText="Format"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="@dimen/shuttericon_size"
+        android:layout_height="@dimen/shuttericon_size"
+        android:id="@+id/shutter_button"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/improve_multishoot" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/shuttericon_size"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"></LinearLayout>
+</RelativeLayout>

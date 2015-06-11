@@ -142,14 +142,13 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         }
     }
 
-
     private void deflateManualMenuFragment() {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.remove(manualMenuFragment);
         fragmentTransaction.commit();
     }
 
-
+    //I_SWIPE START
     @Override
     public void doHorizontalSwipe()
     {
@@ -200,4 +199,5 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         if (focusImageHandler != null)
             focusImageHandler.OnClick(x, y);
     }
+    //I_SWIPE END
 }

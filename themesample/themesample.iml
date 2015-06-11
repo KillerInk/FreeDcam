@@ -87,6 +87,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="language" exported="" />
     <orderEntry type="module" module-name="abstractcamera" exported="" />
   </component>
 </module>
