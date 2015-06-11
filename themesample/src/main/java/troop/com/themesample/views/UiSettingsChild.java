@@ -8,16 +8,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+
 import troop.com.themesample.R;
 
 /**
  * Created by troop on 11.06.2015.
  */
-public class UiSettingsChild extends LinearLayout
+public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
 {
     Context context;
     TextView headerText;
     TextView valueText;
+    AbstractModeParameter parameter;
     public UiSettingsChild(Context context) {
         super(context);
         this.context = context;
@@ -62,5 +67,48 @@ public class UiSettingsChild extends LinearLayout
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);
+    }
+
+
+    public void SetParameter( AbstractModeParameter parameter)
+    {
+        if (parameter == null)
+            return;
+        this.parameter = parameter;
+        parameter.addEventListner(this);
+    }
+
+    //AbstractModeParameter.I_ModeParameterEvent implementation
+    @Override
+    public void onValueChanged(String val)
+    {
+        valueText.setText(val);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported)
+    {
+        if (isSupported)
+            this.setVisibility(VISIBLE);
+        else
+            this.setVisibility(GONE);
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported)
+    {
+        this.setEnabled(isSupported);
+
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
     }
 }

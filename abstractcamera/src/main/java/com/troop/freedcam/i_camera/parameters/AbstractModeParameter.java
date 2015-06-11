@@ -30,9 +30,28 @@ public class AbstractModeParameter implements I_ModeParameter
      */
     public interface I_ModeParameterEvent
     {
+        /**
+         * Gets fired when the parameter has changed in background
+         * @param val the value that has changed
+         */
         void onValueChanged(String val);
+
+        /**
+         * gets fired when the parameter is no more supported due a mode change or because its not supported by the cam
+         * @param isSupported if true the paramter should be shown else hidden
+         */
         void onIsSupportedChanged(boolean isSupported);
+
+        /**
+         * gets fired when a pramater is readonly, the item should be disabled
+         * @param isSupported if false parameter is readonly
+         */
         void onIsSetSupportedChanged(boolean isSupported);
+
+        /**
+         * gets fired when the background values has changed
+         * @param values the string array with new values
+         */
         void onValuesChanged(String[] values);
     }
 
