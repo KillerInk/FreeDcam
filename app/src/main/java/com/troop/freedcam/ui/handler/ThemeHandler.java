@@ -38,19 +38,16 @@ public class ThemeHandler implements I_ModuleEvent
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public void GetThemeFragment()
+    public AbstractFragment GetThemeFragment(boolean infalte)
     {
         String theme = appSettingsManager.GetTheme();
-
         DestroyUI();
-
         if (theme.equals("Ambient"))
         {
             AmbientUi ambientUi = new AmbientUi();
             ambientUi.SetStuff(appSettingsManager, activity_v2);
             ambientUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = ambientUi;
-            inflateFragment(ambientUi);
         }
         if (theme.equals("Classic"))
         {
@@ -59,7 +56,6 @@ public class ThemeHandler implements I_ModuleEvent
 
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
-            inflateFragment(CuiFragment);
         }
 
         if (theme.equals("Material")) {
@@ -67,22 +63,22 @@ public class ThemeHandler implements I_ModuleEvent
             materialUi.SetStuff(appSettingsManager, activity_v2);
             materialUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = materialUi;
-            inflateFragment(materialUi);
         }
         if (theme.equals("Minimal")) {
             MinimalUi minimalUi = new MinimalUi();
             minimalUi.SetStuff(appSettingsManager, activity_v2);
             minimalUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = minimalUi;
-            inflateFragment(minimalUi);
         }
         if (theme.equals("Nubia")) {
             NubiaUi nubiaUi = new NubiaUi();
             nubiaUi.SetStuff(appSettingsManager, activity_v2);
             nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = nubiaUi;
-            inflateFragment(nubiaUi);
         }
+        if (infalte)
+            inflateFragment(uiFragment);
+        return uiFragment;
     }
 
     public void DestroyUI() {
@@ -110,7 +106,7 @@ public class ThemeHandler implements I_ModuleEvent
 
     public void SetTheme(String theme)
     {
-        GetThemeFragment();
+        GetThemeFragment(true);
 
     }
 

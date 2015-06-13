@@ -193,7 +193,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
 
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
-        themeHandler.GetThemeFragment();
+        themeHandler.GetThemeFragment(true);
 
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
@@ -482,7 +482,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         imageViewerFragment = new ImageViewerFragment();
         imageViewerFragment.SetIActivity(this);
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.MainLayout, imageViewerFragment, "ImageViewer");
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.replace(R.id.MainLayout, imageViewerFragment);
         transaction.commit();
     }
 
@@ -490,9 +491,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public void loadCameraUiFragment()
     {
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.remove(imageViewerFragment);
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.replace(R.id.MainLayout,themeHandler.GetThemeFragment(false));
         transaction.commit();
-        themeHandler.GetThemeFragment();
+
     }
 
     @Override
