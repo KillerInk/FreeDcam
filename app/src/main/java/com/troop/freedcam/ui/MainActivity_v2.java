@@ -146,6 +146,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
             cameraFragment.Init(appSettingsManager, this, this);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
             transaction.commit();
 
@@ -183,6 +184,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         if (cameraFragment != null) {
             cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
@@ -444,6 +446,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             histogramFragment.SetAppSettings(appSettingsManager, this);
             if (!histogramFragment.isAdded()) {
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
                 transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
                 transaction.commit();
                 histogramFragmentOpen = true;
@@ -454,6 +457,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             histogramFragmentOpen = false;
             histogramFragment.stopLsn();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
             transaction.remove(histogramFragment);
             transaction.commit();
         }

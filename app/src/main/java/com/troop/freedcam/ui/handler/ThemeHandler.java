@@ -41,7 +41,8 @@ public class ThemeHandler implements I_ModuleEvent
     public AbstractFragment GetThemeFragment(boolean infalte)
     {
         String theme = appSettingsManager.GetTheme();
-        DestroyUI();
+        if (infalte)
+            DestroyUI();
         if (theme.equals("Ambient"))
         {
             AmbientUi ambientUi = new AmbientUi();
@@ -85,6 +86,7 @@ public class ThemeHandler implements I_ModuleEvent
         if (uiFragment != null)
         {
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
             transaction.remove(uiFragment);
             transaction.commitAllowingStateLoss();
             uiFragment.onDestroyView();
@@ -96,6 +98,7 @@ public class ThemeHandler implements I_ModuleEvent
     private void inflateFragment(AbstractFragment fragment)
     {
         android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
         transaction.add(R.id.themeFragmentholder, fragment, "Main");
         transaction.commitAllowingStateLoss();
     }
