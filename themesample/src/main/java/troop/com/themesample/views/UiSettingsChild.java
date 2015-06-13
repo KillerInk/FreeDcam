@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
 
@@ -23,6 +24,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     TextView headerText;
     TextView valueText;
     AbstractModeParameter parameter;
+    I_Activity i_activity;
     public UiSettingsChild(Context context) {
         super(context);
         this.context = context;
@@ -73,12 +75,17 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
 
 
-    public void SetParameter( AbstractModeParameter parameter)
+    public void SetParameter(AbstractModeParameter parameter)
     {
         if (parameter == null)
             return;
         this.parameter = parameter;
         parameter.addEventListner(this);
+    }
+
+    public void SetI_Activity(I_Activity i_activity)
+    {
+        this.i_activity = i_activity;
     }
 
     //AbstractModeParameter.I_ModeParameterEvent implementation

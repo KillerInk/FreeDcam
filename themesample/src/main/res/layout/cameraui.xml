@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:background="#ff4a484a">
 
+    <ImageView
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:id="@+id/fastsettings_button"
+        android:background="@drawable/settings"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="@dimen/shuttericon_size"

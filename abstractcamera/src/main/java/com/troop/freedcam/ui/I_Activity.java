@@ -24,4 +24,5 @@ public interface I_Activity
 
     void loadImageViewerFragment();
     void loadCameraUiFragment();
+    void closeActivity();
 }

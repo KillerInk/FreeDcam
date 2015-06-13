@@ -502,6 +502,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
+    public void closeActivity() {
+        this.finish();
+    }
+
+    @Override
     public void onCameraOpen(String message)
     {
         try {

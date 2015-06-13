@@ -13,6 +13,9 @@ import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.UiSettingsChild;
+import troop.com.themesample.views.UiSettingsChildCameraSwitch;
+import troop.com.themesample.views.UiSettingsChildExit;
+import troop.com.themesample.views.UiSettingsChildModeSwitch;
 
 /**
  * Created by troop on 09.06.2015.
@@ -26,6 +29,9 @@ public class SampleThemeFragment extends AbstractFragment
     UiSettingsChild focus;
     UiSettingsChild night;
     UiSettingsChild format;
+    UiSettingsChildCameraSwitch cameraSwitch;
+    UiSettingsChildExit exit;
+    UiSettingsChildModeSwitch modeSwitch;
 
     ThumbView thumbView;
 
@@ -64,13 +70,27 @@ public class SampleThemeFragment extends AbstractFragment
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)left_cameraUI_holder.findViewById(R.id.left_ui_holder);
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
+        flash.SetI_Activity(i_activity);
         this.iso = (UiSettingsChild)view.findViewById(R.id.Iso);
+        iso.SetI_Activity(i_activity);
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
+        autoexposure.SetI_Activity(i_activity);
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
+        whitebalance.SetI_Activity(i_activity);
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus);
+        focus.SetI_Activity(i_activity);
         this.night = (UiSettingsChild)view.findViewById(R.id.focus);
+        night.SetI_Activity(i_activity);
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
+        format.SetI_Activity(i_activity);
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
+        this.modeSwitch = (UiSettingsChildModeSwitch)view.findViewById(R.id.mode_switch);
+        modeSwitch.SetI_Activity(i_activity);
+        exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
+        exit.SetI_Activity(i_activity);
+        cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
+        cameraSwitch.SetI_Activity(i_activity);
+
 
         return view;
     }
