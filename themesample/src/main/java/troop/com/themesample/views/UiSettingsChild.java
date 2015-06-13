@@ -29,16 +29,18 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         init(context);
     }
 
-    public UiSettingsChild(Context context, AttributeSet attrs) {
+    public UiSettingsChild(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         this.context = context;
         init(context);
+        //get custom attributs
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.UiSettingsChild,
                 0, 0
         );
-
+        //try to set the attributs
         try {
             headerText.setText(a.getText(R.styleable.UiSettingsChild_HeaderText));
             valueText.setText(a.getText(R.styleable.UiSettingsChild_ValueText));
@@ -70,6 +72,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     }
 
 
+
     public void SetParameter( AbstractModeParameter parameter)
     {
         if (parameter == null)
@@ -98,8 +101,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void onIsSetSupportedChanged(boolean isSupported)
     {
         this.setEnabled(isSupported);
-
-
     }
 
     @Override

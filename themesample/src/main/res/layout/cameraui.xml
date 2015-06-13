@@ -78,5 +78,15 @@
         android:orientation="vertical"
         android:layout_width="@dimen/shuttericon_size"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"></LinearLayout>
+        android:layout_alignParentRight="true"
+        android:id="@+id/right_ui_holder">
+
+        <troop.com.themesample.views.ThumbView
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/thumbview"
+            android:background="@drawable/thumbnail"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
 </RelativeLayout>

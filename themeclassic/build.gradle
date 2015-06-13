@@ -27,4 +27,5 @@ dependencies {
     provided project(':camera1')
     provided project(':language')
     provided project(':camera2')
+    provided project(':themesample')
 }

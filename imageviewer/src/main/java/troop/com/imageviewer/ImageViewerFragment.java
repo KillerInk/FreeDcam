@@ -35,6 +35,7 @@ import troop.com.imageviewer.R;
 import troop.com.imageviewer.MyHistogram;
 
 import com.ortiz.touch.TouchImageView;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
 import com.troop.freedcam.ui.menu.themes.classic.SwipeMenuListner;
 import com.troop.freedcam.utils.StringUtils;
@@ -75,6 +76,7 @@ public class ImageViewerFragment extends Fragment
     MyHistogram myHistogram;
     LinearLayout ll;
     RelativeLayout ui_holder;
+    private I_Activity i_activity;
 
 
     @Override
@@ -87,9 +89,7 @@ public class ImageViewerFragment extends Fragment
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.remove(ImageViewerFragment.this);
-                transaction.commit();
+                i_activity.loadCameraUiFragment();
                 stopThread();
             }
         });
@@ -167,6 +167,11 @@ public class ImageViewerFragment extends Fragment
             filename.setText("No Files in FreeDcam Folder");
         }
         return view;
+    }
+
+    public void SetIActivity(I_Activity i_activity)
+    {
+        this.i_activity =  i_activity;
     }
 
     private void startThread() {

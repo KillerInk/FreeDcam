@@ -36,13 +36,14 @@ import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
-import com.troop.freedcam.ui.handler.ThumbnailHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
+
+import troop.com.imageviewer.ImageViewerFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -59,7 +60,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
     AppSettingsManager appSettingsManager;
-    ThumbnailHandler thumbnailHandler;
     HardwareKeyHandler hardwareKeyHandler;
     MainActivity_v2 activity;
     ApiHandler apiHandler;
@@ -70,10 +70,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public SensorsUtil sensorsUtil;
     HistogramFragment histogramFragment;
     LinearLayout infoOverlayHolder;
-    LinearLayout reviewHolder;//wtf is that?
     WorkHandler workHandler;
 
     AbstractCameraFragment cameraFragment;
+    ImageViewerFragment imageViewerFragment;
 
 
     @Override
@@ -107,7 +107,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     private void createUI() {
         infoOverlayHolder = (LinearLayout)findViewById(R.id.infoOverLay);
-        reviewHolder = (LinearLayout)findViewById(R.id.Review);
 
         orientationHandler = new OrientationHandler(this, this);
 
@@ -118,7 +117,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         timerHandler = new TimerHandler(this);
 
         //initUI
-        thumbnailHandler = new ThumbnailHandler(this);
+
         apiHandler = new ApiHandler();
         workHandler = new WorkHandler(this);
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
@@ -167,8 +166,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         initCameraUIStuff(cameraFragment.GetCameraUiWrapper());
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         Log.d(TAG, "add events");
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.AddWorkFinishedListner(thumbnailHandler);
-
         cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(timerHandler);
         cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(themeHandler);
@@ -219,12 +216,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
 
             infoOverlayHolder.setVisibility(View.INVISIBLE);
-            reviewHolder.setVisibility(View.GONE);
         }
         else
         {
             infoOverlayHolder.setVisibility(View.VISIBLE);
-            reviewHolder.setVisibility(View.VISIBLE);
         }
     }
 
@@ -477,6 +472,27 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public Context GetActivityContext() {
         return getApplicationContext();
+    }
+
+    @Override
+    public void loadImageViewerFragment()
+    {
+        themeHandler.DestroyUI();
+
+        imageViewerFragment = new ImageViewerFragment();
+        imageViewerFragment.SetIActivity(this);
+        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.MainLayout, imageViewerFragment, "ImageViewer");
+        transaction.commit();
+    }
+
+    @Override
+    public void loadCameraUiFragment()
+    {
+        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.remove(imageViewerFragment);
+        transaction.commit();
+        themeHandler.GetThemeFragment();
     }
 
     @Override

@@ -163,28 +163,6 @@
         android:id="@+id/SettingsCover"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/Review"
-        android:layout_marginLeft="15dp">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/imageView_Thumbnail"
-            android:layout_gravity="bottom|left"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/thumbnail"
-            android:maxWidth="60dp"
-            android:maxHeight="60dp" />
-    </LinearLayout>
-
     <com.troop.freedcam.ui.handler.HelpOverlayHandler
         android:orientation="horizontal"
         android:layout_width="fill_parent"

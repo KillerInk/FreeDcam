@@ -21,4 +21,7 @@ public interface I_Activity
     void MenuActive(boolean status);
     void ShowHistogram(boolean enable);
     Context GetActivityContext();
+
+    void loadImageViewerFragment();
+    void loadCameraUiFragment();
 }

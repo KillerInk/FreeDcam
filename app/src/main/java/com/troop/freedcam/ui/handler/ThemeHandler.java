@@ -42,15 +42,7 @@ public class ThemeHandler implements I_ModuleEvent
     {
         String theme = appSettingsManager.GetTheme();
 
-        if (uiFragment != null)
-        {
-            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-            transaction.remove(uiFragment);
-            transaction.commitAllowingStateLoss();
-            uiFragment.onDestroyView();
-
-            uiFragment = null;
-        }
+        DestroyUI();
 
         if (theme.equals("Ambient"))
         {
@@ -90,6 +82,18 @@ public class ThemeHandler implements I_ModuleEvent
             nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = nubiaUi;
             inflateFragment(nubiaUi);
+        }
+    }
+
+    public void DestroyUI() {
+        if (uiFragment != null)
+        {
+            android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
+            transaction.remove(uiFragment);
+            transaction.commitAllowingStateLoss();
+            uiFragment.onDestroyView();
+
+            uiFragment = null;
         }
     }
 

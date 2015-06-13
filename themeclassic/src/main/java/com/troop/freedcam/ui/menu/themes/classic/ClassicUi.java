@@ -16,6 +16,8 @@ import com.troop.freedcam.ui.menu.themes.classic.manual.ManualMenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.menu.MenuFragment;
 import com.troop.freedcam.ui.menu.themes.classic.shutter.ShutterItemsFragments;
 
+import troop.com.themesample.views.ThumbView;
+
 /**
  * Created by troop on 24.03.2015.
  */
@@ -32,6 +34,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     protected boolean settingsLayloutOpen = false;
     protected boolean manualMenuOpen = false;
     protected FocusImageHandler focusImageHandler;
+    protected ThumbView thumbView;
 
     public ClassicUi(){};
 
@@ -50,7 +53,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     {
         inflate(inflater,container);
         view.setOnTouchListener(onTouchListener);
-
+        thumbView = (ThumbView)view.findViewById(R.id.classic_thumb);
+        thumbView.INIT(i_activity,cameraUiWrapper);
         inflateShutterItemFragment();
         swipeMenuListner = new SwipeMenuListner(this);
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
@@ -62,6 +66,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     protected void inflate(LayoutInflater inflater, ViewGroup container)
     {
         view = inflater.inflate(R.layout.classicui, container, false);
+
     }
 
     View.OnTouchListener onTouchListener = new View.OnTouchListener()
@@ -82,6 +87,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         setcameraWrapper();
     }
+
 
     private void setcameraWrapper() {
         if (manualMenuFragment != null)
