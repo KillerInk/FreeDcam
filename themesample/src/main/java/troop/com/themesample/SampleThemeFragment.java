@@ -27,6 +27,14 @@ public class SampleThemeFragment extends AbstractFragment
     AbstractCameraUiWrapper abstractCameraUiWrapper;
     LinearLayout left_cameraUI_holder;
     View view;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+
+    @Override
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity) {
+        this.i_activity = i_activity;
+        this.appSettingsManager = appSettingsManager;
+    }
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {

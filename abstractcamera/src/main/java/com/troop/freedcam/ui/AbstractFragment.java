@@ -15,4 +15,6 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
     @Override
     public abstract void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper);
 
+    @Override
+    public abstract void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity);
 }
