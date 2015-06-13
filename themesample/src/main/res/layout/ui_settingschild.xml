@@ -13,7 +13,8 @@
         android:id="@+id/textView"
         android:textStyle="bold"
         android:textColor="#ff000000"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="4dp"
+        android:textSize="10dip" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,6 +23,6 @@
         android:text="Small Text"
         android:id="@+id/textView2"
         android:textColor="#ff000000"
-        android:textSize="12dip"
+        android:textSize="8dip"
         android:layout_marginBottom="4dp" />
 </LinearLayout>

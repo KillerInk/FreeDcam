@@ -22,4 +22,29 @@ public class UiSettingsChildExit extends UiSettingsChild {
             }
         });
     }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
+    }
 }

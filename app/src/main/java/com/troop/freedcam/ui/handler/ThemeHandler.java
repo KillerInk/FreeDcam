@@ -14,6 +14,8 @@ import com.troop.theme.ambient.AmbientUi;
 import com.troop.theme.material.MaterialUi;
 import com.troop.theme.minimal.MinimalUi;
 
+import troop.com.themesample.SampleThemeFragment;
+
 /**
  * Created by Ingo on 14.03.2015.
  */
@@ -76,6 +78,13 @@ public class ThemeHandler implements I_ModuleEvent
             nubiaUi.SetStuff(appSettingsManager, activity_v2);
             nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = nubiaUi;
+        }
+        if (theme.equals("Sample"))
+        {
+            SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
+            sampleThemeFragment.SetStuff(appSettingsManager, activity_v2);
+            sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
+            uiFragment = sampleThemeFragment;
         }
         if (infalte)
             inflateFragment(uiFragment);

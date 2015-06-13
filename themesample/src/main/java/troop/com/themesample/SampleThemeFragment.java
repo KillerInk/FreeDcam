@@ -53,13 +53,7 @@ public class SampleThemeFragment extends AbstractFragment
         this.abstractCameraUiWrapper = wrapper;
         if (view != null)
         {
-            flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
-            iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
-            autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
-            whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
-            focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
-            night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
-            thumbView.INIT(i_activity,abstractCameraUiWrapper);
+
         }
 
     }
@@ -68,7 +62,7 @@ public class SampleThemeFragment extends AbstractFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         this.view = inflater.inflate(R.layout.cameraui, container, false);
-        this.left_cameraUI_holder = (LinearLayout)left_cameraUI_holder.findViewById(R.id.left_ui_holder);
+        this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetI_Activity(i_activity);
         this.iso = (UiSettingsChild)view.findViewById(R.id.Iso);
@@ -90,6 +84,14 @@ public class SampleThemeFragment extends AbstractFragment
         exit.SetI_Activity(i_activity);
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
         cameraSwitch.SetI_Activity(i_activity);
+
+        flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
+        iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
+        autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
+        whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
+        focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
+        night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
+        thumbView.INIT(i_activity,abstractCameraUiWrapper);
 
 
         return view;
