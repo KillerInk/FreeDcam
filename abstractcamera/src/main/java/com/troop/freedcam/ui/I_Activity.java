@@ -8,7 +8,7 @@ import android.view.SurfaceView;
  */
 public interface I_Activity
 {
-    void ActivateSonyApi(String Api);
+    void SwitchCameraAPI(String Api);
     void SetTheme(String Theme);
     SurfaceView GetSurfaceView();
     int GetPreviewWidth();

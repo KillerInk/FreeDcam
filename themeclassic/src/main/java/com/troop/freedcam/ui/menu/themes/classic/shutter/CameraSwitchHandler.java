@@ -2,7 +2,6 @@ package com.troop.freedcam.ui.menu.themes.classic.shutter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -91,7 +90,7 @@ public class CameraSwitchHandler implements View.OnClickListener, I_ParametersLo
         {
             ((ExtendedSurfaceView)surfaceView).SwitchViewMode();
         }
-        activity.ActivateSonyApi(appSettingsManager.getCamApi());
+        activity.SwitchCameraAPI(appSettingsManager.getCamApi());
         //cameraUiWrapper.StartPreview();
 
     }

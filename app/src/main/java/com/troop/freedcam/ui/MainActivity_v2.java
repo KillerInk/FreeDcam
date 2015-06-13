@@ -354,7 +354,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     }
 
-    public void ActivateSonyApi(String value)
+    public void SwitchCameraAPI(String value)
     {
         loadCameraUiWrapper();
     }

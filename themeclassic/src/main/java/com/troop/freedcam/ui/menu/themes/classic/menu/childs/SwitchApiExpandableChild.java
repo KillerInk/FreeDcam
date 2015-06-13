@@ -48,7 +48,7 @@ public class SwitchApiExpandableChild extends ExpandableChild
     {
         appSettingsManager.setCamApi(value);
         valueTextView.setText(value);
-        activity.ActivateSonyApi(value);
+        activity.SwitchCameraAPI(value);
     }
 
     @Override
