@@ -434,19 +434,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 {
                     //colorSpaceTransform = result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM);
                     //RggbChannelVector vector = result.get(CaptureResult.COLOR_CORRECTION_GAINS);
-                    Log.d(TAG, "AWB LOCKED");
+                    //Log.d(TAG, "AWB LOCKED");
                 }
                 if (awbState == CaptureResult.CONTROL_AWB_STATE_CONVERGED)
                 {
                     //colorSpaceTransform = result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM);
                     //RggbChannelVector vector = result.get(CaptureResult.COLOR_CORRECTION_GAINS);
-                    Log.d(TAG, "AWB LOCKED");
+                    //Log.d(TAG, "AWB LOCKED");
                 }
 
-                if (awbState == CaptureResult.CONTROL_AWB_STATE_INACTIVE)
+                /*if (awbState == CaptureResult.CONTROL_AWB_STATE_INACTIVE)
                     Log.d(TAG, "AWB INACTIVE");
                 if (awbState == CaptureResult.CONTROL_AWB_STATE_SEARCHING)
-                    Log.d(TAG, "AWB SEARCHING");
+                    Log.d(TAG, "AWB SEARCHING");*/
                 if (awbState == CaptureResult.CONTROL_AWB_STATE_CONVERGED)
                 {
                     /*mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, true);
