@@ -58,17 +58,17 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     private void setWrapper()
     {
         flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(iso);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(iso);
         autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(autoexposure);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(autoexposure);
         whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(whitebalance);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(whitebalance);
         focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
         night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
+        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
         thumbView.INIT(i_activity,abstractCameraUiWrapper);
     }
 

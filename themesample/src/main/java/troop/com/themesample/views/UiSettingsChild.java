@@ -3,6 +3,7 @@ package troop.com.themesample.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,11 +27,13 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     TextView valueText;
     AbstractModeParameter parameter;
     I_Activity i_activity;
+    String TAG;
     public UiSettingsChild(Context context) {
         super(context);
         this.context = context;
         init(context);
     }
+
 
     public UiSettingsChild(Context context, AttributeSet attrs)
     {
@@ -44,14 +47,16 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
                 0, 0
         );
         //try to set the attributs
-        try {
+        try
+        {
+            TAG = (String)a.getText(R.styleable.UiSettingsChild_HeaderText);
             headerText.setText(a.getText(R.styleable.UiSettingsChild_HeaderText));
             valueText.setText(a.getText(R.styleable.UiSettingsChild_ValueText));
         }
         finally {
             a.recycle();
         }
-
+        Log.d(TAG, "Ctor done");
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -75,9 +80,10 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     public void SetParameter(AbstractModeParameter parameter)
     {
-        if (parameter == null)
+        if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
+            Log.d(TAG, "Paramters is null or Unsupported");
             return;
         }
         else {
@@ -89,7 +95,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         setTextToTextBox(parameter);
     }
 
-    public void setTextToTextBox(AbstractModeParameter parameter) {
+    public void setTextToTextBox(AbstractModeParameter parameter)
+    {
         if (parameter.IsSupported())
         {
             String campara = parameter.GetValue();
@@ -97,6 +104,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
                 onValueChanged(campara);
             //onIsSupportedChanged(true);
         }
+        else
+            onIsSupportedChanged(false);
     }
 
     public void SetI_Activity(I_Activity i_activity)
@@ -108,12 +117,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(String val)
     {
+        Log.d(TAG, "Set Value to:" + val);
         valueText.setText(val);
     }
 
     @Override
     public void onIsSupportedChanged(boolean isSupported)
     {
+        Log.d(TAG, "isSupported:" + isSupported);
         if (isSupported)
             this.setVisibility(VISIBLE);
         else
@@ -123,6 +134,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onIsSetSupportedChanged(boolean isSupported)
     {
+        Log.d(TAG, "isSetSupported:" + isSupported);
         this.setEnabled(isSupported);
     }
 
@@ -139,6 +151,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void ParametersLoaded()
     {
+        Log.d(TAG, "Parameters Loaded");
         if (parameter != null && parameter.IsSupported())
             setTextToTextBox(parameter);
         else
