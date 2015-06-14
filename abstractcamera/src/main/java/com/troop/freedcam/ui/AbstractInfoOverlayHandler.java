@@ -44,6 +44,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
     {
+        this.context = context;
         this.appSettingsManager = appSettingsManager;
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
@@ -77,7 +78,11 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     {
         started = false;
         handler.removeCallbacks(runner);
-        context.unregisterReceiver(batteryBroadCastListner);
+        try {
+            context.unregisterReceiver(batteryBroadCastListner);
+        }
+        catch (IllegalArgumentException ex)
+        {}
 
     }
 

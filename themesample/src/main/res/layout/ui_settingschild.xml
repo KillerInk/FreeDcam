@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:background="#4cffffff">
+    android:background="@color/menuBackgroundColor">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,7 +12,7 @@
         android:text="Small Text"
         android:id="@+id/textView"
         android:textStyle="bold"
-        android:textColor="#ff000000"
+        android:textColor="@color/menuTextColor"
         android:layout_marginTop="4dp"
         android:textSize="10dip" />
 
@@ -22,7 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/textView2"
-        android:textColor="#ff000000"
+        android:textColor="@color/menuTextColor"
         android:textSize="8dip"
         android:layout_marginBottom="4dp" />
 </LinearLayout>

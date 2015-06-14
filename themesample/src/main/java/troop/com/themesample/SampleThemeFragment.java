@@ -16,6 +16,7 @@ import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
+import troop.com.themesample.handler.SampleInfoOverlayHandler;
 import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.UiSettingsChild;
 import troop.com.themesample.views.UiSettingsChildCameraSwitch;
@@ -53,6 +54,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     View view;
     I_Activity i_activity;
     AppSettingsManager appSettingsManager;
+    SampleInfoOverlayHandler infoOverlayHandler;
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity) {
@@ -113,8 +115,31 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         exit.SetI_Activity(i_activity);
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
         cameraSwitch.SetI_Activity(i_activity);
+        infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
+        infoOverlayHandler.setCameraUIWrapper(abstractCameraUiWrapper);
+        infoOverlayHandler.StartUpdating();
         setWrapper();
         return view;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        infoOverlayHandler.StopUpdating();
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     @Override

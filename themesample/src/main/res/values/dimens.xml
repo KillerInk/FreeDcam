@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="shuttericon_size">90dp</dimen>
-    <dimen name="uiSettingsWidth">65dp</dimen>
+    <dimen name="uiSettingsWidth">55dp</dimen>
+    <dimen name="infoOverlayTextSize">10dip</dimen>
+    <dimen name="infoOverlayTextMargine">3dp</dimen>
 </resources>
