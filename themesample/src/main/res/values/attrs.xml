@@ -5,4 +5,7 @@
         <attr name="HeaderText" format="string"/>
         <attr name="ValueText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="MenuItem">
+        <attr name="Description" format="string"/>
+    </declare-styleable>
 </resources>

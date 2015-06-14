@@ -13,6 +13,7 @@ import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
@@ -22,18 +23,27 @@ import troop.com.themesample.R;
  */
 public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded
 {
-    Context context;
-    TextView headerText;
-    TextView valueText;
-    AbstractModeParameter parameter;
-    I_Activity i_activity;
-    String TAG;
+    protected Context context;
+    protected TextView headerText;
+    protected TextView valueText;
+    protected AbstractModeParameter parameter;
+    protected I_Activity i_activity;
+    protected String TAG;
+    protected AppSettingsManager appSettingsManager;
+    protected String settingsname;
+
     public UiSettingsChild(Context context) {
         super(context);
         this.context = context;
         init(context);
     }
 
+    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue)
+    {
+        this.i_activity = i_activity;
+        this.appSettingsManager = appSettingsManager;
+        this.settingsname = settingvalue;
+    }
 
     public UiSettingsChild(Context context, AttributeSet attrs)
     {
@@ -67,7 +77,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         init(context);
     }
 
-    private void init(Context context)
+    protected void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
@@ -108,11 +118,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         }
         else
             onIsSupportedChanged(false);
-    }
-
-    public void SetI_Activity(I_Activity i_activity)
-    {
-        this.i_activity = i_activity;
     }
 
     //AbstractModeParameter.I_ModeParameterEvent implementation

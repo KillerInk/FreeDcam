@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/settingsmenuBackColor">
 
@@ -38,4 +40,35 @@
             android:text="Settings"
             android:id="@+id/textView3" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/settingsmenuBackColor"
+            android:id="@+id/left_holder">
+
+            <troop.com.themesample.views.menu.MenuItemTheme
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemTheme"
+                app:Description="Choose your favorite theme"
+                app:HeaderText="Theme: "
+                app:ValueText="Test"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/menuBackgColor"
+            android:id="@+id/right_holder" />
+    </LinearLayout>
 </LinearLayout>

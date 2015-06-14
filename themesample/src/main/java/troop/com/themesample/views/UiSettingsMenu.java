@@ -34,10 +34,6 @@ public class UiSettingsMenu extends UiSettingsChild {
 
     }
 
-    @Override
-    public void SetI_Activity(I_Activity i_activity) {
-
-    }
 
     @Override
     public void onValueChanged(String val) {
