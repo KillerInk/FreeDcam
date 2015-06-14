@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.apis.AbstractCameraFragment;
-import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -33,7 +32,7 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.handler.InfoOverlayHandler;
+import com.troop.freedcam.ui.menu.themes.classic.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -64,12 +63,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     MainActivity_v2 activity;
     ApiHandler apiHandler;
     TimerHandler timerHandler;
-    InfoOverlayHandler infoOverlayHandler;
+
     MessageHandler messageHandler;
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
     HistogramFragment histogramFragment;
-    LinearLayout infoOverlayHolder;
+
     WorkHandler workHandler;
 
     AbstractCameraFragment cameraFragment;
@@ -106,7 +105,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     private void createUI() {
-        infoOverlayHolder = (LinearLayout)findViewById(R.id.infoOverLay);
+
 
         orientationHandler = new OrientationHandler(this, this);
 
@@ -121,7 +120,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         apiHandler = new ApiHandler();
         workHandler = new WorkHandler(this);
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-        infoOverlayHandler= new InfoOverlayHandler(MainActivity_v2.this, appSettingsManager);
+
         messageHandler = new MessageHandler(this);
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
@@ -202,7 +201,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
-        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
+
         workHandler.HideSpinner();
         if (histogramFragment != null && histogramFragment.isAdded())
         {
@@ -214,15 +213,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void MenuActive(boolean status)
     {
-        if (status)
-        {
 
-            infoOverlayHolder.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            infoOverlayHolder.setVisibility(View.VISIBLE);
-        }
     }
 
 
@@ -261,7 +252,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         if(cameraFragment == null)
             loadCameraUiWrapper();
         orientationHandler.Start();
-        infoOverlayHandler.StartUpdating();
+
         Log.d(TAGLIFE, "Activity onResume");
     }
 
@@ -270,7 +261,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
         super.onPause();
         messageHandler.close();
-        infoOverlayHandler.StopUpdating();
+
         orientationHandler.Stop();
         destroyCameraUiWrapper();
         Log.d(TAGLIFE, "Activity onPause");

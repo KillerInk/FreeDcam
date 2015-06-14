@@ -1,6 +1,5 @@
-package com.troop.freedcam.ui.handler;
+package com.troop.freedcam.ui.menu.themes.classic;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +10,18 @@ import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
+import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
+
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.menu.themes.R;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.text.DecimalFormat;
@@ -31,7 +33,7 @@ import java.util.Date;
  */
 public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEvent {
     //troopii was here and cleaned up^^
-    private final Activity context;
+    private final View view;
     private final AppSettingsManager appSettingsManager;
     TextView batteryLoad;
     TextView Storage;
@@ -44,21 +46,21 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Typeface font;
 
-    public InfoOverlayHandler(Activity context, AppSettingsManager appSettingsManager)
+    public InfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
     {
-        this.context = context;
+        this.view = view;
         this.appSettingsManager = appSettingsManager;
-        batteryLoad = (TextView)context.findViewById(R.id.txtViewBattLevel);
+        batteryLoad = (TextView)view.findViewById(R.id.txtViewBattLevel);
 
-        Storage = (TextView)context.findViewById(R.id.txtViewRemainingStorage);
-        pictureSize = (TextView)context.findViewById(R.id.textViewRes);
-        pictureFormat = (TextView)context.findViewById(R.id.textViewFormat);
-        time = (TextView)context.findViewById(R.id.textViewTime);
+        Storage = (TextView)view.findViewById(R.id.txtViewRemainingStorage);
+        pictureSize = (TextView)view.findViewById(R.id.textViewRes);
+        pictureFormat = (TextView)view.findViewById(R.id.textViewFormat);
+        time = (TextView)view.findViewById(R.id.textViewTime);
 
         switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
-            font = Typeface.createFromAsset(context.getAssets(),"fonts/arial.ttf");
+            font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/arial.ttf");
             Storage.setTypeface(font);
             pictureSize.setTypeface(font);
             pictureFormat.setTypeface(font);
@@ -66,7 +68,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
             batteryLoad.setTypeface(font);
             break;
             case "Minimal":
-                font = Typeface.createFromAsset(context.getAssets(), "fonts/BRADHITC.TTF");
+                font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/BRADHITC.TTF");
 
                 Storage.setTypeface(font);
                 pictureSize.setTypeface(font);
@@ -95,7 +97,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     {
         setThemeFonts();
         started = true;
-        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        view.getContext().registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         startLooperThread();
     }
 
@@ -103,7 +105,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
     {
         started = false;
         handler.removeCallbacks(runner);
-        context.unregisterReceiver(this);
+        view.getContext().unregisterReceiver(this);
 
     }
 
@@ -191,7 +193,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
         switch (appSettingsManager.GetTheme())
         {
             case "Ambient": case "Nubia":
-            font = Typeface.createFromAsset(context.getAssets(), "fonts/arial.ttf");
+            font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/arial.ttf");
             Storage.setTypeface(font);
             pictureSize.setTypeface(font);
             pictureFormat.setTypeface(font);
@@ -199,7 +201,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
             batteryLoad.setTypeface(font);
             break;
             case "Minimal":
-                font = Typeface.createFromAsset(context.getAssets(), "fonts/BRADHITC.TTF");
+                font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/BRADHITC.TTF");
 
                 Storage.setTypeface(font);
                 pictureSize.setTypeface(font);
@@ -209,7 +211,7 @@ public class InfoOverlayHandler extends BroadcastReceiver implements I_ModuleEve
                 break;
 
             case "Material":
-                font = Typeface.createFromAsset(context.getAssets(), "fonts/BOOKOS.TTF");
+                font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/BOOKOS.TTF");
 
                 Storage.setTypeface(font);
                 pictureSize.setTypeface(font);

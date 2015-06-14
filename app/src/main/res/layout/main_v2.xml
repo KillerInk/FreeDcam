@@ -65,62 +65,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:id="@+id/infoOverLay">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textViewTime" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="1000"
-            android:id="@+id/txtViewRemainingStorage"
-            android:singleLine="true"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="100%"
-            android:id="@+id/txtViewBattLevel"
-            android:singleLine="false"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="DNG"
-            android:id="@+id/textViewFormat"
-            android:singleLine="true"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="4208x3120"
-            android:id="@+id/textViewRes"
-            android:singleLine="true"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp" />
-
-    </LinearLayout>
 
     <RelativeLayout
         android:orientation="vertical"

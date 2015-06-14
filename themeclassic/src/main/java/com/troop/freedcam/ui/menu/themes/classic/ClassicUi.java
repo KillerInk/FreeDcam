@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
@@ -35,6 +36,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     protected boolean manualMenuOpen = false;
     protected FocusImageHandler focusImageHandler;
     protected ThumbView thumbView;
+    InfoOverlayHandler infoOverlayHandler;
+    LinearLayout infoOverlayHolder;
 
     public ClassicUi(){};
 
@@ -58,9 +61,24 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         inflateShutterItemFragment();
         swipeMenuListner = new SwipeMenuListner(this);
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
+        infoOverlayHolder = (LinearLayout)view.findViewById(R.id.infoOverLay);
+        infoOverlayHandler= new InfoOverlayHandler(view, appSettingsManager);
+        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         if (cameraUiWrapper != null)
             focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        infoOverlayHandler.StartUpdating();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        infoOverlayHandler.StopUpdating();
     }
 
     protected void inflate(LayoutInflater inflater, ViewGroup container)
@@ -164,6 +182,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             {
                 inflateMenuFragment();
                 settingsLayloutOpen = true;
+                infoOverlayHolder.setVisibility(View.GONE);
                 i_activity.MenuActive(true);
             }
         }
@@ -173,6 +192,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             {
                 deflateMenuFragment();
                 settingsLayloutOpen = false;
+                infoOverlayHolder.setVisibility(View.VISIBLE);
                 i_activity.MenuActive(false);
 
             }
