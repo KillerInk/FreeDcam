@@ -61,6 +61,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.setEnabled(true);
+        this.setClickable(true);
         this.context = context;
         init(context);
     }

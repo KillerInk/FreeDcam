@@ -2,4 +2,5 @@
 <resources>
     <color name="menuBackgColor">#46ffffff</color>
     <color name="menuTextColor">#ff000000</color>
+    <color name="settingsmenuBackColor" >#32FFFFFF</color>
 </resources>
