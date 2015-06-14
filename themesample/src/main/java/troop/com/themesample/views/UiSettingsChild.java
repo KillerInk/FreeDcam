@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
@@ -18,7 +19,7 @@ import troop.com.themesample.R;
 /**
  * Created by troop on 11.06.2015.
  */
-public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
+public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded
 {
     Context context;
     TextView headerText;
@@ -67,20 +68,35 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         valueText = (TextView)findViewById(R.id.textView2);
     }
 
-
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);
     }
 
-
-
     public void SetParameter(AbstractModeParameter parameter)
     {
         if (parameter == null)
+        {
+            onIsSupportedChanged(false);
             return;
+        }
+        else {
+            onIsSupportedChanged(true);
+        }
         this.parameter = parameter;
-        parameter.addEventListner(this);
+        if (parameter != null)
+            parameter.addEventListner(this);
+        setTextToTextBox(parameter);
+    }
+
+    public void setTextToTextBox(AbstractModeParameter parameter) {
+        if (parameter.IsSupported())
+        {
+            String campara = parameter.GetValue();
+            if (campara != null && !campara.equals(""))
+                onValueChanged(campara);
+            //onIsSupportedChanged(true);
+        }
     }
 
     public void SetI_Activity(I_Activity i_activity)
@@ -118,5 +134,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public String ModuleChanged(String module) {
         return null;
+    }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        if (parameter != null && parameter.IsSupported())
+            setTextToTextBox(parameter);
+        else
+            onIsSupportedChanged(false);
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
@@ -20,7 +21,7 @@ import troop.com.themesample.views.UiSettingsChildModeSwitch;
 /**
  * Created by troop on 09.06.2015.
  */
-public class SampleThemeFragment extends AbstractFragment
+public class SampleThemeFragment extends AbstractFragment implements I_ParametersLoaded
 {
     UiSettingsChild flash;
     UiSettingsChild iso;
@@ -51,11 +52,24 @@ public class SampleThemeFragment extends AbstractFragment
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.abstractCameraUiWrapper = wrapper;
-        if (view != null)
-        {
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+    }
 
-        }
-
+    private void setWrapper()
+    {
+        flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
+        iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(iso);
+        autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(autoexposure);
+        whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(whitebalance);
+        focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
+        night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
+        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
+        thumbView.INIT(i_activity,abstractCameraUiWrapper);
     }
 
     @Override
@@ -84,17 +98,12 @@ public class SampleThemeFragment extends AbstractFragment
         exit.SetI_Activity(i_activity);
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
         cameraSwitch.SetI_Activity(i_activity);
-
-        flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
-        iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
-        autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
-        whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
-        focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
-        night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
-        thumbView.INIT(i_activity,abstractCameraUiWrapper);
-
-
+        setWrapper();
         return view;
     }
 
+    @Override
+    public void ParametersLoaded() {
+        setWrapper();
+    }
 }
