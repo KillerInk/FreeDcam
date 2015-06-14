@@ -360,28 +360,68 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
-    public int GetPreviewWidth() {
-        return cameraFragment.getPreviewWidth();
+    public int GetPreviewWidth()
+    {
+        try
+        {
+            return cameraFragment.getPreviewWidth();
+        }
+        catch (NullPointerException ex)
+        {
+            return GetScreenSize()[0];
+        }
+
     }
 
     @Override
-    public int GetPreviewHeight() {
-        return cameraFragment.getPreviewHeight();
+    public int GetPreviewHeight()
+    {
+        try{
+            return cameraFragment.getPreviewHeight();
+        }
+        catch (NullPointerException ex)
+        {
+            return GetScreenSize()[1];
+        }
+
     }
 
     @Override
-    public int GetPreviewLeftMargine() {
-        return cameraFragment.getMargineLeft();
+    public int GetPreviewLeftMargine()
+    {
+        try{
+            return cameraFragment.getMargineLeft();
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
+
     }
 
     @Override
-    public int GetPreviewRightMargine() {
-        return cameraFragment.getMargineRight();
+    public int GetPreviewRightMargine()
+    {
+        try{
+            return cameraFragment.getMargineRight();
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
+
     }
 
     @Override
     public int GetPreviewTopMargine() {
-        return cameraFragment.getMargineTop();
+
+        try{
+            return cameraFragment.getMargineTop();
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
     }
 
     @Override
