@@ -1,10 +1,14 @@
 package troop.com.themesample;
 
+import android.animation.Animator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
@@ -23,6 +27,8 @@ import troop.com.themesample.views.UiSettingsChildModeSwitch;
  */
 public class SampleThemeFragment extends AbstractFragment implements I_ParametersLoaded
 {
+    final String TAG = SampleThemeFragment.class.getSimpleName();
+
     UiSettingsChild flash;
     UiSettingsChild iso;
     UiSettingsChild autoexposure;
@@ -36,8 +42,14 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
 
     ThumbView thumbView;
 
-    AbstractCameraUiWrapper abstractCameraUiWrapper;
+    ImageView SettingsButton;
     LinearLayout left_cameraUI_holder;
+    RelativeLayout right_camerUI_holder;
+    boolean settingsIsOpen = true;
+    final int animationTime = 500;
+
+    AbstractCameraUiWrapper abstractCameraUiWrapper;
+
     View view;
     I_Activity i_activity;
     AppSettingsManager appSettingsManager;
@@ -77,6 +89,9 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     {
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
+        this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
+        this.SettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
+        SettingsButton.setOnClickListener(settingsButtonClick);
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetI_Activity(i_activity);
         this.iso = (UiSettingsChild)view.findViewById(R.id.Iso);
@@ -105,5 +120,79 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     @Override
     public void ParametersLoaded() {
         setWrapper();
+    }
+
+    View.OnClickListener settingsButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            Log.d(TAG, "OnSettingsClick settings open:" + settingsIsOpen);
+            if (settingsIsOpen)
+                hide_settings();
+            else
+                showSettings();
+        }
+    };
+
+    private void hide_settings()
+    {
+        settingsIsOpen = false;
+        Log.d(TAG, "HideSettings");
+        left_cameraUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                left_cameraUI_holder.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+
+        right_camerUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                right_camerUI_holder.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+    }
+
+    private void showSettings()
+    {
+        Log.d(TAG, "ShowSettings");
+        settingsIsOpen = true;
+        left_cameraUI_holder.setAlpha(0F);
+        left_cameraUI_holder.setVisibility(View.VISIBLE);
+        left_cameraUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
+
+        right_camerUI_holder.setAlpha(0F);
+        right_camerUI_holder.setVisibility(View.VISIBLE);
+        right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
     }
 }
