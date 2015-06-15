@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,14 +14,17 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 
 import troop.com.themesample.R;
+import troop.com.themesample.subfragments.Interfaces;
 import troop.com.themesample.views.UiSettingsChild;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class MenuItem extends UiSettingsChild
+public class MenuItem extends UiSettingsChild implements View.OnClickListener
 {
     TextView description;
+
+    LinearLayout toplayout;
 
     public MenuItem(Context context) {
         super(context);
@@ -53,6 +57,8 @@ public class MenuItem extends UiSettingsChild
         headerText = (TextView)findViewById(R.id.textview_menuitem_header);
         valueText = (TextView)findViewById(R.id.textview_menuitem_header_value);
         description = (TextView)findViewById(R.id.textview_menuitem_description);
+        toplayout = (LinearLayout)findViewById(R.id.menu_item_toplayout);
+        toplayout.setOnClickListener(this);
     }
 
     @Override
@@ -65,5 +71,12 @@ public class MenuItem extends UiSettingsChild
         Log.d(TAG, "Set Value to:" + val);
         valueText.setText(val);
     }
+
+    @Override
+    public void onClick(View v) {
+        if (onItemClick != null)
+            onItemClick.onMenuItemClick(this, false);
+    }
+
 
 }

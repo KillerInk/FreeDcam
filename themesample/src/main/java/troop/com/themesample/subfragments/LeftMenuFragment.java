@@ -13,13 +13,14 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
+import troop.com.themesample.views.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItem;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
 /**
  * Created by troop on 15.06.2015.
  */
-public class LeftMenuFragment extends AbstractFragment
+public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick
 {
     MenuItemTheme themeItem;
 
@@ -38,7 +39,7 @@ public class LeftMenuFragment extends AbstractFragment
         themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
         themeItem.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_Theme);
         themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
-        themeItem.setOnClickListener(onClickListener);
+        themeItem.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
@@ -46,11 +47,10 @@ public class LeftMenuFragment extends AbstractFragment
         this.onMenuItemClick = menuItemClick;
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            MenuItem item = (MenuItem)((ViewGroup)view).getChildAt(0);
-            onMenuItemClick.onMenuItemClick(item, true);
-        }
-    };
+
+
+    @Override
+    public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment) {
+        onMenuItemClick.onMenuItemClick(item, true);
+    }
 }

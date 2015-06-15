@@ -1,5 +1,6 @@
 package troop.com.themesample.subfragments;
 
+import troop.com.themesample.views.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItem;
 
 /**
@@ -9,7 +10,7 @@ public class Interfaces
 {
     public interface I_MenuItemClick
     {
-        void onMenuItemClick(MenuItem item, boolean fromLeftFragment);
+        void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment);
     }
 
     protected interface I_CloseNotice

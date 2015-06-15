@@ -17,6 +17,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
+import troop.com.themesample.subfragments.Interfaces;
 
 /**
  * Created by troop on 11.06.2015.
@@ -31,6 +32,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected String TAG;
     protected AppSettingsManager appSettingsManager;
     protected String settingsname;
+    protected Interfaces.I_MenuItemClick onItemClick;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -88,6 +90,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);
+    }
+
+    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick)
+    {
+        this.onItemClick = menuItemClick;
     }
 
     public void SetParameter(AbstractModeParameter parameter)

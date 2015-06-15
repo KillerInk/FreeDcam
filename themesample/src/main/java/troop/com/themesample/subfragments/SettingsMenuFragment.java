@@ -13,6 +13,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
+import troop.com.themesample.views.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItem;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
@@ -35,7 +36,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     final int VALUE_MENU_LEFT_OPEN = 2;
     int value_menu_status = VALUE_MENU_CLOSED;
 
-    MenuItem currentOpendItem;
+    UiSettingsChild currentOpendItem;
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
     {
@@ -120,7 +121,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     }
 
     @Override
-    public void onMenuItemClick(MenuItem item, boolean fromLeftFragment)
+    public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
     {
         if (currentOpendItem == item)
         {

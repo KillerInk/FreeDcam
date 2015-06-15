@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="-"
             android:id="@+id/textView_time"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="-"
             android:id="@+id/textView_format"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="-"
             android:id="@+id/textView_size"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="-"
             android:id="@+id/textView_storage"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="-"
             android:id="@+id/textView_battery"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
@@ -214,5 +214,14 @@
                 android:layout_marginBottom="5dp" />
         </LinearLayout>
     </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/uiSettingsWidth"
+        android:layout_marginRight="@dimen/shuttericon_size"
+        android:layout_marginTop="@dimen/uiSettingsWidth"
+        android:layout_marginBottom="@dimen/uiSettingsWidth"
+        android:id="@+id/uiSettings_values_holder"></FrameLayout>
 
 </RelativeLayout>
