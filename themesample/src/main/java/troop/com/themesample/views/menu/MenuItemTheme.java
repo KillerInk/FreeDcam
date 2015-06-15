@@ -39,4 +39,11 @@ public class MenuItemTheme extends MenuItem {
         }
         valueText.setText(s);
     }
+
+    @Override
+    public void SetValue(String value) {
+        appSettingsManager.SetTheme(value);
+        i_activity.SetTheme(value);
+        onValueChanged(value);
+    }
 }

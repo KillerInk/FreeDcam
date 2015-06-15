@@ -120,6 +120,22 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
             onIsSupportedChanged(false);
     }
 
+    public String[] GetValues()
+    {
+        if (parameter != null && parameter.IsSupported())
+            return parameter.GetValues();
+        else return null;
+    }
+
+    public void SetValue(String value)
+    {
+        if (parameter != null && parameter.IsSupported())
+        {
+            parameter.SetValue(value, true);
+            onValueChanged(value);
+        }
+    }
+
     //AbstractModeParameter.I_ModeParameterEvent implementation
     @Override
     public void onValueChanged(String val)

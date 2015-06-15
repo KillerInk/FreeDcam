@@ -13,42 +13,35 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
+import troop.com.themesample.views.menu.MenuItem;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class SettingsMenuFragment extends AbstractFragment
+public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick
 {
-
-    AbstractCameraUiWrapper wrapper;
-    AppSettingsManager appSettingsManager;
-    I_Activity i_activity;
-    View view;
     TextView closeTab;
     LinearLayout left_Holder;
     LinearLayout right_Holder;
-
-    MenuItemTheme themeItem;
+    LeftMenuFragment leftMenuFragment;
+    RightMenuFragment rightMenuFragment;
+    ValuesMenuFragment valuesMenuFragment;
 
     View.OnClickListener onSettingsClickListner;
+
+    final int VALUE_MENU_CLOSED = 0;
+    final int VALUE_MENU_RIGHT_OPEN = 1;
+    final int VALUE_MENU_LEFT_OPEN = 2;
+    int value_menu_status = VALUE_MENU_CLOSED;
+
+    MenuItem currentOpendItem;
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
     {
         SetStuff(appSettingsManager, i_activity);
+
         this.onSettingsClickListner = onSettingsClickListner;
-    }
-
-    @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
-        this.wrapper = wrapper;
-    }
-
-    @Override
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
-    {
-        this.appSettingsManager = appSettingsManager;
-        this.i_activity = i_activity;
     }
 
     @Override
@@ -59,22 +52,101 @@ public class SettingsMenuFragment extends AbstractFragment
         closeTab.setOnClickListener(onSettingsClickListner);
         right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
         left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
-        themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
-        themeItem.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_Theme);
         setWrapper();
         return view;
     }
 
     private void setWrapper()
     {
-        themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
+        loadLeftFragment();
+        loadRightFragment();
+        value_menu_status = VALUE_MENU_CLOSED;
     }
 
-    View.OnClickListener onLeftViewClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
+    private void loadLeftFragment()
+    {
+        leftMenuFragment = new LeftMenuFragment();
+        leftMenuFragment.SetStuff(appSettingsManager, i_activity);
+        leftMenuFragment.SetCameraUIWrapper(wrapper);
+        leftMenuFragment.SetMenuItemClickListner(this);
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.replace(R.id.left_holder, leftMenuFragment);
+        transaction.commit();
+    }
 
+    private void loadRightFragment()
+    {
+        rightMenuFragment = new RightMenuFragment();
+        rightMenuFragment.SetStuff(appSettingsManager, i_activity);
+        rightMenuFragment.SetCameraUIWrapper(wrapper);
+        rightMenuFragment.SetMenuItemClickListner(this);
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.replace(R.id.right_holder, rightMenuFragment);
+        transaction.commit();
+    }
+
+
+    @Override
+    public void onClose(String value)
+    {
+        currentOpendItem.SetValue(value);
+        if (currentOpendItem instanceof MenuItemTheme)
+            return;
+        closeValueMenu();
+    }
+
+    private void closeValueMenu()
+    {
+        if (value_menu_status == VALUE_MENU_LEFT_OPEN) {
+            loadLeftFragment();
+        } else if (value_menu_status == VALUE_MENU_RIGHT_OPEN) {
+            loadRightFragment();
         }
-    };
+        currentOpendItem = null;
+        value_menu_status = VALUE_MENU_CLOSED;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onMenuItemClick(MenuItem item, boolean fromLeftFragment)
+    {
+        if (currentOpendItem == item)
+        {
+            closeValueMenu();
+            return;
+        }
+        currentOpendItem = item;
+
+        valuesMenuFragment = new ValuesMenuFragment();
+        valuesMenuFragment.SetMenuItem(item.GetValues(), this);
+
+        if (fromLeftFragment)
+        {
+            value_menu_status = VALUE_MENU_RIGHT_OPEN;
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.replace(R.id.right_holder, valuesMenuFragment);
+            transaction.commit();
+        }
+        else
+        {
+            value_menu_status = VALUE_MENU_LEFT_OPEN;
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.replace(R.id.left_holder, valuesMenuFragment);
+            transaction.commit();
+        }
+    }
 }
