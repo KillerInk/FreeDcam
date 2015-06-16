@@ -22,7 +22,7 @@ import troop.com.themesample.subfragments.Interfaces;
 /**
  * Created by troop on 11.06.2015.
  */
-public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded
+public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded ,View.OnClickListener
 {
     protected Context context;
     protected TextView headerText;
@@ -85,6 +85,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         inflateTheme(inflater);
         headerText = (TextView)findViewById(R.id.textView);
         valueText = (TextView)findViewById(R.id.textView2);
+        this.setOnClickListener(this);
+
     }
 
     protected void inflateTheme(LayoutInflater inflater)
@@ -186,5 +188,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
             setTextToTextBox(parameter);
         else
             onIsSupportedChanged(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onItemClick != null)
+            onItemClick.onMenuItemClick(this, false);
     }
 }

@@ -95,7 +95,7 @@ public class ThemeHandler implements I_ModuleEvent
         if (uiFragment != null)
         {
             android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(uiFragment);
             transaction.commitAllowingStateLoss();
             uiFragment.onDestroyView();
@@ -107,7 +107,7 @@ public class ThemeHandler implements I_ModuleEvent
     private void inflateFragment(AbstractFragment fragment)
     {
         android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.add(R.id.themeFragmentholder, fragment, "Main");
         transaction.commitAllowingStateLoss();
     }

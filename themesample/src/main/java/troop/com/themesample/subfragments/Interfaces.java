@@ -13,7 +13,7 @@ public class Interfaces
         void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment);
     }
 
-    protected interface I_CloseNotice
+    public interface I_CloseNotice
     {
         void onClose(String value);
     }

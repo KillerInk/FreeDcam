@@ -28,7 +28,7 @@ import troop.com.themesample.views.UiSettingsMenu;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded
+public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
@@ -43,6 +43,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsChildExit exit;
     UiSettingsChildModeSwitch modeSwitch;
     UiSettingsMenu menu;
+
+    UiSettingsChild currentOpendChild;
+    LinearLayout flash_values_holder;
+    HorizontalValuesFragment horizontalValuesFragment;
+
+
 
     ThumbView thumbView;
 
@@ -110,8 +116,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         menu.setOnClickListener(onSettingsClickListner);
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
+        flash.SetMenuItemListner(this);
         this.iso = (UiSettingsChild)view.findViewById(R.id.Iso);
         iso.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
+        iso.SetMenuItemListner(this);
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
@@ -131,7 +139,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTCAMERA);
         infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
         infoOverlayHandler.setCameraUIWrapper(abstractCameraUiWrapper);
-        infoOverlayHandler.StartUpdating();
         setWrapper();
         return view;
     }
@@ -139,19 +146,19 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onDestroyView()
     {
-        infoOverlayHandler.StopUpdating();
         super.onDestroyView();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        infoOverlayHandler.StartUpdating();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
+        infoOverlayHandler.StopUpdating();
         super.onPause();
 
     }
@@ -233,5 +240,59 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         right_camerUI_holder.setAlpha(0F);
         right_camerUI_holder.setVisibility(View.VISIBLE);
         right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
+    }
+
+
+    @Override
+    public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
+    {
+        if (currentOpendChild == item)
+        {
+            removeHorizontalFragment();
+            currentOpendChild = null;
+            return;
+        }
+        if (currentOpendChild != null)
+        {
+            removeHorizontalFragment();
+            currentOpendChild = null;
+        }
+        currentOpendChild = item;
+        horizontalValuesFragment = new HorizontalValuesFragment();
+        horizontalValuesFragment.SetStringValues(item.GetValues(),this);
+        if (item == flash)
+        {
+            infalteIntoHolder(R.id.flash_values_holder, horizontalValuesFragment);
+        }
+        else if (view == iso)
+        {
+            infalteIntoHolder(R.id.iso_values_holder, horizontalValuesFragment);
+        }
+        else if (view == autoexposure)
+        {
+            infalteIntoHolder(R.id.ae_values_holder, horizontalValuesFragment);
+        }
+    }
+
+    private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
+    {
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void removeHorizontalFragment()
+    {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(horizontalValuesFragment).setCustomAnimations(0, R.anim.right_to_left_exit).commit();
+    }
+
+
+    @Override
+    public void onClose(String value) {
+        currentOpendChild.SetValue(value);
+        removeHorizontalFragment();
+        currentOpendChild = null;
     }
 }

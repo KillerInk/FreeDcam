@@ -17,7 +17,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.apis.AbstractCameraFragment;
@@ -32,7 +31,6 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.menu.themes.classic.InfoOverlayHandler;
 import com.troop.freedcam.ui.handler.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -145,7 +143,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
             cameraFragment.Init(appSettingsManager, this, this);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
             transaction.commit();
 
@@ -183,7 +181,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         if (cameraFragment != null) {
             cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
@@ -477,7 +475,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             histogramFragment.SetAppSettings(appSettingsManager, this);
             if (!histogramFragment.isAdded()) {
                 android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+                transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
                 transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
                 transaction.commit();
                 histogramFragmentOpen = true;
@@ -488,7 +486,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             histogramFragmentOpen = false;
             histogramFragment.stopLsn();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(histogramFragment);
             transaction.commit();
         }
@@ -517,7 +515,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         imageViewerFragment = new ImageViewerFragment();
         imageViewerFragment.SetIActivity(this);
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.MainLayout, imageViewerFragment);
         transaction.commit();
     }
@@ -526,7 +524,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public void loadCameraUiFragment()
     {
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter, R.anim.exit);
+        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.MainLayout,themeHandler.GetThemeFragment(false));
         transaction.commit();
 
