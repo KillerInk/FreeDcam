@@ -2,6 +2,7 @@ package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.LinearLayout;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.SimpleValueChild;
-import troop.com.themesample.views.UiSettingsChild;
 
 /**
  * Created by troop on 16.06.2015.
@@ -32,12 +32,29 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     @Override
     public void onResume() {
         super.onResume();
+        int i = 0;
+        LinearLayout linearLayout = getNewLayout();
         for (String s : values)
         {
+            if (i == 3 || i == 6 || i == 9)
+                linearLayout = getNewLayout();
             SimpleValueChild child = new SimpleValueChild(view.getContext());
             child.SetString(s, this);
-            valuesHolder.addView(child);
+            linearLayout.addView(child);
+            i++;
         }
+    }
+
+    private LinearLayout getNewLayout()
+    {
+        final LinearLayout linearLayout = new LinearLayout(view.getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.setLayoutParams(params);
+        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        valuesHolder.addView(linearLayout);
+        return linearLayout;
     }
 
 

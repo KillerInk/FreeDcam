@@ -45,7 +45,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsMenu menu;
 
     UiSettingsChild currentOpendChild;
-    LinearLayout flash_values_holder;
     HorizontalValuesFragment horizontalValuesFragment;
 
 
@@ -122,12 +121,16 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         iso.SetMenuItemListner(this);
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
+        autoexposure.SetMenuItemListner(this);
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
         whitebalance.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        whitebalance.SetMenuItemListner(this);
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus);
         focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
+        focus.SetMenuItemListner(this);
         this.night = (UiSettingsChild)view.findViewById(R.id.focus);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
+        night.SetMenuItemListner(this);
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
@@ -260,18 +263,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         currentOpendChild = item;
         horizontalValuesFragment = new HorizontalValuesFragment();
         horizontalValuesFragment.SetStringValues(item.GetValues(),this);
-        if (item == flash)
-        {
-            infalteIntoHolder(R.id.flash_values_holder, horizontalValuesFragment);
-        }
-        else if (view == iso)
-        {
-            infalteIntoHolder(R.id.iso_values_holder, horizontalValuesFragment);
-        }
-        else if (view == autoexposure)
-        {
-            infalteIntoHolder(R.id.ae_values_holder, horizontalValuesFragment);
-        }
+        infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
+
     }
 
     private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
