@@ -88,6 +88,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
+    <orderEntry type="module" module-name="themesample" exported="" />
     <orderEntry type="module" module-name="androiddng" exported="" />
     <orderEntry type="module" module-name="seekarc" exported="" />
     <orderEntry type="module" module-name="sonyapi" exported="" />

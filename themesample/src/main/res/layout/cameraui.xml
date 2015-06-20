@@ -89,7 +89,7 @@
         <troop.com.themesample.views.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
-            android:id="@+id/Iso"
+            android:id="@+id/ui_settings_iso"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
             app:HeaderText="Iso"/>
@@ -196,7 +196,7 @@
             android:layout_alignParentBottom="false"
             android:gravity="bottom">
 
-            <troop.com.themesample.views.UiSettingsChildModeSwitch
+            <troop.com.themesample.views.UiSettingsChildModuleSwitch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mode_switch"

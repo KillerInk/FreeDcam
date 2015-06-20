@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
-    compile project(':abstractcamera')
-    compile project(':language')
+    provided project(':abstractcamera')
+    provided project(':language')
+    provided project(':sonyapi')
+    provided project(':camera1')
 }

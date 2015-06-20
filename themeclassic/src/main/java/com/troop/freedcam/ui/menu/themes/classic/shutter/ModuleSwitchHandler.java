@@ -124,4 +124,6 @@ public class ModuleSwitchHandler implements View.OnClickListener, I_ParametersLo
         moduleViewx.setText(moduleHandler.GetCurrentModule().ShortName());
         return null;
     }
+
+
 }

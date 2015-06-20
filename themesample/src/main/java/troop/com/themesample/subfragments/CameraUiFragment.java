@@ -22,7 +22,7 @@ import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.UiSettingsChild;
 import troop.com.themesample.views.UiSettingsChildCameraSwitch;
 import troop.com.themesample.views.UiSettingsChildExit;
-import troop.com.themesample.views.UiSettingsChildModeSwitch;
+import troop.com.themesample.views.UiSettingsChildModuleSwitch;
 import troop.com.themesample.views.UiSettingsMenu;
 
 /**
@@ -41,7 +41,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsChild format;
     UiSettingsChildCameraSwitch cameraSwitch;
     UiSettingsChildExit exit;
-    UiSettingsChildModeSwitch modeSwitch;
+    UiSettingsChildModuleSwitch modeSwitch;
     UiSettingsMenu menu;
 
     UiSettingsChild currentOpendChild;
@@ -101,6 +101,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
         thumbView.INIT(i_activity,abstractCameraUiWrapper);
+        modeSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
+        cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this);
-        this.iso = (UiSettingsChild)view.findViewById(R.id.Iso);
+        this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
         iso.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
         iso.SetMenuItemListner(this);
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
@@ -134,8 +136,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
-        this.modeSwitch = (UiSettingsChildModeSwitch)view.findViewById(R.id.mode_switch);
+        this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTMODULE);
+        modeSwitch.SetMenuItemListner(this);
         exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
         exit.SetStuff(i_activity, appSettingsManager, "");
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
