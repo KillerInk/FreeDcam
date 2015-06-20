@@ -144,7 +144,7 @@
 
     </LinearLayout>
 
-    <Button
+    <troop.com.themesample.views.ShutterButton
         android:layout_width="@dimen/shuttericon_size"
         android:layout_height="@dimen/shuttericon_size"
         android:id="@+id/shutter_button"
