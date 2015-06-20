@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -200,16 +201,17 @@ public class ImageViewerFragment extends Fragment
         File directory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         files = directory.listFiles();
         List<File> jpegs = new ArrayList<File>();
-        if(files != null || files.length > 0)
-        {
-            for (File f : files)
-            {
-                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
-                    jpegs.add(f);
-            }
-        }
 
         try {
+
+            if(files != null || files.length > 0)
+            {
+                for (File f : files)
+                {
+                    if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                        jpegs.add(f);
+                }
+            }
             directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
             files = directory.listFiles();
             for (File f : files)
