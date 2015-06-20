@@ -9,13 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
-
 import troop.com.themesample.R;
-import troop.com.themesample.subfragments.Interfaces;
-import troop.com.themesample.views.UiSettingsChild;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
  * Created by troop on 14.06.2015.

@@ -4,17 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.UiSettingsChild;
-import troop.com.themesample.views.menu.MenuItem;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
 /**

@@ -1,11 +1,10 @@
-package troop.com.themesample.views;
+package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.I_Activity;
 
 /**
  * Created by troop on 14.06.2015.

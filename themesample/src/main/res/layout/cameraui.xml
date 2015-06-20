@@ -78,7 +78,7 @@
         android:layout_height="match_parent"
         android:id="@+id/left_ui_holder">
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/wb"
@@ -86,7 +86,7 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="WB"/>
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/ui_settings_iso"
@@ -94,7 +94,7 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="Iso"/>
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/Flash"
@@ -102,7 +102,7 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="Flash"/>
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/focus_uisetting"
@@ -110,7 +110,7 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="Focus"/>
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/Ae"
@@ -118,14 +118,14 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="AE"/>
 
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/night"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
             app:HeaderText="Night"/>
-        <troop.com.themesample.views.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/format"
@@ -133,7 +133,7 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="Format"/>
 
-        <troop.com.themesample.views.UiSettingsMenu
+        <troop.com.themesample.views.uichilds.UiSettingsMenu
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/menu"
@@ -176,7 +176,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp" />
 
-            <troop.com.themesample.views.UiSettingsChildCameraSwitch
+            <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/camera_switch"
@@ -196,7 +196,7 @@
             android:layout_alignParentBottom="false"
             android:gravity="bottom">
 
-            <troop.com.themesample.views.UiSettingsChildModuleSwitch
+            <troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mode_switch"
@@ -207,7 +207,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginBottom="2dp" />
 
-            <troop.com.themesample.views.UiSettingsChildExit
+            <troop.com.themesample.views.uichilds.UiSettingsChildExit
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/exit"

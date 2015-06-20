@@ -12,7 +12,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.UiSettingsChild;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
 /**

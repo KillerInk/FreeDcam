@@ -19,11 +19,11 @@ import com.troop.freedcam.ui.I_Activity;
 import troop.com.themesample.R;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
 import troop.com.themesample.views.ThumbView;
-import troop.com.themesample.views.UiSettingsChild;
-import troop.com.themesample.views.UiSettingsChildCameraSwitch;
-import troop.com.themesample.views.UiSettingsChildExit;
-import troop.com.themesample.views.UiSettingsChildModuleSwitch;
-import troop.com.themesample.views.UiSettingsMenu;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
+import troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch;
+import troop.com.themesample.views.uichilds.UiSettingsChildExit;
+import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
+import troop.com.themesample.views.uichilds.UiSettingsMenu;
 
 /**
  * Created by troop on 14.06.2015.

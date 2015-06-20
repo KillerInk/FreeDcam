@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.SimpleValueChild;
+import troop.com.themesample.views.uichilds.SimpleValueChild;
 
 /**
  * Created by troop on 16.06.2015.

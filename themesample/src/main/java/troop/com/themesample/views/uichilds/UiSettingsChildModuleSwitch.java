@@ -1,4 +1,4 @@
-package troop.com.themesample.views;
+package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.os.Handler;

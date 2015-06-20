@@ -9,9 +9,8 @@ import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.UiSettingsChild;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItem;
-import troop.com.themesample.views.menu.MenuItemTheme;
 
 /**
  * Created by troop on 15.06.2015.

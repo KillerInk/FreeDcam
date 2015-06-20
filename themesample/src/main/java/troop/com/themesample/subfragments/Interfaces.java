@@ -1,7 +1,6 @@
 package troop.com.themesample.subfragments;
 
-import troop.com.themesample.views.UiSettingsChild;
-import troop.com.themesample.views.menu.MenuItem;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
  * Created by troop on 15.06.2015.
