@@ -27,7 +27,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
         }
         catch (Exception ex)
         {
-
+            this.isSupported = false;
         }
         if (isSupported == false)
         {
@@ -42,7 +42,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
             }
             catch (Exception ex)
             {
-
+                this.isSupported = false;
             }
         }
     }
@@ -50,11 +50,6 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
     @Override
     public boolean IsSupported() {
         return this.isSupported;
-    }
-
-    public DigitalImageStabilizationParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
-        super(handler,parameters, parameterChanged, value, values);
-        this.baseCameraHolder = baseCameraHolder;
     }
 
     @Override

@@ -105,7 +105,7 @@
         <troop.com.themesample.views.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
-            android:id="@+id/focus"
+            android:id="@+id/focus_uisetting"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
             app:HeaderText="Focus"/>

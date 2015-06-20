@@ -125,10 +125,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
         whitebalance.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         whitebalance.SetMenuItemListner(this);
-        this.focus = (UiSettingsChild)view.findViewById(R.id.focus);
+        this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
         focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
         focus.SetMenuItemListner(this);
-        this.night = (UiSettingsChild)view.findViewById(R.id.focus);
+        this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this);
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
