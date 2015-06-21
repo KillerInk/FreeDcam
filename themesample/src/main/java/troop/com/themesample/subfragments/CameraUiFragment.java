@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,8 +16,12 @@ import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.I_swipe;
+import com.troop.freedcam.ui.SwipeMenuListner;
+import com.troop.freedcam.ui.TouchHandler;
 
 import troop.com.themesample.R;
+import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
 import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
@@ -28,7 +33,7 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice
+public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
@@ -46,6 +51,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     UiSettingsChild currentOpendChild;
     HorizontalValuesFragment horizontalValuesFragment;
+    SwipeMenuListner touchHandler;
 
 
 
@@ -56,6 +62,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     RelativeLayout right_camerUI_holder;
     boolean settingsIsOpen = true;
     final int animationTime = 500;
+
+    FocusImageHandler focusImageHandler;
 
     AbstractCameraUiWrapper abstractCameraUiWrapper;
 
@@ -103,6 +111,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         thumbView.INIT(i_activity,abstractCameraUiWrapper);
         modeSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
+        focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
     }
 
     @Override
@@ -145,9 +154,17 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTCAMERA);
         infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
         infoOverlayHandler.setCameraUIWrapper(abstractCameraUiWrapper);
+
+        focusImageHandler = new FocusImageHandler(view, this, i_activity);
+        touchHandler = new SwipeMenuListner(this);
+        view.setOnTouchListener(onTouchListener);
+
+
         setWrapper();
         return view;
     }
+
+
 
     @Override
     public void onDestroyView()
@@ -291,4 +308,29 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         removeHorizontalFragment();
         currentOpendChild = null;
     }
+
+    @Override
+    public void doHorizontalSwipe() {
+
+    }
+
+    @Override
+    public void doVerticalSwipe() {
+
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+        if (focusImageHandler != null)
+            focusImageHandler.OnClick(x,y);
+    }
+
+    View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    {
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            return touchHandler.onTouchEvent(event);
+        }
+
+    };
 }

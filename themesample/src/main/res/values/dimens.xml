@@ -5,4 +5,5 @@
     <dimen name="infoOverlayTextSize">10dip</dimen>
     <dimen name="infoOverlayTextMargine">3dp</dimen>
     <dimen name="uiSettingsHeight">30dp</dimen>
+    <dimen name="crosshairwidth">80dp</dimen>
 </resources>

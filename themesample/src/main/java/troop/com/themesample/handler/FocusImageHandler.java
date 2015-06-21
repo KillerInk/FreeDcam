@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.classic;
+package troop.com.themesample.handler;
 
 
 import android.content.Context;
@@ -25,7 +25,9 @@ import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AbstractFocusImageHandler;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.ImageViewTouchAreaHandler;
-import com.troop.freedcam.ui.menu.themes.R;
+
+import troop.com.themesample.R;
+
 
 /**
  * Created by troop on 02.09.2014.
@@ -33,14 +35,14 @@ import com.troop.freedcam.ui.menu.themes.R;
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private AbstractCameraUiWrapper wrapper;
-    ImageView focusImageView;
+    protected ImageView focusImageView;
     final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
     int recthalf;
-    ImageView cancelFocus;
-    ImageView meteringArea;
-    ImageView awbArea;
+    protected ImageView cancelFocus;
+    protected ImageView meteringArea;
+    protected ImageView awbArea;
     FocusRect meteringRect;
     FocusRect awbRect;
     static final int MAX_DURATION = 3500;
@@ -49,10 +51,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
     {
         super(view,fragment, activity);
-        focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+        init(view);
+
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
         //focusImageView.setVisibility(View.GONE);
-        cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
+
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,13 +65,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 cancelFocus.setVisibility(View.GONE);
             }
         });
-        meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
+
         meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, activity, meteringTouch, true));
         meteringArea.setVisibility(View.GONE);
-        awbArea = (ImageView)view.findViewById(R.id.imageView_awbarea);
+
         awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch, true));
         awbArea.setVisibility(View.GONE);
 
+    }
+
+    protected void init(View view)
+    {
+        focusImageView = (ImageView)view.findViewById(troop.com.themesample.R.id.imageView_Crosshair);
+        cancelFocus = (ImageView)view.findViewById(troop.com.themesample.R.id.imageViewFocusClose);
+        meteringArea = (ImageView)view.findViewById(troop.com.themesample.R.id.imageView_meteringarea);
+        awbArea = (ImageView)view.findViewById(troop.com.themesample.R.id.imageView_awbarea);
     }
 
     public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -227,7 +238,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     };
 
-    protected void OnClick(int x, int y)
+    public void OnClick(int x, int y)
     {
         if (wrapper == null || wrapper.Focus == null)
             return;

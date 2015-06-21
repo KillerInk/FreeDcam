@@ -23,4 +23,5 @@ dependencies {
     provided project(':language')
     provided project(':sonyapi')
     provided project(':camera1')
+    provided project(':camera2')
 }

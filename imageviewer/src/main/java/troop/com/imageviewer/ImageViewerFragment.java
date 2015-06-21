@@ -18,27 +18,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import troop.com.imageviewer.R;
-import troop.com.imageviewer.MyHistogram;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.ui.menu.themes.classic.I_swipe;
-import com.troop.freedcam.ui.menu.themes.classic.SwipeMenuListner;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;

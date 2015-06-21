@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui.menu.themes.classic;
+package com.troop.freedcam.ui;
 
 /**
  * Created by troop on 29.09.2014.
