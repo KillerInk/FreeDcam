@@ -10,6 +10,9 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by troop on 09.12.2014.
@@ -25,13 +28,14 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     protected boolean PreviewSurfaceRdy = false;
 
-    protected I_CameraChangedListner cameraChangedListner;
+    protected List<I_CameraChangedListner> cameraChangedListners;
 
     protected Handler uiHandler;
 
-    public AbstractCameraUiWrapper(){};
+    public AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
     public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
     {
+        this();
         /*if (backGroundThread == null) {
             backGroundThread = new HandlerThread(TAG);
             backGroundThread.start();
@@ -43,7 +47,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
     {
-        this.cameraChangedListner = cameraChangedListner;
+        cameraChangedListners.add(cameraChangedListner);
     }
 
     @Override
@@ -145,7 +149,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraOpen(final String message)
     {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -158,7 +162,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     @Override
     public void onCameraError(final String error) {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -170,7 +174,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraStatusChanged(final String status)
     {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -184,7 +188,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraClose(final String message)
     {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -197,7 +201,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onPreviewOpen(final String message)
     {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -208,7 +212,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     @Override
     public void onPreviewClose(final String message) {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -219,7 +223,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     @Override
     public void onModuleChanged(final I_Module module) {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -232,7 +236,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraOpenFinish(final String message)
     {
-        if (cameraChangedListner != null)
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {

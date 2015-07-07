@@ -13,6 +13,9 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by troop on 06.06.2015.
  */
@@ -27,7 +30,6 @@ public abstract class AbstractCameraFragment extends Fragment
     protected CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()
     {
-
     }
 
     @Override
@@ -43,12 +45,13 @@ public abstract class AbstractCameraFragment extends Fragment
         return cameraUiWrapper;
     }
 
-    public void Init(AppSettingsManager appSettings,I_error errorHandler, CamerUiWrapperRdy rdy)
+    public void Init(AppSettingsManager appSettings, CamerUiWrapperRdy rdy)
     {
         this.appSettingsManager = appSettings;
-        this.errorHandler = errorHandler;
+
         this.onrdy = rdy;
     }
+
     public abstract int getMargineLeft();
     public abstract int getMargineRight();
     public abstract int getMargineTop();

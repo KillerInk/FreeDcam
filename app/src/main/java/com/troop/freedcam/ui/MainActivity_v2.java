@@ -31,10 +31,9 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.handler.MessageHandler;
+import com.troop.freedcam.ui.menu.themes.classic.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
-import com.troop.freedcam.ui.handler.WorkHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.SensorsUtil;
@@ -62,12 +61,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     ApiHandler apiHandler;
     TimerHandler timerHandler;
 
-    MessageHandler messageHandler;
+
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
     HistogramFragment histogramFragment;
 
-    WorkHandler workHandler;
+
 
     AbstractCameraFragment cameraFragment;
     ImageViewerFragment imageViewerFragment;
@@ -116,10 +115,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         //initUI
 
         apiHandler = new ApiHandler();
-        workHandler = new WorkHandler(this);
+
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
-        messageHandler = new MessageHandler(this);
+
         helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
         helpOverlayHandler.appSettingsManager = appSettingsManager;
 
@@ -141,7 +140,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             loadingWrapper = true;
             destroyCameraUiWrapper();
             cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
-            cameraFragment.Init(appSettingsManager, this, this);
+            cameraFragment.Init(appSettingsManager, this);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
@@ -156,10 +155,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     @Override
-    public void onCameraUiWrapperRdy() {
+    public void onCameraUiWrapperRdy()
+    {
+
         cameraFragment.GetCameraUiWrapper().SetCameraChangedListner(this);
 
-        cameraFragment.GetCameraUiWrapper().moduleHandler.SetWorkListner(workHandler);
         cameraFragment.GetCameraUiWrapper().moduleHandler.SetWorkListner(orientationHandler);
         initCameraUIStuff(cameraFragment.GetCameraUiWrapper());
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
@@ -200,7 +200,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
 
-        workHandler.HideSpinner();
+
         if (histogramFragment != null && histogramFragment.isAdded())
         {
             histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
@@ -258,7 +258,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onPause()
     {
         super.onPause();
-        messageHandler.close();
+
 
         orientationHandler.Stop();
         destroyCameraUiWrapper();
@@ -331,12 +331,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void OnError(final String error)
     {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messageHandler.ShowMessage(error);
-            }
-        });
+
 
     }
 
@@ -538,16 +533,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraOpen(String message)
     {
-        try {
-            if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
-            {
-                messageHandler.ShowMessage("Searching RemoteDevice");
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
         //else
             //progress = ProgressDialog.show(this,"", "Loading", true);
     }
@@ -555,10 +541,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraOpenFinish(String message)
     {
-        if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
-        {
-            messageHandler.ShowMessage("Found RemoteDevice");
-        }
+
     }
 
     @Override
@@ -585,7 +568,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
         }
-        messageHandler.ShowMessage(error);
     }
 
     @Override

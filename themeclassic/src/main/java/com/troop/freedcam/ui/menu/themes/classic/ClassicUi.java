@@ -39,6 +39,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     protected boolean manualMenuOpen = false;
     protected FocusImageHandler focusImageHandler;
     protected ThumbView thumbView;
+    protected WorkHandler workHandler;
+    protected MessageHandler messageHandler;
     InfoOverlayHandler infoOverlayHandler;
     LinearLayout infoOverlayHolder;
 
@@ -69,6 +71,9 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         if (cameraUiWrapper != null)
             focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
+        workHandler = new WorkHandler(view);
+        workHandler.HideSpinner();
+        messageHandler = new MessageHandler(view);
         return view;
     }
 
@@ -93,7 +98,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     @Override
     public void onPause() {
         super.onPause();
-
+        messageHandler.close();
     }
 
     protected void inflate(LayoutInflater inflater, ViewGroup container)
@@ -129,6 +134,10 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
             menuFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView());
         if (shutterItemsFragment != null)
             shutterItemsFragment.SetCameraUIWrapper(cameraUiWrapper, i_activity.GetSurfaceView(), i_activity);
+        if (workHandler != null)
+            cameraUiWrapper.moduleHandler.SetWorkListner(workHandler);
+        if (messageHandler != null)
+            messageHandler.SetCameraUiWrapper(cameraUiWrapper);
     }
 
 
