@@ -74,6 +74,8 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         workHandler = new WorkHandler(view);
         workHandler.HideSpinner();
         messageHandler = new MessageHandler(view);
+        if (cameraUiWrapper != null)
+            setcameraWrapper();
         return view;
     }
 

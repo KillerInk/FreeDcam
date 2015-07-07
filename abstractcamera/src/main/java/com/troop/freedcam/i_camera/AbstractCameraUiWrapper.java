@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_CameraChangedListner
+public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_CameraChangedListner, I_error
 {
     private static String TAG = AbstractCameraUiWrapper.class.getSimpleName();
     public AbstractModuleHandler moduleHandler;

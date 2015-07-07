@@ -26,7 +26,6 @@ public abstract class AbstractCameraFragment extends Fragment
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     protected AppSettingsManager appSettingsManager;
-    protected I_error errorHandler;
     protected CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()
     {

@@ -136,4 +136,9 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         StopPreview();
         StopCamera();
     }
+
+    @Override
+    public void OnError(String error) {
+        super.onCameraError(error);
+    }
 }

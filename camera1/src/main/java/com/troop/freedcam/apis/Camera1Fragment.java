@@ -22,7 +22,7 @@ public class Camera1Fragment extends AbstractCameraFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cameraholder1, container, false);
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
-        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView,appSettingsManager, errorHandler);
+        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView,appSettingsManager);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
         super.onCreateView(inflater, container, savedInstanceState);

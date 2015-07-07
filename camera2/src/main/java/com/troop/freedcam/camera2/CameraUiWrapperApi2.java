@@ -142,4 +142,9 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
+
+    @Override
+    public void OnError(final String error) {
+        super.onCameraError(error);
+    }
 }
