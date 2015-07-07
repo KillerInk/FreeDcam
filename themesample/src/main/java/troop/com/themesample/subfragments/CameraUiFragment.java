@@ -23,6 +23,7 @@ import com.troop.freedcam.ui.TouchHandler;
 import troop.com.themesample.R;
 import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
+import troop.com.themesample.views.ShutterButton;
 import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch;
@@ -52,6 +53,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsChild currentOpendChild;
     HorizontalValuesFragment horizontalValuesFragment;
     SwipeMenuListner touchHandler;
+    ShutterButton shutterButton;
 
 
 
@@ -112,6 +114,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
+        shutterButton.SetCameraUIWrapper(abstractCameraUiWrapper);
     }
 
     @Override
@@ -157,6 +160,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
         touchHandler = new SwipeMenuListner(this);
+        shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
 

@@ -3,6 +3,9 @@ package troop.com.themesample.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -42,6 +45,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.moduleHandler.SetWorkListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
 
@@ -51,12 +56,19 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     @Override
-    public void onWorkStarted() {
+    public void onWorkStarted()
+    {
+        RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
+//Setup anim with desired properties
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
+        anim.setDuration(5000);
+        this.startAnimation(anim);
     }
 
     @Override
     public void onWorkFinished(boolean finished) {
-
+        this.setAnimation(null);
     }
 }
