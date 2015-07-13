@@ -164,4 +164,10 @@ public class DeviceUtils
 
     public static boolean isRedmiNote() { return Build.MODEL.equals("HM NOTE 1LTE");}
 
+    public static boolean isCamera1DNGSupportedDevice()
+    {
+        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
+                isOnePlusOne() || isRedmiNote();
+    }
+
 }

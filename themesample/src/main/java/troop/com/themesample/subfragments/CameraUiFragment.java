@@ -115,6 +115,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
         shutterButton.SetCameraUIWrapper(abstractCameraUiWrapper);
+        format.SetParameter(abstractCameraUiWrapper.camParametersHandler.PictureFormat);
     }
 
     @Override
@@ -147,6 +148,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         night.SetMenuItemListner(this);
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+        format.SetMenuItemListner(this);
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTMODULE);
