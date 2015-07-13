@@ -25,22 +25,163 @@ public class DngSupportedDevices
 
     }
 
+    private DngProfile getG3Profile(int filesize)
+    {
+        DngProfile profile = null;
+        switch (filesize)
+        {
+            case 17326080://qcom g3
+                profile= new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+                break;
+            case 17522688://QCOM
+                profile = new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
+                break;
+            case 16424960://lenovo k910 mipi , g3 kk mipi, zte
+                profile = new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
+                break;
+            case 2658304: //g3 front mipi
+                profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,g3_color1,g3_color2,g3_neutral);
+                break;
+            case 2842624://g3 front qcom
+                //TODO somethings wrong with it;
+                profile = new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+                break;
+
+        }
+        return profile;
+    }
+
+    private DngProfile getG2Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 16224256://MIPI g2
+                return new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+            case 2969600://g2 mipi front
+                return new DngProfile(64, 1236 ,1200 ,true, BGGR, 2472,g3_color1,g3_color2,g3_neutral);
+        }
+        return null;
+    }
+
+    private DngProfile getLenovoK910Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 17522688://QCOM
+                return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
+            case 16424960://lenovo k910 mipi , g3 kk mipi, zte
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
+            case 6721536: //k910/zte front qcom
+                return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+            case 6299648://k910/zte front mipi
+                return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+
+        }
+        return null;
+    }
+
+    private DngProfile getZTEADVProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 17522688://QCOM
+                return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
+            case 16424960://lenovo k910 mipi , g3 kk mipi, zte
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,nubia_color1,nubia_color2,nubia_neutral);
+            case 6721536: //k910/zte front qcom
+                return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+            case 6299648://k910/zte front mipi
+                return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+
+        }
+        return null;
+    }
+
+    private DngProfile getGioneeE7Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 19906560://e7mipi
+                return new DngProfile(0, 4608, 3456,true, BGGR, 0,nocal_color1,nocal_color2,nocal_nutral);
+            case  21233664: //e7qcom
+                return new DngProfile(0, 4608, 3456,false, BGGR, 0,nocal_color1,nocal_color2,nocal_nutral);
+            case  9990144://e7 front mipi
+                return new DngProfile(0, 2040 , 2448,true, BGGR, 4080,nocal_color1,nocal_color2,nocal_nutral);
+            case  10653696://e7 front qcom
+            //TODO somethings wrong with it;
+                return new DngProfile(0,2176 , 2448,false, BGGR, 0,nocal_color1,nocal_color2,nocal_nutral);
+        }
+        return null;
+    }
+
+    private DngProfile getHTCM9Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            case  25677824://m9 mipi
+                return new DngProfile(64, 5388, 3752,true, GRBG, 0,m9_color1,m9_color2,m9_neutral);
+            case 27127808://m9 qcom
+                return new DngProfile(64, 5388, 3752,false, GRBG, 0,m9_color1,m9_color2,m9_neutral);
+        }
+        return null;
+    }
+
+    private DngProfile getHTCM8Profile(int filesize)
+    {
+        if (filesize< 6000000 && filesize > 5382641)//M8 qcom
+            return new DngProfile(0, 2688, 1520,false, GRBG, 0,nocal_color1,nocal_color2,nocal_nutral);
+        else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
+            return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,nocal_color1,nocal_color2,nocal_nutral);
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
-        if (filesize == 16224256)//MIPI g2
+        switch (device) {
+            case LG_G3:
+                return getG3Profile(filesize);
+            case LG_G2:
+                return getG2Profile(filesize);
+            case Lenovo_k910:
+                return getLenovoK910Profile(filesize);
+            case Gione_E7:
+                getGioneeE7Profile(filesize);
+                break;
+            case Sony_XperiaL:
+                return new DngProfile(64, 3282, 2448,false, BGGR, XperiaL_rowSize,nocal_color1,nocal_color2,nocal_nutral);
+            case HTC_One_Sv:
+                return new DngProfile(0, 2592, 1944,false, GRBG, 0,nocal_color1,nocal_color2,nocal_nutral);
+            case HTC_One_XL:
+                return new DngProfile(0, 3282, 2448,false, GRBG, XperiaL_rowSize,nocal_color1,nocal_color2,nocal_nutral);
+            case HTC_One_m9:
+                return getHTCM9Profile(filesize);
+            case HTC_One_m8:
+                return getHTCM8Profile(filesize);
+            case OnePlusOne:
+                return new DngProfile(0, 4212, 3082,false, RGGb, getG3_rowSizeL,nocal_color2,nocal_color2,nocal_nutral);
+            case yureka:
+                return new DngProfile(0, 4212, 3082,false, BGGR, getG3_rowSizeL,nocal_color2,nocal_color2,nocal_nutral);
+            case zteAdv:
+                return getZTEADVProfile(filesize);
+            case Xiaomi_Redmi_Note:
+                return new DngProfile(64,4212, 3082,false, BGGR, getG3_rowSizeL, nocal_color1,nocal_color2,nocal_nutral);
+        }
+
+
+        /*if (filesize == 16224256)//MIPI g2
         {
             return new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
-        }
-        else if (filesize == 17326080)//qcom g3
-            return new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
-        else if (filesize == 17522688)//QCOM
+        }*/
+        //else if (filesize == 17326080)//qcom g3
+          //  return new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+/*        else if (filesize == 17522688)//QCOM
         {
             switch (device)
             {
-                case Lenovo_k910:
-                    return new DngProfile(64, 4212, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
-                case LG_G3:
-                    return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+                //case Lenovo_k910:
+                //    return new DngProfile(64, 4212, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+                //case LG_G3:
+                    //return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
                 case zteAdv:
                     return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
                 case yureka:
@@ -51,8 +192,8 @@ public class DngSupportedDevices
                     return new DngProfile(64,4212, 3082,false, BGGR, getG3_rowSizeL, nocal_color1,nocal_color2,nocal_nutral);
 
             }
-        }
-        else if (filesize == 16424960)//lenovo k910 mipi , g3 kk mipi, zte
+        }*/
+/*        else if (filesize == 16424960)//lenovo k910 mipi , g3 kk mipi, zte
         {
             if(DeviceUtils.isZTEADV())
             {
@@ -63,28 +204,28 @@ public class DngSupportedDevices
                 return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
             }
 
-        }
-        else if (filesize == 10788864)//XperiaL
+        }*/
+        /*else if (filesize == 10788864)//XperiaL
         {
             return new DngProfile(64, 3282, 2448,false, BGGR, XperiaL_rowSize,nocal_color1,nocal_color2,nocal_nutral);
-        }
-        else if (filesize == 6746112)//htc one sv
+        }*/
+       /* else if (filesize == 6746112)//htc one sv
         {
             return new DngProfile(0, 2592, 1944,false, GRBG, 0,nocal_color1,nocal_color2,nocal_nutral);
-        }
-        else if (filesize == 10782464) //htc one xl
+        }*/
+/*        else if (filesize == 10782464) //htc one xl
         {
             return new DngProfile(0, 3282, 2448,false, GRBG, XperiaL_rowSize,nocal_color1,nocal_color2,nocal_nutral);
-        }
-        else if (filesize == 25677824)//m9 mipi
+        }*/
+        /*else if (filesize == 25677824)//m9 mipi
         {
             return new DngProfile(64, 5388, 3752,true, GRBG, 0,m9_color1,m9_color2,m9_neutral);
         }
         else if (filesize == 27127808)//m9 qcom
         {
             return new DngProfile(64, 5388, 3752,false, GRBG, 0,m9_color1,m9_color2,m9_neutral);
-        }
-        else if (filesize == 19906560)//e7mipi
+        }*/
+        /*else if (filesize == 19906560)//e7mipi
         {
             return new DngProfile(0, 4608, 3456,true, BGGR, 0,nocal_color1,nocal_color2,nocal_nutral);
         }
@@ -100,32 +241,32 @@ public class DngSupportedDevices
         {
             //TODO somethings wrong with it;
             return new DngProfile(0,2176 , 2448,false, BGGR, 0,nocal_color1,nocal_color2,nocal_nutral);
-        }
-        else if (filesize == 2658304) //g3 front mipi
-        {
-            return new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,g3_color1,g3_color2,g3_neutral);
-        }
-        else if (filesize == 2842624)//g3 front qcom
-        {
-            //TODO somethings wrong with it;
-            return new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
-        }
-        else if (filesize == 2969600)//g2 mipi front
+        }*/
+        //else if (filesize == 2658304) //g3 front mipi
+        //{
+        //    return new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,g3_color1,g3_color2,g3_neutral);
+        //}
+        //else if (filesize == 2842624)//g3 front qcom
+        //{
+        //    //TODO somethings wrong with it;
+        //    return new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+        //}
+        /*else if (filesize == 2969600)//g2 mipi front
         {
             return new DngProfile(64, 1236 ,1200 ,true, BGGR, 2472,g3_color1,g3_color2,g3_neutral);
-        }
-        else if (filesize == 6721536) //k910/zte front qcom
+        }*/
+        /*else if (filesize == 6721536) //k910/zte front qcom
         {
             return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
         }
         else if (filesize == 6299648)//k910/zte front mipi
         {
             return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,g3_color1,g3_color2,g3_neutral);
-        }
-        else if (filesize< 6000000 && filesize > 5382641)//M8 qcom
+        }*/
+/*        else if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,nocal_color1,nocal_color2,nocal_nutral);
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-            return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,nocal_color1,nocal_color2,nocal_nutral);
+            return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,nocal_color1,nocal_color2,nocal_nutral);*/
         return null;
     }
 
@@ -233,6 +374,18 @@ public class DngSupportedDevices
                     0.6075999738f, 1f, 0.4993000032f
             };
 
+    public static final float[] g3_tl84 =
+            {
+                    1.921158f,-1.110443f,0.189285f,
+                    -0.255173f,1.376129f,-0.120956f,
+                    1f,-0.85160798f,1.846222f
+            };
+
+    public static final float[] g3_neutral_lowlight =
+            {     //R        G           B
+                0.230904f, 0.20558f, 0.266458f
+    };
+
 
     private static final int g3_blacklevel = 64;
 
@@ -255,4 +408,44 @@ public class DngSupportedDevices
     public static String BGGR = "bggr";
     public static String RGGb = "rggb";
     private static final String GRBG = "grbg";
+
+
+    static abstract class Chromatix
+    {
+        static public float[] neutral_LowLight;
+        static float[] neutral_NormalLight;
+        static float[] neutral_BrightLight;
+
+        static float[] CC_TL84;
+        static float[] CC_LOWLIGHT;
+        static float[] CC_D65;
+        static float[] CC_A;
+        static float[] CC_OUTDOOR;
+    }
+
+    static class G3Device
+    {
+        static public float[] neutral_LowLight = {0.230904f, 0.20558f, 0.266458f};
+        static float[] neutral_NormalLight = {0.230904f,0.20558f, 0.266458f};
+        static float[] neutral_BrightLight= {0.230904f,0.20558f, 0.266458f};
+
+        static float[] CC_TL84 =
+        {
+                1.921158f   ,-1.110443f     ,0.189285f,
+                -0.255173f  ,1.376129f      ,-0.120956f,
+                -1f         ,-0.85160798f   ,1.846222f
+        };
+        static float[] CC_LOWLIGHT={
+                1.84596f    ,-1.02423f      ,0.17828f,
+                -0.24259f   ,1.41108f       ,-0.16850001f,
+                -1f         ,-0.90310001f   ,1.91504f
+        };
+        static float[] CC_D65 = {
+                1.820541f       ,-1.001724f     ,0.181183f,
+                -0.21112099f   ,1.388733f      ,-0.17761201f,
+                -1             ,-0.84127802f   ,1.839066f
+        };;
+        static float[] CC_A = {1.72401f,-0.8574f,0.13338999f,-0.29269999f,1.43779f,-0.14509f,-0.97021484f,-1.17881f,2.2327001f};
+        static float[] CC_OUTDOOR = {1.892731f,-0.98947197f,1.4433594f,-0.27654999f,1.601531f,-0.324981f,0.98632813f,-0.84582603f,1.838852f};
+    }
 }
