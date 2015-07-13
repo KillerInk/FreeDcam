@@ -182,7 +182,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     public void OnPreviewSizeChanged(int w, int h)
     {
 
-        if (currentModule.equals(""))
+        if (currentModule == null || currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
         {
