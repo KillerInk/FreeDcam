@@ -31,7 +31,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17326080://qcom g3
-                profile= new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,g3_color1,g3_color2,g3_neutral);
+                profile= new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
                 break;
             case 17522688://QCOM
                 profile = new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
@@ -40,11 +40,11 @@ public class DngSupportedDevices
                 profile = new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,G3Device.CC_A,G3Device.CC_D65,G3Device.neutral_NormalLight);
                 break;
             case 2658304: //g3 front mipi
-                profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,g3_color1,g3_color2,g3_neutral);
+                profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,G3Device.CC_A_FRONT,G3Device.CC_D65_FRONT,G3Device.neutral_light_front);
                 break;
             case 2842624://g3 front qcom
                 //TODO somethings wrong with it;
-                profile = new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,g3_color1,g3_color2,g3_neutral);
+                profile = new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,G3Device.CC_A_FRONT,G3Device.CC_D65_FRONT,G3Device.neutral_light_front);
                 break;
 
         }
@@ -425,6 +425,7 @@ public class DngSupportedDevices
 
     static class G3Device
     {
+        //BACK CAM
         static public float[] neutral_LowLight = {0.230904f, 0.20558f, 0.266458f};
         static float[] neutral_NormalLight = {0.230904f,0.20558f, 0.266458f};
         static float[] neutral_BrightLight= {0.230904f,0.20558f, 0.266458f};
@@ -447,5 +448,11 @@ public class DngSupportedDevices
         };;
         static float[] CC_A = {1.72401f,-0.8574f,0.13338999f,-0.29269999f,1.43779f,-0.14509f,-0.97021484f,-1.17881f,2.2327001f};
         static float[] CC_OUTDOOR = {1.892731f,-0.98947197f,1.4433594f,-0.27654999f,1.601531f,-0.324981f,0.98632813f,-0.84582603f,1.838852f};
+
+        //FRONT CAM
+        static float[] neutral_light_front = {0.230904f, 0.20558f,0.266458f};
+
+        static float[] CC_D65_FRONT = {1.51605f,-0.53394002f,1.1425781f,-0.22262f,1.415243f,-0.19262999f,1.1601563f,-0.52266997f,1.50258f };
+        static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
     }
 }
