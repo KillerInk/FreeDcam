@@ -13,8 +13,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
 {
     BaseCameraHolder cameraHolder;
 
-    public PreviewFpsParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, BaseCameraHolder holder) {
-        super(handler ,parameters, parameterChanged, value, values);
+    public PreviewFpsParameter(Handler handler,HashMap<String, String> parameters, String value, String values, BaseCameraHolder holder) {
+        super(handler ,parameters, holder, value, values);
         this.cameraHolder = holder;
     }
 
@@ -24,6 +24,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         super.SetValue(valueToSet,setToCam);
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
 
     }
 

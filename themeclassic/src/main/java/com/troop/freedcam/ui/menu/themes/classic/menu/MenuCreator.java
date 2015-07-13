@@ -99,6 +99,7 @@ public class MenuCreator
 
     protected ExpandableChild OisChild;
     protected ExpandableChild ControlModeChild;
+    protected ExpandableChild PreviewFPS;
 
     protected LinearLayout submenu;
 
@@ -296,6 +297,9 @@ public class MenuCreator
         {
             Theme.setParameterHolder(parameterHandler.ThemeList,cameraUiWrapper.moduleHandler.AllModules);
         }
+
+        if (parameterHandler.PreviewFPS != null && parameterHandler.PreviewFPS.IsSupported())
+            PreviewFPS.setParameterHolder(parameterHandler.PreviewFPS, cameraUiWrapper.moduleHandler.PictureModules);
         //cameraUiWrapper.moduleHandler.moduleEventHandler.ModuleHasChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
     }
@@ -356,6 +360,9 @@ public class MenuCreator
 
         piclist.add(aeBracketSwitch);
         piclist.add(dngSwitch);
+
+        PreviewFPS = new ExpandableChild(context,group,"FPS", appSettingsManager, AppSettingsManager.SETTING_PREVIEWFPS);
+        piclist.add(PreviewFPS);
         group.setItems(piclist);
     }
 

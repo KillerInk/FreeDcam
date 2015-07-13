@@ -39,6 +39,7 @@ import com.troop.freedcam.camera.parameters.modes.OisParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
+import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoHDRModeParameter;
@@ -152,7 +153,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         AE_Bracket = new AE_Bracket_HdrModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
         ImagePostProcessing = new ImagePostProcessingParameter(uiHandler,cameraParameters,baseCameraHolder, "ipp", "ipp-values");
         PreviewSize = new PreviewSizeParameter(uiHandler,cameraParameters, baseCameraHolder, "preview-size", "preview-size-values", cameraHolder);
-        /*PreviewFPS = new PreviewFpsParameter(cameraParameters, this, "preview-frame-rate", "preview-frame-rate-values", cameraHolder);*/
+        PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate", "preview-frame-rate-values", (BaseCameraHolder)cameraHolder);
         PreviewFormat = new PreviewFormatParameter(uiHandler,cameraParameters, baseCameraHolder, "preview-format", "preview-format-values", cameraHolder);
 
         SceneMode =  new SceneModeParameter(uiHandler, cameraParameters, baseCameraHolder, "scene-mode","scene-mode-values");
