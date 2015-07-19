@@ -5,15 +5,10 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-import com.troop.freedcam.themenubia.NubiaUi;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
-import com.troop.theme.ambient.AmbientUi;
-import com.troop.theme.material.MaterialUi;
-import com.troop.theme.minimal.MinimalUi;
-
 import troop.com.themesample.SampleThemeFragment;
 
 /**
@@ -43,15 +38,12 @@ public class ThemeHandler implements I_ModuleEvent
     public AbstractFragment GetThemeFragment(boolean infalte)
     {
         String theme = appSettingsManager.GetTheme();
+        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia")) {
+            theme = "Classic";
+            appSettingsManager.SetTheme("Classic");
+        }
         if (infalte)
             DestroyUI();
-        if (theme.equals("Ambient"))
-        {
-            AmbientUi ambientUi = new AmbientUi();
-            ambientUi.SetStuff(appSettingsManager, activity_v2);
-            ambientUi.SetCameraUIWrapper(cameraUiWrapper);
-            uiFragment = ambientUi;
-        }
         if (theme.equals("Classic"))
         {
             ClassicUi CuiFragment = new ClassicUi();
@@ -59,25 +51,6 @@ public class ThemeHandler implements I_ModuleEvent
 
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
-        }
-
-        if (theme.equals("Material")) {
-            MaterialUi materialUi = new MaterialUi();
-            materialUi.SetStuff(appSettingsManager, activity_v2);
-            materialUi.SetCameraUIWrapper(cameraUiWrapper);
-            uiFragment = materialUi;
-        }
-        if (theme.equals("Minimal")) {
-            MinimalUi minimalUi = new MinimalUi();
-            minimalUi.SetStuff(appSettingsManager, activity_v2);
-            minimalUi.SetCameraUIWrapper(cameraUiWrapper);
-            uiFragment = minimalUi;
-        }
-        if (theme.equals("Nubia")) {
-            NubiaUi nubiaUi = new NubiaUi();
-            nubiaUi.SetStuff(appSettingsManager, activity_v2);
-            nubiaUi.SetCameraUIWrapper(cameraUiWrapper);
-            uiFragment = nubiaUi;
         }
         if (theme.equals("Sample"))
         {
