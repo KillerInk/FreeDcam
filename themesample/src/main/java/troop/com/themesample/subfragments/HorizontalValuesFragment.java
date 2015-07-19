@@ -34,6 +34,8 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
         super.onResume();
         int i = 0;
         LinearLayout linearLayout = getNewLayout();
+        if (values == null)
+            return;
         for (String s : values)
         {
             if (i == 3 || i == 6 || i == 9)

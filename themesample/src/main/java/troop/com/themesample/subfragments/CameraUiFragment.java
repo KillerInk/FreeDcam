@@ -28,6 +28,7 @@ import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsChildExit;
+import troop.com.themesample.views.uichilds.UiSettingsChildFormat;
 import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsMenu;
 
@@ -44,7 +45,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsChild whitebalance;
     UiSettingsChild focus;
     UiSettingsChild night;
-    UiSettingsChild format;
+    UiSettingsChildFormat format;
     UiSettingsChildCameraSwitch cameraSwitch;
     UiSettingsChildExit exit;
     UiSettingsChildModuleSwitch modeSwitch;
@@ -115,6 +116,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
         shutterButton.SetCameraUIWrapper(abstractCameraUiWrapper);
+
+        format.SetCameraUiWrapper(abstractCameraUiWrapper);
         format.SetParameter(abstractCameraUiWrapper.camParametersHandler.PictureFormat);
     }
 
@@ -146,7 +149,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this);
-        this.format = (UiSettingsChild)view.findViewById(R.id.format);
+        this.format = (UiSettingsChildFormat)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
         format.SetMenuItemListner(this);
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);

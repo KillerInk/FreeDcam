@@ -151,7 +151,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
             app:HeaderText="Night"/>
-        <troop.com.themesample.views.uichilds.UiSettingsChild
+        <troop.com.themesample.views.uichilds.UiSettingsChildFormat
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/format"

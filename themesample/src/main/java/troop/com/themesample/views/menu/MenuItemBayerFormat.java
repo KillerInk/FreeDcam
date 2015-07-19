@@ -72,8 +72,8 @@ public class MenuItemBayerFormat extends MenuItem
             parameter.addEventListner(this);
 
         if (appSettingsManager.getString(APPSETTING_BAYERFORMAT).equals("") && bayerformats.size() >0) {
-            onValueChanged(bayerformats.get(0));
             appSettingsManager.setString(APPSETTING_BAYERFORMAT, bayerformats.get(0));
         }
+        onValueChanged(appSettingsManager.getString(APPSETTING_BAYERFORMAT));
     }
 }
