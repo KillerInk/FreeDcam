@@ -12,6 +12,15 @@
         app:ValueText="Test"
         />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Picture"
+        android:id="@+id/textView4"
+        android:textColor="@color/menuTextColor"
+        android:background="#999999" />
+
     <troop.com.themesample.views.menu.MenuItemBayerFormat
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -19,6 +28,15 @@
         app:Description="Select the Sensor RawOutput used for Dng"
         app:HeaderText="BayerFormat: "
         app:ValueText="bayer-mipi"
+        />
+
+    <troop.com.themesample.views.menu.MenuItem
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemPicSize"
+        app:Description="Picture Size for JPEG"
+        app:HeaderText="Size: "
+        app:ValueText="1920x1080"
         />
 
 </LinearLayout>
