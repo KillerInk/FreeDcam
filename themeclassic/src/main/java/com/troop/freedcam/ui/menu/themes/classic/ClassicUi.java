@@ -82,25 +82,26 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        infoOverlayHandler.StopUpdating();
+
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        infoOverlayHandler.StartUpdating();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        infoOverlayHandler.StartUpdating();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         messageHandler.close();
+        infoOverlayHandler.StopUpdating();
     }
 
     protected void inflate(LayoutInflater inflater, ViewGroup container)
