@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.i_camera.parameters.ApiParameter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -27,6 +28,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
     troop.com.themesample.views.menu.MenuItem guide;
+    troop.com.themesample.views.menu.MenuItem api;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -69,6 +71,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         guide.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         guide.SetParameter(wrapper.camParametersHandler.GuideList);
         guide.SetMenuItemListner(this);
+
+        api = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemApi);
+        api.SetStuff(i_activity,appSettingsManager, null);
+        api.SetParameter(new ApiParameter(null, i_activity, appSettingsManager));
+        api.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
