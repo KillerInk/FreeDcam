@@ -183,15 +183,15 @@ public class AppSettingsManager
         return appSettings.getString(newstring, "");
     }
 
-    public void setString(String valueToSet, String Value)
+    public void setString(String settingsName, String Value)
     {
         String newstring;
         if (API_SONY.equals(camApiString))
-            newstring = valueToSet + API_SONY;
+            newstring = settingsName + API_SONY;
         else if(API_1.equals(camApiString))
-            newstring = valueToSet + currentcamera;
+            newstring = settingsName + currentcamera;
         else
-            newstring = valueToSet + currentcamera + API_2;
+            newstring = settingsName + currentcamera + API_2;
         appSettings.edit().putString(newstring, Value).apply();
     }
 

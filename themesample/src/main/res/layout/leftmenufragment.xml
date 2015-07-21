@@ -21,6 +21,15 @@
         app:ValueText="Internal"
         />
 
+    <troop.com.themesample.views.menu.MenuItemGPS
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemGPS"
+        app:Description="LocationInfo for Files"
+        app:HeaderText="Location:"
+        app:ValueText="OFF"
+        />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

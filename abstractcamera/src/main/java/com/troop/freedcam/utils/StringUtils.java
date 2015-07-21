@@ -42,6 +42,9 @@ public class StringUtils
         return "bayer-qcom-10grbg";
     }
 
+    final public static String ON = "ON";
+    final public static String OFF = "OFF";
+
 
     public static String[] getStringArrayFromCameraSizes(List<Camera.Size> sizes)
     {

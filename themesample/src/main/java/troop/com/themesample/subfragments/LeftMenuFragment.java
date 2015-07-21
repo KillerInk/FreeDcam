@@ -11,6 +11,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItemBayerFormat;
+import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemSDSave;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
@@ -24,6 +25,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemBayerFormat bayerFormatItem;
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
+    MenuItemGPS menuItemGPS;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -56,6 +58,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         sdSave.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         sdSave.SetCameraUiWrapper(wrapper);
         sdSave.SetMenuItemListner(this);
+
+        menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
+        menuItemGPS.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_LOCATION);
+        menuItemGPS.SetCameraUIWrapper(wrapper);
+        menuItemGPS.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
