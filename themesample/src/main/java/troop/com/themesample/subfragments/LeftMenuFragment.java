@@ -34,6 +34,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem externalShutter;
     MenuItemOrientationHack orientationHack;
 
+    troop.com.themesample.views.menu.MenuItem jpegQuality;
+
     Interfaces.I_MenuItemClick onMenuItemClick;
 
     @Override
@@ -90,6 +92,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         orientationHack.SetStuff(i_activity,appSettingsManager, null);
         orientationHack.SetCameraUIWrapper(wrapper);
         orientationHack.SetMenuItemListner(this);
+
+        jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
+        jpegQuality.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
+        jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
+        jpegQuality.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

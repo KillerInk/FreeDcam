@@ -51,7 +51,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/settingsmenuBackColor"
             android:id="@+id/left_holder">
@@ -62,9 +62,10 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/menuBackgColor"
             android:id="@+id/right_holder" />
     </LinearLayout>
+
 </LinearLayout>
