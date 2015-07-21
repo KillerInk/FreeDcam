@@ -47,6 +47,24 @@
         app:ValueText="Camera1"
         />
 
+    <troop.com.themesample.views.menu.MenuItem
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemExternalShutter"
+        app:Description="The key wich can trigger the shutter from a headset"
+        app:HeaderText="ExternalShutterKey:"
+        app:ValueText="Hook"
+        />
+
+    <troop.com.themesample.views.menu.MenuItemOrientationHack
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemOrientationHack"
+        app:Description="Rotates the Camera 180° if ON"
+        app:HeaderText="OrientationHack:"
+        app:ValueText="OFF"
+        />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.parameters.ApiParameter;
+import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
+import troop.com.themesample.views.menu.MenuItemOrientationHack;
 import troop.com.themesample.views.menu.MenuItemSDSave;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
@@ -29,6 +31,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemGPS menuItemGPS;
     troop.com.themesample.views.menu.MenuItem guide;
     troop.com.themesample.views.menu.MenuItem api;
+    troop.com.themesample.views.menu.MenuItem externalShutter;
+    MenuItemOrientationHack orientationHack;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -76,6 +80,16 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         api.SetStuff(i_activity,appSettingsManager, null);
         api.SetParameter(new ApiParameter(null, i_activity, appSettingsManager));
         api.SetMenuItemListner(this);
+
+        externalShutter = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
+        externalShutter.SetStuff(i_activity,appSettingsManager, null);
+        externalShutter.SetParameter(new ParameterExternalShutter(appSettingsManager));
+        externalShutter.SetMenuItemListner(this);
+
+        orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
+        orientationHack.SetStuff(i_activity,appSettingsManager, null);
+        orientationHack.SetCameraUIWrapper(wrapper);
+        orientationHack.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
