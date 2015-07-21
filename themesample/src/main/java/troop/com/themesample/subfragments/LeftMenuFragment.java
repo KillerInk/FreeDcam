@@ -26,6 +26,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
+    troop.com.themesample.views.menu.MenuItem guide;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -63,6 +64,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         menuItemGPS.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_LOCATION);
         menuItemGPS.SetCameraUIWrapper(wrapper);
         menuItemGPS.SetMenuItemListner(this);
+
+        guide = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemGuide);
+        guide.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+        guide.SetParameter(wrapper.camParametersHandler.GuideList);
+        guide.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

@@ -29,6 +29,14 @@
         app:HeaderText="Location:"
         app:ValueText="OFF"
         />
+    <troop.com.themesample.views.menu.MenuItem
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemGuide"
+        app:Description="Guide for Preview"
+        app:HeaderText="Guide:"
+        app:ValueText="Golden Ratio"
+        />
 
     <TextView
         android:layout_width="fill_parent"
