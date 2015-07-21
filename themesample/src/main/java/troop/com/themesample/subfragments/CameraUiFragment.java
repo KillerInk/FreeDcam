@@ -50,6 +50,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsChildExit exit;
     UiSettingsChildModuleSwitch modeSwitch;
     UiSettingsMenu menu;
+    UiSettingsChild contShot;
 
     UiSettingsChild currentOpendChild;
     HorizontalValuesFragment horizontalValuesFragment;
@@ -119,6 +120,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         format.SetCameraUiWrapper(abstractCameraUiWrapper);
         format.SetParameter(abstractCameraUiWrapper.camParametersHandler.PictureFormat);
+
+        contShot.SetParameter(abstractCameraUiWrapper.camParametersHandler.ContShootMode);
     }
 
     @Override
@@ -146,6 +149,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
         focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
         focus.SetMenuItemListner(this);
+        this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
+        contShot.SetStuff(i_activity,appSettingsManager, null);
+        contShot.SetMenuItemListner(this);
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this);
