@@ -1,44 +1,39 @@
-package com.troop.freedcam.ui.menu.themes.classic.menu.childs;
+package troop.com.themesample.views.menu;
 
 import android.content.Context;
-import android.os.Handler;
+import android.util.AttributeSet;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.SDModeParameter;
-import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
 /**
- * Created by Ingo on 24.05.2015.
+ * Created by troop on 21.07.2015.
  */
-public class ExpandableChildSaveSD extends ExpandableChild
+public class MenuItemSDSave extends MenuItem
 {
+    final String internal = "Internal";
+    final String external ="External";
     AbstractCameraUiWrapper cameraUiWrapper;
-    public ExpandableChildSaveSD(Context context, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname) {
-        super(context, group, name, appSettingsManager, settingsname);
+
+    public MenuItemSDSave(Context context) {
+        super(context);
     }
 
-    @Override
-    protected void init(Context context) {
-        super.init(context);
-        this.parameterHolder = new SDModeParameter(null, appSettingsManager);
-        valueTextView.setText(parameterHolder.GetValue());
+    public MenuItemSDSave(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public  void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        super.SetParameter(new SDModeParameter(null, appSettingsManager));
     }
 
-
-
     @Override
-    public void setValue(String value)
-    {
+    public void SetValue(String value) {
         if (value.equals(SDModeParameter.external))
         {
             boolean canWriteExternal = false;
@@ -55,20 +50,21 @@ public class ExpandableChildSaveSD extends ExpandableChild
             }
             if (canWriteExternal) {
                 appSettingsManager.SetWriteExternal(true);
-                valueTextView.setText(SDModeParameter.external);
+                onValueChanged(SDModeParameter.external);
             }
             else {
                 cameraUiWrapper.onCameraError("Cant write on External SD, pls apply SD fix");
-                valueTextView.setText(SDModeParameter.internal);
+                onValueChanged(SDModeParameter.internal);
             }
         }
         else {
             appSettingsManager.SetWriteExternal(false);
-            valueTextView.setText(value);
+            onValueChanged(value);
         }
     }
 
-
-
-
+    @Override
+    public String[] GetValues() {
+        return super.GetValues();
+    }
 }

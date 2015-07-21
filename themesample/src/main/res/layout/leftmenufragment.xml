@@ -12,6 +12,15 @@
         app:ValueText="Test"
         />
 
+    <troop.com.themesample.views.menu.MenuItemSDSave
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MenuItemSDSave"
+        app:Description="Location to save"
+        app:HeaderText="SD Card: "
+        app:ValueText="Internal"
+        />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -38,5 +47,7 @@
         app:HeaderText="Size: "
         app:ValueText="1920x1080"
         />
+
+
 
 </LinearLayout>
