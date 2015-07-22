@@ -17,6 +17,7 @@ import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemOrientationHack;
 import troop.com.themesample.views.menu.MenuItemSDSave;
+import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
 
@@ -39,6 +40,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem histogram;
     troop.com.themesample.views.menu.MenuItem redeyeflash;
     troop.com.themesample.views.menu.MenuItem aeBracket;
+
+    MenuItemVideoProfile videoProfile;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -116,6 +119,14 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         aeBracket.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);
         aeBracket.SetParameter(wrapper.camParametersHandler.AE_Bracket);
         aeBracket.SetMenuItemListner(this);
+
+        videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
+        videoProfile.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+        if (wrapper.camParametersHandler.VideoProfiles != null)
+            videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);
+        else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
+            videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
+        videoProfile.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

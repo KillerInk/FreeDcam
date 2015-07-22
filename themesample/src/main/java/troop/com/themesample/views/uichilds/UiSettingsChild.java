@@ -184,8 +184,10 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void ParametersLoaded()
     {
         Log.d(TAG, "Parameters Loaded");
-        if (parameter != null && parameter.IsSupported())
+        if (parameter != null && parameter.IsSupported()) {
             setTextToTextBox(parameter);
+            onIsSupportedChanged(true);
+        }
         else
             onIsSupportedChanged(false);
     }

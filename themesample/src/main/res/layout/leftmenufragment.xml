@@ -148,6 +148,23 @@
                 app:HeaderText="AE-Bracket: "
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Video"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+            <troop.com.themesample.views.menu.MenuItemVideoProfile
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemVideoProfile"
+                app:Description="MediaProfiles for VideoRecording"
+                app:HeaderText="Video Profiles: "
+                app:ValueText="4KUHD"
+                android:layout_marginBottom="1dp" />
         </LinearLayout>
     </ScrollView>
 
