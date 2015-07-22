@@ -40,7 +40,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Settings"
             android:id="@+id/textView3"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="@color/menuTextColor"
+            android:background="@color/menuBackgColor" />
     </RelativeLayout>
 
     <LinearLayout
