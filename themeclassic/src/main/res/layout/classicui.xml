@@ -97,7 +97,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/imageView_Crosshair"
-        android:background="@drawable/ic_cross_focus"
+        android:background="@drawable/crosshair_normal"
         android:visibility="gone" />
 
     <ImageView

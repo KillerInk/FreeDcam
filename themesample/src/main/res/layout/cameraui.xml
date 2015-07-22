@@ -8,14 +8,14 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/imageView_Crosshair"
-        android:background="@drawable/ic_cross_focus"
+        android:background="@drawable/crosshair_circle_normal"
         android:visibility="gone" />
 
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/imageView_meteringarea"
-        android:background="@drawable/crosshair_exposure" />
+        android:background="@drawable/exposure_metering" />
 
     <ImageView
         android:layout_width="80dp"
@@ -28,7 +28,9 @@
         android:layout_height="40dp"
         android:id="@+id/imageViewFocusClose"
         android:background="@drawable/focusclose"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/shuttericon_size" />
 
     <LinearLayout
         android:orientation="horizontal"

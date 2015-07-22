@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -20,7 +19,6 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
-import com.troop.freedcam.i_camera.interfaces.I_Focus;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AbstractFocusImageHandler;
 import com.troop.freedcam.ui.I_Activity;
@@ -126,7 +124,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             mParams.topMargin = rect.top;
 
             focusImageView.setLayoutParams(mParams);
-            focusImageView.setBackgroundResource(R.drawable.crosshair_normal);
+            focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
             focusImageView.setVisibility(View.VISIBLE);
 
             RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -151,9 +149,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 @Override
                 public void run() {
                     if (success)
-                        focusImageView.setBackgroundResource(R.drawable.crosshair_success);
+                        focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_success);
                     else
-                        focusImageView.setBackgroundResource(R.drawable.crosshair_failed);
+                        focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
                     //handler.postDelayed(hideCrosshair, crosshairShowTime);
