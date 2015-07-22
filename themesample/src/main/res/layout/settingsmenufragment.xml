@@ -65,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/menuBackgColor"
-            android:id="@+id/right_holder" />
+            android:id="@+id/right_holder"
+            android:layout_marginLeft="1dp" />
     </LinearLayout>
 
 </LinearLayout>

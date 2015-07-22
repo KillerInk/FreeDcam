@@ -2,12 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/menu_item_toplayout">
+    android:id="@+id/menu_item_toplayout"
+    android:background="#db999999">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -15,8 +19,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Header:"
             android:id="@+id/textview_menuitem_header"
-            android:textSize="13dp"
-            android:textColor="@color/menuTextColor" />
+            android:textSize="15dp"
+            android:textColor="@color/menuTextColor"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +36,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
 
         <TextView
             android:layout_width="wrap_content"

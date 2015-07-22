@@ -21,7 +21,7 @@
                 app:Description="Choose your favorite theme"
                 app:HeaderText="Theme: "
                 app:ValueText="Test"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemSDSave
                 android:layout_width="fill_parent"
@@ -30,7 +30,7 @@
                 app:Description="Location to save"
                 app:HeaderText="SD Card: "
                 app:ValueText="Internal"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemGPS
                 android:layout_width="fill_parent"
@@ -39,7 +39,7 @@
                 app:Description="LocationInfo for Files"
                 app:HeaderText="Location:"
                 app:ValueText="OFF"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -48,7 +48,7 @@
                 app:Description="Guide for Preview"
                 app:HeaderText="Guide:"
                 app:ValueText="Golden Ratio"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -57,7 +57,7 @@
                 app:Description="Select the Api you want to use"
                 app:HeaderText="Api:"
                 app:ValueText="Camera1"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -66,7 +66,7 @@
                 app:Description="The key wich can trigger the shutter from a headset"
                 app:HeaderText="ExternalShutterKey:"
                 app:ValueText="Hook"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemOrientationHack
                 android:layout_width="fill_parent"
@@ -75,7 +75,7 @@
                 app:Description="Rotates the Camera 180° if ON"
                 app:HeaderText="OrientationHack:"
                 app:ValueText="OFF"
-                />
+                android:layout_marginBottom="1dp" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -84,7 +84,8 @@
                 android:text="Picture"
                 android:id="@+id/textView4"
                 android:textColor="@color/menuTextColor"
-                android:background="#9c999999" />
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemBayerFormat
                 android:layout_width="fill_parent"
@@ -93,7 +94,7 @@
                 app:Description="Select the Sensor RawOutput used for Dng"
                 app:HeaderText="BayerFormat: "
                 app:ValueText="bayer-mipi"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -102,7 +103,7 @@
                 app:Description="Picture Size for JPEG"
                 app:HeaderText="Size: "
                 app:ValueText="1920x1080"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -111,7 +112,7 @@
                 app:Description="Compression in % for JPEG"
                 app:HeaderText="Jpeg Quality: "
                 app:ValueText="80"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -120,7 +121,7 @@
                 app:Description="If ON Histogram is shown"
                 app:HeaderText="Histogram: "
                 app:ValueText="OFF"
-                />
+                android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -129,7 +130,7 @@
                 app:Description="If ON SecondFlash gets fired"
                 app:HeaderText="Red Eye Reduction: "
                 app:ValueText="OFF"
-                />
+                android:layout_marginBottom="1dp" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +138,8 @@
                 android:text="HDR"
                 android:id="@+id/textView5"
                 android:textColor="@color/menuTextColor"
-                android:background="#9c999999" />
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +147,7 @@
                 app:Description="If ON the camera takes 3 Images in one Shot"
                 app:HeaderText="AE-Bracket: "
                 app:ValueText="OFF"
-                />
+                android:layout_marginBottom="1dp" />
         </LinearLayout>
     </ScrollView>
 
