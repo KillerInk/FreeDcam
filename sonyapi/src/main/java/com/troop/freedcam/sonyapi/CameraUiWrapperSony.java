@@ -25,6 +25,11 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     AppSettingsManager appSettingsManager;
 
 
+    @Override
+    public String CameraApiName() {
+        return AppSettingsManager.API_SONY;
+    }
+
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
         super(preview, appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;

@@ -33,6 +33,8 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     protected Handler uiHandler;
 
+    public abstract String CameraApiName();
+
     public AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
     public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
     {

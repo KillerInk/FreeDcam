@@ -12,6 +12,7 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 
 /**
@@ -25,6 +26,11 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
 
+
+    @Override
+    public String CameraApiName() {
+        return AppSettingsManager.API_1;
+    }
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
     {
