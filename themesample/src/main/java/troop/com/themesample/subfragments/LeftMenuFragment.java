@@ -37,6 +37,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
     troop.com.themesample.views.menu.MenuItem histogram;
+    troop.com.themesample.views.menu.MenuItem redeyeflash;
+    troop.com.themesample.views.menu.MenuItem aeBracket;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -104,6 +106,16 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         histogram.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_HISTOGRAM);
         histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
         histogram.SetMenuItemListner(this);
+
+        redeyeflash = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemRedEye);
+        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
+        redeyeflash.SetParameter(wrapper.camParametersHandler.RedEye);
+        redeyeflash.SetMenuItemListner(this);
+
+        aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
+        aeBracket.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);
+        aeBracket.SetParameter(wrapper.camParametersHandler.AE_Bracket);
+        aeBracket.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

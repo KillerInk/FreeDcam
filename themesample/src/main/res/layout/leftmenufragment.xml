@@ -121,6 +121,31 @@
                 app:HeaderText="Histogram: "
                 app:ValueText="OFF"
                 />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemRedEye"
+                app:Description="If ON SecondFlash gets fired"
+                app:HeaderText="Red Eye Reduction: "
+                app:ValueText="OFF"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="HDR"
+                android:id="@+id/textView5"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999" />
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemAeBracket"
+                app:Description="If ON the camera takes 3 Images in one Shot"
+                app:HeaderText="AE-Bracket: "
+                app:ValueText="OFF"
+                />
         </LinearLayout>
     </ScrollView>
 
