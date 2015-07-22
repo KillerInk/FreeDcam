@@ -112,6 +112,15 @@
                 app:HeaderText="Jpeg Quality: "
                 app:ValueText="80"
                 />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemHistogram"
+                app:Description="If ON Histogram is shown"
+                app:HeaderText="Histogram: "
+                app:ValueText="OFF"
+                />
         </LinearLayout>
     </ScrollView>
 

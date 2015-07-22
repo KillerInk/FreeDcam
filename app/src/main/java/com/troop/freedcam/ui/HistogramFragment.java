@@ -68,9 +68,12 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     {
         view = inflater.inflate(R.layout.histogram_fragment, container, false);
         ll = (LinearLayout)view.findViewById(R.id.histoOverlay);
-        histogram = new MyHistogram(container.getContext());
-        ll.addView(histogram);
-        fragmentloaded = true;
+        if (container.getContext() != null) {
+
+            histogram = new MyHistogram(container.getContext());
+            ll.addView(histogram);
+            fragmentloaded = true;
+        }
         return view;
     }
 

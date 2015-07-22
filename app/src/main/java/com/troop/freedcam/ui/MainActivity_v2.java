@@ -550,13 +550,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
-    public void onPreviewOpen(String message) {
-
+    public void onPreviewOpen(String message)
+    {
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals(StringUtils.ON) )
+            ShowHistogram(true);
     }
 
     @Override
     public void onPreviewClose(String message) {
-
+        ShowHistogram(false);
     }
 
     @Override

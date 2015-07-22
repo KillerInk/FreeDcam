@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.parameters.ApiParameter;
+import com.troop.freedcam.i_camera.parameters.HistogramParameter;
 import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -35,6 +36,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemOrientationHack orientationHack;
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
+    troop.com.themesample.views.menu.MenuItem histogram;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -97,6 +99,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         jpegQuality.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
         jpegQuality.SetMenuItemListner(this);
+
+        histogram = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHistogram);
+        histogram.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_HISTOGRAM);
+        histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
+        histogram.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
