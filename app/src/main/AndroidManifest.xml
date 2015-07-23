@@ -88,6 +88,23 @@
 
         </activity>
 
+        <activity
+            android:name="troop.com.imageviewer.ImageViewerActivity"
+            android:label="FreeDCam ImageViewer"
+
+            android:icon="@drawable/ic_launcher"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
+            android:screenOrientation="landscape"
+            android:clearTaskOnLaunch="false"
+            android:excludeFromRecents="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+
 
 
     </application>
