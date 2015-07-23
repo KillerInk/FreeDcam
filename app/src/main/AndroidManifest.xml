@@ -90,7 +90,7 @@
 
         <activity
             android:name="troop.com.imageviewer.ImageViewerActivity"
-            android:label="FreeDCam ImageViewer"
+            android:label="FreeDCam Viewer"
 
             android:icon="@drawable/ic_launcher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"

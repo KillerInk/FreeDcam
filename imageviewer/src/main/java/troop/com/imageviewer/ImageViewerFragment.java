@@ -82,9 +82,13 @@ public class ImageViewerFragment extends Fragment
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                i_activity.loadCameraUiFragment();
+            public void onClick(View v)
+            {
+                if (i_activity != null)
+                    i_activity.loadCameraUiFragment();
                 stopThread();
+                if (i_activity == null)
+                    getActivity().finish();
             }
         });
         myHistogram = new MyHistogram(container.getContext());
