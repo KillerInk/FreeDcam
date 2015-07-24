@@ -30,7 +30,8 @@
         android:background="@drawable/focusclose"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/shuttericon_size" />
+        android:layout_above="@+id/shutter_button"
+        android:layout_marginRight="@dimen/uiSettingsWidth" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -260,5 +261,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/cameraui_values_fragment_holder"
         android:layout_centerInParent="true"></FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/uiSettingsWidth"
+        android:layout_marginRight="@dimen/shuttericon_size"
+        android:id="@+id/manualModesHolder"></FrameLayout>
 
 </RelativeLayout>
