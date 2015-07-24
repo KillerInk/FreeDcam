@@ -140,6 +140,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         if (parameter != null && parameter.IsSupported())
         {
+            if (settingsname != null || settingsname.equals(""))
+                appSettingsManager.setString(settingsname, value);
             parameter.SetValue(value, true);
             onValueChanged(value);
         }
