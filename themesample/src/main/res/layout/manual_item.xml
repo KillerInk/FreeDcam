@@ -41,7 +41,8 @@
                 android:textStyle="bold"
                 android:textColor="@color/menuTextColor"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp" />
+                android:layout_marginBottom="2dp"
+                android:textSize="@dimen/infoOverlayTextSize" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +50,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="1/2000"
                 android:id="@+id/textView_mvalue"
-                android:textColor="@color/menuTextColor" />
+                android:textColor="@color/menuTextColor"
+                android:textSize="@dimen/infoOverlayTextSize" />
         </LinearLayout>
     </LinearLayout>
 

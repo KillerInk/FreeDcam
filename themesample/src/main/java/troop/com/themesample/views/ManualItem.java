@@ -98,6 +98,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 setSeekbar_Min_Max(parameter.GetMinValue(), parameter.GetMaxValue());
                 setSeekbarProgress(parameter.GetValue());
             }
+            else
+                onIsSupportedChanged(false);
         }
         else
             onIsSupportedChanged(false);
