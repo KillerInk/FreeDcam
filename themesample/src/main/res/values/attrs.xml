@@ -9,7 +9,6 @@
         <attr name="Description" format="string"/>
     </declare-styleable>
     <declare-styleable name="ManualItem">
-        <attr name="manual_HeaderText" format="string"/>
-        <attr name="manual_ValueText" format="string"/>
+        <attr name="Header" format="string"/>
     </declare-styleable>
 </resources>

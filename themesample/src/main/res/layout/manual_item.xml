@@ -17,7 +17,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/vertical_seekbar"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:progress="50"
+                android:max="100" />
         </FrameLayout>
 
         <LinearLayout
@@ -35,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="TEST"
-                android:id="@+id/textView_header"
+                android:id="@+id/textView_mheader"
                 android:textStyle="bold"
                 android:textColor="@color/menuTextColor"
                 android:layout_marginTop="2dp"
@@ -46,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="1/2000"
-                android:id="@+id/textView_value"
+                android:id="@+id/textView_mvalue"
                 android:textColor="@color/menuTextColor" />
         </LinearLayout>
     </LinearLayout>

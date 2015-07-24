@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/manual_contrast"
-        app:manual_HeaderText="Contrast "
-        app:manual_ValueText="100"
+        app:Header="Contrast "
+
         />
 </LinearLayout>

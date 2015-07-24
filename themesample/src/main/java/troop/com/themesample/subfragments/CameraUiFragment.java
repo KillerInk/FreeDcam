@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -64,6 +65,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     ImageView SettingsButton;
     LinearLayout left_cameraUI_holder;
     RelativeLayout right_camerUI_holder;
+    ManualModesFragment manualModesFragment;
+    FrameLayout manualModes_holder;
     boolean settingsIsOpen = true;
     final int animationTime = 500;
 
@@ -112,7 +115,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
         night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
-        thumbView.INIT(i_activity,abstractCameraUiWrapper);
+        thumbView.INIT(i_activity, abstractCameraUiWrapper);
         modeSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
@@ -122,6 +125,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         format.SetParameter(abstractCameraUiWrapper.camParametersHandler.PictureFormat);
 
         contShot.SetParameter(abstractCameraUiWrapper.camParametersHandler.ContShootMode);
+        if (manualModesFragment != null)
+            manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
     }
 
     @Override
@@ -130,6 +135,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
+        this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         this.SettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
         SettingsButton.setOnClickListener(settingsButtonClick);
         this.menu = (UiSettingsMenu)view.findViewById(R.id.menu);
@@ -150,7 +156,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
         focus.SetMenuItemListner(this);
         this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
-        contShot.SetStuff(i_activity,appSettingsManager, null);
+        contShot.SetStuff(i_activity, appSettingsManager, null);
         contShot.SetMenuItemListner(this);
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
@@ -173,6 +179,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         touchHandler = new SwipeMenuListner(this);
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
+
 
 
         setWrapper();
@@ -265,6 +272,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
             }
         }).start();
+
+        manualModesFragment = new ManualModesFragment();
+        manualModesFragment.SetStuff(appSettingsManager, i_activity);
+        manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.manualModesHolder, manualModesFragment);
+        transaction.commit();
     }
 
     private void showSettings()
@@ -278,6 +292,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         right_camerUI_holder.setAlpha(0F);
         right_camerUI_holder.setVisibility(View.VISIBLE);
         right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
+
+        manualModes_holder.setVisibility(View.GONE);
+
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(manualModesFragment);
+        transaction.commit();
     }
 
 

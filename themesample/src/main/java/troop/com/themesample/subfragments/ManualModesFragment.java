@@ -20,21 +20,36 @@ import troop.com.themesample.views.ManualItem;
  */
 public class ManualModesFragment extends AbstractFragment implements I_ParametersLoaded
 {
-
     ManualItem contrast;
+    //Holds the Fragment Status if its loaded
+    boolean isLoaded = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.manual_modes_fragment, container, false);
-        contrast = (ManualItem)view.findViewById(R.id.manual_contrast);
 
+        contrast = (ManualItem)view.findViewById(R.id.manual_contrast);
+        contrast.SetStuff(appSettingsManager, AppSettingsManager.MCONTRAST);
+
+        if (wrapper != null)
+            setWrapper();
+        this.isLoaded = true;
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
         super.SetCameraUIWrapper(wrapper);
         wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
+
     }
 
     @Override
@@ -44,6 +59,12 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
 
     @Override
     public void ParametersLoaded() {
+        if (wrapper != null)
+            setWrapper();
+    }
 
+    private void setWrapper()
+    {
+        contrast.SetAbstractManualParameter(wrapper.camParametersHandler.ManualContrast);
     }
 }

@@ -5,14 +5,13 @@ import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
-import com.troop.freedcam.i_camera.parameters.I_ManualParameter;
-import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
@@ -26,8 +25,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     AppSettingsManager appSettingsManager;
     String settingsname;
     VerticalSeekBar seekBar;
-    TextView header;
-    TextView value;
+    TextView headerTextView;
+    TextView valueTextView;
 
     String[] parameterValues;
 
@@ -55,8 +54,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         //try to set the attributs
         try
         {
-            header.setText(a.getText(R.styleable.ManualItem_manual_HeaderText));
-            value.setText(a.getText(R.styleable.ManualItem_manual_ValueText));
+            headerTextView.setText(a.getText(R.styleable.ManualItem_Header));
+
         }
         finally {
             a.recycle();
@@ -73,8 +72,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_item, this);
         this.seekBar = (VerticalSeekBar)findViewById(R.id.vertical_seekbar);
-        this.header = (TextView)findViewById(R.id.textView_header);
-        this.value = (TextView)findViewById(R.id.textView_value);
+        seekBar.setOnSeekBarChangeListener(this);
+        this.headerTextView = (TextView)findViewById(R.id.textView_mheader);
+        this.valueTextView = (TextView)findViewById(R.id.textView_mvalue);
 
         thread = new HandlerThread("seekbarThread");
         thread.start();
@@ -90,9 +90,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             {
                 String txt = parameter.GetStringValue();
                 if (txt != null && !txt.equals(""))
-                    value.setText(txt);
+                    valueTextView.setText(txt);
                 else
-                    value.setText(parameter.GetValue());
+                    valueTextView.setText(parameter.GetValue()+"");
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
                 setSeekbar_Min_Max(parameter.GetMinValue(), parameter.GetMaxValue());
@@ -113,6 +113,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     @Override
     public void onIsSupportedChanged(boolean value)
     {
+        final String txt = headerTextView.getText().toString();
+        Log.d(txt, "isSupported:" + value);
         if (value)
             this.setVisibility(VISIBLE);
         else
@@ -151,9 +153,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     private void setTextValue(int current) {
         String txt = getStringValue(current);
         if (txt != null && !txt.equals(""))
-            value.setText(txt);
+            valueTextView.setText(txt);
         else
-            value.setText(current);
+            valueTextView.setText(current+"");
     }
 
     @Override
@@ -165,7 +167,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     @Override
     public void onCurrentStringValueChanged(String value)
     {
-        this.value.setText(value);
+        this.valueTextView.setText(value);
     }
 
 
