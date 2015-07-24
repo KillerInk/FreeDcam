@@ -95,7 +95,10 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                     valueTextView.setText(parameter.GetValue()+"");
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-                setSeekbar_Min_Max(parameter.GetMinValue(), parameter.GetMaxValue());
+                int min = parameter.GetMinValue();
+                int max = parameter.GetMaxValue();
+                if (max > 0)
+                    setSeekbar_Min_Max(min, max);
                 setSeekbarProgress(parameter.GetValue());
             }
             else
@@ -126,10 +129,14 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     @Override
     public void onIsSetSupportedChanged(boolean value)
     {
-        if (value)
+        if (value) {
             this.setEnabled(true);
-        else
+            seekBar.setVisibility(VISIBLE);
+        }
+        else {
             this.setEnabled(false);
+            seekBar.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -152,12 +159,19 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         }
     }
 
-    private void setTextValue(int current) {
-        String txt = getStringValue(current);
-        if (txt != null && !txt.equals(""))
-            valueTextView.setText(txt);
-        else
-            valueTextView.setText(current+"");
+    private void setTextValue(final int current)
+    {
+        valueTextView.post(new Runnable() {
+            @Override
+            public void run() {
+                String txt = getStringValue(current);
+                if (txt != null && !txt.equals(""))
+                    valueTextView.setText(txt);
+                else
+                    valueTextView.setText(current+"");
+            }
+        });
+
     }
 
     @Override
@@ -179,7 +193,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             parameterValues = parameter.getStringValues();
         if (parameterValues != null && parameterValues.length > 0)
         {
-            return parameterValues[pos];
+            return parameterValues[pos-1];
         }
         else if (parameterValues == null)
             return parameter.GetStringValue();
@@ -200,21 +214,20 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, boolean fromUser) {
-        if (fromUser && parameter != null)
+        if (userIsSeeking && parameter != null)
         {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        setValueToParameters(seekBar.getProgress());
-                    }
-                });
-
-
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    setValueToParameters(progress);
+                }
+            });
             if (realMin < 0)
                 setTextValue(progress + realMin);
             else
                 setTextValue(progress);
         }
+
     }
 
     @Override

@@ -85,8 +85,10 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         {
             getStringValues();
         }
-
-        return values.length -1;
+        if (values != null && values.length > 0)
+            return values.length -1;
+        else
+            return 0;
     }
 
     public String[] getStringValues()
@@ -144,12 +146,15 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         if (values == null)
                             getStringValues();
                         value = res;
+                        if (values == null)
+                            return;
                         for (int i = 0; i < values.length; i++) {
                             if (values[i].equals(res)) {
                                 val = i;
                                 break;
                             }
                         }
+                        currentValueChanged(val);
                     } catch (IOException e) {
                         e.printStackTrace();
                         val = 0;
@@ -159,16 +164,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     }
                 }
             }).start();
-            int count = 0;
-            while (val == -1)
-                try {
-                    Thread.sleep(100);
-                    count++;
-                    if (count == 20)
-                        break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
         }
         return val;
     }
