@@ -273,12 +273,15 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             }
         }).start();
 
+
         manualModesFragment = new ManualModesFragment();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
+
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commit();
+
     }
 
     private void showSettings()
@@ -292,8 +295,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         right_camerUI_holder.setAlpha(0F);
         right_camerUI_holder.setVisibility(View.VISIBLE);
         right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
-
-        manualModes_holder.setVisibility(View.GONE);
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.remove(manualModesFragment);

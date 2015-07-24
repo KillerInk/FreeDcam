@@ -4,102 +4,131 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/manual_contrast"
-        app:Header="Contrast"
+        android:id="@+id/horizontalScrollView"
+        android:layout_gravity="center_horizontal">
 
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_burst"
-        app:Header="Burst"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_brightness"
-        app:Header="Brightness"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_cct"
-        app:Header="CCT"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_convergence"
-        app:Header="Converge.."
-        />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
 
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_exposure"
-        app:Header="Exposure"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_fx"
-        app:Header="FX"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_mf"
-        app:Header="MF"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_saturation"
-        app:Header="Saturation"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_sharpness"
-        app:Header="Sharpness"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_shutter"
-        app:Header="Shutter"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_iso"
-        app:Header="ISO"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_zoom"
-        app:Header="Zoom"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_aperture"
-        app:Header="Aperture"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_skintone"
-        app:Header="Skintone"
-        />
-    <troop.com.themesample.views.ManualItem
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/manual_program_shift"
-        app:Header="ProgramShift"
-        />
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_contrast"
+                app:Header="Contrast"
+
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_burst"
+                app:Header="Burst"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_brightness"
+                app:Header="Brightness"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_cct"
+                app:Header="CCT"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_convergence"
+                app:Header="Converge.."
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_exposure"
+                app:Header="Exposure"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_fx"
+                app:Header="FX"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_mf"
+                app:Header="MF"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_saturation"
+                app:Header="Saturation"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_sharpness"
+                app:Header="Sharpness"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_shutter"
+                app:Header="Shutter"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_iso"
+                app:Header="ISO"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_zoom"
+                app:Header="Zoom"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_aperture"
+                app:Header="Aperture"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_skintone"
+                app:Header="Skintone"
+                />
+
+            <troop.com.themesample.views.ManualItem
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/manual_program_shift"
+                app:Header="ProgramShift"
+                />
+        </LinearLayout>
+    </HorizontalScrollView>
 </LinearLayout>
