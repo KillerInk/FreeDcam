@@ -25,6 +25,14 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
+    boolean LOGGING = false;
+
+    private void sendLog(String msg)
+    {
+        if (LOGGING)
+            Log.d(TAG, msg);
+    }
+
     /**
      * A listener interface to receive these changes. These methods will be
      * called by UI thread.
@@ -226,12 +234,12 @@ public class SimpleCameraEventObserver {
      */
     public boolean start() {
         if (!mIsActive) {
-            Log.w(TAG, "start() observer is not active.");
+            sendLog("start() observer is not active.");
             return false;
         }
 
         if (mWhileEventMonitoring) {
-            Log.w(TAG, "start() already starting.");
+            sendLog("start() already starting.");
             return false;
         }
 
@@ -240,7 +248,7 @@ public class SimpleCameraEventObserver {
 
             @Override
             public void run() {
-                Log.d(TAG, "start() exec.");
+                sendLog("start() exec.");
                 // Call getEvent API continuously.
                 boolean firstCall = true;
                 MONITORLOOP: while (mWhileEventMonitoring) {
@@ -263,7 +271,7 @@ public class SimpleCameraEventObserver {
 
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
-                        Log.d(TAG, "getEvent errorCode: " + errorCode);
+                        sendLog("getEvent errorCode: " + errorCode);
                         switch (errorCode) {
                             case 0: // no error
                                 // Pass through.
@@ -283,7 +291,7 @@ public class SimpleCameraEventObserver {
                                 }
                                 continue MONITORLOOP;
                             default:
-                                Log.w(TAG, "SimpleCameraEventObserver: Unexpected error: "
+                                sendLog("SimpleCameraEventObserver: Unexpected error: "
                                         + errorCode);
                                 break MONITORLOOP; // end monitoring.
                         }
@@ -292,11 +300,11 @@ public class SimpleCameraEventObserver {
 
                     } catch (IOException e) {
                         // Occurs when the server is not available now.
-                        Log.d(TAG, "getEvent timeout by client trigger.");
+                        sendLog("getEvent timeout by client trigger.");
                         fireTimeoutListener();
                         break MONITORLOOP;
                     } catch (JSONException e) {
-                        Log.w(TAG, "getEvent: JSON format error. " + e.getMessage());
+                        sendLog("getEvent: JSON format error. " + e.getMessage());
                         break MONITORLOOP;
                     }
 
@@ -320,7 +328,7 @@ public class SimpleCameraEventObserver {
 
         // CameraStatus
         String cameraStatus = JsonUtils.findCameraStatus(replyJson);
-        Log.d(TAG, "getEvent cameraStatus: " + cameraStatus);
+        sendLog("getEvent cameraStatus: " + cameraStatus);
         if (cameraStatus != null && !cameraStatus.equals(mCameraStatus)) {
             mCameraStatus = cameraStatus;
             fireCameraStatusChangeListener(cameraStatus);
@@ -328,7 +336,7 @@ public class SimpleCameraEventObserver {
 
         // LiveviewStatus
         Boolean liveviewStatus = JsonUtils.findLiveviewStatus(replyJson);
-        Log.d(TAG, "getEvent liveviewStatus: " + liveviewStatus);
+        sendLog("getEvent liveviewStatus: " + liveviewStatus);
         if (liveviewStatus != null && !liveviewStatus.equals(mLiveviewStatus)) {
             mLiveviewStatus = liveviewStatus;
             fireLiveviewStatusChangeListener(liveviewStatus);
@@ -339,7 +347,7 @@ public class SimpleCameraEventObserver {
 
         if (shootMode != null && !shootMode.equals(mShootMode)) {
             mShootMode = shootMode;
-            Log.d(TAG, "getEvent shootMode: " + shootMode);
+            sendLog("getEvent shootMode: " + shootMode);
             fireShootModeChangeListener(shootMode);
         }
 
@@ -348,7 +356,7 @@ public class SimpleCameraEventObserver {
 
         if (zoomPosition != -1) {
             mZoomPosition = zoomPosition;
-            Log.d(TAG, "getEvent zoomPosition: " + zoomPosition);
+            sendLog("getEvent zoomPosition: " + zoomPosition);
             fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
         }
 
@@ -356,7 +364,7 @@ public class SimpleCameraEventObserver {
 
         if (minexpo != -1 && minexpo != mExposureCompMin)
         {
-            Log.d(TAG, "getEvent minExposure: " + minexpo);
+            sendLog("getEvent minExposure: " + minexpo);
             mExposureCompMin = minexpo;
             fireExposurCompMinChangeListener(minexpo);
         }
@@ -364,7 +372,7 @@ public class SimpleCameraEventObserver {
 
         if (maxexpo != -1 && maxexpo != mExposureCompMax)
         {
-            Log.d(TAG, "getEvent maxExposure: " + maxexpo);
+            sendLog("getEvent maxExposure: " + maxexpo);
             mExposureCompMax = maxexpo;
             fireExposurCompMaxChangeListener(maxexpo);
         }
@@ -373,7 +381,7 @@ public class SimpleCameraEventObserver {
 
         if (cexpo != -1 && cexpo != mExposureComp)
         {
-            Log.d(TAG, "getEvent currentExposure: " + cexpo);
+            sendLog("getEvent currentExposure: " + cexpo);
             mExposureComp = cexpo;
             fireExposurCompChangeListener(cexpo);
         }
@@ -383,7 +391,7 @@ public class SimpleCameraEventObserver {
 
         if (storageId != null && !storageId.equals(mStorageId)) {
             mStorageId = storageId;
-            Log.d(TAG, "getEvent storageId:" + storageId);
+            sendLog("getEvent storageId:" + storageId);
             fireStorageIdChangeListener(storageId);
         }
 
@@ -397,17 +405,17 @@ public class SimpleCameraEventObserver {
         if (mflash != null && !mflash.equals("") && !mflash.equals(flash))
         {
             flash = mflash;
-            Log.d(TAG, "getEvent flash:" + flash);
+            sendLog("getEvent flash:" + flash);
             fireFlashChangeListener(flash);
         }
 
         String touchSuccess = JsonUtils.findStringInformation(replyJson, 34,"touchAFPosition", "currentSet");
-        Log.d(TAG, "got focus sucess:" +touchSuccess);
+        sendLog("got focus sucess:" + touchSuccess);
         /*String[] focusArea = JsonUtils.findStringArrayInformation(replyJson, 34, "touchAFPosition", "currentTouchCoordinates");
         Log.d(TAG, "got focus areas: " + focusArea.toString());*/
 
         String trackingFocusStatus = JsonUtils.findStringInformation(replyJson, 54, "trackingFocusStatus","trackingFocusStatus");
-        Log.d(TAG, "tracking focusstate: " + trackingFocusStatus);
+        sendLog("tracking focusstate: " + trackingFocusStatus);
         if (!trackingFocusStatus.equals(""))
         {
             if (trackingFocusStatus.equals("Tracking"))
@@ -425,13 +433,13 @@ public class SimpleCameraEventObserver {
                 fireFocusLockedChangeListener(true);
 
         }
-        Log.d(TAG, "focusstate: " + focusStatus);
+        sendLog("focusstate: " + focusStatus);
 
         String wbval = JsonUtils.findStringInformation(replyJson,33, "whiteBalance", "currentWhiteBalanceMode");
         if (!wbval.equals(""))
         {
             fireWbChangeListener(wbval);
-            Log.d(TAG, "WB mode: " + wbval);
+            sendLog("WB mode: " + wbval);
         }
 
         processContShootImage(replyJson);
@@ -508,7 +516,7 @@ public class SimpleCameraEventObserver {
         if (shutterv != null && !shutterv.equals("") && !shutterv.equals(shutter))
         {
             shutter = shutterv;
-            Log.d(TAG, "getEvent shutter:" + shutter);
+            sendLog("getEvent shutter:" + shutter);
             fireShutterSpeedChangeListener(shutter);
         }
     }
@@ -518,7 +526,7 @@ public class SimpleCameraEventObserver {
 
         if (fnumbervals != null && !fnumbervals.equals(mFnumbervals) && fnumbervals.length > 0)
         {
-            Log.d(TAG, "getEvent fnumber vals: " + fnumbervals.length);
+            sendLog("getEvent fnumber vals: " + fnumbervals.length);
             mFnumbervals = fnumbervals;
             fireFnumberValuesChangeListener(mFnumbervals);
         }
@@ -528,7 +536,7 @@ public class SimpleCameraEventObserver {
         if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber))
         {
             fnumber = fnumberv;
-            Log.d(TAG, "getEvent fnumber:" + fnumber);
+            sendLog("getEvent fnumber:" + fnumber);
             fireFNumberChangeListener(fnumber);
         }
     }
@@ -539,7 +547,7 @@ public class SimpleCameraEventObserver {
         if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
         {
             mIsovals = isovals;
-            Log.d(TAG, "getEvent isovalues: " + isovals);
+            sendLog("getEvent isovalues: " + isovals);
             fireIsoValuesChangeListener(mIsovals);
         }
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
@@ -548,7 +556,7 @@ public class SimpleCameraEventObserver {
         {
 
             iso = isoval;
-            Log.d(TAG, "getEvent isoVal:" + iso);
+            sendLog( "getEvent isoVal:" + iso);
             fireIsoChangeListener(iso);
         }
     }
