@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
@@ -116,27 +117,39 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value)
+    public void onIsSupportedChanged(final boolean value)
     {
-        final String txt = headerTextView.getText().toString();
-        Log.d(txt, "isSupported:" + value);
-        if (value)
-            this.setVisibility(VISIBLE);
-        else
-            this.setVisibility(GONE);
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                final String txt = headerTextView.getText().toString();
+                Log.d(txt, "isSupported:" + value);
+                if (value)
+                    ManualItem.this.setVisibility(VISIBLE);
+                else
+                    ManualItem.this.setVisibility(GONE);
+            }
+        });
+
     }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value)
+    public void onIsSetSupportedChanged(final boolean value)
     {
-        if (value) {
-            this.setEnabled(true);
-            seekBar.setVisibility(VISIBLE);
-        }
-        else {
-            this.setEnabled(false);
-            seekBar.setVisibility(GONE);
-        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if (value) {
+                    ManualItem.this.setEnabled(true);
+                    seekBar.setVisibility(VISIBLE);
+                }
+                else {
+                    ManualItem.this.setEnabled(false);
+                    seekBar.setVisibility(GONE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -174,6 +187,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onValuesChanged(String[] values)
     {
         this.parameterValues = values;
+        setSeekbar_Min_Max(0, parameterValues.length -1);
     }
 
     @Override
@@ -195,7 +209,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         if (parameterValues != null && parameterValues.length > 0)
         {
             if (pos > parameterValues.length)
-                return parameterValues[parameterValues.length];
+                return parameterValues[parameterValues.length-1];
             else if (pos < 0)
                 return parameterValues[0];
             else
@@ -223,7 +237,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
         if (userIsSeeking && parameter != null)
         {
-            handler.post(new Runnable() {
+            if (!(parameter instanceof BaseManualParameterSony))
+                handler.post(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -244,8 +259,16 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+    public void onStopTrackingTouch(final SeekBar seekBar) {
         userIsSeeking = false;
+        if (parameter instanceof BaseManualParameterSony)
+            handler.post(new Runnable() {
+                @Override
+                public void run()
+                {
+                    setValueToParameters(seekBar.getProgress());
+                }
+            });
     }
 
     private void setSeekbarProgress(int value)

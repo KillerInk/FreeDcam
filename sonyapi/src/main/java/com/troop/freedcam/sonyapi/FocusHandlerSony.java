@@ -36,6 +36,8 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
+        if (parametersHandler == null)
+            return;
         if (parametersHandler.ObjectTracking.GetValue().equals("On"))
         {
 

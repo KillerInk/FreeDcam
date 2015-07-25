@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
@@ -33,12 +34,15 @@ public class SonyCameraFragment extends AbstractCameraFragment
     private SimpleSsdpClient mSsdpClient;
     ServerDevice serverDevice;
     CameraUiWrapperSony wrapperSony;
-    String confnet;
+
     TextView textView_wifi;
     private final int IDEL = 0;
     private final int WAITING_FOR_SCANRESULT = 1;
     private final int WAITING_FOR_DEVICECONNECTION = 2;
     private int STATE = IDEL;
+
+    String[] configuredNetworks = null;
+    String deviceNetworkToConnect;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +57,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
         hideTextViewWifi(true);
-        getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION));
-        getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        connect();
+
 
         return view;
     }
@@ -119,44 +121,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
     }
 
     //WIFI STUFF START
-    class WifiScanReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-            if (STATE == WAITING_FOR_SCANRESULT)
-            {
-                STATE = IDEL;
-                if (confnet == null || confnet.equals(""))
-                    return;
-                String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
-                String foundnet = "";
-                for (String s : foundNetWorks) {
-                    if (confnet.equals(s)) {
-                        foundnet = s;
-                        break;
-                    }
-                }
-                if (foundnet.equals("")) {
-                    setTextFromWifi("Cant find Sony Camera WifiNetwork, Camera turned On?");
-                    return;
-                }
-                STATE = WAITING_FOR_DEVICECONNECTION;
-                wifiUtils.ConnectToSSID(foundnet);
-            }
-        }
-    }
 
-    class WifiConnectedReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-            if (STATE == WAITING_FOR_DEVICECONNECTION)
-            {
-                STATE = IDEL;
-                searchSsdpClient();
-            }
-        }
-    }
 
     private void searchSsdpClient()
     {
@@ -195,27 +160,47 @@ public class SonyCameraFragment extends AbstractCameraFragment
     public void onResume()
     {
         super.onResume();
+        getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        getConfiguredNetworks();
+        lookupAvailNetworks();
 
-
-
+        //connect();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
         getActivity().unregisterReceiver(wifiReciever);
         getActivity().unregisterReceiver(wifiConnectedReceiver);
     }
 
-    private void connect()
+    private void getConfiguredNetworks()
     {
+        try {
+            configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
+        }
+        catch (Exception ex) {
+            setTextFromWifi("Wifi disabled");
+        }
+        deviceNetworkToConnect = "";
+        for (String s : configuredNetworks)
+        {
+            if (s.contains("DIRECT"))
+            {
+                deviceNetworkToConnect = s;
+                Log.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
+                break;
+            }
+        }
+        if (deviceNetworkToConnect.equals("")) {
+            setTextFromWifi("No Sony Camera Device Configured in WifiSettings");
+        }
+    }
+
+    private void lookupAvailNetworks()
+    {
+        Log.d("Wifi", "Lookup networks:");
         String wifis = null;
         try {
             setTextFromWifi("Looking up WifiNetworks");
@@ -233,33 +218,75 @@ public class SonyCameraFragment extends AbstractCameraFragment
         }
         if (!wifis.contains("DIRECT"))
         {
-            String[] configuredNetworks = null;
-            try {
-                configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
-            }
-            catch (Exception ex) {
-                setTextFromWifi("Wifi disabled");
-                return;
-            }
+            STATE = WAITING_FOR_SCANRESULT;
+            Log.d("Wifi", "No DIRECT network found start scan:");
+            wifiUtils.StartScan();
+        }
+        else {
+            Log.d("Wifi", "Connect to:" + deviceNetworkToConnect);
+            STATE = IDEL;
+            searchSsdpClient();
+        }
+    }
 
-            confnet = "";
-            for (String s : configuredNetworks)
+    class WifiScanReceiver extends BroadcastReceiver
+    {
+        public void onReceive(Context c, Intent intent)
+        {
+            Log.d("Wifi", "WifiScanReceiver");
+            if (STATE == WAITING_FOR_SCANRESULT)
             {
-                if (s.contains("DIRECT"))
-                {
-                    confnet = s;
-                    break;
+                STATE = IDEL;
+                if (deviceNetworkToConnect == null || deviceNetworkToConnect.equals(""))
+                    return;
+                String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
+                String foundnet = "";
+                for (String s : foundNetWorks) {
+                    if (deviceNetworkToConnect.equals(s)) {
+                        foundnet = s;
+                        break;
+                    }
+                }
+                if (foundnet.equals("")) {
+                    setTextFromWifi("Cant find Sony Camera WifiNetwork, Camera turned On?");
+                    Log.d("Wifi", "WifiScanReceiver no device to connect found lookupnetworks");
+                    lookupAvailNetworks();
+                }
+                else {
+                    STATE = WAITING_FOR_DEVICECONNECTION;
+                    Log.d("Wifi", "WifiScanReceiver found device connect to it");
+                    if (!wifiUtils.ConnectToSSID(foundnet))
+                    {
+                        Log.d("Wifi", "Connect to device failed");
+                        STATE = WAITING_FOR_SCANRESULT;
+                        wifiUtils.StartScan();
+                    }
+                    else
+                    {
+                        STATE = IDEL;
+                        searchSsdpClient();
+                    }
                 }
             }
-            if (confnet.equals("")) {
-                setTextFromWifi("No Sony Camera Device Configured in WifiSettings");
-                return;
+            else if (STATE == IDEL && wifiUtils.getWifiConnected())
+            {
+                STATE = IDEL;
+                searchSsdpClient();
             }
-            STATE = WAITING_FOR_SCANRESULT;
-            wifiUtils.StartScan();
-
         }
-        else
-            searchSsdpClient();
     }
+
+    class WifiConnectedReceiver extends BroadcastReceiver
+    {
+        public void onReceive(Context c, Intent intent)
+        {
+            if (STATE == WAITING_FOR_DEVICECONNECTION && wifiUtils.getWifiConnected())
+            {
+                STATE = IDEL;
+                searchSsdpClient();
+            }
+        }
+    }
+
+
 }
