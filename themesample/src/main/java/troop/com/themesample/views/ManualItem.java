@@ -153,10 +153,6 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onCurrentValueChanged(int current)
     {
         setTextValue(current);
-        if (!userIsSeeking)
-        {
-            setSeekbarProgress(current);
-        }
     }
 
     private void setTextValue(final int current)
@@ -165,7 +161,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             @Override
             public void run() {
                 String txt = getStringValue(current);
-                if (txt != null && !txt.equals(""))
+                if (txt != null && !txt.equals("") && !txt.equals("null"))
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(current+"");
@@ -193,7 +189,12 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             parameterValues = parameter.getStringValues();
         if (parameterValues != null && parameterValues.length > 0)
         {
-            return parameterValues[pos-1];
+            if (pos > parameterValues.length)
+                return parameterValues[parameterValues.length];
+            else if (pos < 0)
+                return parameterValues[0];
+            else
+                return parameterValues[pos];
         }
         else if (parameterValues == null)
             return parameter.GetStringValue();
@@ -214,12 +215,15 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, boolean fromUser) {
+        Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
         if (userIsSeeking && parameter != null)
         {
             handler.post(new Runnable() {
                 @Override
-                public void run() {
-                    setValueToParameters(progress);
+                public void run()
+                {
+                    if (parameterValues != null && parameterValues.length <= progress && progress >= 0)
+                        setValueToParameters(progress);
                 }
             });
             if (realMin < 0)

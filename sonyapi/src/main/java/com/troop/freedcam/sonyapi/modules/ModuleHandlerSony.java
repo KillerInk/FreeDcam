@@ -51,6 +51,8 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
         if (mode.equals("still"))
         {
             currentModule = moduleList.get(MODULE_PICTURE);
+            if (currentModule == null || moduleEventHandler == null)
+                return;
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetWorkerListner(workerListner);
         }
