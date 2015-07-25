@@ -177,9 +177,14 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     }
 
     @Override
-    public void onCurrentStringValueChanged(String value)
+    public void onCurrentStringValueChanged(final String value)
     {
-        this.valueTextView.setText(value);
+        valueTextView.post(new Runnable() {
+            @Override
+            public void run() {
+                valueTextView.setText(value);
+            }
+        });
     }
 
 
@@ -222,8 +227,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 @Override
                 public void run()
                 {
-                    if (parameterValues != null && parameterValues.length <= progress && progress >= 0)
-                        setValueToParameters(progress);
+                    setValueToParameters(progress);
                 }
             });
             if (realMin < 0)
