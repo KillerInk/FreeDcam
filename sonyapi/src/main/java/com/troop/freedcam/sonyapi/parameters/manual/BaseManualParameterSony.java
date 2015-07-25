@@ -202,17 +202,18 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     public String GetStringValue()
     {
+        if (value == null || value.equals("")) {
+            if (this.values == null) {
+                this.values = getStringValues();
 
-        if (this.values == null) {
-            this.values = getStringValues();
-
-        }
-        if (values != null && values.length > 0 && val < values.length) {
-            if (val == -200)
-                GetValue();
-            if (val == -1)
-                return value;
-            return values[val];
+            }
+            if (values != null && values.length > 0 && val < values.length) {
+                if (val == -200)
+                    GetValue();
+                if (val == -1)
+                    return value;
+                return values[val];
+            }
         }
         return value;
 

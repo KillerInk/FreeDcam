@@ -43,11 +43,19 @@ public class VerticalSeekBar extends SeekBar
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
 
+    @Override
     protected void onDraw(Canvas c) {
         c.rotate(-90);
-        c.translate(-getHeight(),0);
+        c.translate(-getHeight(), 0);
 
         super.onDraw(c);
+    }
+
+    @Override
+    public synchronized void setProgress(int progress) {
+        super.setProgress(progress);
+        if (listner != null)
+            listner.onProgressChanged(this, progress, false);
     }
 
     @Override
@@ -63,8 +71,12 @@ public class VerticalSeekBar extends SeekBar
                     listner.onStartTrackingTouch(this);
                 break;
             case MotionEvent.ACTION_MOVE:
-                int i=0;
-                i=getMax() - (int) (getMax() * event.getY() / getHeight());
+                int i=getMax() - (int) (getMax() * event.getY() / getHeight());
+                if (event.getY() >= getItemPos() + itemlength()/2)
+                    i++;
+                if (event.getY() < getItemPos() + itemlength()/2)
+                    i--;
+
                 if (i != lastcurrent) {
                     setProgress(i);
                     listner.onProgressChanged(this, i, true);
@@ -84,5 +96,15 @@ public class VerticalSeekBar extends SeekBar
                 break;
         }
         return true;
+    }
+
+    private int itemlength()
+    {
+        return getHeight()/getMax();
+    }
+
+    private int getItemPos()
+    {
+        return itemlength() * getProgress();
     }
 }

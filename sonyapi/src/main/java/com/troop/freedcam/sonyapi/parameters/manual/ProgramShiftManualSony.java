@@ -18,8 +18,8 @@ import java.util.Set;
 public class ProgramShiftManualSony extends BaseManualParameterSony
 {
     final String TAG = ProgramShiftManualSony.class.getSimpleName();
-    int min =0;
-    int max =0;
+    int min =-1000;
+    int max =-1000;
     public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
@@ -45,18 +45,30 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     @Override
     public int GetMinValue()
     {
+        if (min == -1000)
+            getminmax();
         return min;
     }
 
     @Override
-    public int GetMaxValue() {
+    public int GetMaxValue()
+    {
+        if (max == -1000)
+            getminmax();
         return max;
     }
 
     @Override
     public String[] getStringValues()
     {
-        if (isSupported && isSetSupported && (values == null || values.length == 0))
+        //getminmax();
+        Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
+        return null;
+
+    }
+
+    private void getminmax() {
+        if (isSupported && isSetSupported)
         {
             new Thread(new Runnable()
             {
@@ -91,9 +103,6 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 }
             }).start();
         }
-        Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
-        return values;
-
     }
 
     @Override

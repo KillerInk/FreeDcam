@@ -31,6 +31,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     String[] parameterValues;
 
+
     int realMin;
     int realMax;
     boolean userIsSeeking= false;
@@ -100,6 +101,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 int max = parameter.GetMaxValue();
                 if (max > 0)
                     setSeekbar_Min_Max(min, max);
+                else if (parameter.getStringValues() != null)
+                    setSeekbar_Min_Max(0, parameter.getStringValues().length-1);
                 setSeekbarProgress(parameter.GetValue());
             }
             else
@@ -153,19 +156,24 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     }
 
     @Override
-    public void onMaxValueChanged(int max) {
-
+    public void onMaxValueChanged(int max)
+    {
+        realMax = max;
+        setSeekbar_Min_Max(realMin, realMax);
     }
 
     @Override
     public void onMinValueChanged(int min) {
-
+        realMin = min;
+        setSeekbar_Min_Max(realMin, realMax);
     }
 
     @Override
     public void onCurrentValueChanged(int current)
     {
         setTextValue(current);
+        if (!userIsSeeking)
+            setSeekbarProgress(current);
     }
 
     private void setTextValue(final int current)
