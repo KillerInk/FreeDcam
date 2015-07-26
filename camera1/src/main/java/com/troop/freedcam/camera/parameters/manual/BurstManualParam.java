@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class BurstManualParam extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
-    int curr = 1;
+    int curr = 0;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
@@ -47,7 +47,7 @@ public class BurstManualParam extends BaseManualParameter {
 
     @Override
     public int GetMinValue() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -60,8 +60,13 @@ public class BurstManualParam extends BaseManualParameter {
     public void SetValue(int valueToSet)
     {
         curr = valueToSet;
-        parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
+        parameters.put("snapshot-burst-num", String.valueOf(valueToSet+1));
         camParametersHandler.SetParametersToCamera();
 
+    }
+
+    @Override
+    public String GetStringValue() {
+        return curr +1+"";
     }
 }
