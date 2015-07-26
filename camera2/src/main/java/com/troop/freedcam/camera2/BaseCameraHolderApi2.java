@@ -98,7 +98,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     AppSettingsManager Settings;
     public ColorSpaceTransform colorSpaceTransform;
 
-
+    public String picFormat;
+    public String picSize;
 
     /**
      * An {@link android.media.ImageReader} that handles still image capture.
@@ -211,15 +212,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             configureTransform(textureView.getWidth(), textureView.getHeight());
             surface = new Surface(texture);
 
-            String picformat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
-            if (picformat.equals("")) {
-                picformat = JPEG;
+            picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+            if (picFormat.equals("")) {
+                picFormat = JPEG;
                 Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, JPEG);
+
             }
-            if (picformat.equals(JPEG))
+            if (ParameterHandler != null && ParameterHandler.PictureFormat != null)
+                ParameterHandler.PictureFormat.BackgroundValueHasChanged(picFormat);
+            picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+            if (picFormat.equals(JPEG))
             {
 
-                String[] split = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+                String[] split = picSize.split("x");
                 int width, height;
                 if (split.length < 2)
                 {
@@ -231,18 +236,20 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     width = Integer.parseInt(split[0]);
                     height = Integer.parseInt(split[1]);
                 }
+                if (ParameterHandler != null && ParameterHandler.PictureSize !=null)
+                    ParameterHandler.PictureSize.BackgroundValueHasChanged(width+"x"+height);
                 //create new ImageReader with the size and format for the image
                 Log.d(TAG, "ImageReader JPEG");
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             }
-            else if (picformat.equals(RAW_SENSOR))
+            else if (picFormat.equals(RAW_SENSOR))
             {
                 Log.d(TAG, "ImageReader RAW_SENOSR");
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
 
             }
-            else if (picformat.equals(RAW10))
+            else if (picFormat.equals(RAW10))
             {
                 Log.d(TAG, "ImageReader RAW10");
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());

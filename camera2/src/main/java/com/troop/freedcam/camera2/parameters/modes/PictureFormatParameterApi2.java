@@ -31,6 +31,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
 
+        BackgroundValueHasChanged(valueToSet);
+        cameraHolder.picFormat = valueToSet;
         if (valueToSet.equals("jpeg"))
         {
 
@@ -55,7 +57,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public String GetValue() {
-        return "";
+        return cameraHolder.picFormat;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

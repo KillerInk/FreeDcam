@@ -25,7 +25,8 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        //super.SetValue(valueToSet, setToCamera);
+        BackgroundValueHasChanged(valueToSet);
+        cameraHolder.picSize = valueToSet;
         if (!firststart)
         {
             cameraHolder.StopPreview();
@@ -39,7 +40,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public String GetValue()
     {
 
-        return "";
+        return cameraHolder.picSize;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
