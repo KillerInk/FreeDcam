@@ -218,8 +218,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, JPEG);
 
             }
-            if (ParameterHandler != null && ParameterHandler.PictureFormat != null)
-                ParameterHandler.PictureFormat.BackgroundValueHasChanged(picFormat);
             picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
             if (picFormat.equals(JPEG))
             {
@@ -236,8 +234,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     width = Integer.parseInt(split[0]);
                     height = Integer.parseInt(split[1]);
                 }
-                if (ParameterHandler != null && ParameterHandler.PictureSize !=null)
-                    ParameterHandler.PictureSize.BackgroundValueHasChanged(width+"x"+height);
                 //create new ImageReader with the size and format for the image
                 Log.d(TAG, "ImageReader JPEG");
                 mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
