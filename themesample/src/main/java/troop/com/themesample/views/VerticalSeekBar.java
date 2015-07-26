@@ -72,12 +72,15 @@ public class VerticalSeekBar extends SeekBar
                 break;
             case MotionEvent.ACTION_MOVE:
                 int i=getMax() - (int) (getMax() * event.getY() / getHeight());
-                if (event.getY() >= getItemPos() + itemlength()/2)
+                /*if (event.getY() >= getItemPos() + itemlength()/2)
                     i++;
                 if (event.getY() < getItemPos() + itemlength()/2)
-                    i--;
+                    i--;*/
 
-                if (i != lastcurrent) {
+                if (i != lastcurrent)
+                {
+                    if(i<0)
+                        i=0;
                     setProgress(i);
                     listner.onProgressChanged(this, i, true);
                     lastcurrent = i;
