@@ -176,6 +176,7 @@ public class ShutterManualParameter extends BaseManualParameter
         else
         {
             parameters.put("exposure-time", valueToSet + "");
+            baseCameraHolder.SetCameraParameters(parameters);
         }
 
 

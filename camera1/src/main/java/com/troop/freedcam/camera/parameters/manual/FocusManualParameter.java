@@ -80,7 +80,7 @@ public class FocusManualParameter extends  BaseManualParameter
         int i = 0;
         try {
             if (value != null || !value.equals(""))
-                i = Integer.parseInt(parameters.get("manual-focus-position"));
+                i = Integer.parseInt(parameters.get(value));
             else if ((DeviceUtils.isLG_G3()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
             else if (DeviceUtils.isZTEADV())

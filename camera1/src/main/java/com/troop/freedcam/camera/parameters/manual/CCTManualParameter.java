@@ -17,7 +17,21 @@ public class CCTManualParameter extends BaseManualParameter {
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (parameters.containsKey("wb-cct"))
+        if (DeviceUtils.isOnePlusOne())
+        {
+            this.value = "wb-current-cct";
+            this.min_value = "min-wb-cct";
+            this.max_value = "max-wb-cct";
+            this.isSupported = true;
+        }
+        else if (DeviceUtils.isRedmiNote())
+        {
+            this.value = "wb-manual-cct";
+            this.max_value = "max-wb-cct";
+            this.min_value = "min-wb-cct";
+            this.isSupported = true;
+        }
+        else if (parameters.containsKey("wb-cct"))
         {
             this.value = "wb-cct";
             this.max_value = "max-wb-cct";
