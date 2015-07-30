@@ -45,29 +45,33 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        try {
-            if (max_value != null || !max_value.equals(""))
-                return Integer.parseInt(parameters.get(max_value));
-            else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
-                return 79;
+        if ( !DeviceUtils.isZTEADV()) {
+            try {
+                if (max_value != null || !max_value.equals("") && !DeviceUtils.isZTEADV())
+                    return Integer.parseInt(parameters.get(max_value));
+                else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
+                    return 79;
             /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
                 return parameters.getInt("max-focus-pos-index");*/
-            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-                return Integer.parseInt(parameters.get("max-focus"));
-            else return 0;
+                else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+                    return Integer.parseInt(parameters.get("max-focus"));
+                // else return 0;
+            } catch (Exception ex) {
+                Log.e(TAG, "get ManualFocus max value failed");
+            }
+            return 0;
         }
-        catch (Exception ex)
+        else
         {
-            Log.e(TAG, "get ManualFocus max value failed");
+            return 79;
         }
-        return 0;
     }
 // HTC Focus Step "focus-step"
     @Override
     public int GetMinValue() {
     	if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return Integer.parseInt(parameters.get("min-focus"));
-        if (value != null || !value.equals(""))
+       else if (value != null || !value.equals("") && !DeviceUtils.isZTEADV())
             return 0;
         /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
             return parameters.getInt("min-focus-pos-index");*/
@@ -78,8 +82,10 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetValue()
     {
         int i = 0;
+        if ( !DeviceUtils.isZTEADV())
+        {
         try {
-            if (value != null || !value.equals(""))
+            if (value != null || !value.equals("") && !DeviceUtils.isZTEADV())
                 i = Integer.parseInt(parameters.get(value));
             else if ((DeviceUtils.isLG_G3()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
                 i = Integer.parseInt(parameters.get("manualfocus_step"));
@@ -92,18 +98,21 @@ public class FocusManualParameter extends  BaseManualParameter
         {
             Log.e(TAG, "get ManualFocus value failed");
         }
+            return i;}
+        else
+        {
+            return -1;
+        }
 
-        return i;
+
+
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (value != null || !value.equals(""))
-        {
-            parameters.put(value, valueToSet+"");
-        }
-        else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+
+        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
             camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", valueToSet+"");
@@ -133,6 +142,10 @@ public class FocusManualParameter extends  BaseManualParameter
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
+        }
+        else  if (value != null || !value.equals("") && !DeviceUtils.isZTEADV())
+        {
+            parameters.put(value, valueToSet+"");
         }
         camParametersHandler.SetParametersToCamera();
 

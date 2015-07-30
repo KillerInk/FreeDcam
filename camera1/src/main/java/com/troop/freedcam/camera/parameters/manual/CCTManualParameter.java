@@ -24,7 +24,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.max_value = "max-wb-cct";
             this.isSupported = true;
         }
-        else if (DeviceUtils.isRedmiNote())
+        else if (DeviceUtils.isRedmiNote()  || DeviceUtils.isZTEADV())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";
@@ -44,7 +44,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.max_value = "max-wb-ct";
             this.min_value = "min-wb-ct";
             this.isSupported = true;
-        }
+        } //&& !DeviceUtils.isZTEADV()
         else if (parameters.containsKey("wb-manual-cct"))
         {
             this.value = "wb-manual-cct";
@@ -74,7 +74,12 @@ public class CCTManualParameter extends BaseManualParameter {
 //M8 Step values "wb-ct-step"
     @Override
     public int GetMinValue() {
-	    return Integer.parseInt(parameters.get(min_value));
+        if (DeviceUtils.isZTEADV())
+        {
+            return 2000;
+        }
+        else
+          return Integer.parseInt(parameters.get(min_value));
     }
 
     @Override
@@ -82,9 +87,9 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
-                i = -1;
-            else if (DeviceUtils.isLG_G3())
+           // if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
+           //     i = -1;
+             if (DeviceUtils.isLG_G3())
                 i = getCTReflection();
             else
                 i = Integer.parseInt(parameters.get(value));
