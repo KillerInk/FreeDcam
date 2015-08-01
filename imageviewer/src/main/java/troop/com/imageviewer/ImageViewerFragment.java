@@ -71,6 +71,7 @@ public class ImageViewerFragment extends Fragment
     LinearLayout ll;
     RelativeLayout ui_holder;
     private I_Activity i_activity;
+    static Bitmap currentImage;
 
 
     @Override
@@ -82,8 +83,7 @@ public class ImageViewerFragment extends Fragment
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (i_activity != null)
                     i_activity.loadCameraUiFragment();
                 stopThread();
@@ -154,17 +154,38 @@ public class ImageViewerFragment extends Fragment
         ui_holder = (RelativeLayout)view.findViewById(R.id.ui_holder);
 
 
-        loadFilePaths();
-        startThread();
-        current = files.length -1;
-        if (files.length > 0)
-            setBitmap(files[current]);
-        else
-        {
-            spinner.setVisibility(View.GONE);
-            filename.setText("No Files in FreeDcam Folder");
-        }
+
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try {
+            loadFilePaths();
+            startThread();
+            current = files.length -1;
+            if (files.length > 0)
+                setBitmap(files[current]);
+            else
+            {
+                spinner.setVisibility(View.GONE);
+                filename.setText("No Files in FreeDcam Folder");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.d(TAG, "WTF DOES THAT FUCKInG SHIT CRASH");
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (currentImage != null)
+            currentImage.recycle();
     }
 
     public void SetIActivity(I_Activity i_activity)
@@ -266,6 +287,11 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
+        if (currentImage != null) {
+            currentImage.recycle();
+            System.gc();
+
+        }
         fadeout();
         //imageView.setImageBitmap(null);
         filename.setText(file.getName());
@@ -289,13 +315,13 @@ public class ImageViewerFragment extends Fragment
                 public void run()
                 {
                     final int itemint = current;
-                    final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                    currentImage = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                     imageView.post(new Runnable() {
                         @Override
                         public void run()
                         {
                             if (itemint == current) {
-                                imageView.setImageBitmap(bitmap);
+                                imageView.setImageBitmap(currentImage);
                                 fadein();
                             }
                         }
@@ -317,16 +343,16 @@ public class ImageViewerFragment extends Fragment
                 public void run()
                 {
                     final int itemint = current;
-                    final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
-                    map.setHasAlpha(true);
+                    currentImage= RawUtils.UnPackRAW(file.getAbsolutePath());
+                    currentImage.setHasAlpha(true);
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
                             if (itemint == current)
                             {
                                 fadein();
-                                imageView.setImageBitmap(map);
-                                myHistogram.setBitmap(map, false);
+                                imageView.setImageBitmap(currentImage);
+                                myHistogram.setBitmap(currentImage, false);
                                 spinner.setVisibility(View.GONE);
                             }
                         }
@@ -389,7 +415,7 @@ public class ImageViewerFragment extends Fragment
         final int itemint = current;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = samplesize;
-        final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        currentImage = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         Log.d(TAG, "Bitmap loaded");
 
         //options =null;
@@ -400,8 +426,8 @@ public class ImageViewerFragment extends Fragment
                 if (itemint == current)
                 {
                     fadein();
-                    imageView.setImageBitmap(map);
-                    myHistogram.setBitmap(map, false);
+                    imageView.setImageBitmap(currentImage);
+                    myHistogram.setBitmap(currentImage, false);
                     //spinner.setVisibility(View.GONE);
 
                 }

@@ -42,6 +42,8 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     @Override
     public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
         super.SetStuff(i_activity, appSettingsManager, settingvalue);
+        if (appSettingsManager == null)
+            return;
         currentCamera = appSettingsManager.GetCurrentCamera();
     }
 

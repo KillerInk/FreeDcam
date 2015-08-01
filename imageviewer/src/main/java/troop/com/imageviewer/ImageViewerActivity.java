@@ -19,6 +19,12 @@ public class ImageViewerActivity extends FragmentActivity
         View appViewGroup = (ViewGroup) inflater.inflate(R.layout.imageviewer_activity, null);
         setContentView(R.layout.imageviewer_activity);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         ImageViewerFragment fragment = new ImageViewerFragment();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(troop.com.imageviewer.R.id.imageviewer_holder, fragment, "Imageviewer");

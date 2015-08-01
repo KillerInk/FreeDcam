@@ -17,10 +17,10 @@ import troop.com.themesample.SampleThemeFragment;
 public class ThemeHandler implements I_ModuleEvent
 {
     AppSettingsManager appSettingsManager;
-    MainActivity_v2 activity_v2;
+    static MainActivity_v2 activity_v2;
     LinearLayout uiLayout;
-    AbstractFragment uiFragment;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    static AbstractFragment uiFragment;
+    static AbstractCameraUiWrapper cameraUiWrapper;
 
     public ThemeHandler(MainActivity_v2 activity_v2, AppSettingsManager appSettingsManager)
     {

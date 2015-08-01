@@ -2,6 +2,7 @@ package com.troop.freedcam.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
@@ -39,6 +40,7 @@ import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
 
+import troop.com.imageviewer.ImageViewerActivity;
 import troop.com.imageviewer.ImageViewerFragment;
 
 /**
@@ -49,33 +51,33 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected ViewGroup appViewGroup;
     protected boolean helpOverlayOpen = false;
     boolean histogramFragmentOpen = false;
-    OrientationHandler orientationHandler;
+    static OrientationHandler orientationHandler;
     int flags;
-    protected HelpOverlayHandler helpOverlayHandler;
+    static protected HelpOverlayHandler helpOverlayHandler;
     protected GuideHandler guideHandler;
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    AppSettingsManager appSettingsManager;
-    HardwareKeyHandler hardwareKeyHandler;
+    static AppSettingsManager appSettingsManager;
+    static HardwareKeyHandler hardwareKeyHandler;
     MainActivity_v2 activity;
-    ApiHandler apiHandler;
-    TimerHandler timerHandler;
+    static ApiHandler apiHandler;
+    static TimerHandler timerHandler;
 
 
     public ThemeHandler themeHandler;
     public SensorsUtil sensorsUtil;
-    HistogramFragment histogramFragment;
+    static HistogramFragment histogramFragment;
 
 
 
-    AbstractCameraFragment cameraFragment;
-    ImageViewerFragment imageViewerFragment;
+    static AbstractCameraFragment cameraFragment;
+    static ImageViewerFragment imageViewerFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -85,18 +87,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
-        HIDENAVBAR();
-        createUI();
-        if (!appSettingsManager.getShowHelpOverlay())
-        {
 
-            helpOverlayOpen = false;
-            helpOverlayHandler.setVisibility(View.GONE);
-        }
-        else
-        {
-            helpOverlayOpen = true;
-        }
     }
 
 
@@ -247,9 +238,29 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onResume()
     {
         super.onResume();
-        if(cameraFragment == null)
-            loadCameraUiWrapper();
-        orientationHandler.Start();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                HIDENAVBAR();
+                createUI();
+                if (!appSettingsManager.getShowHelpOverlay()) {
+
+                    helpOverlayOpen = false;
+                    helpOverlayHandler.setVisibility(View.GONE);
+                } else {
+                    helpOverlayOpen = true;
+                }
+            }
+        });
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraFragment == null)
+                    loadCameraUiWrapper();
+                orientationHandler.Start();
+            }
+        });
+
 
         Log.d(TAGLIFE, "Activity onResume");
     }
@@ -505,14 +516,16 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void loadImageViewerFragment()
     {
-        themeHandler.DestroyUI();
+        /*themeHandler.DestroyUI();
 
         imageViewerFragment = new ImageViewerFragment();
         imageViewerFragment.SetIActivity(this);
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.MainLayout, imageViewerFragment);
-        transaction.commit();
+        transaction.commit();*/
+        Intent intent = new Intent(this, ImageViewerActivity.class);
+        startActivity(intent);
     }
 
     @Override

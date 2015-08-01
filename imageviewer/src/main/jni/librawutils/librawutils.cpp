@@ -282,42 +282,48 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif
 	raw.recycle();
 }
 
-extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename)
-{
+extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename) {
 	int ret;
 	LibRaw raw;
-	#define P1 raw.imgdata.idata
-    #define S raw.imgdata.sizes
-    #define C raw.imgdata.color
-    #define T raw.imgdata.thumbnail
-    #define P2 raw.imgdata.other
-    #define OUT raw.imgdata.params
-    OUT.no_auto_bright = 1;
-    OUT.use_camera_wb = 1;
+#define P1 raw.imgdata.idata
+#define S raw.imgdata.sizes
+#define C raw.imgdata.color
+#define T raw.imgdata.thumbnail
+#define P2 raw.imgdata.other
+#define OUT raw.imgdata.params
+	OUT.no_auto_bright = 1;
+	OUT.use_camera_wb = 1;
 	//OUT.output_bps = 8;
 	OUT.user_qual = 0;
-	OUT.half_size=1;
-    jboolean bIsCopy;
-    void* bitmapPixels;
+	OUT.half_size = 1;
+	jboolean bIsCopy;
+	void *bitmapPixels;
+	raw.recycle();
 
-    const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
-	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
+	const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
+	if ((ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS) {
 		LOGD("cannot open file");
-    else
-    	LOGD("File opend");
-    if( (ret = raw.unpack() ) != LIBRAW_SUCCESS)
-    	LOGD("cannot unpack img");
+		return NULL;
+	}
+	else
+		LOGD("File opend");
+	if ((ret = raw.unpack()) != LIBRAW_SUCCESS)
+	{
+		LOGD("cannot unpack img");
+		return NULL;
+	}
 	else
 		LOGD("unpack img");
-	ret = raw.dcraw_process();
-	if(LIBRAW_SUCCESS !=ret)
+	if(LIBRAW_SUCCESS != raw.dcraw_process())
 	{
-        if(LIBRAW_FATAL_ERROR(ret))
-        	LOGD("error processing dcraw");
+        LOGD("error processing dcraw");
+		return NULL;
 	}
 	else
 		LOGD("processing dcraw");
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+
+	LOGD("processed image, creating bitmap");
 
 	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
@@ -352,6 +358,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
         }
         LOGD("memcopy end");
 		raw.dcraw_clear_mem(image);
+		raw.recycle();
 
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);

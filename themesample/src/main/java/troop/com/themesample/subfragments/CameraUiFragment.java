@@ -40,45 +40,45 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
-    UiSettingsChild flash;
-    UiSettingsChild iso;
-    UiSettingsChild autoexposure;
-    UiSettingsChild whitebalance;
-    UiSettingsChild focus;
-    UiSettingsChild night;
-    UiSettingsChildFormat format;
-    UiSettingsChildCameraSwitch cameraSwitch;
-    UiSettingsChildExit exit;
-    UiSettingsChildModuleSwitch modeSwitch;
-    UiSettingsMenu menu;
-    UiSettingsChild contShot;
+    static UiSettingsChild flash;
+    static UiSettingsChild iso;
+    static UiSettingsChild autoexposure;
+    static UiSettingsChild whitebalance;
+    static UiSettingsChild focus;
+    static UiSettingsChild night;
+    static UiSettingsChildFormat format;
+    static UiSettingsChildCameraSwitch cameraSwitch;
+    static UiSettingsChildExit exit;
+    static UiSettingsChildModuleSwitch modeSwitch;
+    static UiSettingsMenu menu;
+    static UiSettingsChild contShot;
 
-    UiSettingsChild currentOpendChild;
-    HorizontalValuesFragment horizontalValuesFragment;
-    SwipeMenuListner touchHandler;
-    ShutterButton shutterButton;
+    static UiSettingsChild currentOpendChild;
+    static HorizontalValuesFragment horizontalValuesFragment;
+    static SwipeMenuListner touchHandler;
+    static ShutterButton shutterButton;
 
 
 
-    ThumbView thumbView;
+    static ThumbView thumbView;
 
-    ImageView SettingsButton;
-    LinearLayout left_cameraUI_holder;
-    RelativeLayout right_camerUI_holder;
-    ManualModesFragment manualModesFragment;
-    FrameLayout manualModes_holder;
+    static ImageView SettingsButton;
+    static LinearLayout left_cameraUI_holder;
+    static RelativeLayout right_camerUI_holder;
+    static ManualModesFragment manualModesFragment;
+    static FrameLayout manualModes_holder;
     boolean settingsIsOpen = true;
     final int animationTime = 500;
 
-    FocusImageHandler focusImageHandler;
+    static FocusImageHandler focusImageHandler;
 
-    AbstractCameraUiWrapper abstractCameraUiWrapper;
+    static AbstractCameraUiWrapper abstractCameraUiWrapper;
 
-    View view;
-    I_Activity i_activity;
-    AppSettingsManager appSettingsManager;
-    SampleInfoOverlayHandler infoOverlayHandler;
-    View.OnClickListener onSettingsClickListner;
+    static View view;
+    static I_Activity i_activity;
+    static AppSettingsManager appSettingsManager;
+    static SampleInfoOverlayHandler infoOverlayHandler;
+    static View.OnClickListener onSettingsClickListner;
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
     {
@@ -103,6 +103,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void setWrapper()
     {
+        if (abstractCameraUiWrapper == null || abstractCameraUiWrapper.camParametersHandler == null)
+            return;
         flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);

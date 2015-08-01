@@ -3,27 +3,37 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:background="@color/uiSettingsBackground"
+    android:background="#ffffff"
     android:id="@+id/uiSettingsTopLayout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView"
-        android:textStyle="bold"
-        android:textColor="@color/uiSettingsTextColor"
-        android:layout_marginTop="4dp"
-        android:textSize="10dip" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="@color/uiSettingsBackground"
+        android:layout_margin="1dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView2"
-        android:textColor="@color/uiSettingsTextColor"
-        android:textSize="8dip"
-        android:layout_marginBottom="4dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView"
+            android:textStyle="bold"
+            android:textColor="@color/uiSettingsTextColor"
+            android:layout_marginTop="4dp"
+            android:textSize="10dip" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView2"
+            android:textColor="@color/uiSettingsTextColor"
+            android:textSize="8dip"
+            android:layout_marginBottom="4dp" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -53,7 +53,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
     {
         this.cameraUiWrapper = cameraUIWrapper;
-        cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        if (cameraUIWrapper != null && cameraUIWrapper.moduleHandler != null && cameraUIWrapper.moduleHandler.moduleEventHandler != null)
+            cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     @Override
@@ -99,6 +100,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         @Override
         public void run()
         {
+            if (cameraUiWrapper == null)
+                return;
             timeString = dateFormat.format(new Date());
             getFormat();
             getStorageSpace();
