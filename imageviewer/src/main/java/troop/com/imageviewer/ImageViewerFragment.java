@@ -286,7 +286,14 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
-        fadeout();
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                fadeout();
+                spinner.setVisibility(View.VISIBLE);
+            }
+        });
+
         //imageView.setImageBitmap(null);
         filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
@@ -301,7 +308,6 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setText("Play");
             play.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.GONE);
 
         }
@@ -310,27 +316,15 @@ public class ImageViewerFragment extends Fragment
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.VISIBLE);
         }
-        LoadFUCKINGIMAGE(file);
-    }
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                LoadFUCKINGIMAGE(file);
+            }
+        });
 
-    public void saveBytesToFile(byte[] bytes, File fileName)
-    {
-        File newy = new File(fileName.getAbsoluteFile().getAbsolutePath().replace(".dng","_thumb.jpg"));
-        Log.d(TAG, "Start Saving Bytes");
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(newy);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void processJpeg(final File file)
@@ -351,97 +345,44 @@ public class ImageViewerFragment extends Fragment
         {
             ex.printStackTrace();
         }
-        spinner.setVisibility(View.VISIBLE);
-        /*imageView.post(new Runnable() {
-            @Override
-            public void run()
-            {
-
-                //loadBitmapSampleSized(16, file);
-                loadBitmapSampleSized(2, file);
-            }
-        });*/
-
     }
 
-    private void loadBitmapSampleSized(int samplesize, File file)
-    {
-        final int itemint = current;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = samplesize;
-        //currentImage = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        Log.d(TAG, "Bitmap loaded");
-
-        //options =null;
-        imageView.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                if (itemint == current)
-                {
-                    fadein();
-                    //imageView.setImageBitmap(currentImage);
-                    //myHistogram.setBitmap(currentImage, false);
-                    //spinner.setVisibility(View.GONE);
-
-                }
-            }
-        });
-    }
 
     private void loadNextImage()
     {
-        if (files.length == 0)
-            return;
-        current++;
-        if (current == files.length)
-            current = 0;
-        setBitmap(files[current]);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                if (files.length == 0)
+                    return;
+                current++;
+                if (current == files.length)
+                    current = 0;
+                setBitmap(files[current]);
+            }
+        });
+
     }
 
     private void loadLastImage()
     {
-        if (files.length == 0)
-            return;
-        current--;
-        if (current < 0)
-            current = files.length-1;
-        setBitmap(files[current]);
-    }
-
-    private class LoadImageTask extends AsyncTask<File, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(File... urls) {
-            File file = urls[0];
-            Bitmap response = null;
-            if (file.getAbsolutePath().endsWith(".jpg"))
-            {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
-                response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                if (files.length == 0)
+                    return;
+                current--;
+                if (current < 0)
+                    current = files.length-1;
+                setBitmap(files[current]);
             }
-            else if (file.getAbsolutePath().endsWith(".mp4"))
-                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-            else if (file.getAbsolutePath().endsWith(".dng"))
-            {
-                response = new RawUtils().UnPackRAW(file.getAbsolutePath());
-                response.setHasAlpha(true);
-            }
+        });
 
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            fadein();
-            imageView.setImageBitmap(result);
-            myHistogram.setBitmap(result, false);
-        }
     }
 
     private void LoadFUCKINGIMAGE(File file)
     {
-        Bitmap response = null;
+        final Bitmap response;
         if (file.getAbsolutePath().endsWith(".jpg"))
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -455,9 +396,16 @@ public class ImageViewerFragment extends Fragment
             response = new RawUtils().UnPackRAW(file.getAbsolutePath());
             response.setHasAlpha(true);
         }
-        fadein();
-        imageView.setImageBitmap(response);
-        myHistogram.setBitmap(response, false);
+        else response = null;
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                fadein();
+                imageView.setImageBitmap(response);
+                myHistogram.setBitmap(response, false);
+            }
+        });
+
     }
 
 }
