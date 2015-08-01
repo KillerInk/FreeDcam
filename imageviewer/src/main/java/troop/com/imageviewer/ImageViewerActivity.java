@@ -14,7 +14,7 @@ public class ImageViewerActivity extends FragmentActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View appViewGroup = (ViewGroup) inflater.inflate(R.layout.imageviewer_activity, null);
         setContentView(R.layout.imageviewer_activity);

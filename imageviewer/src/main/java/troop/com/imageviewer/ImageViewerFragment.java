@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -65,13 +66,11 @@ public class ImageViewerFragment extends Fragment
     TextView filename;
     LinearLayout exifinfo;
     ProgressBar spinner;
-    private HandlerThread backgroundThread;
-    Handler handler;
     MyHistogram myHistogram;
     LinearLayout ll;
     RelativeLayout ui_holder;
     private I_Activity i_activity;
-    static Bitmap currentImage;
+
 
 
     @Override
@@ -86,7 +85,7 @@ public class ImageViewerFragment extends Fragment
             public void onClick(View v) {
                 if (i_activity != null)
                     i_activity.loadCameraUiFragment();
-                stopThread();
+                //stopThread();
                 if (i_activity == null)
                     getActivity().finish();
             }
@@ -162,9 +161,10 @@ public class ImageViewerFragment extends Fragment
     public void onResume()
     {
         super.onResume();
+        //imageloader = new LoadImageTask();
         try {
             loadFilePaths();
-            startThread();
+            //startThread();
             current = files.length -1;
             if (files.length > 0)
                 setBitmap(files[current]);
@@ -184,8 +184,7 @@ public class ImageViewerFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        if (currentImage != null)
-            currentImage.recycle();
+
     }
 
     public void SetIActivity(I_Activity i_activity)
@@ -193,7 +192,7 @@ public class ImageViewerFragment extends Fragment
         this.i_activity =  i_activity;
     }
 
-    private void startThread() {
+    /*private void startThread() {
         backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
         handler = new Handler(backgroundThread.getLooper());
@@ -211,7 +210,7 @@ public class ImageViewerFragment extends Fragment
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void loadFilePaths()
     {
@@ -287,11 +286,6 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
-        if (currentImage != null) {
-            currentImage.recycle();
-            System.gc();
-
-        }
         fadeout();
         //imageView.setImageBitmap(null);
         filename.setText(file.getName());
@@ -310,26 +304,6 @@ public class ImageViewerFragment extends Fragment
             spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.GONE);
 
-            handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    final int itemint = current;
-                    currentImage = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            if (itemint == current) {
-                                imageView.setImageBitmap(currentImage);
-                                fadein();
-                            }
-                        }
-                    });
-
-                }
-            });
-
         }
         if (file.getAbsolutePath().endsWith(".dng"))
         {
@@ -338,28 +312,8 @@ public class ImageViewerFragment extends Fragment
             play.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.VISIBLE);
-            handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    final int itemint = current;
-                    currentImage= RawUtils.UnPackRAW(file.getAbsolutePath());
-                    currentImage.setHasAlpha(true);
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (itemint == current)
-                            {
-                                fadein();
-                                imageView.setImageBitmap(currentImage);
-                                myHistogram.setBitmap(currentImage, false);
-                                spinner.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-                }
-            });
         }
+        LoadFUCKINGIMAGE(file);
     }
 
     public void saveBytesToFile(byte[] bytes, File fileName)
@@ -398,7 +352,7 @@ public class ImageViewerFragment extends Fragment
             ex.printStackTrace();
         }
         spinner.setVisibility(View.VISIBLE);
-        handler.post(new Runnable() {
+        /*imageView.post(new Runnable() {
             @Override
             public void run()
             {
@@ -406,7 +360,7 @@ public class ImageViewerFragment extends Fragment
                 //loadBitmapSampleSized(16, file);
                 loadBitmapSampleSized(2, file);
             }
-        });
+        });*/
 
     }
 
@@ -415,7 +369,7 @@ public class ImageViewerFragment extends Fragment
         final int itemint = current;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = samplesize;
-        currentImage = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        //currentImage = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         Log.d(TAG, "Bitmap loaded");
 
         //options =null;
@@ -426,8 +380,8 @@ public class ImageViewerFragment extends Fragment
                 if (itemint == current)
                 {
                     fadein();
-                    imageView.setImageBitmap(currentImage);
-                    myHistogram.setBitmap(currentImage, false);
+                    //imageView.setImageBitmap(currentImage);
+                    //myHistogram.setBitmap(currentImage, false);
                     //spinner.setVisibility(View.GONE);
 
                 }
@@ -453,6 +407,57 @@ public class ImageViewerFragment extends Fragment
         if (current < 0)
             current = files.length-1;
         setBitmap(files[current]);
+    }
+
+    private class LoadImageTask extends AsyncTask<File, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(File... urls) {
+            File file = urls[0];
+            Bitmap response = null;
+            if (file.getAbsolutePath().endsWith(".jpg"))
+            {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            }
+            else if (file.getAbsolutePath().endsWith(".mp4"))
+                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+            else if (file.getAbsolutePath().endsWith(".dng"))
+            {
+                response = new RawUtils().UnPackRAW(file.getAbsolutePath());
+                response.setHasAlpha(true);
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            fadein();
+            imageView.setImageBitmap(result);
+            myHistogram.setBitmap(result, false);
+        }
+    }
+
+    private void LoadFUCKINGIMAGE(File file)
+    {
+        Bitmap response = null;
+        if (file.getAbsolutePath().endsWith(".jpg"))
+        {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        }
+        else if (file.getAbsolutePath().endsWith(".mp4"))
+            response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+        else if (file.getAbsolutePath().endsWith(".dng"))
+        {
+            response = new RawUtils().UnPackRAW(file.getAbsolutePath());
+            response.setHasAlpha(true);
+        }
+        fadein();
+        imageView.setImageBitmap(response);
+        myHistogram.setBitmap(response, false);
     }
 
 }

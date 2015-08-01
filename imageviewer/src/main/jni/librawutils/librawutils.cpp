@@ -12,10 +12,6 @@
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 
-extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_native_init(JNIEnv * env) {
-
-}
-
 extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_BitmapExtractor(JNIEnv * env, jobject obj,jbyteArray bufferBytes, jint blackLevel)
 {
 	char outfn[1024];

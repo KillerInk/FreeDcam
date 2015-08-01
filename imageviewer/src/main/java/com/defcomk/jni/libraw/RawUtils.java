@@ -21,7 +21,7 @@ public class RawUtils {
 
     private static int DEFAULT_JPG_QUALITY = 85;
 
-    private RawUtils() {
+    public RawUtils() {
 
     }
 
@@ -33,14 +33,10 @@ public class RawUtils {
         }
     }
 
-	
-	
-
-    private static native void native_init();
 
     private static native byte[] unpackThumbnailBytes(String fileName);
 
-    private static native Bitmap unpackRAW(String fileName);
+    private synchronized native Bitmap unpackRAW(String fileName);
     
     public static native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
 
@@ -56,7 +52,7 @@ public class RawUtils {
         return unpackThumbnailBytes(filename);
     }
 
-    public static Bitmap UnPackRAW(String file)
+    public Bitmap UnPackRAW(String file)
     {
         return unpackRAW(file);
     }
