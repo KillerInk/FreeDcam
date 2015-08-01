@@ -83,10 +83,11 @@ public class DeviceUtils
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
 
-    public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
+    //public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
+    public static String G3Device = "g3";
     public static boolean isLG_G3()
     {
-        return G3Models.contains(Build.MODEL);
+        return G3Device.toLowerCase().equals(Build.DEVICE);
     }
 
     public static boolean getBoolFromInt(int i)
