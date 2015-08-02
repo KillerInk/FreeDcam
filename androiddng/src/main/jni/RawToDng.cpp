@@ -659,8 +659,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
         makeGPS_IFD(tif, writer);
         TIFFCheckpointDirectory(tif);
         TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+        TIFFSetDirectory(tif, 0);
     }
-    TIFFSetDirectory(tif, 0);
+
 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD

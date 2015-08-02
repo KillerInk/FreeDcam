@@ -44,9 +44,9 @@ public class DngSupportedDevices
                 break;
             case 16224256:
                 profile = new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,
-                        Matrixes.test_matrix1,
-                        Matrixes.test_matrix2,
-                        Matrixes.G3Device.xyzNeutral);
+                        Matrixes.G3Device.getA_XYZ(),
+                        Matrixes.G3Device.getD65_XYZ(),
+                        Matrixes.G3Device.getNeutralD65XYZ());
                 break;
             case 2658304: //g3 front mipi
                 profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,

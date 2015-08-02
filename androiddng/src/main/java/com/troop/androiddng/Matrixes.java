@@ -107,6 +107,14 @@ public class Matrixes
         static float[] neutral_NormalLight = {0.230904f,0.20558f, 0.266458f};
         static float[] neutral_BrightLight= {0.230904f,0.20558f, 0.266458f};
 
+        static float[] neutralGainD65 = {1.441326f, 1.357905f, 1.3301409f};
+        static float[] getNeutralD65XYZ()
+        {
+                float[] scaledRGB01 = scaleRGBtoRGB011(neutralGainD65[0], neutralGainD65[1], neutralGainD65[2]);
+                //float[] xyz = MoveRgbNeutralMatrixToXYZ(scaledRGB01);
+                return scaledRGB01;
+        };
+
         static float[] xyzNeutral = {0.0452807761683715f,0.0677777898588087f,0.0343627874252381f};
 
         static float[] CC_TL84 =
@@ -124,8 +132,18 @@ public class Matrixes
                 1.820541f       ,-1.001724f     ,0.181183f,
                 -0.21112099f   ,1.388733f      ,-0.17761201f,
                 0.88330078f   ,-0.84127802f   ,1.839066f
-        };;
+        };
+
+        static float[] getD65_XYZ()
+        {
+            return MoveRgbMatrixToXYZ(CC_D65);
+        };
         static float[] CC_A = {1.72401f,-0.8574f,0.13338999f,-0.29269999f,1.43779f,-0.14509f,-0.97021484f,-1.17881f,2.2327001f};
+
+        static float[] getA_XYZ()
+        {
+          return MoveRgbMatrixToXYZ(CC_A);
+        };
         static float[] CC_OUTDOOR = {1.892731f,-0.98947197f,1.4433594f,-0.27654999f,1.601531f,-0.324981f,0.98632813f,-0.84582603f,1.838852f};
 
         //FRONT CAM
@@ -135,11 +153,11 @@ public class Matrixes
         static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
     }
 
-    private float[] RGBtoXYZMatrix = {  0.4124564f,  0.3575761f,  0.1804375f,
+    private static float[] RGBtoXYZMatrix = {  0.4124564f,  0.3575761f,  0.1804375f,
             0.2126729f,  0.7151522f,  0.0721750f,
             0.0193339f,  0.1191920f,  0.9503041f};
 
-    private float[] MoveRgbMatrixToXYZ(float[] colormatrix)
+    private static float[] MoveRgbMatrixToXYZ(float[] colormatrix)
     {
         float[] xyzmat = new float[9];
         for (int i = 0; i < 9; i++)
@@ -149,7 +167,7 @@ public class Matrixes
         return xyzmat;
     }
 
-    public float[] MoveRgbNeutralMatrixToXYZ(float[] neutralmatrix)
+    public static float[] MoveRgbNeutralMatrixToXYZ(float[] neutralmatrix)
     {
         float[] xyzmat = new float[3];
         float[] neutralRGB01 = scaleRGBtoRGB01(neutralmatrix[0],neutralmatrix[1],neutralmatrix[2]);
@@ -159,7 +177,7 @@ public class Matrixes
         return xyzmat;
     }
 
-    public float[] scaleRGBtoRGB01(float r_scale, float g_scale, float b_scale)
+    public static float[] scaleRGBtoRGB01(float r_scale, float g_scale, float b_scale)
     {
         float[] rgbM = new float[3];
         float max_wb_factor = r_scale;
@@ -171,6 +189,18 @@ public class Matrixes
         return rgbM;
     }
 
+    public static float[] scaleRGBtoRGB011(float r_scale, float g_scale, float b_scale)
+    {
+        float[] rgbM = new float[3];
+        float max_wb_factor = r_scale;
+        rgbM[0] = (float)r_scale / g_scale;
+        rgbM[1] = (float)g_scale / g_scale;
+        rgbM[2] = (float)b_scale / g_scale;
+        return rgbM;
+    }
+
+
+
     /**
      * Convert RGB to XYZ
      * @param R
@@ -178,7 +208,7 @@ public class Matrixes
      * @param B
      * @return XYZ in double array.
      */
-    public float[] RGBtoXYZ(int R, int G, int B)
+    public static float[] RGBtoXYZ(int R, int G, int B)
     {
         float[] result = new float[3];
 
