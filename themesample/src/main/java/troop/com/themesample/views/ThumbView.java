@@ -1,10 +1,12 @@
 package troop.com.themesample.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
@@ -31,6 +33,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     I_Activity i_activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     Bitmap bitmap;
+    File lastFile;
     public ThumbView(Context context) {
         super(context);
         this.setOnClickListener(this);
@@ -70,6 +73,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
     private Bitmap loadThumbViewImage(File file)
     {
+        lastFile = file;
         if(file.getAbsolutePath().endsWith("jpg"))
         {
             byte[] thum = null;
@@ -104,7 +108,10 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
-        i_activity.loadImageViewerFragment();
+    public void onClick(View v)
+    {
+        i_activity.loadImageViewerFragment(lastFile);
+
+
     }
 }

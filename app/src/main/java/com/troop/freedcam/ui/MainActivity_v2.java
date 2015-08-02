@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,6 +40,8 @@ import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
 import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.io.File;
 
 import troop.com.imageviewer.ImageViewerActivity;
 import troop.com.imageviewer.ImageViewerFragment;
@@ -514,7 +517,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
-    public void loadImageViewerFragment()
+    public void loadImageViewerFragment(File file)
     {
         /*themeHandler.DestroyUI();
 
@@ -524,8 +527,19 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.MainLayout, imageViewerFragment);
         transaction.commit();*/
-        Intent intent = new Intent(this, ImageViewerActivity.class);
-        startActivity(intent);
+        if (file == null) {
+            Intent intent = new Intent(this, ImageViewerActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Uri uri = Uri.fromFile(file);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            if (file.getAbsolutePath().endsWith("mp4"))
+                i.setDataAndType(uri, "video/*");
+            else
+                i.setDataAndType(uri, "image/*");
+            activity.startActivity(i);
+        }
     }
 
     @Override
