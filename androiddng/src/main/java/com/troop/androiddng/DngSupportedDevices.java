@@ -44,10 +44,15 @@ public class DngSupportedDevices
                 break;
             case 16224256:
                 profile = new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,
-                        Matrixes.G3Device.getA_XYZ(),
-                        Matrixes.G3Device.getD65_XYZ(),
-                        Matrixes.G3Device.getNeutralD65XYZ());
+                        Matrixes.G3Device.CC_A,
+                        Matrixes.G3Device.CC_D65,
+                        Matrixes.G3Device.wb_neutral);
                 break;
+            case 16424960:
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,
+                        Matrixes.G3Device.CC_A,
+                        Matrixes.G3Device.CC_D65,
+                        Matrixes.G3Device.wb_neutral);
             case 2658304: //g3 front mipi
                 profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,
                         Matrixes.G3Device.CC_A_FRONT,
@@ -121,7 +126,7 @@ public class DngSupportedDevices
                 return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,
                         Matrixes.G3Device.CC_A,
                         Matrixes.G3Device.CC_D65,
-                        Matrixes.G3Device.neutral_NormalLight);
+                        Matrixes.G3Device.wb_neutral);
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
                 return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,
                         Matrixes.nubia_color1,
@@ -193,14 +198,14 @@ public class DngSupportedDevices
     {
         if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,
-                    Matrixes.nocal_color1,
-                    Matrixes.nocal_color2,
-                    Matrixes.nocal_nutral);
+                    Matrixes.HTC_M8Device.CC_A,
+                    Matrixes.HTC_M8Device.CC_D65,
+                    Matrixes.HTC_M8Device.wb_neutral);
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
             return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,
-                    Matrixes.nocal_color1,
-                    Matrixes.nocal_color2,
-                    Matrixes.nocal_nutral);
+                    Matrixes.HTC_M8Device.CC_A,
+                    Matrixes.HTC_M8Device.CC_D65,
+                    Matrixes.HTC_M8Device.wb_neutral);
         return null;
     }
 
@@ -214,8 +219,7 @@ public class DngSupportedDevices
             case Lenovo_k910:
                 return getLenovoK910Profile(filesize);
             case Gione_E7:
-                getGioneeE7Profile(filesize);
-                break;
+                return getGioneeE7Profile(filesize);
             case Sony_XperiaL:
                 return new DngProfile(64, 3282, 2448,false, BGGR, XperiaL_rowSize,
                         Matrixes.nocal_color1,
@@ -249,9 +253,9 @@ public class DngSupportedDevices
                 return getZTEADVProfile(filesize);
             case Xiaomi_Redmi_Note:
                 return new DngProfile(64,4212, 3082,false, BGGR, getG3_rowSizeL,
-                        Matrixes.nocal_color1,
-                        Matrixes.nocal_color2,
-                        Matrixes.nocal_nutral);
+                        Matrixes.Redmi_Note.CC_A_Back,
+                        Matrixes.Redmi_Note.CC_D65_Back,
+                        Matrixes.Redmi_Note.wb_neutral);
         }
         return null;
     }

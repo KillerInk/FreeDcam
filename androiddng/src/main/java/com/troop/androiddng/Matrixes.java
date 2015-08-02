@@ -103,19 +103,52 @@ public class Matrixes
     static class G3Device
     {
         //BACK CAM
-        static public float[] neutral_LowLight = {0.230904f, 0.20558f, 0.266458f};
-        static float[] neutral_NormalLight = {0.230904f,0.20558f, 0.266458f};
-        static float[] neutral_BrightLight= {0.230904f,0.20558f, 0.266458f};
+        /*
+ 00015544 float AWB_golden_module_R_Gr_ratio[12]		48
+ 00015544 float AWB_golden_module_R_Gr_ratio[0]	 0.56738299	 4
+ 00015548 float AWB_golden_module_R_Gr_ratio[1]	 0.56738299	 4
+ 00015552 float AWB_golden_module_R_Gr_ratio[2]	 0.86523402	 4
+ 00015556 float AWB_golden_module_R_Gr_ratio[3]	 0.56738299	 4
+ 00015560 float AWB_golden_module_R_Gr_ratio[4]	 0.56738299	 4
+ 00015564 float AWB_golden_module_R_Gr_ratio[5]	 0.86523402	 4
+ 00015568 float AWB_golden_module_R_Gr_ratio[6]	 0.56738299	 4
+ 00015572 float AWB_golden_module_R_Gr_ratio[7]	 0.56738299	 4
+ 00015576 float AWB_golden_module_R_Gr_ratio[8]	 0.56738299	 4
+ 00015580 float AWB_golden_module_R_Gr_ratio[9]	 0.56738299	 4
+ 00015584 float AWB_golden_module_R_Gr_ratio[10]	 0.86523402	 4
+ 00015588 float AWB_golden_module_R_Gr_ratio[11]	 0.86523402	 4
 
-        static float[] neutralGainD65 = {1.441326f, 1.357905f, 1.3301409f};
-        static float[] getNeutralD65XYZ()
-        {
-                float[] scaledRGB01 = scaleRGBtoRGB011(neutralGainD65[0], neutralGainD65[1], neutralGainD65[2]);
-                //float[] xyz = MoveRgbNeutralMatrixToXYZ(scaledRGB01);
-                return scaledRGB01;
-        };
+ 00015592 float AWB_golden_module_Gb_Gr_ratio[12]		48
+ 00015592 float AWB_golden_module_Gb_Gr_ratio[0]	 1.	 4
+ 00015596 float AWB_golden_module_Gb_Gr_ratio[1]	 1.	 4
+ 00015600 float AWB_golden_module_Gb_Gr_ratio[2]	 1.	 4
+ 00015604 float AWB_golden_module_Gb_Gr_ratio[3]	 1.	 4
+ 00015608 float AWB_golden_module_Gb_Gr_ratio[4]	 1.	 4
+ 00015612 float AWB_golden_module_Gb_Gr_ratio[5]	 1.	 4
+ 00015616 float AWB_golden_module_Gb_Gr_ratio[6]	 1.	 4
+ 00015620 float AWB_golden_module_Gb_Gr_ratio[7]	 1.	 4
+ 00015624 float AWB_golden_module_Gb_Gr_ratio[8]	 1.	 4
+ 00015628 float AWB_golden_module_Gb_Gr_ratio[9]	 1.	 4
+ 00015632 float AWB_golden_module_Gb_Gr_ratio[10]	 1.	 4
+ 00015636 float AWB_golden_module_Gb_Gr_ratio[11]	 1.	 4
 
-        static float[] xyzNeutral = {0.0452807761683715f,0.0677777898588087f,0.0343627874252381f};
+
+ 00015640 float AWB_golden_module_B_Gr_ratio[12]		48
+ 00015640 float AWB_golden_module_B_Gr_ratio[0]	 0.55468798	 4
+ 00015644 float AWB_golden_module_B_Gr_ratio[1]	 0.55468798	 4
+ 00015648 float AWB_golden_module_B_Gr_ratio[2]	 0.390625	 4
+ 00015652 float AWB_golden_module_B_Gr_ratio[3]	 0.55468798	 4
+ 00015656 float AWB_golden_module_B_Gr_ratio[4]	 0.55468798	 4
+ 00015660 float AWB_golden_module_B_Gr_ratio[5]	 0.390625	 4
+ 00015664 float AWB_golden_module_B_Gr_ratio[6]	 0.55468798	 4
+ 00015668 float AWB_golden_module_B_Gr_ratio[7]	 0.55468798	 4
+ 00015672 float AWB_golden_module_B_Gr_ratio[8]	 0.55468798	 4
+ 00015676 float AWB_golden_module_B_Gr_ratio[9]	 0.55468798	 4
+ 00015680 float AWB_golden_module_B_Gr_ratio[10]	 0.390625	 4
+ 00015684 float AWB_golden_module_B_Gr_ratio[11]	 0.390625	 4
+
+         */
+        static public float[] wb_neutral = {0.56738299f, 1f, 0.55468798f};
 
         static float[] CC_TL84 =
                 {
@@ -134,16 +167,8 @@ public class Matrixes
                 0.88330078f   ,-0.84127802f   ,1.839066f
         };
 
-        static float[] getD65_XYZ()
-        {
-            return MoveRgbMatrixToXYZ(CC_D65);
-        };
         static float[] CC_A = {1.72401f,-0.8574f,0.13338999f,-0.29269999f,1.43779f,-0.14509f,-0.97021484f,-1.17881f,2.2327001f};
 
-        static float[] getA_XYZ()
-        {
-          return MoveRgbMatrixToXYZ(CC_A);
-        };
         static float[] CC_OUTDOOR = {1.892731f,-0.98947197f,1.4433594f,-0.27654999f,1.601531f,-0.324981f,0.98632813f,-0.84582603f,1.838852f};
 
         //FRONT CAM
@@ -153,109 +178,105 @@ public class Matrixes
         static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
     }
 
-    private static float[] RGBtoXYZMatrix = {  0.4124564f,  0.3575761f,  0.1804375f,
-            0.2126729f,  0.7151522f,  0.0721750f,
-            0.0193339f,  0.1191920f,  0.9503041f};
-
-    private static float[] MoveRgbMatrixToXYZ(float[] colormatrix)
+    static class HTC_M8Device
     {
-        float[] xyzmat = new float[9];
-        for (int i = 0; i < 9; i++)
-        {
-            xyzmat[i] = colormatrix[i] * RGBtoXYZMatrix[i];
-        }
-        return xyzmat;
+        static public float[] wb_neutral = {1f, 1f, 1f};
+        /*
+        00005716 chromatix_color_correction_type A_color_correction	{...}	44
+ 00005716 float c0	 1.8358001	 4
+ 00005720 float c1	 -0.1674	 4
+ 00005724 float c2	 -0.66839999	 4
+ 00005728 float c3	 -0.1037	 4
+ 00005732 float c4	 0.94169998	 4
+ 00005736 float c5	 0.162	 4
+ 00005740 float c6	 -5.0799999e-002	 4
+ 00005744 float c7	 -1.0015	 4
+ 00005748 float c8	 1.9507	 4
+ 00005752 int16 k0	 0	 2
+ 00005754 int16 k1	 0	 2
+ 00005756 int16 k2	 0	 2
+ 00005758 char q_factor	 0	 1
+ 00005759 _char_empty empty	 {...}	 1
+         */
+        static public float[] CC_A = {
+                1.8358001f,         -0.1674f,       -0.66839999f,
+                -0.1037f,           0.94169998f,    0.162f,
+                -5.0799999e-002f,   -1.0015f,       1.9507f};
+
+
+
+        /*
+        00005672 chromatix_color_correction_type D65_color_correction	{...}	44
+     00005672 float c0	 1.9644001	 4
+     00005676 float c1	 -0.85769999	 4
+     00005680 float c2	 -0.1067	 4
+     00005684 float c3	 -0.2656	 4
+     00005688 float c4	 1.4262	 4
+     00005692 float c5	 -0.1603	 4
+     00005696 float c6	 0.1106	 4
+     00005700 float c7	 -0.50870001	 4
+     00005704 float c8	 1.3981	 4
+     00005708 int16 k0	 0	 2
+     00005710 int16 k1	 0	 2
+     00005712 int16 k2	 0	 2
+     00005714 char q_factor	 0	 1
+     00005715 _char_empty empty	 {...}	 1
+
+         */
+        static public float[] CC_D65 = {
+                1.9644001f,         -0.85769999f,       -0.1067f,
+                -0.2656f,           1.4262f,            -0.1603f,
+                0.1106f,            -0.50870001f,       1.3981f};
+
     }
 
-    public static float[] MoveRgbNeutralMatrixToXYZ(float[] neutralmatrix)
-    {
-        float[] xyzmat = new float[3];
-        float[] neutralRGB01 = scaleRGBtoRGB01(neutralmatrix[0],neutralmatrix[1],neutralmatrix[2]);
-        xyzmat[0] = neutralRGB01[0] * RGBtoXYZMatrix[0];
-        xyzmat[1] = neutralRGB01[1] * RGBtoXYZMatrix[4];
-        xyzmat[2] = neutralRGB01[2] * RGBtoXYZMatrix[8];
-        return xyzmat;
-    }
+    static class Redmi_Note {
+        static public float[] wb_neutral = {0.54589802f, 1f, 0.57421899f};
 
-    public static float[] scaleRGBtoRGB01(float r_scale, float g_scale, float b_scale)
-    {
-        float[] rgbM = new float[3];
-        float max_wb_factor = r_scale;
-        if (b_scale > r_scale)
-            max_wb_factor = b_scale;
-        rgbM[0] = (float)r_scale / max_wb_factor;
-        rgbM[1] = (float)g_scale / max_wb_factor;
-        rgbM[2] = (float)b_scale / max_wb_factor;
-        return rgbM;
-    }
+        /*
+        00005716 chromatix_color_correction_type A_color_correction	{...}	44
+ 00005716 float c0	 1.8487	 4
+ 00005720 float c1	 -7.6800004e-002	 4
+ 00005724 float c2	 -0.7719	 4
+ 00005728 float c3	 -0.1401	 4
+ 00005732 float c4	 1.1341	 4
+ 00005736 float c5	 6.0000001e-003	 4
+ 00005740 float c6	 -0.1131	 4
+ 00005744 float c7	 -1.0296	 4
+ 00005748 float c8	 2.1427	 4
+ 00005752 int16 k0	 0	 2
+ 00005754 int16 k1	 0	 2
+ 00005756 int16 k2	 0	 2
+ 00005758 char q_factor	 0	 1
+ 00005759 _char_empty empty	 {...}	 1
 
-    public static float[] scaleRGBtoRGB011(float r_scale, float g_scale, float b_scale)
-    {
-        float[] rgbM = new float[3];
-        float max_wb_factor = r_scale;
-        rgbM[0] = (float)r_scale / g_scale;
-        rgbM[1] = (float)g_scale / g_scale;
-        rgbM[2] = (float)b_scale / g_scale;
-        return rgbM;
-    }
+         */
+        static public float[] CC_A_Back = {
+                1.8487f,         -7.6800004e-002f,       -0.7719f,
+                -0.1401f,           1.1341f,    6.0000001e-00f,
+                -0.1131f,   -1.0296f,       2.1427f};
 
+        /*
+        00005672 chromatix_color_correction_type D65_color_correction	{...}	44
+ 00005672 float c0	 1.7847	 4
+ 00005676 float c1	 -0.92360002	 4
+ 00005680 float c2	 0.1389	 4
+ 00005684 float c3	 -0.1108	 4
+ 00005688 float c4	 1.4247	 4
+ 00005692 float c5	 -0.31389999	 4
+ 00005696 float c6	 0.1314	 4
+ 00005700 float c7	 -0.77179998	 4
+ 00005704 float c8	 1.6403	 4
+ 00005708 int16 k0	 0	 2
+ 00005710 int16 k1	 0	 2
+ 00005712 int16 k2	 0	 2
+ 00005714 char q_factor	 0	 1
+ 00005715 _char_empty empty	 {...}	 1
 
-
-    /**
-     * Convert RGB to XYZ
-     * @param R
-     * @param G
-     * @param B
-     * @return XYZ in double array.
-     */
-    public static float[] RGBtoXYZ(int R, int G, int B)
-    {
-        float[] result = new float[3];
-
-        // convert 0..255 into 0..1
-        float r = R / 255.0f;
-        float g = G / 255.0f;
-        float b = B / 255.0f;
-
-        // assume sRGB
-        if (r <= 0.04045)
-        {
-            r = r / 12.92f;
-        }
-        else
-        {
-            r = (float)Math.pow(((r + 0.055) / 1.055), 2.4);
-        }
-        if (g <= 0.04045)
-        {
-            g = g / 12.92f;
-        }
-        else
-        {
-            g = (float)Math.pow(((g + 0.055) / 1.055), 2.4);
-        }
-        if (b <= 0.04045)
-        {
-            b = b / 12.92f;
-        }
-        else
-        {
-            b = (float)Math.pow(((b + 0.055) / 1.055), 2.4);
-        }
-
-        r *= 100.0;
-        g *= 100.0;
-        b *= 100.0;
-
-        // [X Y Z] = [r g b][M]
-        result[0] = (r * RGBtoXYZMatrix[0]) + (g * RGBtoXYZMatrix[1]) + (b * RGBtoXYZMatrix[2]);
-        result[1] = (r * RGBtoXYZMatrix[3]) + (g * RGBtoXYZMatrix[4]) + (b * RGBtoXYZMatrix[5]);
-        result[2] = (r * RGBtoXYZMatrix[6]) + (g * RGBtoXYZMatrix[7]) + (b * RGBtoXYZMatrix[8]);
-
-        result[0] /= 100;
-        result[1] /= 100;
-        result[2] /= 100;
-
-        return result;
+         */
+        static public float[] CC_D65_Back = {
+                1.7847f,         -0.92360002f,       0.1389f,
+                -0.1108f,           1.4247f,            -0.31389999f,
+                0.1314f,            -0.77179998f,       1.6403f};
     }
 }
