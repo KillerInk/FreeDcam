@@ -57,7 +57,7 @@
 
         </activity>
 
-        <activity
+        <!-- <activity
             android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
@@ -65,28 +65,11 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PICK" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter> -->
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- <action android:name="com.lge.action.BLE_ONEKEY" /> -->
             </intent-filter>
-
-
-
-        </activity>
+        </activity> -->
 
         <activity
             android:name="troop.com.imageviewer.ImageViewerActivity"
@@ -100,6 +83,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="image/*"/>
             </intent-filter>
 
 
