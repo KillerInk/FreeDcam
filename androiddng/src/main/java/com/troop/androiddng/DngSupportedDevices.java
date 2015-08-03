@@ -22,6 +22,7 @@ public class DngSupportedDevices
         yureka,
         zteAdv,
         Xiaomi_Redmi_Note,
+        Xiaomi_mi3,
 
     }
 
@@ -209,6 +210,25 @@ public class DngSupportedDevices
         return null;
     }
 
+
+    private DngProfile getXiamoi_mi3WProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 17522688:
+                return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,
+                        Matrixes.g3_color1,
+                        Matrixes.g3_color2,
+                        Matrixes.g3_neutral);
+            case 16424960:
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,
+                        Matrixes.g3_color1,
+                        Matrixes.g3_color2,
+                        Matrixes.g3_neutral);
+        }
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (device) {
@@ -256,6 +276,8 @@ public class DngSupportedDevices
                         Matrixes.Redmi_Note.CC_A_Back,
                         Matrixes.Redmi_Note.CC_D65_Back,
                         Matrixes.Redmi_Note.wb_neutral);
+            case Xiaomi_mi3:
+                return getXiamoi_mi3WProfile(filesize);
         }
         return null;
     }

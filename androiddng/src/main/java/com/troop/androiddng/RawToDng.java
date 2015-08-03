@@ -193,6 +193,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.OnePlusOne;
         if (DeviceUtils.isRedmiNote())
             return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
+        if (DeviceUtils.isXiaomiMI3W())
+            return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
         return null;
     }
 

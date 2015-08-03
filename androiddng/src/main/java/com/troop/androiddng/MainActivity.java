@@ -62,6 +62,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.OnePlusOne;
 		if (filename.toLowerCase().contains("xiaomi_redmi_note"))
 			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
+		if (filename.toLowerCase().contains("xiaomi_mi3w"))
+			return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
 		return null;
 	}
 	
