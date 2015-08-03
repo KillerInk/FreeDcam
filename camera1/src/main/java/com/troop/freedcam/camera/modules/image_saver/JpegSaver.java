@@ -60,6 +60,8 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     public void saveBytesToFile(byte[] bytes, File fileName)
     {
+        checkFileExists(fileName);
+
         Log.d(TAG, "Start Saving Bytes");
         FileOutputStream outStream = null;
         try {
@@ -77,5 +79,16 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         Log.d(TAG, "End Saving Bytes");
         iWorkeDone.OnWorkDone(fileName);
 
+    }
+
+    public void checkFileExists(File fileName) {
+        if(!fileName.getParentFile().exists())
+            fileName.getParentFile().mkdirs();
+        if (!fileName.exists())
+            try {
+                fileName.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 }

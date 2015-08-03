@@ -65,6 +65,8 @@ public class DngSaver extends JpegSaver
 
     public void processData(byte[] data, File file)
     {
+
+        checkFileExists(file);
         try
         {
             if (data.length < 4500)
