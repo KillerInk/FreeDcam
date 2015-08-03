@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters;
 
+import android.graphics.ImageFormat;
+import android.media.Image;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -363,4 +365,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
+    @Override
+    public void SetAppSettingsToParameters() {
+        super.SetAppSettingsToParameters();
+        PreviewFormat.SetValue("yuv420sp", false);
+    }
 }
