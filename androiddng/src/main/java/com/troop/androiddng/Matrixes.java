@@ -279,4 +279,48 @@ public class Matrixes
                 -0.1108f,           1.4247f,            -0.31389999f,
                 0.1314f,            -0.77179998f,       1.6403f};
     }
+
+
+    public static final float[]  onePCCM1 =
+            {
+                    1.138859996f, -0.6577f, 0.1728f, -0.158f, 0.8415899976f, 0.3164100004f, 0.0016f, 0.11354f, 0.5451699946f
+            };
+    public static final float[] onePCCM2 =
+            {
+                    0.84004f, -0.1959100005f, -0.06722f, -0.37852f, 1.17734999f, 0.2011699991f, -0.05178f, 0.20784f, 0.5102200031f
+            };
+
+    public static final float[] onePNM =
+            {
+                    0.6295f, 1f, 0.5108f
+            };
+
+    public static final float[]  Nex6CCM1 =
+            {
+                    1.140700f, -0.402200f, -0.234000f, -0.431400f, 1.404000f, 0.014600f, -0.043900f, 0.204700f, 0.570400f
+            };
+    public static final float[] Nex6CCM2 =
+            {
+                    0.722800f, -0.089300f, -0.097500f, -0.479200f, 1.348100f, 0.138100f, -0.113700f, 0.268000f, 0.560400f
+            };
+
+    public static final float[] Nex6NM =
+            {
+                    0.5391f, 1.0000f, 0.6641f
+            };
+
+    public static final float[]  G4CCM1 =
+            {
+                    1.15625f, -0.2890625f, -0.3203125f, -0.53125f, 1.5625f,.0625f, -0.078125f, 0.28125f, 0.5625f
+            };
+    public static final float[] G4CCM2 =
+            {
+                    0.5859375f, 0.0546875f, -0.125f, -0.6484375f, 1.5546875f, 0.0546875f, -0.2421875f, 0.5625f, 0.390625f
+            };
+
+    public static final float[] G4NM =
+            {
+                    0.53125f, 1f, 0.640625f
+            };
+
 }

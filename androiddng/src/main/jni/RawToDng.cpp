@@ -236,6 +236,7 @@ TIFF *openfTIFF(char* fileSavePath)
     return tif;
 }
 
+
 void writeIfd0(TIFF *tif, DngWriter *writer)
 {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
@@ -294,6 +295,29 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
+
+        static const float cam_foward1[] = {
+      		// R 	G     	B
+      		0.6648, 0.2566, 0.0429, 0.197, 0.9994, -0.1964, -0.0894, -0.2304, 1.145
+      	};
+
+      	static const float cam_foward2[] = {
+        	0.6617, 0.3849, -0.0823, 0.24, 1.1138, -0.3538, -0.0062, -0.1147, 0.946
+        	};
+
+        	static const float cam_nex_foward1[] = {
+                  		// R 	G     	B
+                  		0.6328, 0.0469, 0.2813, 0.1641, 0.7578, 0.0781, -0.0469, -0.6406, 1.5078
+                  	};
+
+                  	static const float cam_nex_foward2[] = {
+                    	0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859
+                    	};
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9, cam_nex_foward1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9, cam_nex_foward2);
+
+
+
     LOGD("colormatrix2");
        	    //////////////////////////////IFD POINTERS///////////////////////////////////////
        	                                ///GPS//////////
