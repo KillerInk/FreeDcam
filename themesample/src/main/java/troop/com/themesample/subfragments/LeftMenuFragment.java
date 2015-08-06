@@ -44,6 +44,19 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemVideoProfile videoProfile;
     troop.com.themesample.views.menu.MenuItem videoHDR;
 
+    troop.com.themesample.views.menu.MenuItem OverrideVideoProfile;
+    troop.com.themesample.views.menu.MenuItem VideoWidth;
+    troop.com.themesample.views.menu.MenuItem VideoHeight;
+    troop.com.themesample.views.menu.MenuItem VideoFps;
+    troop.com.themesample.views.menu.MenuItem VideoBitrate;
+    troop.com.themesample.views.menu.MenuItem VideoHFR;
+    troop.com.themesample.views.menu.MenuItem VideoHSR;
+    troop.com.themesample.views.menu.MenuItem VideoCodec;
+    troop.com.themesample.views.menu.MenuItem AudioBitrate;
+    troop.com.themesample.views.menu.MenuItem AudioSampleRate;
+    troop.com.themesample.views.menu.MenuItem AudioCodec;
+
+
     Interfaces.I_MenuItemClick onMenuItemClick;
 
     @Override

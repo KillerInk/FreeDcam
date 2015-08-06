@@ -53,6 +53,12 @@ public class AppSettingsManager
     public static String SETTING_VIDEOSIZE = "videosize";
     public static String SETTING_VIDEPROFILE = "videoprofile";
     public static String SETTING_VIDEOHDR = "videohdr";
+    ///                  Video Override
+   // public static String SETTING_VIDEOHDR = "videohfr";
+   // public static String SETTING_VIDEOHDR = "videohsr";
+
+
+    ////////// overide end
     public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     public static String SETTING_SONYAPI = "sonyapi";
     public static String SETTING_DNG = "dng";
