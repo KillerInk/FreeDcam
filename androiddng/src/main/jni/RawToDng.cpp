@@ -48,6 +48,11 @@ extern "C"
     	jfloatArray colorMatrix1,
     	jfloatArray colorMatrix2,
     	jfloatArray neutralColor,
+    	jfloatArray fowardMatrix1,
+        jfloatArray fowardMatrix2,
+        jfloatArray reductionMatrix1,
+        jfloatArray reductionMatrix2,
+        jfloatArray noiseMatrix,
     	jint blacklevel,
     	jstring bayerformat,
     	jint rowSize,
@@ -86,6 +91,11 @@ public:
     float *colorMatrix1;
     float *colorMatrix2;
     float *neutralColorMatrix;
+    float *fowardMatrix1;
+    float *fowardMatrix2;
+    float *reductionMatrix1;
+    float *reductionMatrix2;
+    float *noiseMatrix;
     char* bayerformat;
     bool tightRaw;
     long rawSize;
@@ -204,6 +214,11 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
 	jfloatArray colorMatrix1,
 	jfloatArray colorMatrix2,
 	jfloatArray neutralColor,
+	jfloatArray fowardMatrix1,
+        jfloatArray fowardMatrix2,
+        jfloatArray reductionMatrix1,
+        jfloatArray reductionMatrix2,
+        jfloatArray noiseMatrix,
 	jint blacklevel,
 	jstring bayerformat,
 	jint rowSize,
@@ -220,6 +235,13 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
+
+    writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
+    writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
+    writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
+    writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
+    writer->noiseMatrix =env->GetFloatArrayElements(noiseMatrix, 0);
+
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
     writer->rawheight = height;
     writer->rawwidht = width;
@@ -313,8 +335,8 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
                   	static const float cam_nex_foward2[] = {
                     	0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859
                     	};
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9, cam_nex_foward1);
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9, cam_nex_foward2);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
 
 
 

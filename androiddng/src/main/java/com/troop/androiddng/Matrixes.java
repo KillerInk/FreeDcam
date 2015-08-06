@@ -100,6 +100,141 @@ public class Matrixes
                     0.8853462669953089f, (float) 1, (float) 0.5438498847101853
             };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public  static final float[]  OnePlus_identity_matrix1 =
+            {
+                    1.138859996f, -0.6577f, 0.1728f, -0.158f, 0.8415899976f, 0.3164100004f, 0.0016f, 0.11354f, 0.5451699946f
+            };
+    public static final float[] OnePlus_identity_matrix2 =
+            {
+                    0.84004f, -0.1959100005f, -0.06722f, -0.37852f, 1.17734999f, 0.2011699991f, -0.05178f, 0.20784f, 0.5102200031f
+            };
+
+    public static final float[] OnePlus_identity_neutra =
+            {
+                    0.6295f, 1f, 0.5108f
+            };
+    public static final float[] OnePlus_foward_matrix1 =
+            {
+                    0.6648f, 0.2566f, 0.0429f, 0.197f, 0.9994f, -0.1964f, -0.0894f, -0.2304f, 1.145f
+            };
+
+    public static final float[] OnePlus_foward_matrix2 =
+            {
+                    0.6617f, 0.3849f, -0.0823f, 0.24f, 1.1138f, -0.3538f, -0.0062f, -0.1147f, 0.946f
+            };
+
+    public static final float[] OnePlus_reduction_matrix1 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] OnePlus_reduction_matrix2 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] OnePlus_noise_3x1_matrix =
+            {
+                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+            };
+
+//////////////////////////////end 1+ ////////////////////////////////////////////////////////////////
+    public  static final float[]  Nexus6_identity_matrix1 =
+            {
+                    1.140700f, -0.402200f, -0.234000f, -0.431400f, 1.404000f, 0.014600f, -0.043900f, 0.204700f, 0.570400f
+            };
+    public static final float[] Nexus6_identity_matrix2 =
+            {
+                    0.722800f, -0.089300f, -0.097500f, -0.479200f, 1.348100f, 0.138100f, -0.113700f, 0.268000f, 0.560400f
+            };
+
+    public static final float[] Nexus6_identity_neutra =
+            {
+                    0.5391f, 1.0000f, 0.6641f
+            };
+    public static final float[] Nexus6_foward_matrix1 =
+            {
+                    0.6328f, 0.0469f, 0.2813f, 0.1641f, 0.7578f, 0.0781f, -0.0469f, -0.6406f, 1.5078f
+            };
+
+    public static final float[] Nexus6_foward_matrix2 =
+            {
+                    0.7578f, 0.0859f, 0.1172f, 0.2734f, 0.8281f, -0.1016f, 0.0156f, -0.2813f, 1.0859f
+            };
+
+    public static final float[] Nexus6_reduction_matrix1 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] Nexus6_reduction_matrix2 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] Nexus6_noise_3x1_matrix =
+            {
+                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+            };
+
+
+    //////////////////////////////////eND nEXUS 6//////////////////////////////////////////////////
+
+    public  static final float[]  G4_identity_matrix1 =
+            {
+                    1.15625f, -0.2890625f, -0.3203125f, -0.53125f, 1.5625f,.0625f, -0.078125f, 0.28125f, 0.5625f
+            };
+    public static final float[] G4_identity_matrix2 =
+            {
+                    0.5859375f, 0.0546875f, -0.125f, -0.6484375f, 1.5546875f, 0.0546875f, -0.2421875f, 0.5625f, 0.390625f
+            };
+
+    public static final float[] G4_identity_neutra =
+            {
+                    0.53125f, 1f, 0.640625f
+            };
+    public static final float[] G4_foward_matrix1 =
+            {
+                    0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
+            };
+
+    public static final float[] G4_foward_matrix2 =
+            {
+                    0.679700f, -0.078100f, 0.359400f, 0.210900f, 0.703100f,0.085900f, -0.046900f, -0.828100f, 1.695300f
+            };
+
+    public static final float[] G4_reduction_matrix1 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] G4_reduction_matrix2 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] G4_noise_3x1_matrix =
+            {
+                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+            };
+
+    ////////////////////////////////   END G4 /////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
     static class G3Device
     {
         //BACK CAM
