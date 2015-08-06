@@ -14,22 +14,142 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <troop.com.themesample.views.menu.MenuItemTheme
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemTheme"
-                app:Description="Choose your favorite theme"
-                app:HeaderText="Theme: "
-                app:ValueText="Test"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Picture"
+                android:id="@+id/textView4"
+                android:textColor="#ffffffff"
+                android:background="#9c808080"
                 android:layout_marginBottom="1dp" />
 
-            <troop.com.themesample.views.menu.MenuItemSDSave
+            <troop.com.themesample.views.menu.MenuItemBayerFormat
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemSDSave"
-                app:Description="Location to save"
-                app:HeaderText="SD Card: "
-                app:ValueText="Internal"
+                android:id="@+id/MenuItemBayerFormat"
+                app:Description="Select the Sensor RawOutput used for Dng"
+                app:HeaderText="BayerFormat: "
+                app:ValueText="bayer-mipi"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemJpegQuality"
+                app:Description="Compression in % for JPEG"
+                app:HeaderText="Jpeg Quality: "
+                app:ValueText="80"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemPicSize"
+                app:Description="Picture Size for JPEG"
+                app:HeaderText="Size: "
+                app:ValueText="1920x1080"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/div1" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Video"
+                android:textColor="#ffffffff"
+                android:background="#9c808080"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItemVideoProfile
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemVideoProfile"
+                app:Description="MediaProfiles for VideoRecording"
+                app:HeaderText="Video Profiles: "
+                app:ValueText="4KUHD"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemVideHDR"
+                app:Description="turn on to enable hdr video"
+                app:HeaderText="Video HDR: "
+                app:ValueText="OFF"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/div2" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="HDR"
+                android:id="@+id/textView5"
+                android:textColor="#ffffffff"
+                android:background="#9c808080"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemAeBracket"
+                app:Description="If ON the camera takes 3 Images in one Shot"
+                app:HeaderText="AE-Bracket: "
+                app:ValueText="OFF"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/div3" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Freedcam Settings"
+                android:id="@+id/textView6"
+                android:textColor="#ff000000"
+                android:background="#ffffffff"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemApi"
+                app:Description="Select the Api you want to use"
+                app:HeaderText="Api:"
+                app:ValueText="Camera1"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemExternalShutter"
+                app:Description="The key wich can trigger the shutter from a headset"
+                app:HeaderText="ExternalShutterKey:"
+                app:ValueText="Hook"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemGPS
@@ -53,19 +173,10 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemApi"
-                app:Description="Select the Api you want to use"
-                app:HeaderText="Api:"
-                app:ValueText="Camera1"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemExternalShutter"
-                app:Description="The key wich can trigger the shutter from a headset"
-                app:HeaderText="ExternalShutterKey:"
-                app:ValueText="Hook"
+                android:id="@+id/MenuItemHistogram"
+                app:Description="If ON Histogram is shown"
+                app:HeaderText="Histogram: "
+                app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemOrientationHack
@@ -77,102 +188,24 @@
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
-            <TextView
+            <troop.com.themesample.views.menu.MenuItemSDSave
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Picture"
-                android:id="@+id/textView4"
-                android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
+                android:id="@+id/MenuItemSDSave"
+                app:Description="Location to save"
+                app:HeaderText="SD Card: "
+                app:ValueText="Internal"
                 android:layout_marginBottom="1dp" />
 
-            <troop.com.themesample.views.menu.MenuItemBayerFormat
+            <troop.com.themesample.views.menu.MenuItemTheme
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemBayerFormat"
-                app:Description="Select the Sensor RawOutput used for Dng"
-                app:HeaderText="BayerFormat: "
-                app:ValueText="bayer-mipi"
+                android:id="@+id/MenuItemTheme"
+                app:Description="Choose your favorite theme"
+                app:HeaderText="Theme: "
+                app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemPicSize"
-                app:Description="Picture Size for JPEG"
-                app:HeaderText="Size: "
-                app:ValueText="1920x1080"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemJpegQuality"
-                app:Description="Compression in % for JPEG"
-                app:HeaderText="Jpeg Quality: "
-                app:ValueText="80"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemHistogram"
-                app:Description="If ON Histogram is shown"
-                app:HeaderText="Histogram: "
-                app:ValueText="OFF"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemRedEye"
-                app:Description="If ON SecondFlash gets fired"
-                app:HeaderText="Red Eye Reduction: "
-                app:ValueText="OFF"
-                android:layout_marginBottom="1dp" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="HDR"
-                android:id="@+id/textView5"
-                android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemAeBracket"
-                app:Description="If ON the camera takes 3 Images in one Shot"
-                app:HeaderText="AE-Bracket: "
-                app:ValueText="OFF"
-                android:layout_marginBottom="1dp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Video"
-                android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItemVideoProfile
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemVideoProfile"
-                app:Description="MediaProfiles for VideoRecording"
-                app:HeaderText="Video Profiles: "
-                app:ValueText="4KUHD"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemVideHDR"
-                app:Description="turn on to enable hdr video"
-                app:HeaderText="Video HDR: "
-                app:ValueText="OFF"
-                android:layout_marginBottom="1dp" />
         </LinearLayout>
     </ScrollView>
 

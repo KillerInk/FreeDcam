@@ -103,7 +103,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
-        sensorsUtil = new SensorsUtil();
+
         timerHandler = new TimerHandler(this);
 
         //initUI

@@ -38,7 +38,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
     troop.com.themesample.views.menu.MenuItem histogram;
-    troop.com.themesample.views.menu.MenuItem redeyeflash;
+
     troop.com.themesample.views.menu.MenuItem aeBracket;
 
     MenuItemVideoProfile videoProfile;
@@ -111,10 +111,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
         histogram.SetMenuItemListner(this);
 
-        redeyeflash = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemRedEye);
-        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
-        redeyeflash.SetParameter(wrapper.camParametersHandler.RedEye);
-        redeyeflash.SetMenuItemListner(this);
+
 
         aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
         aeBracket.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);

@@ -14,75 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemScene"
-                app:Description="Select the Scene that match your shoting style"
-                app:HeaderText="Scene: "
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemColor"
-                app:Description="PostProcessing ColorModes"
-                app:HeaderText="Color: "
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemCCTMode"
-                app:Description="Change this for manual or auto set"
-                app:HeaderText="ColorCorrectionMode: "
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemObjectTracking"
-                app:Description="Enable to set Focus on a Object to follow"
-                app:HeaderText="ObjectTracking:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemTonemap"
-                app:Description=""
-                app:HeaderText="ToneMap:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemPostViewSize"
-                app:Description="Size of the Images transfered from RemoteCam"
-                app:HeaderText="PostViewSize:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemControlMode"
-                app:Description="Controls the Main Camera Functions, turn off for full manual"
-                app:HeaderText="Camera ControlMode:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Quality"
-                android:id="@+id/textView5"
+                android:text="Legacy Camera Settings"
+                android:id="@+id/legcset"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
                 android:layout_marginBottom="1dp" />
@@ -99,9 +36,56 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemIpp"
-                app:Description="The quality of the PostProcessing"
-                app:HeaderText="ImagePostProcessing:"
+                android:id="@+id/MenuItemColor"
+                app:Description="PostProcessing ColorModes"
+                app:HeaderText="Color: "
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemScene"
+                app:Description="Select the Scene that match your shoting style"
+                app:HeaderText="Scene: "
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/legacyDiv"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Qualcomm Settings"
+                android:id="@+id/textView9"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemCorrelatedDoubleSampling"
+                app:Description="Not enough space to explain, sorry"
+                app:HeaderText="CorrelatedDoubleSampling:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemDigitalImageStab"
+                app:Description=""
+                app:HeaderText="DigitalImageStabilization:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -117,59 +101,30 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemSceneDetection"
-                app:Description=""
-                app:HeaderText="SceneDetection:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemDigitalImageStab"
-                app:Description=""
-                app:HeaderText="DigitalImageStabilization:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/MenuItemMemoryColorEnhanc"
                 app:Description="Turn on to boost Jpeg Skin Colors"
                 app:HeaderText="MemoryColorEnhacement:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
+
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemZSL"
-                app:Description="Must DISABLED for Raw Capture!"
-                app:HeaderText="ZeroShutterLAg:"
-                app:ValueText="Test"
+                android:id="@+id/MenuItemRedEye"
+                app:Description="If ON SecondFlash gets fired"
+                app:HeaderText="Red Eye Reduction: "
+                app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
+
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/MenuItemNonManualZSL"
-                app:Description="Turn on to enable ManualControl when ZSL is off"
-                app:HeaderText="ManualControl(ZSL= OFF):"
+                android:id="@+id/MenuItemSceneDetection"
+                app:Description=""
+                app:HeaderText="SceneDetection:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemCorrelatedDoubleSampling"
-                app:Description="Not enough space to explain, sorry"
-                app:HeaderText="CorrelatedDoubleSampling:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
-            <troop.com.themesample.views.menu.MenuItem
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/MenuItemWaveletDenoise"
-                app:Description="Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!"
-                app:HeaderText="WaveletDenoise:"
-                app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
+
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -182,11 +137,68 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/MenuItemWaveletDenoise"
+                app:Description="Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!"
+                app:HeaderText="WaveletDenoise:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemZSL"
+                app:Description="Must DISABLED for Raw Capture!"
+                app:HeaderText="ZeroShutterLAg:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/QualcommDiv"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Camera 2 Settings"
+                android:id="@+id/textView8"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemCCTMode"
+                app:Description="Change this for manual or auto set"
+                app:HeaderText="ColorCorrectionMode: "
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemControlMode"
+                app:Description="Controls the Main Camera Functions, turn off for full manual"
+                app:HeaderText="Camera ControlMode:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/MenuItemEdgeMode"
                 app:Description=""
                 app:HeaderText="EdgeMode:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
+
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -199,11 +211,147 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/MenuItemTonemap"
+                app:Description=""
+                app:HeaderText="ToneMap:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/Camera2DIV"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Sony QX  Settings"
+                android:id="@+id/textView7"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemObjectTracking"
+                app:Description="Enable to set Focus on a Object to follow"
+                app:HeaderText="ObjectTracking:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemPostViewSize"
+                app:Description="Size of the Images transfered from RemoteCam"
+                app:HeaderText="PostViewSize:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/QXcamDiv"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="OMAP Settings"
+                android:id="@+id/textView10"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemIpp"
+                app:Description="The quality of the PostProcessing"
+                app:HeaderText="ImagePostProcessing:"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/OmapDiv"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="LG Settings"
+                android:id="@+id/textView11"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/MenuItemOIS"
                 app:Description=""
                 app:HeaderText="Optical Image Stabilisation:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/LGDiv"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="HTC Settings"
+                android:id="@+id/textView12"
+                android:textColor="@color/menuTextColor"
+                android:background="#9c999999"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemNonManualZSL"
+                app:Description="Turn on to enable ManualControl when ZSL is off"
+                app:HeaderText="ManualControl(ZSL= OFF):"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/HTCDiv"
+                android:autoText="false" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
