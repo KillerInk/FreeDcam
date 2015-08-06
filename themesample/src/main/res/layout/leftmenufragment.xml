@@ -165,6 +165,14 @@
                 app:HeaderText="Video Profiles: "
                 app:ValueText="4KUHD"
                 android:layout_marginBottom="1dp" />
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemVideHDR"
+                app:Description="turn on to enable hdr video"
+                app:HeaderText="Video HDR: "
+                app:ValueText="OFF"
+                android:layout_marginBottom="1dp" />
         </LinearLayout>
     </ScrollView>
 
