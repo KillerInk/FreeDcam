@@ -132,6 +132,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     y = 0;
                     difx = 0;
                     dify = 0;
+                    recthalf = (int)imageView.getWidth()/2;
                     imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf);
                     if (touchListnerEvent != null)
                         touchListnerEvent.onAreaCHanged(imageRect, i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
