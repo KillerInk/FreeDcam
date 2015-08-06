@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/longexposure/longexposure.iml" filepath="$PROJECT_DIR$/longexposure/longexposure.iml" />
       <module fileurl="file://$PROJECT_DIR$/seekarc/seekarc.iml" filepath="$PROJECT_DIR$/seekarc/seekarc.iml" />
       <module fileurl="file://$PROJECT_DIR$/sonyapi/sonyapi.iml" filepath="$PROJECT_DIR$/sonyapi/sonyapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spinnerwheel/spinnerwheell.iml" filepath="$PROJECT_DIR$/spinnerwheel/spinnerwheell.iml" />
       <module fileurl="file://$PROJECT_DIR$/themeclassic/themeclassic.iml" filepath="$PROJECT_DIR$/themeclassic/themeclassic.iml" />
       <module fileurl="file://$PROJECT_DIR$/themesample/themesample.iml" filepath="$PROJECT_DIR$/themesample/themesample.iml" />
     </modules>
