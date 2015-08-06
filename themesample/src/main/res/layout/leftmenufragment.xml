@@ -28,8 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemBayerFormat"
-                app:Description="Select the Sensor RawOutput used for Dng"
-                app:HeaderText="BayerFormat: "
+                app:Description="Sensor raw format mode to be encoded as DNG"
+                app:HeaderText="Bayer Format: "
                 app:ValueText="bayer-mipi"
                 android:layout_marginBottom="1dp" />
 
@@ -37,8 +37,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemJpegQuality"
-                app:Description="Compression in % for JPEG"
-                app:HeaderText="Jpeg Quality: "
+                app:Description="Quality Value in % "
+                app:HeaderText="JPEG Quality: "
                 app:ValueText="80"
                 android:layout_marginBottom="1dp" />
 
@@ -53,10 +53,10 @@
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
+                android:background="#13ffffff"
                 android:layout_marginBottom="1dp"
                 android:id="@+id/div1" />
 
@@ -73,9 +73,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemVideoProfile"
-                app:Description="MediaProfiles for VideoRecording"
-                app:HeaderText="Video Profiles: "
-                app:ValueText="4KUHD"
+                app:Description="Media Profile used VideoRecording"
+                app:HeaderText="Video Profile: "
+                app:ValueText="1080p"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
@@ -89,10 +89,10 @@
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
+                android:background="#13ffffff"
                 android:layout_marginBottom="1dp"
                 android:id="@+id/div2" />
 
@@ -117,10 +117,10 @@
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/menuTextColor"
-                android:background="#9c999999"
+                android:background="#13ffffff"
                 android:layout_marginBottom="1dp"
                 android:id="@+id/div3" />
 
@@ -165,7 +165,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemGuide"
-                app:Description="Guide for Preview"
+                app:Description="Compositional Guides"
                 app:HeaderText="Guide:"
                 app:ValueText="Golden Ratio"
                 android:layout_marginBottom="1dp" />
@@ -174,7 +174,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemHistogram"
-                app:Description="If ON Histogram is shown"
+                app:Description="Enables a rgb histogram"
                 app:HeaderText="Histogram: "
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemOrientationHack"
                 app:Description="Rotates the Camera 180° if ON"
-                app:HeaderText="OrientationHack:"
+                app:HeaderText="Orientation Correction:"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -192,7 +192,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemSDSave"
-                app:Description="Location to save"
+                app:Description="File save location"
                 app:HeaderText="SD Card: "
                 app:ValueText="Internal"
                 android:layout_marginBottom="1dp" />

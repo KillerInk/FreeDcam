@@ -28,8 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemAntiBanding"
-                app:Description="Reduce flickering when pointing on screens"
-                app:HeaderText="AntiBanding:"
+                app:Description="Reduce flickering on artificial light sources"
+                app:HeaderText="Anti Flicker:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -37,8 +37,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemColor"
-                app:Description="PostProcessing ColorModes"
-                app:HeaderText="Color: "
+                app:Description="Color effet style"
+                app:HeaderText="Color Effect: "
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemScene"
-                app:Description="Select the Scene that match your shoting style"
+                app:Description="Select the Scene that matches current Scenario"
                 app:HeaderText="Scene: "
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
@@ -75,8 +75,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemCorrelatedDoubleSampling"
-                app:Description="Not enough space to explain, sorry"
-                app:HeaderText="CorrelatedDoubleSampling:"
+                app:Description="Sensor electrical readout measured twice"
+                app:HeaderText="Correlated double sampling:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -84,8 +84,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemDigitalImageStab"
-                app:Description=""
-                app:HeaderText="DigitalImageStabilization:"
+                app:Description="Shifts electronic image to counteract movement"
+                app:HeaderText="Digital image stabilization:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -93,8 +93,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/MenuItemLensShade"
-            app:Description=""
-            app:HeaderText="Lensshade:"
+            app:Description="Reduces Vignetting on the edges "
+            app:HeaderText="Lens shade:"
             app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -102,8 +102,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemMemoryColorEnhanc"
-                app:Description="Turn on to boost Jpeg Skin Colors"
-                app:HeaderText="MemoryColorEnhacement:"
+                app:Description="Boosts Colors equivelant to adobe vibrance"
+                app:HeaderText="Memory Color Enhacement:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -111,8 +111,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemRedEye"
-                app:Description="If ON SecondFlash gets fired"
-                app:HeaderText="Red Eye Reduction: "
+                app:Description="Emits a small pre-flash before the main flash"
+                app:HeaderText="Red-Eye Reduction: "
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -120,7 +120,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemSceneDetection"
-                app:Description=""
+                app:Description="Auto Scene Mode Changer"
                 app:HeaderText="SceneDetection:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTemporalDenoise"
                 app:Description="Denoise for Video, dont use it with wavelet!"
-                app:HeaderText="TemporalDenoise:"
+                app:HeaderText="Temporal Denoise:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -139,16 +139,17 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemWaveletDenoise"
                 app:Description="Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!"
-                app:HeaderText="WaveletDenoise:"
+                app:HeaderText="Wavelet Denoise:"
                 app:ValueText="Test"
+
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemZSL"
-                app:Description="Must DISABLED for Raw Capture!"
-                app:HeaderText="ZeroShutterLAg:"
+                app:Description="Buffers Iamges for instant Capture N/A to raw must be off"
+                app:HeaderText="Zero Shutter Lag:"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
