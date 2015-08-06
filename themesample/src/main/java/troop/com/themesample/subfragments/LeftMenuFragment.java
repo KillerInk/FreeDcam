@@ -42,6 +42,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem aeBracket;
 
     MenuItemVideoProfile videoProfile;
+    troop.com.themesample.views.menu.MenuItem videoHDR;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -127,6 +128,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
         videoProfile.SetMenuItemListner(this);
+
+        videoHDR = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemVideHDR);
+        videoHDR.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
+        videoHDR.SetParameter(wrapper.camParametersHandler.VideoHDR);
+        videoHDR.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
