@@ -538,7 +538,14 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 i.setDataAndType(uri, "video/*");
             else
                 i.setDataAndType(uri, "image/*");
-            activity.startActivity(i);
+            String title = "Choose App:";
+            // Create intent to show chooser
+            Intent chooser = Intent.createChooser(i, title);
+
+            // Verify the intent will resolve to at least one activity
+            if (i.resolveActivity(getPackageManager()) != null) {
+                startActivity(chooser);
+            }
         }
     }
 
@@ -562,7 +569,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     {
 
         //else
-            //progress = ProgressDialog.show(this,"", "Loading", true);
+        //progress = ProgressDialog.show(this,"", "Loading", true);
     }
 
     @Override
