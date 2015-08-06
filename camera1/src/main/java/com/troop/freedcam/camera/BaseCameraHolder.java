@@ -803,8 +803,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 if (meteringRect != null)
                     meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
                 SecCamera.Parameters p = samsungCamera.getParameters();
-                if(p.getMaxNumMeteringAreas() > 0);
-                p.setMeteringAreas(meteringList);
+                if(p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
@@ -817,10 +817,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
             else {
                 List<Camera.Area> meteringList = new ArrayList<>();
                 if (meteringRect != null)
-                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
+                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
                 Camera.Parameters p = mCamera.getParameters();
-                if(p.getMaxNumMeteringAreas() > 0);
-                p.setMeteringAreas(meteringList);
+                if(p.getMaxNumMeteringAreas() > 0)
+                    p.setMeteringAreas(meteringList);
 
                 try {
                     Log.d(TAG, "try Set Metering");
