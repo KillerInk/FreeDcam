@@ -68,7 +68,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     public ThemeHandler themeHandler;
-    public SensorsUtil sensorsUtil;
+
     static HistogramFragment histogramFragment;
 
 
