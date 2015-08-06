@@ -181,7 +181,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     @Override
     public void OnPreviewSizeChanged(int w, int h)
     {
-
+        Log.d(TAG, "Preview Size Changed " + w +"x"+h);
         if (currentModule == null || currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
@@ -198,7 +198,8 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                     sizes.add(new Size(s));
                 }
                 Size size = getOptimalPreviewSize(sizes, w, h);
-                ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                Log.d(TAG, "set size to " +size.width + "x" + size.height);
+                //ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 setPreviewToDisplay(size.width, size.height);
         }
         else
@@ -236,6 +237,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 }
             }
         }
+        Log.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
     }
 
@@ -286,6 +288,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
 
         double newratio = getRatio(w, h);
+        Log.d(TAG, "Preview ratio:"+newratio);
         int width = 0;
         int height = 0;
 
@@ -320,7 +323,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
         }
         double displayratio = getRatio(width, height);
-
+        Log.d(TAG, "Display ratio:"+displayratio);
         if (newratio == displayratio)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
