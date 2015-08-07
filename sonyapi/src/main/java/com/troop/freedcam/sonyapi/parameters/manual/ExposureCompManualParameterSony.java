@@ -17,9 +17,11 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     int min = -1;
     int max = -1;
+
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
     public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
+        val = -200;
     }
 
     @Override
@@ -88,20 +90,20 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         max = array.getInt(1);
                     } catch (IOException e)
                     {
-                        max = -2;
+
                         Log.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
                     } catch (JSONException e)
                     {
-                        max = -2;
+
                         Log.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
                     }
                 }
             }).start();
-            while (max == -1 && min == -1)
+            /*while (max == -1 && min == -1)
             {
                 try {
                     Thread.sleep(10);
@@ -109,14 +111,13 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
 
     @Override
     public int GetValue()
     {
-        val = -200;
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -125,14 +126,15 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                     JSONArray array = object.getJSONArray("result");
                     val = array.getInt(0);
+                    onCurrentValueChanged(val);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(TAG, "Error GetValue() ");
-                    val = 0;
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, "Error GetValue() ");
-                    val = 0;
+
                 }
             }
         }).start();

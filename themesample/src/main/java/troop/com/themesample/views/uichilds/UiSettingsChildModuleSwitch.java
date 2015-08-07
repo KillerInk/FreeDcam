@@ -37,11 +37,14 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
 
     @Override
     public void ParametersLoaded() {
-        if ((cameraUiWrapper.moduleHandler instanceof ModuleHandlerSony) || cameraUiWrapper.moduleHandler == null)
+        if (cameraUiWrapper.moduleHandler == null)
             return;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null)
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null) {
             cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-        onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+
+        }
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
     }
 
     private class ModuleParamters extends AbstractModeParameter

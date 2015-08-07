@@ -36,7 +36,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
                 switchCamera();
             }
         });
-        valueText.setText(getCamera(currentCamera));
     }
 
     @Override
@@ -45,6 +44,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         if (appSettingsManager == null)
             return;
         currentCamera = appSettingsManager.GetCurrentCamera();
+        valueText.setText(getCamera(currentCamera));
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)

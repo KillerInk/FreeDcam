@@ -22,7 +22,7 @@ public class SimpleRemoteApi {
 
     // If you'd like to suppress detailed log output, change this value into
     // false.
-    private static final boolean FULL_LOG = false;
+    private static final boolean FULL_LOG = true;
 
     // API server device you want to send requests.
     private ServerDevice mTargetServer;
