@@ -24,54 +24,21 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="180dp"
-            android:layout_height="100dp"
-            android:id="@+id/histoView"
-            android:layout_alignTop="@+id/progressBar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="61dp"
-            android:id="@+id/imageView"
-            android:background="#a5ffffff"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:layout_width="@dimen/appiconsizedouble"
-            android:layout_height="@dimen/appiconsizedouble"
-            android:text=">"
-            android:id="@+id/button_next"
-            android:background="@drawable/button_clean"
-            android:textSize="@dimen/app_icon_size"
-            android:layout_alignTop="@+id/imageView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/appiconsizedouble"
-            android:id="@+id/BotBar"
-            android:layout_alignBottom="@+id/histoView"
-            android:layout_toRightOf="@+id/button_last"
-            android:layout_toEndOf="@+id/button_last">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false">
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="@dimen/appiconsizedouble"
-            android:layout_height="@dimen/appiconsizedouble"
-            android:text="&lt;"
-            android:id="@+id/button_last"
-            android:background="@drawable/button_clean"
-            android:textSize="@dimen/app_icon_size"
-            android:layout_alignBottom="@+id/imageView"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:id="@+id/histoView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="false"
+            android:layout_marginTop="15dp" />
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -86,8 +53,9 @@
             android:text="Play"
             android:id="@+id/button_play"
             android:background="@drawable/button_clean"
+            android:layout_alignParentBottom="false"
             android:layout_above="@+id/button_last"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginBottom="5dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -102,14 +70,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
             android:text="Large Text"
             android:id="@+id/textView_filename"
-            android:background="#00000000"
+            android:background="#adffffff"
             android:textColor="#ff000000"
-            android:layout_alignBottom="@+id/button_next"
-            android:layout_alignRight="@+id/button_play"
-            android:layout_alignEnd="@+id/button_play" />
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
 
 
 
@@ -151,6 +118,28 @@
                 android:id="@+id/textView_fnumber"
                 android:layout_marginLeft="2dp" />
         </LinearLayout>
+
+        <Button
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:text="&lt;"
+            android:id="@+id/button_last"
+            android:background="@drawable/button_clean"
+            android:textSize="@dimen/app_icon_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="true" />
+
+        <Button
+            android:layout_width="@dimen/appiconsizedouble"
+            android:layout_height="@dimen/appiconsizedouble"
+            android:text=">"
+            android:id="@+id/button_next"
+            android:background="@drawable/button_clean"
+            android:textSize="@dimen/app_icon_size"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
