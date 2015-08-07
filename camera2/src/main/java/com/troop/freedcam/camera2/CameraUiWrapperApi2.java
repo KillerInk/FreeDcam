@@ -23,7 +23,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
     AppSettingsManager appSettingsManager;
-    TextureView preview;
+    AutoFitTextureView preview;
 
     private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
 
@@ -37,7 +37,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     }
 
-    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
     {
         super(null, appSettingsManager);
         this.preview = preview;
@@ -91,7 +91,9 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
+        camParametersHandler.PictureSize.addEventListner(preview);
         //cameraHolder.StartPreview();
     }
 

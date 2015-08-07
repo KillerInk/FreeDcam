@@ -147,10 +147,14 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
+                layoutParams.rightMargin = 0;
+                layoutParams.leftMargin = 0;
             }
             else {
                 layoutParams.rightMargin = newwidthdiff / 2;
                 layoutParams.leftMargin = newwidthdiff / 2;
+                layoutParams.topMargin = 0;
+                layoutParams.bottomMargin = 0;
             }
             this.setLayoutParams(layoutParams);
         }
@@ -166,10 +170,14 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
+                layoutParams.rightMargin = 0;
+                layoutParams.leftMargin = 0;
             }
             else {
                 layoutParams.rightMargin = newwidthdiff/2;
                 layoutParams.leftMargin = newwidthdiff /2;
+                layoutParams.topMargin =  0;
+                layoutParams.bottomMargin = 0;
             }
 
             this.setLayoutParams(layoutParams);
@@ -193,7 +201,7 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
+        /*int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         if (0 == mRatioWidth || 0 == mRatioHeight) {
             setMeasuredDimension(width, height);
@@ -203,7 +211,7 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             } else {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
             }
-        }
+        }*/
     }
 
     @Override

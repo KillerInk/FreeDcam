@@ -123,7 +123,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
 
-        SetAppSettingsToParameters();
         uiHandler.post(new Runnable() {
             @Override
             public void run()
@@ -138,6 +137,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
             }
         });
+
+        SetAppSettingsToParameters();
+
 
     }
 
