@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.TouchHandler;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -47,7 +49,7 @@ import java.util.List;
 /**
  * Created by troop on 09.05.2015.
  */
-public class ImageViewerFragment extends Fragment
+public class ImageViewerFragment extends Fragment implements View.OnTouchListener
 {
     final String TAG = ImageViewerFragment.class.getSimpleName();
     View view;
@@ -70,6 +72,8 @@ public class ImageViewerFragment extends Fragment
     LinearLayout ll;
     RelativeLayout ui_holder;
     private I_Activity i_activity;
+
+    int imageviewDEfaultPos;
 
 
 
@@ -104,6 +108,8 @@ public class ImageViewerFragment extends Fragment
                     ui_holder.setVisibility(View.GONE);
             }
         });
+        imageviewDEfaultPos = (int)imageView.getX();
+        imageView.setOnTouchListener(this);
         this.play = (Button)view.findViewById(R.id.button_play);
         play.setVisibility(View.GONE);
         play.setOnClickListener(new View.OnClickListener() {
@@ -119,22 +125,7 @@ public class ImageViewerFragment extends Fragment
             }
         });
 
-        this.last = (Button)view.findViewById(R.id.button_last);
-        last.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                loadLastImage();
-            }
-        });
 
-        this.next = (Button)view.findViewById(R.id.button_next);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadNextImage();
-            }
-        });
 
         exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
         exifinfo.setVisibility(View.GONE);
@@ -408,4 +399,63 @@ public class ImageViewerFragment extends Fragment
 
     }
 
+
+    public int startX;
+    public int currentX;
+
+    boolean swipe = false;
+    long start;
+    long duration;
+    static final int MAX_DURATION = 3500;
+    float x, difx;
+    boolean lastset;
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        if (!imageView.isZoomed()) {
+            boolean fireagain = false;
+            final int distance = imageView.getWidth() / 4;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startX = (int) event.getX() - (int) imageView.getX();
+                    x = (int) event.getX();
+                    start = System.currentTimeMillis();
+                    break;
+                // case MotionEvent.A
+                case MotionEvent.ACTION_MOVE:
+                    difx = x - imageView.getX();
+                    int xd = TouchHandler.getDistance(imageviewDEfaultPos, (int) imageView.getX());
+                    if (xd < distance) {
+                        imageView.setX(event.getX() - difx);
+
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    xd = TouchHandler.getDistance(imageviewDEfaultPos, (int) imageView.getX());
+                    if (xd >= distance && !lastset) {
+                        lastset = true;
+
+                        if (imageviewDEfaultPos + distance > xd) {
+                            loadNextImage();
+                        } else if (imageviewDEfaultPos - distance < xd) {
+                            loadLastImage();
+                        }
+                        imageView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                lastset = false;
+                            }
+                        }, 100);
+                        imageView.setX(imageviewDEfaultPos);
+                        x = imageviewDEfaultPos;
+                        return false;
+                    }
+                    else
+                        imageView.setX(imageviewDEfaultPos);
+                    break;
+            }
+        }
+        return false;
+    }
 }
