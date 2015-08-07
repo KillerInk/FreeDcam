@@ -57,7 +57,7 @@
 
         </activity>
 
-        <!-- <activity
+        <activity
             android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
@@ -69,7 +69,7 @@
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> -->
+        </activity>
 
         <activity
             android:name="troop.com.imageviewer.ImageViewerActivity"
