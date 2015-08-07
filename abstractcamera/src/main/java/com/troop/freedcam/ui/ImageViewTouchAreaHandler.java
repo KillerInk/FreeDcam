@@ -139,7 +139,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 }
                 else
                 {
-                    touchListnerEvent.OnAreaClick((int)imageView.getX()+recthalf,(int)imageView.getY()+recthalf);
+                    touchListnerEvent.OnAreaClick(((int)imageView.getX()+ (int)event.getX()),((int)imageView.getY() + (int)event.getY()));
                 }
 
                 if (duration >= MAX_DURATION) {
