@@ -281,6 +281,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commit();
 
