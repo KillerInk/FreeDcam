@@ -14,8 +14,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center">
+            android:layout_gravity="center_horizontal">
 
             <troop.com.themesample.views.ManualItem
                 android:layout_width="wrap_content"
