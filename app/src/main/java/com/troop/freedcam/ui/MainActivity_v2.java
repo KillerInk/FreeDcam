@@ -38,7 +38,6 @@ import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
-import com.troop.freedcam.utils.SensorsUtil;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -429,11 +428,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return 0;
         }
-    }
-
-    @Override
-    public void SetPreviewSizeChangedListner(I_PreviewSizeEvent event) {
-        cameraFragment.setOnPreviewSizeChangedListner(event);
     }
 
     @Override

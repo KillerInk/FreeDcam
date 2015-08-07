@@ -320,7 +320,7 @@ public class MenuCreator
 
         if (surfaceView instanceof ExtendedSurfaceView)
         {
-            picSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, group, context.getString(R.string.picture_size), appSettingsManager , AppSettingsManager.SETTING_PICTURESIZE);
+            picSize = new PreviewExpandableChild(context, group, context.getString(R.string.picture_size), appSettingsManager , AppSettingsManager.SETTING_PICTURESIZE);
         }
         else
         {
@@ -512,7 +512,7 @@ public class MenuCreator
         ArrayList<ExpandableChild> childlist = new ArrayList<ExpandableChild>();
 
         if (surfaceView instanceof ExtendedSurfaceView) {
-            previewSize = new PreviewExpandableChild(context, (ExtendedSurfaceView)surfaceView, preview, context.getString(R.string.picture_size), appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE);
+            previewSize = new PreviewExpandableChild(context, preview, context.getString(R.string.picture_size), appSettingsManager, AppSettingsManager.SETTING_PREVIEWSIZE);
         }
         else
         {
@@ -566,11 +566,11 @@ public class MenuCreator
 
         if (surfaceView instanceof ExtendedSurfaceView)
         {
-            videoProfile = new VideoProfileExpandableChild(context,(ExtendedSurfaceView)surfaceView, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+            videoProfile = new VideoProfileExpandableChild(context, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
-            videoProfile = new VideoProfileExpandableChild(context, null, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+            videoProfile = new VideoProfileExpandableChild(context, video, context.getString(R.string.video_profile), appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
         }
         childlist.add(videoProfile);
 

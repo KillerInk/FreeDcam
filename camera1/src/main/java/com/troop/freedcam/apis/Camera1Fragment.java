@@ -60,10 +60,6 @@ public class Camera1Fragment extends AbstractCameraFragment
         return extendedSurfaceView;
     }
 
-    @Override
-    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
-        extendedSurfaceView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
-    }
 
 
 }

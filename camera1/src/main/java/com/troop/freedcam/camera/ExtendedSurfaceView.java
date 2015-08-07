@@ -19,6 +19,7 @@ import com.lge.real3d.Real3DInfo;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
@@ -29,11 +30,11 @@ import java.util.List;
 /**
  * Created by troop on 21.08.2014.
  */
-public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent, I_ParametersLoaded, I_ModuleEvent
+public class ExtendedSurfaceView extends SurfaceView implements I_ParametersLoaded, I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
-    private static String TAG = "freedcam.ExtendedTextureView";
+    private static String TAG = "ExtendedTextureView";
     Context context;
 
     public SurfaceHolder mHolder;
@@ -129,13 +130,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
-    }
-
     public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
     {
         this.uiPreviewSizeCHangedListner = previewSizeEventListner;
@@ -160,6 +154,26 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         }
     }
 
+    @Override
+    public void onValueChanged(String val) {
+        setPreviewSize(val);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
     private class Size
     {
         public int width;
@@ -178,8 +192,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     }
 
-    @Override
-    public void OnPreviewSizeChanged(int w, int h)
+    private void OnPreviewSizeChanged(int w, int h)
     {
         Log.d(TAG, "Preview Size Changed " + w +"x"+h);
         if (currentModule == null || currentModule.equals(""))
@@ -199,7 +212,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 }
                 Size size = getOptimalPreviewSize(sizes, w, h);
                 Log.d(TAG, "set size to " +size.width + "x" + size.height);
-                //ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 setPreviewToDisplay(size.width, size.height);
         }
         else

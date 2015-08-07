@@ -26,17 +26,17 @@ import android.view.TextureView;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * A {@link android.view.TextureView} that can be adjusted to a specified aspect ratio.
  */
-public class AutoFitTextureView extends TextureView {
+public class AutoFitTextureView extends TextureView implements  AbstractModeParameter.I_ModeParameterEvent {
 
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
     Context context;
-    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
 
     public AutoFitTextureView(Context context) {
         this(context, null);
@@ -51,11 +51,6 @@ public class AutoFitTextureView extends TextureView {
     public AutoFitTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-    }
-
-    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
-    {
-        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     /**
@@ -186,8 +181,6 @@ public class AutoFitTextureView extends TextureView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
     }
 
     private double getRatio(int w, int h)
@@ -213,4 +206,26 @@ public class AutoFitTextureView extends TextureView {
         }
     }
 
+    @Override
+    public void onValueChanged(String val) {
+        String vlas[] = val.split("x");
+        int w = Integer.parseInt(vlas[0]);
+        int h = Integer.parseInt(vlas[1]);
+        setPreviewToDisplay(w, h);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
 }

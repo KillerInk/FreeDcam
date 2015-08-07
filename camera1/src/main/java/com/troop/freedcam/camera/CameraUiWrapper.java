@@ -111,7 +111,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void ParametersLoaded()
     {
-
+        camParametersHandler.PictureSize.addEventListner(preview);
     }
 
     @Override

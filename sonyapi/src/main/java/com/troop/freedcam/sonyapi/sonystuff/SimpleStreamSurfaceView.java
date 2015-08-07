@@ -19,6 +19,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
@@ -43,7 +44,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private  Paint paint;
     private StreamErrorListener mErrorListener;
     Bitmap[] crosshairs;
-    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
     I_Callbacks.PreviewCallback previewFrameCallback;
 
 
@@ -87,11 +87,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
         initBitmaps(context);
-    }
-
-    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
-    {
-        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     public void SetOnPreviewFrame(I_Callbacks.PreviewCallback previewCallback)
@@ -390,8 +385,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
+
     }
     /**
      * Draw black screen.
@@ -408,6 +402,26 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
         getHolder().unlockCanvasAndPost(canvas);
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 
     public interface StreamErrorListener {

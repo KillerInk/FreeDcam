@@ -25,7 +25,7 @@ import com.troop.freedcam.ui.I_PreviewSizeEvent;
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent, I_PreviewSizeEvent {
+public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent , I_ParametersLoaded {
     View view;
     ImageView img;
     Context contextt;
@@ -44,8 +44,9 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.i_activity = i_activity;
-        i_activity.SetPreviewSizeChangedListner(this);
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
+        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        //cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 
     public int[] GetScreenSize() {
@@ -199,11 +200,41 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     }
 
-    @Override
+
     public void OnPreviewSizeChanged(int w, int h)
     {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
         layoutParams.gravity = Gravity.CENTER;
         img.setLayoutParams(layoutParams);
+    }
+
+    AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val) {
+            String split[] = val.split("x");
+            int w = Integer.parseInt(split[0]);
+            int h = Integer.parseInt(split[1]);
+            OnPreviewSizeChanged(w,h);
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
+
+    @Override
+    public void ParametersLoaded() {
+        cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 }

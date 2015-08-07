@@ -115,10 +115,6 @@ public class SonyCameraFragment extends AbstractCameraFragment
         return surfaceView;
     }
 
-    @Override
-    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
-        surfaceView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
-    }
 
     //WIFI STUFF START
 

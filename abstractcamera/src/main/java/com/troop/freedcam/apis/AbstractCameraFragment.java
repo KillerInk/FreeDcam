@@ -58,7 +58,7 @@ public abstract class AbstractCameraFragment extends Fragment
     public abstract int getPreviewHeight();
     public abstract SurfaceView getSurfaceView();
 
-    public abstract void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner);
+
 
     public void DestroyCameraUiWrapper()
     {

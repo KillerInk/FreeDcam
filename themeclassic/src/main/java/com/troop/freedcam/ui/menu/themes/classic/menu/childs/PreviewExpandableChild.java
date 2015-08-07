@@ -19,21 +19,8 @@ public class PreviewExpandableChild extends ExpandableChild
         super(context, group, name, appSettingsManager, settingsname);
     }
 
-    public PreviewExpandableChild(Context context, I_PreviewSizeEvent previewSizeEvent, ExpandableGroup group, String name, AppSettingsManager appSettingsManager, String settingsname)
-    {
-        super(context, group, name, appSettingsManager, settingsname);
-        this.previewSizeEvent = previewSizeEvent;
-    }
-
     @Override
     public void setValue(String value) {
         super.setValue(value);
-        if (previewSizeEvent != null)
-        {
-            String[] widthHeight = value.split("x");
-            int w = Integer.parseInt(widthHeight[0]);
-            int h = Integer.parseInt(widthHeight[1]);
-            previewSizeEvent.OnPreviewSizeChanged(w, h);
-        }
     }
 }

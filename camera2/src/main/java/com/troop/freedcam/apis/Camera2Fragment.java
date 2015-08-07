@@ -57,9 +57,4 @@ public class Camera2Fragment extends AbstractCameraFragment
         return null;
     }
 
-    @Override
-    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
-        textureView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
-    }
-
 }
