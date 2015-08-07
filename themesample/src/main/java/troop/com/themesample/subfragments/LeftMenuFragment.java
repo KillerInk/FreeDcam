@@ -137,6 +137,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);
         else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
+        else
+            videoProfile.SetParameter(null);
         videoProfile.SetMenuItemListner(this);
 
         videoHDR = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemVideHDR);
