@@ -234,7 +234,9 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     };
 
     @Override
-    public void ParametersLoaded() {
-        cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
+    public void ParametersLoaded()
+    {
+        if (cameraUiWrapper.camParametersHandler.PreviewSize != null)
+            cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 }

@@ -105,14 +105,21 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         {
             onIsSupportedChanged(false);
             Log.d(TAG, "Paramters is null or Unsupported");
+            if (parameter != null) {
+                parameter.addEventListner(this);
+                this.parameter = parameter;
+            }
             return;
         }
         else {
             onIsSupportedChanged(true);
+            if (parameter != null) {
+                parameter.addEventListner(this);
+                this.parameter = parameter;
+            }
         }
-        this.parameter = parameter;
-        if (parameter != null)
-            parameter.addEventListner(this);
+
+
         setTextToTextBox(parameter);
     }
 
@@ -120,6 +127,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         if (parameter.IsSupported())
         {
+            onIsSupportedChanged(true);
             String campara = parameter.GetValue();
             if (campara != null && !campara.equals(""))
                 onValueChanged(campara);
