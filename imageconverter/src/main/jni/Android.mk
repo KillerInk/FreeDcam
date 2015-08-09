@@ -7,7 +7,7 @@ LOCAL_ARM_MODE := arm
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := imageconverter
-LOCAL_SRC_FILES := ImageProcessor.cpp
+LOCAL_SRC_FILES := ImageProcessorWrapper.cpp ImageProcessor.cpp
 LOCAL_LDLIBS := -lz \
 	-lm \
 	-llog \
