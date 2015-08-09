@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 /**
  * Created by troop on 08.08.2015.
  */
-public class ImageProcessor
+public class ImageProcessorWrapper
 {
     static
     {
@@ -19,18 +19,18 @@ public class ImageProcessor
     private static native void YUVtoRGB(byte data[], int width, int height);
     private static native Bitmap GetBitmap();
     private static native void Release();
-    private static native int[] GetData();
+    private static native int[] GetRgbData();
 
 
     public void ProcessFrame(byte[]data, int width, int height)
     {
-        Log.d(ImageProcessor.class.getSimpleName(), "YuvSize:" + data.length);
+        Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
         YUVtoRGB(data, width, height);
     }
 
     public int[] GetPixelData()
     {
-        return GetData();
+        return GetRgbData();
     }
     public Bitmap GetNativeBitmap()
     {

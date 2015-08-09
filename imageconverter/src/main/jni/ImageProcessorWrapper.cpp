@@ -19,6 +19,12 @@
 #define GETUPOS(x,y, width, frameSize) (y/2)*(width/2)+(x/2) + frameSize;
 #define GETVPOS(x,y, width, frameSize) (y/2)*(width/2)+(x/2) + frameSize + (frameSize/4);
 
+#define SCALEYUV(v) (((v)+128000)/256000)
+
+static int rcoeff(int y, int u, int v){ return 298082*y +      0*u + 408583*v; }
+static int gcoeff(int y, int u, int v){ return 298082*y - 100291*u - 208120*v; }
+static int bcoeff(int y, int u, int v){ return 298082*y + 516411*u +      0*v; }
+
 class RGBContainer
 {
 public:
@@ -32,7 +38,7 @@ public:
         _height = 0;
         _data = new int[0];
     }
-    void YuvToRgb(jbyte* yuyv_image, jint width, jint height);
+    void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);
     void Release();
@@ -40,13 +46,36 @@ public:
 
 };
 
-void RGBContainer::YuvToRgb(jbyte* buf, jint width, jint height) {
+void RGBContainer::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) {
 
-    jbyte * yuv420sp = buf;
     _width = width;
     _height = height;
     int frameSize = width * height;
     _data = new int[frameSize];
+
+    /*int r,g,b,yi,y,u,v,nextPX = 0;
+    int curPix = 0;
+    for (int y = 0; y < _height; y++) {
+        for (int x = 0; x < _width; x++) {
+            yi = GETYPOS(x,y,_width);
+            u = GETUPOS(x,y,_width, frameSize);
+            v = GETVPOS(x,y,_width, frameSize);
+
+            b = 1.164 * (yuv420sp[yi] - 16) + 2.018 * (yuv420sp[u] - 128);
+            g = 1.164 * (yuv420sp[yi] - 16) - 0.813 * (yuv420sp[v] - 128) - 0.391 * (yuv420sp[u] - 128);
+            r = 1.164 * (yuv420sp[yi] - 16) + 1.596 * (yuv420sp[v] - 128);
+            if (r < 0) r = 0; else if (r > 255) r = 255;
+            if (g < 0) g = 0; else if (g > 255) g = 255;
+            if (b < 0) b = 0; else if (b > 255) b = 255;
+            LOGD("R: %i G: %i B: %i", r, b, g);
+
+            _data[curPix++] = 0xff000000 + (b << 16) + (g << 8) + r;
+            if(nextPX == y) {
+                LOGD("RGB Pixel: %i R: %i G: %i B: %i", _data[curPix], r, b, g);
+                nextPX += 10;
+            }
+        }
+    }*/
 
     /*int i =0, yi, u, v;
     for (int y = 0; y < _height; y++)
@@ -117,7 +146,7 @@ void RGBContainer::YuvToRgb(jbyte* buf, jint width, jint height) {
     int             Y;
     int             Cr = 0;
     int             Cb = 0;
-    int             pixPtr = 0;
+    int       nextpx =0,      pixPtr = 0;
     int             jDiv2 = 0;
     int             R = 0;
     int             G = 0;
@@ -126,7 +155,8 @@ void RGBContainer::YuvToRgb(jbyte* buf, jint width, jint height) {
     int w = width;
     int h = height;
     sz = w * h;
-    for(j = 0; j < h; j++) {
+    int nextPX = 0;
+    for(j = 0; j < h ; j++) {
         pixPtr = j * w;
         jDiv2 = j >> 1;
         for(i = 0; i < w; i++) {
@@ -154,6 +184,11 @@ void RGBContainer::YuvToRgb(jbyte* buf, jint width, jint height) {
             B = Y + Cb + (Cb >> 1) + (Cb >> 4) + (Cb >> 5);
             if(B < 0) B = 0; else if(B > 255) B = 255;
             _data[pixPtr++] = 0xff000000 + (B << 16) + (G << 8) + R;
+
+            if(nextPX == j) {
+                LOGD("RGB Pixel: %i R: %i G: %i B: %i", _data[pixPtr], R, B, G);
+                nextPX += 10;
+            }
         }
     }
     //LOGD("DataSize: %i", frameSize);
@@ -186,7 +221,7 @@ jobject RGBContainer::getBitmap(JNIEnv * env) {
     }
     LOGD("pixel locked");
     uint32_t* newBitmapPixels = (uint32_t*) bitmapPixels;
-    memcpy(newBitmapPixels,(uint32_t*) _data, (_width * _height));
+    memcpy(newBitmapPixels,(uint32_t*) _data, (_width * _height * sizeof(uint32_t)));
     LOGD("memcopy start");
     LOGD("memcopy end");
 
@@ -209,6 +244,8 @@ jobject RGBContainer::GetData(JNIEnv * env)
     jintArray result;
     jint size = _width*_height;
     result = env->NewIntArray(size);
+    env->SetIntArrayRegion(result, 0, size, _data);
+
     return result;
 }
 
@@ -231,7 +268,9 @@ JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessor_INIT(JNIE
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessor_YUVtoRGB(JNIEnv *env, jobject thiz, jbyteArray yuv420sp, jint width, jint height)
 {
-    rgbContainer->YuvToRgb((jbyte*) env->GetByteArrayElements(yuv420sp,NULL), width, height);
+    unsigned char* yuv = (unsigned char*) env->GetByteArrayElements(yuv420sp,NULL);
+
+    rgbContainer->YuvToRgb(yuv, width, height);
 }
 
 JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessor_GetBitmap(JNIEnv *env, jobject thiz, jobject handler)
