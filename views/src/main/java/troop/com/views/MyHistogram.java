@@ -1,4 +1,4 @@
-package troop.com.imageviewer;
+package troop.com.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,14 +9,23 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.AsyncTask;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class MyHistogram extends View {
 
     public MyHistogram(Context context) {
         super(context);
-
     }
+
+    public MyHistogram(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public MyHistogram(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
     Paint mPaint = new Paint ();
     int [] redHistogram = new int [ 256 ];
     int [] greenHistogram = new int [ 256 ];
@@ -167,6 +176,13 @@ public class MyHistogram extends View {
         canvas . drawPath ( mHistoPath , mPaint );
     }
 
+    public void SetRgbArrays(int[] r, int[]g, int[] b)
+    {
+        redHistogram = r;
+        greenHistogram = g;
+        blueHistogram = b;
+        invalidate();
+    }
 
     public void onDraw ( Canvas canvas ) {
         canvas . drawARGB ( 0 , 0 , 0 , 0 );

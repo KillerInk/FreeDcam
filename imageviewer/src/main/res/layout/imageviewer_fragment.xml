@@ -13,7 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ui_holder">
+        android:id="@+id/ui_holder"
+        android:layout_alignParentEnd="false">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -107,14 +108,15 @@
             android:textSize="10dp" />
 
         <Button
-            android:layout_width="@dimen/app_icon_size"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/button_closeView"
-            android:background="@drawable/focusclose"
             android:gravity="right"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/app_icon_size"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:text="Close"
+            android:textSize="10dp"
+            android:layout_marginRight="@android:dimen/app_icon_size" />
 
 
     </RelativeLayout>

@@ -54,8 +54,7 @@ android {
 }
 
 dependencies {
-    provided project(':themeclassic')
-    provided project(':language')
     provided project(':abstractcamera')
     provided project(':camera1')
+    provided project(':views')
 }
