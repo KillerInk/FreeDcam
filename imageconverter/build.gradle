@@ -52,9 +52,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             jniDebuggable = true
         }
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
     }
 }
 
 dependencies {
-
+    provided project(':views')
 }

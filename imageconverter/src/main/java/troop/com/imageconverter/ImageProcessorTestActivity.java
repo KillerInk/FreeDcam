@@ -2,9 +2,6 @@ package troop.com.imageconverter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,12 +12,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import troop.com.views.MyHistogram;
+
 
 /**
  * Created by troop on 08.08.2015.
@@ -35,18 +34,20 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
 
     Button buttonProcessFrame;
     ImageView maskImageView;
+    MyHistogram histogram;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.imageprocessortestactivity);
         surfaceView = (SurfaceView)findViewById(R.id.surfaceView_camera);
         surfaceView.getHolder().addCallback(this);
         maskImageView = (ImageView)findViewById(R.id.imageView);
         buttonProcessFrame = (Button)findViewById(R.id.button_processFrame);
         buttonProcessFrame.setOnClickListener(processFrameClick);
         imageProcessor = new ImageProcessorWrapper();
+        histogram = (MyHistogram)findViewById(R.id.Histogram);
     }
 
     @Override
@@ -84,22 +85,11 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         camera.setPreviewCallback(null);
         imageProcessor.Init();
         imageProcessor.ProcessFrame(data.clone(), w, h);
-        Bitmap bimap = imageProcessor.GetNativeBitmap();
+
         //Bitmap bimap = Bitmap.createBitmap(imageProcessor.GetPixelData(), w,h, Bitmap.Config.ARGB_8888);
 
-        String path = Environment.getExternalStorageDirectory().toString();
-        OutputStream fOut = null;
-        File file = new File(path, "test.jpg"); // the File to save to
-        try {
-            fOut = new FileOutputStream(file);
-            bimap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-            fOut.flush();
-            fOut.close(); // do not forget to close the stream
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        /*
         final YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,w,h,null);
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -114,9 +104,12 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-
+        }*/
+        int[][] hist = imageProcessor.GetHistogramData();
+        histogram.SetRgbArrays(hist[0],hist[1],hist[2]);
+        imageProcessor.ApplyHPF();
+        Bitmap bimap = imageProcessor.GetNativeBitmap();
+        saveBitmap(bimap);
         maskImageView.setImageBitmap(bimap);
         imageProcessor.ReleaseNative();
     }
@@ -129,4 +122,30 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
             camera.setPreviewCallback(ImageProcessorTestActivity.this);
         }
     };
+
+
+    private void saveBitmap(Bitmap bimap)
+    {
+        String path = Environment.getExternalStorageDirectory().toString();
+        OutputStream fOut = null;
+        File file = new File(path, "test.jpg"); // the File to save to
+        try {
+            fOut = new FileOutputStream(file);
+            bimap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+            fOut.flush();
+            fOut.close(); // do not forget to close the stream
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                fOut.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 }

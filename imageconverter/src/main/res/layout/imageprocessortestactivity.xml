@@ -29,5 +29,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="false" />
 
+    <troop.com.views.MyHistogram
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:id="@+id/Histogram"
+        android:layout_alignParentBottom="true" />
+
 
 </RelativeLayout>

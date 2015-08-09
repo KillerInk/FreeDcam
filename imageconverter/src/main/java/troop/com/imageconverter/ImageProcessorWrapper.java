@@ -20,6 +20,8 @@ public class ImageProcessorWrapper
     private static native Bitmap GetBitmap();
     private static native void Release();
     private static native int[] GetRgbData();
+    private static native int[][] GetHistogram();
+    private static native void ApplyHighPassFilter();
 
 
     public void ProcessFrame(byte[]data, int width, int height)
@@ -44,5 +46,14 @@ public class ImageProcessorWrapper
     public void Init()
     {
         INIT();
+    }
+
+    public int[][] GetHistogramData()
+    {
+        return GetHistogram();
+    }
+    public void ApplyHPF()
+    {
+        ApplyHighPassFilter();
     }
 }

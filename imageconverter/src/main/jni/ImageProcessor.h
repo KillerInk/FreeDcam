@@ -34,6 +34,18 @@ public:
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);
     void Release();
+    jobjectArray GetHistogramm(JNIEnv * env);
+    void applyHPF();
+
+    inline int GetPixelRed(int x, int y) { return GetPixelRedFromInt(_data[x + (y * _width)]); }
+    inline int GetPixelGreen(int x, int y) { return GetPixelGreenFromInt(_data[x + (y * _width)]); }
+    inline int GetPixelBlue(int x, int y) { return GetPixelBlueFromInt(_data[x + (y * _width)]); }
+    inline int GetPixel(int x, int y) {return _data[x + (y * _width)];}
+    inline int GetPixelRedFromInt(int x) { return (x >> 16) & 0xFF; }
+    inline int GetPixelGreenFromInt(int x) { return (x >> 8) & 0xFF; }
+    inline int GetPixelBlueFromInt(int x) { return x >> 8 & 0xFF; }
+    inline int GetPixelFromRgb(int r, int g, int b) { return 0xff000000 + (b << 16) + (g << 8) + r; }
+    inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
 };
 
 

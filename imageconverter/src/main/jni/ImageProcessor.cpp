@@ -5,98 +5,10 @@
 #include "ImageProcessor.h"
 
 void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) {
-
     _width = width;
     _height = height;
     int frameSize = width * height;
     _data = new int[frameSize];
-
-    /*int r,g,b,yi,y,u,v,nextPX = 0;
-    int curPix = 0;
-    for (int y = 0; y < _height; y++) {
-        for (int x = 0; x < _width; x++) {
-            yi = GETYPOS(x,y,_width);
-            u = GETUPOS(x,y,_width, frameSize);
-            v = GETVPOS(x,y,_width, frameSize);
-
-            b = 1.164 * (yuv420sp[yi] - 16) + 2.018 * (yuv420sp[u] - 128);
-            g = 1.164 * (yuv420sp[yi] - 16) - 0.813 * (yuv420sp[v] - 128) - 0.391 * (yuv420sp[u] - 128);
-            r = 1.164 * (yuv420sp[yi] - 16) + 1.596 * (yuv420sp[v] - 128);
-            if (r < 0) r = 0; else if (r > 255) r = 255;
-            if (g < 0) g = 0; else if (g > 255) g = 255;
-            if (b < 0) b = 0; else if (b > 255) b = 255;
-            LOGD("R: %i G: %i B: %i", r, b, g);
-
-            _data[curPix++] = 0xff000000 + (b << 16) + (g << 8) + r;
-            if(nextPX == y) {
-                LOGD("RGB Pixel: %i R: %i G: %i B: %i", _data[curPix], r, b, g);
-                nextPX += 10;
-            }
-        }
-    }*/
-
-    /*int i =0, yi, u, v;
-    for (int y = 0; y < _height; y++)
-    {
-        for (int x = 0; x < _width; x ++)
-        {
-            yi = GETYPOS(x,y,_width);
-            u = GETUPOS(x,y,_width, frameSize);
-            v = GETVPOS(x,y,_width, frameSize);
-
-            int y1192 = 1192 * yuv420sp[yi];
-            int r = (y1192 + 1634 * yuv420sp[v]);
-            int g = (y1192 - 833 * yuv420sp[v] - 400 * yuv420sp[u]);
-            int b = (y1192 + 2066 * yuv420sp[u]);
-
-            r = r >>8;
-            g = g >> 8;
-            b = b >> 8;
-            //LOGD("Width: %i Height: %i R: %i  G: %i B: %i",x,y, r,g,b);
-            if (r < 0) r = 0; else if (r > 255) r = 255;
-            if (g < 0) g = 0; else if (g > 255) g = 255;
-            if (b < 0) b = 0; else if (b > 255) b = 255;
-            //LOGD("R: %i  G: %i B: %i", r,g,b);
-            LOGD("Write to data: %i", y *frameSize+x);
-            _data[i] = (0 << 24) |
-            (r << 16) |
-            (r << 8) |
-            b;
-            //_data[i] = 0xff000000 | (r & 0xff0000) | (g & 0xff00) | (b & 0xff);
-            i++;
-        }
-    }*/
-    /*int i = 0, j = 0,yp = 0;
-    int uvp = 0, u = 0, v = 0;
-    for (j = 0, yp = 0; j < height; j++)
-    {
-        uvp = frameSize + (j >> 1) * width;
-        u = 0;
-        v = 0;
-        for (i = 0; i < width; i++, yp++)
-        {
-            int y = (0xff & ((int) yuv420sp[yp])) - 16;
-            if (y < 0)
-                y = 0;
-            if ((i & 1) == 0)
-            {
-                v = (0xff & yuv420sp[uvp++]) - 128;
-                u = (0xff & yuv420sp[uvp++]) - 128;
-            }
-
-            int y1192 = 1192 * y;
-            int r = (y1192 + 1634 * v);
-            int g = (y1192 - 833 * v - 400 * u);
-            int b = (y1192 + 2066 * u);
-
-            if (r < 0) r = 0; else if (r > 262143) r = 262143;
-            if (g < 0) g = 0; else if (g > 262143) g = 262143;
-            if (b < 0) b = 0; else if (b > 262143) b = 262143;
-
-            _data[yp] = 0xff000000 + (b << 16) + (g << 8) + r;
-
-        }
-    }*/
 
     int             sz;
     int             i;
@@ -142,18 +54,8 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
             B = Y + Cb + (Cb >> 1) + (Cb >> 4) + (Cb >> 5);
             if(B < 0) B = 0; else if(B > 255) B = 255;
             _data[pixPtr++] = 0xff000000 + (B << 16) + (G << 8) + R;
-
-            if(nextPX == j) {
-                LOGD("RGB Pixel: %i R: %i G: %i B: %i", _data[pixPtr], R, B, G);
-                nextPX += 10;
-            }
         }
     }
-    //LOGD("DataSize: %i", frameSize);
-    //LOGD("RGBPos:, %i: yuvpos: height: %i width: %i", yp, j, i);
-    LOGD("free yuv420sp");
-    //free(yuv420sp);
-
 }
 
 
@@ -206,3 +108,89 @@ jobject ImageProcessor::GetData(JNIEnv * env)
 
     return result;
 }
+
+jobjectArray ImageProcessor::GetHistogramm(JNIEnv * env)
+{
+    jint* red = new int[256];
+    jint* green = new int[256];
+    jint* blue =new  int[256];
+    for ( int i = 0 ; i < _width ; i ++) {
+        for ( int j = 0 ; j < _height ; j ++) {
+            int index = j * _width + i ;
+            int r = (int) ((_data[index] >> 16) & 0xFF);
+            int g = (int) ((_data[index] >> 8) & 0xFF);
+            int b = (int) (_data[index] & 0xFF);
+            red[r]++;
+            green[g]++;
+            blue[b]++;
+        }
+    }
+
+    jclass intArray1DClass = env->FindClass("[I");
+    jclass intArray2DClass = env->FindClass("[[I");
+
+    jintArray  redar = env->NewIntArray(256);
+    env->SetIntArrayRegion(redar, (jsize) 0, (jsize) 256, (jint*)red);
+
+    jintArray  bluear = env->NewIntArray(256);
+    env->SetIntArrayRegion(bluear, (jsize) 0, (jsize) 256, (jint*)blue);
+
+    jintArray  greenar = env->NewIntArray(256);
+    env->SetIntArrayRegion(greenar, (jsize) 0, (jsize) 256, (jint*)green);
+
+    /*jobject rgbar = env->NewObjectArray(3, intArray2DClass, NULL);
+    env->SetObjectArrayElement(rgbar, 0,(jintArray)redar);
+    //env->SetObjectArrayElement(rgbar, 0, redar);
+    env->SetObjectArrayElement(rgbar, 1, (jint*) greenar);
+    env->SetObjectArrayElement(rgbar, 2, (jint*) bluear );*/
+
+    jobjectArray array2D = env->NewObjectArray(
+            3, intArray1DClass, NULL);
+    env->SetObjectArrayElement(array2D, 0, redar);
+    env->SetObjectArrayElement(array2D, 1, greenar);
+    env->SetObjectArrayElement(array2D, 2, bluear);
+    return array2D;
+}
+
+
+
+void ImageProcessor::applyHPF() {
+    int filter[3][3] = {{0,  -1, 0},
+                        {-1, 4,  -1},
+                        {0,  -1, 0}};
+    int newarray[_width * _height];
+    for (int y = 1; y < _height - 1; y++) {
+        for (int x = 1; x < _width - 1; x++) {
+            int c00 = GetPixel(x - 1, y - 1);
+            int c01 = GetPixel(x - 1, y);
+            int c02 = GetPixel(x - 1, y + 1);
+            int c10 = GetPixel(x, y - 1);
+            int c11 = GetPixel(x, y);
+            int c12 = GetPixel(x, y + 1);
+            int c20 = GetPixel(x + 1, y - 1);
+            int c21 = GetPixel(x + 1, y);
+            int c22 = GetPixel(x + 1, y + 1);
+            int r = -GetPixelRedFromInt(c00) - GetPixelRedFromInt(c01) - GetPixelRedFromInt(c02) +
+                    -GetPixelRedFromInt(c10) + 8 * GetPixelRedFromInt(c11) -
+                    GetPixelRedFromInt(c12) +
+                    -GetPixelRedFromInt(c20) - GetPixelRedFromInt(c21) - GetPixelRedFromInt(c22);
+            int g = -GetPixelGreenFromInt(c00) - GetPixelGreenFromInt(c01) -
+                    GetPixelGreenFromInt(c02) +
+                    -GetPixelGreenFromInt(c10) + 8 * GetPixelGreenFromInt(c11) -
+                    GetPixelGreenFromInt(c12) +
+                    -GetPixelGreenFromInt(c20) - GetPixelGreenFromInt(c21) -
+                    GetPixelGreenFromInt(c22);
+            int b = -GetPixelBlueFromInt(c00) - GetPixelBlueFromInt(c01) -
+                    GetPixelBlueFromInt(c02) +
+                    -GetPixelBlueFromInt(c10) + 8 * GetPixelBlueFromInt(c11) -
+                    GetPixelBlueFromInt(c12) +
+                    -GetPixelBlueFromInt(c20) - GetPixelBlueFromInt(c21) - GetPixelBlueFromInt(c22);
+            if (r < 0) r = 0; else if (r > 255) r = 255;
+            if (g < 0) g = 0; else if (g > 255) g = 255;
+            if (b < 0) b = 0; else if (b > 255) b = 255;
+            WritePixel(x, y, GetPixelFromRgb(r, g, b), newarray);
+        }
+    }
+    _data = newarray;
+}
+

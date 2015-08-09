@@ -37,6 +37,9 @@ extern "C"
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetBitmap(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz);
     JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz);
+    JNIEXPORT jobjectArray    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz);
+    JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz);
+
 }
 
 static ImageProcessor* rgbContainer;
@@ -69,4 +72,14 @@ JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Relea
 JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz)
 {
     return rgbContainer->GetData(env);
+}
+
+JNIEXPORT jobjectArray    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz)
+{
+    return rgbContainer->GetHistogramm(env);
+}
+
+JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz)
+{
+    rgbContainer->applyHPF();
 }
