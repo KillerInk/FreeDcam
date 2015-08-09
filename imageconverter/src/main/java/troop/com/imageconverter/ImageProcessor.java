@@ -1,6 +1,7 @@
 package troop.com.imageconverter;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 
@@ -18,13 +19,19 @@ public class ImageProcessor
     private static native void YUVtoRGB(byte data[], int width, int height);
     private static native Bitmap GetBitmap();
     private static native void Release();
+    private static native int[] GetData();
 
 
     public void ProcessFrame(byte[]data, int width, int height)
     {
+        Log.d(ImageProcessor.class.getSimpleName(), "YuvSize:" + data.length);
         YUVtoRGB(data, width, height);
     }
 
+    public int[] GetPixelData()
+    {
+        return GetData();
+    }
     public Bitmap GetNativeBitmap()
     {
         return GetBitmap();
@@ -33,5 +40,9 @@ public class ImageProcessor
     public void ReleaseNative()
     {
         Release();
+    }
+    public void Init()
+    {
+        INIT();
     }
 }
