@@ -11,8 +11,8 @@
         android:layout_alignParentTop="true" />
 
     <ImageView
-        android:layout_width="400dp"
-        android:layout_height="300dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/imageView"
         android:layout_below="@+id/button_processFrame"
         android:layout_alignParentLeft="false"

@@ -23,9 +23,13 @@ public class ImageProcessorWrapper
     private static native int[][] GetHistogram();
     private static native void ApplyHighPassFilter();
 
+    int width;
+    int height;
 
     public void ProcessFrame(byte[]data, int width, int height)
     {
+        this.width = width;
+        this.height = height;
         Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
         YUVtoRGB(data, width, height);
     }

@@ -2,6 +2,13 @@ package troop.com.imageconverter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
@@ -106,9 +113,18 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
             e.printStackTrace();
         }*/
         int[][] hist = imageProcessor.GetHistogramData();
-        histogram.SetRgbArrays(hist[0],hist[1],hist[2]);
-        imageProcessor.ApplyHPF();
+        histogram.SetRgbArrays(hist[0], hist[1], hist[2]);
+
         Bitmap bimap = imageProcessor.GetNativeBitmap();
+        bimap.setHasAlpha(true);
+        imageProcessor.ApplyHPF();
+        Bitmap map = imageProcessor.GetNativeBitmap();
+        //map.setHasAlpha(true);
+        Canvas canvas = new Canvas(bimap);
+        Paint paint = new Paint();
+        //paint.setColor(Color.RED);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        canvas.drawBitmap(map, 0.0f, 0.0f, paint);
         saveBitmap(bimap);
         maskImageView.setImageBitmap(bimap);
         imageProcessor.ReleaseNative();
