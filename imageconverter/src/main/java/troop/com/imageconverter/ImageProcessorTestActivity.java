@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Time;
 import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import troop.com.views.MyHistogram;
 
@@ -39,12 +41,15 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     SurfaceView surfaceView;
     Camera camera;
 
-    ImageProcessorWrapper imageProcessor;
+
     int w,h;
 
     Button buttonProcessFrame;
     ImageView maskImageView;
     MyHistogram histogram;
+
+    private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
+    private final BlockingQueue<int[]> mFocusPeakQueue = new ArrayBlockingQueue<int[]>(2);
 
 
     @Override
@@ -56,7 +61,6 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         maskImageView = (ImageView)findViewById(R.id.imageView);
         buttonProcessFrame = (Button)findViewById(R.id.button_processFrame);
         buttonProcessFrame.setOnClickListener(processFrameClick);
-        imageProcessor = new ImageProcessorWrapper();
         histogram = (MyHistogram)findViewById(R.id.Histogram);
     }
 
@@ -91,40 +95,132 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     }
 
     @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        camera.setPreviewCallback(null);
-        Date startDate = new Date();
-        imageProcessor.Init();
+    public void onPreviewFrame(byte[] data, Camera camera)
+    {
+        if (mYuvFrameQueue.size() == 2)
+        {
+            mYuvFrameQueue.remove();
+        }
+        mYuvFrameQueue.add(data.clone());
+
+        /*camera.setPreviewCallback(null);
+        ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
         imageProcessor.ProcessFrame(data.clone(), w, h);
-        long ti = new Date().getTime() - startDate.getTime();
-        Log.d("ImageProcessor", "YuvtoRgbTIme" + ti);
-        //int[][] hist = imageProcessor.GetHistogramData();
-        //histogram.SetRgbArrays(hist[0], hist[1], hist[2]);
-        /*Bitmap obit = imageProcessor.GetNativeBitmap();
-        saveBitmap(obit, "orginalHPFFrame.jpg");
-        */
-        //int[] jnidata = imageProcessor.GetPixelData();
-        //Bitmap map = Bitmap.createBitmap(jnidata, w,h, Bitmap.Config.ARGB_8888);
-        //map.setHasAlpha(true);
         imageProcessor.ApplyHPF();
-        ti = new Date().getTime() - startDate.getTime();
-        Log.d("ImageProcessor", "HPF time" + ti);
-        Bitmap map = imageProcessor.GetNativeBitmap();
-        //saveBitmap(map, "testHPFFrame.jpg");
+        maskImageView.setImageBitmap(Bitmap.createBitmap(imageProcessor.GetPixelData(), w, h, Bitmap.Config.ARGB_8888));*/
+    }
+    boolean doWork = false;
+    private void start()
+    {
 
+        doWork = true;
+        new Thread() {
+            @Override
+            public void run() {
+                byte[] data = null;
+                try {
+                    ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
+                    imageProcessor.Init();
+                    while (doWork) {
+                        data = mYuvFrameQueue.take();
+                        if (data != null)
+                        {
+                            imageProcessor.ProcessFrame(data.clone(), w, h);
+                            imageProcessor.ApplyHPF();
+                            if (mFocusPeakQueue.size() == 2)
+                            {
+                                mFocusPeakQueue.remove();
+                            }
+                            mFocusPeakQueue.add(imageProcessor.GetPixelData().clone());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        maskImageView.setImageBitmap(Bitmap.createBitmap(mFocusPeakQueue.take(), w,h, Bitmap.Config.ARGB_8888));
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    camera.setPreviewCallback(null);
+                    mYuvFrameQueue.clear();
+                    mFocusPeakQueue.clear();
+                    doWork = false;
 
-        maskImageView.setImageBitmap(map);
-        imageProcessor.ReleaseNative();
-        ti = new Date().getTime() - startDate.getTime();
-        Log.d("ImageProcessor", "ImageDrawn" + ti);
+                }
+            }
+        }.start();
+    }
+
+    private void stop()
+    {
+        doWork = false;
+    }
+
+    private void ProcessOnce()
+    {
+        new Thread() {
+            @Override
+            public void run() {
+                byte[] data = null;
+                try {
+                    final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
+                    imageProcessor.Init();
+
+                        data = mYuvFrameQueue.take();
+                        if (data != null)
+                        {
+                            imageProcessor.ProcessFrame(data.clone(), w, h);
+                            imageProcessor.ApplyHPF();
+                            if (mFocusPeakQueue.size() == 2)
+                            {
+                                mFocusPeakQueue.remove();
+                            }
+                            mFocusPeakQueue.add(imageProcessor.GetPixelData().clone());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        maskImageView.setImageBitmap(Bitmap.createBitmap(mFocusPeakQueue.take(), w,h, Bitmap.Config.ARGB_8888));
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    camera.setPreviewCallback(null);
+                    mYuvFrameQueue.clear();
+                    mFocusPeakQueue.clear();
+                    doWork = false;
+
+                }
+            }
+        }.start();
     }
 
     OnClickListener processFrameClick = new OnClickListener()
     {
 
         @Override
-        public void onClick(View v) {
-            camera.setPreviewCallback(ImageProcessorTestActivity.this);
+        public void onClick(View v)
+        {
+            //camera.setPreviewCallback(ImageProcessorTestActivity.this);
+            if (!doWork) {
+                camera.setPreviewCallback(ImageProcessorTestActivity.this);
+                //start();
+                ProcessOnce();
+            }
+            else
+                stop();
         }
     };
 

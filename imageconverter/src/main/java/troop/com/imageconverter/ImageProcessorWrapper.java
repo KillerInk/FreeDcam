@@ -10,18 +10,26 @@ import java.nio.ByteBuffer;
  */
 public class ImageProcessorWrapper
 {
+
+    ImageProcessorWrapper()
+    {
+        nativeHandler = INIT();
+    }
+
     static
     {
         System.loadLibrary("imageconverter");
     }
 
-    private static native ByteBuffer INIT();
-    private static native void YUVtoRGB(byte data[], int width, int height);
-    private static native Bitmap GetBitmap();
-    private static native void Release();
-    private static native int[] GetRgbData();
-    private static native int[][] GetHistogram();
-    private static native void ApplyHighPassFilter();
+    private ByteBuffer nativeHandler = null;
+
+    private synchronized static native ByteBuffer INIT();
+    private synchronized static native void YUVtoRGB(ByteBuffer nativeHandler,byte data[], int width, int height);
+    private synchronized static native Bitmap GetBitmap(ByteBuffer nativeHandler);
+    private synchronized static native void Release(ByteBuffer nativeHandler);
+    private synchronized static native int[] GetRgbData(ByteBuffer nativeHandler);
+    private synchronized static native int[][] GetHistogram(ByteBuffer nativeHandler);
+    private synchronized static native void ApplyHighPassFilter(ByteBuffer nativeHandler);
 
     int width;
     int height;
@@ -31,21 +39,21 @@ public class ImageProcessorWrapper
         this.width = width;
         this.height = height;
         Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
-        YUVtoRGB(data, width, height);
+        YUVtoRGB(nativeHandler,data, width, height);
     }
 
     public int[] GetPixelData()
     {
-        return GetRgbData();
+        return GetRgbData(nativeHandler);
     }
     public Bitmap GetNativeBitmap()
     {
-        return GetBitmap();
+        return GetBitmap(nativeHandler);
     }
 
     public void ReleaseNative()
     {
-        Release();
+        Release(nativeHandler);
     }
     public void Init()
     {
@@ -54,10 +62,10 @@ public class ImageProcessorWrapper
 
     public int[][] GetHistogramData()
     {
-        return GetHistogram();
+        return GetHistogram(nativeHandler);
     }
     public void ApplyHPF()
     {
-        ApplyHighPassFilter();
+        ApplyHighPassFilter(nativeHandler);
     }
 }

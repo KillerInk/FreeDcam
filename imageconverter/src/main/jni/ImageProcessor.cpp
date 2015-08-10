@@ -4,7 +4,7 @@
 
 #include "ImageProcessor.h"
 
-void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) {
+void ImageProcessor::YuvToRgb(jint* yuv420sp, jint width, jint height) {
     _width = width;
     _height = height;
     int frameSize = width * height;

@@ -23,14 +23,13 @@ public:
     jint _width;
     jint _height;
     int* _data;
-    JNIEnv *env;
     ImageProcessor()
     {
         _width = 0;
         _height = 0;
         _data = new int[0];
     }
-    void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
+    void YuvToRgb(jint* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);
     void Release();
