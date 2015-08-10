@@ -35,8 +35,7 @@ public:
     jobject GetData(JNIEnv * env);
     void Release();
     jobjectArray GetHistogramm(JNIEnv * env);
-    void applyHPF();
-
+    void applyLanczos();
     inline int GetPixelRed(int x, int y) { return GetPixelRedFromInt(_data[x + (y * _width)]); }
     inline int GetPixelGreen(int x, int y) { return GetPixelGreenFromInt(_data[x + (y * _width)]); }
     inline int GetPixelBlue(int x, int y) { return GetPixelBlueFromInt(_data[x + (y * _width)]); }
@@ -44,8 +43,12 @@ public:
     inline int GetPixelRedFromInt(int x) { return (x >> 16) & 0xFF; }
     inline int GetPixelGreenFromInt(int x) { return (x >> 8) & 0xFF; }
     inline int GetPixelBlueFromInt(int x) { return x >> 8 & 0xFF; }
-    inline int GetPixelFromRgb(int r, int g, int b) { return 0xff000000 + (b << 16) + (g << 8) + r; }
+    inline int GetPixelFromBGR(int r, int g, int b) { return 0xff000000 + (b << 16) + (g << 8) + r; }
+    inline int GetPixelFromRGB(int r, int g, int b) { return 0xff000000 + (r << 16) + (g << 8) + b; }
+    inline int GetPixelFromARGB(int a,int r, int g, int b) { return (a << 24) + (r << 16) + (g << 8) + b; }
     inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
+    void applyFocusPeak();
+    void Apply3x3Filter(int filter[3][3]);
 };
 
 

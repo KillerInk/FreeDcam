@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -24,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Time;
+import java.util.Date;
 
 import troop.com.views.MyHistogram;
 
@@ -90,44 +93,30 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         camera.setPreviewCallback(null);
+        Date startDate = new Date();
         imageProcessor.Init();
         imageProcessor.ProcessFrame(data.clone(), w, h);
-
-        //Bitmap bimap = Bitmap.createBitmap(imageProcessor.GetPixelData(), w,h, Bitmap.Config.ARGB_8888);
-
-
-        /*
-        final YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,w,h,null);
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        yuvImage.compressToJpeg(new Rect(0,0,w,h),50,byteArrayOutputStream);
-        try {
-            FileOutputStream fos = new FileOutputStream (new File(path, "test2.jpg"));
-            byteArrayOutputStream.writeTo(fos);
-            byteArrayOutputStream.flush();
-            fos.close();
-            byteArrayOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        int[][] hist = imageProcessor.GetHistogramData();
-        histogram.SetRgbArrays(hist[0], hist[1], hist[2]);
-
-        Bitmap bimap = imageProcessor.GetNativeBitmap();
-        bimap.setHasAlpha(true);
-        imageProcessor.ApplyHPF();
-        Bitmap map = imageProcessor.GetNativeBitmap();
+        long ti = new Date().getTime() - startDate.getTime();
+        Log.d("ImageProcessor", "YuvtoRgbTIme" + ti);
+        //int[][] hist = imageProcessor.GetHistogramData();
+        //histogram.SetRgbArrays(hist[0], hist[1], hist[2]);
+        /*Bitmap obit = imageProcessor.GetNativeBitmap();
+        saveBitmap(obit, "orginalHPFFrame.jpg");
+        */
+        //int[] jnidata = imageProcessor.GetPixelData();
+        //Bitmap map = Bitmap.createBitmap(jnidata, w,h, Bitmap.Config.ARGB_8888);
         //map.setHasAlpha(true);
-        Canvas canvas = new Canvas(bimap);
-        Paint paint = new Paint();
-        //paint.setColor(Color.RED);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-        canvas.drawBitmap(map, 0.0f, 0.0f, paint);
-        saveBitmap(bimap);
-        maskImageView.setImageBitmap(bimap);
+        imageProcessor.ApplyHPF();
+        ti = new Date().getTime() - startDate.getTime();
+        Log.d("ImageProcessor", "HPF time" + ti);
+        Bitmap map = imageProcessor.GetNativeBitmap();
+        //saveBitmap(map, "testHPFFrame.jpg");
+
+
+        maskImageView.setImageBitmap(map);
         imageProcessor.ReleaseNative();
+        ti = new Date().getTime() - startDate.getTime();
+        Log.d("ImageProcessor", "ImageDrawn" + ti);
     }
 
     OnClickListener processFrameClick = new OnClickListener()
@@ -140,11 +129,11 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     };
 
 
-    private void saveBitmap(Bitmap bimap)
+    private void saveBitmap(Bitmap bimap, String filename)
     {
         String path = Environment.getExternalStorageDirectory().toString();
         OutputStream fOut = null;
-        File file = new File(path, "test.jpg"); // the File to save to
+        File file = new File(path, filename); // the File to save to
         try {
             fOut = new FileOutputStream(file);
             bimap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate

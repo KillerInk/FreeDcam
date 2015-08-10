@@ -81,5 +81,9 @@ JNIEXPORT jobjectArray    JNICALL Java_troop_com_imageconverter_ImageProcessorWr
 
 JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz)
 {
-    rgbContainer->applyHPF();
+    /*int filter[3][3] = {{0,  -1, 0},
+                        {-1, 8,  -1},
+                        {0,  -1, 0}};
+    rgbContainer->Apply3x3Filter(filter);*/
+    rgbContainer->applyFocusPeak();
 }

@@ -16,7 +16,7 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
     int             Y;
     int             Cr = 0;
     int             Cb = 0;
-    int       nextpx =0,      pixPtr = 0;
+    int       pixPtr = 0;
     int             jDiv2 = 0;
     int             R = 0;
     int             G = 0;
@@ -25,7 +25,6 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
     int w = width;
     int h = height;
     sz = w * h;
-    int nextPX = 0;
     for(j = 0; j < h ; j++) {
         pixPtr = j * w;
         jDiv2 = j >> 1;
@@ -53,7 +52,7 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
             if(G < 0) G = 0; else if(G > 255) G = 255;
             B = Y + Cb + (Cb >> 1) + (Cb >> 4) + (Cb >> 5);
             if(B < 0) B = 0; else if(B > 255) B = 255;
-            _data[pixPtr++] = 0xff000000 + (B << 16) + (G << 8) + R;
+            _data[pixPtr++] = GetPixelFromRGB(R,G,B);
         }
     }
 }
@@ -86,7 +85,7 @@ jobject ImageProcessor::getBitmap(JNIEnv * env) {
     LOGD("memcopy end");
 
     AndroidBitmap_unlockPixels(env, newBitmap);
-    free(_data);
+    //free(_data);
 
     return newBitmap;
 }
@@ -154,10 +153,7 @@ jobjectArray ImageProcessor::GetHistogramm(JNIEnv * env)
 
 
 
-void ImageProcessor::applyHPF() {
-    int filter[3][3] = {{0,  -1, 0},
-                        {-1, 4,  -1},
-                        {0,  -1, 0}};
+void ImageProcessor::applyLanczos() {
     int newarray[_width * _height];
     for (int y = 1; y < _height - 1; y++) {
         for (int x = 1; x < _width - 1; x++) {
@@ -171,26 +167,87 @@ void ImageProcessor::applyHPF() {
             int c21 = GetPixel(x + 1, y);
             int c22 = GetPixel(x + 1, y + 1);
             int r = -GetPixelRedFromInt(c00) - GetPixelRedFromInt(c01) - GetPixelRedFromInt(c02) +
-                    -GetPixelRedFromInt(c10) + 8 * GetPixelRedFromInt(c11) -
-                    GetPixelRedFromInt(c12) +
+                    -GetPixelRedFromInt(c10) + 8 * GetPixelRedFromInt(c11) - GetPixelRedFromInt(c12) +
                     -GetPixelRedFromInt(c20) - GetPixelRedFromInt(c21) - GetPixelRedFromInt(c22);
-            int g = -GetPixelGreenFromInt(c00) - GetPixelGreenFromInt(c01) -
-                    GetPixelGreenFromInt(c02) +
-                    -GetPixelGreenFromInt(c10) + 8 * GetPixelGreenFromInt(c11) -
-                    GetPixelGreenFromInt(c12) +
-                    -GetPixelGreenFromInt(c20) - GetPixelGreenFromInt(c21) -
-                    GetPixelGreenFromInt(c22);
-            int b = -GetPixelBlueFromInt(c00) - GetPixelBlueFromInt(c01) -
-                    GetPixelBlueFromInt(c02) +
-                    -GetPixelBlueFromInt(c10) + 8 * GetPixelBlueFromInt(c11) -
-                    GetPixelBlueFromInt(c12) +
+            int g = -GetPixelGreenFromInt(c00) - GetPixelGreenFromInt(c01) - GetPixelGreenFromInt(c02) +
+                    -GetPixelGreenFromInt(c10) + 8 * GetPixelGreenFromInt(c11) - GetPixelGreenFromInt(c12) +
+                    -GetPixelGreenFromInt(c20) - GetPixelGreenFromInt(c21) - GetPixelGreenFromInt(c22);
+            int b = -GetPixelBlueFromInt(c00) - GetPixelBlueFromInt(c01) - GetPixelBlueFromInt(c02) +
+                    -GetPixelBlueFromInt(c10) + 8 * GetPixelBlueFromInt(c11) - GetPixelBlueFromInt(c12) +
                     -GetPixelBlueFromInt(c20) - GetPixelBlueFromInt(c21) - GetPixelBlueFromInt(c22);
             if (r < 0) r = 0; else if (r > 255) r = 255;
             if (g < 0) g = 0; else if (g > 255) g = 255;
             if (b < 0) b = 0; else if (b > 255) b = 255;
-            WritePixel(x, y, GetPixelFromRgb(r, g, b), newarray);
+            WritePixel(x, y, GetPixelFromRGB(r, g, b), newarray);
         }
     }
     _data = newarray;
+}
+
+void ImageProcessor::applyFocusPeak()
+{
+    int factorForTrans = 50;
+    int newarray[_width * _height];
+    for (int y = 1; y < _height - 1; y++) {
+        for (int x = 1; x < _width - 1; x++) {
+            int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
+                    -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
+                    -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
+            if (r < 0) r = 0; else if (r > 255) r = 255;
+            if(r < factorForTrans /*&& g < factorForTrans && b <  factorForTrans*/) {
+                WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), newarray);
+            }
+            else {
+                WritePixel(x, y, GetPixelFromRGB(255, 0, 0), newarray);
+                //LOGD("Wrote non black Pixel");
+            }
+        }
+    }
+    _data = newarray;
+}
+
+void ImageProcessor::Apply3x3Filter(int filter[3][3])
+{
+    LOGD("Apply 3x3 Filter");
+    int newarray[_width * _height];
+    double factor = 1.0;
+    double bias = 0.0;
+    int filterWidth = 3;
+    int filterHeight = 3;
+    //apply the filter
+    for (int y = 1; y < _height - 1; y++) {
+        for (int x = 1; x < _width - 1; x++) {
+            int c00 = GetPixel(x - 1, y - 1);
+            int c01 = GetPixel(x - 1, y);
+            int c02 = GetPixel(x - 1, y + 1);
+            int c10 = GetPixel(x, y - 1);
+            int c11 = GetPixel(x, y);
+            int c12 = GetPixel(x, y + 1);
+            int c20 = GetPixel(x + 1, y - 1);
+            int c21 = GetPixel(x + 1, y);
+            int c22 = GetPixel(x + 1, y + 1);
+            int r, g, b = 0;
+
+            r =     -GetPixelRedFromInt(c00)*filter[0][0] - GetPixelRedFromInt(c01)*filter[0][1] + GetPixelRedFromInt(c02)*filter[0][2]+
+                    -GetPixelRedFromInt(c10)*filter[1][0] + GetPixelRedFromInt(c11)*filter[1][1] - GetPixelRedFromInt(c12)*filter[1][2] +
+                    -GetPixelRedFromInt(c20)*filter[2][0] - GetPixelRedFromInt(c21)*filter[2][1] - GetPixelRedFromInt(c22)*filter[2][2];
+
+            g =     -GetPixelGreenFromInt(c00)*filter[0][0] - GetPixelGreenFromInt(c01)*filter[0][1]   - GetPixelGreenFromInt(c02)*filter[0][2] +
+                    -GetPixelGreenFromInt(c10)*filter[1][0] + GetPixelGreenFromInt(c11)*filter[1][1]   - GetPixelGreenFromInt(c12)*filter[1][2] +
+                    -GetPixelGreenFromInt(c20)*filter[2][0] - GetPixelGreenFromInt(c21)*filter[2][1]   - GetPixelGreenFromInt(c22)*filter[2][2];
+
+            b =     -GetPixelBlueFromInt(c00)*filter[0][0]  - GetPixelBlueFromInt(c01)*filter[0][1] - GetPixelBlueFromInt(c02)*filter[0][2] +
+                    -GetPixelBlueFromInt(c10)*filter[1][0]  + GetPixelBlueFromInt(c11)*filter[1][1] - GetPixelBlueFromInt(c12)*filter[1][2] +
+                    -GetPixelBlueFromInt(c20)*filter[2][0]  - GetPixelBlueFromInt(c21)*filter[2][1] - GetPixelBlueFromInt(c22)*filter[2][2];
+            //truncate values smaller than zero and larger than 255
+            if (r < 0) r = 0; else if (r > 255) r = 255;
+            if (g < 0) g = 0; else if (g > 255) g = 255;
+            if (b < 0) b = 0; else if (b > 255) b = 255;
+            //LOGD("R:%i G:%i B:%i",r,g,b);
+            WritePixel(x, y, GetPixelFromRGB(r, g, b), newarray);
+        }
+    }
+    _data = newarray;
+    LOGD("Done 3x3 Filter");
 }
 
