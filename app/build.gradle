@@ -39,4 +39,6 @@ dependencies {
     compile project(':guide')
     compile project(':imageviewer')
     compile project(':themesample')
+    compile project(':imageconverter')
+    compile project(':views')
 }
