@@ -50,11 +50,6 @@ public class ImageProcessorWrapper
     {
         return GetBitmap(nativeHandler);
     }
-
-    public void ReleaseNative()
-    {
-        Release(nativeHandler);
-    }
     public void Init()
     {
         INIT();
@@ -67,5 +62,11 @@ public class ImageProcessorWrapper
     public void ApplyHPF()
     {
         ApplyHighPassFilter(nativeHandler);
+    }
+
+    public void ReleaseNative()
+    {
+        Release(nativeHandler);
+        nativeHandler = null;
     }
 }

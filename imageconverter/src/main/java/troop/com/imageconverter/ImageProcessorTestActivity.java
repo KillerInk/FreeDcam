@@ -112,14 +112,14 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     boolean doWork = false;
     private void start()
     {
-
+        final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
         doWork = true;
         new Thread() {
             @Override
             public void run() {
                 byte[] data = null;
                 try {
-                    ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
+
                     //imageProcessor.Init();
                     while (doWork) {
                         data = mYuvFrameQueue.take();
@@ -151,6 +151,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                     mYuvFrameQueue.clear();
                     mFocusPeakQueue.clear();
                     doWork = false;
+                    imageProcessor.ReleaseNative();
 
                 }
             }

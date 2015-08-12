@@ -92,10 +92,10 @@ jobject ImageProcessor::getBitmap(JNIEnv * env) {
 
 void ImageProcessor::Release()
 {
-    if (_data != NULL)
+    if (_data != NULL) {
         LOGD("Release");
-    //free(_data);
-
+        delete [] _data;
+    }
 }
 
 jobject ImageProcessor::GetData(JNIEnv * env)

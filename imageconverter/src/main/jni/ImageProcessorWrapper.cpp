@@ -35,7 +35,7 @@ extern "C"
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_INIT(JNIEnv *env, jobject thiz);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height);
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetBitmap(JNIEnv *env, jobject thiz, jobject handler);
-    JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz);
+    JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT jobjectArray    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz,jobject handler);
@@ -71,6 +71,7 @@ JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Relea
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->Release();
+    rgbContainer = NULL;
 }
 
 JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz,jobject handler)
