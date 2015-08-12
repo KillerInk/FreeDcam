@@ -12,6 +12,8 @@
 #include <android/log.h>
 #include <unistd.h>
 #include <android/bitmap.h>
+#include <android/native_window.h> // requires ndk r5 or newer
+#include <android/native_window_jni.h> // requires ndk r5 or newer
 #include "ImageProcessor.h"
 #define  LOG_TAG    "ImageProcessor"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -33,12 +35,13 @@ static int bcoeff(int y, int u, int v){ return 298082*y + 516411*u +      0*v; }
 extern "C"
 {
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_INIT(JNIEnv *env, jobject thiz);
+    JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_SetNativeWindow(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height);
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetBitmap(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz,jobject handler);
-    JNIEXPORT jobjectArray    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz,jobject handler);
-    JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz,jobject handler);
+    JNIEXPORT jobjectArray JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz,jobject handler);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz,jobject handler);
 
 }
 
@@ -47,6 +50,21 @@ JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_IN
 {
     ImageProcessor* rgbContainer = new ImageProcessor();
     return env->NewDirectByteBuffer(rgbContainer, 0);
+}
+
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    if(rgbContainer->_window != NULL)
+        ANativeWindow_release(rgbContainer->_window);
+    rgbContainer->Release();
+    rgbContainer = NULL;
+}
+
+JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_SetNativeWindow(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->SetNativWindow(ANativeWindow_fromSurface(env, nativewindow));
 }
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height)
@@ -67,12 +85,7 @@ JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Ge
     return rgbContainer->getBitmap(env);
 }
 
-JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler)
-{
-    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    rgbContainer->Release();
-    rgbContainer = NULL;
-}
+
 
 JNIEXPORT jobject    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetRgbData(JNIEnv *env, jobject thiz,jobject handler)
 {

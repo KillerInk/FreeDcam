@@ -2,6 +2,8 @@ package troop.com.imageconverter;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.Surface;
+import android.view.SurfaceView;
 
 import java.nio.ByteBuffer;
 
@@ -24,6 +26,7 @@ public class ImageProcessorWrapper
     private ByteBuffer nativeHandler = null;
 
     private synchronized static native ByteBuffer INIT();
+    private native void SetNativeWindow(ByteBuffer nativeHandler, SurfaceView view);
     private synchronized static native void YUVtoRGB(ByteBuffer nativeHandler,byte data[], int width, int height);
     private synchronized static native Bitmap GetBitmap(ByteBuffer nativeHandler);
     private synchronized static native void Release(ByteBuffer nativeHandler);
@@ -53,6 +56,11 @@ public class ImageProcessorWrapper
     public void Init()
     {
         INIT();
+    }
+
+    public void SetSurface(SurfaceView surface)
+    {
+        SetNativeWindow(nativeHandler, surface);
     }
 
     public int[][] GetHistogramData()

@@ -203,8 +203,14 @@ void ImageProcessor::applyFocusPeak()
             }
         }
     }
+
+    ANativeWindow_Buffer buffer;
+    if (ANativeWindow_lock(_window, &buffer, NULL) == 0) {
+        memcpy(buffer.bits, newarray,  _width * _height * sizeof(int));
+        ANativeWindow_unlockAndPost(_window);
+    }
     //_data = newarray;
-    memcpy(_data,newarray, (_width * _height * sizeof(int)));
+    //memcpy(_data,newarray, (_width * _height * sizeof(int)));
     delete [] newarray;
 }
 

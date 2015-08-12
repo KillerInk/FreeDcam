@@ -40,6 +40,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
 {
     SurfaceView surfaceView;
     Camera camera;
+    SurfaceView nativeSurface;
 
 
     int w,h;
@@ -62,6 +63,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         buttonProcessFrame = (Button)findViewById(R.id.button_processFrame);
         buttonProcessFrame.setOnClickListener(processFrameClick);
         histogram = (MyHistogram)findViewById(R.id.Histogram);
+        nativeSurface = (SurfaceView)findViewById(R.id.surfaceView_focusPeak);
     }
 
     @Override
@@ -113,6 +115,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     private void start()
     {
         final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
+        imageProcessor.SetSurface(nativeSurface);
         doWork = true;
         new Thread() {
             @Override
@@ -127,7 +130,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                         {
                             imageProcessor.ProcessFrame(data, w, h);
                             imageProcessor.ApplyHPF();
-                            if (mFocusPeakQueue.size() == 2)
+                            /*if (mFocusPeakQueue.size() == 2)
                             {
                                 mFocusPeakQueue.remove();
                             }
@@ -141,7 +144,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                                         e.printStackTrace();
                                     }
                                 }
-                            });
+                            });*/
                         }
                     }
                 } catch (InterruptedException e) {

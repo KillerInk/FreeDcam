@@ -17,18 +17,22 @@
 #include <android/log.h>
 #include <unistd.h>
 #include <android/bitmap.h>
+#include <android/native_window.h> // requires ndk r5 or newer
+#include <android/native_window_jni.h> // requires ndk r5 or newer
 
 class ImageProcessor {
 public:
     jint _width;
     jint _height;
     int* _data;
+    ANativeWindow* _window;
     ImageProcessor()
     {
         _width = 0;
         _height = 0;
         _data = new int[0];
     }
+    void SetNativWindow(ANativeWindow* nativewindow){ _window = nativewindow; };
     void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);
