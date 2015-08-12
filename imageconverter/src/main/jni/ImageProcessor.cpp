@@ -203,7 +203,9 @@ void ImageProcessor::applyFocusPeak()
             }
         }
     }
-    _data = newarray;
+    //_data = newarray;
+    memcpy(_data,newarray, (_width * _height * sizeof(int)));
+    delete [] newarray;
 }
 
 void ImageProcessor::Apply3x3Filter(int filter[3][3])
