@@ -11,3 +11,5 @@ app/libs/armeabi/libYuvMerge.so
 androiddng/libs/
 app/build/
 imageviewer/libs/armeabi*
+.idea
+*.iml
