@@ -154,7 +154,7 @@ jobjectArray ImageProcessor::GetHistogramm(JNIEnv * env)
 
 
 void ImageProcessor::applyLanczos() {
-    int newarray[_width * _height];
+    int* newarray = new int[_width * _height];
     for (int y = 1; y < _height - 1; y++) {
         for (int x = 1; x < _width - 1; x++) {
             int c00 = GetPixel(x - 1, y - 1);
@@ -187,7 +187,7 @@ void ImageProcessor::applyLanczos() {
 void ImageProcessor::applyFocusPeak()
 {
     int factorForTrans = 50;
-    int newarray[_width * _height];
+    int* newarray = new int[_width * _height];
     for (int y = 1; y < _height - 1; y++) {
         for (int x = 1; x < _width - 1; x++) {
             int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
@@ -209,7 +209,7 @@ void ImageProcessor::applyFocusPeak()
 void ImageProcessor::Apply3x3Filter(int filter[3][3])
 {
     LOGD("Apply 3x3 Filter");
-    int newarray[_width * _height];
+    int* newarray = new int[_width * _height];
     double factor = 1.0;
     double bias = 0.0;
     int filterWidth = 3;

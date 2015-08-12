@@ -13,7 +13,7 @@ public class ImageProcessorWrapper
 
     ImageProcessorWrapper()
     {
-        nativeHandler = INIT();
+        this.nativeHandler = INIT();
     }
 
     static

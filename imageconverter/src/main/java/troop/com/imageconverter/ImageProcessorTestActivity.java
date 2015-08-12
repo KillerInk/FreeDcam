@@ -101,7 +101,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         {
             mYuvFrameQueue.remove();
         }
-        mYuvFrameQueue.add(data.clone());
+        mYuvFrameQueue.add(data);
 
         /*camera.setPreviewCallback(null);
         ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
@@ -120,18 +120,18 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                 byte[] data = null;
                 try {
                     ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
-                    imageProcessor.Init();
+                    //imageProcessor.Init();
                     while (doWork) {
                         data = mYuvFrameQueue.take();
                         if (data != null)
                         {
-                            imageProcessor.ProcessFrame(data.clone(), w, h);
+                            imageProcessor.ProcessFrame(data, w, h);
                             imageProcessor.ApplyHPF();
                             if (mFocusPeakQueue.size() == 2)
                             {
                                 mFocusPeakQueue.remove();
                             }
-                            mFocusPeakQueue.add(imageProcessor.GetPixelData().clone());
+                            mFocusPeakQueue.add(imageProcessor.GetPixelData());
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -175,8 +175,11 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                         data = mYuvFrameQueue.take();
                         if (data != null)
                         {
+                            Log.d("ImageProcessor", "ProcessFrame");
                             imageProcessor.ProcessFrame(data.clone(), w, h);
+                            Log.d("ImageProcessor", "ProcessedFrame");
                             imageProcessor.ApplyHPF();
+                            Log.d("ImageProcessor", "HPF done");
                             if (mFocusPeakQueue.size() == 2)
                             {
                                 mFocusPeakQueue.remove();
@@ -216,8 +219,8 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
             //camera.setPreviewCallback(ImageProcessorTestActivity.this);
             if (!doWork) {
                 camera.setPreviewCallback(ImageProcessorTestActivity.this);
-                //start();
-                ProcessOnce();
+                start();
+                //ProcessOnce();
             }
             else
                 stop();
