@@ -29,7 +29,7 @@ public:
         _height = 0;
         _data = new int[0];
     }
-    void YuvToRgb(jint* yuyv_image, jint width, jint height);
+    void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);
     void Release();

@@ -4,7 +4,7 @@
 
 #include "ImageProcessor.h"
 
-void ImageProcessor::YuvToRgb(jint* yuv420sp, jint width, jint height) {
+void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) {
     _width = width;
     _height = height;
     int frameSize = width * height;
@@ -187,7 +187,7 @@ void ImageProcessor::applyLanczos() {
 void ImageProcessor::applyFocusPeak()
 {
     int factorForTrans = 50;
-    int* newarray = new int[_width * _height];
+    int* newarray = new int[_width * _height * sizeof(int)];
     for (int y = 1; y < _height - 1; y++) {
         for (int x = 1; x < _width - 1; x++) {
             int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +

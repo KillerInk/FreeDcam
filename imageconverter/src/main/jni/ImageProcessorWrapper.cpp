@@ -51,12 +51,12 @@ JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_IN
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height)
 {
-    jbyte* yuv = (jbyte*) env->GetByteArrayElements(yuv420sp,NULL);
+    unsigned char* yuv = (unsigned char*) env->GetByteArrayElements(yuv420sp,NULL);
     int size = env->GetArrayLength(yuv420sp);
-    jint* nativeyuv = new jint[size];
+    unsigned char* nativeyuv = new unsigned char[size];
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     memcpy(nativeyuv,yuv, size);
-    env->ReleaseByteArrayElements(yuv420sp, yuv, 0);
+    env->ReleaseByteArrayElements(yuv420sp, (jbyte*)yuv, 0);
     rgbContainer->YuvToRgb(nativeyuv, width, height);
 }
 
