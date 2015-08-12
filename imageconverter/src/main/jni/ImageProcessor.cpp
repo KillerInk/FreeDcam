@@ -187,9 +187,9 @@ void ImageProcessor::applyLanczos() {
 void ImageProcessor::applyFocusPeak()
 {
     int factorForTrans = 50;
-    int* newarray = new int[_width * _height * sizeof(int)];
-    for (int y = 1; y < _height - 1; y++) {
-        for (int x = 1; x < _width - 1; x++) {
+    int* newarray = new int[_width/2 * _height/2 * sizeof(int)];
+    for (int y = 1; y < _height - 1; y+=2) {
+        for (int x = 1; x < _width - 1; x+=2) {
             int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
                     -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
                     -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
