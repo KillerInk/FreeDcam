@@ -13,3 +13,5 @@ app/build/
 imageviewer/libs/armeabi*
 .idea
 *.iml
+imageconverter/libs/armeabi/libimageconverter.so
+imageconverter/libs/armeabi-v7a/libimageconverter.so

@@ -32,7 +32,11 @@ public:
         _height = 0;
         _data = new int[0];
     }
-    void SetNativWindow(ANativeWindow* nativewindow){ _window = nativewindow; };
+    void SetNativWindow(ANativeWindow* nativewindow, jint width, jint height){ _window = nativewindow;
+        if (ANativeWindow_setBuffersGeometry(_window, width,
+                                             height,
+                                             WINDOW_FORMAT_RGBX_8888) < 0)
+    LOGD("set geometry faild");}
     void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);

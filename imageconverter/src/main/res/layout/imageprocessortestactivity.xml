@@ -10,6 +10,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
+    <SurfaceView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/surfaceView_focusPeak" />
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,11 +39,6 @@
         android:layout_height="100dp"
         android:id="@+id/Histogram"
         android:layout_alignParentBottom="true" />
-
-    <SurfaceView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/surfaceView_focusPeak" />
 
 
 </RelativeLayout>

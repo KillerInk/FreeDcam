@@ -115,7 +115,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     private void start()
     {
         final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
-        imageProcessor.SetSurface(nativeSurface);
+        imageProcessor.SetSurface(nativeSurface.getHolder().getSurface(), w,h);
         doWork = true;
         new Thread() {
             @Override

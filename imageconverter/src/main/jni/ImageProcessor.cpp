@@ -187,14 +187,14 @@ void ImageProcessor::applyLanczos() {
 void ImageProcessor::applyFocusPeak()
 {
     int factorForTrans = 50;
-    int* newarray = new int[_width/2 * _height/2 * sizeof(int)];
+    /*int* newarray = new int[_width/2 * _height/2 * sizeof(int)];
     for (int y = 1; y < _height - 1; y+=2) {
         for (int x = 1; x < _width - 1; x+=2) {
             int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
                     -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
                     -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
             if (r < 0) r = 0; else if (r > 255) r = 255;
-            if(r < factorForTrans /*&& g < factorForTrans && b <  factorForTrans*/) {
+            if(r < factorForTrans ) {
                 WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), newarray);
             }
             else {
@@ -203,15 +203,36 @@ void ImageProcessor::applyFocusPeak()
             }
         }
     }
+    memcpy(_data,newarray, (_width * _height * sizeof(int)));
+    delete [] newarray;*/
 
     ANativeWindow_Buffer buffer;
+    LOGD("lock nativewindow");
     if (ANativeWindow_lock(_window, &buffer, NULL) == 0) {
-        memcpy(buffer.bits, newarray,  _width * _height * sizeof(int));
+        LOGD("locked nativewindow start memcopy");
+        int* b = (int*) buffer.bits;
+        for (int y = 1; y < _height - 1; y+=2) {
+            for (int x = 1; x < _width - 1; x+=2) {
+                int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
+                        -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
+                        -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
+                if (r < 0) r = 0; else if (r > 255) r = 255;
+                if(r < factorForTrans ) {
+                    WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), b);
+                }
+                else {
+                    WritePixel(x, y, GetPixelFromRGB(255, 0, 0), b);
+                    //LOGD("Wrote non black Pixel");
+                }
+            }
+        }
+        LOGD(" memcopy end unlock");
         ANativeWindow_unlockAndPost(_window);
+        LOGD("unlocked");
     }
     //_data = newarray;
     //memcpy(_data,newarray, (_width * _height * sizeof(int)));
-    delete [] newarray;
+    //delete [] newarray;
 }
 
 void ImageProcessor::Apply3x3Filter(int filter[3][3])
