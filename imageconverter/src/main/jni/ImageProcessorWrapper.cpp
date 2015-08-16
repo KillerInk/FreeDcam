@@ -35,7 +35,8 @@ static int bcoeff(int y, int u, int v){ return 298082*y + 516411*u +      0*v; }
 extern "C"
 {
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_INIT(JNIEnv *env, jobject thiz);
-    JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_SetNativeWindow(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow,jint width, jint height);
+    JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_DrawToSurface(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow);
+    JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_DrawToBitmap(JNIEnv *env, jobject thiz,jobject handler, jobject bitmap);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height);
     JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetBitmap(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler);
@@ -55,16 +56,20 @@ JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_IN
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Release(JNIEnv *env, jobject thiz,jobject handler)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    if(rgbContainer->_window != NULL)
-        ANativeWindow_release(rgbContainer->_window);
     rgbContainer->Release();
     rgbContainer = NULL;
 }
 
-JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_SetNativeWindow(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow,jint width, jint height)
+JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_DrawToSurface(JNIEnv *env, jobject thiz,jobject handler, jobject nativewindow)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    rgbContainer->SetNativWindow(ANativeWindow_fromSurface(env, nativewindow), width,height);
+    rgbContainer->DrawToSurface(env, nativewindow);
+}
+
+JNIEXPORT jobject JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_DrawToBitmap(JNIEnv *env, jobject thiz,jobject handler, jobject bitmap)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->DrawToBitmap(env, bitmap);
 }
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_YUVtoRGB(JNIEnv *env, jobject thiz,jobject handler, jbyteArray yuv420sp, jint width, jint height)

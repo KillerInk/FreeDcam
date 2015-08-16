@@ -6,12 +6,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -42,12 +45,16 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     Camera camera;
     SurfaceView nativeSurface;
 
-
+    NativeDrawView drawView;
     int w,h;
 
     Button buttonProcessFrame;
     ImageView maskImageView;
     MyHistogram histogram;
+
+    Bitmap drawingBitmap;
+    RenderScript mRS;
+    ViewfinderProcessor mProcessor;
 
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     private final BlockingQueue<int[]> mFocusPeakQueue = new ArrayBlockingQueue<int[]>(2);
@@ -64,6 +71,8 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         buttonProcessFrame.setOnClickListener(processFrameClick);
         histogram = (MyHistogram)findViewById(R.id.Histogram);
         nativeSurface = (SurfaceView)findViewById(R.id.surfaceView_focusPeak);
+        drawView = (NativeDrawView)findViewById(R.id.view_to_draw);
+        mRS = RenderScript.create(this.getApplicationContext());
     }
 
     @Override
@@ -72,9 +81,17 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         camera = Camera.open(0);
         Camera.Parameters parameters = camera.getParameters();
         //parameters.setPreviewSize(640,480);
-        parameters.set("preview-format","yuv420sp");
+        parameters.set("preview-format", "yuv420sp");
         camera.setParameters(parameters);
+        Camera.Size size = parameters.getPreviewSize();
+        w = size.width;
+        h = size.height;
+
+        android.util.Size  s = new android.util.Size(w,h);
+        mProcessor = new ViewfinderProcessor(mRS, s);
+        mProcessor.setOutputSurface(nativeSurface.getHolder().getSurface());
         try {
+
             camera.setPreviewDisplay(surfaceView.getHolder());
 
         } catch (IOException e) {
@@ -82,7 +99,14 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         }
         w = camera.getParameters().getPreviewSize().width;
         h = camera.getParameters().getPreviewSize().height;
+        nativeSurface.getHolder().setFormat(PixelFormat.RGBA_8888);
+
+        drawingBitmap = Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
+        drawView.mBitmap = drawingBitmap;
+
         camera.startPreview();
+        mProcessor.setOutputSurface(nativeSurface.getHolder().getSurface());
+        mProcessor.setInputSurface(surfaceView.getHolder().getSurface());
     }
 
     @Override
@@ -99,11 +123,11 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     @Override
     public void onPreviewFrame(byte[] data, Camera camera)
     {
-        if (mYuvFrameQueue.size() == 2)
+        /*if (mYuvFrameQueue.size() == 2)
         {
             mYuvFrameQueue.remove();
         }
-        mYuvFrameQueue.add(data);
+        mYuvFrameQueue.add(data);*/
 
         /*camera.setPreviewCallback(null);
         ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
@@ -115,7 +139,6 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
     private void start()
     {
         final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
-        imageProcessor.SetSurface(nativeSurface.getHolder().getSurface(), w,h);
         doWork = true;
         new Thread() {
             @Override
@@ -129,20 +152,16 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                         if (data != null)
                         {
                             imageProcessor.ProcessFrame(data, w, h);
+                            if (!doWork)
+                                break;
                             imageProcessor.ApplyHPF();
-                            /*if (mFocusPeakQueue.size() == 2)
-                            {
-                                mFocusPeakQueue.remove();
-                            }
-                            mFocusPeakQueue.add(imageProcessor.GetPixelData());
-                            runOnUiThread(new Runnable() {
+                            if (!doWork)
+                                break;
+                            imageProcessor.DrawToBitmapFromNative(drawingBitmap);
+                            /*runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        maskImageView.setImageBitmap(Bitmap.createBitmap(mFocusPeakQueue.take(), w,h, Bitmap.Config.ARGB_8888));
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
+                                    maskImageView.setImageBitmap(drawingBitmap);
                                 }
                             });*/
                         }
@@ -150,10 +169,10 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
+                    doWork = false;
                     camera.setPreviewCallback(null);
                     mYuvFrameQueue.clear();
-                    mFocusPeakQueue.clear();
-                    doWork = false;
+                    Log.d("ImageProcessor", " Releasenative");
                     imageProcessor.ReleaseNative();
 
                 }
@@ -166,53 +185,7 @@ public class ImageProcessorTestActivity extends Activity implements SurfaceHolde
         doWork = false;
     }
 
-    private void ProcessOnce()
-    {
-        new Thread() {
-            @Override
-            public void run() {
-                byte[] data = null;
-                try {
-                    final ImageProcessorWrapper imageProcessor = new ImageProcessorWrapper();
-                    imageProcessor.Init();
 
-                        data = mYuvFrameQueue.take();
-                        if (data != null)
-                        {
-                            Log.d("ImageProcessor", "ProcessFrame");
-                            imageProcessor.ProcessFrame(data.clone(), w, h);
-                            Log.d("ImageProcessor", "ProcessedFrame");
-                            imageProcessor.ApplyHPF();
-                            Log.d("ImageProcessor", "HPF done");
-                            if (mFocusPeakQueue.size() == 2)
-                            {
-                                mFocusPeakQueue.remove();
-                            }
-                            mFocusPeakQueue.add(imageProcessor.GetPixelData().clone());
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        maskImageView.setImageBitmap(Bitmap.createBitmap(mFocusPeakQueue.take(), w,h, Bitmap.Config.ARGB_8888));
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    camera.setPreviewCallback(null);
-                    mYuvFrameQueue.clear();
-                    mFocusPeakQueue.clear();
-                    doWork = false;
-
-                }
-            }
-        }.start();
-    }
 
     OnClickListener processFrameClick = new OnClickListener()
     {

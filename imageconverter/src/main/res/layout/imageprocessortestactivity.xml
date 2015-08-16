@@ -25,6 +25,11 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
 
+    <troop.com.imageconverter.NativeDrawView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/view_to_draw" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

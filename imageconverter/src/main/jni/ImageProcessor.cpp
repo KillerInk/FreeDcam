@@ -98,6 +98,30 @@ void ImageProcessor::Release()
     }
 }
 
+void ImageProcessor::DrawToSurface(JNIEnv * env, jobject surface)
+{
+    ANativeWindow* window = ANativeWindow_fromSurface(env, surface);
+    ANativeWindow_Buffer buffer;
+    if (ANativeWindow_lock(window, &buffer, NULL) == 0) {
+        memcpy(buffer.bits,_data, _width*_height* sizeof(int));
+    }
+    ANativeWindow_unlockAndPost(window);
+
+    ANativeWindow_release(window);
+    //delete [] native;
+}
+
+void ImageProcessor::DrawToBitmap(JNIEnv * env, jobject bitmap)
+{
+    void* pixels;
+    int ret;
+    if ((ret = AndroidBitmap_lockPixels(env, bitmap, &pixels)) < 0) {
+        LOGD("AndroidBitmap_lockPixels() failed ! error=%d", ret);
+    }
+    memcpy(pixels,_data, _width*_height* sizeof(int));
+    AndroidBitmap_unlockPixels(env, bitmap);
+}
+
 jobject ImageProcessor::GetData(JNIEnv * env)
 {
     jintArray result;
@@ -116,9 +140,9 @@ jobjectArray ImageProcessor::GetHistogramm(JNIEnv * env)
     for ( int i = 0 ; i < _width ; i ++) {
         for ( int j = 0 ; j < _height ; j ++) {
             int index = j * _width + i ;
-            int r = (int) ((_data[index] >> 16) & 0xFF);
+            int b = (int) ((_data[index] >> 16) & 0xFF);
             int g = (int) ((_data[index] >> 8) & 0xFF);
-            int b = (int) (_data[index] & 0xFF);
+            int r = (int) (_data[index] & 0xFF);
             red[r]++;
             green[g]++;
             blue[b]++;
@@ -181,15 +205,16 @@ void ImageProcessor::applyLanczos() {
             WritePixel(x, y, GetPixelFromRGB(r, g, b), newarray);
         }
     }
-    _data = newarray;
+    memcpy(_data,newarray, (_width * _height * sizeof(int)));
+    delete [] newarray;
 }
 
 void ImageProcessor::applyFocusPeak()
 {
     int factorForTrans = 50;
-    /*int* newarray = new int[_width/2 * _height/2 * sizeof(int)];
-    for (int y = 1; y < _height - 1; y+=2) {
-        for (int x = 1; x < _width - 1; x+=2) {
+    int* newarray = new int[_width * _height * sizeof(int)];
+    for (int y = 1; y < _height - 1; y++) {
+        for (int x = 1; x < _width - 1; x++) {
             int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
                     -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
                     -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
@@ -198,41 +223,13 @@ void ImageProcessor::applyFocusPeak()
                 WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), newarray);
             }
             else {
-                WritePixel(x, y, GetPixelFromRGB(255, 0, 0), newarray);
+                WritePixel(x, y, GetPixelFromRGB(0, 0 , 255), newarray);
                 //LOGD("Wrote non black Pixel");
             }
         }
     }
     memcpy(_data,newarray, (_width * _height * sizeof(int)));
-    delete [] newarray;*/
-
-    ANativeWindow_Buffer buffer;
-    LOGD("lock nativewindow");
-    if (ANativeWindow_lock(_window, &buffer, NULL) == 0) {
-        LOGD("locked nativewindow start memcopy");
-        int* b = (int*) buffer.bits;
-        for (int y = 1; y < _height - 1; y+=2) {
-            for (int x = 1; x < _width - 1; x+=2) {
-                int r = -GetPixelRed(x - 1, y - 1) - GetPixelRed(    x - 1, y) - GetPixelRed(x - 1, y + 1) +
-                        -GetPixelRed(x    , y - 1) + 8 * GetPixelRed(x    , y) - GetPixelRed(x    , y + 1) +
-                        -GetPixelRed(x + 1, y - 1) - GetPixelRed(    x + 1, y) - GetPixelRed(x + 1, y + 1);
-                if (r < 0) r = 0; else if (r > 255) r = 255;
-                if(r < factorForTrans ) {
-                    WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), b);
-                }
-                else {
-                    WritePixel(x, y, GetPixelFromRGB(255, 0, 0), b);
-                    //LOGD("Wrote non black Pixel");
-                }
-            }
-        }
-        LOGD(" memcopy end unlock");
-        ANativeWindow_unlockAndPost(_window);
-        LOGD("unlocked");
-    }
-    //_data = newarray;
-    //memcpy(_data,newarray, (_width * _height * sizeof(int)));
-    //delete [] newarray;
+    delete [] newarray;
 }
 
 void ImageProcessor::Apply3x3Filter(int filter[3][3])
@@ -279,4 +276,6 @@ void ImageProcessor::Apply3x3Filter(int filter[3][3])
     _data = newarray;
     LOGD("Done 3x3 Filter");
 }
+
+
 

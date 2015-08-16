@@ -9,6 +9,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 21
     }
 
     sourceSets
@@ -26,7 +27,7 @@ android {
                 def ndkDir = properties.getProperty('ndk.dir')
                 task ndkBuild(type: Exec) {
                     commandLine "$ndkDir/ndk-build.cmd", "--directory", "$projectDir/src/main/jni/", '-j', Runtime.runtime.availableProcessors(),
-                            "APP_PLATFORM=android-10",
+                            "APP_PLATFORM=android-21",
                             "APP_BUILD_SCRIPT=$projectDir/src/main/jni/Android.mk",
                             "NDK_OUT=$buildDir/jni/obj",
                             "NDK_APP_DST_DIR=$projectDir/libs/\$(TARGET_ARCH_ABI)"
@@ -55,6 +56,7 @@ android {
         debug {
             debuggable true
             jniDebuggable true
+            renderscriptDebuggable true
         }
     }
 }

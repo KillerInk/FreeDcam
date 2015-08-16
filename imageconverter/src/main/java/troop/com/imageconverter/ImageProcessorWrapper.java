@@ -21,13 +21,15 @@ public class ImageProcessorWrapper
 
     static
     {
+        System.loadLibrary("RSSupport");
         System.loadLibrary("imageconverter");
     }
 
     private ByteBuffer nativeHandler = null;
 
     private synchronized static native ByteBuffer INIT();
-    private native void SetNativeWindow(ByteBuffer nativeHandler, Surface view, int w, int h);
+    private native void DrawToSurface(ByteBuffer nativeHandler, Surface view);
+    private native void DrawToBitmap(ByteBuffer nativeHandler, Bitmap bitmap);
     private synchronized static native void YUVtoRGB(ByteBuffer nativeHandler,byte data[], int width, int height);
     private synchronized static native Bitmap GetBitmap(ByteBuffer nativeHandler);
     private synchronized static native void Release(ByteBuffer nativeHandler);
@@ -42,7 +44,7 @@ public class ImageProcessorWrapper
     {
         this.width = width;
         this.height = height;
-        Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
+        //Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
         YUVtoRGB(nativeHandler,data, width, height);
     }
 
@@ -50,8 +52,7 @@ public class ImageProcessorWrapper
     {
         return GetRgbData(nativeHandler);
     }
-    public Bitmap GetNativeBitmap()
-    {
+    public Bitmap GetNativeBitmap() {
         return GetBitmap(nativeHandler);
     }
     public void Init()
@@ -59,9 +60,13 @@ public class ImageProcessorWrapper
         INIT();
     }
 
-    public void SetSurface(Surface surface, int w, int h)
+    public void SetSurface(Surface surface) {
+        DrawToSurface(nativeHandler, surface);
+    }
+
+    public void DrawToBitmapFromNative(Bitmap map)
     {
-        SetNativeWindow(nativeHandler, surface,w,h);
+        DrawToBitmap(nativeHandler, map);
     }
 
     public int[][] GetHistogramData()
