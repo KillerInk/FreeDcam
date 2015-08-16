@@ -73,12 +73,14 @@ public class UiSettingsChildFormat extends UiSettingsChild
                 cameraUiWrapper.camParametersHandler.isDngActive = true;
                 cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT),false);
                 appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT));
+                appSettingsManager.setString(AppSettingsManager.SETTING_DNG, true+"");
             }
             else if (valueToSet.equals("JPEG"))
             {
                 cameraUiWrapper.camParametersHandler.isDngActive = false;
                 cameraUiWrapper.camParametersHandler.PictureFormat.SetValue("jpeg",false);
                 appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
+                appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false+"");
             }
             else
                 super.SetValue(valueToSet, setToCamera);
