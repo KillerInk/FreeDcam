@@ -303,6 +303,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 	}
 	else
 		LOGD("File opend");
+	(env)->ReleaseStringUTFChars(jfilename, strFilename);
 	if ((ret = raw.unpack()) != LIBRAW_SUCCESS)
 	{
 		LOGD("cannot unpack img");
@@ -353,12 +354,13 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
             bufrow += 3;
         }
         LOGD("memcopy end");
-		raw.dcraw_clear_mem(image);
-		raw.recycle();
+
 
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
+		raw.dcraw_clear_mem(image);
+		raw.recycle();
 	}
 
 	LOGD("rawdata recycled");

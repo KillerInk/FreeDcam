@@ -92,5 +92,11 @@ public class TouchHandler
         return dis;
     }
 
+    public static int getNegDistance(int startvalue, int currentvalue)
+    {
+        int dis = startvalue - currentvalue;
+        return dis;
+    }
+
 
 }

@@ -431,11 +431,15 @@ public class ImageViewerFragment extends Fragment implements View.OnTouchListene
                     xd = TouchHandler.getDistance(imageviewDEfaultPos, (int) imageView.getX());
                     if (xd >= distance && !lastset) {
                         lastset = true;
-
-                        if (imageviewDEfaultPos + distance > xd) {
+                        xd = TouchHandler.getNegDistance(imageviewDEfaultPos, (int) imageView.getX());
+                        int min = imageviewDEfaultPos - distance;
+                        int max = imageviewDEfaultPos +distance;
+                        if (max <= xd) {
                             loadNextImage();
-                        } else if (imageviewDEfaultPos - distance < xd) {
+                            Log.d(TAG, "loadnextImage");
+                        } else if (min >= xd) {
                             loadLastImage();
+                            Log.d(TAG, "loadlastImage");
                         }
                         imageView.postDelayed(new Runnable() {
                             @Override
