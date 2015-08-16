@@ -90,7 +90,9 @@ public abstract class AbstractParameterHandler
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
-    public boolean isDngActive = false;
+    private boolean isDngActive = false;
+    public boolean IsDngActive(){ return this.isDngActive; };
+    public void SetDngActive(boolean active) {this.isDngActive = active;}
     public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
@@ -161,8 +163,8 @@ public abstract class AbstractParameterHandler
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
-        isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
+            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
+        this.isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

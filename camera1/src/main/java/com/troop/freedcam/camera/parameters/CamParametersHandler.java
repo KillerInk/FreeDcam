@@ -202,13 +202,6 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         SetCameraRotation();
         SetPictureOrientation(0);
-
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        else if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-            isDngActive = true;
-
-
         //appSettingsManager.context.runOnUiThread(new Runnable() {
           //  @Override
             //public void run() {

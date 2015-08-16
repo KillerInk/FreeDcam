@@ -44,7 +44,7 @@ public class ExpandableChildDngSupport extends ExpandableChildTimelapseFps
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 appSettingsManager.setString(settingsname, isChecked +"");
-                parameterHandler.isDngActive = isChecked;
+                parameterHandler.SetDngActive(isChecked);
             }
         });
 

@@ -113,7 +113,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         isWorking = true;
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-        Log.d(TAG, "dng:"+ Boolean.toString(ParameterHandler.isDngActive));
+        Log.d(TAG, "dng:"+ Boolean.toString(ParameterHandler.IsDngActive()));
 
             cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
 
@@ -238,7 +238,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
                 }
-                else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR && cameraHolder.ParameterHandler.isDngActive)
+                else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR && cameraHolder.ParameterHandler.IsDngActive())
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));

@@ -65,7 +65,6 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
     public String OverRidePath = "";
-    CamParametersHandler parametersHandler;
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
 
@@ -76,7 +75,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         this.baseCameraHolder = baseCameraHolder;
         name = ModuleHandler.MODULE_PICTURE;
 
-        parametersHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
+        ParameterHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
 
@@ -102,7 +101,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         if (!this.isWorking)
         {
             startworking();
-            if (parametersHandler.Burst != null && parametersHandler.Burst.IsSupported() && parametersHandler.Burst.GetValue() > 1)
+            if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
                 burstcount = 0;
                 baseCameraHolder.TakePicture(null,null, burstCallback);
@@ -115,12 +114,14 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 } else if (picFormat.equals("jps")) {
                     final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpsSaver.TakePicture();
-                } else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
-                    rawSaver.TakePicture();
-                } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                }
+                else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
+                }
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    rawSaver.TakePicture();
                 }
             }
         }
@@ -152,7 +153,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
 
         if(DeviceUtils.isZTEADV())
-           parametersHandler.setString("slow_shutter", "-1");
+            ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
 
     }
 
@@ -227,10 +228,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                         final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
                     }
-                    else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                         final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
-                    } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                         DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         dngSaver.processData(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }
@@ -244,11 +245,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            if (burstcount == parametersHandler.Burst.GetValue() -1) {
+            if (burstcount == ParameterHandler.Burst.GetValue() -1) {
                 stopworking();
                 baseCameraHolder.StartPreview();
             }
-            else if (burstcount < parametersHandler.Burst.GetValue() -1)
+            else if (burstcount < ParameterHandler.Burst.GetValue() -1)
                 burstcount++;
         }
 
