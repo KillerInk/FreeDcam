@@ -212,11 +212,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         //appSettingsManager.context.runOnUiThread(new Runnable() {
           //  @Override
             //public void run() {
-                ParametersEventHandler.ParametersHasLoaded();
+
             //}
         //});
+        ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
+        ParametersEventHandler.ParametersHasLoaded();
     }
 
     class SetParameterRunner implements Runnable
