@@ -381,7 +381,8 @@ public class ImageViewerFragment extends Fragment implements View.OnTouchListene
         else if (file.getAbsolutePath().endsWith(".dng"))
         {
             response = new RawUtils().UnPackRAW(file.getAbsolutePath());
-            response.setHasAlpha(true);
+            if(response != null)
+                response.setHasAlpha(true);
         }
         else response = null;
         imageView.post(new Runnable() {
