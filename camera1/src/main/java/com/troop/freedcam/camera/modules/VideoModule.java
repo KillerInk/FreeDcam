@@ -205,6 +205,11 @@ public class VideoModule extends AbstractModule
                 Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
             recorder.setCaptureRate(frame);
         }
+
+        if (profile.contains("HFR"))
+        {
+            recorder.setCaptureRate(120);
+        }
         return recorder;
     }
 
