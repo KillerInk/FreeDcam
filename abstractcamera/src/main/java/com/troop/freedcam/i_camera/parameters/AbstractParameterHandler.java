@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera.parameters;
 import android.os.Handler;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -107,6 +108,8 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter oismode;
 
+    public LocationParameter locationParameter;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -114,6 +117,7 @@ public abstract class AbstractParameterHandler
         this.uiHandler = uiHandler;
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
+        locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
     }
 
     public void SetParametersToCamera() {};
