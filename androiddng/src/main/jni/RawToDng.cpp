@@ -18,6 +18,7 @@
 typedef unsigned long long uint64;
 typedef unsigned short UINT16;
 typedef unsigned char uint8;
+#include <omp.h>
 
 extern "C"
 {
@@ -337,6 +338,9 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
                     	};
     TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
     TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
+    static const float testNR[] = {
+                        	0.00051471, 0, 0.00051471,0, 0.00051471, 0};
+    TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  testNR);
 
 
 
@@ -497,20 +501,25 @@ void processTight(TIFF *tif,DngWriter *writer)
         buffer =(unsigned char *)malloc(writer->rowSize);
     }
     LOGD("rowsize:%i", writer->rowSize);
+   //#pragma omp parallel for
 	for (row=0; row < writer->rawheight; row ++)
 	{
 		i = 0;
+		//#pragma omp parallel for
 		for(b = row * writer->rowSize; b < row * writer->rowSize + writer->rowSize; b++)
 			buffer[i++] = writer->bayerBytes[b];
 		j = 0;
 
+
 		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=5, col+= 4)
 		{
+		   // #pragma omp parallel for
 			for(int i = 0; i< 4; i++)
 			{
 			    pixel[col+i] = (dp[i] <<2) | (dp[4] >> (i << 1) & 3);
 			}
 		}
+
 		if (TIFFWriteScanline(tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
 		}

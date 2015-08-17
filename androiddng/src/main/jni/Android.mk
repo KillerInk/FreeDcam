@@ -82,7 +82,9 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libRawToDng
 LOCAL_SRC_FILES := RawToDng.cpp
-LOCAL_CPPFLAGS := -fexceptions
+LOCAL_CPPFLAGS := -fexceptions -fopenmp
+LOCAL_CFLAGS += -fopenmp
+LOCAL_LDFLAGS += -fopenmp
 LOCAL_LDLIBS := -lz \
 	-L $(LOCAL_PATH)/libs \
 	-lm \
