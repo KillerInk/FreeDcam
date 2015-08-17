@@ -196,6 +196,31 @@ public class VideoProfilesParameter extends BaseModeParameter
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
+                    supportedProfiles.put("1080pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P))
+                    supportedProfiles.put("2016pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P))
+                    supportedProfiles.put("720pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P))
+                    supportedProfiles.put("480pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
