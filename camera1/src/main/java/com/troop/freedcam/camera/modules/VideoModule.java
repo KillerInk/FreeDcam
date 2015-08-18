@@ -205,6 +205,11 @@ public class VideoModule extends AbstractModule
                 Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
             recorder.setCaptureRate(frame);
         }
+
+        if (profile.contains("HFR"))
+        {
+            recorder.setCaptureRate(120);
+        }
         return recorder;
     }
 
@@ -240,7 +245,7 @@ public class VideoModule extends AbstractModule
             String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
             CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            ParameterHandler.PreviewSize.SetValue(size, false);
+            //ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);
         }
     }

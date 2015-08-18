@@ -78,7 +78,7 @@
                 app:ValueText="1080p"
                 android:layout_marginBottom="1dp" />
 
-            <troop.com.themesample.views.menu.MenuItem
+            <troop.com.themesample.views.menu.MenuItemVideoHDR
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemVideHDR"

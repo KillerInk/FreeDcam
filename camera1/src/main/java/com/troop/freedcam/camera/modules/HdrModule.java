@@ -120,10 +120,10 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 if (picFormat.equals("jpeg")) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
-                } else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     rawSaver.TakePicture();
-                } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
@@ -160,14 +160,14 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
         if (hdrCount == 0)
         {
-           value = parametersHandler.ManualExposure.GetMinValue();
+           value = ParameterHandler.ManualExposure.GetMinValue();
         }
         else if (hdrCount == 1)
             value = 0;
         else if (hdrCount == 2)
-            value = parametersHandler.ManualExposure.GetMaxValue();
+            value = ParameterHandler.ManualExposure.GetMaxValue();
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        parametersHandler.ManualExposure.SetValue(value);
+        ParameterHandler.ManualExposure.SetValue(value);
         Log.d(TAG, "HDR Exposure SET");
     }
 
@@ -183,10 +183,10 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
                 jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)));
             }
-            else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+            else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                 final RawSaver rawSaver = new RawSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
                 rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), rawSaver.fileEnding, hdrCount)));
-            } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+            } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                 DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
                 dngSaver.processData(data, new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), dngSaver.fileEnding, hdrCount)));
             }

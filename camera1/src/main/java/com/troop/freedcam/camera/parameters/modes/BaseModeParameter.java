@@ -69,6 +69,7 @@ public class BaseModeParameter extends AbstractModeParameter {
         Log.d(TAG, "set "+value+" from " + tmp + " to "+ valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
+            BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
@@ -79,6 +80,7 @@ public class BaseModeParameter extends AbstractModeParameter {
             parameters.put(value, tmp);
             try {
                 baseCameraHolder.SetCameraParameters(parameters);
+                BackgroundValueHasChanged(valueToSet);
             }
             catch (Exception ex2)
             {

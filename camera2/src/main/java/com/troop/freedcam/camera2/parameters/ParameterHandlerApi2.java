@@ -137,10 +137,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
             }
         });
-
         SetAppSettingsToParameters();
-
-
     }
 
 

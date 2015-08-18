@@ -198,6 +198,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
                     cameraChangedListner.onCameraClose(message);
                 }
             });
+        camParametersHandler.locationParameter.stopLocationListining();
 
     }
 

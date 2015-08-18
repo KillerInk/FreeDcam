@@ -60,7 +60,7 @@ public class DeviceUtils
     public static boolean isHTC_M8()
     {
         String s = Build.MODEL;
-        return s.equals("HTC One_M8");
+        return s.equals("HTC One_M8") || s.equals("One M8") ||s.equals("HTC One M8");
     }
 
     public static boolean isHTC_M9()
@@ -83,11 +83,10 @@ public class DeviceUtils
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
 
-    //public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
-    public static String G3Device = "g3";
+    public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
     public static boolean isLG_G3()
     {
-        return G3Device.toLowerCase().equals(Build.DEVICE);
+        return G3Models.contains(Build.MODEL);
     }
 
     public static boolean getBoolFromInt(int i)

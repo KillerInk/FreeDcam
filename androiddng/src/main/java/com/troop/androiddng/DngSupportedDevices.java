@@ -362,12 +362,12 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688://QCOM
-                return new DngProfile(64, 4212, 3120,false, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
-                        Matrixes.G4_foward_matrix1,
-                        Matrixes.G4_foward_matrix2,
-                        Matrixes.G4_reduction_matrix1,
-                        Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix);
+                return new DngProfile(0, 4212, 3120,false, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
                 /*return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,
                         Matrixes.g3_color1,
                         Matrixes.g3_color2,

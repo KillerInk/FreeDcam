@@ -93,29 +93,29 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 width = size.x;
                 height = size.y;
-            }
+            /*}
             else
             {
                 height = size.x;
                 width = size.y;
-            }
+            }*/
         }
         else
         {
             DisplayMetrics metrics = getResources().getDisplayMetrics();
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            //if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            //{
                 width = metrics.widthPixels;
                 height = metrics.heightPixels;
-            }
+            /*}
             else
             {
                 width = metrics.heightPixels;
                 height = metrics.widthPixels;
-            }
+            }*/
 
         }
         double displayratio = getRatio(width, height);
@@ -125,15 +125,15 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            /*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             {
                 layoutParams.topMargin = 0;
                 layoutParams.bottomMargin = 0;
             }
-            else {
+            else {*/
                 layoutParams.rightMargin = 0;
                 layoutParams.leftMargin = 0;
-            }
+            //}
             this.setLayoutParams(layoutParams);
         }
         else if (newratio == 1.33)
@@ -143,19 +143,19 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            /*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
                 layoutParams.rightMargin = 0;
                 layoutParams.leftMargin = 0;
             }
-            else {
+            else {*/
                 layoutParams.rightMargin = newwidthdiff / 2;
                 layoutParams.leftMargin = newwidthdiff / 2;
                 layoutParams.topMargin = 0;
                 layoutParams.bottomMargin = 0;
-            }
+            //}
             this.setLayoutParams(layoutParams);
         }
         else
@@ -166,19 +166,19 @@ public class AutoFitTextureView extends TextureView implements  AbstractModePara
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            /*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
                 layoutParams.rightMargin = 0;
                 layoutParams.leftMargin = 0;
-            }
-            else {
+            }*/
+            //else {
                 layoutParams.rightMargin = newwidthdiff/2;
                 layoutParams.leftMargin = newwidthdiff /2;
                 layoutParams.topMargin =  0;
                 layoutParams.bottomMargin = 0;
-            }
+            //}
 
             this.setLayoutParams(layoutParams);
         }
