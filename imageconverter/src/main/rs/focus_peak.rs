@@ -51,6 +51,19 @@
         rgb.b = mergedPixel.r +
                 mergedPixel.g * 1814 / 1024 - 227;
         rgb.a = 255;
+        if(rgb.r < 200)
+           {
+                rgb.r = 0;
+                rgb.g = 0;
+                rgb.b = 0;
+                rgb.a = 0;
+           }
+        else {
+            rgb.r = 255;
+            rgb.g = 0;
+            rgb.b = 0;
+            rgb.a = 0;
+        }
         // Write out merged HDR result
         uchar4 out = convert_uchar4(clamp(rgb, 0, 255));
         return out;

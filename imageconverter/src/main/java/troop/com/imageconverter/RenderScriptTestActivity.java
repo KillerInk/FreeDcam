@@ -13,6 +13,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import troop.com.views.MyHistogram;
 
@@ -43,12 +46,9 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
     RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
-    private HandlerThread mProcessingThread;
-    private Handler mProcessingHandler;
+    private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     private ScriptC_focus_peak mScriptFocusPeak;
     Bitmap drawBitmap;
-    SurfaceTexture input;
-    SurfaceTexture output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +80,6 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
 
         mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
         mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
-
-        mProcessingThread = new HandlerThread("ViewfinderProcessor");
-        mProcessingThread.start();
-        mProcessingHandler = new Handler(mProcessingThread.getLooper());
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
 
@@ -95,10 +91,10 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
         {
             if (!dowork)
             {
-                dowork = true;
                 camera.setPreviewCallback(RenderScriptTestActivity.this);
-                dowork = false;
+                start();
             }
+            else stop();
 
         }
     };
@@ -131,7 +127,10 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
+        if (dowork)
+            stop();
         camera.stopPreview();
         camera.release();
     }
@@ -139,14 +138,59 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
     @Override
     public void onPreviewFrame(byte[] data, Camera camera)
     {
-        byte[] d = data.clone();
-        camera.setPreviewCallback(null);
-        mInputAllocation.copyFrom(d);
-        mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
-        mScriptFocusPeak.forEach_peak(mOutputAllocation);
-        mOutputAllocation.copyTo(drawBitmap);
-        maskImageView.setImageBitmap(drawBitmap);
+        if (mYuvFrameQueue.size() == 2)
+        {
+            mYuvFrameQueue.remove();
+        }
+        mYuvFrameQueue.add(data);
 
+    }
+
+    private void start()
+    {
+        dowork = true;
+        new Thread() {
+            @Override
+            public void run() {
+                byte[] data = null;
+                try {
+
+                    //imageProcessor.Init();
+                    while (dowork) {
+                        data = mYuvFrameQueue.take();
+                        if (data != null)
+                        {
+                            mInputAllocation.copyFrom(data);
+                            mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
+                            mScriptFocusPeak.forEach_peak(mOutputAllocation);
+                            mOutputAllocation.copyTo(drawBitmap);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    maskImageView.setImageBitmap(drawBitmap);
+                                }
+                            });
+
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    dowork = false;
+                    camera.setPreviewCallback(null);
+                    mYuvFrameQueue.clear();
+                    Log.d("ImageProcessor", " Releasenative");
+
+
+                }
+            }
+        }.start();
+    }
+
+    private void stop()
+    {
+        dowork = false;
+        camera.setPreviewCallback(null);
     }
 
 
