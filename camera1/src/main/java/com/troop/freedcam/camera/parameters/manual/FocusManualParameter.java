@@ -94,11 +94,11 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
-            if(valueToSet != -1) {
+            if(valueToSet != -1 && !camParametersHandler.FocusMode.GetValue().equals("normal"))
+            {
                 camParametersHandler.FocusMode.SetValue("normal", true);
-                parameters.put("manualfocus_step", valueToSet + "");
             }
-            else
+            else if (valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
         else if (DeviceUtils.isZTEADV())
@@ -107,7 +107,6 @@ public class FocusManualParameter extends  BaseManualParameter
             {
                 camParametersHandler.FocusMode.SetValue("manual", true);
                 parameters.put("manual-focus-pos-type", "1");
-                parameters.put("manual-focus-position", String.valueOf(valueToSet));
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
@@ -115,14 +114,10 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
         {
-            if(valueToSet != -1)
-            {
-                parameters.put("focus", valueToSet + "");
-            }
-            else
+            if(valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else  if (value != null || !value.equals(""))
+        if (value != null && !value.equals("") && valueToSet > -1)
         {
             parameters.put(value, valueToSet+"");
         }
