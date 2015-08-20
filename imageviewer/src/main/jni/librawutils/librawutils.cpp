@@ -289,35 +289,22 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 #define OUT raw.imgdata.params
 	OUT.no_auto_bright = 1;
 	OUT.use_camera_wb = 1;
-	//OUT.output_bps = 8;
+	OUT.output_bps = 8;
 	OUT.user_qual = 0;
 	OUT.half_size = 1;
 	jboolean bIsCopy;
 	void *bitmapPixels;
-	raw.recycle();
+
+	//raw.recycle();
 
 	const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
-	if ((ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS) {
-		LOGD("cannot open file");
-		return NULL;
-	}
-	else
-		LOGD("File opend");
-	(env)->ReleaseStringUTFChars(jfilename, strFilename);
-	if ((ret = raw.unpack()) != LIBRAW_SUCCESS)
-	{
-		LOGD("cannot unpack img");
-		return NULL;
-	}
-	else
-		LOGD("unpack img");
-	if(LIBRAW_SUCCESS != raw.dcraw_process())
-	{
-        LOGD("error processing dcraw");
-		return NULL;
-	}
-	else
-		LOGD("processing dcraw");
+	raw.open_file(strFilename);
+	LOGD("File opend");
+
+	ret = raw.unpack();
+	LOGD("unpacked img");
+	ret = raw.dcraw_process();
+	LOGD("processing dcraw");
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
 
 	LOGD("processed image, creating bitmap");
@@ -359,10 +346,12 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
-		raw.dcraw_clear_mem(image);
-		raw.recycle();
-	}
+		//raw.free_image();
+		LibRaw::dcraw_clear_mem(image);
 
+	}
+	(env)->ReleaseStringUTFChars(jfilename, strFilename);
+	raw.recycle();
 	LOGD("rawdata recycled");
 
     return newBitmap;
