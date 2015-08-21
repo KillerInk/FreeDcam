@@ -147,7 +147,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     @Override
     public void onCameraClose(String message) {
-
+        super.onCameraClose(message);
     }
 
     @Override

@@ -191,6 +191,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraClose(final String message)
     {
+        camParametersHandler.locationParameter.stopLocationListining();
         for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
@@ -198,7 +199,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
                     cameraChangedListner.onCameraClose(message);
                 }
             });
-        camParametersHandler.locationParameter.stopLocationListining();
+
 
     }
 
