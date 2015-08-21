@@ -79,7 +79,7 @@ public class MenuCreator
     protected SwitchApiExpandableChild sonyExpandableChild;
     protected ExpandableChildDngSupport dngSwitch;
     protected ExpandbleChildAeBracket aeBracketSwitch;
-    protected ExpandableChildGps gps;
+    protected ExpandableChild gps;
     protected ExpandableChild externalShutter;
     protected ExpandableChildOrientationHack rotationHack;
     protected ExpandableChildTheme Theme;
@@ -276,7 +276,7 @@ public class MenuCreator
         if (parameterHandler.ControlMode != null && parameterHandler.ControlMode.IsSupported())
             ControlModeChild.setParameterHolder(parameterHandler.ControlMode, cameraUiWrapper.moduleHandler.AllModules);
 
-        gps.SetCameraUIWrapper(cameraUiWrapper);
+        gps.setParameterHolder(parameterHandler.locationParameter,cameraUiWrapper.moduleHandler.AllModules);
 
         if (parameterHandler.EdgeMode != null && parameterHandler.EdgeMode.IsSupported())
             EdgeMode.setParameterHolder(parameterHandler.EdgeMode, cameraUiWrapper.moduleHandler.AllModules);
@@ -605,7 +605,7 @@ public class MenuCreator
         guide = new ExpandableChildGuide(context, settingsGroup, context.getString(R.string.picture_composit), appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         childlist.add(guide);
 
-        gps = new ExpandableChildGps(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION);
+        gps = new ExpandableChild(context, settingsGroup, context.getString(R.string.settings_gps), appSettingsManager, AppSettingsManager.SETTING_LOCATION);
         childlist.add(gps);
 
         externalShutter = new ExpandableChildExternalShutter(context, settingsGroup, context.getString(R.string.settings_externalshutter), appSettingsManager, AppSettingsManager.SETTING_EXTERNALSHUTTER);
