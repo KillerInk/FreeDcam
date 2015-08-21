@@ -1,4 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="troop.com.imageviewer">
 
+    <application>
+        <activity
+            android:name="troop.com.imageviewer.ScreenSlideActivity"
+            android:label="screenslide"
+            android:screenOrientation="landscape">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+    </application>
+
 </manifest>

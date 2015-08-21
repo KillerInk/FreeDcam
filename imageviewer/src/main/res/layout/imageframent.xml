@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="com.ortiz.touch.TouchImageView"
+        android:id="@+id/imageView_PicView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="180dp"
+        android:layout_height="100dp"
+        android:id="@+id/histoView"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#71000001">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/exif_info"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textView_iso"
+                android:layout_gravity="center_vertical"
+                android:textColor="#FFFFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_shutter"
+                android:layout_marginLeft="2dp"
+                android:textColor="#FFFFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_focal"
+                android:layout_marginLeft="2dp"
+                android:textColor="#FFFFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Shutter"
+                android:id="@+id/textView_fnumber"
+                android:layout_marginLeft="2dp"
+                android:textColor="#FFFFFFFF" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
+            android:text="Large Text"
+            android:id="@+id/textView_filename"
+            android:textColor="#FFFFFFFF"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:autoText="true" />
+    </LinearLayout>
+
+</RelativeLayout>
