@@ -13,6 +13,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -25,6 +29,8 @@ import com.troop.freedcam.ui.I_PreviewSizeEvent;
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import troop.com.imageconverter.ScriptC_focuspeak_argb;
 
 /**
  * A SurfaceView based class to draw liveview frames serially.
@@ -43,8 +49,30 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    Bitmap[] crosshairs;
     I_Callbacks.PreviewCallback previewFrameCallback;
+
+    RenderScript mRS;
+    private Allocation mInputAllocation;
+    private Allocation mOutputAllocation;
+    ScriptC_focuspeak_argb focuspeak_argb;
+    Bitmap drawBitmap;
+
+    private void initRenderScript()
+    {
+        drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
+        Type.Builder tbIn = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbIn.setX(mPreviousWidth);
+        tbIn.setY(mPreviousHeight);
+
+        Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbOut.setX(mPreviousWidth);
+        tbOut.setY(mPreviousHeight);
+
+        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+        //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
+    }
 
 
     /**
@@ -100,6 +128,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
+        mRS = RenderScript.create(context);
         /*crosshairs = new Bitmap[3];
         crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
         crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
@@ -322,7 +351,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetX = (getWidth() - (int) (w * by)) / 2;
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        canvas.drawBitmap(frame, src, dst, mFramePaint);
+        mInputAllocation.copyFrom(frame);
+        focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+        focuspeak_argb.forEach_peak(mOutputAllocation);
+        mOutputAllocation.copyTo(drawBitmap);
+        canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
         if (frameExtractor != null)
             drawFrameInformation(frameExtractor, canvas,dst);
         getHolder().unlockCanvasAndPost(canvas);
@@ -375,6 +408,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         Log.d(TAG, "Change of aspect ratio detected");
         mPreviousWidth = width;
         mPreviousHeight = height;
+        initRenderScript();
         drawBlackFrame();
         drawBlackFrame();
         drawBlackFrame(); // delete triple buffers
