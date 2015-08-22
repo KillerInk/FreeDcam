@@ -72,7 +72,7 @@
         </activity>
 
         <activity
-            android:name="troop.com.imageviewer.ImageViewerActivity"
+            android:name="troop.com.imageviewer.ScreenSlideActivity"
             android:label="FreeDCam Viewer"
 
             android:icon="@drawable/ic_launcher"
