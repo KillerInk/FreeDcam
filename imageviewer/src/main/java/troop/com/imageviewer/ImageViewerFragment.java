@@ -305,12 +305,12 @@ public class ImageViewerFragment extends Fragment implements View.OnTouchListene
             play.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.VISIBLE);
         }
-        imageView.post(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 LoadFUCKINGIMAGE(file);
             }
-        });
+        }).start();
 
     }
 
@@ -380,7 +380,7 @@ public class ImageViewerFragment extends Fragment implements View.OnTouchListene
             response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
         else if (file.getAbsolutePath().endsWith(".dng"))
         {
-            response = new RawUtils().UnPackRAW(file.getAbsolutePath());
+            response = RawUtils.UnPackRAW(file.getAbsolutePath());
             if(response != null)
                 response.setHasAlpha(true);
         }

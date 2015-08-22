@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ui_holder"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="Play"
+            android:id="@+id/button_play"
+            android:layout_alignParentBottom="false"
+            android:layout_marginBottom="5dp"
+            android:textSize="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_closeView"
+            android:gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:text="Close"
+            android:textSize="10dp"
+            android:layout_marginRight="@android:dimen/app_icon_size" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

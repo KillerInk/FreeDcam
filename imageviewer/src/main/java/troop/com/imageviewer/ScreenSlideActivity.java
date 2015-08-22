@@ -1,0 +1,186 @@
+package troop.com.imageviewer;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.troop.freedcam.utils.StringUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import troop.com.views.MyHistogram;
+
+/**
+ * Created by troop on 21.08.2015.
+ */
+public class ScreenSlideActivity extends FragmentActivity {
+    /**
+     * The number of pages (wizard steps) to show in this demo.
+     */
+    private static final int NUM_PAGES = 5;
+
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter mPagerAdapter;
+
+    File[] files;
+
+    Button play;
+
+    Button closeButton;
+
+    File currentFile;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.screenslide_activity);
+        loadFilePaths();
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(files.length);
+
+        this.closeButton = (Button)findViewById(R.id.button_closeView);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        this.play = (Button)findViewById(R.id.button_play);
+        play.setVisibility(View.GONE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentFile == null)
+                    return;
+                Uri uri = Uri.fromFile(currentFile);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if (currentFile.getAbsolutePath().endsWith("mp4"))
+                    i.setDataAndType(uri, "video/*");
+                else
+                    i.setDataAndType(uri, "image/*");
+                startActivity(i);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem());
+        }
+    }
+
+    /**
+     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            currentFile = (files[mPager.getCurrentItem()]);
+            if (currentFile.getAbsolutePath().endsWith(".jpg"))
+            {
+                play.setVisibility(View.GONE);
+            }
+            if (currentFile.getAbsolutePath().endsWith(".mp4"))
+            {
+                play.setText("Play");
+                play.setVisibility(View.VISIBLE);
+            }
+            if (currentFile.getAbsolutePath().endsWith(".dng"))
+            {
+                play.setText("Open DNG");
+                play.setVisibility(View.VISIBLE);
+            }
+            ImageFragment currentFragment = new ImageFragment();
+            currentFragment.SetFilePath(files[position]);
+
+
+            return currentFragment;
+        }
+
+        @Override
+        public int getCount() {
+            return files.length;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void loadFilePaths()
+    {
+        File directory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+        files = directory.listFiles();
+        List<File> jpegs = new ArrayList<File>();
+
+        try {
+
+            if(files != null || files.length > 0)
+            {
+                for (File f : files)
+                {
+                    if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                        jpegs.add(f);
+                }
+            }
+            directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
+            files = directory.listFiles();
+            for (File f : files)
+            {
+                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                    jpegs.add(f);
+            }
+        }
+        catch (Exception ex){}
+        files = jpegs.toArray(new File[jpegs.size()]);
+        Arrays.sort(files, new Comparator<File>() {
+            public int compare(File f1, File f2) {
+                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+            }
+        });
+    }
+}
