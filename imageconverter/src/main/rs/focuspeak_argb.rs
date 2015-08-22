@@ -32,13 +32,13 @@
         sum *= sum * sum;
         int4 rgb;
         uchar4 mergedPixel = curPixel;
-        rsDebug("curPixel", curPixel);
+        //rsDebug("curPixel", curPixel);
         rgb.r = mergedPixel.r  + sum;
         rgb.g = mergedPixel.g + sum;
         rgb.b = mergedPixel.b + sum;
         rgb.a = 255;
 
-        rsDebug("rgb", rgb);
+        //rsDebug("rgb", rgb);
         uchar4 out = convert_uchar4(clamp(rgb, 0, 255));
         return out;
     }
