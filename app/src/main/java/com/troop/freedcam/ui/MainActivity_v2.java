@@ -44,6 +44,7 @@ import java.io.File;
 
 import troop.com.imageviewer.ImageViewerActivity;
 import troop.com.imageviewer.ImageViewerFragment;
+import troop.com.imageviewer.ScreenSlideActivity;
 
 /**
  * Created by troop on 18.08.2014.
@@ -522,7 +523,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         transaction.replace(R.id.MainLayout, imageViewerFragment);
         transaction.commit();*/
         if (file == null) {
-            Intent intent = new Intent(this, ImageViewerActivity.class);
+            Intent intent = new Intent(this, ScreenSlideActivity.class);
             startActivity(intent);
         }
         else {
