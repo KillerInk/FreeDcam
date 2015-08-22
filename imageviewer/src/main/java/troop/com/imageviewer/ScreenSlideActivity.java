@@ -2,6 +2,7 @@ package troop.com.imageviewer;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +54,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     Button closeButton;
 
     File currentFile;
+    int flags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +92,42 @@ public class ScreenSlideActivity extends FragmentActivity {
                 startActivity(i);
             }
         });
+        flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        HIDENAVBAR();
+    }
 
 
+    public void HIDENAVBAR()
+    {
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        else
+        {
+            //HIDE nav and action bar
+            final View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(flags);
+            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int visibility) {
+                    if (visibility > 0) {
+                        if (Build.VERSION.SDK_INT >= 16)
+                            getWindow().getDecorView().setSystemUiVisibility(flags);
 
+                    }
+                }
+            });
+            //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            //imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
+
+        }
     }
 
     @Override
@@ -149,6 +185,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        HIDENAVBAR();
     }
 
     private void loadFilePaths()
