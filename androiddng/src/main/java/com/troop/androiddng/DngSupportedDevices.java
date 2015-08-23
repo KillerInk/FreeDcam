@@ -335,24 +335,24 @@ public class DngSupportedDevices
     {
         if (filesize< 6000000 && filesize > 5382641)//M8 qcom
             return new DngProfile(0, 2688, 1520,false, GRBG, 0,
-                    Matrixes.HTC_M8Device.CC_A,
-                    Matrixes.HTC_M8Device.CC_D65,
-                    Matrixes.HTC_M8Device.wb_neutral,
-                    Matrixes.G4_foward_matrix1,
-                    Matrixes.G4_foward_matrix2,
-                    Matrixes.G4_reduction_matrix1,
-                    Matrixes.G4_reduction_matrix2,
-                    Matrixes.G4_noise_3x1_matrix);
+                    Matrixes.Nex6CCM1,
+                    Matrixes.Nex6CCM2,
+                    Matrixes.Nex6NM,
+                    Matrixes.Nexus6_foward_matrix1,
+                    Matrixes.Nexus6_foward_matrix2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.Nexus6_noise_3x1_matrix);
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
             return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,
-                    Matrixes.HTC_M8Device.CC_A,
-                    Matrixes.HTC_M8Device.CC_D65,
-                    Matrixes.HTC_M8Device.wb_neutral,
-                    Matrixes.G4_foward_matrix1,
-                    Matrixes.G4_foward_matrix2,
-                    Matrixes.G4_reduction_matrix1,
-                    Matrixes.G4_reduction_matrix2,
-                    Matrixes.G4_noise_3x1_matrix);
+                    Matrixes.Nex6CCM1,
+                    Matrixes.Nex6CCM2,
+                    Matrixes.Nex6NM,
+                    Matrixes.Nexus6_foward_matrix1,
+                    Matrixes.Nexus6_foward_matrix2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.Nexus6_noise_3x1_matrix);
         return null;
     }
 
@@ -362,7 +362,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688://QCOM
-                return new DngProfile(0, 4212, 3120,false, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(0, 4212, 3120,false, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
@@ -373,7 +373,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
-                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(64, 4208, 3120,true, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,

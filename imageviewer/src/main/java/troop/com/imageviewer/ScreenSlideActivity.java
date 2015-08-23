@@ -1,10 +1,13 @@
 package troop.com.imageviewer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -48,10 +51,9 @@ public class ScreenSlideActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
 
     File[] files;
-
     Button play;
-
     Button closeButton;
+    Button deleteButton;
 
     File currentFile;
     int flags;
@@ -74,7 +76,17 @@ public class ScreenSlideActivity extends FragmentActivity {
                 finish();
             }
         });
+        this.deleteButton = (Button)findViewById(R.id.button_delete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ScreenSlideActivity.this);
+                builder.setMessage("Delte File?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
 
+            }
+        });
 
         this.play = (Button)findViewById(R.id.button_play);
         play.setVisibility(View.GONE);
@@ -101,6 +113,29 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         HIDENAVBAR();
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    int current = mPager.getCurrentItem();
+                    boolean d = currentFile.delete();
+                    loadFilePaths();
+                    mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                    mPager.setAdapter(mPagerAdapter);
+                    if (current-1 >= 0 && current-1 <= files.length)
+                        mPager.setCurrentItem(current -1);
+                    else
+                        mPager.setCurrentItem(files.length);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 
 
     public void HIDENAVBAR()

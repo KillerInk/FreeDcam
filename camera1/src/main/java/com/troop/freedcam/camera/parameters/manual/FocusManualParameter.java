@@ -35,19 +35,19 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "focus";
             this.min_value = "min-focus";
         }
-        else if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
         {
             this.isSupported = true;
             this.max_value = null;
             this.value = "manual-focus-position";
             this.min_value = null;
         }
-        else if (parameters.containsKey("manual-focus-position") && !DeviceUtils.isZTEADV())
+        /*else if (parameters.containsKey("manual-focus-position") && !DeviceUtils.isZTEADV())
         {
             this.value = "manual-focus-position";
             this.max_value = "min-focus-pos-dac"; // this is like camera2 it returns only the min lens position up to 0
             this.isSupported = true;
-        }
+        }*/
         else
             this.isSupported = false;
     }
@@ -101,12 +101,13 @@ public class FocusManualParameter extends  BaseManualParameter
             else if (valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
             if(valueToSet != -1)
             {
                 camParametersHandler.FocusMode.SetValue("manual", true);
-                parameters.put("manual-focus-pos-type", "1");
+                if (DeviceUtils.isZTEADV())
+                    parameters.put("manual-focus-pos-type", "1");
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
