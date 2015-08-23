@@ -9,6 +9,7 @@ android {
         versionCode 40
         versionName "3.3.103"
         applicationId "troop.com.freedcam"
+        renderscriptTargetApi 21
     }
     lintOptions{checkReleaseBuilds false}
 
