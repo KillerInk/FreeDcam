@@ -24,7 +24,9 @@ import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -50,6 +52,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private  Paint paint;
     private StreamErrorListener mErrorListener;
     I_Callbacks.PreviewCallback previewFrameCallback;
+    public boolean focuspeak = false;
 
     RenderScript mRS;
     private Allocation mInputAllocation;
@@ -129,10 +132,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         mRS = RenderScript.create(context);
-        /*crosshairs = new Bitmap[3];
-        crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
-        crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
-        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);*/
+
     }
 
     @Override
@@ -351,11 +351,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetX = (getWidth() - (int) (w * by)) / 2;
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        mInputAllocation.copyFrom(frame);
-        focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-        focuspeak_argb.forEach_peak(mOutputAllocation);
-        mOutputAllocation.copyTo(drawBitmap);
-        canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+        if (focuspeak)
+        {
+            mInputAllocation.copyFrom(frame);
+            focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+            focuspeak_argb.forEach_peak(mOutputAllocation);
+            mOutputAllocation.copyTo(drawBitmap);
+            canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+        }
+        else {
+            canvas.drawBitmap(frame, src, dst, mFramePaint);
+        }
         if (frameExtractor != null)
             drawFrameInformation(frameExtractor, canvas,dst);
         getHolder().unlockCanvasAndPost(canvas);

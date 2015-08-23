@@ -88,6 +88,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ContShootModeSpeed;
     public AbstractModeParameter ObjectTracking;
     public AbstractModeParameter PostViewSize;
+    public AbstractModeParameter Focuspeak;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
@@ -166,6 +167,7 @@ public abstract class AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
         this.isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
