@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -48,10 +49,9 @@ public class ScreenSlideActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
 
     File[] files;
-
     Button play;
-
     Button closeButton;
+    Button deleteButton;
 
     File currentFile;
     int flags;
@@ -72,6 +72,22 @@ public class ScreenSlideActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        this.deleteButton = (Button)findViewById(R.id.button_delete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                int current = mPager.getCurrentItem();
+                boolean d = currentFile.delete();
+                loadFilePaths();
+                mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                mPager.setAdapter(mPagerAdapter);
+                if (current-1 >= 0 && current-1 <= files.length)
+                    mPager.setCurrentItem(current -1);
+                else
+                    mPager.setCurrentItem(files.length);
             }
         });
 
