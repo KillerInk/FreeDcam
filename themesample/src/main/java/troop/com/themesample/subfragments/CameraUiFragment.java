@@ -182,7 +182,16 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
+        manualModesFragment = new ManualModesFragment();
+        manualModesFragment.SetStuff(appSettingsManager, i_activity);
+        manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
 
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
+        transaction.add(R.id.manualModesHolder, manualModesFragment);
+        transaction.commit();
+
+        manualModes_holder.setVisibility(View.GONE);
 
         setWrapper();
         return view;
@@ -275,15 +284,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             }
         }).start();
 
-
-        manualModesFragment = new ManualModesFragment();
-        manualModesFragment.SetStuff(appSettingsManager, i_activity);
-        manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
-
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
-        transaction.add(R.id.manualModesHolder, manualModesFragment);
-        transaction.commit();
+        manualModes_holder.setVisibility(View.VISIBLE);
 
     }
 
@@ -299,9 +300,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         right_camerUI_holder.setVisibility(View.VISIBLE);
         right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
 
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(manualModesFragment);
-        transaction.commit();
+        manualModes_holder.setVisibility(View.GONE);
     }
 
 
