@@ -157,8 +157,16 @@ public class ExtendedSurfaceView extends SurfaceView
         if (width < 0 || height < 0) {
             throw new IllegalArgumentException("Size cannot be negative.");
         }
-        mRatioWidth = width;
-        mRatioHeight = height;
+        if (hasReal3d && is3D)
+        {
+            ParametersHandler.PreviewSize.SetValue(800 + "x" + 480, true);
+            mRatioWidth = 800;
+            mRatioHeight = 480;
+        }
+        else {
+            mRatioWidth = width;
+            mRatioHeight = height;
+        }
         Log.d(TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
