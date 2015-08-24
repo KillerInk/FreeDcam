@@ -1,10 +1,15 @@
 package com.troop.freedcam;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.ImageFormat;
+import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
+
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -42,6 +47,7 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
     private ScriptC_focus_peak mScriptFocusPeak;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     boolean doWork = false;
+    private Bitmap drawBitmap;
 
     public PreviewHandler(TextureView input, TextureView output, CameraUiWrapper cameraUiWrapper)
     {
@@ -62,29 +68,29 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
             return;
         mHeight = height;
         mWidth = width;
-        if (mAllocationOut != null) {
-            mAllocationOut.destroy();
-        }
-        Type.Builder tbIn = new Type.Builder(mRS, Element.createPixel(mRS, Element.DataType.UNSIGNED_8, Element.DataKind.PIXEL_YUV));
+        drawBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+
+        Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
         tbIn.setX(width);
         tbIn.setY(height);
         tbIn.setYuvFormat(ImageFormat.NV21);
-        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.USAGE_SCRIPT);
+        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
 
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbOut.setX(width);
         tbOut.setY(height);
-        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
         setupSurface();
 
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
+
         start();
 
     }
 
     void setupSurface() {
         if (mAllocationOut != null) {
-            mAllocationOut.setSurface(mSurface);
+            //mAllocationOut.setSurface(mSurface);
         }
         if (mSurface != null) {
             mHaveSurface = true;
@@ -94,11 +100,16 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
     }
 
     void execute(byte[] yuv) {
-        mAllocationIn.copyFrom(yuv);
+
         if (mHaveSurface) {
+            mAllocationIn.copyFrom(yuv);
+            //mAllocationIn.ioReceive();
             mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
             mScriptFocusPeak.forEach_peak(mAllocationOut);
-            mAllocationOut.ioSend();
+            mAllocationOut.copyTo(drawBitmap);
+            Canvas canvas = output.lockCanvas();
+            canvas.drawBitmap(drawBitmap, 0,0, new Paint());
+            output.unlockCanvasAndPost(canvas);
             //mYuv.forEach(mAllocationOut);
             //mScript.forEach_root(mAllocationOut, mAllocationOut);
             //mAllocationOut.ioSend();
