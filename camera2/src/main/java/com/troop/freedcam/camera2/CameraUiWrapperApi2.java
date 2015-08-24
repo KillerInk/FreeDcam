@@ -40,7 +40,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
     {
-        super(null, appSettingsManager);
+        super(appSettingsManager);
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
         this.appSettingsManager = appSettingsManager;

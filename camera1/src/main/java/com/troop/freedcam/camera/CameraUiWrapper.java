@@ -4,7 +4,9 @@ package com.troop.freedcam.camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.TextureView;
 
+import com.troop.freedcam.PreviewHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
@@ -33,6 +35,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public AppSettingsManager appSettingsManager;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
+    PreviewHandler previewHandler;
+
 
 
     @Override
@@ -42,7 +46,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
     {
-        super(preview,appSettingsManager);
+        super(appSettingsManager);
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
@@ -65,6 +69,30 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.cameraHolder.Focus = Focus;
         Log.d(TAG, "Ctor done");
 
+
+    }
+
+    public CameraUiWrapper(TextureView cameraTexture, TextureView previewTexture, AppSettingsManager appSettingsManager)
+    {
+        super(appSettingsManager);
+        this.appSettingsManager = appSettingsManager;
+
+        this.errorHandler = this;
+        this.cameraHolder = new BaseCameraHolder(this, uiHandler);
+        super.cameraHolder = cameraHolder;
+        this.cameraHolder.errorHandler = errorHandler;
+
+        camParametersHandler = new CamParametersHandler(this, appSettingsManager, uiHandler);
+        this.cameraHolder.ParameterHandler = camParametersHandler;
+        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
+        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
+        moduleHandler.moduleEventHandler.addListner(this);
+
+        Focus = new FocusHandler(this);
+        this.cameraHolder.Focus = Focus;
+        Log.d(TAG, "Ctor done");
+        previewHandler = new PreviewHandler(cameraTexture, previewTexture, this);
 
     }
 
@@ -147,11 +175,22 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         super.onCameraOpen(message);
         cameraHolder.SetErrorCallback(this);
-        cameraHolder.SetSurface(preview.getHolder());
-
-        cameraHolder.StartPreview();
+        if (preview != null)
+            cameraHolder.SetSurface(preview.getHolder());
+        if (previewHandler != null) {
+            cameraHolder.SetTextureView(previewHandler.getInput());
+            cameraHolder.SetPreviewCallback(previewHandler);
+        }
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
+
+
+        if (previewHandler != null)
+        {
+            Size size = new Size(camParametersHandler.PreviewSize.GetValue());
+            previewHandler.reset(size.width,size.height);
+        }
+        cameraHolder.StartPreview();
         super.onCameraOpenFinish("");
 
 
@@ -214,7 +253,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-                preview.setAspectRatio(size.width, size.height);
+                if (preview != null)
+                    preview.setAspectRatio(size.width, size.height);
+                if (previewHandler != null)
+                    previewHandler.reset(size.width,size.height);
                 //setPreviewSize(ParametersHandler.PictureSize.GetValue());
             }
             else if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
@@ -230,6 +272,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 preview.setAspectRatio(size.width, size.height);
+                if (preview != null)
+                    preview.setAspectRatio(size.width, size.height);
+                if (previewHandler != null)
+                    previewHandler.reset(size.width,size.height);
             }
         }
 

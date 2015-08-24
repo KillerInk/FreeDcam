@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.TextureView;
 
 import com.lge.hardware.LGCamera;
 import com.sec.android.seccamera.SecCamera;
@@ -47,6 +48,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public boolean hasSamsungFrameWork = false;
     public Location gpsLocation;
     public int Orientation;
+
+    TextureView textureView;
 
 
     public int CurrentCamera;
@@ -305,6 +308,23 @@ public class BaseCameraHolder extends AbstractCameraHolder
             else
                 mCamera.setPreviewDisplay(surfaceHolder);
             this.surfaceHolder = surfaceHolder;
+            return  true;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+
+    public boolean SetTextureView(TextureView textureView)
+    {
+        try
+        {
+            if(hasSamsungFrameWork)
+                samsungCamera.setPreviewTexture(textureView.getSurfaceTexture());
+            else
+                mCamera.setPreviewTexture(textureView.getSurfaceTexture());
+            this.textureView = textureView;
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
