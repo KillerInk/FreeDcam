@@ -24,8 +24,8 @@ public class Camera1Fragment extends AbstractCameraFragment
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
         extendedSurfaceView.appSettingsManager = appSettingsManager;
         this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView,appSettingsManager);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
+        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
+        //cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
         super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }

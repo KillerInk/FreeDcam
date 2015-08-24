@@ -206,7 +206,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     size.x,size.y, largest);
-            textureView.setPreviewToDisplay(size.x, size.y);
+            textureView.setAspectRatio(size.x, size.y);
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
             configureTransform(textureView.getWidth(), textureView.getHeight());

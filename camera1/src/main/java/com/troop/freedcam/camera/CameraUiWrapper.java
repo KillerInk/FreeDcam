@@ -1,24 +1,32 @@
 package com.troop.freedcam.camera;
 
+
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
+import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, I_Callbacks.ErrorCallback
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, I_Callbacks.ErrorCallback, I_ModuleEvent
 {
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
@@ -49,7 +57,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.cameraHolder.ParameterHandler = camParametersHandler;
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
+        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
         moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
+        moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
@@ -111,8 +121,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void ParametersLoaded()
     {
-        camParametersHandler.PictureSize.addEventListner(preview);
-        camParametersHandler.VideoSize.addEventListner(preview);
+        camParametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
+        camParametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
+
+
     }
 
     @Override
@@ -184,5 +196,93 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void OnError(String error) {
         super.onCameraError(error);
+    }
+
+    AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
+
+        @Override
+        public void onValueChanged(String val)
+        {
+            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR))
+            {
+                Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
+                List<Size> sizes = new ArrayList<Size>();
+                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                for (String s : stringsSizes) {
+                    sizes.add(new Size(s));
+                }
+                Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                preview.setAspectRatio(size.width, size.height);
+                //setPreviewSize(ParametersHandler.PictureSize.GetValue());
+            }
+            else if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
+            {
+                Size sizefromCam = new Size("1920x1080");
+
+                List<Size> sizes = new ArrayList<Size>();
+                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                for (String s : stringsSizes) {
+                    sizes.add(new Size(s));
+                }
+                Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                preview.setAspectRatio(size.width, size.height);
+            }
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
+
+    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.2;
+        double targetRatio = (double) w / h;
+        if (sizes == null) return null;
+        Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+        int targetHeight = h;
+        // Try to find an size match aspect ratio and size
+        for (Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+        // Cannot find the one match the aspect ratio, ignore the requirement
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        Log.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
+        return optimalSize;
+    }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+        onPreviewSizeShouldChange.onValueChanged("");
+        return null;
     }
 }

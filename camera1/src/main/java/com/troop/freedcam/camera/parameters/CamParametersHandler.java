@@ -211,7 +211,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
-        ParametersEventHandler.ParametersHasLoaded();
+        //ParametersEventHandler.ParametersHasLoaded();
     }
 
     class SetParameterRunner implements Runnable
