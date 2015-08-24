@@ -82,7 +82,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             public void onClick(View view)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ScreenSlideActivity.this);
-                builder.setMessage("Delte File?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
 
             }

@@ -38,6 +38,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
     troop.com.themesample.views.menu.MenuItem histogram;
+    troop.com.themesample.views.menu.MenuItem focuspeak;
 
     troop.com.themesample.views.menu.MenuItem aeBracket;
 
@@ -123,6 +124,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         histogram.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_HISTOGRAM);
         histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
         histogram.SetMenuItemListner(this);
+
+        focuspeak = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemFocusPeak);
+        focuspeak.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
+        focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
+        focuspeak.SetMenuItemListner(this);
 
 
 

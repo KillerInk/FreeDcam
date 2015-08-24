@@ -25,18 +25,14 @@ public:
     jint _width;
     jint _height;
     int* _data;
-    ANativeWindow* _window;
     ImageProcessor()
     {
         _width = 0;
         _height = 0;
         _data = new int[0];
     }
-    void SetNativWindow(ANativeWindow* nativewindow, jint width, jint height){ _window = nativewindow;
-        if (ANativeWindow_setBuffersGeometry(_window, width,
-                                             height,
-                                             WINDOW_FORMAT_RGBX_8888) < 0)
-    LOGD("set geometry faild");}
+    void DrawToSurface(JNIEnv * env, jobject surface);
+    void DrawToBitmap(JNIEnv * env, jobject bitmap);
     void YuvToRgb(unsigned char* yuyv_image, jint width, jint height);
     jobject getBitmap(JNIEnv *env);
     jobject GetData(JNIEnv * env);

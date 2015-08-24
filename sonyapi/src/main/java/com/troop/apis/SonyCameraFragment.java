@@ -43,6 +43,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     String[] configuredNetworks = null;
     String deviceNetworkToConnect;
+    private boolean connected = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +130,10 @@ public class SonyCameraFragment extends AbstractCameraFragment
                 @Override
                 public void onDeviceFound(ServerDevice device)
                 {
+                    if(connected)
+                        return;
                     setTextFromWifi("Found SSDP Client... Connecting");
+                    connected = true;
                     wrapperSony.serverDevice = device;
                     wrapperSony.StartCamera();
                     hideTextViewWifi(true);
