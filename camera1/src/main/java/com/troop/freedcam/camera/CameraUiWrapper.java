@@ -252,11 +252,12 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 }
                 Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                if (previewHandler != null)
+                    previewHandler.reset(size.width,size.height);
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 if (preview != null)
                     preview.setAspectRatio(size.width, size.height);
-                if (previewHandler != null)
-                    previewHandler.reset(size.width,size.height);
+
                 //setPreviewSize(ParametersHandler.PictureSize.GetValue());
             }
             else if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))

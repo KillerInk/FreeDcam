@@ -19,18 +19,19 @@ import android.view.Surface;
 import android.view.TextureView;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import troop.com.imageconverter.ScriptC_focus_peak;
+import troop.com.camera1.ScriptC_focus_peak;
 
 /**
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Callbacks.PreviewCallback
+public class PreviewHandler implements TextureView.SurfaceTextureListener, Camera.PreviewCallback
 {
     private TextureView input;
     private TextureView output;
@@ -56,6 +57,7 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
         this.cameraUiWrapper = cameraUiWrapper;
         output.setSurfaceTextureListener(this);
         mRS = RenderScript.create(output.getContext());
+
     }
 
     public TextureView getInput(){return input; }
@@ -68,18 +70,17 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
             return;
         mHeight = height;
         mWidth = width;
-        drawBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
         tbIn.setX(width);
         tbIn.setY(height);
         tbIn.setYuvFormat(ImageFormat.NV21);
-        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
 
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbOut.setX(width);
         tbOut.setY(height);
-        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
         setupSurface();
 
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
@@ -88,31 +89,12 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
 
     }
 
-    void setupSurface() {
-        if (mAllocationOut != null) {
-            //mAllocationOut.setSurface(mSurface);
-        }
+
+    private void setupSurface() {
         if (mSurface != null) {
-            mHaveSurface = true;
-        } else {
-            mHaveSurface = false;
-        }
-    }
-
-    void execute(byte[] yuv) {
-
-        if (mHaveSurface) {
-            mAllocationIn.copyFrom(yuv);
-            //mAllocationIn.ioReceive();
-            mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
-            mScriptFocusPeak.forEach_peak(mAllocationOut);
-            mAllocationOut.copyTo(drawBitmap);
-            Canvas canvas = output.lockCanvas();
-            canvas.drawBitmap(drawBitmap, 0,0, new Paint());
-            output.unlockCanvasAndPost(canvas);
-            //mYuv.forEach(mAllocationOut);
-            //mScript.forEach_root(mAllocationOut, mAllocationOut);
-            //mAllocationOut.ioSend();
+            if (mAllocationOut != null) {
+                mAllocationOut.setSurface(mSurface);
+            }
         }
     }
 
@@ -121,16 +103,29 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
         doWork = true;
         new Thread() {
             @Override
-            public void run() {
+            public void run()
+            {
+                int frame_w = mWidth;
+                int frame_h = mHeight;
+                int datasize = frame_h * frame_w * ImageFormat.getBitsPerPixel(ImageFormat.NV21)/8;
                 byte[] data = null;
                 try {
 
                     //imageProcessor.Init();
-                    while (doWork) {
-                        data = mYuvFrameQueue.take();
-                        if (data != null)
+                    while (doWork)
+                    {
+                        if (frame_h != mHeight || frame_w != mWidth)
                         {
-                            execute(data);
+                            doWork = false;
+                            return;
+                        }
+                        data = mYuvFrameQueue.take();
+                        if (data != null && data.length == datasize)
+                        {
+                            mAllocationIn.copyFrom(data);
+                            mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
+                            mScriptFocusPeak.forEach_peak(mAllocationOut);
+                            mAllocationOut.ioSend();
                         }
                     }
                 } catch (InterruptedException e) {
@@ -162,10 +157,8 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
     {
-
         mSurface = new Surface(surface);
         setupSurface();
-
     }
 
     @Override
@@ -182,7 +175,7 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, I_Cal
     }
 
     @Override
-    public void onPreviewFrame(byte[] data, int imageFormat) {
+    public void onPreviewFrame(byte[] data, Camera camera) {
         if (mYuvFrameQueue.size() == 2)
         {
             mYuvFrameQueue.remove();

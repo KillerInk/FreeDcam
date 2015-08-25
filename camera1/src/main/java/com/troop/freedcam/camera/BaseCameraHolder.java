@@ -358,10 +358,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
         if (mCamera == null && samsungCamera == null)
             return;
         try {
+
             if (hasSamsungFrameWork)
                 samsungCamera.stopPreview();
-            else
+            else {
+                mCamera.setPreviewCallback(null);
                 mCamera.stopPreview();
+            }
             isPreviewRunning = false;
             Log.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
@@ -475,7 +478,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
             if (obtrack == null)
                 throw new  NoSuchMethodException();
-            obtrack.invoke(lgCamera,null);
+            obtrack.invoke(lgCamera, null);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -662,6 +665,18 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     }
                 });
         }
+    }
+
+    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
+    {
+        if (!isPreviewRunning && !isRdy)
+            return;
+        mCamera.setPreviewCallback(previewCallback);
+    }
+
+    public void ResetPreviewCallback()
+    {
+        mCamera.setPreviewCallback(null);
     }
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
