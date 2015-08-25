@@ -32,7 +32,7 @@ import troop.com.camera1.ScriptC_focus_peak;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements TextureView.SurfaceTextureListener, Camera.PreviewCallback
+public class PreviewHandler implements Camera.PreviewCallback
 {
     final String TAG = PreviewHandler.class.getSimpleName();
     private TextureView input;
@@ -57,7 +57,8 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
         this.input = input;
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
-        output.setSurfaceTextureListener(this);
+        output.setSurfaceTextureListener(previewSurfaceListner);
+        input.setSurfaceTextureListener(cameraSurfaceListner);
         mRS = RenderScript.create(context);
 
     }
@@ -67,7 +68,7 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
 
     public void reset(int width, int height)
     {
-        Log.d(TAG, "reset allocs to :" +width + "x" + height);
+        Log.d(TAG, "reset allocs to :" + width + "x" + height);
         if (mHeight == height && mWidth == width)
             return;
         stop();
@@ -102,7 +103,10 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
             Log.d(TAG, "SetupSurface");
             mAllocationOut.setSurface(null);
             mAllocationOut.setSurface(mSurface);
+            mHaveSurface = true;
         }
+        if (mSurface == null)
+            mHaveSurface = false;
     }
 
     private void start()
@@ -115,54 +119,80 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
         doWork = false;
     }
 
-    @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+    TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            Log.d(TAG, "SurfaceSizeAvail");
+            mSurface = new Surface(surface);
+            setupSurface();
+
+            start();
+
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            Log.d(TAG, "SurfaceSizeChanged");
+            mSurface = new Surface(surface);
+            setupSurface();
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            Log.d(TAG, "SurfaceDestroyed");
+            mSurface = null;
+            setupSurface();
+            stop();
+
+
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+        }
+    };
+
+    TextureView.SurfaceTextureListener cameraSurfaceListner = new TextureView.SurfaceTextureListener()
     {
-        Log.d(TAG, "SurfaceSizeAvail");
-        mSurface = new Surface(surface);
-        setupSurface();
-        cameraUiWrapper.StartCamera();
-        cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
-        start();
 
-    }
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            cameraUiWrapper.StartCamera();
+            cameraUiWrapper.cameraHolder.SetPreviewCallback(PreviewHandler.this);
+        }
 
-    @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
-    {
-        Log.d(TAG, "SurfaceSizeChanged");
-        mSurface = new Surface(surface);
-        setupSurface();
-    }
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
 
-    @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
-    {
-        Log.d(TAG, "SurfaceDestroyed");
-        mSurface = null;
-        setupSurface();
-        stop();
-        cameraUiWrapper.StopCamera();
+        }
 
-        return false;
-    }
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
+        {
+            cameraUiWrapper.StopCamera();
+            return false;
+        }
 
-    @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-    }
-
+        }
+    };
 
     boolean isWorking = false;
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (isWorking || !doWork)
-            return;
-        Log.d(TAG, "Process Frame");
         final Camera.Size size = camera.getParameters().getPreviewSize();
         if (mHeight != size.height && mWidth != size.width)
             reset(size.width,size.height);
+        if (isWorking || !doWork || data == null || !mHaveSurface)
+            return;
+        Log.d(TAG, "Process Frame");
+
+
         new Thread(new Runnable() {
             @Override
             public void run()
