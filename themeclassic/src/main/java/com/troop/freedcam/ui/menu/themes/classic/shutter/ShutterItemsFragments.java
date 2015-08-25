@@ -72,7 +72,6 @@ public class ShutterItemsFragments extends Fragment
         }
 
         setCameraUIwrapper();
-        ParametersLoaded();
         fragmentloaded = true;
         return view;
     }
