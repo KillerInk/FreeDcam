@@ -55,6 +55,21 @@
 
 
         </activity>
+
+
+    <activity
+        android:name="troop.com.imageconverter.RS_TextureviewActivity"
+        android:label="imageconverter"
+        >
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+        </intent-filter>
+
+
+
+    </activity>
     </application>
 
 </manifest>
