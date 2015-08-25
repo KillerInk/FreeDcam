@@ -42,7 +42,7 @@ public class Camera1Fragment extends AbstractCameraFragment
         }
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
         //cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
-        super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater, container, null);
         return view;
     }
 

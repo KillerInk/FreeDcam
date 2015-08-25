@@ -33,6 +33,7 @@ import troop.com.camera1.ScriptC_focus_peak;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class PreviewHandler implements TextureView.SurfaceTextureListener, Camera.PreviewCallback
 {
+    final String TAG = PreviewHandler.class.getSimpleName();
     private TextureView input;
     private TextureView output;
     CameraUiWrapper cameraUiWrapper;
@@ -65,9 +66,10 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
 
     public void reset(int width, int height)
     {
-        stop();
+
         if (mHeight == height && mWidth == width)
             return;
+        stop();
         mHeight = height;
         mWidth = width;
 
@@ -91,54 +93,14 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
 
 
     private void setupSurface() {
-        if (mSurface != null) {
-            if (mAllocationOut != null) {
-                mAllocationOut.setSurface(mSurface);
-            }
+        if (mAllocationOut != null) {
+            mAllocationOut.setSurface(mSurface);
         }
     }
 
     private void start()
     {
         doWork = true;
-        new Thread() {
-            @Override
-            public void run()
-            {
-                int frame_w = mWidth;
-                int frame_h = mHeight;
-                int datasize = frame_h * frame_w * ImageFormat.getBitsPerPixel(ImageFormat.NV21)/8;
-                byte[] data = null;
-                try {
-
-                    //imageProcessor.Init();
-                    while (doWork)
-                    {
-                        if (frame_h != mHeight || frame_w != mWidth)
-                        {
-                            doWork = false;
-                            return;
-                        }
-                        data = mYuvFrameQueue.take();
-                        if (data != null && data.length == datasize)
-                        {
-                            mAllocationIn.copyFrom(data);
-                            mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
-                            mScriptFocusPeak.forEach_peak(mAllocationOut);
-                            mAllocationOut.ioSend();
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    doWork = false;
-                    mYuvFrameQueue.clear();
-                    Log.d("ImageProcessor", " Releasenative");
-
-
-                }
-            }
-        }.start();
     }
 
     private void stop()
@@ -165,7 +127,9 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
         stop();
+        setupSurface();
         cameraUiWrapper.StopCamera();
+        mSurface = null;
         return false;
     }
 
@@ -174,12 +138,27 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
 
     }
 
+
+    boolean isWorking = false;
     @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        if (mYuvFrameQueue.size() == 2)
-        {
-            mYuvFrameQueue.remove();
-        }
-        mYuvFrameQueue.add(data);
+    public void onPreviewFrame(final byte[] data, Camera camera)
+    {
+        if (isWorking || !doWork)
+            return;
+        final Camera.Size size = camera.getParameters().getPreviewSize();
+        if (mHeight != size.height && mWidth != size.width)
+            reset(size.width,size.height);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                isWorking = true;
+                mAllocationIn.copyFrom(data);
+                mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
+                mScriptFocusPeak.forEach_peak(mAllocationOut);
+                mAllocationOut.ioSend();
+                isWorking = false;
+            }
+        }).start();
     }
 }
