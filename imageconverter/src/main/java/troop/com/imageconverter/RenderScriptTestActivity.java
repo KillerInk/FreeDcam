@@ -81,6 +81,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
         mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
         mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
+        maskImageView.setImageBitmap(drawBitmap);
     }
 
     boolean dowork = false;
@@ -164,10 +165,11 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
                             mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
                             mScriptFocusPeak.forEach_peak(mOutputAllocation);
                             mOutputAllocation.copyTo(drawBitmap);
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    maskImageView.setImageBitmap(drawBitmap);
+                                    maskImageView.invalidate();
                                 }
                             });
 
