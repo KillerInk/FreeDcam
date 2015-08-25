@@ -1,6 +1,7 @@
 package com.troop.freedcam;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -51,13 +52,13 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
     boolean doWork = false;
     private Bitmap drawBitmap;
 
-    public PreviewHandler(TextureView input, TextureView output, CameraUiWrapper cameraUiWrapper)
+    public PreviewHandler(TextureView input, TextureView output, CameraUiWrapper cameraUiWrapper, Context context)
     {
         this.input = input;
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         output.setSurfaceTextureListener(this);
-        mRS = RenderScript.create(output.getContext());
+        mRS = RenderScript.create(context);
 
     }
 
@@ -66,34 +67,40 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
 
     public void reset(int width, int height)
     {
-
+        Log.d(TAG, "reset allocs to :" +width + "x" + height);
         if (mHeight == height && mWidth == width)
             return;
         stop();
         mHeight = height;
         mWidth = width;
 
+
+        Log.d(TAG, "tbin");
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
         tbIn.setX(width);
         tbIn.setY(height);
         tbIn.setYuvFormat(ImageFormat.NV21);
+
         mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
 
+        Log.d(TAG, "tbout");
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbOut.setX(width);
         tbOut.setY(height);
-        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
+
+        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
         setupSurface();
-
+        Log.d(TAG, "script");
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
-
         start();
-
+        Log.d(TAG, "script done");
     }
 
 
     private void setupSurface() {
         if (mAllocationOut != null) {
+            Log.d(TAG, "SetupSurface");
+            mAllocationOut.setSurface(null);
             mAllocationOut.setSurface(mSurface);
         }
     }
@@ -109,16 +116,21 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
     }
 
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+    {
+        Log.d(TAG, "SurfaceSizeAvail");
         mSurface = new Surface(surface);
         setupSurface();
         cameraUiWrapper.StartCamera();
+        cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
+        start();
 
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
     {
+        Log.d(TAG, "SurfaceSizeChanged");
         mSurface = new Surface(surface);
         setupSurface();
     }
@@ -126,10 +138,12 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
-        stop();
-        setupSurface();
-        cameraUiWrapper.StopCamera();
+        Log.d(TAG, "SurfaceDestroyed");
         mSurface = null;
+        setupSurface();
+        stop();
+        cameraUiWrapper.StopCamera();
+
         return false;
     }
 
@@ -145,6 +159,7 @@ public class PreviewHandler implements TextureView.SurfaceTextureListener, Camer
     {
         if (isWorking || !doWork)
             return;
+        Log.d(TAG, "Process Frame");
         final Camera.Size size = camera.getParameters().getPreviewSize();
         if (mHeight != size.height && mWidth != size.width)
             reset(size.width,size.height);

@@ -38,7 +38,7 @@ public class Camera1Fragment extends AbstractCameraFragment
             view = inflater.inflate(R.layout.cameraholder_rs, container, false);
             camera = (TextureView) view.findViewById(R.id.textureView_camera);
             preview = (TextureView) view.findViewById(R.id.textureView_preview);
-            this.cameraUiWrapper = new CameraUiWrapper(camera, preview, appSettingsManager);
+            this.cameraUiWrapper = new CameraUiWrapper(camera, preview, appSettingsManager, getContext());
         }
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
         //cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
