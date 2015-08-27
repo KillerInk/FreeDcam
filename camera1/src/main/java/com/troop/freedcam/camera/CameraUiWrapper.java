@@ -2,6 +2,7 @@ package com.troop.freedcam.camera;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -36,7 +37,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public AppSettingsManager appSettingsManager;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
-    PreviewHandler previewHandler;
+    public PreviewHandler previewHandler;
 
 
 
@@ -68,7 +69,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
-        previewHandler = new PreviewHandler(previewTexture, this, appSettingsManager.context);
+        if (Build.VERSION.SDK_INT >= 18) {
+            previewHandler = new PreviewHandler(previewTexture, this, appSettingsManager.context);
+            SetCameraChangedListner(previewHandler);
+        }
         Log.d(TAG, "Ctor done");
 
 
@@ -172,7 +176,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void onPreviewOpen(String message) {
         super.onPreviewOpen(message);
-        cameraHolder.SetPreviewCallback(previewHandler);
+
     }
 
     @Override

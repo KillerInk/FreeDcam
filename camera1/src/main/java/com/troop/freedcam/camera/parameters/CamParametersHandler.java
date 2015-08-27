@@ -32,6 +32,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
+import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -199,6 +200,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         //############################
 
         oismode = new OisParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
+
+        Focuspeak = new FocusPeakModeParameter(uiHandler,baseCameraHolder,cameraUiWrapper.previewHandler);
 
         SetCameraRotation();
         SetPictureOrientation(0);
