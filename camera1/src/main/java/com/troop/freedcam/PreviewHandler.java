@@ -79,10 +79,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             reset(size.width,size.height);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
-        else if (!enable)
+        else if (!enable && mAllocationOut != null)
         {
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
-            final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
+            final Bitmap map = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(map);
             canvas.drawColor(Color.TRANSPARENT);
 
@@ -96,8 +97,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public boolean isEnable() { return  enable;}
 
-    private void reset(int width, int height)
-    {
+    private void reset(int width, int height) {
         Log.d(TAG, "reset allocs to :" + width + "x" + height);
         if (mHeight == height && mWidth == width)
             return;
