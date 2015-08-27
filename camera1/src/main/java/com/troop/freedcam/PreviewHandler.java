@@ -55,6 +55,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private Surface mSurface;
     private ScriptC_focus_peak mScriptFocusPeak;
     boolean enable = false;
+    boolean doWork = false;
 
     public PreviewHandler(TextureViewRatio output, CameraUiWrapper cameraUiWrapper, Context context)
     {
@@ -76,14 +77,17 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         if (enable)
         {
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
-            reset(size.width,size.height);
+            reset(size.width, size.height);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
+            Log.d(TAG, "enable focuspeak");
+
         }
         else if (!enable && mAllocationOut != null)
         {
+            Log.d(TAG, "stop focuspeak");
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
-            final Bitmap map = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888);
+            final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(map);
             canvas.drawColor(Color.TRANSPARENT);
 
@@ -97,37 +101,49 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public boolean isEnable() { return  enable;}
 
-    private void reset(int width, int height) {
+    private void reset(int width, int height)
+    {
+
+
         Log.d(TAG, "reset allocs to :" + width + "x" + height);
-        if (mHeight == height && mWidth == width)
-            return;
+
+        doWork = false;
+        while (isWorking)
+            try {
+                Log.d(TAG, "Wait for work finish");
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         mHeight = height;
         mWidth = width;
 
         Log.d(TAG, "tbin");
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
-        tbIn.setX(width);
-        tbIn.setY(height);
+        tbIn.setX(mWidth);
+        tbIn.setY(mHeight);
         tbIn.setYuvFormat(ImageFormat.NV21);
 
         mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
 
         Log.d(TAG, "tbout");
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-        tbOut.setX(width);
-        tbOut.setY(height);
+        tbOut.setX(mWidth);
+        tbOut.setY(mHeight);
 
         mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
         setupSurface();
         Log.d(TAG, "script");
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
         Log.d(TAG, "script done");
+        doWork = true;
     }
 
 
     private void setupSurface() {
-        if (mAllocationOut != null) {
+        if (mAllocationOut != null && mSurface != null) {
             Log.d(TAG, "SetupSurface");
+            mAllocationOut.setSurface(null);
             mAllocationOut.setSurface(mSurface);
             mHaveSurface = true;
         }
@@ -172,24 +188,27 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public void SetAspectRatio(int w, int h)
     {
         output.setAspectRatio(w,h);
+        reset(w,h);
     }
 
     boolean isWorking = false;
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        final Size size =new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
-        if (isWorking || data == null || !mHaveSurface || !enable)
-            return;
-        if (mHeight != size.height && mWidth != size.width)
+        if (isWorking || data == null || !mHaveSurface || !enable && !doWork)
         {
-            reset(size.width, size.height);
+            Log.d(TAG, "skipframe render not fully init");
             return;
         }
 
-        //Log.d(TAG, "Process Frame");
-
-
+        int teosize = mHeight * mWidth *
+                ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
+        if (teosize != data.length) {
+            Log.d(TAG, "frame size does not match rendersize");
+            Camera.Size s = camera.getParameters().getPreviewSize();
+            reset(s.width, s.height);
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run()

@@ -280,11 +280,13 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         {
             if (size.width <= 1280) {
                 double ratio = (double) size.width / size.height;
-                if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-                if (Math.abs(size.height - targetHeight) < minDiff) {
+                if (ratio < targetRatio +  ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE )
+                {
                     optimalSize = size;
                     minDiff = Math.abs(size.height - targetHeight);
+                    break;
                 }
+
             }
         }
         // Cannot find the one match the aspect ratio, ignore the requirement

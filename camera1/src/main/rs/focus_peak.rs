@@ -52,6 +52,15 @@
                 mergedPixel.g * 1814 / 1024 - 227;
         rgb.a = 255;
         // Write out merged HDR result
+        int factor = 2;
+        if(rgb.r >=255 -factor && rgb.g >= 255 -factor && rgb.b >= 255 -factor)
+        {
+            rgb.r =255; rgb.g = 0;  rgb.b = 0;
+        }
+        if(rgb.r <=0 +factor && rgb.g <= 0 +factor && rgb.b <= 0 +factor)
+        {
+            rgb.r =0; rgb.g = 0;  rgb.b = 255;
+        }
 
         if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
         if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
