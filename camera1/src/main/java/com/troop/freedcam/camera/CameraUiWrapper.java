@@ -73,7 +73,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     }
 
-    public CameraUiWrapper(TextureView cameraTexture, TextureView previewTexture, AppSettingsManager appSettingsManager, Context context)
+    public CameraUiWrapper(TextureView cameraTexture, TextureViewRatio previewTexture, AppSettingsManager appSettingsManager, Context context)
     {
         super(appSettingsManager);
         this.appSettingsManager = appSettingsManager;
@@ -192,24 +192,29 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             previewHandler.reset(size.width,size.height);
         }*/
         cameraHolder.StartPreview();
+        if (previewHandler != null)
+
         super.onCameraOpenFinish("");
 
 
     }
 
     @Override
-    public void onCameraClose(String message) {
+    public void onCameraClose(String message)
+    {
         super.onCameraClose(message);
     }
 
     @Override
     public void onPreviewOpen(String message) {
         super.onPreviewOpen(message);
+        cameraHolder.SetPreviewCallback(previewHandler);
     }
 
     @Override
     public void onPreviewClose(String message) {
         super.onPreviewClose(message);
+        cameraHolder.ResetPreviewCallback();
     }
 
     @Override
@@ -257,10 +262,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 if (preview != null)
                     preview.setAspectRatio(size.width, size.height);
-                //if (previewHandler != null)
-                //    previewHandler.reset(size.width, size.height);
-
-                //setPreviewSize(ParametersHandler.PictureSize.GetValue());
+                if (previewHandler != null)
+                    previewHandler.SetAspectRatio(size.width,size.height);
             }
             else if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
             {
@@ -274,11 +277,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-                preview.setAspectRatio(size.width, size.height);
                 if (preview != null)
                     preview.setAspectRatio(size.width, size.height);
-                /*if (previewHandler != null)
-                    previewHandler.reset(size.width,size.height);*/
+                if (previewHandler != null)
+                    previewHandler.SetAspectRatio(size.width,size.height);
             }
         }
 

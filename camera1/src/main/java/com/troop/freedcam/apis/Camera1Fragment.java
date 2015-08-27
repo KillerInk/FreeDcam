@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.TextureViewRatio;
 import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
@@ -21,7 +22,7 @@ public class Camera1Fragment extends AbstractCameraFragment
 
     ExtendedSurfaceView extendedSurfaceView;
     TextureView camera;
-    TextureView preview;
+    TextureViewRatio preview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -37,7 +38,7 @@ public class Camera1Fragment extends AbstractCameraFragment
         {
             view = inflater.inflate(R.layout.cameraholder_rs, container, false);
             camera = (TextureView) view.findViewById(R.id.textureView_camera);
-            preview = (TextureView) view.findViewById(R.id.textureView_preview);
+            preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
             this.cameraUiWrapper = new CameraUiWrapper(camera, preview, appSettingsManager, getContext());
         }
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);

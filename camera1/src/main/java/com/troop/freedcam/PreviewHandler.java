@@ -20,6 +20,7 @@ import android.view.Surface;
 import android.view.TextureView;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.TextureViewRatio;
 import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 
@@ -36,7 +37,7 @@ public class PreviewHandler implements Camera.PreviewCallback
 {
     final String TAG = PreviewHandler.class.getSimpleName();
     private TextureView input;
-    private TextureView output;
+    private TextureViewRatio output;
     CameraUiWrapper cameraUiWrapper;
 
     private int mHeight;
@@ -52,7 +53,7 @@ public class PreviewHandler implements Camera.PreviewCallback
     boolean doWork = false;
     private Bitmap drawBitmap;
 
-    public PreviewHandler(TextureView input, TextureView output, CameraUiWrapper cameraUiWrapper, Context context)
+    public PreviewHandler(TextureView input, TextureViewRatio output, CameraUiWrapper cameraUiWrapper, Context context)
     {
         this.input = input;
         this.output = output;
@@ -74,7 +75,6 @@ public class PreviewHandler implements Camera.PreviewCallback
         stop();
         mHeight = height;
         mWidth = width;
-
 
         Log.d(TAG, "tbin");
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
@@ -160,7 +160,7 @@ public class PreviewHandler implements Camera.PreviewCallback
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             cameraUiWrapper.StartCamera();
-            cameraUiWrapper.cameraHolder.SetPreviewCallback(PreviewHandler.this);
+
         }
 
         @Override
@@ -181,6 +181,11 @@ public class PreviewHandler implements Camera.PreviewCallback
         }
     };
 
+    public void SetAspectRatio(int w, int h)
+    {
+        output.setAspectRatio(w,h);
+    }
+
     boolean isWorking = false;
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
@@ -190,7 +195,7 @@ public class PreviewHandler implements Camera.PreviewCallback
             reset(size.width,size.height);
         if (isWorking || !doWork || data == null || !mHaveSurface)
             return;
-        Log.d(TAG, "Process Frame");
+        //Log.d(TAG, "Process Frame");
 
 
         new Thread(new Runnable() {
