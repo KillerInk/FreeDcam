@@ -45,7 +45,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         return AppSettingsManager.API_1;
     }
 
-    public CameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture, AppSettingsManager appSettingsManager)
     {
         super(appSettingsManager);
         this.preview = (ExtendedSurfaceView)preview;
@@ -68,32 +68,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
+        previewHandler = new PreviewHandler(previewTexture, this, appSettingsManager.context);
         Log.d(TAG, "Ctor done");
 
-
-    }
-
-    public CameraUiWrapper(TextureView cameraTexture, TextureViewRatio previewTexture, AppSettingsManager appSettingsManager, Context context)
-    {
-        super(appSettingsManager);
-        this.appSettingsManager = appSettingsManager;
-
-        this.errorHandler = this;
-        this.cameraHolder = new BaseCameraHolder(this, uiHandler);
-        super.cameraHolder = cameraHolder;
-        this.cameraHolder.errorHandler = errorHandler;
-
-        camParametersHandler = new CamParametersHandler(this, appSettingsManager, uiHandler);
-        this.cameraHolder.ParameterHandler = camParametersHandler;
-        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
-        moduleHandler.moduleEventHandler.addListner(this);
-
-        Focus = new FocusHandler(this);
-        this.cameraHolder.Focus = Focus;
-        Log.d(TAG, "Ctor done");
-        previewHandler = new PreviewHandler(cameraTexture, previewTexture, this, context);
 
     }
 
@@ -176,23 +153,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         super.onCameraOpen(message);
         cameraHolder.SetErrorCallback(this);
-        if (preview != null)
-            cameraHolder.SetSurface(preview.getHolder());
-        if (previewHandler != null) {
-            cameraHolder.SetTextureView(previewHandler.getInput());
-            //cameraHolder.SetPreviewCallback(previewHandler);
-        }
+        cameraHolder.SetSurface(preview.getHolder());
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
-
-
-        /*if (previewHandler != null)
-        {
-            Size size = new Size(camParametersHandler.PreviewSize.GetValue());
-            previewHandler.reset(size.width,size.height);
-        }*/
         cameraHolder.StartPreview();
-        if (previewHandler != null)
 
         super.onCameraOpenFinish("");
 

@@ -21,28 +21,18 @@ public class Camera1Fragment extends AbstractCameraFragment
 {
 
     ExtendedSurfaceView extendedSurfaceView;
-    TextureView camera;
     TextureViewRatio preview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        if (Build.VERSION.SDK_INT < 18)
-        {
             view = inflater.inflate(R.layout.cameraholder1, container, false);
             extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
             extendedSurfaceView.appSettingsManager = appSettingsManager;
-
-            this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, appSettingsManager);
-        }
-        else
-        {
-            view = inflater.inflate(R.layout.cameraholder_rs, container, false);
-            camera = (TextureView) view.findViewById(R.id.textureView_camera);
             preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
-            this.cameraUiWrapper = new CameraUiWrapper(camera, preview, appSettingsManager, getContext());
-        }
-        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(extendedSurfaceView);
-        //cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(extendedSurfaceView);
+
+            this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, appSettingsManager);
+
+
         super.onCreateView(inflater, container, null);
         return view;
     }

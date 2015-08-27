@@ -36,7 +36,6 @@ import troop.com.camera1.ScriptC_focus_peak;
 public class PreviewHandler implements Camera.PreviewCallback
 {
     final String TAG = PreviewHandler.class.getSimpleName();
-    private TextureView input;
     private TextureViewRatio output;
     CameraUiWrapper cameraUiWrapper;
 
@@ -49,23 +48,16 @@ public class PreviewHandler implements Camera.PreviewCallback
     private boolean mHaveSurface;
     private Surface mSurface;
     private ScriptC_focus_peak mScriptFocusPeak;
-    private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     boolean doWork = false;
-    private Bitmap drawBitmap;
 
-    public PreviewHandler(TextureView input, TextureViewRatio output, CameraUiWrapper cameraUiWrapper, Context context)
+    public PreviewHandler(TextureViewRatio output, CameraUiWrapper cameraUiWrapper, Context context)
     {
-        this.input = input;
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         output.setSurfaceTextureListener(previewSurfaceListner);
-        input.setSurfaceTextureListener(cameraSurfaceListner);
         mRS = RenderScript.create(context);
 
     }
-
-    public TextureView getInput(){return input; }
-
 
     public void reset(int width, int height)
     {
@@ -101,7 +93,6 @@ public class PreviewHandler implements Camera.PreviewCallback
     private void setupSurface() {
         if (mAllocationOut != null) {
             Log.d(TAG, "SetupSurface");
-            mAllocationOut.setSurface(null);
             mAllocationOut.setSurface(mSurface);
             mHaveSurface = true;
         }
@@ -154,32 +145,6 @@ public class PreviewHandler implements Camera.PreviewCallback
         }
     };
 
-    TextureView.SurfaceTextureListener cameraSurfaceListner = new TextureView.SurfaceTextureListener()
-    {
-
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-            cameraUiWrapper.StartCamera();
-
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
-        {
-            cameraUiWrapper.StopCamera();
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-        }
-    };
 
     public void SetAspectRatio(int w, int h)
     {

@@ -128,7 +128,7 @@ public class VideoModule extends AbstractModule
             else
                 recorder.setOrientationHint(0);
 
-            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder().getSurface());
+            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder());
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();

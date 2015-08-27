@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
@@ -42,7 +43,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     I_Callbacks.PictureCallback rawCallback;
     I_Callbacks.ShutterCallback shutterCallback;
     I_Callbacks.PreviewCallback previewCallback;
-    SurfaceHolder surfaceHolder;
+    Surface surfaceHolder;
 
     public boolean hasLGFrameWork = false;
     public boolean hasSamsungFrameWork = false;
@@ -300,14 +301,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder)
     {
-        this.surfaceHolder = surfaceHolder;
+        this.surfaceHolder = surfaceHolder.getSurface();
         try
         {
             if(hasSamsungFrameWork)
                 samsungCamera.setPreviewDisplay(surfaceHolder);
             else
                 mCamera.setPreviewDisplay(surfaceHolder);
-            this.surfaceHolder = surfaceHolder;
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -325,6 +325,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             else
                 mCamera.setPreviewTexture(textureView.getSurfaceTexture());
             this.textureView = textureView;
+            this.surfaceHolder = new Surface(textureView.getSurfaceTexture());
             return  true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -333,7 +334,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         return false;
     }
 
-    public SurfaceHolder getSurfaceHolder()
+    public Surface getSurfaceHolder()
     {
         return  surfaceHolder;
     }

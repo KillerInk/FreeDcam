@@ -108,13 +108,11 @@ public class VideoModuleG3 extends VideoModule
             camParametersHandler.setString("dual-recorder", "0");
             camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            //ParameterHandler.setString("video-hfr", "off");
-            //ParameterHandler.setString("video-hdr", "off");
             camParametersHandler.setString("lge-camera", "1");
         }
         else
         {
-            camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
+            //camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
