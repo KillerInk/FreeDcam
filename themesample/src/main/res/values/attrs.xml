@@ -11,4 +11,7 @@
     <declare-styleable name="ManualItem">
         <attr name="Header" format="string"/>
     </declare-styleable>
+    <declare-styleable name="MyGallery">
+        <attr name="android:galleryItemBackground" />
+    </declare-styleable>
 </resources>

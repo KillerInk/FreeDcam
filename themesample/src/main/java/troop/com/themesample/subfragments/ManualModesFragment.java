@@ -3,8 +3,11 @@ package troop.com.themesample.subfragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Gallery;
+import android.widget.HorizontalScrollView;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
@@ -36,6 +39,8 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
     ManualItem fnumber;
     ManualItem skintone;
     ManualItem programShift;
+    HorizontalScrollView HLISTVIEW;
+
 
     //Holds the Fragment Status if its loaded
     boolean isLoaded = false;
@@ -45,8 +50,15 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
     {
         View view = inflater.inflate(R.layout.manual_modes_fragment, container, false);
 
+        HLISTVIEW = (HorizontalScrollView)view.findViewById(R.id.horizontalScrollView);
+
+
+
+
         contrast = (ManualItem)view.findViewById(R.id.manual_contrast);
         contrast.SetStuff(appSettingsManager, AppSettingsManager.MCONTRAST);
+
+
 
         burst = (ManualItem)view.findViewById(R.id.manual_burst);
         burst.SetStuff(appSettingsManager, "");
@@ -68,6 +80,20 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
 
         focus = (ManualItem)view.findViewById(R.id.manual_mf);
         focus.SetStuff(appSettingsManager, AppSettingsManager.MF);
+
+        focus.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+
+                if (arg1.getAction() == MotionEvent.ACTION_DOWN || arg1.getAction() == MotionEvent.ACTION_MOVE) {
+                    HLISTVIEW.requestDisallowInterceptTouchEvent(true);
+
+                }
+                return false;
+            }
+        });
+
 
         saturation = (ManualItem)view.findViewById(R.id.manual_saturation);
         saturation.SetStuff(appSettingsManager, AppSettingsManager.MSATURATION);
