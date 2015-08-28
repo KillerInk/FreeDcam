@@ -29,6 +29,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -39,7 +40,7 @@ import troop.com.camera1.ScriptC_focus_peak;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner
+public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner, I_ModuleEvent
 {
     final String TAG = PreviewHandler.class.getSimpleName();
     private TextureViewRatio output;
@@ -61,6 +62,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     {
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
         mRS = RenderScript.create(context);
 
@@ -69,28 +71,24 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public void Enable(boolean enable)
     {
         this.enable = enable;
-        setEnable(enable);
+        setEnable(this.enable);
     }
 
-    private void setEnable(boolean enable)
+    private void setEnable(boolean enabled)
     {
-        if (enable)
+        if (enabled)
         {
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
-            cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
+            Log.d(TAG, "Set PreviewCallback");
             Log.d(TAG, "enable focuspeak");
-
         }
-        else if (!enable && mAllocationOut != null)
+        else if (mAllocationOut != null)
         {
             Log.d(TAG, "stop focuspeak");
-            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
-            final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(map);
             canvas.drawColor(Color.TRANSPARENT);
-
 
             mAllocationOut.copyFrom(map);
             mAllocationOut.ioSend();
@@ -104,10 +102,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private void reset(int width, int height)
     {
 
-
         Log.d(TAG, "reset allocs to :" + width + "x" + height);
-
-        doWork = false;
+        try {
+            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+        }
+        catch (NullPointerException ex){}
         while (isWorking)
             try {
                 Log.d(TAG, "Wait for work finish");
@@ -123,6 +122,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         tbIn.setX(mWidth);
         tbIn.setY(mHeight);
         tbIn.setYuvFormat(ImageFormat.NV21);
+        if (mAllocationOut != null)
+            mAllocationOut.setSurface(null);
 
         mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
 
@@ -132,24 +133,30 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         tbOut.setY(mHeight);
 
         mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
-        setupSurface();
+        if (mSurface != null)
+            mAllocationOut.setSurface(mSurface);
+        else
+            Log.d(TAG, "surfaceNull");
         Log.d(TAG, "script");
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
         Log.d(TAG, "script done");
-        doWork = true;
+
+        cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
     }
 
 
-    private void setupSurface() {
-        if (mAllocationOut != null && mSurface != null) {
+    /*private void setupSurface() {
+        if (mAllocationOut != null)
+        {
             Log.d(TAG, "SetupSurface");
-            mAllocationOut.setSurface(null);
             mAllocationOut.setSurface(mSurface);
-            mHaveSurface = true;
+            if(mSurface != null)
+                mHaveSurface = true;
+            else
+                mHaveSurface = false;
+            Log.d(TAG, "Have Surface:" + mHaveSurface);
         }
-        if (mSurface == null)
-            mHaveSurface = false;
-    }
+    }*/
 
 
     TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
@@ -157,7 +164,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             Log.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
-            setupSurface();
+            if (mAllocationOut != null)
+                mAllocationOut.setSurface(mSurface);
+            else Log.d(TAG, "Allocout null");
 
         }
 
@@ -165,14 +174,18 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
             Log.d(TAG, "SurfaceSizeChanged");
             mSurface = new Surface(surface);
-            setupSurface();
+            if (mAllocationOut != null)
+                mAllocationOut.setSurface(mSurface);
+            else Log.d(TAG, "Allocout null");
         }
 
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
             Log.d(TAG, "SurfaceDestroyed");
             mSurface = null;
-            setupSurface();
+            if (mAllocationOut != null)
+                mAllocationOut.setSurface(mSurface);
+            else Log.d(TAG, "Allocout null");
 
 
             return false;
@@ -195,11 +208,14 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (isWorking || data == null || !mHaveSurface || !enable && !doWork)
-        {
-            Log.d(TAG, "skipframe render not fully init");
+        if (enable == false)
             return;
-        }
+        if (doWork == false)
+            return;
+        if (data == null)
+            return;
+        if (isWorking == true)
+            return;
 
         int teosize = mHeight * mWidth *
                 ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
@@ -242,12 +258,13 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewOpen(String message)
     {
-        setEnable(enable);
+
     }
 
     @Override
     public void onPreviewClose(String message)
     {
+
     }
 
     @Override
@@ -269,4 +286,21 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             setEnable(false);
 
     }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+
+        if (module.equals(ModuleHandler.MODULE_PICTURE)) {
+            setEnable(enable);
+            setDoWork(true);
+        }
+        else if (module.equals(ModuleHandler.MODULE_VIDEO)) {
+            setDoWork(false);
+            setEnable(false);
+        }
+        return null;
+    }
+
+    private void setDoWork(boolean work) {this.doWork = work;}
 }

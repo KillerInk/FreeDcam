@@ -7,6 +7,7 @@ import com.troop.freedcam.PreviewHandler;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
@@ -50,5 +51,35 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     @Override
     public String[] GetValues() {
         return new String[] {StringUtils.ON, StringUtils.OFF};
+    }
+
+    @Override
+    public void addEventListner(I_ModeParameterEvent eventListner) {
+
+    }
+
+    @Override
+    public void removeEventListner(I_ModeParameterEvent parameterEvent) {
+
+    }
+
+    @Override
+    public void BackgroundValueHasChanged(String value) {
+
+    }
+
+    @Override
+    public void BackgroundValuesHasChanged(String[] value) {
+
+    }
+
+    @Override
+    public void BackgroundIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void BackgroundSetIsSupportedHasChanged(boolean value) {
+
     }
 }
