@@ -1,0 +1,157 @@
+
+        final MTKCamera this$0;
+
+        public String getPictureFlip()
+        {
+            return get("snapshot-picture-flip");
+        }
+
+        public String getStillBeautify()
+        {
+            return get("fb-smooth-level");
+        }
+
+        public List getSupportedCaptureMode()
+        {
+            return split(get("cap-mode-values"));
+        }
+
+        public List getSupportedFlashModes()
+        {
+            String s = get("flash-mode-values");
+            if (s != null && s.length() != 0)
+                return split("off,on,auto,red-eye,torch");
+            else
+                return null;
+        }
+
+        public List getSupportedFocusModes()
+        {
+            List list = getSupportedFocusModes();
+            list.remove("manual");
+            return list;
+        }
+
+        public List getSupportedIsoValues()
+        {
+            return split(get("iso-speed-values"));
+        }
+
+        public boolean isFrontMirror()
+        {
+            return "1".equals(getPictureFlip());
+        }
+
+        public void set3dnrMode(String s)
+        {
+            set("3dnr-mode", s);
+        }
+
+        public void setAutoExposure(String s)
+        {
+            set("exposure-meter", s);
+        }
+
+        public void setBurstShotNum(int i)
+        {
+            set("burst-num", i);
+        }
+
+        public void setCameraMode(int i)
+        {
+            set("mtk-cam-mode", i);
+        }
+
+        public void setCaptureMode(String s)
+        {
+            set("cap-mode", s);
+        }
+
+        public void setContrast(String s)
+        {
+            set("contrast", s);
+        }
+
+        public void setEnlargeEye(String s)
+        {
+            if ("off".equals(s))
+            {
+                remove("fb-enlarge-eye");
+                return;
+            } else
+            {
+                set("fb-enlarge-eye", s);
+                return;
+            }
+        }
+
+        public void setExtremeBeauty(String s)
+        {
+            set("fb-extreme-beauty", s);
+        }
+
+        public void setFaceBeauty(String s)
+        {
+            set("face-beauty", s);
+        }
+
+        public void setFacePosition(String s)
+        {
+            set("fb-face-pos", s);
+        }
+
+        public void setISOValue(String s)
+        {
+            set("iso-speed", s);
+        }
+
+        public void setPictureFlip(String s)
+        {
+            set("snapshot-picture-flip", s);
+        }
+
+        public void setSaturation(String s)
+        {
+            set("saturation", s);
+        }
+
+        public void setSharpness(String s)
+        {
+            set("edge", s);
+        }
+
+        public void setSkinColor(String s)
+        {
+            if ("off".equals(s))
+            {
+                remove("fb-skin-color");
+                return;
+            } else
+            {
+                set("fb-skin-color", s);
+                return;
+            }
+        }
+
+        public void setSlimFace(String s)
+        {
+            if ("off".equals(s))
+            {
+                remove("fb-slim-face");
+                return;
+            } else
+            {
+                set("fb-slim-face", s);
+                return;
+            }
+        }
+
+        public void setStillBeautify(String s)
+        {
+            set("fb-smooth-level", s);
+        }
+
+        public void setZSLMode(String s)
+        {
+            set("zsd-mode", s);
+        }
