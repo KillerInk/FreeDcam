@@ -120,10 +120,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
         jpegQuality.SetMenuItemListner(this);
 
-        histogram = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHistogram);
+        /*histogram = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHistogram);
         histogram.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_HISTOGRAM);
         histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
-        histogram.SetMenuItemListner(this);
+        histogram.SetMenuItemListner(this);*/
 
         focuspeak = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemFocusPeak);
         focuspeak.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);

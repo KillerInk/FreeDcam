@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
+import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.LongExposureSetting;
 import com.troop.freedcam.camera.parameters.modes.SimpleModeParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -104,6 +105,8 @@ public class MenuCreator
     protected LinearLayout submenu;
 
     protected I_Activity activityV2;
+
+    protected ExpandableChild focuspeak;
 
     public MenuCreator(MenuFragment context, AppSettingsManager appSettingsManager, I_Activity activityV2)
     {
@@ -300,6 +303,9 @@ public class MenuCreator
 
         if (parameterHandler.PreviewFPS != null && parameterHandler.PreviewFPS.IsSupported())
             PreviewFPS.setParameterHolder(parameterHandler.PreviewFPS, cameraUiWrapper.moduleHandler.PictureModules);
+
+        if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported())
+            focuspeak.setParameterHolder(parameterHandler.Focuspeak, cameraUiWrapper.moduleHandler.PictureModules);
         //cameraUiWrapper.moduleHandler.moduleEventHandler.ModuleHasChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
     }
@@ -342,8 +348,11 @@ public class MenuCreator
         piclist.add(contShootModeSpeed);
 
 
-        Histogram = new ExpandAbleChildHistogram(context,group, "Histogram", appSettingsManager,AppSettingsManager.SETTING_HISTOGRAM, activityV2);
-        piclist.add(Histogram);
+        //Histogram = new ExpandAbleChildHistogram(context,group, "Histogram", appSettingsManager,AppSettingsManager.SETTING_HISTOGRAM, activityV2);
+        //piclist.add(Histogram);
+
+        focuspeak = new ExpandableChild(context,group,"Focuspeak", appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
+        piclist.add(focuspeak);
 
         /*if (parameterHandler.AE_Bracket.IsSupported()) {
             ExpandableChild ae_bracket = getNewChild(parameterHandler.AE_Bracket, AppSettingsManager.SETTING_AEBRACKET, context.getString(R.string.picture_aebracket), cameraUiWrapper.moduleHandler.PictureModules);
