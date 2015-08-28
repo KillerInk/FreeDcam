@@ -70,7 +70,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
         }
-        else if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isOnePlusOne())
         {
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
@@ -86,8 +86,9 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (parameters.containsKey("exposure-time"))
+        else if (parameters.containsKey("exposure-time")){
             this.isSupported = true;
+            shutterValues = Z5SShutterValues.split(",");}
         //TODO add missing logic
     }
 
@@ -102,6 +103,10 @@ public class ShutterManualParameter extends BaseManualParameter
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
         else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
             return shutterValues.length-1;
+        else if (DeviceUtils.isOnePlusOne())
+            return shutterValues.length-4;
+        else if (DeviceUtils.isXiaomiMI3W())
+            return shutterValues.length-60;
         else
             return Integer.parseInt(parameters.get("max-exposure-time"));
     }
@@ -112,6 +117,8 @@ public class ShutterManualParameter extends BaseManualParameter
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (DeviceUtils.isLG_G3())
             return Integer.parseInt(parameters.get("min-exposure-time"));
+        else if(parameters.get("min-exposure-time").equals("200")|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isOnePlusOne())
+            return 10;
         return 0;
     }
 
@@ -148,16 +155,21 @@ public class ShutterManualParameter extends BaseManualParameter
                     parameters.put("slow_shutter_addition", "1");
 
                     baseCameraHolder.SetCameraParameters(parameters);
-                    if(Float.parseFloat(shutterstring) < 1.0)
+                   /* if(Float.parseFloat(shutterstring) < 1.0)
                     {
                         baseCameraHolder.StopPreview();
                         baseCameraHolder.StartPreview();
 
-                    }
+                    } */
                 }
                 else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
                     shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
                     parameters.put("shutter", shutterstring);
+                }
+
+                else if(DeviceUtils.isXiaomiMI3W() || DeviceUtils.isOnePlusOne())
+                {
+                    parameters.put("shutter", FLOATtoSixty4(shutterstring));
                 }
             }
             else {
@@ -168,10 +180,12 @@ public class ShutterManualParameter extends BaseManualParameter
                 if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                     parameters.put("shutter", "-1");
                 // parameters.put("slow_shutter_addition", "0");
-                baseCameraHolder.StopPreview();
-                baseCameraHolder.StartPreview();
+               // baseCameraHolder.StopPreview();
+               // baseCameraHolder.StartPreview();
             }
             Log.e(TAG, shutterstring);
+
+
         }
         else
         {
@@ -193,9 +207,11 @@ public class ShutterManualParameter extends BaseManualParameter
  * 
  */
 
-    public float Float4exif()
+    public String FLOATtoSixty4(String a)
     {
-        return Cur;
+       Float b =  Float.parseFloat(a);
+        float c = b * 1000000;
+        return String.valueOf(c);
     }
 
 
