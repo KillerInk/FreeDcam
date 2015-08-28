@@ -46,8 +46,10 @@ public class UiSettingsChildFormat extends UiSettingsChild
         {
             camera1picFormat = new Camera1picFormat(this.getHandler());
             super.SetParameter(camera1picFormat);
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true")) {
                 cameraUiWrapper.camParametersHandler.SetDngActive(true);
+                valueText.setText("DNG");
+            }
         }
         else {
             camera1picFormat = null;
@@ -92,22 +94,19 @@ public class UiSettingsChildFormat extends UiSettingsChild
         @Override
         public String GetValue()
         {
-            if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PictureFormat == null)
-                return "JPEG";
             if (DeviceUtils.isCamera1DNGSupportedDevice())
             {
-                //String val = appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT);
-                //if (val.equals(""))
-                 String   val = cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
-
-                if (val.contains("bayer") || val.contains("raw"))
-                    return "DNG";
-                else
+                String t = appSettingsManager.getString(AppSettingsManager.SETTING_DNG);
+                if (t.equals("") || t.equals("false"))
+                {
                     return "JPEG";
-
+                }
+                else if (t.equals("true"))
+                    return "DNG";
             }
             else
                 return cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
+            return null;
         }
 
         @Override
