@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+
     <view
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -9,6 +10,7 @@
         android:id="@+id/imageView_PicView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
+
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"

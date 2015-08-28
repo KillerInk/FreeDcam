@@ -40,6 +40,13 @@
             android:layout_toRightOf="@+id/button_play"
             android:layout_marginLeft="5dp" />
 
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/naImage"
+            android:background="@drawable/noimage"
+            android:visibility="gone" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/app_icon_size"
