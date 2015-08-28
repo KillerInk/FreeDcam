@@ -86,15 +86,21 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         else if (mAllocationOut != null)
         {
             Log.d(TAG, "stop focuspeak");
-            final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(map);
-            canvas.drawColor(Color.TRANSPARENT);
-
-            mAllocationOut.copyFrom(map);
-            mAllocationOut.ioSend();
-            map.recycle();
+            clear_preview();
 
         }
+    }
+
+    private void clear_preview()
+    {
+        if ( mAllocationOut == null)
+            return;
+        final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(map);
+        canvas.drawColor(Color.TRANSPARENT);
+        mAllocationOut.copyFrom(map);
+        mAllocationOut.ioSend();
+        map.recycle();
     }
 
     public boolean isEnable() { return  enable;}
@@ -182,6 +188,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
             Log.d(TAG, "SurfaceDestroyed");
+            clear_preview();
             mSurface = null;
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(mSurface);
@@ -208,8 +215,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (enable == false)
+        if (enable == false) {
             return;
+        }
         if (doWork == false)
             return;
         if (data == null)
@@ -258,7 +266,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewOpen(String message)
     {
-
+        clear_preview();
     }
 
     @Override
