@@ -219,7 +219,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
-                return new DngProfile(63, 4208, 3120,true, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,

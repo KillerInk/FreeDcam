@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -113,6 +114,13 @@ public class ScreenSlideActivity extends FragmentActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         HIDENAVBAR();
+        if(isImageDirEmpty())
+        {
+            play.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            ImageView iv = (ImageView)findViewById(R.id.naImage);
+            iv.setVisibility(View.VISIBLE);
+        }
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -224,6 +232,27 @@ public class ScreenSlideActivity extends FragmentActivity {
         HIDENAVBAR();
     }
 
+    private boolean isImageDirEmpty() {
+        File folder = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
+
+        File[] listOfFiles = folder.listFiles();
+        boolean stat = true;
+
+        for (File file : listOfFiles)
+        {
+            if (file.isFile())
+            {
+                if(file.getAbsolutePath().endsWith(".jpg")||file.getAbsolutePath().endsWith(".mp4")||file.getAbsolutePath().endsWith(".dng")) {
+                    stat = false;
+                    break;
+                }
+                         }
+        }
+
+        return stat;
+
+    }
+
     private void loadFilePaths()
     {
         File directory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
@@ -240,12 +269,9 @@ public class ScreenSlideActivity extends FragmentActivity {
                         jpegs.add(f);
                 }
             }
-            else
+            else if(files.equals(null)  || files.length <= 0)
             {
-                play.setVisibility(View.GONE);
-                deleteButton.setVisibility(View.GONE);
-                ImageView iv = (ImageView)findViewById(R.id.naImage);
-                iv.setVisibility(View.VISIBLE);
+
 
             }
             directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
