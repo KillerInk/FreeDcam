@@ -220,7 +220,8 @@
                 app:Description="Choose your favorite theme"
                 app:HeaderText="Theme: "
                 app:ValueText="Test"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginBottom="1dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>
