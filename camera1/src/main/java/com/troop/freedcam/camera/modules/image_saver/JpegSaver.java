@@ -31,6 +31,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     boolean externalSd = false;
 
     final public String fileEnding = ".jpg";
+    boolean awaitpicture = false;
 
     public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSd)
     {
@@ -42,12 +43,16 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     public void TakePicture()
     {
+        awaitpicture = true;
         cameraHolder.TakePicture(null, null, this);
     }
 
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         handler.post(new Runnable() {
             @Override
             public void run() {

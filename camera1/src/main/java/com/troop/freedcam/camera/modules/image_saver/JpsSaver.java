@@ -20,6 +20,9 @@ public class JpsSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         handler.post(new Runnable() {
             @Override
             public void run() {

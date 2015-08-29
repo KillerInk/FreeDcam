@@ -53,6 +53,9 @@ public class DngSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         Log.d(TAG, "Take Picture Callback");
         handler.post(new Runnable() {
             @Override
