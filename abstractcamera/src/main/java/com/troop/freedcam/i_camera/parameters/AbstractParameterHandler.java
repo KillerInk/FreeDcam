@@ -170,7 +170,10 @@ public abstract class AbstractParameterHandler
         setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        this.isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            this.isDngActive = true;
+        else
+            this.isDngActive = false;
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
