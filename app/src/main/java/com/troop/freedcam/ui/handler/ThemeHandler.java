@@ -85,10 +85,6 @@ public class ThemeHandler implements I_ModuleEvent
         transaction.commitAllowingStateLoss();
     }
 
-
-
-
-
     public void SetTheme(String theme)
     {
         GetThemeFragment(true);
@@ -99,8 +95,6 @@ public class ThemeHandler implements I_ModuleEvent
     public String ModuleChanged(String module) {
 
         return null;
-
-
     }
 
 

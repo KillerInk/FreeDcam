@@ -76,14 +76,7 @@
         android:id="@+id/SettingsCover"
         android:visibility="gone" />
 
-    <com.troop.freedcam.ui.handler.HelpOverlayHandler
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/helpoverlay"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="80dp" />
+
 
 
 </RelativeLayout>

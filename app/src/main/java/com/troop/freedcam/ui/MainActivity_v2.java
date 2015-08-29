@@ -52,11 +52,11 @@ import troop.com.imageviewer.ScreenSlideActivity;
 public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy
 {
     protected ViewGroup appViewGroup;
-    protected boolean helpOverlayOpen = false;
+    //protected boolean helpOverlayOpen = false;
     boolean histogramFragmentOpen = false;
     static OrientationHandler orientationHandler;
     int flags;
-    static protected HelpOverlayHandler helpOverlayHandler;
+    //static protected HelpOverlayHandler helpOverlayHandler;
     protected GuideHandler guideHandler;
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
@@ -113,8 +113,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
 
-        helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
-        helpOverlayHandler.appSettingsManager = appSettingsManager;
+        //helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
+        //helpOverlayHandler.appSettingsManager = appSettingsManager;
 
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -246,13 +246,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             public void run() {
                 HIDENAVBAR();
                 createUI();
-                if (!appSettingsManager.getShowHelpOverlay()) {
+                /*if (!appSettingsManager.getShowHelpOverlay()) {
 
                     helpOverlayOpen = false;
                     helpOverlayHandler.setVisibility(View.GONE);
                 } else {
                     helpOverlayOpen = true;
-                }
+                }*/
             }
         });
         runOnUiThread(new Runnable() {
