@@ -38,20 +38,20 @@ public class ThemeHandler implements I_ModuleEvent
     public AbstractFragment GetThemeFragment(boolean infalte)
     {
         String theme = appSettingsManager.GetTheme();
-        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia")) {
-            theme = "Classic";
-            appSettingsManager.SetTheme("Classic");
+        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic")) {
+            theme = "Sample";
+            appSettingsManager.SetTheme("Sample");
         }
         if (infalte)
             DestroyUI();
-        if (theme.equals("Classic"))
+        /*if (theme.equals("Classic"))
         {
             ClassicUi CuiFragment = new ClassicUi();
             CuiFragment.SetStuff(appSettingsManager, activity_v2);
 
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
-        }
+        }*/
         if (theme.equals("Sample"))
         {
             SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
