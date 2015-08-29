@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -238,6 +239,14 @@ public class ScreenSlideActivity extends FragmentActivity {
                     if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
                         jpegs.add(f);
                 }
+            }
+            else
+            {
+                play.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                ImageView iv = (ImageView)findViewById(R.id.naImage);
+                iv.setVisibility(View.VISIBLE);
+
             }
             directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
             files = directory.listFiles();

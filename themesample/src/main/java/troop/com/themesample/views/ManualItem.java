@@ -7,6 +7,9 @@ import android.os.HandlerThread;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     VerticalSeekBar seekBar;
     TextView headerTextView;
     TextView valueTextView;
+
 
     String[] parameterValues;
 
@@ -74,6 +78,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_item, this);
         this.seekBar = (VerticalSeekBar)findViewById(R.id.vertical_seekbar);
+
         seekBar.setOnSeekBarChangeListener(this);
         this.headerTextView = (TextView)findViewById(R.id.textView_mheader);
         this.valueTextView = (TextView)findViewById(R.id.textView_mvalue);
@@ -81,6 +86,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         thread = new HandlerThread("seekbarThread");
         thread.start();
         handler = new Handler(thread.getLooper());
+
+
+
     }
 
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
@@ -112,6 +120,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             onIsSupportedChanged(false);
 
     }
+
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
     {
