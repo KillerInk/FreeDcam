@@ -36,6 +36,9 @@ public class RawSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         Log.d(TAG, "Take Picture CallBack");
         handler.post(new Runnable() {
             @Override
