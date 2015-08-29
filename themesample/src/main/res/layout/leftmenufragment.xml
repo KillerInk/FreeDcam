@@ -87,6 +87,13 @@
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
+            <troop.com.themesample.views.menu.MenuItemTimeLapseFrames
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemTimeLapseFrame"
+
+                android:layout_marginBottom="1dp" />
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="5dp"
