@@ -61,7 +61,7 @@
             android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/share"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
@@ -75,7 +75,7 @@
             android:name="troop.com.imageviewer.ScreenSlideActivity"
             android:label="FreeDCam Viewer"
 
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/freedviwer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
