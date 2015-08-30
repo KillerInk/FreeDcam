@@ -154,9 +154,9 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRaw
 	//P2.focal_len = 3.83f;
 	//P2.iso_speed = 100.0f;
 
-	OUT.android_raw = 1;
+	/*OUT.android_raw = 1;
 	OUT.android_aperture = 2.0f;
-	OUT.android_focal = 3.83f;
+	OUT.android_focal = 3.83f;*/
 
 
 
@@ -302,9 +302,9 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 	LOGD("File opend");
 
 	ret = raw.unpack();
-	LOGD("unpacked img");
+	LOGD("unpacked img %i", ret);
 	ret = raw.dcraw_process();
-	LOGD("processing dcraw");
+	LOGD("processing dcraw %i", ret);
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
 
 	LOGD("processed image, creating bitmap");

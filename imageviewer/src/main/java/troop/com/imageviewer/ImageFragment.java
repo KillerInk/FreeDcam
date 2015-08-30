@@ -43,6 +43,8 @@ public class ImageFragment extends Fragment
     LinearLayout exifinfo;
     MyHistogram myHistogram;
 
+    public WorkeDoneInterface workeDoneInterface;
+
     LinearLayout ll;
 
     private final int animationTime = 500;
@@ -184,7 +186,7 @@ public class ImageFragment extends Fragment
                 filename.post(new Runnable() {
                     @Override
                     public void run() {
-                        filename.setText("File Damaged:" + file.getAbsolutePath());
+                        filename.setText("Failed to load:" + file.getName());
 
                     }
                 });
@@ -192,6 +194,11 @@ public class ImageFragment extends Fragment
         }
         else
             response = null;
+        if (response == null)
+            workeDoneInterface.onWorkDone(false, file);
+        else
+            workeDoneInterface.onWorkDone(true, file);
+
         return response;
     }
 
@@ -205,5 +212,10 @@ public class ImageFragment extends Fragment
     {
         spinner.animate().alpha(0f).setDuration(animationTime).setListener(null);
         imageView.animate().alpha(1f).setDuration(animationTime).setListener(null);
+    }
+
+    interface WorkeDoneInterface
+    {
+        void onWorkDone(boolean success, File file);
     }
 }

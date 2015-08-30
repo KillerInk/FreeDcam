@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,10 +22,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,7 +39,7 @@ import troop.com.views.MyHistogram;
 /**
  * Created by troop on 21.08.2015.
  */
-public class ScreenSlideActivity extends FragmentActivity {
+public class ScreenSlideActivity extends FragmentActivity implements ImageFragment.WorkeDoneInterface {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -81,8 +85,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         this.deleteButton = (Button)findViewById(R.id.button_delete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ScreenSlideActivity.this);
                 builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
@@ -97,13 +100,35 @@ public class ScreenSlideActivity extends FragmentActivity {
             public void onClick(View v) {
                 if (currentFile == null)
                     return;
-                Uri uri = Uri.fromFile(currentFile);
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                if (currentFile.getAbsolutePath().endsWith("mp4"))
-                    i.setDataAndType(uri, "video/*");
+                if (!currentFile.getAbsolutePath().endsWith(".raw")) {
+                    Uri uri = Uri.fromFile(currentFile);
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    if (currentFile.getAbsolutePath().endsWith("mp4"))
+                        i.setDataAndType(uri, "video/*");
+                    else
+                        i.setDataAndType(uri, "image/*");
+                    startActivity(i);
+                }
                 else
-                    i.setDataAndType(uri, "image/*");
-                startActivity(i);
+                {
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            convertRawToDng(currentFile);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadFilePaths();
+                                    mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                                    mPager.setAdapter(mPagerAdapter);
+                                    mPager.setCurrentItem(files.length);
+                                }
+                            });
+                        }
+                    }).start();
+
+                }
             }
         });
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -123,20 +148,39 @@ public class ScreenSlideActivity extends FragmentActivity {
         }
     }
 
+    private void convertRawToDng(File file)
+    {
+        byte[] data = null;
+        try {
+            data = RawToDng.readFile(file);
+            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        RawToDng dng = RawToDng.GetInstance();
+        dng.SetBayerData(data, out);
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        dng.WriteDNG(null);
+        data = null;
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        sendBroadcast(intent);
+    }
+
+
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    int current = mPager.getCurrentItem();
+
                     boolean d = currentFile.delete();
-                    loadFilePaths();
-                    mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-                    mPager.setAdapter(mPagerAdapter);
-                    if (current-1 >= 0 && current-1 <= files.length)
-                        mPager.setCurrentItem(current -1);
-                    else
-                        mPager.setCurrentItem(files.length);
+                    reloadFilesAndSetLastPos();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -145,6 +189,19 @@ public class ScreenSlideActivity extends FragmentActivity {
             }
         }
     };
+
+    private void reloadFilesAndSetLastPos()
+    {
+
+        loadFilePaths();
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        int current = mPager.getCurrentItem();
+        mPager.setAdapter(mPagerAdapter);
+        if (current-1 >= 0 && current-1 <= files.length)
+            mPager.setCurrentItem(current -1);
+        else
+            mPager.setCurrentItem(files.length);
+    }
 
 
     public void HIDENAVBAR()
@@ -176,14 +233,54 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        /*if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem());
-        }
+        }*/
+        finish();
+    }
+
+    @Override
+    public void onWorkDone(final boolean success, final File file)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run()
+            {
+                currentFile = file;
+                if (success) {
+                    if (file.getAbsolutePath().endsWith(".jpg")) {
+                        play.setVisibility(View.GONE);
+                    }
+                    if (file.getAbsolutePath().endsWith(".mp4")) {
+                        play.setText("Play");
+                        play.setVisibility(View.VISIBLE);
+                    }
+                    if (file.getAbsolutePath().endsWith(".dng")) {
+                        play.setText("Open DNG");
+                        play.setVisibility(View.VISIBLE);
+                    }
+                    if (file.getAbsolutePath().endsWith(".raw")) {
+                        play.setText("Convert to DNG");
+                        play.setVisibility(View.VISIBLE);
+                    }
+                }
+                else
+                {
+                    if (file.getAbsolutePath().endsWith(".raw")) {
+                        play.setText("Try Convert to DNG");
+                        play.setVisibility(View.VISIBLE);
+                    }
+                    else
+                        play.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     /**
@@ -199,21 +296,8 @@ public class ScreenSlideActivity extends FragmentActivity {
         public Fragment getItem(int position)
         {
             currentFile = (files[mPager.getCurrentItem()]);
-            if (currentFile.getAbsolutePath().endsWith(".jpg"))
-            {
-                play.setVisibility(View.GONE);
-            }
-            if (currentFile.getAbsolutePath().endsWith(".mp4"))
-            {
-                play.setText("Play");
-                play.setVisibility(View.VISIBLE);
-            }
-            if (currentFile.getAbsolutePath().endsWith(".dng"))
-            {
-                play.setText("Open DNG");
-                play.setVisibility(View.VISIBLE);
-            }
             ImageFragment currentFragment = new ImageFragment();
+            currentFragment.workeDoneInterface = ScreenSlideActivity.this;
             currentFragment.SetFilePath(files[position]);
 
 
@@ -224,6 +308,8 @@ public class ScreenSlideActivity extends FragmentActivity {
         public int getCount() {
             return files.length;
         }
+
+
     }
 
     @Override

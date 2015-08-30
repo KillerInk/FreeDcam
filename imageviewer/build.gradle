@@ -61,4 +61,5 @@ dependencies {
     provided project(':views')
     provided project(':abstractcamera')
     provided project(':camera1')
+    provided project(':androiddng')
 }
