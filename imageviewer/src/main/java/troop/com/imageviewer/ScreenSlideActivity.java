@@ -236,7 +236,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             {
                 for (File f : files)
                 {
-                    if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                    if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")|| f.getAbsolutePath().endsWith(".raw")))
                         jpegs.add(f);
                 }
             }
@@ -252,7 +252,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             files = directory.listFiles();
             for (File f : files)
             {
-                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")))
+                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")|| f.getAbsolutePath().endsWith(".dng")))
                     jpegs.add(f);
             }
         }

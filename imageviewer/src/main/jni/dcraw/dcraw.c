@@ -2174,6 +2174,41 @@ void CLASS kodak_dc120_load_raw()
   maximum = 0xff;
 }
 
+void CLASS android_tight_load_raw()
+{
+  uchar *data, *dp;
+  int bwide, row, col, c;
+
+  bwide = -(-5*raw_width >> 5) << 3;
+  data = (uchar *) malloc (bwide);
+  merror (data, "android_tight_load_raw()");
+  for (row=0; row < raw_height; row++) {
+    if (fread (data, 1, bwide, ifp) < bwide) derror();
+    for (dp=data, col=0; col < raw_width; dp+=5, col+=4)
+      FORC4 RAW(row,col+c) = (dp[c] << 2) | (dp[4] >> (c << 1) & 3);
+  }
+  free (data);
+}
+
+void CLASS android_loose_load_raw()
+{
+  uchar *data, *dp;
+  int bwide, row, col, c;
+  UINT64 bitbuf=0;
+
+  bwide = (raw_width+5)/6 << 3;
+  data = (uchar *) malloc (bwide);
+  merror (data, "android_loose_load_raw()");
+  for (row=0; row < raw_height; row++) {
+    if (fread (data, 1, bwide, ifp) < bwide) derror();
+    for (dp=data, col=0; col < raw_width; dp+=8, col+=6) {
+      FORC(8) bitbuf = (bitbuf << 8) | dp[c^7];
+      FORC(6) RAW(row,col+c) = (bitbuf >> c*10) & 0x3ff;
+    }
+  }
+  free (data);
+}
+
 void CLASS eight_bit_load_raw()
 {
   uchar *pixel;
@@ -7628,6 +7663,23 @@ void CLASS identify()
     { 16157136,3272,2469, 0, 0, 0, 0, 9,0x94,0,0,"AVT","F-810C" },
     { 15980544,3264,2448, 0, 0, 0, 0, 8,0x61,0,1,"AgfaPhoto","DC-833m" },
     {  9631728,2532,1902, 0, 0, 0, 0,96,0x61,0,0,"Alcatel","5035D" },
+          /*android*/
+    { 26023936,4192,3104, 0, 0, 0, 0,96,0x94,0,0,"THL","5000" },
+    { 10223360,2608,1944, 0, 0, 0, 0,96,0x16,0,0,"Sony","IMX" },
+    { 15967488,3264,2446, 0, 0, 0, 0,96,0x16,0,0,"OmniVison","OV8850" },
+    { 16424960,4208,3120, 0, 0, 0, 0, 1,0x16,0,0,"LG","G3 Mipi KK" },
+    { 16224256,4208,3082, 0, 0, 0, 0, 1,0x16,0,0,"LG","G3 Mipi L" },
+    { 17326080,2776,3120, 0, 0, 0, 0, 0,0x16,0,0,"LG","G3 Qcom L" },
+    { 17522688,4212,3120, 0, 0, 0, 0, 1,0x16,0,0,"Sony","IMX 2" },
+    {  5107712,2688,1520, 0, 0, 0, 0, 1,0x61,0,0,"OmniVisi","UltraPixel 1" },
+    {  5382640,2688,1520, 0, 0, 0, 0, 1,0x61,0,0,"OmniVisi","UltraPixel 2" },
+    {  6299648,2592,1944, 0, 0, 0, 0, 1,0x16,0,0,"OmniVisi","OV5648" },
+    {  6721536,2592,1944, 0, 0, 0, 0, 0,0x16,0,0,"OmniVisi","OV5648_1" },
+    { 10782464,3282,2448, 0, 0, 0, 0, 0,0x16,0,0,"HTC","MyTouch 4G Slide" },
+    { 10788864,3282,2448, 0, 0, 0, 0, 0,0x16,0,0,"Xperia","L" },
+    {  6746112,2592,1944, 0, 0, 0, 0, 0,0x16,0,0,"HTC","OneSV" },
+    { 19906560,4608,3456, 0, 0, 0, 0, 1,0x16,0,0,"Gionee","Elife E7" },
+          //android
     {  2868726,1384,1036, 0, 0, 0, 0,64,0x49,0,8,"Baumer","TXG14",1078 },
     {  5298000,2400,1766,12,12,44, 2,40,0x94,0,2,"Canon","PowerShot SD300" },
     {  6553440,2664,1968, 4, 4,44, 4,40,0x94,0,2,"Canon","PowerShot A460" },
@@ -7904,7 +7956,27 @@ void CLASS identify()
 	    load_raw = &CLASS minolta_rd175_load_raw;  break;
 	  case 8:
 	    load_raw = &CLASS eight_bit_load_raw;  break;
-	  case 10: case 12:
+	  case 10:
+        if ((fsize-data_offset)/raw_height*3 >= raw_width*4)
+        {
+          load_raw = &CLASS android_loose_load_raw;
+          four_color_rgb = 1;
+          pre_mul[0] = 1.948243;
+          pre_mul[1] = 1;
+          pre_mul[2] = 1.463342;
+          pre_mul[3] = 1;
+          simple_coeff(4);
+        } else if (load_flags & 1)
+        {
+          // i Broke code here when i inserted Coef for android so Qcom Ideal will not work mipi should work fine
+          load_raw = &CLASS android_tight_load_raw;
+          if(fsize == 16424960 || fsize == 16224256)
+            black = 64;
+          four_color_rgb = 1;
+          simple_coeff(4);
+        }
+        break;
+      case 12:
 	    load_flags |= 128;
 	    load_raw = &CLASS packed_load_raw;     break;
 	  case 16:

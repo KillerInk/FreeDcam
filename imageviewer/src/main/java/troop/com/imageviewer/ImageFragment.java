@@ -111,6 +111,11 @@ public class ImageFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             myHistogram.setVisibility(View.VISIBLE);
         }
+        if (file.getAbsolutePath().endsWith(".raw"))
+        {
+            exifinfo.setVisibility(View.GONE);
+            myHistogram.setVisibility(View.VISIBLE);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -164,7 +169,7 @@ public class ImageFragment extends Fragment
         }
         else if (file.getAbsolutePath().endsWith(".mp4"))
             response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-        else if (file.getAbsolutePath().endsWith(".dng"))
+        else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw"))
         {
             try {
 
