@@ -1,5 +1,5 @@
 /* 
-  Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+  Copyright 2008-2015 LibRaw LLC (info@libraw.org)
 
 LibRaw is free software; you can redistribute it and/or modify
 it under the terms of the one of three licenses as you choose:
@@ -27,7 +27,8 @@ it under the terms of the one of three licenses as you choose:
 #ifndef USE_JASPER
 #define NO_JASPER
 #endif
-#define DCRAW_VERSION "9.19"
+#define DCRAW_VERSION "9.25"
+
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
@@ -109,6 +110,8 @@ typedef unsigned long long UINT64;
 #define ULIM(x,y,z) ((y) < (z) ? LIM(x,y,z) : LIM(x,z,y))
 #define CLIP(x) LIM(x,0,65535)
 #define SWAP(a,b) { a=a+b; b=a-b; a=a-b; }
+
+#define my_swap(type, i, j) {type t = i; i = j; j = t;}
 
 /*
    In order to inline this calculation, I make the risky
