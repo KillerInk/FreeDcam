@@ -15,3 +15,5 @@ imageviewer/libs/armeabi*
 *.iml
 imageconverter/libs/armeabi/libimageconverter.so
 imageconverter/libs/armeabi-v7a/libimageconverter.so
+imageconverter/libs/armeabi/*
+imageconverter/libs/armeabi-v7a/*
