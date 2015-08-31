@@ -98,9 +98,10 @@ public class ImageFragment extends Fragment
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity.getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
+
 
             }
         });
@@ -145,45 +146,53 @@ public class ImageFragment extends Fragment
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        spinner.post(new Runnable() {
-            @Override
-            public void run() {
-                fadeout();
-                spinner.setVisibility(View.VISIBLE);
-            }
-        });
+        if (file != null) {
+            spinner.post(new Runnable() {
+                @Override
+                public void run() {
+                    fadeout();
+                    spinner.setVisibility(View.VISIBLE);
+                }
+            });
 
-        filename.setText(file.getName());
-        if (file.getAbsolutePath().endsWith(".jpg"))
-        {
-            processJpeg(file);
-            exifinfo.setVisibility(View.VISIBLE);
-            myHistogram.setVisibility(View.VISIBLE);
+            filename.setText(file.getName());
+            if (file.getAbsolutePath().endsWith(".jpg")) {
+                processJpeg(file);
+                exifinfo.setVisibility(View.VISIBLE);
+                myHistogram.setVisibility(View.VISIBLE);
+            }
+            if (file.getAbsolutePath().endsWith(".mp4")) {
+                exifinfo.setVisibility(View.GONE);
+                myHistogram.setVisibility(View.GONE);
+
+            }
+            if (file.getAbsolutePath().endsWith(".dng")) {
+                exifinfo.setVisibility(View.GONE);
+                myHistogram.setVisibility(View.VISIBLE);
+            }
+            if (file.getAbsolutePath().endsWith(".raw")) {
+                exifinfo.setVisibility(View.GONE);
+                myHistogram.setVisibility(View.VISIBLE);
+            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    loadImage();
+                }
+            }).start();
         }
-        if (file.getAbsolutePath().endsWith(".mp4"))
+        else
         {
-            exifinfo.setVisibility(View.GONE);
+            filename.setText("No Files");
+            spinner.setVisibility(View.GONE);
             myHistogram.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            play.setVisibility(View.GONE);
+        }
 
-        }
-        if (file.getAbsolutePath().endsWith(".dng"))
-        {
-            exifinfo.setVisibility(View.GONE);
-            myHistogram.setVisibility(View.VISIBLE);
-        }
-        if (file.getAbsolutePath().endsWith(".raw"))
-        {
-            exifinfo.setVisibility(View.GONE);
-            myHistogram.setVisibility(View.VISIBLE);
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                loadImage();
-            }
-        }).start();
     }
 
     private void processJpeg(final File file)

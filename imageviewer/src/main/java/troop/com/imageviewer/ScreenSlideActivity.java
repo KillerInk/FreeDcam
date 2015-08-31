@@ -68,10 +68,15 @@ public class ScreenSlideActivity extends FragmentActivity {
         setContentView(R.layout.screenslide_activity);
         loadFilePaths();
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(files.length);
+
+            mPager = (ViewPager) findViewById(R.id.pager);
+            mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+            mPager.setAdapter(mPagerAdapter);
+        if (files != null) {
+            mPager.setCurrentItem(files.length);
+        }
+        else
+            mPager.setCurrentItem(0);
 
         this.closeButton = (Button)findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +106,8 @@ public class ScreenSlideActivity extends FragmentActivity {
     {
 
         loadFilePaths();
+        if (files == null)
+            return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         int current = mPager.getCurrentItem();
         mPager.setAdapter(mPagerAdapter);
@@ -113,6 +120,8 @@ public class ScreenSlideActivity extends FragmentActivity {
     public void ReloadFilesAndSetLast()
     {
         loadFilePaths();
+        if (files == null)
+            return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(files.length);
@@ -136,35 +145,18 @@ public class ScreenSlideActivity extends FragmentActivity {
                     if (visibility > 0) {
                         if (Build.VERSION.SDK_INT >= 16)
                             getWindow().getDecorView().setSystemUiVisibility(flags);
-
                     }
                 }
             });
-            //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            //imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
-
         }
     }
 
     @Override
     public void onBackPressed() {
-        /*if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem());
-        }*/
         finish();
     }
 
 
-
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -173,18 +165,30 @@ public class ScreenSlideActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position)
         {
-            currentFile = (files[mPager.getCurrentItem()]);
-            ImageFragment currentFragment = new ImageFragment();
-            currentFragment.activity = ScreenSlideActivity.this;
-            currentFragment.SetFilePath(files[position]);
+            if (files == null)
+            {
+                ImageFragment currentFragment = new ImageFragment();
+                currentFragment.activity = ScreenSlideActivity.this;
+                currentFragment.SetFilePath(null);
+                return currentFragment;
+            }
+            else {
+                currentFile = (files[mPager.getCurrentItem()]);
+                ImageFragment currentFragment = new ImageFragment();
+                currentFragment.activity = ScreenSlideActivity.this;
+                currentFragment.SetFilePath(files[position]);
 
 
-            return currentFragment;
+                return currentFragment;
+            }
         }
 
         @Override
-        public int getCount() {
-            return files.length;
+        public int getCount()
+        {
+            if(files != null)
+                return files.length;
+            else return 1;
         }
 
 
@@ -196,26 +200,13 @@ public class ScreenSlideActivity extends FragmentActivity {
         HIDENAVBAR();
     }
 
-    private boolean isImageDirEmpty() {
-        File folder = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-
-        File[] listOfFiles = folder.listFiles();
-        boolean stat = true;
-
-        for (File file : listOfFiles)
-        {
-            if (file.isFile())
-            {
-                if(file.getAbsolutePath().endsWith(".jpg")||file.getAbsolutePath().endsWith(".mp4")||file.getAbsolutePath().endsWith(".dng")) {
-                    stat = false;
-                    break;
-                }
-                         }
-        }
-
-        return stat;
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus)
+            HIDENAVBAR();
     }
+
 
     private void loadFilePaths()
     {
@@ -224,7 +215,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         List<File> jpegs = new ArrayList<File>();
 
         try {
-
+            //read internal sd
             if(files != null || files.length > 0)
             {
                 for (File f : files)
@@ -233,11 +224,7 @@ public class ScreenSlideActivity extends FragmentActivity {
                         jpegs.add(f);
                 }
             }
-            else if(files.equals(null)  || files.length <= 0)
-            {
-
-
-            }
+            //read external sd
             directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
             files = directory.listFiles();
             for (File f : files)
@@ -247,11 +234,14 @@ public class ScreenSlideActivity extends FragmentActivity {
             }
         }
         catch (Exception ex){}
-        files = jpegs.toArray(new File[jpegs.size()]);
-        Arrays.sort(files, new Comparator<File>() {
-            public int compare(File f1, File f2) {
-                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-            }
-        });
+        if (jpegs.size() > 0) {
+            files = jpegs.toArray(new File[jpegs.size()]);
+            Arrays.sort(files, new Comparator<File>() {
+                public int compare(File f1, File f2) {
+                    return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                }
+            });
+        }
+        else files = null;
     }
 }
