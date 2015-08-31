@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -20,11 +21,13 @@ public class SkintoneManualPrameter extends BaseManualParameter {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         try
         {
-            final String skin = parameters.get("skinToneEnhancement");
+            /*final String skin = parameters.get("skinToneEnhancement");
             if (skin != null && !skin.equals("")) {
                 this.isSupported = true;
                 this.value = "skinToneEnhancement";
-            }
+            }*/
+            if (DeviceUtils.isZTEADV())
+                this.isSupported = true;
         }
         catch (Exception ex)
         {
