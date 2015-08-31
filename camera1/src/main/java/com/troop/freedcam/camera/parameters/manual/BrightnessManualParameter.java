@@ -16,7 +16,7 @@ public class BrightnessManualParameter extends BaseManualParameter
     public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (parameters.get("brightness").contains("middle"))
+        if (parameters.containsKey("brightness") && parameters.get("brightness").contains("middle"))
             this.value = "brightness_value";
         else
             this.value = "brightness";
