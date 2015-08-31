@@ -14,6 +14,11 @@ public class SaturationManualParameter extends BaseManualParameter
         this.value = "saturation";
         if (hasSupport())
         {
+            if (parameters.containsKey("saturation-value") && parameters.get("saturation-values").contains("middle"))
+            {
+                this.isSupported = false;
+                return;
+            }
             int max = 0;
             try {
                 max = Integer.parseInt(parameters.get("max-saturation"));
