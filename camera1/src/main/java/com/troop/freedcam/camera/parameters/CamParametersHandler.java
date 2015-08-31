@@ -297,28 +297,29 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
     //rawsave-mode=2
-    public void setTHL5000Raw(boolean raw)
+    //rawfname=/storage/emulated/0/DCIM/CameraEM/Capture20150830-234030ISOAuto.raw;rawsave-mode=2
+    //rawsave-mode=2;
+    public void setMTKRaw(boolean raw)
     {
-        cameraHolder.StopPreview();
-        Log.d(TAG, "THL5000 try to set mode");
+        Log.d(TAG, "MTK try to set mode");
         if (!raw) {
             cameraParameters.put("rawsave-mode", 0+"");
             cameraParameters.put("isp-mode", 0+"");
-            Log.d(TAG, "THL5000 set mode to jpeg");
+            Log.e(TAG, "MTK set mode to jpeg");
         }
         else
         {
             cameraParameters.put("rawsave-mode", 2+"");
-            cameraParameters.put("isp-mode", 0+"");
-            Log.d(TAG, "THL5000 set mode to RAW");
+            cameraParameters.put("isp-mode", 1+"");
+            Log.e(TAG, "MTK set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
-        cameraHolder.StartPreview();
     }
 
     //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;
-    public void setTHL5000rawFilename(String filename)
+    public void setMTKrawFilename(String filename)
     {
+        Log.e(TAG, "MTK set rawfname" + filename);
         cameraParameters.put("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
     }

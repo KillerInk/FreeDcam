@@ -133,7 +133,7 @@ public class DeviceUtils
         return s.contains("C66") || s.contains("C69") || s.contains("C65") || s.contains("C64") || s.contains("D65")|| s.contains("D66");
     }
 
-    static String MTK = "P6Life,thl 5000,Philips W8555";
+    static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
     public static boolean isMediaTekDevice()
     {
         return MTK.contains(Build.MODEL);
