@@ -1,15 +1,21 @@
 package troop.com.imageviewer;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,8 +27,10 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.ortiz.touch.TouchImageView;
+import com.troop.androiddng.RawToDng;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import troop.com.views.MyHistogram;
@@ -42,8 +50,11 @@ public class ImageFragment extends Fragment
     TextView filename;
     LinearLayout exifinfo;
     MyHistogram myHistogram;
+    Button play;
 
-    public WorkeDoneInterface workeDoneInterface;
+    Button deleteButton;
+
+    public ScreenSlideActivity activity;
 
     LinearLayout ll;
 
@@ -81,6 +92,55 @@ public class ImageFragment extends Fragment
         fnumber = (TextView)view.findViewById(R.id.textView_fnumber);
         fnumber.setText("");
         filename = (TextView)view.findViewById(R.id.textView_filename);
+
+
+        this.deleteButton = (Button)view.findViewById(R.id.button_delete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity.getApplicationContext());
+                builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+
+            }
+        });
+
+        this.play = (Button)view.findViewById(R.id.button_play);
+        play.setVisibility(View.GONE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (file == null)
+                    return;
+                if (!file.getAbsolutePath().endsWith(".raw")) {
+                    Uri uri = Uri.fromFile(file);
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    if (file.getAbsolutePath().endsWith("mp4"))
+                        i.setDataAndType(uri, "video/*");
+                    else
+                        i.setDataAndType(uri, "image/*");
+                    startActivity(i);
+                }
+                else
+                {
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            convertRawToDng(file);
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    activity.ReloadFilesAndSetLast();
+                                }
+                            });
+                        }
+                    }).start();
+
+                }
+            }
+        });
+
         return view;
     }
 
@@ -195,9 +255,9 @@ public class ImageFragment extends Fragment
         else
             response = null;
         if (response == null)
-            workeDoneInterface.onWorkDone(false, file);
+            workDone.onWorkDone(false, file);
         else
-            workeDoneInterface.onWorkDone(true, file);
+            workDone.onWorkDone(true, file);
 
         return response;
     }
@@ -218,4 +278,83 @@ public class ImageFragment extends Fragment
     {
         void onWorkDone(boolean success, File file);
     }
+
+    WorkeDoneInterface workDone = new WorkeDoneInterface() {
+        @Override
+        public void onWorkDone(final boolean success, final File file)
+        {
+            play.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (success) {
+                        if (file.getAbsolutePath().endsWith(".jpg")) {
+                            play.setVisibility(View.GONE);
+                        }
+                        if (file.getAbsolutePath().endsWith(".mp4")) {
+                            play.setText("Play");
+                            play.setVisibility(View.VISIBLE);
+                        }
+                        if (file.getAbsolutePath().endsWith(".dng")) {
+                            play.setText("Open DNG");
+                            play.setVisibility(View.VISIBLE);
+                        }
+                        if (file.getAbsolutePath().endsWith(".raw")) {
+                            play.setText("Convert to DNG");
+                            play.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (file.getAbsolutePath().endsWith(".raw")) {
+                            play.setText("Try Convert to DNG");
+                            play.setVisibility(View.VISIBLE);
+                        } else
+                            play.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+        }
+    };
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+
+                    boolean d = file.delete();
+                    activity.reloadFilesAndSetLastPos();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    private void convertRawToDng(File file)
+    {
+        byte[] data = null;
+        try {
+            data = RawToDng.readFile(file);
+            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        RawToDng dng = RawToDng.GetInstance();
+        dng.SetBayerData(data, out);
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        dng.WriteDNG(null);
+        data = null;
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        activity.sendBroadcast(intent);
+    }
+
+
 }

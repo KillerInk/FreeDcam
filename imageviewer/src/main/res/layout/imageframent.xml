@@ -92,5 +92,29 @@
             android:layout_gravity="center_horizontal"
             android:autoText="true" />
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="Play"
+            android:id="@+id/button_play"
+            android:layout_alignParentBottom="false"
+            android:textSize="10dp"
+            android:layout_alignParentLeft="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="Delete"
+            android:id="@+id/button_delete"
+            android:layout_alignParentBottom="false"
+            android:textSize="10dp"
+            android:layout_alignParentLeft="false"
+            android:layout_toRightOf="@+id/button_play"
+            android:layout_marginLeft="5dp" />
+    </RelativeLayout>
 
 </RelativeLayout>
