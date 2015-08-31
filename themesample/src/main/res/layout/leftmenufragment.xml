@@ -18,7 +18,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Picture"
+                android:text="@string/setting_picture_group_header"
                 android:id="@+id/textView4"
                 android:textColor="#ffffffff"
                 android:background="#9c808080"
@@ -28,8 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemBayerFormat"
-                app:Description="Sensor raw format mode to be encoded as DNG"
-                app:HeaderText="Bayer Format: "
+                app:Description="@string/setting_bayerformat_description"
+                app:HeaderText="@string/setting_bayerformat_header"
                 app:ValueText="bayer-mipi"
                 android:layout_marginBottom="1dp" />
 
@@ -37,8 +37,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemJpegQuality"
-                app:Description="Quality Value in % "
-                app:HeaderText="JPEG Quality: "
+                app:Description="@string/setting_jpegquality_description"
+                app:HeaderText="@string/setting_jpegquality_header"
                 app:ValueText="80"
                 android:layout_marginBottom="1dp" />
 
@@ -46,8 +46,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemPicSize"
-                app:Description="Picture Size for JPEG"
-                app:HeaderText="Size: "
+                app:Description="@string/setting_picturesize_description"
+                app:HeaderText="@string/setting_picturesize_header"
                 app:ValueText="1920x1080"
                 android:layout_marginBottom="1dp" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Video"
+                android:text="@string/setting_video_group_header"
                 android:textColor="#ffffffff"
                 android:background="#9c808080"
                 android:layout_marginBottom="1dp" />
@@ -73,8 +73,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemVideoProfile"
-                app:Description="Media Profile used VideoRecording"
-                app:HeaderText="Video Profile: "
+                app:Description="@string/setting_videoprofile_description"
+                app:HeaderText="@string/setting_videoprofile_header"
                 app:ValueText="1080p"
                 android:layout_marginBottom="1dp" />
 
@@ -82,8 +82,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemVideHDR"
-                app:Description="turn on to enable hdr video"
-                app:HeaderText="Video HDR: "
+                app:Description="@string/setting_videohdr_description"
+                app:HeaderText="@string/setting_videohdr_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">themesample</string>
+    <string name="setting_picture_group_header">Picture</string>
+    <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
+    <string name="setting_bayerformat_header">Bayer Format:</string>
+    <string name="setting_jpegquality_description">Quality Value in % </string>
+    <string name="setting_jpegquality_header">JPEG Quality: </string>
+    <string name="setting_picturesize_description">Picture Size for JPEG</string>
+    <string name="setting_picturesize_header">Size: </string>
+
+    <string name="setting_video_group_header">Video</string>
+    <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
+    <string name="setting_videoprofile_header">Video Profile: </string>
+    <string name="setting_videohdr_description">turn on to enable hdr video</string>
+    <string name="setting_videohdr_header">Video HDR: </string>
 </resources>
