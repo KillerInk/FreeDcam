@@ -117,9 +117,10 @@ public class ShutterManualParameter extends BaseManualParameter
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (DeviceUtils.isLG_G3())
             return Integer.parseInt(parameters.get("min-exposure-time"));
-        else if(parameters.get("min-exposure-time").equals("200")|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isOnePlusOne())
+        else if(parameters.containsKey("min-exposure-time") && parameters.get("min-exposure-time").equals("200")|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isOnePlusOne())
             return 10;
-        return 0;
+        else
+            return 0;
     }
 
     @Override
