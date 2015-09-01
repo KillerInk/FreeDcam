@@ -47,9 +47,17 @@ public class UiSettingsChildFormat extends UiSettingsChild
         {
             camera1picFormat = new Camera1picFormat(this.getHandler());
             super.SetParameter(camera1picFormat);
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true")) {
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            {
                 cameraUiWrapper.camParametersHandler.SetDngActive(true);
                 valueText.setText("DNG");
+            }
+            else if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("false") &&
+                    (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")||
+                     appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw")))
+            {
+                cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                valueText.setText("RAW");
             }
         }
         else {
@@ -84,7 +92,14 @@ public class UiSettingsChildFormat extends UiSettingsChild
                     cameraUiWrapper.camParametersHandler.PictureFormat.SetValue("jpeg", false);
                     appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
                     appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
-                } else
+                }
+                if (valueToSet.equals("RAW")) {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                    cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT), false);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT));
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
+                }
+                else
                     super.SetValue(valueToSet, setToCamera);
             }
             else
@@ -108,12 +123,15 @@ public class UiSettingsChildFormat extends UiSettingsChild
             if (DeviceUtils.isCamera1DNGSupportedDevice()|| DeviceUtils.isMediaTekDevice())
             {
                 String t = appSettingsManager.getString(AppSettingsManager.SETTING_DNG);
-                if (t.equals("") || t.equals("false"))
+                String format = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+                if ((t.equals("") || t.equals("false")) && !format.contains("bayer") && !format.contains("raw"))
                 {
                     return "JPEG";
                 }
                 else if (t.equals("true"))
                     return "DNG";
+                else if (t.equals("false"))
+                    return "RAW";
             }
             else
                 return cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
@@ -124,7 +142,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
         public String[] GetValues()
         {
             if (DeviceUtils.isCamera1DNGSupportedDevice())
-                return new String[]{"DNG", "JPEG"};
+                return new String[]{"DNG", "JPEG", "RAW"};
             else
                 return cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
         }
