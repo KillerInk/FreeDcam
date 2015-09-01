@@ -20,8 +20,6 @@
         android:layout_alignParentBottom="true">
 
 
-
-
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -30,15 +28,40 @@
             android:visibility="gone" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/button_closeView"
             android:layout_alignParentTop="false"
             android:layout_alignParentRight="true"
-            android:text="Close"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:background="@drawable/ic_exit" />
 
 
     </RelativeLayout>
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/button_play"
+        android:textSize="10dp"
+        android:background="@drawable/ic_play"
+        android:layout_marginLeft="178dp"
+        android:layout_marginStart="178dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="67dp" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/button_delete"
+        android:textSize="10dp"
+        android:background="@drawable/ic_delete"
+        android:layout_marginLeft="105dp"
+        android:layout_marginStart="105dp"
+        android:layout_alignTop="@+id/button_play"
+        android:layout_toRightOf="@+id/button_play"
+        android:layout_toEndOf="@+id/button_play" />
 
 </RelativeLayout>

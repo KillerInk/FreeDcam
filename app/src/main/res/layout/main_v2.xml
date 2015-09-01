@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff000000"
+    android:background="#ff1d1d1d"
     android:keepScreenOn="true"
     android:longClickable="false"
     android:touchscreenBlocksFocus="true"

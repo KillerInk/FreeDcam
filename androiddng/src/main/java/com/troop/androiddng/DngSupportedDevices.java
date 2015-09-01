@@ -231,9 +231,9 @@ public class DngSupportedDevices
                         Matrixes.g3_neutral);*/
             case 6721536: //k910/zte front qcom
                 return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,
-                        Matrixes.nocal_color1,
-                        Matrixes.nocal_color2,
-                        Matrixes.nocal_nutral,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
