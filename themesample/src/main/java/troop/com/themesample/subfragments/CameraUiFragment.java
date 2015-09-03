@@ -134,6 +134,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,null);
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);

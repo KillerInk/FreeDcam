@@ -35,6 +35,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater, container,null);
         view = inflater.inflate(R.layout.guides, container,false);
         img = (ImageView) view.findViewById(R.id.imageViewGyide);
         return view;
