@@ -107,7 +107,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="HDR"
+                android:text="@string/setting_hdr_"
                 android:id="@+id/textView5"
                 android:textColor="#ffffffff"
                 android:background="#9c808080"
@@ -117,8 +117,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemAeBracket"
-                app:Description="If ON the camera takes 3 Images in one Shot"
-                app:HeaderText="AE-Bracket: "
+                app:Description="@string/setting_aebracket_description"
+                app:HeaderText="@string/setting_aebracket_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -135,7 +135,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Freedcam Settings"
+                android:text="@string/setting_freedcam_"
                 android:id="@+id/textView6"
                 android:textColor="#ff000000"
                 android:background="#ffffffff"
@@ -145,8 +145,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemApi"
-                app:Description="Select the Api you want to use"
-                app:HeaderText="Api:"
+                app:Description="@string/setting_api_description"
+                app:HeaderText="@string/setting_api_header"
                 app:ValueText="Camera1"
                 android:layout_marginBottom="1dp" />
 
@@ -154,8 +154,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemExternalShutter"
-                app:Description="The key wich can trigger the shutter from a headset"
-                app:HeaderText="ExternalShutterKey:"
+                app:Description="@string/setting_externalshutter_description"
+                app:HeaderText="@string/setting_externalshutter_header"
                 app:ValueText="Hook"
                 android:layout_marginBottom="1dp" />
 
@@ -163,8 +163,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemGPS"
-                app:Description="LocationInfo for Files"
-                app:HeaderText="Location:"
+                app:Description="@string/setting_location_description"
+                app:HeaderText="@string/setting_location_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -172,8 +172,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemGuide"
-                app:Description="Compositional Guides"
-                app:HeaderText="Guide:"
+                app:Description="@string/setting_guide_description"
+                app:HeaderText="@string/setting_guide_header"
                 app:ValueText="Golden Ratio"
                 android:layout_marginBottom="1dp" />
 
@@ -190,8 +190,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemFocusPeak"
-                app:Description="Enables FocusPeak on the Preview"
-                app:HeaderText="Focuspeak: "
+                app:Description="@string/setting_focuspeak_description"
+                app:HeaderText="@string/setting_focuspeak_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -199,8 +199,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemOrientationHack"
-                app:Description="Rotates the Camera 180° if ON"
-                app:HeaderText="Orientation Correction:"
+                app:Description="@string/setting_orientation_description"
+                app:HeaderText="@string/setting_orientation_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -208,8 +208,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemSDSave"
-                app:Description="File save location"
-                app:HeaderText="SD Card: "
+                app:Description="@string/setting_sdcard_description"
+                app:HeaderText="@string/setting_sdcard_header"
                 app:ValueText="Internal"
                 android:layout_marginBottom="1dp" />
 
@@ -217,8 +217,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTheme"
-                app:Description="Choose your favorite theme"
-                app:HeaderText="Theme: "
+                app:Description="@string/setting_theme_description"
+                app:HeaderText="@string/setting_theme_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
                 android:visibility="gone" />

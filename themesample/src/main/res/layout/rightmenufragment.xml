@@ -18,7 +18,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Legacy Camera Settings"
+                android:text="@string/setting_camera_"
                 android:id="@+id/legcset"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -28,8 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemAntiBanding"
-                app:Description="Reduce flickering on artificial light sources"
-                app:HeaderText="Anti Flicker:"
+                app:Description="@string/setting_antiflicker_description"
+                app:HeaderText="@string/setting_antiflicker_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -37,8 +37,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemColor"
-                app:Description="Color effet style"
-                app:HeaderText="Color Effect: "
+                app:Description="@string/setting_color_description"
+                app:HeaderText="@string/setting_color_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -46,8 +46,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemScene"
-                app:Description="Select the Scene that matches current Scenario"
-                app:HeaderText="Scene: "
+                app:Description="@string/setting_scene_description"
+                app:HeaderText="@string/setting_scene_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -65,7 +65,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Qualcomm Settings"
+                android:text="@string/setting_qcom_"
                 android:id="@+id/textView9"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -75,8 +75,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemCorrelatedDoubleSampling"
-                app:Description="Sensor electrical readout measured twice"
-                app:HeaderText="Correlated double sampling:"
+                app:Description="@string/setting_cds_description"
+                app:HeaderText="@string/setting_cds_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -84,8 +84,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemDigitalImageStab"
-                app:Description="Shifts electronic image to counteract movement"
-                app:HeaderText="Digital image stabilization:"
+                app:Description="@string/setting_dis_description"
+                app:HeaderText="@string/setting_dis_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -93,8 +93,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/MenuItemLensShade"
-            app:Description="Reduces Vignetting on the edges "
-            app:HeaderText="Lens shade:"
+            app:Description="@string/setting_lensshade_description"
+            app:HeaderText="@string/setting_lensshade_header"
             app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -102,8 +102,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemMemoryColorEnhanc"
-                app:Description="Boosts Colors equivelant to adobe vibrance"
-                app:HeaderText="Memory Color Enhacement:"
+                app:Description="@string/setting_mce_description"
+                app:HeaderText="@string/setting_mce_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -111,8 +111,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemRedEye"
-                app:Description="Emits a small pre-flash before the main flash"
-                app:HeaderText="Red-Eye Reduction: "
+                app:Description="@string/setting_redeye_description"
+                app:HeaderText="@string/setting_redeye_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
@@ -120,8 +120,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemSceneDetection"
-                app:Description="Auto Scene Mode Changer"
-                app:HeaderText="SceneDetection:"
+                app:Description="@string/setting_scenedec_description"
+                app:HeaderText="@string/setting_scenedec_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -129,8 +129,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTemporalDenoise"
-                app:Description="Denoise for Video, dont use it with wavelet!"
-                app:HeaderText="Temporal Denoise:"
+                app:Description="@string/setting_temporaldenoise_description"
+                app:HeaderText="@string/setting_temporaldenoise_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -138,8 +138,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemWaveletDenoise"
-                app:Description="Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!"
-                app:HeaderText="Wavelet Denoise:"
+                app:Description="@string/setting_waveletdenoise_description"
+                app:HeaderText="@string/setting_waveletdenoise_header"
                 app:ValueText="Test"
 
                 android:layout_marginBottom="1dp" />
@@ -148,8 +148,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemZSL"
-                app:Description="Buffers Iamges for instant Capture N/A to raw must be off"
-                app:HeaderText="Zero Shutter Lag:"
+                app:Description="@string/setting_zsl_description"
+                app:HeaderText="@string/setting_zsl_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -167,7 +167,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Camera 2 Settings"
+                android:text="@string/setting_camera2_"
                 android:id="@+id/textView8"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -186,8 +186,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemControlMode"
-                app:Description="Controls the Main Camera Functions, turn off for full manual"
-                app:HeaderText="Camera ControlMode:"
+                app:Description="@string/setting_controlmode_description"
+                app:HeaderText="@string/setting_controlmode_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -195,8 +195,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemEdgeMode"
-                app:Description=""
-                app:HeaderText="EdgeMode:"
+                app:Description="@string/setting_edge_description"
+                app:HeaderText="@string/setting_edge_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -204,8 +204,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemHotPixelMode"
-                app:Description=""
-                app:HeaderText="HotPixel Correction:"
+                app:Description="@string/setting_hotpixel_description"
+                app:HeaderText="@string/setting_hotpixel_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -213,8 +213,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTonemap"
-                app:Description=""
-                app:HeaderText="ToneMap:"
+                app:Description="@string/setting_tonemap_description"
+                app:HeaderText="@string/setting_tonemap_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -232,7 +232,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sony QX  Settings"
+                android:text="@string/setting_sonycameraremote_"
                 android:id="@+id/textView7"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -242,8 +242,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemObjectTracking"
-                app:Description="Enable to set Focus on a Object to follow"
-                app:HeaderText="ObjectTracking:"
+                app:Description="@string/setting_objecttrack_description"
+                app:HeaderText="@string/setting_objecttrack_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -251,8 +251,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemPostViewSize"
-                app:Description="Size of the Images transfered from RemoteCam"
-                app:HeaderText="PostViewSize:"
+                app:Description="@string/setting_postview_description"
+                app:HeaderText="@string/setting_postview_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -270,7 +270,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="OMAP Settings"
+                android:text="@string/setting_omap_"
                 android:id="@+id/textView10"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -280,8 +280,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemIpp"
-                app:Description="The quality of the PostProcessing"
-                app:HeaderText="ImagePostProcessing:"
+                app:Description="@string/setting_ipp_description"
+                app:HeaderText="@string/setting_ipp_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -299,7 +299,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="LG Settings"
+                android:text="@string/setting_lg_"
                 android:id="@+id/textView11"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -309,8 +309,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemOIS"
-                app:Description=""
-                app:HeaderText="Optical Image Stabilisation:"
+                app:Description="@string/setting_ois_description"
+                app:HeaderText="@string/setting_ois_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
@@ -328,7 +328,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="HTC Settings"
+                android:text="@string/setting_htc_"
                 android:id="@+id/textView12"
                 android:textColor="@color/menuTextColor"
                 android:background="#9c999999"
@@ -338,8 +338,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemNonManualZSL"
-                app:Description="Turn on to enable ManualControl when ZSL is off"
-                app:HeaderText="ManualControl(ZSL= OFF):"
+                app:Description="@string/setting_nonzsl_description"
+                app:HeaderText="@string/setting_nonzsl_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp" />
 
