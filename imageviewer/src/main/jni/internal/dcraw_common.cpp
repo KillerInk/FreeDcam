@@ -1786,7 +1786,8 @@ void CLASS android_tight_load_raw()
   bwide = -(-5*raw_width >> 5) << 3;
   data = (uchar *) malloc (bwide);
   merror (data, "android_tight_load_raw()");
-  #ifdef LIBRAW_LIBRARY_BUILD
+  __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "ifp: %i ", ifp);
+#ifdef LIBRAW_LIBRARY_BUILD
   try {
 #endif
   for (row=0; row < raw_height; row++) {
@@ -1809,11 +1810,13 @@ void CLASS android_tight_load_raw()
 
 void CLASS android_loose_load_raw()
 {
+  __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "dcraw loose Decoding Droid Raw Has Started ");
   uchar *data, *dp;
   int bwide, row, col, c;
   UINT64 bitbuf=0;
 
   bwide = (raw_width+5)/6 << 3;
+  __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "rowsize: %i ", bwide);
   data = (uchar *) malloc (bwide);
   merror (data, "android_loose_load_raw()");
 #ifdef LIBRAW_LIBRARY_BUILD
@@ -1823,20 +1826,36 @@ void CLASS android_loose_load_raw()
 #ifdef LIBRAW_LIBRARY_BUILD
       checkCancel();
 #endif
-
-    if (fread (data, 1, bwide, ifp) < bwide) derror();
-    for (dp=data, col=0; col < raw_width; dp+=8, col+=6) {
-      FORC(8) bitbuf = (bitbuf << 8) | dp[c^7];
-      FORC(6) RAW(row,col+c) = (bitbuf >> c*10) & 0x3ff;
+      __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "bevor fread ");
+      if (fread (data, 1, bwide, ifp) < bwide) derror();
+      __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "after fread ");
+      for (dp=data, col=0; col < raw_width; dp+=8, col+=6)
+      {
+        __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "forc8 ");
+        FORC(8) bitbuf = (bitbuf << 8) | dp[c^7];
+        __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "forc6 ");
+        //FORC(6) RAW(row,col+c) = (bitbuf >> c*10) & 0x3ff;
+        for(int c =0; c< 6; c++)
+        {
+          __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "forc6 %i",c);
+          //that line kills it on android
+           raw_image[(raw_width*row)+(col+c)] = (bitbuf >> c*10) & 0x3ff;
+        }
+        __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "forc done ");
+      }
     }
-  }
 #ifdef LIBRAW_LIBRARY_BUILD
-  } catch (...){
+  } catch (...)
+  {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "catch error free ");
     free (data);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "catch error free done");
     throw;
   }
 #endif
+  __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "free ");
   free (data);
+  __android_log_print(ANDROID_LOG_DEBUG, TAG_DEBUG, "dcraw loose Decoding Droid Raw Has Ended ");
 }
 
 void CLASS canon_rmf_load_raw()
@@ -7843,7 +7862,7 @@ void CLASS identify()
     { 16224256,4208,3082, 0, 0, 0, 0, 1,0x16,0,0,"LG","G3MipiL" },
     { 16424960,4208,3120, 0, 0, 0, 0, 1,0x16,0,0,"IMX135","MipiL" },
     { 19906560,4608,3456, 0, 0, 0, 0, 1,0x16,0,0,"Gione","E7mipi" },
-    //{ 21233664,4608,3456, 0, 0, 0, 0, 0,0x16,0,0,"Gione","E7qcom" },
+    //{ 21233664,4608,3456, 0, 0, 0, 0, 1,0x16,0,0,"Gione","E7qcom" },
     { 26023936,4192,3104, 0, 0, 0, 0,96,0x94,0,0,"THL","5000" },
     { 10223360,2608,1944, 0, 0, 0, 0,96,0x16,0,0,"Sony","IMX" },
     { 15967488,3264,2446, 0, 0, 0, 0,96,0x16,0,0,"OmniVison","OV8850" },
@@ -7853,8 +7872,8 @@ void CLASS identify()
     //{  6721536,2592,1944, 0, 0, 0, 0, 0,0x16,0,0,"OmniVisi","OV5648_1" },
     //{ 10782464,3282,2448, 0, 0, 0, 0, 0,0x16,0,0,"HTC","MyTouch4GSlide" },
     //{ 10788864,3282,2448, 0, 0, 0, 0, 0,0x16,0,0,"Xperia","L" },
-    //{  6746112,2592,1944, 0, 0, 0, 0, 0,0x16,0,0,"HTC","OneSV" },
-    { 41312256,5248,3936, 0, 0, 0, 0, 0,0x94,0,0,"Meizu","MX4" },
+          //{  6746112,2592,1944, 0, 0, 0, 0, 0,0x16,0,0,"HTC","OneSV" },
+    { 41312256,5248,3936, 0, 0, 0, 0, 96,0x61,0,0,"Meizu","MX4" },
           //android
     {  2868726,1384,1036, 0, 0, 0, 0,64,0x49,0,8,"Baumer","TXG14",1078 },
     {  5298000,2400,1766,12,12,44, 2,40,0x94,0,2,"Canon","PowerShot SD300" },
@@ -8137,18 +8156,17 @@ void CLASS identify()
 	  case  8:
 	    load_raw = &CLASS eight_bit_load_raw;  break;
 	  case 10:
-		  if ((fsize-data_offset)/raw_height*3 >= raw_width*4)
-          {
-            load_raw = &CLASS android_loose_load_raw;
-            //simple_coeff(4);
-            break;
-          } else if (load_flags & 1) {
-            load_raw = &CLASS android_tight_load_raw;
-            //simple_coeff(4);
-            break;
-          }
-
-	  case 12:
+        if ((fsize-data_offset)/raw_height*3 >= raw_width*4)
+        {
+          load_raw = &CLASS android_loose_load_raw;
+          break;
+        } else if (load_flags & 1)
+        {
+          // i Broke code here when i inserted Coef for android so Qcom Ideal will not work mipi should work fine
+          load_raw = &CLASS android_tight_load_raw;
+          break;
+        }
+      case 12:
 	    load_flags |= 128;
 	    load_raw = &CLASS packed_load_raw;     break;
 	  case 16:
