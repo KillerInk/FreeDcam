@@ -113,6 +113,7 @@
             android:id="@+id/wb"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
+            app:HeaderText="@string/uisetting_wb_header"
             />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
@@ -121,7 +122,7 @@
             android:id="@+id/ui_settings_iso"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Iso"/>
+            app:HeaderText="@string/uisetting_iso_header"/>
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
@@ -137,7 +138,7 @@
             android:id="@+id/focus_uisetting"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Focus"/>
+            app:HeaderText="@string/uisetting_focus_header"/>
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
@@ -145,7 +146,7 @@
             android:id="@+id/Ae"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="AE"/>
+            app:HeaderText="@string/uisetting_ae_header"/>
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
@@ -153,21 +154,21 @@
             android:id="@+id/night"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Night"/>
+            app:HeaderText="@string/uisetting_night_header"/>
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/continousShot"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Continous Shoot Mode"/>
+            app:HeaderText="@string/uisetting_continouseshot_header"/>
         <troop.com.themesample.views.uichilds.UiSettingsChildFormat
             android:layout_width="@dimen/uiSettingsWidth"
             android:layout_height="wrap_content"
             android:id="@+id/format"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Format"/>
+            app:HeaderText="@string/uisetting_format_header"/>
 
         <troop.com.themesample.views.uichilds.UiSettingsMenu
             android:layout_width="@dimen/uiSettingsWidth"
@@ -175,7 +176,7 @@
             android:id="@+id/menu"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Settings"/>
+            app:HeaderText="@string/uisetting_settings_header"/>
 
 
     </LinearLayout>
@@ -216,7 +217,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/camera_switch"
-                app:HeaderText="Camera"
+                app:HeaderText="@string/uisetting_camerswitch_header"
                 android:layout_marginBottom="1dp"
                 android:layout_marginRight="2dp"
                 android:layout_alignParentLeft="false"
@@ -236,7 +237,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mode_switch"
-                app:HeaderText="Mode"
+                app:HeaderText="@string/uisetting_mode_header"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="2dp"
@@ -247,7 +248,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/exit"
-                app:HeaderText="Exit"
+                app:HeaderText="@string/uisetting_exit_header"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="2dp"

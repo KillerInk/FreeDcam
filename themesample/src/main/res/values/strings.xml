@@ -96,4 +96,18 @@
     <string name="setting_nonzsl_header">"ManualControl(ZSL= OFF):</string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
+    <!-- cameraui  -->
+    <string name="uisetting_wb_header">WB</string>
+    <string name="uisetting_iso_header">Iso</string>
+    <string name="uisetting_flash_header">Flash</string>
+    <string name="uisetting_focus_header">Focus</string>
+    <string name="uisetting_ae_header">AE</string>
+    <string name="uisetting_night_header">Night</string>
+    <string name="uisetting_continouseshot_header">Continous Shoot</string>
+    <string name="uisetting_format_header">Format</string>
+    <string name="uisetting_settings_header">Settings</string>
+    <string name="uisetting_camerswitch_header">Camera</string>
+    <string name="uisetting_mode_header">Mode</string>
+    <string name="uisetting_exit_header">Exit</string>
+
 </resources>
