@@ -66,6 +66,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
 		if (filename.contains("Meizu_Mx4"))
 			return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
+		if (filename.contains("MTK_THL5000"))
+			return DngSupportedDevices.SupportedDevices.THL5000;
 		return null;
 	}
 	
