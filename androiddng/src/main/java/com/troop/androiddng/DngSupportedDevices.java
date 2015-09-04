@@ -383,6 +383,34 @@ public class DngSupportedDevices
         return null;
     }
 
+    private DngProfile getOnePlusOneProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 17522688: //qcom
+                return new DngProfile(64, 4212, 3082,false, RGGb, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 16424960: //mipi
+                return new DngProfile(64, 4212, 3082,true, RGGb, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+        }
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (device) {
@@ -429,15 +457,7 @@ public class DngSupportedDevices
             case HTC_One_m8:
                 return getHTCM8Profile(filesize);
             case OnePlusOne:
-                return new DngProfile(0, 4212, 3082,false, RGGb, getG3_rowSizeL,
-                        Matrixes.Nex6CCM1,
-                        Matrixes.Nex6CCM2,
-                        Matrixes.Nex6NM,
-                        Matrixes.Nexus6_foward_matrix1,
-                        Matrixes.Nexus6_foward_matrix2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.Nexus6_noise_3x1_matrix);
+                return getOnePlusOneProfile(filesize);
             case yureka:
                 return new DngProfile(0, 4212, 3082,false, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
