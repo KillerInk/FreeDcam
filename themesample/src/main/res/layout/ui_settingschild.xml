@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:background="#ffffff"
@@ -24,8 +24,15 @@
             android:textColor="@color/uiSettingsTextColor"
             android:layout_marginTop="4dp"
             android:textSize="10dip"
-            android:nestedScrollingEnabled="false"
-            android:singleLine="true" />
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +43,15 @@
             android:textColor="@color/uiSettingsTextColor"
             android:textSize="8dip"
             android:layout_marginBottom="4dp"
-            android:singleLine="true" />
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"/>
     </LinearLayout>
 
 </LinearLayout>

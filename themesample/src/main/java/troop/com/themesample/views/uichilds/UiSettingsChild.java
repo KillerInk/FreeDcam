@@ -2,6 +2,7 @@ package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,7 +85,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
         headerText = (TextView)findViewById(R.id.textView);
+        headerText.setSelected(true);
         valueText = (TextView)findViewById(R.id.textView2);
+        valueText.setSelected(true);
         this.setOnClickListener(this);
 
     }
