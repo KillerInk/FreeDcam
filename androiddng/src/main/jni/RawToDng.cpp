@@ -58,7 +58,7 @@ extern "C"
     	jstring bayerformat,
     	jint rowSize,
     	jstring devicename,
-    	jboolean tight,
+    	jint tight,
     	jint width,
     	jint height);
 }
@@ -98,7 +98,7 @@ public:
     float *reductionMatrix2;
     float *noiseMatrix;
     char* bayerformat;
-    bool tightRaw;
+    int rawType;
     long rawSize;
 
 
@@ -224,14 +224,14 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
 	jstring bayerformat,
 	jint rowSize,
 	jstring devicename,
-	jboolean tight,
+	jint tight,
 	jint width,
 	jint height)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
 
     writer->blacklevel = new float[4] {blacklevel, blacklevel, blacklevel,blacklevel};
-    writer->tightRaw = tight;
+    writer->rawType = tight;
     writer->rowSize =rowSize;
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
@@ -619,36 +619,23 @@ void processLoose(TIFF *tif,DngWriter *writer)
 void processSXXX16(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
-    int i, j, row, col, b;
-    unsigned char *buffer;
+    int i, j, row, col, b, nextlog;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht *(sizeof(unsigned short)));
-    buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
+    unsigned short pixel[writer->rawwidht];
     j=0;
 	for (row=0; row < writer->rawheight; row ++)
 	{
-		i = 0;
-		for(b = row * writer->rowSize; b < (row * writer->rowSize) + writer->rowSize; b++)
-			buffer[i++] = writer->bayerBytes[b];
-		// offset into buffer
-		j = 0;
-		for (col = 0; col < writer->rawwidht; col+= 4)
+        nextlog = 0;
+		for (col = 0; col < writer->rawwidht; col+=4)
 		{ // iterate over pixel columns
-            a = buffer[j++];
-            unsigned short b = buffer[j++];
-			pixel[col+0] = b << 8 | a ;
-
-			unsigned short c = buffer[j++];
-            unsigned short d = buffer[j++];
-			pixel[col+1] = d << 8 | c ;
-
-			unsigned short EvenHI = buffer[j++];
-            unsigned short OddLow = buffer[j++];
-            pixel[col+2] = OddLow << 8 | EvenHI ;
-
-			unsigned short g = buffer[j++];
-            unsigned short h = buffer[j++];
-			pixel[col+3] = h << 8 | g ;
+            for (int k = 0; k < 4; ++k)
+            {
+                unsigned short low = writer->bayerBytes[j++];
+                unsigned short high =   writer->bayerBytes[j++];
+                pixel[col+k] =  high << 8 |low;
+                if(col < 4 && row < 4)
+                    LOGD("Pixel : %i, high: %i low: %i ", pixel[col+k], high, low);
+            }
 		}
 		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
@@ -680,18 +667,20 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-    if(writer->tightRaw == true)
+    if(writer->rawType == 0)
     {
         LOGD("Processing tight RAW data...");
         processTight(tif, writer);
         LOGD("Done tight RAW data...");
     }
-    else
+    else if (writer->rawType == 1)
     {
         LOGD("Processing loose RAW data...");
         processLoose(tif, writer);
         LOGD("Done loose RAW data...");
     }
+    else if (writer->rawType == 2)
+        processSXXX16(tif,writer);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)

@@ -28,6 +28,7 @@ public class DngSupportedDevices
         zteAdv,
         Xiaomi_Redmi_Note,
         Xiaomi_mi3,
+        Meizu_Mx4,
 
     }
 
@@ -487,6 +488,16 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
             case Xiaomi_mi3:
                 return getXiamoi_mi3WProfile(filesize);
+            case Meizu_Mx4:
+                return new DngProfile(64,5248, 3936,Plain, BGGR, 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
         }
         return null;
     }

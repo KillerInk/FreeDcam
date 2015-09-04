@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
 		if (filename.toLowerCase().contains("xiaomi_mi3w"))
 			return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
+		if (filename.contains("Meizu_Mx4"))
+			return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
 		return null;
 	}
 	
