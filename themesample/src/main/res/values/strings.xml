@@ -1,11 +1,11 @@
 <resources>
     <!-- leftmenufragment  -->
     <string name="app_name">themesample</string>
-    <string name="setting_picture_group_header">Picture</string>
+    <string name="setting_picture_group_header">Picture Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format:</string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
-    <string name="setting_jpegquality_header">JPEG Quality: </string>
+    <string name="setting_jpegquality_header">JPEG Compression:</string>
     <string name="setting_picturesize_description">Picture Size for JPEG</string>
     <string name="setting_picturesize_header">Size: </string>
 
@@ -59,7 +59,7 @@
     <string name="setting_redeye_description">Emits a small pre-flash before the main flash</string>
     <string name="setting_scenedec_header">SceneDetection:</string>
     <string name="setting_scenedec_description">Auto Scene Mode Changer</string>
-    <string name="setting_temporaldenoise_header">"Temporal Denoise:</string>
+    <string name="setting_temporaldenoise_header">Temporal Denoise:</string>
     <string name="setting_temporaldenoise_description">Denoise for Video, dont use it with wavelet!</string>
     <string name="setting_waveletdenoise_header">Wavelet Denoise:</string>
     <string name="setting_waveletdenoise_description">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
@@ -71,29 +71,29 @@
     <string name="setting_colorcorrection_description">Change this to manual or auto</string>
     <string name="setting_controlmode_header">Camera Control: </string>
     <string name="setting_controlmode_description">Controls the Main Camera Functions, turn off for full manual</string>
-    <string name="setting_edge_header">"EdgeMode:</string>
+    <string name="setting_edge_header">EdgeMode:</string>
     <string name="setting_edge_description"></string>
-    <string name="setting_hotpixel_header">"HotPixel Correction:</string>
+    <string name="setting_hotpixel_header">HotPixel Correction:</string>
     <string name="setting_hotpixel_description"></string>
-    <string name="setting_tonemap_header">"Tonemap:</string>
+    <string name="setting_tonemap_header">Tonemap:</string>
     <string name="setting_tonemap_description"></string>
 
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
-    <string name="setting_objecttrack_header">"ObjectTracking:</string>
+    <string name="setting_objecttrack_header">ObjectTracking:</string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
-    <string name="setting_postview_header">"PostViewSize:</string>
+    <string name="setting_postview_header">PostViewSize:</string>
     <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
 
     <string name="setting_omap_">OMAP Settings</string>
-    <string name="setting_ipp_header">"ImagePostProcessing</string>
+    <string name="setting_ipp_header">ImagePostProcessing</string>
     <string name="setting_ipp_description">The quality of the PostProcessing</string>
 
     <string name="setting_lg_">LG Settings</string>
-    <string name="setting_ois_header">"Optical Image Stabilisation:</string>
+    <string name="setting_ois_header">Optical Image Stabilisation:</string>
     <string name="setting_ois_description"></string>
 
     <string name="setting_htc_">HTC Settings</string>
-    <string name="setting_nonzsl_header">"ManualControl(ZSL= OFF):</string>
+    <string name="setting_nonzsl_header">ManualControl(ZSL= OFF):</string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
     <!-- cameraui  -->
