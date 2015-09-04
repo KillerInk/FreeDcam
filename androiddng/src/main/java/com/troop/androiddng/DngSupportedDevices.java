@@ -7,6 +7,11 @@ import com.troop.freedcam.utils.DeviceUtils;
  */
 public class DngSupportedDevices
 {
+
+    public final static int Mipi = 0;
+    public final static int Qcom = 1;
+    public final static int Plain = 2;
+
     public enum SupportedDevices
     {
         LG_G3,
@@ -54,7 +59,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17326080://qcom g3
-                profile= new DngProfile(64, 4164, 3120,false, BGGR, getG3_rowSizeL,
+                profile= new DngProfile(64, 4164, 3120,Qcom, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -65,7 +70,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
                 break;
             case 17522688://QCOM
-                profile = new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL,
+                profile = new DngProfile(64, 4212, 3082,Qcom, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -76,7 +81,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
                 break;
             case 16224256:
-                profile = new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,
+                profile = new DngProfile(64, 4208, 3082,Mipi, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -87,7 +92,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
                 break;
             case 16424960:
-                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,
+                return new DngProfile(64, 4208, 3120,Mipi, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -97,7 +102,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 2658304: //g3 front mipi
-                profile = new DngProfile(64,1212 ,1096 ,true, BGGR, 2424,
+                profile = new DngProfile(64,1212 ,1096 ,Mipi, BGGR, 2424,
                         Matrixes.G3Device.CC_A_FRONT,
                         Matrixes.G3Device.CC_D65_FRONT,
                         Matrixes.G3Device.neutral_light_front,
@@ -109,7 +114,7 @@ public class DngSupportedDevices
                 break;
             case 2842624://g3 front qcom
                 //TODO somethings wrong with it;
-                profile = new DngProfile(64, 1296 ,1096 ,false, BGGR, 0,
+                profile = new DngProfile(64, 1296 ,1096 ,Qcom, BGGR, 0,
                         Matrixes.G3Device.CC_A_FRONT,
                         Matrixes.G3Device.CC_D65_FRONT,
                         Matrixes.G3Device.neutral_light_front,
@@ -129,7 +134,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 16224256://MIPI g2
-                return new DngProfile(64, 4208, 3082,true, BGGR, getG3_rowSizeL,
+                return new DngProfile(64, 4208, 3082,Mipi, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -139,7 +144,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 2969600://g2 mipi front
-                return new DngProfile(64, 1236 ,1200 ,true, BGGR, 2472,
+                return new DngProfile(64, 1236 ,1200 ,Mipi, BGGR, 2472,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -157,7 +162,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688://QCOM
-                return new DngProfile(64, 4212, 3082,false, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
+                return new DngProfile(64, 4212, 3082,Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
                         Matrixes.G4_foward_matrix1,
                         Matrixes.G4_foward_matrix2,
                         Matrixes.G4_reduction_matrix1,
@@ -168,7 +173,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
-                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(64, 4208, 3120,Mipi, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
@@ -179,7 +184,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 6721536: //k910/zte front qcom
-                return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,
+                return new DngProfile(64, 2592 ,1296 ,Qcom, BGGR, 0,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -189,7 +194,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 6299648://k910/zte front mipi
-                return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,
+                return new DngProfile(16, 2592 ,1944 ,Mipi, BGGR, 0,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -208,7 +213,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688://QCOM
-                return new DngProfile(64, 4212, 3120,false, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
+                return new DngProfile(64, 4212, 3120,Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
                         Matrixes.G4_foward_matrix1,
                         Matrixes.G4_foward_matrix2,
                         Matrixes.G4_reduction_matrix1,
@@ -219,7 +224,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
-                return new DngProfile(64, 4208, 3120,true, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(64, 4208, 3120,Mipi, BGGR, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
@@ -230,7 +235,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 6721536: //k910/zte front qcom
-                return new DngProfile(64, 2592 ,1296 ,false, BGGR, 0,
+                return new DngProfile(64, 2592 ,1296 ,Qcom, BGGR, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -240,7 +245,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 6299648://k910/zte front mipi
-                return new DngProfile(16, 2592 ,1944 ,true, BGGR, 0,
+                return new DngProfile(16, 2592 ,1944 ,Mipi, BGGR, 0,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -259,7 +264,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 19906560://e7mipi
-                return new DngProfile(0, 4608, 3456,true, BGGR, 0,
+                return new DngProfile(0, 4608, 3456,Mipi, BGGR, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -269,7 +274,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case  21233664: //e7qcom
-                return new DngProfile(0, 4608, 3456,false, BGGR, 0,
+                return new DngProfile(0, 4608, 3456,Qcom, BGGR, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -279,7 +284,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case  9990144://e7 front mipi
-                return new DngProfile(0, 2040 , 2448,true, BGGR, 4080,
+                return new DngProfile(0, 2040 , 2448,Mipi, BGGR, 4080,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -290,7 +295,7 @@ public class DngSupportedDevices
                         Matrixes.G4_noise_3x1_matrix);
             case  10653696://e7 front qcom
             //TODO somethings wrong with it;
-                return new DngProfile(0,2176 , 2448,false, BGGR, 0,
+                return new DngProfile(0,2176 , 2448,Qcom, BGGR, 0,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -308,7 +313,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case  25677824://m9 mipi
-                return new DngProfile(64, 5388, 3752,true, GRBG, 0,
+                return new DngProfile(64, 5388, 3752,Mipi, GRBG, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -318,7 +323,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 27127808://m9 qcom
-                return new DngProfile(64, 5388, 3752,false, GRBG, 0,
+                return new DngProfile(64, 5388, 3752,Qcom, GRBG, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -334,7 +339,7 @@ public class DngSupportedDevices
     private DngProfile getHTCM8Profile(int filesize)
     {
         if (filesize< 6000000 && filesize > 5382641)//M8 qcom
-            return new DngProfile(0, 2688, 1520,false, GRBG, 0,
+            return new DngProfile(0, 2688, 1520,Qcom, GRBG, 0,
                     Matrixes.Nex6CCM1,
                     Matrixes.Nex6CCM2,
                     Matrixes.Nex6NM,
@@ -344,7 +349,7 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.Nexus6_noise_3x1_matrix);
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-            return new DngProfile(0, 2688, 1520,true, GRBG, HTCM8_rowSize,
+            return new DngProfile(0, 2688, 1520,Mipi, GRBG, HTCM8_rowSize,
                     Matrixes.Nex6CCM1,
                     Matrixes.Nex6CCM2,
                     Matrixes.Nex6NM,
@@ -362,7 +367,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688://QCOM
-                return new DngProfile(0, 4212, 3120,false, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(0, 4212, 3120,Qcom, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
@@ -373,7 +378,7 @@ public class DngSupportedDevices
                         Matrixes.g3_color2,
                         Matrixes.g3_neutral);*/
             case 16424960://lenovo k910 mipi , g3 kk mipi, zte
-                return new DngProfile(64, 4208, 3120,true, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
+                return new DngProfile(64, 4208, 3120,Mipi, RGGb, getG3_rowSizeL,Matrixes.Nex6CCM1,Matrixes.Nex6CCM2,Matrixes.Nex6NM,
                         Matrixes.Nexus6_foward_matrix1,
                         Matrixes.Nexus6_foward_matrix2,
                         Matrixes.Nexus6_reduction_matrix1,
@@ -388,7 +393,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688: //qcom
-                return new DngProfile(64, 4212, 3082,false, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4212, 3082,Qcom, RGGb, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -398,7 +403,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 16424960: //mipi
-                return new DngProfile(64, 4212, 3082,true, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4212, 3082,Mipi, RGGb, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -423,7 +428,7 @@ public class DngSupportedDevices
             case Gione_E7:
                 return getGioneeE7Profile(filesize);
             case Sony_XperiaL:
-                return new DngProfile(64, 3282, 2448,false, BGGR, XperiaL_rowSize,
+                return new DngProfile(64, 3282, 2448,Qcom, BGGR, XperiaL_rowSize,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -433,7 +438,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case HTC_One_Sv:
-                return new DngProfile(64, 2592, 1944,false, GRBG, 0,
+                return new DngProfile(64, 2592, 1944,Qcom, GRBG, 0,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -443,7 +448,7 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case HTC_One_XL:
-                return new DngProfile(0, 3282, 2448,false, GRBG, XperiaL_rowSize,
+                return new DngProfile(0, 3282, 2448,Qcom, GRBG, XperiaL_rowSize,
                         Matrixes.nocal_color1,
                         Matrixes.nocal_color2,
                         Matrixes.nocal_nutral,
@@ -459,7 +464,7 @@ public class DngSupportedDevices
             case OnePlusOne:
                 return getOnePlusOneProfile(filesize);
             case yureka:
-                return new DngProfile(0, 4212, 3082,false, BGGR, getG3_rowSizeL,
+                return new DngProfile(0, 4212, 3082,Qcom, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -471,7 +476,7 @@ public class DngSupportedDevices
             case zteAdv:
                 return getZTEADVProfile(filesize);
             case Xiaomi_Redmi_Note:
-                return new DngProfile(64,4212, 3082,false, BGGR, getG3_rowSizeL,
+                return new DngProfile(64,4212, 3082,Qcom, BGGR, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -488,10 +493,12 @@ public class DngSupportedDevices
 
     public class DngProfile
     {
+
+
         public int blacklevel;
         public int widht;
         public int height;
-        public boolean isTightRAw;
+        public int rawType;
         public String BayerPattern;
         public int rowsize;
         float[]matrix1;
@@ -503,12 +510,12 @@ public class DngSupportedDevices
         float[]reductionmatrix2;
         float[]noiseprofile;
 
-        public DngProfile(int blacklevel,int widht, int height, boolean tight, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
+        public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
         {
             this.blacklevel = blacklevel;
             this.widht = widht;
             this.height = height;
-            this.isTightRAw = tight;
+            this.rawType = rawType;
             this.BayerPattern = bayerPattern;
             this.rowsize = rowsize;
             this.matrix1 = matrix1;

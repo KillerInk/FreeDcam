@@ -52,7 +52,7 @@ public class RawToDng
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
-                                     boolean tight,int width,int height);
+                                     int rawType,int width,int height);
 
     private static native ByteBuffer Create();
     private static native void SetExifData(ByteBuffer nativeHandler,
@@ -154,7 +154,7 @@ public class RawToDng
                              String bayerformat,
                              int rowSize,
                              String devicename,
-                             boolean tight,int width,int height)
+                             int tight,int width,int height)
     {
         if (nativeHandler != null)
             SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor,fowardMatrix1,fowardMatrix2,reductionMatrix1,reductionMatrix2,noise, blacklevel, bayerformat, rowSize, devicename, tight,width,height);
@@ -222,7 +222,7 @@ public class RawToDng
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.isTightRAw,profile.widht,profile.height);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
             RELEASE();
         }
