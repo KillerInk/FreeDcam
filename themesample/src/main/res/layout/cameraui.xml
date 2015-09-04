@@ -233,6 +233,15 @@
             android:layout_alignParentBottom="false"
             android:gravity="bottom">
 
+            <troop.com.themesample.views.uichilds.UiSettingsChild
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ui_focuspeak"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                app:HeaderText="@string/setting_focuspeak_header"/>
+
             <troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

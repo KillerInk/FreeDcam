@@ -193,7 +193,8 @@
                 app:Description="@string/setting_focuspeak_description"
                 app:HeaderText="@string/setting_focuspeak_header"
                 app:ValueText="OFF"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginBottom="1dp"
+                android:visibility="gone" />
 
             <troop.com.themesample.views.menu.MenuItemOrientationHack
                 android:layout_width="fill_parent"

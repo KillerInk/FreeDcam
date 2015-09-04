@@ -23,7 +23,9 @@
             android:textStyle="bold"
             android:textColor="@color/uiSettingsTextColor"
             android:layout_marginTop="4dp"
-            android:textSize="10dip" />
+            android:textSize="10dip"
+            android:nestedScrollingEnabled="false"
+            android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
             android:id="@+id/textView2"
             android:textColor="@color/uiSettingsTextColor"
             android:textSize="8dip"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            android:singleLine="true" />
     </LinearLayout>
 
 </LinearLayout>

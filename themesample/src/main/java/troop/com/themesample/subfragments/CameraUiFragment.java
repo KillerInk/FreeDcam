@@ -58,6 +58,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static SwipeMenuListner touchHandler;
     static ShutterButton shutterButton;
 
+    static UiSettingsChild focuspeak;
+
 
 
     static ThumbView thumbView;
@@ -129,6 +131,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         contShot.SetParameter(abstractCameraUiWrapper.camParametersHandler.ContShootMode);
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
+        if (abstractCameraUiWrapper.camParametersHandler.Focuspeak != null) {
+            focuspeak.SetParameter(abstractCameraUiWrapper.camParametersHandler.Focuspeak);
+            abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
+        }
     }
 
     @Override
@@ -182,6 +188,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         touchHandler = new SwipeMenuListner(this);
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
+
+        focuspeak = (UiSettingsChild)view.findViewById(R.id.ui_focuspeak);
+        focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
+        focuspeak.SetMenuItemListner(this);
 
         manualModesFragment = new ManualModesFragment();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);

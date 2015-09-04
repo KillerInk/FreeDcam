@@ -89,6 +89,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             clear_preview();
 
         }
+        if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
+            cameraUiWrapper.camParametersHandler.Focuspeak.BackgroundValueHasChanged(enabled +"");
     }
 
     private void clear_preview()
