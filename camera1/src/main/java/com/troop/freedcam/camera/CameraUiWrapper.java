@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.View;
 
 import com.troop.freedcam.PreviewHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
@@ -73,6 +74,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             previewHandler = new PreviewHandler(previewTexture, this, appSettingsManager.context);
             SetCameraChangedListner(previewHandler);
         }
+        else
+            previewTexture.setVisibility(View.GONE);
         Log.d(TAG, "Ctor done");
 
 

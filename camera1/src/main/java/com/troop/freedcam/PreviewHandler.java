@@ -95,14 +95,19 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void clear_preview()
     {
-        if ( mAllocationOut == null)
-            return;
         final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(map);
         canvas.drawColor(Color.TRANSPARENT);
-        mAllocationOut.copyFrom(map);
-        mAllocationOut.ioSend();
-        map.recycle();
+        if ( mAllocationOut != null) {
+
+            mAllocationOut.copyFrom(map);
+            mAllocationOut.ioSend();
+            map.recycle();
+        }
+        else
+        {
+            output.draw(canvas);
+        }
     }
 
     public boolean isEnable() { return  enable;}
@@ -174,7 +179,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             mSurface = new Surface(surface);
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(mSurface);
-            else Log.d(TAG, "Allocout null");
+            else
+                Log.d(TAG, "Allocout null");
+            clear_preview();
 
         }
 
