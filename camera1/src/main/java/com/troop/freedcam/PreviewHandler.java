@@ -95,6 +95,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void clear_preview()
     {
+        if (mWidth == 0 || mHeight == 0)
+            return;
         final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(map);
         canvas.drawColor(Color.TRANSPARENT);
