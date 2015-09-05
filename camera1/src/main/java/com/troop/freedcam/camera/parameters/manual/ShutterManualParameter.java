@@ -137,7 +137,11 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9() || DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isHTC_M8() ||
+                 DeviceUtils.isHTC_M9() ||
+                 DeviceUtils.isZTEADV() ||
+                 DeviceUtils.isXiaomiMI3W() ||
+                 DeviceUtils.isOnePlusOne())
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -154,26 +158,20 @@ public class ShutterManualParameter extends BaseManualParameter
                 {
                     parameters.put("slow_shutter", shutterstring);
                     parameters.put("slow_shutter_addition", "1");
-
                     baseCameraHolder.SetCameraParameters(parameters);
-                   /* if(Float.parseFloat(shutterstring) < 1.0)
-                    {
-                        baseCameraHolder.StopPreview();
-                        baseCameraHolder.StartPreview();
-
-                    } */
                 }
                 else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
                     shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
                     parameters.put("shutter", shutterstring);
                 }
-
                 else if(DeviceUtils.isXiaomiMI3W() || DeviceUtils.isOnePlusOne())
                 {
-                    parameters.put("shutter", FLOATtoSixty4(shutterstring));
+                    shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
+                    parameters.put("shutter", shutterstring);
                 }
             }
-            else {
+            else
+            {
                 if (DeviceUtils.isZTEADV()) {
                     parameters.put("slow_shutter", "-1");
                     parameters.put("slow_shutter_addition", "0");
