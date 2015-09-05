@@ -20,7 +20,6 @@ import troop.com.themesample.subfragments.SettingsMenuFragment;
 public class SampleThemeFragment extends AbstractFragment
 {
     final String TAG = SampleThemeFragment.class.getSimpleName();
-    AbstractCameraUiWrapper abstractCameraUiWrapper;
 
     View view;
     I_Activity i_activity;
@@ -32,24 +31,24 @@ public class SampleThemeFragment extends AbstractFragment
 
     public SampleThemeFragment()
     {
-        cameraUiFragment = new CameraUiFragment();
-        settingsMenuFragment =  new SettingsMenuFragment();
+
+
     }
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity) {
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
-        cameraUiFragment.SetStuff(appSettingsManager,i_activity, onSettingsClick);
-        settingsMenuFragment.SetStuff(appSettingsManager,i_activity,onSettingsClick);
+
+
     }
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.abstractCameraUiWrapper = wrapper;
-        cameraUiFragment.SetCameraUIWrapper(wrapper);
-        settingsMenuFragment.SetCameraUIWrapper(wrapper);
+        this.wrapper = wrapper;
+
+
 
     }
 
@@ -57,7 +56,11 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,null);
         this.view = inflater.inflate(R.layout.samplethemefragment, container, false);
+        cameraUiFragment = new CameraUiFragment();
+        cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+        cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragmentholder, cameraUiFragment);
         transaction.commit();
@@ -101,6 +104,9 @@ public class SampleThemeFragment extends AbstractFragment
     private void replaceCameraUIWithSettings()
     {
         settingsOpen = true;
+        settingsMenuFragment =  new SettingsMenuFragment();
+        settingsMenuFragment.SetStuff(appSettingsManager,i_activity,onSettingsClick);
+        settingsMenuFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.fragmentholder, settingsMenuFragment);
@@ -110,6 +116,9 @@ public class SampleThemeFragment extends AbstractFragment
     private void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
+        cameraUiFragment = new CameraUiFragment();
+        cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+        cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.fragmentholder, cameraUiFragment);

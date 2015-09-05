@@ -74,7 +74,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     static FocusImageHandler focusImageHandler;
 
-    static AbstractCameraUiWrapper abstractCameraUiWrapper;
 
     static View view;
     static I_Activity i_activity;
@@ -99,48 +98,49 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.abstractCameraUiWrapper = wrapper;
-        abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        this.wrapper = wrapper;
+        if (wrapper != null)
+            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
 
     private void setWrapper()
     {
-        if (abstractCameraUiWrapper == null || abstractCameraUiWrapper.camParametersHandler == null)
+        if (wrapper == null || wrapper.camParametersHandler == null)
             return;
-        flash.SetParameter(abstractCameraUiWrapper.camParametersHandler.FlashMode);
+        flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
-        iso.SetParameter(abstractCameraUiWrapper.camParametersHandler.IsoMode);
+        iso.SetParameter(wrapper.camParametersHandler.IsoMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(iso);
-        autoexposure.SetParameter(abstractCameraUiWrapper.camParametersHandler.ExposureMode);
+        autoexposure.SetParameter(wrapper.camParametersHandler.ExposureMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(autoexposure);
-        whitebalance.SetParameter(abstractCameraUiWrapper.camParametersHandler.WhiteBalanceMode);
+        whitebalance.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(whitebalance);
-        focus.SetParameter(abstractCameraUiWrapper.camParametersHandler.FocusMode);
+        focus.SetParameter(wrapper.camParametersHandler.FocusMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
-        night.SetParameter(abstractCameraUiWrapper.camParametersHandler.NightMode);
+        night.SetParameter(wrapper.camParametersHandler.NightMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
-        thumbView.INIT(i_activity, abstractCameraUiWrapper);
-        modeSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
-        cameraSwitch.SetCameraUiWrapper(abstractCameraUiWrapper);
-        focusImageHandler.SetCamerUIWrapper(abstractCameraUiWrapper);
-        shutterButton.SetCameraUIWrapper(abstractCameraUiWrapper);
+        thumbView.INIT(i_activity, wrapper);
+        modeSwitch.SetCameraUiWrapper(wrapper);
+        cameraSwitch.SetCameraUiWrapper(wrapper);
+        focusImageHandler.SetCamerUIWrapper(wrapper);
+        shutterButton.SetCameraUIWrapper(wrapper);
 
-        format.SetCameraUiWrapper(abstractCameraUiWrapper);
-        format.SetParameter(abstractCameraUiWrapper.camParametersHandler.PictureFormat);
+        format.SetCameraUiWrapper(wrapper);
+        format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
-        contShot.SetParameter(abstractCameraUiWrapper.camParametersHandler.ContShootMode);
+        contShot.SetParameter(wrapper.camParametersHandler.ContShootMode);
         if (manualModesFragment != null)
-            manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
-        if (abstractCameraUiWrapper.camParametersHandler.Focuspeak != null) {
-            focuspeak.SetParameter(abstractCameraUiWrapper.camParametersHandler.Focuspeak);
-            abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
+            manualModesFragment.SetCameraUIWrapper(wrapper);
+        if (wrapper.camParametersHandler.Focuspeak != null) {
+            focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
+            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,null);
+        super.onCreateView(inflater,container,savedInstanceState);
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
@@ -182,7 +182,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
         cameraSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTCAMERA);
         infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
-        infoOverlayHandler.setCameraUIWrapper(abstractCameraUiWrapper);
+        infoOverlayHandler.setCameraUIWrapper(wrapper);
 
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
         touchHandler = new SwipeMenuListner(this);
@@ -195,7 +195,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         manualModesFragment = new ManualModesFragment();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
-        manualModesFragment.SetCameraUIWrapper(abstractCameraUiWrapper);
+        manualModesFragment.SetCameraUIWrapper(wrapper);
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
