@@ -80,7 +80,6 @@ public class ImageFragment extends Fragment
         myHistogram = new MyHistogram(view.getContext());
         ll = (LinearLayout)view.findViewById(R.id.histoView);
         ll.addView(myHistogram);
-        Log.d("ImageFragment", file.getAbsolutePath());
 
         exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
         exifinfo.setVisibility(View.GONE);
