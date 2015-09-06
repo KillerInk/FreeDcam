@@ -43,7 +43,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
     @Override
     public void SetParameter(AbstractModeParameter parameter)
     {
-        if (cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof CameraUiWrapper && DeviceUtils.isCamera1DNGSupportedDevice())
         {
             camera1picFormat = new Camera1picFormat(this.getHandler());
             super.SetParameter(camera1picFormat);
@@ -75,7 +75,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
         @Override
         public boolean IsSupported()
         {
-            return DeviceUtils.isCamera1DNGSupportedDevice() || DeviceUtils.isMediaTekDevice() || !(cameraUiWrapper instanceof CameraUiWrapper);
+            return true; //DeviceUtils.isCamera1DNGSupportedDevice() || DeviceUtils.isMediaTekDevice() || !(cameraUiWrapper instanceof CameraUiWrapper);
         }
 
         @Override
@@ -102,7 +102,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
                 else
                     super.SetValue(valueToSet, setToCamera);
             }
-            else
+            else if (DeviceUtils.isCamera1DNGSupportedDevice())
             {
                 if (valueToSet.equals("DNG")) {
                     cameraUiWrapper.camParametersHandler.SetDngActive(true);
@@ -114,6 +114,8 @@ public class UiSettingsChildFormat extends UiSettingsChild
                     appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
                 }
             }
+            else
+                cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(valueToSet,true);
 
         }
 
@@ -133,7 +135,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
                 else if (t.equals("false"))
                     return "RAW";
             }
-            else
+            else if (cameraUiWrapper !=null)
                 return cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
             return null;
         }
