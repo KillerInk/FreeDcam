@@ -183,6 +183,11 @@ public class SonyCameraFragment extends AbstractCameraFragment
         catch (Exception ex) {
             setTextFromWifi("Wifi disabled");
         }
+        if (configuredNetworks == null)
+        {
+            setTextFromWifi("Wifi disabled");
+            return;
+        }
         deviceNetworkToConnect = "";
         for (String s : configuredNetworks)
         {
