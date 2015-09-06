@@ -48,8 +48,12 @@ public class DeviceUtils
     }
 
     public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980";
-    public static boolean isG2() {
-        return G2Models.contains(Build.MODEL);
+    public static boolean isG2()
+    {
+        boolean supported = Build.DEVICE.equals("g2");
+        if (!supported)
+            supported = G2Models.contains(Build.MODEL);
+        return supported;
     }
 
     public static boolean isEvo3d()
@@ -60,7 +64,10 @@ public class DeviceUtils
     public static String M8Models = "HTC One_M8, One M8,HTC One M8,htc_m8";
     public static boolean isHTC_M8()
     {
-        return M8Models.contains(Build.MODEL);
+        boolean supported = Build.DEVICE.equals("htc_m8");
+        if (!supported)
+            supported = M8Models.contains(Build.MODEL);
+        return supported;
     }
 
     public static boolean isHTC_M9()
@@ -86,16 +93,12 @@ public class DeviceUtils
     public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
     public static boolean isLG_G3()
     {
-        return G3Models.contains(Build.MODEL);
+        boolean supported = Build.DEVICE.equals("g3");
+        if (!supported)
+            supported = G3Models.contains(Build.MODEL);
+        return supported;
     }
 
-    public static boolean getBoolFromInt(int i)
-    {
-        if (i == 1)
-            return true;
-        else
-            return false;
-    }
 
     public static boolean isZTEADV()
     {
@@ -151,7 +154,13 @@ public class DeviceUtils
     }
 
     public static String Yureka = "YUREKA,AO5510,Yureka";
-    public static boolean isYureka(){ return Yureka.contains(Build.MODEL);}
+    public static boolean isYureka()
+    {
+        boolean supported = Build.DEVICE.equals("YUREKA");
+        if (!supported)
+            supported = Yureka.contains(Build.MODEL);
+        return supported;
+    }
 
     public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
 
