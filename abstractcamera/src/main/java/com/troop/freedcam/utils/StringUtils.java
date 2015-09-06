@@ -91,7 +91,7 @@ public class StringUtils
         return String.format("%01.4f", Float.parseFloat(toTrim));
     }
 
-    public static String freedcamFolder = "/DCIM/FreeCam/";
+    public static String freedcamFolder = "/DCIM/FreeDcam/";
 
     public static String getFilePath(boolean externalSd, String fileEnding)
     {

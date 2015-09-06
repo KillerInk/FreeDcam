@@ -17,6 +17,7 @@ import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemOrientationHack;
 import troop.com.themesample.views.menu.MenuItemSDSave;
+import troop.com.themesample.views.menu.MenuItemSaveCamParams;
 import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
 import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
@@ -38,8 +39,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemOrientationHack orientationHack;
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
-    troop.com.themesample.views.menu.MenuItem histogram;
+    //troop.com.themesample.views.menu.MenuItem histogram;
     //troop.com.themesample.views.menu.MenuItem focuspeak;
+    MenuItemSaveCamParams saveCamParams;
 
     troop.com.themesample.views.menu.MenuItem aeBracket;
 
@@ -157,6 +159,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         timeLapseFrames = (MenuItemTimeLapseFrames)view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+
+        saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
+        saveCamParams.setCameraUiWrapper(wrapper);
 
     }
 

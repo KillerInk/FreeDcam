@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.menu.themes.classic.menu.ExpandableGroup;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -87,10 +88,10 @@ public class SaveCamParasExpandableChild extends ExpandableChild
 
         FileOutputStream outputStream;
 
-        File freedcamdir = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeCam/");
+        File freedcamdir = new File(Environment.getExternalStorageDirectory() + StringUtils.freedcamFolder);
         if (!freedcamdir.exists())
             freedcamdir.mkdirs();
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/"+ Build.MODEL + "_CameraParameters.txt");
+        File file = new File(Environment.getExternalStorageDirectory() + StringUtils.freedcamFolder + Build.MODEL + "_CameraParameters.txt");
         try {
             //file.mkdirs();
             file.createNewFile();

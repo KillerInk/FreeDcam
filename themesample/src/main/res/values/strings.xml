@@ -36,6 +36,8 @@
     <string name="setting_sdcard_description">File save location</string>
     <string name="setting_theme_header">Theme:</string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
+    <string name="setting_savecamparams_header">Save Camera Parameters</string>
+    <string name="setting_savecamparams_description"></string>
 
     <!-- rightmenufragment  -->
     <string name="setting_camera_">Legacy Camera Settings</string>

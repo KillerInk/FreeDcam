@@ -224,6 +224,15 @@
                 android:layout_marginBottom="1dp"
                 android:visibility="gone" />
 
+            <troop.com.themesample.views.menu.MenuItemSaveCamParams
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemSaveParams"
+                app:Description="@string/setting_savecamparams_description"
+                app:HeaderText="@string/setting_savecamparams_header"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp" />
+
         </LinearLayout>
     </ScrollView>
 
