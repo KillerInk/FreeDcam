@@ -243,10 +243,14 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     private void setValueToParameters(int value)
     {
-        if (realMin < 0)
-            parameter.SetValue(value + realMin);
-        else
-            parameter.SetValue(value);
+        if(realMin < 0)
+            value += realMin;
+        if (value > realMax)
+        {
+            Log.e(headerTextView.getText().toString(), "value bigger then max");
+            return;
+        }
+        parameter.SetValue(value);
     }
 
     @Override
@@ -255,17 +259,18 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         if (userIsSeeking && parameter != null)
         {
             if (!(parameter instanceof BaseManualParameterSony))
+            {
                 handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    setValueToParameters(progress);
-                }
-            });
-            if (realMin < 0)
-                setTextValue(progress + realMin);
-            else
-                setTextValue(progress);
+                    @Override
+                    public void run() {
+                        setValueToParameters(progress);
+                        if (realMin < 0)
+                            setTextValue(progress + realMin);
+                        else
+                            setTextValue(progress);
+                    }
+                });
+            }
         }
 
     }
