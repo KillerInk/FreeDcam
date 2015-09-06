@@ -40,10 +40,8 @@ import troop.com.views.MyHistogram;
  * Created by troop on 21.08.2015.
  */
 public class ScreenSlideActivity extends FragmentActivity {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
-    private static final int NUM_PAGES = 5;
+
+    final static String TAG = ScreenSlideActivity.class.getSimpleName();
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -210,38 +208,69 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     private void loadFilePaths()
     {
-        File directory = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
-        files = directory.listFiles();
-        List<File> jpegs = new ArrayList<File>();
-
+        Log.d(TAG,"Loading Files...");
+        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
+        List<File> folders = new ArrayList<>();
+        List<File> images = new ArrayList<File>();
+        //read internal Folders
         try {
-            //read internal sd
-            if(files != null || files.length > 0)
+            readSubFolderFromFolder(internalSDCIM, folders);
+        }
+        catch (Exception ex){}
+        Log.d(TAG, "Found internal " + folders.size() + "Folders");
+        //read external Folders
+        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+        try {
+            readSubFolderFromFolder(externalSDCIM, folders);
+        }
+        catch (Exception ex){}
+        Log.d(TAG, "Found external " + folders.size() + "Folders");
+        //Lookup files in folders
+        try
+        {
+            for (File folder : folders)
             {
-                for (File f : files)
+                if (folder.isDirectory())
                 {
-                    if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")|| f.getAbsolutePath().endsWith(".raw")))
-                        jpegs.add(f);
+                    readFilesFromFolder(folder, images);
                 }
-            }
-            //read external sd
-            directory = new File(StringUtils.GetExternalSDCARD() + "/DCIM/FreeCam/");
-            files = directory.listFiles();
-            for (File f : files)
-            {
-                if (!f.isDirectory() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".mp4")|| f.getAbsolutePath().endsWith(".dng")|| f.getAbsolutePath().endsWith(".dng")))
-                    jpegs.add(f);
             }
         }
         catch (Exception ex){}
-        if (jpegs.size() > 0) {
-            files = jpegs.toArray(new File[jpegs.size()]);
+        Log.d(TAG, "Found " + images.size() + "Images");
+        if (images.size() > 0) {
+            files = images.toArray(new File[images.size()]);
             Arrays.sort(files, new Comparator<File>() {
                 public int compare(File f1, File f2) {
                     return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
                 }
             });
         }
-        else files = null;
+        else
+            files = null;
+    }
+
+    private void readFilesFromFolder(File folder, List<File> fileList)
+    {
+        File[] folderfiles = folder.listFiles();
+        for (File f : folderfiles)
+        {
+            if (!f.isDirectory() &&
+                    (f.getAbsolutePath().endsWith(".jpg") ||
+                            f.getAbsolutePath().endsWith(".mp4")||
+                            f.getAbsolutePath().endsWith(".dng")||
+                            f.getAbsolutePath().endsWith(".raw")))
+                fileList.add(f);
+        }
+    }
+
+    private void readSubFolderFromFolder(File folder, List<File> folderList)
+    {
+        File[] folderfiles = folder.listFiles();
+        for (File f : folderfiles)
+        {
+            if (f.isDirectory() && !f.isHidden())
+                folderList.add(f);
+        }
     }
 }

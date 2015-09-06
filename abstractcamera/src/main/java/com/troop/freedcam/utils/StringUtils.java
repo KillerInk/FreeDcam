@@ -92,6 +92,7 @@ public class StringUtils
     }
 
     public static String freedcamFolder = "/DCIM/FreeDcam/";
+    public static String DCIMFolder = "/DCIM/";
 
     public static String getFilePath(boolean externalSd, String fileEnding)
     {
