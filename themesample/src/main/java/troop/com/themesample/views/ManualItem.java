@@ -19,6 +19,7 @@ import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
+import troop.com.views.FreeVerticalSeekbar;
 
 /**
  * Created by Ingo on 24.07.2015.
@@ -28,7 +29,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     AbstractManualParameter parameter;
     AppSettingsManager appSettingsManager;
     String settingsname;
-    VerticalSeekBar seekBar;
+    FreeVerticalSeekbar seekBar;
     TextView headerTextView;
     TextView valueTextView;
 
@@ -77,7 +78,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_item, this);
-        this.seekBar = (VerticalSeekBar)findViewById(R.id.vertical_seekbar);
+        this.seekBar = (FreeVerticalSeekbar)findViewById(R.id.vertical_seekbar);
 
         seekBar.setOnSeekBarChangeListener(this);
         this.headerTextView = (TextView)findViewById(R.id.textView_mheader);
