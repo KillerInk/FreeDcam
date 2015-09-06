@@ -57,10 +57,10 @@ public class DeviceUtils
         return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU")|| Build.MODEL.equals("HTC Shooter");
     }
 
+    public static String M8Models = "HTC One_M8, One M8,HTC One M8,htc_m8";
     public static boolean isHTC_M8()
     {
-        String s = Build.MODEL;
-        return s.equals("HTC One_M8") || s.equals("One M8") ||s.equals("HTC One M8");
+        return M8Models.contains(Build.MODEL);
     }
 
     public static boolean isHTC_M9()
@@ -139,11 +139,6 @@ public class DeviceUtils
         return MTK.contains(Build.MODEL);
     }
 
-    public static boolean isRawSupported()
-    {
-        return isLG_G3() || isHTC_M8() || isZTEADV() || isMediaTekDevice();
-    }
-
     public static boolean isLenovoK910()
     {
         return Build.MODEL.contains("Lenovo K910");
@@ -155,7 +150,7 @@ public class DeviceUtils
         return xperiaLModels.contains(Build.MODEL);
     }
 
-    public static String Yureka = "YUREKA,AO5510";
+    public static String Yureka = "YUREKA,AO5510,Yureka";
     public static boolean isYureka(){ return Yureka.contains(Build.MODEL);}
 
     public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
@@ -169,7 +164,7 @@ public class DeviceUtils
 
     public static boolean isCamera1DNGSupportedDevice()
     {
-        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
+        return /*isLG_G3() ||*/ isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
                 isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL();
     }
 
