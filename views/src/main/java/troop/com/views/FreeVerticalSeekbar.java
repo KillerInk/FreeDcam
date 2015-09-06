@@ -80,6 +80,10 @@ public class FreeVerticalSeekbar extends View
         }
         if (sliderImage != null)
         {
+            paint.setColor(Color.WHITE);
+            canvas.drawLine((getWidth() / 4) - 1, getTop(), (getWidth() / 4) + 1, getBottom(), paint);
+            paint.setColor(Color.BLACK);
+            canvas.drawLine((getWidth()/4), getTop(), (getWidth()/4)+2, getBottom(), paint);
             sliderImage.setBounds(drawPosition.left, drawPosition.top, drawPosition.right, drawPosition.bottom);
             sliderImage.draw(canvas);
         }
@@ -103,7 +107,7 @@ public class FreeVerticalSeekbar extends View
     private int getValueFromDrawingPos(int posi)
     {
         int val;
-        int i = (getheight()- getWidth())/max;
+        int i = (getheight()- getWidth()/2)/max;
         val = (posi)/i;
 
         return val;
@@ -123,7 +127,7 @@ public class FreeVerticalSeekbar extends View
                 mListener.onProgressChanged(null,currentValue, true);
         }
         int r = val;
-        if (r >= 0 && r <= getheight()-getWidth())
+        if (r >= 0 && r <= getheight()-getWidth()/2)
         {
 
             currentValuePixelPos = r;
