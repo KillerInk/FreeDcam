@@ -63,7 +63,7 @@ public class SampleThemeFragment extends AbstractFragment
         cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragmentholder, cameraUiFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         return view;
     }
 
@@ -110,7 +110,7 @@ public class SampleThemeFragment extends AbstractFragment
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.fragmentholder, settingsMenuFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     private void replaceSettingsWithCameraUI()
@@ -122,7 +122,7 @@ public class SampleThemeFragment extends AbstractFragment
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.fragmentholder, cameraUiFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 }

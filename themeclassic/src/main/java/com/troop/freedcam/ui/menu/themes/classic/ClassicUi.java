@@ -153,7 +153,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.add(R.id.layout__cameraControls, shutterItemsFragment, "Controls");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -167,7 +167,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack so the user can navigate back
             transaction.add(R.id.v2_settings_menu, menuFragment, "Menu");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -176,7 +176,7 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
         menuFragment.CLEAR();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.remove(menuFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void inflateManualMenuFragment()
@@ -189,14 +189,14 @@ public class ClassicUi extends AbstractFragment implements I_Fragment, I_swipe
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack so the user can navigate back
             transaction.add(R.id.manualMenuHolder, manualMenuFragment, "ManualMenu");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
     private void deflateManualMenuFragment() {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.remove(manualMenuFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     //I_SWIPE START

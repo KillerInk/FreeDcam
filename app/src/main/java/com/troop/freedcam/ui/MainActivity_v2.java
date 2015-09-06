@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -83,7 +84,15 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(null, null);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(null);
+    }
 
     private void createUI() {
         orientationHandler = new OrientationHandler(this, this);
@@ -97,7 +106,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.guideHolder, guideHandler, "Guide");
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         timerHandler = new TimerHandler(this);
 
 
@@ -116,7 +125,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 
             loadingWrapper = false;
             Log.d(TAG, "loaded cameraWrapper");
@@ -155,7 +164,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
             cameraFragment = null;
         }
     }
@@ -458,7 +467,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.MainLayout,themeHandler.GetThemeFragment(false));
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
 
     }
 

@@ -200,7 +200,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
 
         manualModes_holder.setVisibility(View.GONE);
 
@@ -342,7 +342,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     private void removeHorizontalFragment()

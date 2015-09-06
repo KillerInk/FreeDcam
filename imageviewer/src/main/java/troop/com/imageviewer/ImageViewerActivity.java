@@ -37,7 +37,7 @@ public class ImageViewerActivity extends FragmentActivity
         ImageViewerFragment fragment = new ImageViewerFragment();
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(troop.com.imageviewer.R.id.imageviewer_holder, fragment, "Imageviewer");
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public void HIDENAVBAR()

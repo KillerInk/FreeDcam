@@ -71,7 +71,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.left_holder, leftMenuFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     private void loadRightFragment()
@@ -83,7 +83,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.right_holder, rightMenuFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 
@@ -137,7 +137,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.right_holder, valuesMenuFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
         else
         {
@@ -145,7 +145,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.left_holder, valuesMenuFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 }
