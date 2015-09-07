@@ -75,7 +75,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
         }
-        else if (/*DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21 ||*/ DeviceUtils.isSonyADV())
+        else if (DeviceUtils.isSonyADV())
         {
             try {
                 if (!parameters.get("sony-max-shutter-speed").equals(""))
@@ -166,8 +166,8 @@ public class ShutterManualParameter extends BaseManualParameter
                 }
                 else if(DeviceUtils.isXiaomiMI3W() || DeviceUtils.isOnePlusOne())
                 {
-                    shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
-                    parameters.put("shutter", shutterstring);
+                    shutterstring = FLOATtoSixty4(shutterstring);
+                    parameters.put("exposure-time", shutterstring);
                 }
             }
             else
