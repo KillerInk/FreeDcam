@@ -142,6 +142,15 @@ public class DeviceUtils
         return MTK.contains(Build.MODEL);
     }
 
+    public static boolean isMeizuMX4()
+    {
+        return Build.MODEL.equals("MX4");
+    }
+    public static boolean isTHL5000()
+    {
+        return Build.MODEL.equals("thl 5000");
+    }
+
     public static boolean isLenovoK910()
     {
         return Build.MODEL.contains("Lenovo K910");
@@ -174,7 +183,7 @@ public class DeviceUtils
     public static boolean isCamera1DNGSupportedDevice()
     {
         return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
-                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL();
+                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL()||isMeizuMX4() || isTHL5000();
     }
 
 }

@@ -205,6 +205,10 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
         if (DeviceUtils.isXiaomiMI3W())
             return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
+        if (DeviceUtils.isMeizuMX4())
+            return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
+        if (DeviceUtils.isTHL5000())
+            return DngSupportedDevices.SupportedDevices.THL5000;
         return null;
     }
 
