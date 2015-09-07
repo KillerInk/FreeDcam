@@ -223,6 +223,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     };
 
+    public void checkFileExists(File fileName) {
+        if(!fileName.getParentFile().exists())
+            fileName.getParentFile().mkdirs();
+        if (!fileName.exists())
+            try {
+                fileName.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
     private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
     {
         @Override
@@ -233,6 +244,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 {
                     Log.d(TAG, "Create RAW");
                     File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+                    checkFileExists(file);
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
@@ -242,6 +254,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 {
                     Log.d(TAG, "Create DNG");
                     File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+                    checkFileExists(file);
                     DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
                     final Image image = reader.acquireNextImage();
                     dngCreator.writeImage(new FileOutputStream(file), image);
@@ -254,6 +267,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 {
                     Log.d(TAG, "Create RAW");
                     File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(),".raw"));
+                    checkFileExists(file);
                     new ImageSaver(reader.acquireNextImage(), file).run();
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
