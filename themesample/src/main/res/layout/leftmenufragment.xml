@@ -230,7 +230,7 @@
                 android:id="@+id/MenuItemSaveParams"
                 app:Description="@string/setting_savecamparams_description"
                 app:HeaderText="@string/setting_savecamparams_header"
-                app:ValueText="Test"
+                app:ValueText=""
                 android:layout_marginBottom="1dp" />
 
         </LinearLayout>
