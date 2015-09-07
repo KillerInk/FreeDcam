@@ -108,6 +108,8 @@ public class FreeVerticalSeekbar extends View
     {
         int val;
         int i = (getheight()- getWidth()/2)/max;
+        if (i == 0)
+            i=1;
         val = (posi)/i;
 
         return val;

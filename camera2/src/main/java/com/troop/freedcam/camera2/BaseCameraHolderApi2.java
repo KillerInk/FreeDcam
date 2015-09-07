@@ -205,7 +205,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
 
             preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                    size.x,size.y, largest);
+                    size.x, size.y, largest);
             textureView.setAspectRatio(size.x, size.y);
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
@@ -373,10 +373,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             {
                 if (result != null && result.getPartialResults().size() > 0)
                 {
-                    try {
-                        final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-                        String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDS(expores);
-                        ParameterHandler.ManualShutter.currentValueStringCHanged(StringUtils.TrimmFloatString(sec));
+                    try
+                    {
+                        if (!ParameterHandler.ExposureMode.GetValue().equals("off") && !ParameterHandler.ControlMode.equals("off")) {
+                            final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+                            String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDSasString(expores);
+                            ParameterHandler.ManualShutter.currentValueStringCHanged(StringUtils.TrimmFloatString(sec));
+                        }
                     }
                     catch (NullPointerException ex)
                     {
@@ -502,8 +505,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         {
             if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
             {
-                String sec = ((ManualExposureTimeApi2)ParameterHandler.ManualShutter).getSECONDS(result.get(CaptureResult.SENSOR_EXPOSURE_TIME)) +"";
-                ParameterHandler.ManualShutter.currentValueStringCHanged(sec);
+                //String sec = ((ManualExposureTimeApi2)ParameterHandler.ManualShutter).getSECONDSasString(result.get(CaptureResult.SENSOR_EXPOSURE_TIME)) +"";
+                //ParameterHandler.ManualShutter.currentValueStringCHanged(sec);
             }
         }
     };
