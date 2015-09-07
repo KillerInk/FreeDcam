@@ -303,12 +303,14 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         Log.d(TAG, "MTK try to set mode");
         if (!raw) {
+            cameraParameters.put("afeng_raw_dump_flag",0 +"");
             cameraParameters.put("rawsave-mode", 0+"");
             cameraParameters.put("isp-mode", 0+"");
             Log.e(TAG, "MTK set mode to jpeg");
         }
         else
         {
+            cameraParameters.put("afeng_raw_dump_flag",1 +"");
             cameraParameters.put("rawsave-mode", 2+"");
             cameraParameters.put("isp-mode", 1+"");
             Log.e(TAG, "MTK set mode to RAW");
