@@ -202,15 +202,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             Point size = new Point();
             display.getRealSize(size);
+            setupPreviewSize(size.x, size.y, largest);
 
 
-            preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                    size.x, size.y, largest);
-            textureView.setAspectRatio(size.x, size.y);
-            SurfaceTexture texture = textureView.getSurfaceTexture();
-            texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
-            configureTransform(textureView.getWidth(), textureView.getHeight());
-            surface = new Surface(texture);
 
             picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
             if (picFormat.equals("")) {
@@ -243,7 +237,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 Log.d(TAG, "ImageReader RAW_SENOSR");
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW_SENSOR, 1);
-
             }
             else if (picFormat.equals(RAW10))
             {
@@ -251,20 +244,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.RAW10, 1);
             }
-
-
-
-        // We set up a CaptureRequest.Builder with the output Surface.
-
+            // We set up a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            //if (mImageReader == null)
-            //    mCameraDevice.createCaptureSession(Arrays.asList(surface),previewStateCallBack, null);
-            //else
-                mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBack, null);
-
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBack, null);
 
         }
         catch (CameraAccessException e)
@@ -273,6 +258,16 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             return;
         }
 
+    }
+
+    private void setupPreviewSize(int width, int height, Size largest)
+    {
+        preview = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+                width, height, largest);
+        SurfaceTexture texture = textureView.getSurfaceTexture();
+        texture.setDefaultBufferSize(preview.getWidth(),preview.getHeight());
+        configureTransform(width, height);
+        surface = new Surface(texture);
     }
 
     CameraCaptureSession.StateCallback previewStateCallBack = new CameraCaptureSession.StateCallback()
@@ -295,6 +290,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
+                SetLastUsedParameters(mPreviewRequestBuilder);
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -612,7 +608,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         Log.d(TAG, "set last used parameters");
         if (ParameterHandler.ManualExposure.IsSupported())
         {
-            builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
+            ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
+            //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
         }
         /*if (ParameterHandler.ExposureMode.IsSupported())
         {
@@ -620,7 +617,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }*/
         if (ParameterHandler.ManualShutter.IsSupported())
         {
-            builder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ParameterHandler.ManualShutter.GetValue());
+            ParameterHandler.ManualShutter.SetValue(ParameterHandler.ManualShutter.GetValue());
         }
 
         if (ParameterHandler.ColorMode.IsSupported())
