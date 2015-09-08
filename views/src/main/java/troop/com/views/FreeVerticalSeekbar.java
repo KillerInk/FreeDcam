@@ -34,6 +34,8 @@ public class FreeVerticalSeekbar extends View
     private Drawable sliderImage;
     //area to draw the sliderImage
     private Rect drawPosition;
+    //touch area is bigger then the drawPositonarea.
+    private Rect touchArea;
     boolean sliderMoving = false;
 
     SeekBar.OnSeekBarChangeListener mListener;
@@ -98,6 +100,7 @@ public class FreeVerticalSeekbar extends View
         int half = getWidth() / 2;
         Rect tmp = new Rect(half/2, currentValuePixelPos, half/2+half, half + currentValuePixelPos);
         drawPosition = tmp;
+        touchArea = new Rect(0, currentValuePixelPos, getWidth(), getWidth() + currentValuePixelPos);
         return tmp;
     }
 
@@ -132,7 +135,7 @@ public class FreeVerticalSeekbar extends View
             currentValuePixelPos = r;
             int half = getWidth()/2;
             Rect tmp = new Rect(half/2, currentValuePixelPos , half/2+half, half +currentValuePixelPos);
-
+            touchArea = new Rect(0, currentValuePixelPos, getWidth(), getWidth() + currentValuePixelPos);
             drawPosition = tmp;
 
 
@@ -140,6 +143,7 @@ public class FreeVerticalSeekbar extends View
     }
 
     int startY;
+    int startX;
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -147,28 +151,33 @@ public class FreeVerticalSeekbar extends View
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-                if (drawPosition.contains((int)event.getX(), (int)event.getY()))
+                if (touchArea.contains((int)event.getX(), (int)event.getY()))
                 {
                     startY = (int)event.getY();
-                    sliderMoving = true;
-                    if (mListener != null)
-                        mListener.onStartTrackingTouch(null);
+                    startX = (int)event.getX();
+                    throwevent = true;
                 }
-                throwevent = true;
+                else throwevent =false;
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (!sliderMoving)
                 {
-                    if (event.getY() >=  startY +20 || event.getY() <= startY -20)
+                    int disx = getDistance(startX, (int)event.getX());
+                    int disy = getDistance(startY, (int)event.getY());
+                    if (disy > disx && disy > 50) {
                         sliderMoving = true;
+                        if (mListener != null)
+                            mListener.onStartTrackingTouch(null);
+                    }
                 }
                 if (sliderMoving)
                 {
                     setNewDrawingPos((int) event.getY());
-
                     invalidate();
-                    throwevent = true;
                 }
+                throwevent =sliderMoving;
+
                 break;
             case MotionEvent.ACTION_UP:
                 if (sliderMoving)
@@ -177,7 +186,7 @@ public class FreeVerticalSeekbar extends View
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
                 }
-                else
+                /*else
                 {
                     if (mListener != null)
                         mListener.onStartTrackingTouch(null);
@@ -185,11 +194,19 @@ public class FreeVerticalSeekbar extends View
                     invalidate();
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
-                }
+                }*/
                 throwevent = false;
                 break;
         }
         return throwevent;
+    }
+
+    public static int getDistance(int startvalue, int currentvalue)
+    {
+        int dis = startvalue - currentvalue;
+        if (dis < 0)
+            dis = dis *-1;
+        return dis;
     }
 
     public void setProgress(int progress)
