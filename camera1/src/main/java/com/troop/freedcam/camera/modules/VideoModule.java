@@ -243,7 +243,14 @@ public class VideoModule extends AbstractModule
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
             String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+            if (sprof.equals(""))
+            {
+                sprof = "HIGH";
+                Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
+            }
             CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+            if (prof == null)
+                return;
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
             //ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);

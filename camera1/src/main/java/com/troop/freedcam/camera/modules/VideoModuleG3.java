@@ -118,7 +118,13 @@ public class VideoModuleG3 extends VideoModule
         }
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+        if (sprof.equals(""))
+        {
+            sprof = "HIGH";
+            Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
+        }
+        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
         String size;
         if (prof == null)
         {
