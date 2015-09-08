@@ -20,6 +20,7 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_swipe;
 import com.troop.freedcam.ui.SwipeMenuListner;
 import com.troop.freedcam.ui.TouchHandler;
+import com.troop.freedcam.ui.guide.GuideHandler;
 
 import troop.com.themesample.R;
 import troop.com.themesample.handler.FocusImageHandler;
@@ -81,6 +82,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static SampleInfoOverlayHandler infoOverlayHandler;
     static View.OnClickListener onSettingsClickListner;
 
+    static GuideHandler guideHandler;
+    static LinearLayout guidHolder;
+
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
     {
         SetStuff(appSettingsManager, i_activity);
@@ -135,6 +139,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
         }
+
+        guideHandler.setCameraUiWrapper(wrapper);
+        guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
     }
 
     @Override
@@ -198,11 +205,20 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.empty,R.anim.empty);
+        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
 
         manualModes_holder.setVisibility(View.GONE);
+
+
+        guideHandler = new GuideHandler();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.guideHolder, guideHandler, "Guide");
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
+
+        guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
 
         setWrapper();
         return view;
@@ -260,6 +276,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             @Override
             public void onAnimationEnd(Animator animation) {
                 left_cameraUI_holder.setVisibility(View.GONE);
+                guidHolder.setVisibility(View.GONE);
             }
 
             @Override
@@ -312,6 +329,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
 
         manualModes_holder.setVisibility(View.GONE);
+        guidHolder.setVisibility(View.VISIBLE);
     }
 
 

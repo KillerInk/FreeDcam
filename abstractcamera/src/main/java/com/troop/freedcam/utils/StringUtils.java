@@ -45,6 +45,10 @@ public class StringUtils
     final public static String ON = "ON";
     final public static String OFF = "OFF";
 
+    public static String VoLP = "Vol+";
+    public static String VoLM = "Vol-";
+    public static String Hook = "Hook";
+
 
     public static String[] getStringArrayFromCameraSizes(List<Camera.Size> sizes)
     {

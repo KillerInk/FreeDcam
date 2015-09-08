@@ -25,11 +25,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/appiconsizethree"></LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/guideHolder"></LinearLayout>
+
 
     <LinearLayout
         android:layout_width="fill_parent"

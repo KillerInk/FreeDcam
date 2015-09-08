@@ -30,30 +30,33 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
-    I_Activity i_activity;
+    //I_Activity i_activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container,null);
-        view = inflater.inflate(R.layout.guides, container,false);
-        img = (ImageView) view.findViewById(R.id.imageViewGyide);
+        view = inflater.inflate(com.troop.freedcam.ui.guide.R.layout.guides, container,false);
+        img = (ImageView) view.findViewById(com.troop.freedcam.ui.guide.R.id.imageViewGyide);
+        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
         return view;
     }
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, I_Activity i_activity)
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.i_activity = i_activity;
+        //this.i_activity = i_activity;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+
         //cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 
     public int[] GetScreenSize() {
         int width = 0;
         int height = 0;
-
+        if(view == null || view.getContext() == null)
+            return null;
         if (Build.VERSION.SDK_INT >= 17)
         {
             WindowManager wm = (WindowManager)view.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -90,7 +93,12 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     public void SetViewG(final String str)
     {
-        double quckRationMath = GetScreenSize()[0]/GetScreenSize()[1];
+        if (img == null)
+            return;
+        //int sizes[] = GetScreenSize();
+        double quckRationMath = 1.43;
+        /*if (sizes != null)
+            quckRationMath = sizes[0]/sizes[1];*/
         if(quckRationMath < 1.44) {
 
             img.post(new Runnable() {
@@ -98,59 +106,60 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
                 public void run() {
 
 
-                    if (str.equals("Golden Spiral")) {
-
+                    if (str.equals("Golden Spiral"))
+                    {
                         img.setImageResource(R.drawable.ic_guide_golden_spiral_4_3);
                     } else if (str.equals("Rule Of Thirds")) {
                         //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
-                        img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_rule_3rd_4_3);
                     } else if (str.equals("Square 1:1")) {
                         //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
-                        img.setImageResource(R.drawable.ic_guide_insta_1_1);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_insta_1_1);
                     } else if (str.equals("Square 4:3"))
-                        img.setImageResource(R.drawable.ic_guide_insta_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_insta_4_3);
                     else if (str.equals("Square 16:9"))
-                        img.setImageResource(R.drawable.ic_guide_insta_16_9);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_insta_16_9);
                     else if (str.equals("Diagonal Type 1"))
-                        img.setImageResource(R.drawable.ic_guide_diagonal_type_1_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_diagonal_type_1_4_3);
                     else if (str.equals("Diagonal Type 2"))
-                        img.setImageResource(R.drawable.ic_guide_diagonal_type_2_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_diagonal_type_2_4_3);
                     else if (str.equals("Diagonal Type 3"))
-                        img.setImageResource(R.drawable.ic_guide_diagonal_type_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_diagonal_type_3);
                     else if (str.equals("Diagonal Type 4"))
-                        img.setImageResource(R.drawable.ic_guide_diagonal_type_4);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_diagonal_type_4);
                     else if (str.equals("Diagonal Type 5"))
-                        img.setImageResource(R.drawable.ic_guide_diagonal_type_5);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_diagonal_type_5);
                     else if (str.equals("Golden Ratio"))
-                        img.setImageResource(R.drawable.ic_guide_golden_ratio_type_1_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_golden_ratio_type_1_4_3);
                     else if (str.equals("Golden Hybrid"))
-                        img.setImageResource(R.drawable.ic_guide_golden_spriral_ratio_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_golden_spriral_ratio_4_3);
                     else if (str.equals("Golden R/S 1"))
-                        img.setImageResource(R.drawable.ic_guide_golden_fuse1_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_golden_fuse1_4_3);
                     else if (str.equals("Golden R/S 2"))
-                        img.setImageResource(R.drawable.ic_guide_golden_fusion2_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_golden_fusion2_4_3);
                     else if (str.equals("Golden Triangle"))
-                        img.setImageResource(R.drawable.ic_guide_golden_triangle_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_golden_triangle_4_3);
                     else if (str.equals("Group POV Five"))
-                        img.setImageResource(R.drawable.ic_guide_groufie_five);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groufie_five);
                     else if (str.equals("Group POV Three"))
-                        img.setImageResource(R.drawable.ic_guide_groufie_three);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groufie_three);
                     else if (str.equals("Group POV Potrait"))
-                        img.setImageResource(R.drawable.ic_guide_groupshot_potrait);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groupshot_potrait);
                     else if (str.equals("Group POV Full"))
-                        img.setImageResource(R.drawable.ic_guide_groupshot_fullbody);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groupshot_fullbody);
                     else if (str.equals("Group POV Elvated"))
-                        img.setImageResource(R.drawable.ic_guide_groupshot_elevated_pov);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groupshot_elevated_pov);
                     else if (str.equals("Group by Depth"))
-                        img.setImageResource(R.drawable.ic_guide_groupshot_outfocusing);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groupshot_outfocusing);
                     else if (str.equals("Group Center Lead"))
-                        img.setImageResource(R.drawable.ic_guide_groupshot_center_leader);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_groupshot_center_leader);
                     else if (str.equals("Center Type x"))
-                        img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_center_type_1_4_3);
                     else if (str.equals("Center Type +"))
-                        img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
+                        img.setImageResource(com.troop.freedcam.ui.guide.R.drawable.ic_guide_center_type_2_4_3);
                     else if (str.equals("None"))
                         img.setImageBitmap(null);
+                    img.invalidate();
                 }
             });
         }
@@ -176,6 +185,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
                 img.setImageResource(R.drawable.ic_guide_insta_16_9);
             else if (str.equals("None"))
                 img.setImageBitmap(null);
+            img.invalidate();
 
         }
 
@@ -204,18 +214,18 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     public void OnPreviewSizeChanged(int w, int h)
     {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
+        /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
         layoutParams.gravity = Gravity.CENTER;
-        img.setLayoutParams(layoutParams);
+        img.setLayoutParams(layoutParams);*/
     }
 
     AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
-            String split[] = val.split("x");
+            /*String split[] = val.split("x");
             int w = Integer.parseInt(split[0]);
             int h = Integer.parseInt(split[1]);
-            OnPreviewSizeChanged(w,h);
+            OnPreviewSizeChanged(w,h);*/
         }
 
         @Override
@@ -237,7 +247,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper.camParametersHandler.PreviewSize != null)
-            cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
+        //if (cameraUiWrapper.camParametersHandler.PreviewSize != null)
+        //    cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 }

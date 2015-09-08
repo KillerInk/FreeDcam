@@ -34,7 +34,6 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.menu.themes.classic.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
@@ -56,7 +55,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     boolean histogramFragmentOpen = false;
     static OrientationHandler orientationHandler;
     int flags;
-    protected GuideHandler guideHandler;
+
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
     static AppSettingsManager appSettingsManager;
@@ -103,10 +102,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         //initUI
         apiHandler = new ApiHandler();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-        guideHandler = new GuideHandler();
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.guideHolder, guideHandler, "Guide");
-        transaction.commitAllowingStateLoss();
+
+
         timerHandler = new TimerHandler(this);
 
 
@@ -174,8 +171,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
         themeHandler.GetThemeFragment(true);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
-        guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
-        guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
+
     }
 
     @Override
