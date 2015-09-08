@@ -82,7 +82,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
         seekBar.setOnSeekBarChangeListener(this);
         this.headerTextView = (TextView)findViewById(R.id.textView_mheader);
+        headerTextView.setSelected(true);
         this.valueTextView = (TextView)findViewById(R.id.textView_mvalue);
+        valueTextView.setSelected(true);
 
         thread = new HandlerThread("seekbarThread");
         thread.start();

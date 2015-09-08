@@ -42,7 +42,14 @@
                 android:textColor="@color/uiSettingsTextColor"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:textSize="@dimen/infoOverlayTextSize" />
+                android:textSize="@dimen/infoOverlayTextSize"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:scrollHorizontally="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +58,14 @@
                 android:text="1/2000"
                 android:id="@+id/textView_mvalue"
                 android:textColor="@color/uiSettingsTextColor"
-                android:textSize="@dimen/infoOverlayTextSize" />
+                android:textSize="@dimen/infoOverlayTextSize"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:scrollHorizontally="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"/>
         </LinearLayout>
     </LinearLayout>
 

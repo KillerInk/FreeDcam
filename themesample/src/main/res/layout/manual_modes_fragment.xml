@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal">
 
         <troop.com.themesample.views.ManualItem
@@ -18,7 +18,8 @@
 
             app:Header="MF"
 
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -26,14 +27,16 @@
             android:id="@+id/manual_shutter"
 
             app:Header="Shutter"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_exposure"
             app:Header="Exposure"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -41,7 +44,8 @@
             android:id="@+id/manual_aperture"
 
             app:Header="Aperture"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -49,14 +53,16 @@
             android:id="@+id/manual_brightness"
 
             app:Header="Brightness"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_burst"
             app:Header="Burst"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -64,7 +70,8 @@
             android:id="@+id/manual_cct"
 
             app:Header="CCT"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -72,14 +79,16 @@
             android:id="@+id/manual_contrast"
             app:Header="Contrast"
 
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_saturation"
             app:Header="Saturation"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -87,14 +96,16 @@
             android:id="@+id/manual_sharpness"
 
             app:Header="Sharpness"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_program_shift"
             app:Header="ProgramShift"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -102,21 +113,24 @@
             android:id="@+id/manual_zoom"
 
             app:Header="Zoom"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_skintone"
             app:Header="Skintone"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_fx"
             app:Header="FX"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -124,7 +138,8 @@
             android:id="@+id/manual_iso"
 
             app:Header="ISO"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
@@ -132,7 +147,8 @@
             android:id="@+id/manual_convergence"
 
             app:Header="Converge.."
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 
