@@ -25,6 +25,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     ParameterHandlerApi2 camParametersHandler;
     BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
+    private boolean isSupported = false;
 
     public static String ShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
@@ -43,7 +44,14 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         this.cameraHolder = cameraHolder;
         this.camParametersHandler = camParametersHandler;
         shutterValues = ShutterValues.split(",");
-        findMinMaxValue();
+        try {
+            findMinMaxValue();
+        }
+        catch (NullPointerException ex)
+        {
+            this.isSupported = false;
+        }
+
     }
 
     int current = 0;
@@ -156,8 +164,10 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     }
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+    public boolean IsSupported()
+    {
+        this.isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+        return isSupported;
     }
 
     @Override
