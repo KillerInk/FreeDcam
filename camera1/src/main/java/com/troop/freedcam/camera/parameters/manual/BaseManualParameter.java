@@ -97,8 +97,18 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
     public int GetValue()
     {
+        if (parameters == null || value == null)
+            return 0;
         Log.d(TAG, "get " + value + ": " +parameters.get(value));
-        return Integer.parseInt(parameters.get(value));
+        try {
+            return Integer.parseInt(parameters.get(value));
+        }
+        catch (NumberFormatException ex)
+        {
+            ex.printStackTrace();
+            return 0;
+        }
+
     }
 
     @Override
