@@ -139,7 +139,7 @@ public class FreeVerticalSeekbar extends View
         }
     }
 
-
+    int startY;
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -147,19 +147,20 @@ public class FreeVerticalSeekbar extends View
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-
+                if (drawPosition.contains((int)event.getX(), (int)event.getY()))
+                {
+                    startY = (int)event.getY();
+                    sliderMoving = true;
+                    if (mListener != null)
+                        mListener.onStartTrackingTouch(null);
+                }
                 throwevent = true;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (!sliderMoving)
                 {
-                    if (drawPosition.contains((int)event.getX(), (int)event.getY()))
-                    {
+                    if (event.getY() >=  startY +20 || event.getY() <= startY -20)
                         sliderMoving = true;
-                        if (mListener != null)
-                            mListener.onStartTrackingTouch(null);
-                    }
-
                 }
                 if (sliderMoving)
                 {

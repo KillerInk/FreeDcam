@@ -273,10 +273,13 @@
         android:layout_centerInParent="true"></FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/uiSettingsWidth"
-        android:layout_marginRight="@dimen/shuttericon_size"
-        android:id="@+id/manualModesHolder"></FrameLayout>
+        android:id="@+id/manualModesHolder"
+        android:foregroundGravity="center_horizontal"
+        android:layout_toRightOf="@+id/fastsettings_button"
+        android:layout_toLeftOf="@+id/shutter_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"></FrameLayout>
 
 </RelativeLayout>

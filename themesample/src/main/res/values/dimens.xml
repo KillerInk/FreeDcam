@@ -6,4 +6,6 @@
     <dimen name="infoOverlayTextMargine">3dp</dimen>
     <dimen name="uiSettingsHeight">30dp</dimen>
     <dimen name="crosshairwidth">80dp</dimen>
+    <dimen name="manualitemtextsize">8dp</dimen>
+    <dimen name="manualitemwidth">45dp</dimen>
 </resources>
