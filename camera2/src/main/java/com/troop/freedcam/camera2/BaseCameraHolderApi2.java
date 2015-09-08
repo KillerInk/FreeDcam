@@ -351,6 +351,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     int aeState;
     int awbState;
     int lastAwbState;
+
+    private String getShutterString(long val)
+    {
+        int mili =(int) val /10000  ;
+        //double sec =  mili / 1000;
+        if (mili < 80000)
+            return 1 +"/" + (10000000/mili);
+        else
+        {
+            float t = mili / 10000;
+            return String.format("%01.1f", t);
+        }
+    }
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
@@ -373,8 +386,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     {
                         if (!ParameterHandler.ExposureMode.GetValue().equals("off") && !ParameterHandler.ControlMode.equals("off")) {
                             final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-                            String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDSasString(expores);
-                            ParameterHandler.ManualShutter.currentValueStringCHanged(StringUtils.TrimmFloatString(sec));
+                            //String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDSasString(expores);
+                            ParameterHandler.ManualShutter.currentValueStringCHanged(getShutterString(expores));
                         }
                     }
                     catch (NullPointerException ex)
