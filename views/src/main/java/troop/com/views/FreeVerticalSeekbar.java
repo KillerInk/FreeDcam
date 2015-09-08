@@ -147,15 +147,20 @@ public class FreeVerticalSeekbar extends View
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-                if (drawPosition.contains((int)event.getX(), (int)event.getY()))
-                {
-                    sliderMoving = true;
-                    if (mListener != null)
-                        mListener.onStartTrackingTouch(null);
-                }
+
                 throwevent = true;
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (!sliderMoving)
+                {
+                    if (drawPosition.contains((int)event.getX(), (int)event.getY()))
+                    {
+                        sliderMoving = true;
+                        if (mListener != null)
+                            mListener.onStartTrackingTouch(null);
+                    }
+
+                }
                 if (sliderMoving)
                 {
                     setNewDrawingPos((int) event.getY());
@@ -165,8 +170,18 @@ public class FreeVerticalSeekbar extends View
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (sliderMoving) {
+                if (sliderMoving)
+                {
                     sliderMoving = false;
+                    if (mListener != null)
+                        mListener.onStopTrackingTouch(null);
+                }
+                else
+                {
+                    if (mListener != null)
+                        mListener.onStartTrackingTouch(null);
+                    setNewDrawingPos((int) event.getY());
+                    invalidate();
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
                 }
