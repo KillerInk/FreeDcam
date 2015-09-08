@@ -162,7 +162,7 @@ public class DeviceUtils
         return xperiaLModels.contains(Build.MODEL);
     }
 
-    public static String Yureka = "YUREKA,AO5510,Yureka";
+    public static String Yureka = "YUREKA,AO5510,Yureka,A05510";
     public static boolean isYureka()
     {
         boolean supported = Build.DEVICE.equals("YUREKA");
