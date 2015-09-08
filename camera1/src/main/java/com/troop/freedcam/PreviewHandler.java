@@ -122,13 +122,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
         }
         catch (NullPointerException ex){}
-        while (isWorking)
-            try {
-                Log.d(TAG, "Wait for work finish");
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         mHeight = height;
         mWidth = width;
 
