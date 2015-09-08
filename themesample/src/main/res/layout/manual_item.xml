@@ -9,16 +9,51 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/uiSettingsBackground"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textView_min"
+                android:textSize="@dimen/infoOverlayTextSize"
+                android:textColor="@color/uiSettingsTextColor"
+                android:layout_gravity="center_horizontal" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <troop.com.views.FreeVerticalSeekbar
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/vertical_seekbar"
+                android:layout_gravity="center_horizontal" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/uiSettingsBackground"
+            android:layout_marginRight="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textView_max"
+                android:textSize="@dimen/infoOverlayTextSize"
+                android:textColor="@color/uiSettingsTextColor"
                 android:layout_gravity="center_horizontal" />
         </FrameLayout>
 
@@ -30,7 +65,8 @@
             android:background="@color/uiSettingsBackground"
             android:layout_weight="0"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="1dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,6 +103,7 @@
                 android:focusableInTouchMode="true"
                 android:freezesText="true"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

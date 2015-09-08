@@ -19,11 +19,11 @@ public class FreeVerticalSeekbar extends View
     //the activity context
     private Context context;
     //the minmal value of the slider
-    private int min;
+    private int min = 0;
     //the max value of the slider
-    private int max;
+    private int max = 100;
     //the current value of the slider
-    private int currentValue;
+    private int currentValue = 50;
     //Paint object for drawing
     private Paint paint;
     // size of one value in pixel
@@ -58,9 +58,6 @@ public class FreeVerticalSeekbar extends View
     private void init(Context context, AttributeSet attrs)
     {
         this.context = context;
-        min = 0;
-        max = 100;
-        currentValue = 50;
         paint = new Paint();
         paint.setAntiAlias(true);
 
@@ -75,15 +72,15 @@ public class FreeVerticalSeekbar extends View
 
         if (sliderImage == null)
         {
-            sliderImage = getResources().getDrawable(R.drawable.slider);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
+            sliderImage = getResources().getDrawable(troop.com.views.R.drawable.slider);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
             getPosToDraw();
         }
         if (sliderImage != null)
         {
             paint.setColor(Color.WHITE);
-            canvas.drawLine((getWidth() / 4) - 1, getTop(), (getWidth() / 4) + 1, getBottom(), paint);
+            canvas.drawLine((getWidth() / 2) - 1, getTop(), (getWidth() / 2) + 1, getBottom(), paint);
             paint.setColor(Color.BLACK);
-            canvas.drawLine((getWidth()/4), getTop(), (getWidth()/4)+2, getBottom(), paint);
+            canvas.drawLine((getWidth()/2), getTop(), (getWidth()/2)+2, getBottom(), paint);
             sliderImage.setBounds(drawPosition.left, drawPosition.top, drawPosition.right, drawPosition.bottom);
             sliderImage.draw(canvas);
         }
@@ -99,7 +96,7 @@ public class FreeVerticalSeekbar extends View
         pixelProValue = (getheight()-getWidth())  / max;
         currentValuePixelPos = currentValue * pixelProValue;
         int half = getWidth() / 2;
-        Rect tmp = new Rect(0, currentValuePixelPos, half, half + currentValuePixelPos);
+        Rect tmp = new Rect(half/2, currentValuePixelPos, half/2+half, half + currentValuePixelPos);
         drawPosition = tmp;
         return tmp;
     }
@@ -134,7 +131,7 @@ public class FreeVerticalSeekbar extends View
 
             currentValuePixelPos = r;
             int half = getWidth()/2;
-            Rect tmp = new Rect(0, currentValuePixelPos , half, half +currentValuePixelPos);
+            Rect tmp = new Rect(half/2, currentValuePixelPos , half/2+half, half +currentValuePixelPos);
 
             drawPosition = tmp;
 

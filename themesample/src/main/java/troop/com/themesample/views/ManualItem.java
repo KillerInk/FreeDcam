@@ -32,6 +32,8 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     FreeVerticalSeekbar seekBar;
     TextView headerTextView;
     TextView valueTextView;
+    TextView minTextView;
+    TextView maxTextView;
 
 
     String[] parameterValues;
@@ -86,6 +88,9 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         this.valueTextView = (TextView)findViewById(R.id.textView_mvalue);
         valueTextView.setSelected(true);
 
+        minTextView = (TextView)findViewById(R.id.textView_min);
+        maxTextView = (TextView)findViewById(R.id.textView_max);
+
         thread = new HandlerThread("seekbarThread");
         thread.start();
         handler = new Handler(thread.getLooper());
@@ -106,14 +111,25 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(parameter.GetValue()+"");
+
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-                int min = parameter.GetMinValue();
-                int max = parameter.GetMaxValue();
-                if (max > 0)
+
+                String[] ar = parameter.getStringValues();
+                if (ar != null)
+                {
+                    minTextView.setText(ar[0]);
+                    maxTextView.setText(ar[ar.length]);
+                    setSeekbar_Min_Max(0, parameter.getStringValues().length - 1);
+                }
+                else
+                {
+                    int min = parameter.GetMinValue();
+                    int max = parameter.GetMaxValue();
+                    minTextView.setText(min+"");
+                    maxTextView.setText(max+"");
                     setSeekbar_Min_Max(min, max);
-                else if (parameter.getStringValues() != null)
-                    setSeekbar_Min_Max(0, parameter.getStringValues().length-1);
+                }
                 setSeekbarProgress(parameter.GetValue());
             }
             else
