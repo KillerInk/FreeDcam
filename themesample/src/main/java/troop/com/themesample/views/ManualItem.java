@@ -119,7 +119,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 if (ar != null)
                 {
                     minTextView.setText(ar[0]);
-                    maxTextView.setText(ar[ar.length]);
+                    maxTextView.setText(ar[ar.length-1]);
                     setSeekbar_Min_Max(0, parameter.getStringValues().length - 1);
                 }
                 else
@@ -173,10 +173,14 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 if (value) {
                     ManualItem.this.setEnabled(true);
                     seekBar.setVisibility(VISIBLE);
+                    minTextView.setVisibility(VISIBLE);
+                    maxTextView.setVisibility(VISIBLE);
                 }
                 else {
                     ManualItem.this.setEnabled(false);
                     seekBar.setVisibility(GONE);
+                    minTextView.setVisibility(GONE);
+                    maxTextView.setVisibility(GONE);
                 }
             }
         });
