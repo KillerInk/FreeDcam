@@ -90,6 +90,36 @@
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="@color/menuTextColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="-"
+            android:id="@+id/textView_dngsupported"
+            android:textSize="@dimen/infoOverlayTextSize"
+            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:textColor="@color/menuTextColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="-"
+            android:id="@+id/textView_buildmodel"
+            android:textSize="@dimen/infoOverlayTextSize"
+            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:textColor="@color/menuTextColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="-"
+            android:id="@+id/textView_appversion"
+            android:textSize="@dimen/infoOverlayTextSize"
+            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:textColor="@color/menuTextColor" />
     </LinearLayout>
 
     <ImageView
