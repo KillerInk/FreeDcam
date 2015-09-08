@@ -114,22 +114,10 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-
-                String[] ar = parameter.getStringValues();
-                if (ar != null)
-                {
-                    minTextView.setText(ar[0]);
-                    maxTextView.setText(ar[ar.length-1]);
-                    setSeekbar_Min_Max(0, parameter.getStringValues().length - 1);
-                }
-                else
-                {
-                    int min = parameter.GetMinValue();
-                    int max = parameter.GetMaxValue();
-                    minTextView.setText(min+"");
-                    maxTextView.setText(max+"");
-                    setSeekbar_Min_Max(min, max);
-                }
+                realMax = parameter.GetMaxValue();
+                realMin = parameter.GetMinValue();
+                parameterValues = parameter.getStringValues();
+                updateMinMaxTextViewAndSeekbarMax();
                 setSeekbarProgress(parameter.GetValue());
             }
             else
@@ -140,6 +128,21 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     }
 
+    private void updateMinMaxTextViewAndSeekbarMax()
+    {
+        if (parameterValues != null && parameterValues.length > 0)
+        {
+            minTextView.setText(parameterValues[0]);
+            maxTextView.setText(parameterValues[parameterValues.length-1]);
+            setSeekbar_Min_Max(0, parameterValues.length-1);
+        }
+        else
+        {
+            minTextView.setText(realMin+"");
+            maxTextView.setText(realMax+"");
+            setSeekbar_Min_Max(realMin, realMax);
+        }
+    }
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
     {
@@ -191,13 +194,13 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onMaxValueChanged(int max)
     {
         realMax = max;
-        setSeekbar_Min_Max(realMin, realMax);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
     public void onMinValueChanged(int min) {
         realMin = min;
-        setSeekbar_Min_Max(realMin, realMax);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
@@ -227,7 +230,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onValuesChanged(String[] values)
     {
         this.parameterValues = values;
-        setSeekbar_Min_Max(0, parameterValues.length -1);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
@@ -298,6 +301,18 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                     }
                 });
             }
+            else
+            {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (realMin < 0)
+                            setTextValue(progress + realMin);
+                        else
+                            setTextValue(progress);
+                    }
+                });
+            }
         }
 
     }
@@ -315,7 +330,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 @Override
                 public void run()
                 {
-                    setValueToParameters(seekBar.getProgress());
+                    setValueToParameters(ManualItem.this.seekBar.getProgress());
                 }
             });
     }

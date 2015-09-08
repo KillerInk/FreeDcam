@@ -77,7 +77,7 @@ public class FreeVerticalSeekbar extends View
             sliderImage = getResources().getDrawable(troop.com.views.R.drawable.slider);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
             getPosToDraw();
         }
-        if (sliderImage != null)
+        if (sliderImage != null && drawPosition != null)
         {
             paint.setColor(Color.WHITE);
             canvas.drawLine((getWidth() / 2) - 1, getTop(), (getWidth() / 2) + 1, getBottom(), paint);
@@ -95,6 +95,8 @@ public class FreeVerticalSeekbar extends View
 
     private Rect getPosToDraw()
     {
+        if (max == 0)
+            return null;
         pixelProValue = (getheight()-getWidth())  / max;
         currentValuePixelPos = currentValue * pixelProValue;
         int half = getWidth() / 2;
@@ -216,7 +218,13 @@ public class FreeVerticalSeekbar extends View
             currentValue = progress;
 
             getPosToDraw();
-            invalidate();
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    invalidate();
+                }
+            });
+
         }
     }
 
@@ -224,7 +232,7 @@ public class FreeVerticalSeekbar extends View
     {
         this.max = max;
         if (currentValue > max)
-            currentValue = max;
+            currentValue = max-1;
 
         getPosToDraw();
         invalidate();
@@ -234,4 +242,7 @@ public class FreeVerticalSeekbar extends View
     {
         this.mListener = mListener;
     }
+
+    public int getProgress(){ return currentValue;}
+
 }
