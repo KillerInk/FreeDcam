@@ -63,8 +63,14 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         if (max_value == null)
             return 79;
-        else
-            return Integer.parseInt(parameters.get(max_value));
+        else {
+            try {
+                return Integer.parseInt(parameters.get(max_value));
+            } catch (NumberFormatException ex) {
+                return 0;
+            }
+        }
+
     }
 // HTC Focus Step "focus-step"
     @Override
