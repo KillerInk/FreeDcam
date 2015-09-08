@@ -100,7 +100,7 @@ public class FreeVerticalSeekbar extends View
         int half = getWidth() / 2;
         Rect tmp = new Rect(half/2, currentValuePixelPos, half/2+half, half + currentValuePixelPos);
         drawPosition = tmp;
-        touchArea = new Rect(0, currentValuePixelPos, getWidth(), getWidth() + currentValuePixelPos);
+        touchArea = new Rect(0, currentValuePixelPos - 10, getWidth(), getWidth() + currentValuePixelPos +10);
         return tmp;
     }
 
@@ -135,7 +135,7 @@ public class FreeVerticalSeekbar extends View
             currentValuePixelPos = r;
             int half = getWidth()/2;
             Rect tmp = new Rect(half/2, currentValuePixelPos , half/2+half, half +currentValuePixelPos);
-            touchArea = new Rect(0, currentValuePixelPos, getWidth(), getWidth() + currentValuePixelPos);
+            touchArea = new Rect(0, currentValuePixelPos - 10, getWidth(), getWidth() + currentValuePixelPos +10);
             drawPosition = tmp;
 
 
@@ -165,7 +165,7 @@ public class FreeVerticalSeekbar extends View
                 {
                     int disx = getDistance(startX, (int)event.getX());
                     int disy = getDistance(startY, (int)event.getY());
-                    if (disy > disx && disy > 50) {
+                    if (disy > disx && disy > 40) {
                         sliderMoving = true;
                         if (mListener != null)
                             mListener.onStartTrackingTouch(null);
