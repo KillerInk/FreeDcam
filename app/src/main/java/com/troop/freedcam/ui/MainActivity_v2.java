@@ -28,6 +28,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.manager.FileLogger;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
@@ -66,6 +67,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
+        //FileLogger.StartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -252,6 +254,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //FileLogger.StopLogging();
     }
 
     @Override
