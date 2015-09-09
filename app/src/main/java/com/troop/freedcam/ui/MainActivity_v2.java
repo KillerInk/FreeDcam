@@ -23,17 +23,14 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.apis.AbstractCameraFragment;
-import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.ui.guide.GuideHandler;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
-import com.troop.freedcam.ui.handler.HelpOverlayHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
@@ -42,8 +39,6 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
-import troop.com.imageviewer.ImageViewerActivity;
-import troop.com.imageviewer.ImageViewerFragment;
 import troop.com.imageviewer.ScreenSlideActivity;
 
 /**
