@@ -271,7 +271,10 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     {
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null)
         {
-            appSettingsManager.setString(settingsname,value+"");
+            if(realMin < 0)
+                appSettingsManager.setString(settingsname,(value+ realMin)+"");
+            else
+                appSettingsManager.setString(settingsname,value+"");
         }
         if(realMin < 0)
             value += realMin;
@@ -280,6 +283,10 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             Log.e(headerTextView.getText().toString(), "value bigger then max");
             return;
         }
+        if (value < realMin)
+            value = realMin;
+        if (value > realMax)
+            value = realMax;
         parameter.SetValue(value);
     }
 
