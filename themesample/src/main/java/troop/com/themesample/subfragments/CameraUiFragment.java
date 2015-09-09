@@ -276,7 +276,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             @Override
             public void onAnimationEnd(Animator animation) {
                 left_cameraUI_holder.setVisibility(View.GONE);
-                guidHolder.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -314,7 +314,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         manualModes_holder.setVisibility(View.VISIBLE);
         focusImageHandler.HideImages(true);
-
+        guidHolder.setVisibility(View.GONE);
     }
 
     private void showSettings()
