@@ -32,6 +32,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsChildExit;
 import troop.com.themesample.views.uichilds.UiSettingsChildFormat;
 import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
+import troop.com.themesample.views.uichilds.UiSettingsFocusPeak;
 import troop.com.themesample.views.uichilds.UiSettingsMenu;
 
 /**
@@ -59,7 +60,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static SwipeMenuListner touchHandler;
     static ShutterButton shutterButton;
 
-    static UiSettingsChild focuspeak;
+    static UiSettingsFocusPeak focuspeak;
 
 
 
@@ -196,7 +197,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
-        focuspeak = (UiSettingsChild)view.findViewById(R.id.ui_focuspeak);
+        focuspeak = (UiSettingsFocusPeak)view.findViewById(R.id.ui_focuspeak);
         focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetMenuItemListner(this);
 
