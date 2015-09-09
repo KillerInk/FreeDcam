@@ -67,30 +67,23 @@ public class FileLogger
             while (LOGTOFILE)
             {
 
-                Process process = Runtime.getRuntime().exec("logcat -d");
+                Process process = Runtime.getRuntime().exec("logcat");
                 bufferedReader = new BufferedReader(
                         new InputStreamReader(process.getInputStream()));
                 // Write the string to the file
-                String line;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    outputstream.write(DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime())+ ":" +line + "\n");
-                }
+
+                waitforLine(bufferedReader, outputstream);
+
                 Runtime.getRuntime().exec("logcat -c");
+                Thread.sleep(100);
             }
         }
         catch (IOException e)
         {
             LOGTOFILE = false;
-            try {
-                if (outputstream != null)
-                    outputstream.flush();
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        finally {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
             isrunning = false;
             try {
                 if (outputstream != null) {
@@ -105,5 +98,29 @@ public class FileLogger
                 e.printStackTrace();
             }
         }
+    }
+
+    private static void waitforLine(final BufferedReader bufferedReader, final OutputStreamWriter outputstream) throws IOException {
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                String line;
+                try {
+                    while ((line = bufferedReader.readLine()) != null && LOGTOFILE)
+                    {
+                        outputstream.write(DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime())+ ":" +line + "\n");
+                    }
+                } catch (IOException e) {
+                    try {
+                        if (outputstream != null)
+                            outputstream.flush();
+
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 }
