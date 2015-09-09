@@ -66,7 +66,7 @@ public class DeviceUtils
     {
         boolean supported = Build.DEVICE.equals("htc_m8");
         if (!supported)
-            supported = Build.MODEL.equals("HTC One_M8") || Build.MODEL.equals("One M8") || Build.MODEL.equals("HTC One M8") || Build.MODEL.equals("htc_m8");
+            supported = Build.MODEL.equals("HTC One_M8") || Build.MODEL.equals("One M8") || Build.MODEL.equals("HTC One M8") || Build.MODEL.equals("htc_m8") || Build.MODEL.equals("831C");
         return supported;
     }
 

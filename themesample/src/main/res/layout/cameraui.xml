@@ -269,7 +269,7 @@
             android:layout_alignParentBottom="false"
             android:gravity="bottom">
 
-            <troop.com.themesample.views.uichilds.UiSettingsChild
+            <troop.com.themesample.views.uichilds.UiSettingsFocusPeak
                 android:layout_width="@dimen/uiSettingsWidth"
                 android:layout_height="wrap_content"
                 android:id="@+id/ui_focuspeak"
