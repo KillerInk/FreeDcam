@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -34,6 +38,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     AbstractCameraUiWrapper cameraUiWrapper;
     Bitmap bitmap;
     File lastFile;
+    Bitmap mask;
     public ThumbView(Context context) {
         super(context);
         this.setOnClickListener(this);
@@ -52,6 +57,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         this.i_activity = i_activity;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
     }
 
     @Override
@@ -83,12 +89,12 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 e.printStackTrace();
             }
             if (thum != null)
-                return BitmapFactory.decodeByteArray(thum, 0, thum.length);
+                return Bitmap.createScaledBitmap(BitmapFactory.decodeByteArray(thum, 0, thum.length), mask.getWidth(), mask.getHeight(), false);
 
         }
         else if (file.getAbsolutePath().endsWith("mp4"))
         {
-            return ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+            return Bitmap.createScaledBitmap(ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND), mask.getWidth(), mask.getHeight(), false);
         }
         return null;
     }
@@ -103,7 +109,16 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 System.gc();
             }
             bitmap = loadThumbViewImage(filePath);
-            this.setImageBitmap(bitmap);
+            Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas drawc = new Canvas(drawMap);
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+            drawc.drawBitmap(bitmap, 0, 0, null);
+            drawc.drawBitmap(mask, 0, 0, paint);
+            drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
+            paint.setXfermode(null);
+            bitmap.recycle();
+            this.setImageBitmap(drawMap);
         }
     }
 

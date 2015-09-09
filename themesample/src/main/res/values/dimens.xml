@@ -8,4 +8,6 @@
     <dimen name="crosshairwidth">80dp</dimen>
     <dimen name="manualitemtextsize">8dp</dimen>
     <dimen name="manualitemwidth">45dp</dimen>
+    <dimen name="thumbviewsize">65dp</dimen>
+    <dimen name="uiSettingsWidthRight">65dp</dimen>
 </resources>
