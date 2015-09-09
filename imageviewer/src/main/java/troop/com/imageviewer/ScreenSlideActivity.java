@@ -163,7 +163,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position)
         {
-            if (files == null)
+            if (files == null || files.length == 0)
             {
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideActivity.this;
