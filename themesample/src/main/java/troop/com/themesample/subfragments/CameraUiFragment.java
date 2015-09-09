@@ -313,6 +313,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         }).start();
 
         manualModes_holder.setVisibility(View.VISIBLE);
+        focusImageHandler.HideImages(true);
 
     }
 
@@ -330,6 +331,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         manualModes_holder.setVisibility(View.GONE);
         guidHolder.setVisibility(View.VISIBLE);
+        focusImageHandler.HideImages(false);
     }
 
 

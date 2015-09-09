@@ -44,6 +44,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     FocusRect meteringRect;
     FocusRect awbRect;
     static final int MAX_DURATION = 3500;
+    private boolean focusWasVisible = false;
+    private boolean meteringWasVisible = false;
+    private boolean wbWasVisible = false;
 
 
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
@@ -70,6 +73,36 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch, true));
         awbArea.setVisibility(View.GONE);
 
+    }
+
+    public void HideImages(boolean hide)
+    {
+        if (hide)
+        {
+            if (focusImageView.getVisibility() == View.VISIBLE)
+                focusWasVisible = true;
+            else
+                focusWasVisible = false;
+            if (meteringArea.getVisibility() == View.VISIBLE)
+                meteringWasVisible = true;
+            else
+                meteringWasVisible = false;
+            if (awbArea.getVisibility() == View.VISIBLE)
+                wbWasVisible = true;
+            else
+                wbWasVisible = false;
+            focusImageView.setVisibility(View.GONE);
+            meteringArea.setVisibility(View.GONE);
+            awbArea.setVisibility(View.GONE);
+        }
+        else {
+            if (focusWasVisible)
+                focusImageView.setVisibility(View.VISIBLE);
+            if (wbWasVisible)
+                awbArea.setVisibility(View.VISIBLE);
+            if (meteringWasVisible)
+                meteringArea.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void init(View view)
