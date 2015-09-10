@@ -69,7 +69,7 @@
     <string name="setting_zsl_description">Buffers Images for instant Capture N/A to raw must be off</string>
 
     <string name="setting_camera2_">Camera 2 Settings</string>
-    <string name="setting_colorcorrection_header">Color Correction: </string>
+    <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
     <string name="setting_colorcorrection_description">Change this to manual or auto</string>
     <string name="setting_controlmode_header">Camera Control: </string>
     <string name="setting_controlmode_description">Controls the Main Camera Functions, turn off for full manual</string>
