@@ -23,37 +23,37 @@ import java.util.ArrayList;
  * Created by Ingo on 01.05.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualWbCtApi2  extends ManualExposureTimeApi2
+public class ManualWbCtApi2  extends  AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
     int current = 5000;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     boolean isSupported = false;
+    BaseCameraHolderApi2 cameraHolder;
+    boolean canSet = false;
 
     final String TAG = ManualWbCtApi2.class.getSimpleName();
 
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
-        super(camParametersHandler, cameraHolder);
-
+        super(camParametersHandler);
+        this.cameraHolder = cameraHolder;
     }
 
     @Override
     public int GetMaxValue() {
-        return 16000;
+        return 160;
     }
 
     @Override
     public int GetMinValue() {
-        return 1500;
+        return 15;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int GetValue()
     {
-
-
-        return current;
+        return current/100;
     }
 
     @Override
@@ -61,11 +61,15 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
         return (current) +"K";
     }
 
-
+    @Override
+    public String[] getStringValues() {
+        return null;
+    }
 
     @Override
     public void SetValue(int valueToSet)
     {
+        valueToSet = valueToSet*100;
         current =valueToSet;
         //code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
         int r,g,b;
@@ -155,6 +159,7 @@ public class ManualWbCtApi2  extends ManualExposureTimeApi2
 
     @Override
     public boolean IsSupported() {
+        isSupported = camParametersHandler.ColorCorrectionMode.GetValue() != null && camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
         return isSupported;
     }
 
