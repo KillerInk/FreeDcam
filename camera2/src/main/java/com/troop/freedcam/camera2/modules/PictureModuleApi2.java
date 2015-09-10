@@ -40,7 +40,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -77,6 +79,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     public static final int STATE_PICTURE_TAKEN = 4;
     private TotalCaptureResult mDngResult;
+
+    int imagecount = 0;
 
 
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
@@ -119,7 +123,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Log.d(TAG, "dng:"+ Boolean.toString(ParameterHandler.IsDngActive()));
 
-            cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
+        cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
 
         captureStillPicture();
         //lockFocus();
@@ -164,11 +168,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
-
-
+            List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
+            for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
+            {
+                captureList.add(captureBuilder.build());
+            }
+            imagecount = 0;
             cameraHolder.mCaptureSession.stopRepeating();
             mDngResult = null;
-            cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+            cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -188,7 +196,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         }
     };
-    
+
     private void finishCapture() {
         try {
             Log.d(TAG, "CaptureDone");
@@ -203,32 +211,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         isWorking = false;
     }
-
-
-    /**
-     * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
-     * still image is ready to be saved.
-     */
-    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
-            = new ImageReader.OnImageAvailableListener() {
-
-        @Override
-        public void onImageAvailable(ImageReader reader)
-        {
-            File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
-            new ImageSaver(reader.acquireNextImage(), file).run();
-            //mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
-            Log.d(TAG, "create Jpeg");
-            isWorking = false;
-            workfinished(true);
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            eventHandler.WorkFinished(file);
-            workfinished(true);
-            finishCapture();
-            //StartPreview();
-        }
-
-    };
 
     public void checkFileExists(File fileName) {
         if(!fileName.getParentFile().exists())
@@ -250,26 +232,31 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 @Override
                 public void run()
                 {
+                    int burstcount = ParameterHandler.Burst.GetValue()+1;
+                    File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
+                    imagecount++;
                     if (reader.getImageFormat() == ImageFormat.JPEG)
                     {
                         Log.d(TAG, "Create JPEG");
-                        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+                        if (burstcount > 1)
+                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".jpg"));
+                        else
+                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
                         checkFileExists(file);
                         Image image = reader.acquireNextImage();
                         while (image == null) {
                             image = reader.acquireNextImage();
                         }
                         new ImageSaver(image, file).run();
-                        isWorking = false;
-                        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-                        eventHandler.WorkFinished(file);
-                        workfinished(true);
                     }
                     else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/)
                     {
                         Log.d(TAG, "Create DNG");
-                        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+                        if (burstcount > 1)
+                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".dng"));
+                        else
+                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
                         checkFileExists(file);
                         Image image = reader.acquireNextImage();
                         while (image == null) {
@@ -277,7 +264,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         }
                         while (mDngResult == null)
                             try {
-                                Thread.sleep(10);
+                                Thread.sleep(1);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -289,30 +276,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             e.printStackTrace();
                         }
                         image.close();
-                        isWorking = false;
-                        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-                        eventHandler.WorkFinished(file);
-                        workfinished(true);
                     }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            finishCapture();
-                        }
-                    });
-                }
-            }).start();
-                /*else
-                {
-                    Log.d(TAG, "Create RAW");
-                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(),".raw"));
-                    checkFileExists(file);
-                    new ImageSaver(reader.acquireNextImage(), file).run();
+
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
-                }*/
-
+                    if (burstcount == imagecount) {
+                        workfinished(true);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                finishCapture();
+                            }
+                        });
+                    }
+                }
+            }).start();
         }
     };
 

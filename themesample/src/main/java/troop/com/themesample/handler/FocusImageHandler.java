@@ -217,11 +217,18 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void AEMeteringSupported(boolean isSupported) {
-        if (isSupported)
-            meteringArea.setVisibility(View.VISIBLE);
-        else
-            meteringArea.setVisibility(View.GONE);
+    public void AEMeteringSupported(final boolean isSupported)
+    {
+        meteringArea.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isSupported)
+                    meteringArea.setVisibility(View.VISIBLE);
+                else
+                    meteringArea.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override

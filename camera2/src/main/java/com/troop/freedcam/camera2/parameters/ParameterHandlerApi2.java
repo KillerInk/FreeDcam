@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.FocusHandlerApi2;
+import com.troop.freedcam.camera2.parameters.manual.BurstApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureTimeApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualFocus;
@@ -122,6 +123,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
 
         ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
+
+        Burst = new BurstApi2(this,cameraHolder);
 
         uiHandler.post(new Runnable() {
             @Override

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.troop.freedcam.camera2.parameters.manual.BurstApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -295,7 +296,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
         if (userIsSeeking && parameter != null)
         {
-            if (!(parameter instanceof BaseManualParameterSony))
+            if (!(parameter instanceof BaseManualParameterSony) && !(parameter instanceof BurstApi2))
             {
                 handler.post(new Runnable() {
                     @Override
@@ -332,7 +333,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     @Override
     public void onStopTrackingTouch(final SeekBar seekBar) {
         userIsSeeking = false;
-        if (parameter instanceof BaseManualParameterSony)
+        if (parameter instanceof BaseManualParameterSony || parameter instanceof BurstApi2)
             handler.post(new Runnable() {
                 @Override
                 public void run()
