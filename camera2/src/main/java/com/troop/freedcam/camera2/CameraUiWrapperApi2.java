@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.TextureView;
 
@@ -15,6 +16,8 @@ import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
+import troop.com.imageconverter.ViewfinderProcessor;
+
 /**
  * Created by troop on 07.12.2014.
  */
@@ -25,6 +28,8 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     Context context;
     AppSettingsManager appSettingsManager;
     AutoFitTextureView preview;
+
+
 
     private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
 
@@ -46,7 +51,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         this.appSettingsManager = appSettingsManager;
         this.context = context;
         //attache the callback to the Campreview
-        //preview.getHolder().addCallback(this);
+        //previewSize.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager);
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
@@ -55,14 +60,18 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
 
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        //preview.ParametersHandler = camParametersHandler;
+        //previewSize.ParametersHandler = camParametersHandler;
 
 
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
         Log.d(TAG, "Constructor done");
 
+
+
     }
+
+
 
     @Override
     protected void startCamera() {

@@ -161,6 +161,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex){ex.printStackTrace();}
     }
 
     @Override

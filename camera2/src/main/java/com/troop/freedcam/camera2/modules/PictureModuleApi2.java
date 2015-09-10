@@ -53,15 +53,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
     BaseCameraHolderApi2 cameraHolder;
-
-
     int mState;
-
     /**
      * Camera state: Showing camera preview.
      */
     public static final int STATE_PREVIEW = 0;
-
     /**
      * Camera state: Waiting for the focus to be locked.
      */
@@ -82,13 +78,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     int imagecount = 0;
 
-
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.Settings = Settings;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
-
     }
 
     @Override
@@ -101,18 +95,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         return "Pic";
     }
 
-
     @Override
     public void DoWork()
     {
         if (!cameraHolder.isWorking)
         {
-
             /*get pic size*/
             workstarted();
             TakePicture();
-
-
         }
 
     }
@@ -137,8 +127,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Log.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
-            final CaptureRequest.Builder captureBuilder =
-                    cameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+
             captureBuilder.addTarget(cameraHolder.mImageReader.getSurface());
 
             // Use the same AE and AF modes as the preview.
@@ -158,15 +148,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
-            //captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON);
-
-
-            //cameraHolder.SetLastUsedParameters(captureBuilder);
-
-
-            // Orientation
-            //int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-            //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
             List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
             for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
@@ -175,6 +156,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             imagecount = 0;
             cameraHolder.mCaptureSession.stopRepeating();
+            captureBuilder.removeTarget(cameraHolder.previewsurface);
             mDngResult = null;
             cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, null);
         } catch (CameraAccessException e) {
@@ -203,6 +185,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
+
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
 

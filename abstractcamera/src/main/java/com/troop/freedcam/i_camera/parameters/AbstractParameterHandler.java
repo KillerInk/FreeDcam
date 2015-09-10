@@ -167,7 +167,7 @@ public abstract class AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
-        setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
+        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))

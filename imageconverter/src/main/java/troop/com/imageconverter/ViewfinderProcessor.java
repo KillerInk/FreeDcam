@@ -15,13 +15,16 @@ package troop.com.imageconverter;
      * See the License for the specific language governing permissions and
      * limitations under the License.
      */
+import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 
 import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 
 
@@ -30,6 +33,7 @@ import android.view.Surface;
 /**
  * Renderscript-based Focus peaking viewfinder
  */
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class ViewfinderProcessor {
     int mCount;
     long mLastTime;
@@ -39,43 +43,80 @@ public class ViewfinderProcessor {
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private ScriptC_focus_peak mScriptFocusPeak;
+    private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
     public ProcessingTask mProcessingTask;
-    public ViewfinderProcessor(RenderScript rs, Size dimensions) {
-        Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
-        yuvTypeBuilder.setX(dimensions.getWidth());
-        yuvTypeBuilder.setY(dimensions.getHeight());
-        yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
-        mInputAllocation = Allocation.createTyped(rs, yuvTypeBuilder.create(),
-                Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
-        Type.Builder rgbTypeBuilder = new Type.Builder(rs, Element.RGBA_8888(rs));
-        rgbTypeBuilder.setX(dimensions.getWidth());
-        rgbTypeBuilder.setY(dimensions.getHeight());
-        mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
-                Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+    public boolean peak = false;
+
+    RenderScript rs;
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public ViewfinderProcessor(RenderScript rs)
+    {
+        this.rs = rs;
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
         mScriptFocusPeak = new ScriptC_focus_peak(rs);
+        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs));
+    }
+
+
+    public void Reset(int width,int height)
+    {
+        Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
+        yuvTypeBuilder.setX(width);
+        yuvTypeBuilder.setY(height);
+        yuvTypeBuilder.setYuvFormat(ImageFormat.NV21);
+        mInputAllocation = Allocation.createTyped(rs, yuvTypeBuilder.create(),
+                Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
+        Type.Builder rgbTypeBuilder = new Type.Builder(rs, Element.RGBA_8888(rs));
+        rgbTypeBuilder.setX(width);
+        rgbTypeBuilder.setY(height);
+        mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
+                Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+
+
         mProcessingTask = new ProcessingTask(mInputAllocation);
     }
+
     public Surface getInputSurface() {
         return mInputAllocation.getSurface();
     }
-    public void setInputSurface(Surface input) {
-        mInputAllocation.setSurface(input);
-    }
-    public void setOutputSurface(Surface output) {
+    public void setOutputSurface(Surface output)
+    {
+
         mOutputAllocation.setSurface(output);
     }
+
+    public void kill()
+    {
+        if (mInputAllocation == null)
+            return;
+        mInputAllocation.setOnBufferAvailableListener(null);
+        if (mProcessingTask == null)
+            return;
+
+        while (mProcessingTask.working) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        mOutputAllocation.setSurface(null);
+        mProcessingTask = null;
+    }
+
     public float getmFps() {
         return mFps;
     }
     /**
      * Class to process buffer from camera and output to buffer to screen
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     class ProcessingTask implements Runnable, Allocation.OnBufferAvailableListener {
         private int mPendingFrames = 0;
         private Allocation mInputAllocation;
+        private boolean working = false;
         public ProcessingTask(Allocation input) {
             mInputAllocation = input;
             mInputAllocation.setOnBufferAvailableListener(this);
@@ -88,7 +129,9 @@ public class ViewfinderProcessor {
             }
         }
         @Override
-        public void run() {
+        public void run()
+        {
+            working = true;
             // Find out how many frames have arrived
             int pendingFrames;
             synchronized (this) {
@@ -98,20 +141,25 @@ public class ViewfinderProcessor {
                 mProcessingHandler.removeCallbacks(this);
             }
             // Get to newest input
-            for (int i = 0; i < pendingFrames; i++) {
+            for (int i = 0; i < pendingFrames; i++)
+            {
                 mInputAllocation.ioReceive();
             }
             mCount++;
-            mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
-            long time = System.currentTimeMillis() - mLastTime;
-            if (time > 1000) {
-                mLastTime += time;
-                mFps = mCount * 1000 / (float) (time);
-                mCount = 0;
+            if (mOutputAllocation == null)
+                return;
+            if (peak) {
+                mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
+                // Run processing pass
+                mScriptFocusPeak.forEach_peak(mOutputAllocation);
             }
-            // Run processing pass
-            mScriptFocusPeak.forEach_peak(mOutputAllocation);
+            else
+            {
+                yuvToRgbIntrinsic.setInput(mInputAllocation);
+                yuvToRgbIntrinsic.forEach(mOutputAllocation);
+            }
             mOutputAllocation.ioSend();
+            working = false;
         }
     }
 }

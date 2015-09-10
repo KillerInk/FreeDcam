@@ -60,6 +60,10 @@ public class ManualExposureApi2 extends AbstractManualParameter
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.troop.freedcam.camera2.parameters.modes.DenoiseModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.EdgeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.FocusPeakModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.HotPixelModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ImageStabApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
@@ -125,6 +126,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
 
         Burst = new BurstApi2(this,cameraHolder);
+        Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
 
         uiHandler.post(new Runnable() {
             @Override
