@@ -74,7 +74,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Contrast extends ManualExposureApi2
     {
-        int current = 150;
+        int current = 50;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
 
@@ -83,7 +83,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public int GetMaxValue() {
-            return 300;
+            return 100;
         }
 
         @Override
@@ -93,7 +93,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public int GetValue() {
-            return current;
+            return current/3;
         }
 
         @Override
@@ -109,6 +109,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public void SetValue(int valueToSet)
         {
+            valueToSet = valueToSet *3;
             current = valueToSet;
 
             float toset = 0;
@@ -165,14 +166,14 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Brightness extends ManualExposureApi2
     {
-        int current = 150;
+        int current = 100;
         public Brightness(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
         }
 
         @Override
         public int GetMaxValue() {
-            return 300;
+            return 100;
         }
 
         @Override
@@ -182,7 +183,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public int GetValue() {
-            return current;
+            return current/4;
         }
 
         @Override
@@ -198,24 +199,25 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public void SetValue(int valueToSet)
         {
+            valueToSet = valueToSet *4;
             current = valueToSet;
 
             float toset = 0;
-            if (valueToSet > 150)
+            if (current > 200)
             {
-                toset = (valueToSet - 150) * 0.001f;
+                toset = (current - 200) * 0.001f;
                 midtones[0] = 0.5f - toset;
                 midtones[1] = 0.5f + toset;
 
             }
-            if (valueToSet == 50)
+            if (current == 100)
             {
                 midtones[0] = 0.5f;
                 midtones[1] = 0.5f;
             }
             else
             {
-                toset = (150 - valueToSet) * 0.001f;
+                toset = (200 - current) * 0.001f;
                 midtones[0] = 0.5f + toset;
                 midtones[1] = 0.5f - toset;
             }
