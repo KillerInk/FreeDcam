@@ -13,8 +13,11 @@ import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
+
+
 import android.os.Build;
-import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -38,6 +41,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by troop on 12.12.2014.
@@ -160,27 +164,30 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
-            CameraCaptureSession.CaptureCallback CaptureCallback
-                    = new CameraCaptureSession.CaptureCallback()
-            {
 
-                @Override
-                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
-                                               TotalCaptureResult result)
-                {
-                    mDngResult = result;
-                    Log.d(TAG, "CaptureResult Recieved");
-                    //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
-
-                }
-            };
 
             cameraHolder.mCaptureSession.stopRepeating();
+            mDngResult = null;
             cameraHolder.mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
+
+    CameraCaptureSession.CaptureCallback CaptureCallback
+            = new CameraCaptureSession.CaptureCallback()
+    {
+
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
+                                       TotalCaptureResult result)
+        {
+            mDngResult = result;
+            Log.d(TAG, "CaptureResult Recieved");
+            //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
+
+        }
+    };
     
     private void finishCapture() {
         try {
@@ -237,33 +244,65 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
     {
         @Override
-        public void onImageAvailable(ImageReader reader) {
-            try
-            {
-                if (reader.getImageFormat() == ImageFormat.JPEG)
+        public void onImageAvailable(final ImageReader reader)
+        {
+            new Thread(new Runnable() {
+                @Override
+                public void run()
                 {
-                    Log.d(TAG, "Create RAW");
-                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
-                    checkFileExists(file);
-                    new ImageSaver(reader.acquireNextImage(), file).run();
-                    isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-                    eventHandler.WorkFinished(file);
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    if (reader.getImageFormat() == ImageFormat.JPEG)
+                    {
+                        Log.d(TAG, "Create JPEG");
+                        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+                        checkFileExists(file);
+                        Image image = reader.acquireNextImage();
+                        while (image == null) {
+                            image = reader.acquireNextImage();
+                        }
+                        new ImageSaver(image, file).run();
+                        isWorking = false;
+                        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                        eventHandler.WorkFinished(file);
+                        workfinished(true);
+                    }
+                    else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/)
+                    {
+                        Log.d(TAG, "Create DNG");
+                        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+                        checkFileExists(file);
+                        Image image = reader.acquireNextImage();
+                        while (image == null) {
+                            image = reader.acquireNextImage();
+                        }
+                        while (mDngResult == null)
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+
+                        try {
+                            dngCreator.writeImage(new FileOutputStream(file), image);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        image.close();
+                        isWorking = false;
+                        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                        eventHandler.WorkFinished(file);
+                        workfinished(true);
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            finishCapture();
+                        }
+                    });
                 }
-                else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR && cameraHolder.ParameterHandler.IsDngActive())
-                {
-                    Log.d(TAG, "Create DNG");
-                    File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-                    checkFileExists(file);
-                    DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
-                    final Image image = reader.acquireNextImage();
-                    dngCreator.writeImage(new FileOutputStream(file), image);
-                    image.close();
-                    isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-                    eventHandler.WorkFinished(file);
-                }
-                else
+            }).start();
+                /*else
                 {
                     Log.d(TAG, "Create RAW");
                     File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(),".raw"));
@@ -272,14 +311,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     isWorking = false;
                     MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
                     eventHandler.WorkFinished(file);
-                }
-            }  catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            workfinished(true);
-            finishCapture();
+                }*/
+
         }
     };
 
