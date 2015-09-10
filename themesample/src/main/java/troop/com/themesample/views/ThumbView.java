@@ -113,11 +113,13 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             Canvas drawc = new Canvas(drawMap);
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-            drawc.drawBitmap(bitmap, 0, 0, null);
+            if (bitmap != null && !bitmap.isRecycled())
+                drawc.drawBitmap(bitmap, 0, 0, null);
             drawc.drawBitmap(mask, 0, 0, paint);
             drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
             paint.setXfermode(null);
-            bitmap.recycle();
+            if (bitmap != null && !bitmap.isRecycled())
+                bitmap.recycle();
             this.setImageBitmap(drawMap);
         }
     }
