@@ -1,5 +1,8 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
+import android.annotation.TargetApi;
+import android.hardware.camera2.CameraCharacteristics;
+import android.os.Build;
 import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -9,15 +12,17 @@ import com.troop.freedcam.utils.StringUtils;
 /**
  * Created by troop on 10.09.2015.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class FocusPeakModeApi2 extends BaseModeApi2 {
     public FocusPeakModeApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         super(handler, baseCameraHolderApi2);
     }
 
+
     @Override
     public boolean IsSupported() {
-        return true;
+        return cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
     }
 
     @Override

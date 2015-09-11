@@ -65,7 +65,7 @@ public class ViewfinderProcessor {
         Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
-        yuvTypeBuilder.setYuvFormat(ImageFormat.NV21);
+        yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
         mInputAllocation = Allocation.createTyped(rs, yuvTypeBuilder.create(),
                 Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
         Type.Builder rgbTypeBuilder = new Type.Builder(rs, Element.RGBA_8888(rs));

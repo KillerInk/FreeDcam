@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -119,8 +120,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.Settings = Settings;
-        mRS = RenderScript.create(Settings.context);
-        mProcessor = new ViewfinderProcessor(mRS);
+
     }
 
 
@@ -141,7 +141,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
             manager.openCamera(cam, mStateCallback, null);
-            characteristics = manager.getCameraCharacteristics(CurrentCamera+"");
+            characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
+            if (!isLegacyDevice())
+            {
+                mRS = RenderScript.create(Settings.context);
+                mProcessor = new ViewfinderProcessor(mRS);
+            }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -272,33 +277,43 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public void SetBurst(int burst)
     {
         try {
-            setupPreviewSize(displaySize.x, displaySize.y, largestImageSize);
+            previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
 
+            SurfaceTexture texture = textureView.getSurfaceTexture();
+            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+            previewsurface = new Surface(texture);
+            if (!isLegacyDevice())
+            {
+                if (mProcessor != null) {
+                    mProcessor.kill();
+                }
+                mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+
+                mProcessor.setOutputSurface(previewsurface);
+                camerasurface = mProcessor.getInputSurface();
                 mPreviewRequestBuilder.addTarget(camerasurface);
+            }
+            else
+            {
+                mPreviewRequestBuilder.addTarget(previewsurface);
+                configureTransform();
+            }
 
             if (picFormat.equals(JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
             else
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
 
-
-                createCaptureSession(camerasurface);
-
-
-
-
+            if (isLegacyDevice())
+                createPreviewCaptureSession(previewsurface);
+            else
+                createPreviewCaptureSession(camerasurface);
+            
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
         if (ParameterHandler.Burst != null)
             ParameterHandler.Burst.currentValueChanged(ParameterHandler.Burst.GetValue());
-    }
-
-    private void createCaptureSession(Surface surface) throws CameraAccessException {
-        if (ParameterHandler.Burst == null)
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackFirstStart, null);
-        else
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackRestart, null);
     }
 
     public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
@@ -650,10 +665,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     private Size getSizeForPreviewDependingOnImageSize(Size[] choices)
     {
         List<Size> sizes = new ArrayList<Size>();
-        double ratio = mImageWidth/mImageHeight;
+        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && (s.getWidth()/s.getHeight()) == ratio)
+            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && ((double)mImageWidth/mImageHeight) == ratio)
                 sizes.add(s);
 
         }
@@ -665,26 +681,18 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    private void setupPreviewSize(int width, int height, Size largest)
+    private boolean isLegacyDevice()
     {
-        previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(SurfaceTexture.class));
-
-        if(mProcessor != null)
-        {
-            mProcessor.kill();
-        }
-            mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
-
-        SurfaceTexture texture = textureView.getSurfaceTexture();
-        texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-
-        previewsurface = new Surface(texture);
-
-            mProcessor.setOutputSurface(previewsurface);
-            camerasurface = mProcessor.getInputSurface();
-            textureView.setTransform(null);
-
-        //textureView.setAspectRatio(mImageWidth, mImageHeight);
+        if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+            return false;
+        else
+            return true;
     }
 
+    private void createPreviewCaptureSession(Surface surface) throws CameraAccessException {
+        if (ParameterHandler.Burst == null)
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackFirstStart, null);
+        else
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackRestart, null);
+    }
 }
