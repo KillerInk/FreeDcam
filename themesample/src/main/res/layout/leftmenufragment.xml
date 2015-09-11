@@ -20,8 +20,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/setting_picture_group_header"
                 android:id="@+id/textView4"
-                android:textColor="#ffffffff"
-                android:background="#9c808080"
+                android:textColor="#ff000000"
+                android:background="#ffffffff"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemBayerFormat
@@ -65,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/setting_video_group_header"
-                android:textColor="#ffffffff"
-                android:background="#9c808080"
+                android:textColor="#FF000000"
+                android:background="#ffffffff"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItemVideoProfile
@@ -109,8 +109,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/setting_hdr_"
                 android:id="@+id/textView5"
-                android:textColor="#ffffffff"
-                android:background="#9c808080"
+                android:textColor="#ff000000"
+                android:background="#ffffffff"
                 android:layout_marginBottom="1dp" />
 
             <troop.com.themesample.views.menu.MenuItem
