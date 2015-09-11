@@ -27,6 +27,7 @@ public class DngSupportedDevices
         yureka,
         zteAdv,
         Xiaomi_Redmi_Note,
+        Xiaomi_mi_note_pro,
         Xiaomi_mi3,
         Meizu_Mx4,
         THL5000,
@@ -501,6 +502,16 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
             case THL5000:
                 return new DngProfile(64,4192, 3104,Plain, RGGb, 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case Xiaomi_mi_note_pro:
+                return new DngProfile(64,4208,3120,Qcom, RGGb, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
