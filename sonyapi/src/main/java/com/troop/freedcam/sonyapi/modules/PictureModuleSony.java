@@ -35,7 +35,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         super(cameraHandler, Settings, eventHandler);
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
-        cameraHolder.CameraStatusListner = this;
+
     }
 
     @Override
@@ -69,7 +69,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void LoadNeededParameters()
     {
-
+        cameraHolder.CameraStatusListner = this;
     }
 
     @Override
@@ -143,6 +143,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onCameraStatusChanged(String status)
     {
+        Log.d(TAG, "Status:"+status);
         if (status.equals("IDLE") && isWorking)
         {
             this.isWorking = false;

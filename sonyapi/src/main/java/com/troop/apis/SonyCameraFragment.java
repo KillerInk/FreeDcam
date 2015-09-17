@@ -57,7 +57,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
-        hideTextViewWifi(true);
+        //hideTextViewWifi(true);
 
 
         return view;
@@ -122,7 +122,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void searchSsdpClient()
     {
-        if (wifiUtils.getWifiConnected())
+        if (true)//wifiUtils.getWifiConnected())
         {
             setTextFromWifi("Search SSDP Client...");
             mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
@@ -160,7 +160,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
     public void onResume()
     {
         super.onResume();
-        getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
         getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         getConfiguredNetworks();
         lookupAvailNetworks();
@@ -172,7 +172,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(wifiReciever);
-        getActivity().unregisterReceiver(wifiConnectedReceiver);
+        //getActivity().unregisterReceiver(wifiConnectedReceiver);
     }
 
     private void getConfiguredNetworks()
