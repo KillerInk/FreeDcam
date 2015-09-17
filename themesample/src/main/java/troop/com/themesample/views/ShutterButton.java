@@ -2,12 +2,8 @@ package troop.com.themesample.views;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -22,7 +18,7 @@ import troop.com.themesample.R;
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
 {
     AbstractCameraUiWrapper cameraUiWrapper;
-    AnimationDrawable shutterclickAnimation;
+    AnimationDrawable shutterOpenAnimation;
 
 
     public ShutterButton(Context context, AttributeSet attrs) {
@@ -37,8 +33,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     private void init()
     {
-        setBackgroundResource(R.drawable.shutterclickanimation);
-        shutterclickAnimation = (AnimationDrawable) getBackground();
+        setBackgroundResource(R.drawable.shuttercloseanimation);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
 
         this.setOnClickListener(new OnClickListener() {
             @Override
@@ -69,9 +65,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
-        shutterclickAnimation.stop();
-        shutterclickAnimation.setOneShot(true);
-        shutterclickAnimation.start();
+        setBackgroundResource(R.drawable.shuttercloseanimation);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+        shutterOpenAnimation.stop();
+        shutterOpenAnimation.setOneShot(true);
+        shutterOpenAnimation.start();
 
         /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -83,7 +81,18 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     @Override
-    public void onWorkFinished(boolean finished) {
-        //this.setAnimation(null);
+    public void onWorkFinished(boolean finished)
+    {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                setBackgroundResource(R.drawable.shutteropenanimation);
+                shutterOpenAnimation = (AnimationDrawable) getBackground();
+                shutterOpenAnimation.stop();
+                shutterOpenAnimation.setOneShot(true);
+                shutterOpenAnimation.start();
+            }
+        });
+
     }
 }
