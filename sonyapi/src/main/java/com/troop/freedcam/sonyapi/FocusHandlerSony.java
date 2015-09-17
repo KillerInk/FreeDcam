@@ -38,10 +38,6 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     {
         if (parametersHandler == null)
             return;
-        if (parametersHandler.ObjectTracking.GetValue().equals("On"))
-        {
-
-        }
         if (isFocusing)
         {
             cameraHolder.CancelFocus();
