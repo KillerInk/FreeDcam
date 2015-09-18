@@ -134,7 +134,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         if (mAllocationOut != null)
             mAllocationOut.setSurface(null);
 
-        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
 
         Log.d(TAG, "tbout");
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
