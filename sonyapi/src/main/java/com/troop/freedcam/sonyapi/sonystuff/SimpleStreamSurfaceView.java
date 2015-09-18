@@ -73,7 +73,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
         mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
-        focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+
         //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
 
@@ -132,6 +132,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         mRS = RenderScript.create(context);
+        focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
 
     }
 
