@@ -54,7 +54,7 @@ public class ImageFragment extends Fragment
 
     Button deleteButton;
 
-    public ScreenSlideActivity activity;
+    public ScreenSlideFragment activity;
 
     LinearLayout ll;
 
@@ -129,7 +129,7 @@ public class ImageFragment extends Fragment
                         @Override
                         public void run() {
                             convertRawToDng(file);
-                            activity.runOnUiThread(new Runnable() {
+                            activity.getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     activity.ReloadFilesAndSetLast();
@@ -362,7 +362,7 @@ public class ImageFragment extends Fragment
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
-        activity.sendBroadcast(intent);
+        activity.getActivity().sendBroadcast(intent);
     }
 
 

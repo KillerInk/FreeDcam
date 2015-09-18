@@ -41,6 +41,7 @@ import com.troop.freedcam.utils.StringUtils;
 import java.io.File;
 
 import troop.com.imageviewer.ScreenSlideActivity;
+import troop.com.imageviewer.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -62,6 +63,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public ThemeHandler themeHandler;
     static HistogramFragment histogramFragment;
     static AbstractCameraFragment cameraFragment;
+    ScreenSlideFragment imageViewerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -430,10 +432,12 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         return getApplicationContext();
     }
 
+    boolean previewWasRunning = false;
+
     @Override
     public void loadImageViewerFragment(File file)
     {
-        if (file == null) {
+        /*if (file == null) {
             Intent intent = new Intent(this, ScreenSlideActivity.class);
             startActivity(intent);
         }
@@ -452,15 +456,31 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             if (i.resolveActivity(getPackageManager()) != null) {
                 startActivity(chooser);
             }
-        }
+        }*/
+        themeHandler.DestroyUI();
+        previewWasRunning = true;
+        cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
+        imageViewerFragment = new ScreenSlideFragment();
+        imageViewerFragment.Set_I_Activity(this);
+        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+        transaction.replace(R.id.themeFragmentholder, imageViewerFragment);
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
     public void loadCameraUiFragment()
     {
+        if (previewWasRunning) {
+            cameraFragment.GetCameraUiWrapper().cameraHolder.StartPreview();
+            previewWasRunning = false;
+            imageViewerFragment.onDestroyView();
+            imageViewerFragment = null;
+            System.gc();
+        }
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.MainLayout,themeHandler.GetThemeFragment(false));
+        transaction.replace(R.id.themeFragmentholder,themeHandler.GetThemeFragment(false));
         transaction.commitAllowingStateLoss();
 
     }
