@@ -122,9 +122,17 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void searchSsdpClient()
     {
+        setTextFromWifi("Search SSDP Client...");
         if (true)//wifiUtils.getWifiConnected())
         {
-            setTextFromWifi("Search SSDP Client...");
+            while (!wifiUtils.getWifiConnected())
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
             {
                 @Override
@@ -150,7 +158,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
                 public void onErrorFinished()
                 {
                     if (wrapperSony.serverDevice == null)
-                        setTextFromWifi("Error happend while searching for sony remote device");
+                        setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
                 }
             });
         }
@@ -177,6 +185,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void getConfiguredNetworks()
     {
+        setTextFromWifi("Looking up Configured Wifi Networks");
         try {
             configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
         }
