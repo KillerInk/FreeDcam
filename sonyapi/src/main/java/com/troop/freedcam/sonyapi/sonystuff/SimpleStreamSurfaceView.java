@@ -71,8 +71,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         tbOut.setX(mPreviousWidth);
         tbOut.setY(mPreviousHeight);
 
-        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
-        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT & Allocation.USAGE_SHARED);
+        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
 
         //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
@@ -343,7 +343,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         if (canvas == null) {
             return;
         }
-        canvas.drawColor(Color.BLACK);
+        //canvas.drawColor(Color.BLACK);
         int w = frame.getWidth();
         int h = frame.getHeight();
         Rect src = new Rect(0, 0, w, h);
@@ -360,7 +360,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             mOutputAllocation.copyTo(drawBitmap);
             canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
         }
-        else {
+        else
+        {
             canvas.drawBitmap(frame, src, dst, mFramePaint);
         }
         if (frameExtractor != null)
