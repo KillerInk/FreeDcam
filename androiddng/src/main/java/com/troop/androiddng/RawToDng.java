@@ -209,6 +209,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
         if (DeviceUtils.isTHL5000())
             return DngSupportedDevices.SupportedDevices.THL5000;
+        if (DeviceUtils.isXiaomiMI_Note_Pro())
+            return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
         return null;
     }
 
