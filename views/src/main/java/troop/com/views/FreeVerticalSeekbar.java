@@ -27,9 +27,9 @@ public class FreeVerticalSeekbar extends View
     //Paint object for drawing
     private Paint paint;
     // size of one value in pixel
-    int pixelProValue;
+    float pixelProValue;
     //current position in pixel of the current slider value
-    private int currentValuePixelPos;
+    private float currentValuePixelPos;
     //the sliderimage stored in memory
     private Drawable sliderImage;
     //area to draw the sliderImage
@@ -100,9 +100,9 @@ public class FreeVerticalSeekbar extends View
         pixelProValue = (getheight()-getWidth())  / max;
         currentValuePixelPos = currentValue * pixelProValue;
         int half = getWidth() / 2;
-        Rect tmp = new Rect(half/2, currentValuePixelPos, half/2+half, half + currentValuePixelPos);
+        Rect tmp = new Rect(half/2, (int)currentValuePixelPos, half/2+half, half + (int)currentValuePixelPos);
         drawPosition = tmp;
-        touchArea = new Rect(0, currentValuePixelPos - 10, getWidth(), getWidth() + currentValuePixelPos +10);
+        touchArea = new Rect(0, (int)currentValuePixelPos - 10, getWidth(), getWidth() + (int)currentValuePixelPos +10);
         return tmp;
     }
 
@@ -136,8 +136,8 @@ public class FreeVerticalSeekbar extends View
 
             currentValuePixelPos = r;
             int half = getWidth()/2;
-            Rect tmp = new Rect(half/2, currentValuePixelPos , half/2+half, half +currentValuePixelPos);
-            touchArea = new Rect(0, currentValuePixelPos - 10, getWidth(), getWidth() + currentValuePixelPos +10);
+            Rect tmp = new Rect(half/2,(int) currentValuePixelPos , half/2+half, half +(int)currentValuePixelPos);
+            touchArea = new Rect(0, (int)currentValuePixelPos - 10, getWidth(), getWidth() + (int)currentValuePixelPos +10);
             drawPosition = tmp;
 
 
