@@ -1,10 +1,10 @@
-package com.troop.freedcam.ui.menu;
+package troop.com.themesample.views;
 
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import troop.com.themesample.R;
 
-import com.troop.freedcam.R;
 
 import java.lang.reflect.Method;
 
@@ -21,16 +21,16 @@ private Class<?> classPicker;
 
             // ?????? '+', ??? - NumberPickerButton
             View upButton = numberPickerView.getChildAt(0);
-            upButton.setBackgroundResource(R.drawable.timepicker_up_btn);
+            upButton.setBackgroundResource(R.drawable.btn_crc_greenish);
 
             // ????????? ????, ??? - EditText
             EditText edDate = (EditText) numberPickerView.getChildAt(1);
             edDate.setTextSize(17);
-            edDate.setBackgroundResource(R.drawable.ed_picker_background);
+            edDate.setBackgroundResource(R.drawable.iv_bg);
 
             // ?????? '-', ??? - NumberPickerButton
             View downButton = numberPickerView.getChildAt(2);
-            downButton.setBackgroundResource(R.drawable.timepicker_down_btn);
+            downButton.setBackgroundResource(R.drawable.btn_crc_redish);
         }
 
         public void setRange(int start, int end) {
