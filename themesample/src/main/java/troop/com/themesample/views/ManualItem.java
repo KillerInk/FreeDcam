@@ -298,28 +298,18 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         {
             if (!(parameter instanceof BaseManualParameterSony) && !(parameter instanceof BurstApi2))
             {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        setValueToParameters(progress);
-                        if (realMin < 0)
-                            setTextValue(progress + realMin);
-                        else
-                            setTextValue(progress);
-                    }
-                });
+                setValueToParameters(progress);
+                if (realMin < 0)
+                    setTextValue(progress + realMin);
+                else
+                    setTextValue(progress);
             }
             else
             {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (realMin < 0)
-                            setTextValue(progress + realMin);
-                        else
-                            setTextValue(progress);
-                    }
-                });
+                if (realMin < 0)
+                    setTextValue(progress + realMin);
+                else
+                    setTextValue(progress);
             }
         }
 

@@ -318,4 +318,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="15dp"></FrameLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></LinearLayout>
+
 </RelativeLayout>
