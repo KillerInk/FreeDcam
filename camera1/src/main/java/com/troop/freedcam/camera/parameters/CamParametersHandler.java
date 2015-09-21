@@ -81,7 +81,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
-        ParametersEventHandler = new CameraParametersEventHandler();
+        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         baseCameraHolder = (BaseCameraHolder) cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
     }

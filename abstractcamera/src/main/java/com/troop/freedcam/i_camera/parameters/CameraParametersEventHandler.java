@@ -1,6 +1,9 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.os.Handler;
+
 import java.util.ArrayList;
+
 
 /**
  * Created by troop on 21.08.2014.
@@ -8,11 +11,13 @@ import java.util.ArrayList;
 public class CameraParametersEventHandler
 {
     ArrayList<I_ParametersLoaded> parametersLoadedListner;
+    Handler uiHandler;
 
-    public CameraParametersEventHandler()
+    public CameraParametersEventHandler(Handler uiHandler)
     {
         parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
         parametersLoadedListner.clear();
+        this.uiHandler = uiHandler;
     }
 
     public void AddParametersLoadedListner(I_ParametersLoaded parametersLoaded)
@@ -26,12 +31,21 @@ public class CameraParametersEventHandler
             return;
         for(int i= 0; i< parametersLoadedListner.size(); i++)
         {
+
             if (parametersLoadedListner.get(i) == null) {
                 parametersLoadedListner.remove(i);
                 i--;
             }
-            else
-                parametersLoadedListner.get(i).ParametersLoaded();
+            else {
+                final int t = i;
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        parametersLoadedListner.get(t).ParametersLoaded();
+                    }
+                });
+
+            }
         }
     }
 

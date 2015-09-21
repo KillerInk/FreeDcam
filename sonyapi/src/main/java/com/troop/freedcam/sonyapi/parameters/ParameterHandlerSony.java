@@ -47,7 +47,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         super(cameraHolder, appSettingsManager, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder;
-        ParametersEventHandler = new CameraParametersEventHandler();
+        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         parametersChangedList  = new ArrayList<I_SonyApi>();
         this.surfaceView = surfaceView;
     }

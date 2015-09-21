@@ -83,9 +83,16 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     //this get handled in backgroundThread when StartPreviewAndCamera() was called
     @Override
-    protected void startCamera() {
-        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-        Log.d(TAG, "opencamera");
+    protected void startCamera()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+                Log.d(TAG, "opencamera");
+            }
+        }).start();
+
     }
 
     @Override
