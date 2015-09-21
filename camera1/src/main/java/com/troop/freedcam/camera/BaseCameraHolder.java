@@ -670,14 +670,28 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
-        if (!isPreviewRunning && !isRdy)
-            return;
-        mCamera.setPreviewCallback(previewCallback);
+        try {
+            if (!isPreviewRunning && !isRdy)
+                return;
+            mCamera.setPreviewCallback(previewCallback);
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
+
     }
 
     public void ResetPreviewCallback()
     {
-        mCamera.setPreviewCallback(null);
+        try {
+            mCamera.setPreviewCallback(null);
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
+
     }
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
