@@ -292,11 +292,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mProcessor.setOutputSurface(previewsurface);
                 camerasurface = mProcessor.getInputSurface();
                 mPreviewRequestBuilder.addTarget(camerasurface);
+                textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
             }
             else
             {
                 mPreviewRequestBuilder.addTarget(previewsurface);
                 configureTransform();
+                //textureView.setAspectRatio(mImageWidth,mImageHeight);
             }
 
             if (picFormat.equals(JPEG))
@@ -342,20 +344,22 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         int rotation = windowManager.getDisplay(0).getRotation();
         Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-        RectF bufferRect = new RectF(0, 0, previewSize.getHeight(), previewSize.getWidth());
+        RectF bufferRect = new RectF(0, 0, previewSize.getWidth(), previewSize.getHeight());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
         rotation = 1;
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
-            float scale = Math.max(
-                    (float) displaySize.x / previewSize.getHeight(),
-                    (float) displaySize.y / previewSize.getWidth());
-            matrix.postScale(scale, scale, centerX, centerY);
+
+            float scalex =(float) displaySize.x / displaySize.y;
+            float scaley = (float) previewSize.getWidth() / previewSize.getHeight();
+            float xy = scalex -scaley +2;
+            matrix.postScale(xy-1, xy, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         textureView.setTransform(matrix);
+        //textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
     }
 
     @Override
@@ -669,7 +673,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && ((double)mImageWidth/mImageHeight) == ratio)
+            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && ((double)s.getWidth()/s.getHeight()) == ratio)
                 sizes.add(s);
 
         }
