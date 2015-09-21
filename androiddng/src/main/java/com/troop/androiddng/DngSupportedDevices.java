@@ -31,6 +31,7 @@ public class DngSupportedDevices
         Xiaomi_mi3,
         Meizu_Mx4,
         THL5000,
+        Alcatel_Idol3,
 
     }
 
@@ -447,6 +448,34 @@ public class DngSupportedDevices
         return null;
     }
 
+    private DngProfile getAlcatel_Idol3Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 17522688: //qcom
+                return new DngProfile(64,4208,3120,Qcom, RGGb, 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 16424960: //mipi
+                return new DngProfile(64,4208,3120,Mipi, RGGb, 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+        }
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (device) {
@@ -540,6 +569,8 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_noise_3x1_matrix);
             case Xiaomi_mi_note_pro:
                 return getXiaomi_mi_note_proProfile(filesize);
+            case Alcatel_Idol3:
+                return getAlcatel_Idol3Profile(filesize);
         }
         return null;
     }

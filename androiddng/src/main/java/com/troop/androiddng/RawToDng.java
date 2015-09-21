@@ -211,6 +211,8 @@ public class RawToDng
             return DngSupportedDevices.SupportedDevices.THL5000;
         if (DeviceUtils.isXiaomiMI_Note_Pro())
             return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
+        if (DeviceUtils.isAlcatel_Idol3())
+            return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
         return null;
     }
 
