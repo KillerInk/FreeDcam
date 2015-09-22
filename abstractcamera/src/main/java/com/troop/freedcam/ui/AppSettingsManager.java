@@ -53,6 +53,7 @@ public class AppSettingsManager
     public static String SETTING_VIDEOSIZE = "videosize";
     public static String SETTING_VIDEPROFILE = "videoprofile";
     public static String SETTING_VIDEOHDR = "videohdr";
+    public static String SETTING_HighSpeedVideo = "highspeedvideo";
     ///                  Video Override
    // public static String SETTING_VIDEOHDR = "videohfr";
    // public static String SETTING_VIDEOHDR = "videohsr";

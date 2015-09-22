@@ -47,6 +47,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     MenuItemVideoProfile videoProfile;
     troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
+    troop.com.themesample.views.menu.MenuItemHighSpeedVideo HighSpeedVideo;
     MenuItemTimeLapseFrames timeLapseFrames;
 
     troop.com.themesample.views.menu.MenuItem OverrideVideoProfile;
@@ -156,6 +157,16 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoHDR.SetParameter(wrapper.camParametersHandler.VideoHDR);
         videoHDR.SetMenuItemListner(this);
         videoHDR.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
+        ///////////////////////////   Highspeed Recording //////////////////////////////////////////
+
+        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItemHighSpeedVideo)view.findViewById(R.id.MenuItemHighSpeedVideo);
+        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
+        HighSpeedVideo.SetParameter(wrapper.camParametersHandler.VideoHighSpeedVideo);
+        HighSpeedVideo.SetMenuItemListner(this);
+        HighSpeedVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         timeLapseFrames = (MenuItemTimeLapseFrames)view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);

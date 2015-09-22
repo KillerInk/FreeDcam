@@ -13,8 +13,9 @@
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
+    <string name="setting_videohfr_description">Enables Highspeed Video Recording</string>
     <string name="setting_videohdr_header">Video HDR: </string>
-
+    <string name="setting_videohfr_header">Video HFR: </string>
     <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>

@@ -87,6 +87,15 @@
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp" />
 
+            <troop.com.themesample.views.menu.MenuItemHighSpeedVideo
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemHighSpeedVideo"
+                app:Description="@string/setting_videohfr_description"
+                app:HeaderText="@string/setting_videohfr_header"
+                app:ValueText="OFF"
+                android:layout_marginBottom="1dp" />
+
             <troop.com.themesample.views.menu.MenuItemTimeLapseFrames
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
