@@ -221,57 +221,37 @@ public class VideoModule extends AbstractModule
 
         if (profile.contains("1080p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("60"))
         {
-            recorder.setCaptureRate(60);
+          //  recorder.setCaptureRate(60);
             recorder.setVideoFrameRate(60);
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            recorder.setVideoEncodingBitRate(60000000);
 
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
+
+
         }
+
 
         if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("120"))
         {
             recorder.setCaptureRate(120);
-           // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
             ParameterHandler.Denoise.SetValue("denoise-off", true);
         }
 
-        if (profile.contains("480p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("120"))
+        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("150"))
         {
-            recorder.setCaptureRate(120);
-            recorder.setVideoFrameRate(120);
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            recorder.setCaptureRate(150);
+            recorder.setCaptureRate(150);
+            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
             ParameterHandler.Denoise.SetValue("denoise-off", true);
         }
 
-        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("60"))
-        {
-            recorder.setCaptureRate(60);
-            recorder.setVideoFrameRate(60);
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
-        }
-
-        if (profile.contains("480p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("60"))
-        {
-            recorder.setCaptureRate(60);
-            recorder.setVideoFrameRate(60);
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
-        }
 
         return recorder;
     }
