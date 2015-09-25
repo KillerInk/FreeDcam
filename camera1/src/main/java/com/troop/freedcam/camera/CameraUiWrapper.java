@@ -43,9 +43,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public PreviewHandler previewHandler;
     boolean cameraRdy = false;
 
-    //background threading
-    HandlerThread backgroundThread;
-    Handler backgroundHandler;
+
 
 
 
@@ -58,9 +56,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         super(appSettingsManager);
 
-        backgroundThread = new HandlerThread(TAG);
-        backgroundThread.start();
-        backgroundHandler = new Handler(backgroundThread.getLooper());
+
 
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
@@ -77,7 +73,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
+        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, backgroundHandler);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);

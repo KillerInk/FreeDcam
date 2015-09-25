@@ -30,7 +30,13 @@ public class RawSaver extends JpegSaver
 
             return;
         }
-        super.TakePicture();
+        awaitpicture = true;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.TakePicture(null, null, RawSaver.this);
+            }
+        });
     }
 
     @Override

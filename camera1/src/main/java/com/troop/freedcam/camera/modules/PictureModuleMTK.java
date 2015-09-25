@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -28,9 +29,9 @@ public class PictureModuleMTK extends PictureModule
     String lastFile;
     CamParametersHandler parametersHandler;
     String file;
-    public PictureModuleMTK(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
+    public PictureModuleMTK(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {
-        super(baseCameraHolder, appSettingsManager, eventHandler);
+        super(baseCameraHolder, appSettingsManager, eventHandler, backgroundHandler);
         this.parametersHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
     }
 

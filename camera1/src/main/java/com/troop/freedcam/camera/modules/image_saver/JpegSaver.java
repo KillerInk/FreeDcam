@@ -44,7 +44,13 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     public void TakePicture()
     {
         awaitpicture = true;
-        cameraHolder.TakePicture(null, null, this);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.TakePicture(null, null, JpegSaver.this);
+            }
+        });
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
@@ -33,8 +34,8 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     boolean aeBrackethdr = false;
     File[] files;
 
-    public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
+        super(cameraHandler, Settings, eventHandler, backgroundHandler);
         name = ModuleHandler.MODULE_HDR;
     }
 
@@ -83,7 +84,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void LoadNeededParameters()
     {
-        startThread();
+
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && ParameterHandler.isAeBracketActive)
         {
             aeBrackethdr = true;
@@ -94,7 +95,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void UnloadNeededParameters()
     {
-        stopThread();
+
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
             aeBrackethdr = false;
