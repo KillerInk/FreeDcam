@@ -32,7 +32,7 @@
         android:icon="@drawable/ic_laucher"
         android:label="FreeDCam"
 
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
         android:largeHeap="true">
         android:name="com.troop.">

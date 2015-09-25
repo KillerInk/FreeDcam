@@ -294,6 +294,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         int width = 0;
         int height = 0;
 
+        if(fragment == null || fragment.getActivity() == null)
+            return null;
         if (Build.VERSION.SDK_INT >= 17)
         {
             WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
