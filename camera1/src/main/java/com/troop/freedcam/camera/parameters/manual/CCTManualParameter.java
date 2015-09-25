@@ -52,7 +52,14 @@ public class CCTManualParameter extends BaseManualParameter {
             this.min_value = "min-wb-cct";
             this.isSupported = true;
         }
-    }
+        else if (DeviceUtils.isG4()) {
+            this.value = "lg-wb";
+            this.max_value = "lg-wb-supported-max";
+            this.min_value = "lg-wb-supported-min";
+            this.isSupported = true;
+        }
+        }
+
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
@@ -68,6 +75,11 @@ public class CCTManualParameter extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
+        if (DeviceUtils.isZTEADV())
+        {
+            return 8000;
+        }
+        else
     	return Integer.parseInt(parameters.get(max_value));
 
     }
@@ -91,6 +103,8 @@ public class CCTManualParameter extends BaseManualParameter {
            //     i = -1;
              if (DeviceUtils.isLG_G3())
                 i = getCTReflection();
+             else if(DeviceUtils.isZTEADV())
+                 i = 4000;
             else
                 i = Integer.parseInt(parameters.get(value));
         }
@@ -126,6 +140,11 @@ public class CCTManualParameter extends BaseManualParameter {
 
         else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             parameters.put("wb-ct", valueToSet + "");
+        else if(DeviceUtils.isG4()) {
+            //"lg-manual-mode-reset"
+            parameters.put("lge-camera", "1");
+            parameters.put("lg-wb", valueToSet + "");
+        }
         camParametersHandler.SetParametersToCamera();
 
     }

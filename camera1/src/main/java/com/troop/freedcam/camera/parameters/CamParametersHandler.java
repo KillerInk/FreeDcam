@@ -33,6 +33,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
+import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -183,7 +184,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
 
+        //
+
         VideoHDR = new VideoHDRModeParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+
+        VideoHighSpeedVideo = new HighSpeedVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);

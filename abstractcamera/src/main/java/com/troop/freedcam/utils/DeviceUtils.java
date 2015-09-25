@@ -47,7 +47,16 @@ public class DeviceUtils
         return s.equals("Nexus 7") || s.equals("Nexus 10");
     }
 
+    public static boolean isG4()
+    {
+        String s = Build.MODEL;
+                      ///EU CA ZA MEA              //Sprint              ///Verizon              //US
+        return s.contains("LG-H81") || s.contains("LG-LS99") || s.contains("LG-VS9") || s.contains("LG-US9");
+    }
+
     public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980";
+
+
     public static boolean isG2()
     {
         boolean supported = Build.DEVICE.equals("g2");
