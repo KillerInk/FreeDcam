@@ -187,6 +187,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         cameraRdy = true;
         super.onCameraOpen(message);
+        CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
+        camParametersHandler1.LoadParametersFromCamera();
         startPreviewinternal();
     }
 
@@ -207,8 +209,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             public void run() {
                 cameraHolder.SetErrorCallback(CameraUiWrapper.this);
                 cameraHolder.SetSurface(preview.getHolder());
-                CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
-                camParametersHandler1.LoadParametersFromCamera();
+
                 cameraHolder.StartPreview();
             }
         });

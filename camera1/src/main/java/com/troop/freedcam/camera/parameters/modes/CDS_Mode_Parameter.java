@@ -55,7 +55,8 @@ public class CDS_Mode_Parameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
         parameters.put("cds-mode", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
