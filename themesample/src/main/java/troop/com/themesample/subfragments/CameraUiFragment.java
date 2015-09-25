@@ -106,6 +106,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.wrapper = wrapper;
         if (wrapper != null)
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        if(view != null)
+            setWrapper();
     }
 
     private void setWrapper()
@@ -221,7 +223,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
 
-        setWrapper();
+
         return view;
     }
 
@@ -236,6 +238,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onResume() {
         super.onResume();
+
+        setWrapper();
         infoOverlayHandler.StartUpdating();
     }
 
