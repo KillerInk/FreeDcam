@@ -1,6 +1,7 @@
 package com.troop.freedcam.i_camera;
 
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -32,6 +33,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     protected List<I_CameraChangedListner> cameraChangedListners;
 
     protected Handler uiHandler;
+    //background threading
+    protected HandlerThread backgroundThread;
+    protected Handler backgroundHandler;
 
     public abstract String CameraApiName();
 
@@ -46,6 +50,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
         }*/
         uiHandler = new Handler(appSettingsManager.context.getMainLooper());
+        backgroundThread = new HandlerThread(TAG);
+        backgroundThread.start();
+        backgroundHandler = new Handler(backgroundThread.getLooper());
     };
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)

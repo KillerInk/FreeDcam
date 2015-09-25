@@ -35,7 +35,7 @@ public abstract class AbstractCameraFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy();
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractCameraFragment extends Fragment
 
     public interface CamerUiWrapperRdy
     {
-        void onCameraUiWrapperRdy();
+        void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
     }
 
 }

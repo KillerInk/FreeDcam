@@ -132,19 +132,19 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     @Override
-    public void onCameraUiWrapperRdy()
+    public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
     {
 
-        cameraFragment.GetCameraUiWrapper().SetCameraChangedListner(this);
+        cameraUiWrapper.SetCameraChangedListner(this);
 
-        cameraFragment.GetCameraUiWrapper().moduleHandler.SetWorkListner(orientationHandler);
-        initCameraUIStuff(cameraFragment.GetCameraUiWrapper());
+        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+        initCameraUIStuff(cameraUiWrapper);
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         Log.d(TAG, "add events");
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(themeHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     private void destroyCameraUiWrapper()
