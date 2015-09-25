@@ -30,6 +30,7 @@ public class ShutterManualParameter extends BaseManualParameter
             ",15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0"+
             ",30.0,31.0,32.0,33.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44,45.0,46.0"+
             ",47.0,48.0,49.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,58.0,59.0,60.0,120.0,240.0";
+    public static String LGG4Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30";
 
 
     String shutterValues[];
@@ -44,6 +45,11 @@ public class ShutterManualParameter extends BaseManualParameter
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
+        }
+        else if(DeviceUtils.isG4())
+        {
+            this.isSupported = true;
+            shutterValues = LGG4Values.split(",");
         }
         else if (DeviceUtils.isZTEADV())
         {
@@ -88,7 +94,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
+        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4())
             return shutterValues.length-1;
         else if (shutterValues != null)
             return shutterValues.length-1;
@@ -176,6 +182,14 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("slow_shutter", shutterstring);
             parameters.put("slow_shutter_addition", "1");
 
+        }
+        else if(DeviceUtils.isG4())
+        {
+            // Spoof Stock CAM
+            parameters.put("lge-camera", "1");
+
+            //note hal has this LG_SHUTTER_SPEED_MAP_TO_FLOAT so it may actually accept 1/2 type values instead of 0.5
+            parameters.put("shutter-speed", shutterstring);
         }
         else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
             shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));

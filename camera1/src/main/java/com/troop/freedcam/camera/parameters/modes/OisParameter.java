@@ -24,7 +24,7 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return DeviceUtils.isLG_G3() || DeviceUtils.isG2();
+        return DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4();
     }
 
     @Override

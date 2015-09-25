@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -72,6 +73,18 @@ public class IsoModeParameter extends BaseModeParameter
                 }
             } catch (Exception ex) {}
         }
+        if(!isSupported)
+        {
+            try {
+
+                String isomodes = parameters.get("lg-iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso";
+                    this.values = "lg-iso-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 
     @Override
@@ -79,6 +92,8 @@ public class IsoModeParameter extends BaseModeParameter
     {
         if (setToCam)
         {
+           // if(DeviceUtils.isG4())
+                //need to add "lge-camera"
             super.SetValue(valueToSet, setToCam);
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();

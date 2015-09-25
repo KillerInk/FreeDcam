@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -53,5 +54,16 @@ public class ExposureModeParameter extends BaseModeParameter {
                 }
             } catch (Exception ex) {}
         }
+    }
+
+    @Override
+    public String[] GetValues() {
+
+        if(DeviceUtils.isZTEADV())
+            return new String[]{"frame-average","center-weighted","spot-metering", "user-metering","smart-metering" };
+
+        else
+        return super.GetValues();
+
     }
 }
