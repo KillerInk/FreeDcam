@@ -43,10 +43,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public PreviewHandler previewHandler;
     boolean cameraRdy = false;
 
-
-
-
-
     @Override
     public String CameraApiName() {
         return AppSettingsManager.API_1;
@@ -55,8 +51,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture, AppSettingsManager appSettingsManager)
     {
         super(appSettingsManager);
-
-
 
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;

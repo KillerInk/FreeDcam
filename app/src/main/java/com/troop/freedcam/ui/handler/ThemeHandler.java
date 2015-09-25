@@ -18,8 +18,8 @@ public class ThemeHandler implements I_ModuleEvent
     AppSettingsManager appSettingsManager;
     static MainActivity_v2 activity_v2;
     LinearLayout uiLayout;
-    static AbstractFragment uiFragment;
-    static AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractFragment uiFragment;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public ThemeHandler(MainActivity_v2 activity_v2, AppSettingsManager appSettingsManager)
     {
@@ -29,9 +29,16 @@ public class ThemeHandler implements I_ModuleEvent
 
     }
 
+    public AbstractFragment getCurrenttheme()
+    {
+        return  uiFragment;
+    }
+
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (uiFragment != null)
+            uiFragment.SetCameraUIWrapper(cameraUiWrapper);
     }
 
     public AbstractFragment GetThemeFragment(boolean infalte)

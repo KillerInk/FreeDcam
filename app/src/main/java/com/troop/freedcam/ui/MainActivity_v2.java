@@ -89,7 +89,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(null);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void createUI() {
@@ -168,7 +168,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
-        themeHandler.GetThemeFragment(true);
+        if (themeHandler.getCurrenttheme() == null)
+            themeHandler.GetThemeFragment(true);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
     }
