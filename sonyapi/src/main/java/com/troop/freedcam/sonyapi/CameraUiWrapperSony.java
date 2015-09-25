@@ -55,12 +55,12 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void StartCamera()
     {
-        new Thread(new Runnable() {
+        backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 startCamera();
             }
-        }).start();
+        });
     }
 
     @Override
