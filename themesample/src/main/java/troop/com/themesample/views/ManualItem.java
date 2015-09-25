@@ -268,27 +268,33 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     //              SEEKBAR
     //##################################
 
-    private void setValueToParameters(int value)
+    private void setValueToParameters(final int value)
     {
-        if (!(parameter instanceof BaseManualParameterSony) && settingsname != null)
-        {
-            if(realMin < 0)
-                appSettingsManager.setString(settingsname,(value+ realMin)+"");
-            else
-                appSettingsManager.setString(settingsname,value+"");
-        }
-        if(realMin < 0)
-            value += realMin;
-        if (value > realMax)
-        {
-            Log.e(headerTextView.getText().toString(), "value bigger then max");
-            return;
-        }
-        if (value < realMin)
-            value = realMin;
-        if (value > realMax)
-            value = realMax;
-        parameter.SetValue(value);
+        handler.post(new Runnable() {
+            @Override
+            public void run()
+            {
+                int runValue = value;
+                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+                    if (realMin < 0)
+                        appSettingsManager.setString(settingsname, (runValue + realMin) + "");
+                    else
+                        appSettingsManager.setString(settingsname, runValue + "");
+                }
+                if (realMin < 0)
+                    runValue += realMin;
+                if (runValue > realMax) {
+                    Log.e(headerTextView.getText().toString(), "value bigger then max");
+                    return;
+                }
+                if (runValue < realMin)
+                    runValue = realMin;
+                if (runValue > realMax)
+                    runValue = realMax;
+                parameter.SetValue(runValue);
+            }
+        });
+
     }
 
     @Override
