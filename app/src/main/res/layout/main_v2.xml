@@ -15,17 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cameraFragmentHolder"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/histogramHolder"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/appiconsizethree"></LinearLayout>
-
-
+    s
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -56,28 +46,6 @@
         android:id="@+id/themeFragmentholder"
 
         android:layout_alignParentLeft="true">
-
-
-
     </LinearLayout>
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/SettingsCover"
-        android:layout_alignRight="@+id/histogramHolder"
-        android:layout_alignEnd="@+id/histogramHolder"
-        android:visibility="gone"></LinearLayout>
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/SettingsCover"
-        android:visibility="gone" />
-
-
-
 
 </RelativeLayout>
