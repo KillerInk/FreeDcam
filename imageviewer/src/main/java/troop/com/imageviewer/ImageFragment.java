@@ -295,9 +295,11 @@ public class ImageFragment extends Fragment
             play.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (success) {
+                    if (success)
+                    {
                         if (file.getAbsolutePath().endsWith(".jpg")) {
-                            play.setVisibility(View.GONE);
+                            play.setVisibility(View.VISIBLE);
+                            play.setText("Open");
                         }
                         if (file.getAbsolutePath().endsWith(".mp4")) {
                             play.setText("Play");
@@ -311,7 +313,9 @@ public class ImageFragment extends Fragment
                             play.setText("Convert to DNG");
                             play.setVisibility(View.VISIBLE);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         if (file.getAbsolutePath().endsWith(".raw")) {
                             play.setText("Try Convert to DNG");
                             play.setVisibility(View.VISIBLE);
