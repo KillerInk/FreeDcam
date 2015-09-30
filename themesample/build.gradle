@@ -25,4 +25,5 @@ dependencies {
     provided project(':camera2')
     provided project(':views')
     compile project(':guide')
+    provided project(':imageviewer')
 }
