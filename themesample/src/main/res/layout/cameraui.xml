@@ -223,8 +223,7 @@
         android:id="@+id/shutter_button"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/icon_simp_shutter" />
+        android:layout_alignParentEnd="true" />
 
     <RelativeLayout
         android:orientation="vertical"
