@@ -67,6 +67,21 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
 
     }
 
+    @Override
+    public boolean HasFocus() {
+        return false;
+    }
+
+    @Override
+    public void SetFocusFalse() {
+
+    }
+
+    @Override
+    public void SetModuleFocusCallback(I_Callbacks.AutoFocusCallback moduleFocusCallback) {
+
+    }
+
 
     @Override
     public void onAutoFocus(CameraFocusEvent event)

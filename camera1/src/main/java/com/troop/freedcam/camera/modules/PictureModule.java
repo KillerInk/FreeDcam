@@ -21,6 +21,7 @@ import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -44,7 +45,7 @@ import java.util.Date;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_WorkeDone {
+public class PictureModule extends AbstractModule implements I_WorkeDone, I_Callbacks.AutoFocusCallback {
 
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
@@ -91,7 +92,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void DoWork()
     {
-
+        if (!baseCameraHolder.Focus.HasFocus()) {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+            return;
+        }
         if (!this.isWorking)
         {
             startworking();
@@ -268,4 +273,15 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             stopworking();
         }
     };
+
+    @Override
+    public void onAutoFocus(CameraFocusEvent cameraFocusEvent) {
+        if (cameraFocusEvent != null)
+            DoWork();
+    }
+
+    @Override
+    public void onFocusLock(boolean locked) {
+
+    }
 }
