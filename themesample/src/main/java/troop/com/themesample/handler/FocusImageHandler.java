@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -160,17 +161,16 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
             focusImageView.setVisibility(View.VISIBLE);
 
-            RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 //Setup anim with desired properties
             anim.setInterpolator(new LinearInterpolator());
             anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds
+            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds*/
 
 //Start animation
+            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
             focusImageView.startAnimation(anim);
-//Later on, use view.setAnimation(null) to stop it.
-            //focusImageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
     }
 
