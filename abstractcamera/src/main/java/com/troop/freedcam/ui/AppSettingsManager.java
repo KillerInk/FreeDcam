@@ -2,7 +2,9 @@ package com.troop.freedcam.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
+import com.troop.freedcam.abstractcamera.BuildConfig;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 
@@ -17,96 +19,108 @@ public class AppSettingsManager
     private int currentcamera = 0;
     String camApiString = API_1;
 
-    public static String SETTING_CURRENTCAMERA = "currentcamera";
-    public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
-    public static String SETTING_COLORMODE = "colormode";
-    public static String SETTING_ISOMODE = "isomode";
-    public static String SETTING_EXPOSUREMODE = "exposuremode";
-    public static String SETTING_WHITEBALANCEMODE = "whitebalancemode";
-    public static String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
-    public static String SETTING_PICTURESIZE = "picturesize";
-    public static String SETTING_PICTUREFORMAT = "pictureformat";
-    public static String SETTING_JPEGQUALITY = "jpegquality";
+    final public static String SETTING_CURRENTCAMERA = "currentcamera";
+    final public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
+    final public static String SETTING_COLORMODE = "colormode";
+    final public static String SETTING_ISOMODE = "isomode";
+    final public static String SETTING_EXPOSUREMODE = "exposuremode";
+    final public static String SETTING_WHITEBALANCEMODE = "whitebalancemode";
+    final public static String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
+    final public static String SETTING_PICTURESIZE = "picturesize";
+    final public static String SETTING_PICTUREFORMAT = "pictureformat";
+    final public static String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
-    public static String SETTING_GUIDE = "guide";
+    final public static String SETTING_GUIDE = "guide";
     //done
-    public static String SETTING_CURRENTMODULE = "currentmodule";
-    public static String SETTING_PREVIEWSIZE = "previewsize";
-    public static String SETTING_PREVIEWFPS = "previewfps";
-    public static String SETTING_PREVIEWFORMAT = "previewformat";
-    public static String SETTING_FLASHMODE = "flashmode";
-    public static String SETTING_SCENEMODE = "scenemode";
-    public static String SETTING_FOCUSMODE = "focusmode";
-    public static String SETTING_REDEYE_MODE = "redeyemode";
-    public static String SETTING_LENSSHADE_MODE = "lenshademode";
-    public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
-    public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
-    public static String SETTING_DENOISE_MODE = "denoisetmode";
-    public static String SETTING_DIS_MODE = "digitalimagestabmode";
-    public static String SETTING_MCE_MODE = "memorycolorenhancementmode";
-    public static String SETTING_SKINTONE_MODE = "skintonemode";
-    public static String SETTING_NIGHTEMODE = "nightmode";
-    public static String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
-    public static String SETTING_AEBRACKET = "aebrackethdr";
-    public static String SETTING_EXPOSURELONGTIME = "expolongtime";
-    public static String SETTING_HISTOGRAM = "histogram";
-    public static String SETTING_VIDEOSIZE = "videosize";
-    public static String SETTING_VIDEPROFILE = "videoprofile";
-    public static String SETTING_VIDEOHDR = "videohdr";
-    public static String SETTING_HighSpeedVideo = "highspeedvideo";
+    final public static String SETTING_CURRENTMODULE = "currentmodule";
+    final public static String SETTING_PREVIEWSIZE = "previewsize";
+    final public static String SETTING_PREVIEWFPS = "previewfps";
+    final public static String SETTING_PREVIEWFORMAT = "previewformat";
+    final public static String SETTING_FLASHMODE = "flashmode";
+    final public static String SETTING_SCENEMODE = "scenemode";
+    final public static String SETTING_FOCUSMODE = "focusmode";
+    final public static String SETTING_REDEYE_MODE = "redeyemode";
+    final public static String SETTING_LENSSHADE_MODE = "lenshademode";
+    final public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
+    final public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
+    final public static String SETTING_DENOISE_MODE = "denoisetmode";
+    final public static String SETTING_DIS_MODE = "digitalimagestabmode";
+    final public static String SETTING_MCE_MODE = "memorycolorenhancementmode";
+    final public static String SETTING_SKINTONE_MODE = "skintonemode";
+    final public static String SETTING_NIGHTEMODE = "nightmode";
+    final public static String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
+    final public static String SETTING_AEBRACKET = "aebrackethdr";
+    final public static String SETTING_EXPOSURELONGTIME = "expolongtime";
+    final public static String SETTING_HISTOGRAM = "histogram";
+    final public static String SETTING_VIDEOSIZE = "videosize";
+    final public static String SETTING_VIDEPROFILE = "videoprofile";
+    final public static String SETTING_VIDEOHDR = "videohdr";
+    final public static String SETTING_HighSpeedVideo = "highspeedvideo";
     ///                  Video Override
    // public static String SETTING_VIDEOHDR = "videohfr";
    // public static String SETTING_VIDEOHDR = "videohsr";
 
 
     ////////// overide end
-    public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
-    public static String SETTING_SONYAPI = "sonyapi";
-    public static String SETTING_DNG = "dng";
-    public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
-    public static String SETTING_OBJECTTRACKING = "objecttracking";
-    public static String SETTING_LOCATION = "location";
-    public static String SETTING_EXTERNALSHUTTER = "externalShutter";
-    public static String SETTING_OrientationHack = "orientationHack";
-    public static String SETTING_CAMERAMODE = "camMode";
-    public static String SETTING_DUALMODE = "dualMode";
-    public static String SETTING_Theme = "theme";
-    public static String SETTING_CDS = "cds";
-    public static String SETTING_SECUREMODE = "securemode";
-    public static String SETTING_TNR = "tnr";
-    public static String SETTING_RDI = "rdi";
-    public static String SETTING_EDGE = "edge";
-    public static String SETTING_COLORCORRECTION = "colorcorrection";
-    public static String SETTING_HOTPIXEL = "hotpixel";
-    public static String SETTING_TONEMAP = "tonemap";
-    public static String SETTING_CONTROLMODE = "controlmode";
-    public static String SETTING_FOCUSPEAK = "focuspeak";
+    final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
+    final public static String SETTING_SONYAPI = "sonyapi";
+    final public static String SETTING_DNG = "dng";
+    final public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
+    final public static String SETTING_OBJECTTRACKING = "objecttracking";
+    final public static String SETTING_LOCATION = "location";
+    final public static String SETTING_EXTERNALSHUTTER = "externalShutter";
+    final public static String SETTING_OrientationHack = "orientationHack";
+    final public static String SETTING_CAMERAMODE = "camMode";
+    final public static String SETTING_DUALMODE = "dualMode";
+    final public static String SETTING_Theme = "theme";
+    final public static String SETTING_CDS = "cds";
+    final public static String SETTING_SECUREMODE = "securemode";
+    final public static String SETTING_TNR = "tnr";
+    final public static String SETTING_RDI = "rdi";
+    final public static String SETTING_EDGE = "edge";
+    final public static String SETTING_COLORCORRECTION = "colorcorrection";
+    final public static String SETTING_HOTPIXEL = "hotpixel";
+    final public static String SETTING_TONEMAP = "tonemap";
+    final public static String SETTING_CONTROLMODE = "controlmode";
+    final public static String SETTING_FOCUSPEAK = "focuspeak";
 
-    public static String SETTING_EXTERNALSD = "extSD";
+    final public static String SETTING_EXTERNALSD = "extSD";
 
-    public static String SETTING_OIS = "ois";
+    final public static String SETTING_OIS = "ois";
 
-    public static String API_SONY = "playmemories";
-    public static String API_1 = "camera1";
-    public static String API_2 = "camera2";
+    final public static String API_SONY = "playmemories";
+    final public static String API_1 = "camera1";
+    final public static String API_2 = "camera2";
 
 
-    public static String MWB = "mbw";
-    public static String MCONTRAST = "mcontrast";
-    public static String MCONVERGENCE = "mconvergence";
-    public static String MEXPOSURE = "mexposure";
-    public static String MF = "mf";
-    public static String MSHARPNESS = "msharpness";
-    public static String MSHUTTERSPEED = "mshutterspeed";
-    public static String MBRIGHTNESS = "mbrightness";
-    public static String MISO = "miso";
-    public static String MSATURATION = "msaturation";
+    final public static String MWB = "mbw";
+    final public static String MCONTRAST = "mcontrast";
+    final public static String MCONVERGENCE = "mconvergence";
+    final public static String MEXPOSURE = "mexposure";
+    final public static String MF = "mf";
+    final public static String MSHARPNESS = "msharpness";
+    final public static String MSHUTTERSPEED = "mshutterspeed";
+    final public static String MBRIGHTNESS = "mbrightness";
+    final public static String MISO = "miso";
+    final public static String MSATURATION = "msaturation";
+
+    final public static String APPVERSION = "appversion";
 
 
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {
         this.appSettings = appSettings;
+        try {
+            String appver = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            if (!appSettings.getString(APPVERSION, "").equals(appver))
+            {
+                appSettings.edit().clear().commit();
+                appSettings.edit().putString(APPVERSION, appver).commit();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         this.context = context;
     }
 
