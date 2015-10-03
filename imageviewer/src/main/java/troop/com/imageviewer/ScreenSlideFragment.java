@@ -75,9 +75,8 @@ public class ScreenSlideFragment extends Fragment
     }
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         files = loadFilePaths();
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -86,6 +85,13 @@ public class ScreenSlideFragment extends Fragment
         }
         else
             mPager.setCurrentItem(0);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
     }
 
     public void Set_I_Activity(I_Activity activity)

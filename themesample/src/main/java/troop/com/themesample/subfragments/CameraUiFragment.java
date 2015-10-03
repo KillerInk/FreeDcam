@@ -228,6 +228,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     }
 
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setWrapper();
+    }
 
     @Override
     public void onDestroyView()
@@ -239,7 +244,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     public void onResume() {
         super.onResume();
 
-        setWrapper();
+
         infoOverlayHandler.StartUpdating();
     }
 

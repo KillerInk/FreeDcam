@@ -119,10 +119,16 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
         programShift = (ManualItem)view.findViewById(R.id.manual_program_shift);
         programShift.SetStuff(appSettingsManager, "");
 
-        if (wrapper != null)
-            setWrapper();
+
         this.isLoaded = true;
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (wrapper != null)
+            setWrapper();
     }
 
     @Override

@@ -69,9 +69,15 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         this.view = inflater.inflate(R.layout.leftmenufragment, container, false);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (wrapper != null)
             setWrapper();
-        return view;
     }
 
     private void setWrapper()
