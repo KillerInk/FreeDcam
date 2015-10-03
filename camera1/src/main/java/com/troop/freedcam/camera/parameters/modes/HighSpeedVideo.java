@@ -19,7 +19,7 @@ public class HighSpeedVideo extends  BaseModeParameter
     {
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()) {
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isG4()) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
                 this.isSupported = true;
