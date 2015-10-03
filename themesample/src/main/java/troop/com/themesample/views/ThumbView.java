@@ -79,7 +79,12 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 if (!hasWork) {
                     hasWork = true;
                     Log.d(TAG, "Load Thumb " + filePath.getName());
-                    showThumb(filePath);
+                    try {
+                        showThumb(filePath);
+                    }
+                    catch (NullPointerException ex)
+                    {}
+
                     hasWork = false;
                 }
             }
@@ -99,7 +104,16 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 e.printStackTrace();
             }
             if (thum != null)
-                return Bitmap.createScaledBitmap(BitmapFactory.decodeByteArray(thum, 0, thum.length), mask.getWidth(), mask.getHeight(), false);
+            {
+                try {
+                    return Bitmap.createScaledBitmap(BitmapFactory.decodeByteArray(thum, 0, thum.length), mask.getWidth(), mask.getHeight(), false);
+                }
+                catch (NullPointerException ex)
+                {
+                    return null;
+                }
+
+            }
 
         }
         else if (file.getAbsolutePath().endsWith("mp4"))
