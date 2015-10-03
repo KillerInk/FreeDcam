@@ -131,8 +131,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
-        mRS = RenderScript.create(context);
-        focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+        if (Build.VERSION.SDK_INT >= 18) {
+            mRS = RenderScript.create(context);
+            focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+        }
 
     }
 
