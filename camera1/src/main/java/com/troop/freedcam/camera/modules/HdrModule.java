@@ -135,6 +135,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void OnWorkDone(File file)
     {
+        baseCameraHolder.ParameterHandler.SetParametersToCamera();
         baseCameraHolder.StartPreview();
         if (hdrCount == 2)
         {
