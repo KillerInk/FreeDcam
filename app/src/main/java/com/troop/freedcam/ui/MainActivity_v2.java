@@ -64,12 +64,13 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     static HistogramFragment histogramFragment;
     static AbstractCameraFragment cameraFragment;
     ScreenSlideFragment imageViewerFragment;
+    private boolean debuglogging = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
-        //FileLogger.StartLogging();
+        checkStartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -79,6 +80,16 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
+
+    }
+
+    private void checkStartLogging()
+    {
+        File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
+        if (debugfile.exists()) {
+            debuglogging = true;
+            FileLogger.StartLogging();
+        }
 
     }
 
@@ -257,7 +268,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //FileLogger.StopLogging();
+        if (debuglogging) {
+            debuglogging = false;
+            FileLogger.StopLogging();
+        }
     }
 
     @Override
