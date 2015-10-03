@@ -250,7 +250,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
-        ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
+        //((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
+        cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
+        SetParametersToCamera();
 
     }
 

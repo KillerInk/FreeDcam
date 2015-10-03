@@ -19,6 +19,7 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -55,17 +56,9 @@ public class ScreenSlideFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.screenslide_fragment, container, false);
-        loadFilePaths();
-        // Instantiate a ViewPager and a PagerAdapter.
 
+        // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        if (files != null) {
-            mPager.setCurrentItem(files.length);
-        }
-        else
-            mPager.setCurrentItem(0);
 
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +74,26 @@ public class ScreenSlideFragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        files = loadFilePaths();
+        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        if (files != null && files.length > 0) {
+            mPager.setCurrentItem(files.length);
+        }
+        else
+            mPager.setCurrentItem(0);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+    }
+
     public void Set_I_Activity(I_Activity activity)
     {
         this.activity = activity;
@@ -89,7 +102,7 @@ public class ScreenSlideFragment extends Fragment
     public void reloadFilesAndSetLastPos()
     {
 
-        loadFilePaths();
+        files = loadFilePaths();
         if (files == null)
             return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
@@ -103,7 +116,7 @@ public class ScreenSlideFragment extends Fragment
 
     public void ReloadFilesAndSetLast()
     {
-        loadFilePaths();
+        files =loadFilePaths();
         if (files == null)
             return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
@@ -149,7 +162,7 @@ public class ScreenSlideFragment extends Fragment
 
     }
 
-    private void loadFilePaths()
+    public static File[] loadFilePaths()
     {
         Log.d(TAG, "Loading Files...");
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
@@ -181,19 +194,17 @@ public class ScreenSlideFragment extends Fragment
         }
         catch (Exception ex){}
         Log.d(TAG, "Found " + images.size() + "Images");
-        if (images.size() > 0) {
-            files = images.toArray(new File[images.size()]);
-            Arrays.sort(files, new Comparator<File>() {
-                public int compare(File f1, File f2) {
-                    return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-                }
-            });
-        }
-        else
-            files = null;
+        final File[] s = images.toArray(new File[images.size()]);
+
+        Arrays.sort(s, new Comparator<File>() {
+            public int compare(File f1, File f2) {
+                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+            }
+        });
+        return s;
     }
 
-    private void readFilesFromFolder(File folder, List<File> fileList)
+    private static void readFilesFromFolder(File folder, List<File> fileList)
     {
         File[] folderfiles = folder.listFiles();
         for (File f : folderfiles)
@@ -207,7 +218,7 @@ public class ScreenSlideFragment extends Fragment
         }
     }
 
-    private void readSubFolderFromFolder(File folder, List<File> folderList)
+    private static void readSubFolderFromFolder(File folder, List<File> folderList)
     {
         File[] folderfiles = folder.listFiles();
         for (File f : folderfiles)

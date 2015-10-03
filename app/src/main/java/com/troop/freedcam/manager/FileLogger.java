@@ -75,7 +75,7 @@ public class FileLogger
                 waitforLine(bufferedReader, outputstream);
 
                 Runtime.getRuntime().exec("logcat -c");
-                Thread.sleep(100);
+                Thread.sleep(300);
             }
         }
         catch (IOException e)

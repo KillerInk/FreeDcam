@@ -119,10 +119,16 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
         programShift = (ManualItem)view.findViewById(R.id.manual_program_shift);
         programShift.SetStuff(appSettingsManager, "");
 
-        if (wrapper != null)
-            setWrapper();
+
         this.isLoaded = true;
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (wrapper != null)
+            setWrapper();
     }
 
     @Override
@@ -134,7 +140,13 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
         super.SetCameraUIWrapper(wrapper);
-        wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        try {
+            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
 
 
     }

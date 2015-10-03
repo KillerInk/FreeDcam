@@ -95,8 +95,12 @@ public class IsoModeParameter extends BaseModeParameter
            // if(DeviceUtils.isG4())
                 //need to add "lge-camera"
             super.SetValue(valueToSet, setToCam);
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+            if (!firststart) {
+                baseCameraHolder.StopPreview();
+                baseCameraHolder.StartPreview();
+
+            }
+            firststart = false;
         }
         else
             super.SetValue(valueToSet, setToCam);

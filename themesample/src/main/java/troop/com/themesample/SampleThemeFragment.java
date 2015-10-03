@@ -47,7 +47,8 @@ public class SampleThemeFragment extends AbstractFragment
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.wrapper = wrapper;
-
+        if (cameraUiFragment != null)
+            cameraUiFragment.SetCameraUIWrapper(wrapper);
 
 
     }

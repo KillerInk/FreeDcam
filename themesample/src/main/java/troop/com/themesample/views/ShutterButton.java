@@ -144,11 +144,17 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
-        setBackgroundResource(R.drawable.shuttercloseanimation);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-        shutterOpenAnimation.stop();
-        shutterOpenAnimation.setOneShot(true);
-        shutterOpenAnimation.start();
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                setBackgroundResource(R.drawable.shuttercloseanimation);
+                shutterOpenAnimation = (AnimationDrawable) getBackground();
+                shutterOpenAnimation.stop();
+                shutterOpenAnimation.setOneShot(true);
+                shutterOpenAnimation.start();
+            }
+        });
+
 
         /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 

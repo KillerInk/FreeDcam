@@ -21,6 +21,7 @@ import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -44,14 +45,14 @@ import java.util.Date;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_WorkeDone {
+public class PictureModule extends AbstractModule implements I_WorkeDone, I_Callbacks.AutoFocusCallback {
 
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
 
     int burstcount = 0;
 
-    private HandlerThread backgroundThread;
+    //private HandlerThread backgroundThread;
     Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
@@ -61,10 +62,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     boolean dngJpegShot = false;
 
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
+    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
+        this.handler = backgroundHandler;
         name = ModuleHandler.MODULE_PICTURE;
 
         ParameterHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
@@ -90,13 +92,24 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void DoWork()
     {
+        if (!baseCameraHolder.Focus.HasFocus()) {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+            return;
+        }
         if (!this.isWorking)
         {
             startworking();
             if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
-                burstcount = 0;
-                baseCameraHolder.TakePicture(null,null, burstCallback);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        burstcount = 0;
+                        baseCameraHolder.TakePicture(null,null, burstCallback);
+                    }
+                });
+
             }
             else {
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
@@ -130,7 +143,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        startThread();
+        //startThread();
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
@@ -149,19 +162,19 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     }
 
-    protected void startThread() {
+    /*protected void startThread() {
         backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
         handler = new Handler(backgroundThread.getLooper());
-    }
+    }*/
 
     @Override
     public void UnloadNeededParameters()
     {
-        stopThread();
+        //stopThread();
     }
 
-    protected void stopThread() {
+    /*protected void stopThread() {
         if (Build.VERSION.SDK_INT>17)
             backgroundThread.quitSafely();
         else
@@ -173,7 +186,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     protected void startworking()
     {
@@ -260,4 +273,15 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             stopworking();
         }
     };
+
+    @Override
+    public void onAutoFocus(CameraFocusEvent cameraFocusEvent) {
+        if (cameraFocusEvent != null)
+            DoWork();
+    }
+
+    @Override
+    public void onFocusLock(boolean locked) {
+
+    }
 }

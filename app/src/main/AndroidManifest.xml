@@ -29,10 +29,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_laucher"
+        android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"
 
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
         android:largeHeap="true">
         android:name="com.troop.">
@@ -41,7 +41,7 @@
             android:name="com.troop.freedcam.ui.MainActivity_v2"
             android:label="FreeDCam"
 
-            android:icon="@drawable/ic_laucher"
+            android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
@@ -61,7 +61,7 @@
             android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
-            android:icon="@drawable/ic_freedshare"
+            android:icon="@drawable/launcher_freedcam"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
@@ -75,7 +75,7 @@
             android:name="troop.com.imageviewer.ScreenSlideActivity"
             android:label="FreeDCam Viewer"
 
-            android:icon="@drawable/freedviwer"
+            android:icon="@drawable/launcher_imageviewer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"

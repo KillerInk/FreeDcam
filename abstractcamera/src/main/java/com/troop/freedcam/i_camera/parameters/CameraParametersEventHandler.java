@@ -41,7 +41,8 @@ public class CameraParametersEventHandler
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        parametersLoadedListner.get(t).ParametersLoaded();
+                        if (parametersLoadedListner.size()> 0 && t < parametersLoadedListner.size())
+                            parametersLoadedListner.get(t).ParametersLoaded();
                     }
                 });
 

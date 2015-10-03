@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private AbstractCameraUiWrapper wrapper;
     protected ImageView focusImageView;
-    final int crosshairShowTime = 5000;
+    final int crosshairShowTime = 3000;
     int disHeight;
     int disWidth;
     int recthalf;
@@ -138,17 +139,16 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(FocusRect rect)
     {
+
+        focusImageView.removeCallbacks(hideFocus);
         if (!(wrapper instanceof CameraUiWrapperSony))
         {
-            disWidth = activity.GetPreviewWidth();
-            disHeight = activity.GetPreviewHeight();
-            int margineleft = activity.GetPreviewLeftMargine();
-            //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
             {
-                int halfwidth = disWidth / 2;
-                int halfheight = disHeight / 2;
+                Point size = getSize();
+                int halfwidth = size.x / 2;
+                int halfheight = size.y / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
             RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
@@ -160,24 +160,24 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
             focusImageView.setVisibility(View.VISIBLE);
 
-            RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 //Setup anim with desired properties
             anim.setInterpolator(new LinearInterpolator());
             anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds
+            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds*/
 
 //Start animation
+            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
             focusImageView.startAnimation(anim);
-//Later on, use view.setAnimation(null) to stop it.
-            //focusImageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
     }
 
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony)) {
+        if (!(wrapper instanceof CameraUiWrapperSony))
+        {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -187,12 +187,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                         focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
-                    //handler.postDelayed(hideCrosshair, crosshairShowTime);
+                    focusImageView.postDelayed(hideFocus, crosshairShowTime);
                 }
             });
         }
 
     }
+
+    private Runnable hideFocus = new Runnable() {
+        @Override
+        public void run() {
+            focusImageView.setVisibility(View.GONE);
+            wrapper.Focus.SetFocusFalse();
+        }
+    };
+
 
     @Override
     public void FocusLocked(final boolean locked)
@@ -254,7 +263,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.Focus.SetMeteringAreas(imageRect,previewWidth, previewHeight);
+                wrapper.Focus.SetMeteringAreas(imageRect, previewWidth, previewHeight);
         }
 
         @Override
@@ -288,41 +297,39 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
     }
 
+    private Point getSize()
+    {
+        if (Build.VERSION.SDK_INT >= 17) {
+            WindowManager wm = (WindowManager) fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
+            Point size = new Point();
+            wm.getDefaultDisplay().getRealSize(size);
+            return size;
+        }
+        else {
+            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
+            Point size = new Point();
+            size.set(metrics.widthPixels, metrics.heightPixels);
+            return size;
+        }
+    }
 
     private FocusRect centerImageView(ImageView imageview)
     {
         int width = 0;
         int height = 0;
 
-        if (Build.VERSION.SDK_INT >= 17)
-        {
-            WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                height = size.x;
-                width = size.y;
-            }
+        if(fragment == null || fragment.getActivity() == null)
+            return null;
+
+        Point size =  getSize();
+        if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            width = size.x;
+            height = size.y;
         }
         else
         {
-            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else
-            {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-
+            height = size.x;
+            width = size.y;
         }
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);

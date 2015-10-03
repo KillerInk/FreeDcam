@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
+import android.os.Build;
 import android.os.Handler;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -47,7 +48,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
     @Override
     public boolean IsSupported() {
-        return true;
+        return Build.VERSION.SDK_INT >= 18;
     }
 
 

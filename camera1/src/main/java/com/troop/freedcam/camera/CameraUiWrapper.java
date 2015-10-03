@@ -3,6 +3,8 @@ package com.troop.freedcam.camera;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -39,8 +41,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
     public PreviewHandler previewHandler;
-
-
+    boolean cameraRdy = false;
 
     @Override
     public String CameraApiName() {
@@ -50,6 +51,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture, AppSettingsManager appSettingsManager)
     {
         super(appSettingsManager);
+
         this.preview = (ExtendedSurfaceView)preview;
         this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
@@ -65,7 +67,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager);
+        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, backgroundHandler);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
@@ -77,7 +79,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         else
             previewTexture.setVisibility(View.GONE);
         Log.d(TAG, "Ctor done");
-
+        StartCamera();
 
     }
 
@@ -85,13 +87,13 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     protected void startCamera()
     {
-        new Thread(new Runnable() {
+        backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
                 Log.d(TAG, "opencamera");
             }
-        }).start();
+        });
 
     }
 
@@ -99,21 +101,39 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected void stopCamera()
     {
         Log.d(TAG, "Stop Camera");
-        cameraHolder.CloseCamera();
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.CloseCamera();
+            }
+        });
+
     }
 
     @Override
     protected void startPreview()
     {
         Log.d(TAG, "Stop Preview");
-        cameraHolder.StartPreview();
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.StartPreview();
+            }
+        });
+
     }
 
     @Override
     protected void stopPreview()
     {
         Log.d(TAG, "Stop Preview");
-        cameraHolder.StopPreview();
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.StopPreview();
+            }
+        });
+
     }
 
 
@@ -123,7 +143,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
-        StartCamera();
+        startPreviewinternal();
     }
 
     @Override
@@ -165,21 +185,43 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void onCameraOpen(String message)
     {
+        cameraRdy = true;
         super.onCameraOpen(message);
-        cameraHolder.SetErrorCallback(this);
-        cameraHolder.SetSurface(preview.getHolder());
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
-        cameraHolder.StartPreview();
+        startPreviewinternal();
+    }
+
+    /**this gets called twice
+     * once when camera is open
+     * and second when previewsurface is rdy.
+     * that way the cam can started faster and we dont have to care about when surface needs longer to load or the cam
+     * when both are up preview gets started
+     */
+
+    private void startPreviewinternal()
+    {
+        if (!PreviewSurfaceRdy || !cameraRdy)
+            return;
+
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.SetErrorCallback(CameraUiWrapper.this);
+                cameraHolder.SetSurface(preview.getHolder());
+
+                cameraHolder.StartPreview();
+            }
+        });
+
 
         super.onCameraOpenFinish("");
-
-
     }
 
     @Override
     public void onCameraClose(String message)
     {
+        cameraRdy = false;
         super.onCameraClose(message);
     }
 
