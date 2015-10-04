@@ -21,17 +21,14 @@ public class IntervalHandler
 {
     AppSettingsManager appSettingsManager;
     AbstractCameraUiWrapper cameraUiWrapper;
-    long Countduration = 0;
 
     final String TAG = IntervalHandler.class.getSimpleName();
-    //intervalmeter start ///////////////
 
-    static int counter = 0;
     int intervalDuration = 0;
     int shutterDelay = 0;
+    int intervalToEndDuration = 0;
     Handler handler;
-    Time startTime;
-    Time endTime;
+    long startTime = 0;
 
     public IntervalHandler(AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -43,29 +40,31 @@ public class IntervalHandler
     public void StartInterval()
     {
         Log.d(TAG, "Start Start Interval");
-        startTime = new Time();
-        startTime.setToNow();
+        this.startTime = new Date().getTime();
         String interval = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).replace(" sec", "");
-        intervalDuration = Integer.parseInt(interval)*1000;
+        this.intervalDuration = Integer.parseInt(interval)*1000;
         String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
-        if (!shutterdelay.equals("off"))
+        if (!shutterdelay.equals("0 sec"))
             shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) *1000;
         else
             shutterDelay = 0;
+        String endDuration = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).replace(" min","");
+        this.intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
     }
 
     public void DoNextInterval()
     {
-        Time t = new Time();
-        t.setToNow();
-        if (this.endTime.hour <= t.hour && this.endTime.minute <= t.minute && this.endTime.second <= t.second)
+
+        long dif = new Date().getTime() - IntervalHandler.this.startTime;
+        double min = (double)(dif /1000) / 60;
+        if (min >= IntervalHandler.this.intervalToEndDuration)
         {
             Log.d(TAG, "Finished Interval");
             return;
         }
-        Log.d(TAG, "Start StartNext Interval in" + intervalDuration);
-        handler.postDelayed(intervalDelayRunner, intervalDuration);
+        Log.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
+        handler.postDelayed(intervalDelayRunner, IntervalHandler.this.intervalDuration);
     }
 
     private Runnable intervalDelayRunner =new Runnable() {
@@ -79,8 +78,8 @@ public class IntervalHandler
 
     private void startShutterDelay()
     {
-        Log.d(TAG, "Start ShutterDelay in " + shutterDelay);
-        handler.postDelayed(shutterDelayRunner, shutterDelay);
+        Log.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
+        handler.postDelayed(shutterDelayRunner, IntervalHandler.this.shutterDelay);
     }
 
     private Runnable shutterDelayRunner =new Runnable() {
