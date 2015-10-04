@@ -140,8 +140,10 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     }
 
     @Override
-    public void SetWorkListner(I_worker workerListner) {
-        workers.add(workerListner);
+    public void SetWorkListner(I_worker workerListner)
+    {
+        if (!workers.contains(workerListner))
+            workers.add(workerListner);
     }
 
     protected void initModules()
