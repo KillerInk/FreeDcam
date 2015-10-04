@@ -29,12 +29,14 @@ public class IntervalHandler
     int intervalToEndDuration = 0;
     Handler handler;
     long startTime = 0;
+    UserMessageHandler messageHandler;
 
-    public IntervalHandler(AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper)
+    public IntervalHandler(AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, UserMessageHandler messageHandler)
     {
         this.appSettingsManager = appSettingsManager;
         this.cameraUiWrapper = cameraUiWrapper;
         handler = new Handler();
+        this.messageHandler = messageHandler;
     }
 
     public void StartInterval()
@@ -53,6 +55,16 @@ public class IntervalHandler
         startShutterDelay();
     }
 
+    private void sendMsg()
+    {
+
+        String t = "Time:"+String.format("%.2f ",((double)((new Date().getTime() - IntervalHandler.this.startTime)) /1000) / 60);
+        t+=("/"+intervalToEndDuration+ " Next:" + shuttercounter +"/" + intervalDuration/1000);
+        messageHandler.SetUserMessage(t);
+
+    }
+
+    int shuttercounter = 0;
     public void DoNextInterval()
     {
 
@@ -64,10 +76,26 @@ public class IntervalHandler
             return;
         }
         Log.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
-        handler.postDelayed(intervalDelayRunner, IntervalHandler.this.intervalDuration);
+        intervalDelayCounter = 0;
+        handler.post(intervalDelayRunner);
     }
 
+    int intervalDelayCounter;
     private Runnable intervalDelayRunner =new Runnable() {
+        @Override
+        public void run()
+        {
+            if (intervalDelayCounter < IntervalHandler.this.intervalDuration /1000) {
+                handler.postDelayed(intervalDelayRunner, 1000);
+                sendMsg();
+                intervalDelayCounter++;
+            }
+            else
+                handler.postDelayed(shutterDelayRunner, 1000);
+        }
+    };
+
+    private Runnable shutterDelayRunner =new Runnable() {
         @Override
         public void run()
         {
@@ -76,13 +104,23 @@ public class IntervalHandler
         }
     };
 
+
     private void startShutterDelay()
     {
         Log.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
-        handler.postDelayed(shutterDelayRunner, IntervalHandler.this.shutterDelay);
+        if (shuttercounter <  IntervalHandler.this.shutterDelay / 1000)
+        {
+            handler.postDelayed(shutterDelayRunner, 1000);
+            sendMsg();
+            shuttercounter++;
+        }
+        else
+        {
+            handler.postDelayed(doWorkDelayRunner, 1000);
+        }
     }
 
-    private Runnable shutterDelayRunner =new Runnable() {
+    private Runnable doWorkDelayRunner =new Runnable() {
         @Override
         public void run() {
             cameraUiWrapper.DoWork();

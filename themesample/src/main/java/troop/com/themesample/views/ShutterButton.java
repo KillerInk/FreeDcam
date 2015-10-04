@@ -19,6 +19,7 @@ import java.sql.Time;
 
 import troop.com.themesample.R;
 import troop.com.themesample.handler.IntervalHandler;
+import troop.com.themesample.handler.UserMessageHandler;
 
 /**
  * Created by troop on 20.06.2015.
@@ -72,13 +73,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
 
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, UserMessageHandler messageHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper);
+        intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper, messageHandler);
     }
 
 

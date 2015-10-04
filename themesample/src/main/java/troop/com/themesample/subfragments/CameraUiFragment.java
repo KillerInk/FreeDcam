@@ -25,6 +25,7 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import troop.com.themesample.R;
 import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
+import troop.com.themesample.handler.UserMessageHandler;
 import troop.com.themesample.views.ShutterButton;
 import troop.com.themesample.views.ThumbView;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
@@ -62,7 +63,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     static UiSettingsFocusPeak focuspeak;
 
-
+    private UserMessageHandler messageHandler;
 
     static ThumbView thumbView;
 
@@ -130,7 +131,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetCameraUiWrapper(wrapper);
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
-        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager);
+        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager, messageHandler);
 
         format.SetCameraUiWrapper(wrapper);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
@@ -145,6 +146,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         guideHandler.setCameraUiWrapper(wrapper);
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
+
+        messageHandler.SetCameraUiWrapper(wrapper);
     }
 
     @Override
@@ -213,6 +216,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.commitAllowingStateLoss();
 
         manualModes_holder.setVisibility(View.GONE);
+        messageHandler = new UserMessageHandler(view, appSettingsManager);
 
 
         guideHandler = new GuideHandler();
