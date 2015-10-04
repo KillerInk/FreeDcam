@@ -31,13 +31,13 @@ public class MenuItemTimer extends MenuItem
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
-        if (!appSettingsManager.getString(AppSettingsManager.SETTING_TIMER).equals("off"));
+        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_TIMER));
 
     }
 
     @Override
     public String[] GetValues() {
-        String [] intv = {"off","5 sec","10 sec","15 sec","20"};
+        String [] intv = {"off","5 sec","10 sec","15 sec","20 sec"};
         //return new String[] {StringUtils.ON, StringUtils.OFF};
         return intv;
     }
@@ -46,6 +46,7 @@ public class MenuItemTimer extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, value);
+        onValueChanged(value);
 
       /*  if (value.equals(StringUtils.ON))
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  "true");

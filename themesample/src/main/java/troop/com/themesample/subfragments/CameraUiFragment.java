@@ -130,7 +130,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetCameraUiWrapper(wrapper);
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
-        shutterButton.SetCameraUIWrapper(wrapper);
+        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager);
 
         format.SetCameraUiWrapper(wrapper);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);

@@ -28,7 +28,8 @@ public class ModuleEventHandler
      */
     public  void addListner(I_ModuleEvent listner)
     {
-        moduleChangedListner.add(listner);
+        if (!moduleChangedListner.contains(listner))
+            moduleChangedListner.add(listner);
     }
 
     /**
@@ -56,7 +57,8 @@ public class ModuleEventHandler
      */
     public void AddWorkFinishedListner(I_WorkEvent i_workEvent)
     {
-        WorkFinishedListners.add(i_workEvent);
+        if (!WorkFinishedListners.contains(i_workEvent))
+            WorkFinishedListners.add(i_workEvent);
     }
 
     public void WorkFinished(File filePath)

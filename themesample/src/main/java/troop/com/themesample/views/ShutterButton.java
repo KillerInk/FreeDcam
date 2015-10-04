@@ -11,34 +11,23 @@ import android.widget.Toast;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 
 import java.sql.Time;
 
 import troop.com.themesample.R;
+import troop.com.themesample.handler.IntervalHandler;
 
 /**
  * Created by troop on 20.06.2015.
  */
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
 {
-    long Countduration = 0;
-
-    //intervalmeter start ///////////////
-
-    static int counter = 0;
-    boolean running = false;
-    int interval_millis = 15000;
-    int interval_duration = 15000;
-    int delay = 1000;
-    Handler handler = new Handler();
-
-    //end//////////////////////////////
-
-
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
-
+    IntervalHandler intervalHandler;
+    AppSettingsManager appSettingsManager;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,19 +40,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         //start handler
         Toast.makeText(context, "STARTING", Toast.LENGTH_SHORT).show();
         //set delay to start
-        handler.postDelayed(runnable, delay);
     }
-
-
-    // handle interval
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            init();
-            running = true;
-            handler.postDelayed(this, interval_millis);
-        }
-    };
 
     private void init()
     {
@@ -74,21 +51,25 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             @Override
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
-                    cameraUiWrapper.DoWork();
-
-                //need to workout how to calculate duration in time when its over end handler
-                handler.removeCallbacks(runnable);
+                {
+                    if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).equals("off"))
+                        intervalHandler.StartInterval();
+                    else
+                        cameraUiWrapper.DoWork();
+                }
             }
         });
     }
 
 
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper);
     }
 
 
@@ -125,6 +106,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 shutterOpenAnimation.start();
             }
         });
+        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).equals("off"))
+            intervalHandler.DoNextInterval();
 
     }
 }

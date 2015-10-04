@@ -31,7 +31,7 @@ public class MenuItemIntervalDuration extends MenuItem
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
-        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"));
+        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION));
 
     }
 
@@ -46,6 +46,7 @@ public class MenuItemIntervalDuration extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, value);
+        onValueChanged(value);
 
       /*  if (value.equals(StringUtils.ON))
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  "true");
