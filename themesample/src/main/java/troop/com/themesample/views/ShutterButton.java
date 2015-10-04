@@ -54,12 +54,12 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
                 {
-                    String s = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL);
+                    String s = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION);
                     if (s.equals("")) {
                         s = "off";
-                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL, s);
+                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL, "1 sec");
                         appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, s);
-                        appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, s);
+                        appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, "0 sec");
                     }
                     if (!s.equals("off"))
                         intervalHandler.StartInterval();
@@ -121,7 +121,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 shutterOpenAnimation.start();
             }
         });
-        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).equals("off"))
+        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
             intervalHandler.DoNextInterval();
 
     }

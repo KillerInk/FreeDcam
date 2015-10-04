@@ -47,13 +47,6 @@ public class IntervalHandler
         startTime.setToNow();
         String interval = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).replace(" sec", "");
         intervalDuration = Integer.parseInt(interval)*1000;
-        String timeToRun = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION);
-        if(!timeToRun.equals("Bulb"))
-        {
-            int min = Integer.parseInt(timeToRun.replace(" min", ""));
-            this.endTime = new Time();
-            this.endTime.set(startTime.second,startTime.minute + min, startTime.hour,startTime.monthDay,startTime.month,startTime.year);
-        }
         String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
         if (!shutterdelay.equals("off"))
             shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) *1000;

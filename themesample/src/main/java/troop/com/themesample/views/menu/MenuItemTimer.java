@@ -2,11 +2,13 @@ package troop.com.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
 /**
@@ -31,13 +33,19 @@ public class MenuItemTimer extends MenuItem
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
-        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_TIMER));
+
 
     }
 
     @Override
+    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
+        super.SetStuff(i_activity, appSettingsManager, settingvalue);
+        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_TIMER));
+    }
+
+    @Override
     public String[] GetValues() {
-        String [] intv = {"off","5 sec","10 sec","15 sec","20 sec"};
+        String [] intv = {"0 sec","5 sec","10 sec","15 sec","20 sec"};
         //return new String[] {StringUtils.ON, StringUtils.OFF};
         return intv;
     }
@@ -47,13 +55,5 @@ public class MenuItemTimer extends MenuItem
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, value);
         onValueChanged(value);
-
-      /*  if (value.equals(StringUtils.ON))
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  "true");
-        else
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, "false");
-        ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetCameraRotation();
-        ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
-        onValueChanged(value); */
     }
 }
