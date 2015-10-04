@@ -18,6 +18,52 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/setting_Automation"
+                android:id="@+id/textView13"
+                android:textColor="#ff000000"
+                android:background="#ffffffff"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItemInterval
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuIntervalmeter"
+                app:Description="@string/setting_interval_header"
+                app:HeaderText="@string/setting_interval_texter"
+                app:ValueText="off"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItemIntervalDuration
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuIntervalmeterDuration"
+                app:Description="@string/setting_interval_duration_header"
+                app:HeaderText="@string/setting_interval_duration_text"
+                app:ValueText="off"
+                android:layout_marginBottom="1dp" />
+
+            <troop.com.themesample.views.menu.MenuItemTimer
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuTimer"
+                app:Description="@string/setting_timer_header"
+                app:HeaderText="@string/setting_timer_text"
+                app:ValueText="off"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/menuTextColor"
+                android:background="#13ffffff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/textView14" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/setting_picture_group_header"
                 android:id="@+id/textView4"
                 android:textColor="#ff000000"

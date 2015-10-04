@@ -15,10 +15,13 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
+import troop.com.themesample.views.menu.MenuItemInterval;
+import troop.com.themesample.views.menu.MenuItemIntervalDuration;
 import troop.com.themesample.views.menu.MenuItemOrientationHack;
 import troop.com.themesample.views.menu.MenuItemSDSave;
 import troop.com.themesample.views.menu.MenuItemSaveCamParams;
 import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
+import troop.com.themesample.views.menu.MenuItemTimer;
 import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
@@ -33,6 +36,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
+
+    MenuItemInterval menuItemInterval;
+    MenuItemIntervalDuration menuItemIntervalDuration;
+    MenuItemTimer menuItemTimer;
+
     troop.com.themesample.views.menu.MenuItem guide;
     troop.com.themesample.views.menu.MenuItem api;
     troop.com.themesample.views.menu.MenuItem externalShutter;
@@ -101,6 +109,21 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         sdSave.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         sdSave.SetCameraUiWrapper(wrapper);
         sdSave.SetMenuItemListner(this);
+
+        menuItemInterval = (MenuItemInterval)view.findViewById(R.id.MenuIntervalmeter);
+        menuItemInterval.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemInterval.SetMenuItemListner(this);
+
+        menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
+        menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemIntervalDuration.SetMenuItemListner(this);
+
+        menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
+        menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemTimer.SetMenuItemListner(this);
 
         menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
         menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION);
