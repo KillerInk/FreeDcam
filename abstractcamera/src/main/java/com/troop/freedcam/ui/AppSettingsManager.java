@@ -70,6 +70,11 @@ public class AppSettingsManager
     final public static String SETTING_LOCATION = "location";
     final public static String SETTING_EXTERNALSHUTTER = "externalShutter";
     final public static String SETTING_OrientationHack = "orientationHack";
+
+    final public static String SETTING_INTERVAL = "innterval";
+    final public static String SETTING_INTERVAL_DURATION = "interval_duration";
+    final public static String SETTING_TIMER = "timer";
+
     final public static String SETTING_CAMERAMODE = "camMode";
     final public static String SETTING_DUALMODE = "dualMode";
     final public static String SETTING_Theme = "theme";

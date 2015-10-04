@@ -2,6 +2,7 @@
     <!-- leftmenufragment  -->
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Settings</string>
+    <string name="setting_Automation">Automated Capture</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
@@ -35,6 +36,16 @@
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_sdcard_header">SD Card: </string>
     <string name="setting_sdcard_description">File save location</string>
+
+    <string name="setting_interval_header">Shutter Fire Interval</string>
+    <string name="setting_interval_texter">Interval</string>
+
+    <string name="setting_interval_duration_header">Duration till interval ends</string>
+    <string name="setting_interval_duration_text">Interval Duration</string>
+
+    <string name="setting_timer_header">Delay till shutter fires</string>
+    <string name="setting_timer_text">Time</string>
+
     <string name="setting_theme_header">Theme: </string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
     <string name="setting_savecamparams_header">Save Camera Parameters</string>
