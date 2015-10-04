@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     AnimationDrawable shutterOpenAnimation;
     IntervalHandler intervalHandler;
     AppSettingsManager appSettingsManager;
+    String TAG = ShutterButton.class.getSimpleName();
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,7 +54,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
                 {
-                    if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).equals("off"))
+                    String s = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL);
+                    if (s.equals("")) {
+                        s = "off";
+                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL, s);
+                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, s);
+                        appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, s);
+                    }
+                    if (!s.equals("off"))
                         intervalHandler.StartInterval();
                     else
                         cameraUiWrapper.DoWork();
@@ -78,12 +87,17 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         return null;
     }
 
+
+    int workerCounter = 0;
+    int finishcounter = 0;
     @Override
     public void onWorkStarted()
     {
         this.post(new Runnable() {
             @Override
             public void run() {
+                workerCounter++;
+                finishcounter = 0;
                 setBackgroundResource(R.drawable.shuttercloseanimation);
                 shutterOpenAnimation = (AnimationDrawable) getBackground();
                 shutterOpenAnimation.stop();
@@ -96,6 +110,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkFinished(boolean finished)
     {
+        Log.d(TAG, "workstarted "+ workerCounter + " worfinshed " + finishcounter++);
         this.post(new Runnable() {
             @Override
             public void run() {

@@ -37,7 +37,7 @@ public class MenuItemIntervalDuration extends MenuItem
 
     @Override
     public String[] GetValues() {
-        String [] intv = {"off","5 min","10 min","15 min","20 min ","25 min","30 min","60 min","Bulb"};
+        String [] intv = {"off","1 min", "2 min", "5 min","10 min","15 min","20 min ","25 min","30 min","60 min","Bulb"};
         //return new String[] {StringUtils.ON, StringUtils.OFF};
         return intv;
     }

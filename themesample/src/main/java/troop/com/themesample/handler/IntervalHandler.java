@@ -10,6 +10,8 @@ import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 
+import java.util.Date;
+
 import troop.com.themesample.subfragments.CameraUiFragment;
 
 /**
@@ -49,8 +51,8 @@ public class IntervalHandler
         if(!timeToRun.equals("Bulb"))
         {
             int min = Integer.parseInt(timeToRun.replace(" min", ""));
-            endTime = new Time();
-            endTime.set(startTime.second,startTime.minute + min, startTime.hour,startTime.monthDay,startTime.month,startTime.year);
+            this.endTime = new Time();
+            this.endTime.set(startTime.second,startTime.minute + min, startTime.hour,startTime.monthDay,startTime.month,startTime.year);
         }
         String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
         if (!shutterdelay.equals("off"))
@@ -62,7 +64,14 @@ public class IntervalHandler
 
     public void DoNextInterval()
     {
-        Log.d(TAG, "Start StartNext Interval");
+        Time t = new Time();
+        t.setToNow();
+        if (this.endTime.hour <= t.hour && this.endTime.minute <= t.minute && this.endTime.second <= t.second)
+        {
+            Log.d(TAG, "Finished Interval");
+            return;
+        }
+        Log.d(TAG, "Start StartNext Interval in" + intervalDuration);
         handler.postDelayed(intervalDelayRunner, intervalDuration);
     }
 
@@ -77,7 +86,7 @@ public class IntervalHandler
 
     private void startShutterDelay()
     {
-        Log.d(TAG, "Start ShutterDelay");
+        Log.d(TAG, "Start ShutterDelay in " + shutterDelay);
         handler.postDelayed(shutterDelayRunner, shutterDelay);
     }
 
