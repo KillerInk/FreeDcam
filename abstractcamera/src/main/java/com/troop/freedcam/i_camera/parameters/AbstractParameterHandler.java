@@ -112,6 +112,9 @@ public abstract class AbstractParameterHandler
 
     public LocationParameter locationParameter;
 
+    public boolean IntervalCapture = false;
+    public boolean IntervalCaptureFocusSet = false;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;

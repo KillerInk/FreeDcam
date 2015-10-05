@@ -73,6 +73,8 @@ public class IntervalHandler
         if (min >= IntervalHandler.this.intervalToEndDuration)
         {
             Log.d(TAG, "Finished Interval");
+            cameraUiWrapper.camParametersHandler.IntervalCaptureFocusSet = false;
+            cameraUiWrapper.camParametersHandler.IntervalCapture = false;
             return;
         }
         Log.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);

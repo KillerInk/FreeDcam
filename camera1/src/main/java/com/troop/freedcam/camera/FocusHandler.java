@@ -81,8 +81,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         {
             focusEvent.FocusStarted(null);
         }
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder)cameraHolder;
-        baseCameraHolder.StartFocus(this);
+        cameraHolder.StartFocus(this);
         isFocusing = true;
     }
 
