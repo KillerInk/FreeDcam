@@ -30,6 +30,9 @@ public class IntervalHandler
     Handler handler;
     long startTime = 0;
     UserMessageHandler messageHandler;
+    boolean working = false;
+
+    public boolean IsWorking() {return  working;}
 
     public IntervalHandler(AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, UserMessageHandler messageHandler)
     {
@@ -42,6 +45,7 @@ public class IntervalHandler
     public void StartInterval()
     {
         Log.d(TAG, "Start Start Interval");
+        working = true;
         this.startTime = new Date().getTime();
         String interval = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).replace(" sec", "");
         this.intervalDuration = Integer.parseInt(interval)*1000;
@@ -53,6 +57,14 @@ public class IntervalHandler
         String endDuration = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).replace(" min","");
         this.intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
+    }
+
+    public void CancelInterval()
+    {
+        handler.removeCallbacks(intervalDelayRunner);
+        handler.removeCallbacks(shutterDelayRunner);
+        handler.removeCallbacks(doWorkDelayRunner);
+        working = false;
     }
 
     private void sendMsg()
@@ -75,6 +87,7 @@ public class IntervalHandler
             Log.d(TAG, "Finished Interval");
             cameraUiWrapper.camParametersHandler.IntervalCaptureFocusSet = false;
             cameraUiWrapper.camParametersHandler.IntervalCapture = false;
+            working = false;
             return;
         }
         Log.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
