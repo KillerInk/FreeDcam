@@ -29,10 +29,7 @@ public class MenuItemInterval extends MenuItem
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper)
-            this.setVisibility(VISIBLE);
-        else
-            this.setVisibility(GONE);
+        
     }
 
     @Override
