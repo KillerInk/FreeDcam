@@ -59,7 +59,7 @@ public class IntervalHandler
     {
 
         String t = "Time:"+String.format("%.2f ",((double)((new Date().getTime() - IntervalHandler.this.startTime)) /1000) / 60);
-        t+=("/"+intervalToEndDuration+ " Next:" + shuttercounter +"/" + intervalDuration/1000);
+        t+=("/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000);
         messageHandler.SetUserMessage(t);
 
     }
@@ -89,9 +89,12 @@ public class IntervalHandler
                 handler.postDelayed(intervalDelayRunner, 1000);
                 sendMsg();
                 intervalDelayCounter++;
+                shuttercounter++;
             }
-            else
+            else {
                 handler.postDelayed(shutterDelayRunner, 1000);
+                shuttercounter = 0;
+            }
         }
     };
 
@@ -105,18 +108,20 @@ public class IntervalHandler
     };
 
 
+    int shutterWaitCounter =0;
     private void startShutterDelay()
     {
         Log.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
-        if (shuttercounter <  IntervalHandler.this.shutterDelay / 1000)
+        if (shutterWaitCounter <  IntervalHandler.this.shutterDelay / 1000)
         {
             handler.postDelayed(shutterDelayRunner, 1000);
             sendMsg();
-            shuttercounter++;
+            shutterWaitCounter++;
         }
         else
         {
             handler.postDelayed(doWorkDelayRunner, 1000);
+            shutterWaitCounter = 0;
         }
     }
 
