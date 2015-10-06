@@ -32,6 +32,7 @@ public class DngSupportedDevices
         Meizu_Mx4,
         THL5000,
         Alcatel_Idol3,
+        Vivo_Xplay3s
 
     }
 
@@ -527,6 +528,37 @@ public class DngSupportedDevices
         return null;
     }
 
+    private DngProfile getVivo_Xplay3s_Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            //TODO find correct imageSize
+            case 16424960:
+                return new DngProfile(64,4208, 3120,Mipi, BGGR, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 17522688:
+                return new DngProfile(64,4212, 3082,Qcom, BGGR, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+
+
+        }
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (device) {
@@ -614,6 +646,9 @@ public class DngSupportedDevices
                 return getXiaomi_mi_note_proProfile(filesize);
             case Alcatel_Idol3:
                 return getAlcatel_Idol3Profile(filesize);
+            case Vivo_Xplay3s:
+                return getVivo_Xplay3s_Profile(filesize);
+
         }
         return null;
     }

@@ -72,6 +72,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
 		if (filename.contains("alcatel idol 3 "))
 			return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
+		if (filename.contains("vivo Xplay3S"))
+			return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
 		return null;
 	}
 	
