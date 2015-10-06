@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     HashMap<String, CamcorderProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
+    String profile = "HIGH";
 
     public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, value, values);
@@ -32,7 +34,8 @@ public class VideoProfilesParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+        profile = valueToSet;
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
 
     }
@@ -44,7 +47,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        return super.GetValue();
+        return profile;
     }
 
     @Override

@@ -128,6 +128,22 @@
             android:textColor="@color/menuTextColor" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/menuBackgColor"
+        android:layout_centerInParent="true"
+        android:id="@+id/userMessageHolder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textView_usermessage"
+            android:textColor="@color/menuTextColor" />
+    </LinearLayout>
+
     <ImageView
         android:layout_width="@android:dimen/app_icon_size"
         android:layout_height="@android:dimen/app_icon_size"

@@ -536,7 +536,7 @@ public class DngSupportedDevices
             case zteAdv:
                 return getZTEADVProfile(filesize);
             case Xiaomi_Redmi_Note:
-                return new DngProfile(64,4212, 3082,Qcom, BGGR, getG3_rowSizeL,
+                return new DngProfile(64,4212, 3082,Qcom, RGGb, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,

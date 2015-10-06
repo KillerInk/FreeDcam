@@ -749,6 +749,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                         CameraFocusEvent focusEvent = new CameraFocusEvent();
                         focusEvent.camera = camera;
                         focusEvent.success = success;
+
                         autoFocusCallback.onAutoFocus(focusEvent);
                     }
                 });

@@ -92,11 +92,24 @@ public class PictureModule extends AbstractModule implements I_WorkeDone, I_Call
     @Override
     public void DoWork()
     {
-        if (!baseCameraHolder.Focus.HasFocus()) {
+        if (!Settings.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
+            baseCameraHolder.ParameterHandler.IntervalCapture = true;
+        else
+            baseCameraHolder.ParameterHandler.IntervalCapture = false;
+        if (!baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCapture) {
             baseCameraHolder.Focus.SetModuleFocusCallback(this);
             baseCameraHolder.Focus.StartFocus();
             return;
         }
+        else if(!baseCameraHolder.Focus.HasFocus() && baseCameraHolder.ParameterHandler.IntervalCapture && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
+        {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+            return;
+        }
+        else if (baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
+            baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
+        
         if (!this.isWorking)
         {
             startworking();
@@ -275,9 +288,19 @@ public class PictureModule extends AbstractModule implements I_WorkeDone, I_Call
     };
 
     @Override
-    public void onAutoFocus(CameraFocusEvent cameraFocusEvent) {
-        if (cameraFocusEvent != null)
+    public void onAutoFocus(CameraFocusEvent cameraFocusEvent)
+    {
+        if (cameraFocusEvent != null && cameraFocusEvent.success)
+        {
+            if (baseCameraHolder.ParameterHandler.IntervalCapture)
+                baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
             DoWork();
+        }
+        else
+        {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+        }
     }
 
     @Override

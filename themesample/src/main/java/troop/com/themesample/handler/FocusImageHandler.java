@@ -151,14 +151,20 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 int halfheight = size.y / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
-            RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
+            final RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
             mParams.leftMargin = rect.left;
             //mParams.rightMargin = x +half;
             mParams.topMargin = rect.top;
 
-            focusImageView.setLayoutParams(mParams);
-            focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
-            focusImageView.setVisibility(View.VISIBLE);
+            focusImageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    focusImageView.setLayoutParams(mParams);
+                    focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
+                    focusImageView.setVisibility(View.VISIBLE);
+                }
+            });
+
 
             /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
