@@ -33,7 +33,8 @@ public class DngSupportedDevices
         Meizu_Mx5,
         THL5000,
         Alcatel_Idol3,
-        Vivo_Xplay3s
+        Vivo_Xplay3s,
+        I_Mobile_I_StyleQ6
 
     }
 
@@ -80,6 +81,8 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
         if(DeviceUtils.isVivo_Xplay3s())
             return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
+        if (DeviceUtils.isI_Mobile_I_StyleQ6())
+            return SupportedDevices.I_Mobile_I_StyleQ6;
         return null;
     }
 
@@ -699,6 +702,16 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix1,
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
+            case I_Mobile_I_StyleQ6:
+                return new DngProfile(64,2532, 1902,Plain,GRBG , 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
             case Xiaomi_mi_note_pro:
                 return getXiaomi_mi_note_proProfile(filesize);
             case Alcatel_Idol3:
@@ -764,4 +777,5 @@ public class DngSupportedDevices
     public static String BGGR = "bggr";
     public static String RGGb = "rggb";
     private static final String GRBG = "grbg";
+    private static final String gbrg =  "gbrg";
 }

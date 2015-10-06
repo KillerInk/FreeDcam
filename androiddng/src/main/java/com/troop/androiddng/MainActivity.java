@@ -76,6 +76,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
 		if (filename.contains("vivo Xplay3S"))
 			return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
+		if (filename.contains("I_Mobile_I_StyleQ6"))
+			return DngSupportedDevices.SupportedDevices.I_Mobile_I_StyleQ6;
 		return null;
 	}
 	

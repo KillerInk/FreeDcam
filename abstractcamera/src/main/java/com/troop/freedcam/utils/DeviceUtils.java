@@ -198,11 +198,13 @@ public class DeviceUtils
 
     public static boolean isVivo_Xplay3s() { return Build.MODEL.equals("vivo Xplay3S");}
 
+    public static boolean isI_Mobile_I_StyleQ6() { return Build.MODEL.equals("i-mobile i-STYLE Q6");}
+
 
     public static boolean isCamera1DNGSupportedDevice()
     {
         return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
-                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL()||isMeizuMX4() || isTHL5000() ||isXiaomiMI_Note_Pro() || isAlcatel_Idol3() || isVivo_Xplay3s();
+                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL()||isMeizuMX4() || isTHL5000() ||isXiaomiMI_Note_Pro() || isAlcatel_Idol3() || isVivo_Xplay3s() || isI_Mobile_I_StyleQ6();
     }
 
 }
