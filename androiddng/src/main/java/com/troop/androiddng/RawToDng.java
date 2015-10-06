@@ -175,52 +175,13 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    private DngSupportedDevices.SupportedDevices getDevice()
-    {
-        if (DeviceUtils.isYureka())
-            return DngSupportedDevices.SupportedDevices.yureka;
-        if (DeviceUtils.isLG_G3())
-            return DngSupportedDevices.SupportedDevices.LG_G3;
-        if (DeviceUtils.isGioneE7())
-            return DngSupportedDevices.SupportedDevices.Gione_E7;
-        if (DeviceUtils.isHTC_M8())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m8;
-        if (DeviceUtils.isHTC_M9())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m9;
-        if (DeviceUtils.isHtc_One_SV())
-            return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
-        if (DeviceUtils.isHtc_One_XL())
-            return DngSupportedDevices.SupportedDevices.HTC_One_XL;
-        if (DeviceUtils.isLenovoK910())
-            return DngSupportedDevices.SupportedDevices.Lenovo_k910;
-        if(DeviceUtils.isG2())
-            return DngSupportedDevices.SupportedDevices.LG_G2;
-        if (DeviceUtils.hasIMX135())
-            return DngSupportedDevices.SupportedDevices.zteAdv;
-        if (DeviceUtils.isXperiaL())
-            return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
-        if(DeviceUtils.hasIMX214())
-            return DngSupportedDevices.SupportedDevices.OnePlusOne;
-        if (DeviceUtils.isRedmiNote())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
-        if (DeviceUtils.isXiaomiMI3W())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
-        if (DeviceUtils.isMeizuMX4())
-            return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
-        if (DeviceUtils.isTHL5000())
-            return DngSupportedDevices.SupportedDevices.THL5000;
-        if (DeviceUtils.isXiaomiMI_Note_Pro())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
-        if (DeviceUtils.isAlcatel_Idol3())
-            return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
-        return null;
-    }
+
 
     public void WriteDNG(DngSupportedDevices.SupportedDevices device)
     {
         DngSupportedDevices.SupportedDevices devices = device;
         if (device == null)
-            devices = getDevice();
+            devices = DngSupportedDevices.getDevice();
         else
             devices = device;
 
@@ -229,6 +190,11 @@ public class RawToDng
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
+            if (profile == null)
+            {
+                RELEASE();
+                return;
+            }
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
             SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);

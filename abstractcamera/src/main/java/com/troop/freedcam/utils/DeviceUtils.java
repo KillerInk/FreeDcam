@@ -155,6 +155,10 @@ public class DeviceUtils
     {
         return Build.MODEL.equals("MX4");
     }
+    public static boolean isMeizuMX5()
+    {
+        return Build.MODEL.equals("MX5");
+    }
     public static boolean isTHL5000()
     {
         return Build.MODEL.equals("thl 5000");
