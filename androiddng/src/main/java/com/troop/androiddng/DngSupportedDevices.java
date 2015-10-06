@@ -476,6 +476,36 @@ public class DngSupportedDevices
         return null;
     }
 
+    private DngProfile getXiamoi_Redmi_Note_Profile(int filesize)
+    {
+        switch (filesize)
+        {
+            //TODO find correct imageSize
+            case 16424960:
+                return new DngProfile(64,4208, 3120,Mipi, RGGb, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 17522688:
+                return new DngProfile(64,4212, 3082,Qcom, RGGb, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+
+        }
+        return null;
+    }
+
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (device) {
@@ -536,15 +566,7 @@ public class DngSupportedDevices
             case zteAdv:
                 return getZTEADVProfile(filesize);
             case Xiaomi_Redmi_Note:
-                return new DngProfile(64,4212, 3082,Qcom, RGGb, getG3_rowSizeL,
-                        Matrixes.Nex6CCM1,
-                        Matrixes.Nex6CCM2,
-                        Matrixes.Nex6NM,
-                        Matrixes.Nexus6_foward_matrix1,
-                        Matrixes.Nexus6_foward_matrix2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.Nexus6_noise_3x1_matrix);
+                return getXiamoi_Redmi_Note_Profile(filesize);
             case Xiaomi_mi3:
                 return getXiamoi_mi3WProfile(filesize);
             case Meizu_Mx4:
