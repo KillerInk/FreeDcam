@@ -501,6 +501,27 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix1,
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
+            case 6299648:
+                return new DngProfile(16, 2592 ,1944 ,Mipi, BGGR, 0,
+                        Matrixes.nocal_color1,
+                        Matrixes.nocal_color2,
+                        Matrixes.nocal_nutral,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 6721536:
+                return new DngProfile(64, 2592 ,1296 ,Qcom, BGGR, 0,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+
 
         }
         return null;
