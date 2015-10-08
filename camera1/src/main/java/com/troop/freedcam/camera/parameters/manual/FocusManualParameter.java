@@ -30,6 +30,8 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
         {
+            if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
+                return;
             this.isSupported = true;
             this.max_value = "max-focus";
             this.value = "focus";
