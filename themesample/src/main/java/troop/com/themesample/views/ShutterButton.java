@@ -64,14 +64,15 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                     }
                     if (!s.equals("off"))
                     {
-                        if (!intervalHandler.IsWorking()) {
+                        if (!intervalHandler.IsWorking())
+                        {
                             intervalHandler.StartInterval();
                         }
                         else
                             intervalHandler.CancelInterval();
                     }
                     else
-                        cameraUiWrapper.DoWork();
+                        intervalHandler.StartShutterTime();
                 }
             }
         });
