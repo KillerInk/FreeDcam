@@ -135,7 +135,7 @@ public class IntervalHandler
         }
         else
         {
-            handler.postDelayed(doWorkDelayRunner, 1000);
+            cameraUiWrapper.DoWork();
             shutterWaitCounter = 0;
         }
     }
