@@ -536,11 +536,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraError(String error)
     {
-        if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
+        /*if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
         {
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
-        }
+        }*/
     }
 
     @Override
