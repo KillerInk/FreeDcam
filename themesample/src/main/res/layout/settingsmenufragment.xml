@@ -6,43 +6,56 @@
     android:layout_height="fill_parent"
     android:background="@color/settingsmenuBackColor">
 
-    <RelativeLayout
-        android:orientation="horizontal"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@color/menuBackgColor">
+            android:background="@color/settingsmenuBackColor">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/menuBackgColor">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Close"
+                    android:id="@+id/textView_Close"
+                    android:layout_gravity="right"
+                    android:layout_alignParentLeft="false"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/menuTextColor" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Close"
-                android:id="@+id/textView_Close"
-                android:layout_gravity="right"
-                android:layout_alignParentLeft="false"
-                android:layout_marginLeft="10dp"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:textColor="@color/menuTextColor" />
-        </FrameLayout>
+                android:text="Settings"
+                android:id="@+id/textView3"
+                android:textColor="@color/menuTextColor"
+                android:background="@color/menuBackgColor" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Settings"
-            android:id="@+id/textView3"
-            android:textColor="@color/menuTextColor"
-            android:background="@color/menuBackgColor" />
-    </RelativeLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#010000"></FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
