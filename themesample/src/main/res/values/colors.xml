@@ -5,4 +5,5 @@
     <color name="settingsmenuBackColor" >#32FFFFFF</color>
     <color name="uiSettingsTextColor">#FFFFFFFF</color>
     <color name="uiSettingsBackground">#A0010101</color>
+    <color name="menu_header_color">#ffffffff</color>
 </resources>

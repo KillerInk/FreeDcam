@@ -10,4 +10,5 @@
     <dimen name="manualitemwidth">45dp</dimen>
     <dimen name="thumbviewsize">65dp</dimen>
     <dimen name="uiSettingsWidthRight">65dp</dimen>
+    <dimen name="menu_margin">3dp</dimen>
 </resources>

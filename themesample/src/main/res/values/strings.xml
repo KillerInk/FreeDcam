@@ -123,5 +123,6 @@
     <string name="uisetting_camerswitch_header">Camera</string>
     <string name="uisetting_mode_header">Mode</string>
     <string name="uisetting_exit_header">Exit</string>
+    <string name="timelapse_frames">Timelapse Frames</string>
 
 </resources>
