@@ -169,7 +169,7 @@ public class DeviceUtils
         return Build.MODEL.contains("Lenovo K910");
     }
 
-    static String xperiaLModels = "C2104";
+    static String xperiaLModels = "C2104,C2105";
     public static  boolean isXperiaL()
     {
         return xperiaLModels.contains(Build.MODEL);
