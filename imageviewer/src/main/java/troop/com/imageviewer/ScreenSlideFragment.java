@@ -1,7 +1,6 @@
 package troop.com.imageviewer;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,14 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;

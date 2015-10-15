@@ -3,15 +3,12 @@ package com.troop.freedcam;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
-import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
-
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -19,20 +16,14 @@ import android.renderscript.Type;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.Size;
 import com.troop.freedcam.camera.TextureViewRatio;
 import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 import troop.com.camera1.ScriptC_focus_peak;
 

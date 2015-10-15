@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -13,7 +12,6 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;

@@ -2,19 +2,14 @@ package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.graphics.Rect;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
-
-
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,16 +17,10 @@ import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
-import com.troop.freedcam.camera2.parameters.manual.ZoomApi2;
-import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
-import com.troop.freedcam.camera2.parameters.modes.ControlModesApi2;
-import com.troop.freedcam.camera2.parameters.modes.FlashModeApi2;
-import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -39,9 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 

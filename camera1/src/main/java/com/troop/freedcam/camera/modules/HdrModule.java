@@ -3,7 +3,6 @@ package com.troop.freedcam.camera.modules;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
@@ -17,8 +16,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 

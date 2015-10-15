@@ -27,7 +27,6 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.TouchHandler;

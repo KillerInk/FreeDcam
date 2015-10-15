@@ -1,6 +1,5 @@
 package troop.com.themesample.handler;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.camera2.CameraCharacteristics;
@@ -8,7 +7,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.ui.AbstractInfoOverlayHandler;
 import com.troop.freedcam.ui.AppSettingsManager;

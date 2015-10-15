@@ -5,13 +5,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.PreviewHandler;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.interfaces.I_Module;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
-
-import java.util.HashMap;
 
 /**
  * Created by troop on 27.08.2015.

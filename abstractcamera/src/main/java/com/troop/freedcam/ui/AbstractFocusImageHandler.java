@@ -1,11 +1,9 @@
 package com.troop.freedcam.ui;
 
 import android.support.v4.app.Fragment;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 
 /**

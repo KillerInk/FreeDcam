@@ -24,9 +24,6 @@ import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;

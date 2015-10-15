@@ -2,10 +2,8 @@ package com.troop.freedcam.ui;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -29,7 +27,6 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.manager.FileLogger;
-import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
@@ -40,7 +37,6 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
-import troop.com.imageviewer.ScreenSlideActivity;
 import troop.com.imageviewer.ScreenSlideFragment;
 
 /**

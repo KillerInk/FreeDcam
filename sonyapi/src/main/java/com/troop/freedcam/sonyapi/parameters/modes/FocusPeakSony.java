@@ -3,7 +3,6 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 import android.os.Build;
 import android.os.Handler;
 
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.utils.StringUtils;

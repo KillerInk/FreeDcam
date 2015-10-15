@@ -2,7 +2,6 @@ package troop.com.themesample.views;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +12,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.AppSettingsManager;
-
-
-import java.sql.Time;
 
 import troop.com.themesample.R;
 import troop.com.themesample.handler.IntervalHandler;

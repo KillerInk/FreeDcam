@@ -1,21 +1,16 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
-import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 15.04.2015.

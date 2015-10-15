@@ -1,18 +1,12 @@
 package troop.com.themesample.handler;
 
-import android.media.Ringtone;
 import android.os.Handler;
-import android.text.format.Time;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-
 import java.util.Date;
-
-import troop.com.themesample.subfragments.CameraUiFragment;
 
 /**
  * Created by Ingo on 04.10.2015.

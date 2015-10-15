@@ -1,9 +1,6 @@
 package com.troop.freedcam.ui;
 
 
-import com.troop.freedcam.ui.I_swipe;
-import com.troop.freedcam.ui.TouchHandler;
-
 /**
  * Created by troop on 18.08.2014.
  */

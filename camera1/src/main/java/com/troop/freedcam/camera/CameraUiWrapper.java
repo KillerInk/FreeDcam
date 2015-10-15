@@ -1,21 +1,15 @@
 package com.troop.freedcam.camera;
 
 
-import android.content.Context;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
 
 import com.troop.freedcam.PreviewHandler;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
-import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -24,7 +18,6 @@ import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,6 +15,7 @@ package troop.com.imageconverter;
      * See the License for the specific language governing permissions and
      * limitations under the License.
      */
+
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.os.Build;
@@ -22,13 +23,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
-
-
-import android.util.Size;
 import android.view.Surface;
 /**
  * Renderscript-based Focus peaking viewfinder

@@ -9,12 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 06.06.2015.

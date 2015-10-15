@@ -4,10 +4,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.modules.image_saver.DngSaver;
-import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
-import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
-import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;

@@ -8,14 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_Activity;
-
-import java.util.ArrayList;
 
 import troop.com.themesample.R;
-import troop.com.themesample.subfragments.Interfaces;
 
 /**
  * Created by troop on 29.08.2015.

@@ -1,17 +1,9 @@
 package com.troop.freedcam.ui.handler;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.troop.apis.SonyCameraFragment;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.apis.Camera1Fragment;
 import com.troop.freedcam.apis.Camera2Fragment;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera2.CameraUiWrapperApi2;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_error;
-import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**

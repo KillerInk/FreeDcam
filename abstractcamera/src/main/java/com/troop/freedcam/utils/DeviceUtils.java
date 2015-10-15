@@ -1,9 +1,6 @@
 package com.troop.freedcam.utils;
 
-import android.content.res.Resources;
 import android.os.Build;
-
-import com.troop.freedcam.abstractcamera.R;
 
 
 /**

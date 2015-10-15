@@ -10,7 +10,6 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
-import troop.com.themesample.subfragments.CameraUiFragment;
 import troop.com.themesample.views.menu.MenuItemBayerFormat;
 
 /**

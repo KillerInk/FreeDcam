@@ -5,9 +5,10 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.AbstractFragment;
+
 import troop.com.themesample.SampleThemeFragment;
 
 /**
