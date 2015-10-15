@@ -1,6 +1,9 @@
 package com.troop.freedcam.utils;
 
+import android.content.res.Resources;
 import android.os.Build;
+
+import com.troop.freedcam.abstractcamera.R;
 
 
 /**
@@ -8,8 +11,6 @@ import android.os.Build;
  */
 public class DeviceUtils
 {
-    private static int lgeadv = 0;
-
 
     public static String Omap4Devices = "Galaxy Nexus,LG-P920,LG-P720,LG-P925,LG-P760,LG-P765,LG-P925,LG-SU760,LG-SU870,Motorola RAZR MAXX,DROID RAZR,DROID 4,GT-I9100G,U9200";
     public static boolean isOmap()
@@ -54,7 +55,7 @@ public class DeviceUtils
         return s.contains("LG-H81") || s.contains("LG-LS99") || s.contains("LG-VS9") || s.contains("LG-US9");
     }
 
-    public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980";
+    public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980,LG-LS980";
 
 
     public static boolean isG2()
@@ -102,6 +103,7 @@ public class DeviceUtils
     public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
     public static boolean isLG_G3()
     {
+        //Resources.getSystem().getStringArray(R.array.models_g3);
         boolean supported = Build.DEVICE.equals("g3");
         if (!supported)
             supported = G3Models.contains(Build.MODEL);
@@ -169,7 +171,7 @@ public class DeviceUtils
         return Build.MODEL.contains("Lenovo K910");
     }
 
-    static String xperiaLModels = "C2104";
+    static String xperiaLModels = "C2104,C2105";
     public static  boolean isXperiaL()
     {
         return xperiaLModels.contains(Build.MODEL);
