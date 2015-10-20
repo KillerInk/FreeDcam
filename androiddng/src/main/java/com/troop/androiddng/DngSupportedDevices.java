@@ -141,6 +141,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 2592, 1944, Mipi, BGGR, 0);
                 }
             }
+            case 6746112:// Htc One SV
+                return new Nexus6Profile(64, 2592, 1944,Qcom, GRBG, 0);
             case(6721536):
             {
                 switch (device)
@@ -163,8 +165,14 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 2592 ,1296 ,Qcom, BGGR, 0);
                 }
             }
+            case 9631728: //I_Mobile_I_StyleQ6
+                return new Nexus6Profile(64,2532, 1902,Plain,GRBG , 0);
             case  9990144://e7 front mipi
                 return new Nexus6Profile(0, 2040 , 2448,Mipi, BGGR, 4080);
+            case 10782464: //HTC one xl
+                return new Nexus6Profile(64, 2592, 1944,Qcom, GRBG, 0);
+            case 10788864: //xperia L
+                return new Nexus6Profile(64, 3282, 2448,Qcom, BGGR, XperiaL_rowSize);
             case  10653696://e7 front qcom
             {
                 //TODO somethings wrong with it;
@@ -177,6 +185,8 @@ public class DngSupportedDevices
                     case LG_G2:
                         return new Nexus6Profile(64, 4208, 3082, Mipi, BGGR, getG3_rowSizeL);
                     case LG_G3:
+                        return new Nexus6Profile(64, 4208, 3082,Mipi, BGGR, getG3_rowSizeL);
+                    default:
                         return new Nexus6Profile(64, 4208, 3082,Mipi, BGGR, getG3_rowSizeL);
                 }
             }
@@ -225,7 +235,7 @@ public class DngSupportedDevices
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(64,4212, 3082,Qcom, RGGb, getG3_rowSizeL);
                     case Xiaomi_mi3:
-                        return new Nexus6Profile(0, 4212, 3120,Qcom, RGGb, getG3_rowSizeL):
+                        return new Nexus6Profile(0, 4212, 3120,Qcom, RGGb, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64,4208,3120,Qcom, RGGb, 0);
                     case OnePlusOne:
@@ -246,6 +256,8 @@ public class DngSupportedDevices
                                 Matrixes.G4_noise_3x1_matrix);
                     case LG_G3:
                         return new Nexus6Profile(64, 4212, 3082,Qcom, BGGR, getG3_rowSizeL);
+                    case yureka:
+                        return new Nexus6Profile(0, 4212, 3082,Qcom, BGGR, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64,4208, 3120,Qcom, BGGR, getG3_rowSizeL);
                 }
@@ -265,11 +277,16 @@ public class DngSupportedDevices
                 return new Nexus6Profile(0, 4608, 3456,Qcom, BGGR, 0);
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752,Mipi, GRBG, 0);
+            case 26023936: //THL 5000 MTK
+                return new Nexus6Profile(64,4192, 3104,Plain, RGGb, 0);
             case 27127808: //HTC M9 QCom
                 return new Nexus6Profile(64, 5388, 3752,Qcom, GRBG, 0);
+            case 41312256: // Meizu MX4/5
+                return new Nexus6Profile(64,5248, 3936,Plain, BGGR, 0);
+
 
         }
-        
+
         if(device == SupportedDevices.HTC_One_m8)
         {
             if (filesize< 6000000 && filesize > 5382641)//M8 qcom
