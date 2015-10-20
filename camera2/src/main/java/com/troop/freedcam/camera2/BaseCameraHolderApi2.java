@@ -408,10 +408,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
             //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
         }
-        /*if (ParameterHandler.ExposureMode.IsSupported())
+        if (ParameterHandler.ExposureMode.IsSupported())
         {
-            builder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
-        }*/
+            ParameterHandler.ExposureMode.SetValue(Settings.getString(AppSettingsManager.SETTING_EXPOSUREMODE), true);
+        }
         if (ParameterHandler.ManualShutter.IsSupported())
         {
             ParameterHandler.ManualShutter.SetValue(ParameterHandler.ManualShutter.GetValue());
@@ -635,6 +635,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
+                SetLastUsedParameters(mPreviewRequestBuilder);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
