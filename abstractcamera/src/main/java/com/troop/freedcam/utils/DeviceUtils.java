@@ -147,7 +147,7 @@ public class DeviceUtils
     static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
     public static boolean isMediaTekDevice()
     {
-        return MTK.contains(Build.MODEL);
+        return isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5();
     }
 
     public static boolean isMeizuMX4()
