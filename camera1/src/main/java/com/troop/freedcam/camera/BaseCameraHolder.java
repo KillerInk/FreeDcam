@@ -17,6 +17,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -59,7 +60,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
-        hasLGFramework();
+        if (!DeviceUtils.isG4())
+            hasLGFramework();
     }
 
     private void hasSamsungFramework()

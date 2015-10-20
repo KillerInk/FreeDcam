@@ -52,13 +52,14 @@ public class CCTManualParameter extends BaseManualParameter {
             this.min_value = "min-wb-cct";
             this.isSupported = true;
         }
-        else if (DeviceUtils.isG4()) {
+        //force close app
+        /*else if (DeviceUtils.isG4()) {
             this.value = "lg-wb";
             this.max_value = "lg-wb-supported-max";
             this.min_value = "lg-wb-supported-min";
             this.isSupported = true;
-        }
-        }
+        }*/
+    }
 
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
