@@ -33,6 +33,7 @@ import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -66,6 +67,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
+        DeviceUtils.contex = this.getApplicationContext();
         checkStartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
