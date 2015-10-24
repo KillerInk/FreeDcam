@@ -33,8 +33,14 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
         super.onCreateView(inflater, container,null);
         view = inflater.inflate(com.troop.freedcam.ui.guide.R.layout.guides, container,false);
         img = (ImageView) view.findViewById(com.troop.freedcam.ui.guide.R.id.imageViewGyide);
-        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
     }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
