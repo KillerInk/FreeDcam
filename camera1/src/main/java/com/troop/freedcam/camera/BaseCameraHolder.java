@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera;
 
+import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.location.Location;
@@ -675,7 +676,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             if (!isPreviewRunning && !isRdy)
                 return;
-            mCamera.setPreviewCallback(previewCallback);
+            Size s = new Size(ParameterHandler.PreviewSize.GetValue());
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.setPreviewCallbackWithBuffer(previewCallback);
         }
         catch (NullPointerException ex)
         {

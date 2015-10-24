@@ -140,7 +140,6 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         Log.d(TAG, "script");
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
         Log.d(TAG, "script done");
-
         cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
     }
 
@@ -211,15 +210,21 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (enable == false) {
+        if (enable == false)
+        {
+            camera.addCallbackBuffer(data);
             return;
         }
-        if (doWork == false)
+        if (doWork == false) {
+            camera.addCallbackBuffer(data);
             return;
+        }
         if (data == null)
             return;
-        if (isWorking == true)
+        if (isWorking == true) {
+            camera.addCallbackBuffer(data);
             return;
+        }
 
         int teosize = mHeight * mWidth *
                 ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
@@ -241,6 +246,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
                 isWorking = false;
             }
         }).start();
+        camera.addCallbackBuffer(data);
     }
 
     @Override
