@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="g2">
+        <item>LG-D800</item>
+        <item>LG-D801</item>
+        <item>LG-D802</item>
+        <item>LG-D803</item>
+        <item>LG-D804</item>
+        <item>LG-D805</item>
+        <item>LG-D820</item>
+        <item>LG-F320</item>
+        <item>LG-F320S</item>
+        <item>LG-F320L</item>
+        <item>F320K</item>
+        <item>LG-VS980</item>
+        <item>LG-LS980</item>
+    </string-array>
+    <string-array name="g3">
+        <item>LG-D855</item>
+        <item>LGLS990</item>
+        <item>LG VS985</item>
+        <item>LG-D851</item>
+    </string-array>
+    <string-array name="g4">
+        <item>LG-H81</item>
+        <item>LG-LS99</item>
+        <item>LG-VS9</item>
+        <item>LG-US9</item>
+    </string-array>
+
+    <string-array name="evo3d">
+        <item>HTC EVO 3D X515m"</item>
+        <item>HTC X515d</item>
+        <item>HTC ShooterU</item>
+        <item>HTC Shooter</item>
+    </string-array>
+
+    <string-array name="htc_m8">
+        <item>HTC One_M8"</item>
+        <item>One M8</item>
+        <item>HTC One M8</item>
+        <item>831C</item>
+    </string-array>
+    <string-array name="htc_m9">
+        <item>HTC One_M9"</item>
+        <item>HTC One M9</item>
+    </string-array>
+    <string-array name="Htc_One_SV">
+        <item>HTC One SV</item>
+
+    </string-array>
+
+    <string-array name="zteadv">
+        <item>NX503A</item>
+        <item>NX</item>
+        <item>NX403A</item>
+        <item>Z5s</item>
+        <item>Z5</item>
+        <item>NX505</item>
+        <item>NX506</item>
+        <item>NX507</item>
+    </string-array>
+
+    <string-array name="hasImx135">
+        <item>NX503A</item>
+        <item>NX501</item>
+        <item>NX403A</item>
+        <item>Z5Smini</item>
+        <item>NX601</item>
+    </string-array>
+
+    <string-array name="hasImx214">
+        <item>NX505</item>
+        <item>NX506</item>
+        <item>NX507</item>
+        <item>A0001</item>
+    </string-array>
+
+    <string-array name="sony_adv">
+        <item>C66</item>
+        <item>C69</item>
+        <item>C65</item>
+        <item>C64</item>
+        <item>D65</item>
+        <item>D66</item>
+    </string-array>
+    <string-array name="meizu_mx4">
+        <item>MX4</item>
+    </string-array>
+    <string-array name="meizu_mx5">
+        <item>MX5</item>
+    </string-array>
+    <string-array name="thl5000">
+        <item>thl 5000</item>
+    </string-array>
+    <string-array name="LenovoK910">
+        <item>Lenovo K910</item>
+    </string-array>
+    <string-array name="Sony_XperiaL">
+        <item>C2104</item>
+        <item>C2105</item>
+    </string-array>
+    <string-array name="YuYureka">
+        <item>YUREKA</item>
+        <item>AO5510</item>
+        <item>Yureka</item>
+        <item>A05510</item>
+    </string-array>
+    <string-array name="GioneE7">
+        <item>E7</item>
+    </string-array>
+    <string-array name="OnePlusOne">
+        <item>A0001</item>
+    </string-array>
+    <string-array name="Xiaomi_RedmiNote">
+        <item>HM NOTE 1LTE</item>
+    </string-array>
+    <string-array name="Xiaomi_Mi3">
+        <item>MI 3W</item>
+    </string-array>
+    <string-array name="Xiaomi_Mi_Note_Pro">
+        <item>MI NOTE Pro</item>
+    </string-array>
+    <string-array name="Alcatel_Idol_3">
+        <item>6045Y</item>
+    </string-array>
+    <string-array name="Vivo_Xplay3s">
+        <item>vivo Xplay3S</item>
+    </string-array>
+    <string-array name="I_Mobile_I_StyleQ6">
+        <item>i-mobile i-STYLE Q6</item>
+    </string-array>
+</resources>
