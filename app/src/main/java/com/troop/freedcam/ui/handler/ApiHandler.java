@@ -61,6 +61,8 @@ public class ApiHandler implements I_CameraChangedListner
                 event.apiDetectionDone();
             }
         }
+        else
+            event.apiDetectionDone();
     }
 
     public boolean ApiCheckDone()
