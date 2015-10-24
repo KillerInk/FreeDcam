@@ -110,6 +110,8 @@ public class AppSettingsManager
 
     final public static String APPVERSION = "appversion";
 
+    final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
+
 
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)

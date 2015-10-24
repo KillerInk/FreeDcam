@@ -28,6 +28,7 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.manager.FileLogger;
 import com.troop.freedcam.ui.handler.ApiHandler;
+import com.troop.freedcam.ui.handler.ApiHandler.ApiEvent;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
@@ -108,7 +109,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         themeHandler = new ThemeHandler(this, appSettingsManager);
         timerHandler = new TimerHandler(this);
         //initUI
-        apiHandler = new ApiHandler();
+        apiHandler = new ApiHandler(appSettingsManager, apiEvent);
+        apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
 
@@ -226,20 +228,27 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 createUI();
             }
         });
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraFragment == null)
-                    loadCameraUiWrapper();
-                orientationHandler.Start();
-            }
-        });
 
 
         Log.d(TAGLIFE, "Activity onResume");
     }
 
-    @Override
+    private Runnable loadwrapper = new Runnable() {
+        @Override
+        public void run() {
+            if (cameraFragment == null)
+                loadCameraUiWrapper();
+            orientationHandler.Start();
+        }
+    };
+
+    ApiEvent apiEvent = new ApiEvent()
+    {
+        @Override
+        public void apiDetectionDone() {
+            loadwrapper.run();
+        }
+    };
     protected void onPause()
     {
         super.onPause();

@@ -159,7 +159,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void CloseCamera() {
         try {
-            mCameraOpenCloseLock.acquire();
+            //mCameraOpenCloseLock.tryAcquire(1000, TimeUnit.MILLISECONDS);
             if (null != mCaptureSession) {
                 mCaptureSession.close();
                 mCaptureSession = null;
@@ -168,7 +168,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         } finally {
             mCameraOpenCloseLock.release();
@@ -473,10 +473,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onOpened(CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
-            mCameraOpenCloseLock.release();
+            //mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
 
 
+            if (UIHandler != null)
             UIHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -685,7 +686,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    private boolean isLegacyDevice()
+    public boolean isLegacyDevice()
     {
         if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
             return false;
