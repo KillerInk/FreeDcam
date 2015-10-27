@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
-import com.troop.freedcam.abstractcamera.BuildConfig;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 
@@ -110,6 +109,8 @@ public class AppSettingsManager
     final public static String MSATURATION = "msaturation";
 
     final public static String APPVERSION = "appversion";
+
+    final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
 
 

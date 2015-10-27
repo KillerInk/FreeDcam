@@ -1,9 +1,7 @@
 package com.troop.freedcam.manager;
 
 import android.os.Build;
-import android.os.Environment;
 import android.text.format.DateFormat;
-import android.text.format.Time;
 
 import com.troop.freedcam.utils.StringUtils;
 

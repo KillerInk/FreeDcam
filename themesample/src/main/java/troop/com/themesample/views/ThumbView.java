@@ -1,7 +1,6 @@
 package troop.com.themesample.views;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,8 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;

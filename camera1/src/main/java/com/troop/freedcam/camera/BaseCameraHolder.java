@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera;
 
+import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.location.Location;
@@ -17,6 +18,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -59,7 +61,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
-        hasLGFramework();
+        if (!DeviceUtils.isG4())
+            hasLGFramework();
     }
 
     private void hasSamsungFramework()
@@ -673,7 +676,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             if (!isPreviewRunning && !isRdy)
                 return;
-            mCamera.setPreviewCallback(previewCallback);
+            Size s = new Size(ParameterHandler.PreviewSize.GetValue());
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            mCamera.setPreviewCallbackWithBuffer(previewCallback);
         }
         catch (NullPointerException ex)
         {

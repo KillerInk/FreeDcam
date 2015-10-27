@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 
 import java.util.ArrayList;
 import java.util.HashMap;

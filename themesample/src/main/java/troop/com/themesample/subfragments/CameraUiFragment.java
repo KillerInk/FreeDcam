@@ -19,7 +19,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_swipe;
 import com.troop.freedcam.ui.SwipeMenuListner;
-import com.troop.freedcam.ui.TouchHandler;
 import com.troop.freedcam.ui.guide.GuideHandler;
 
 import troop.com.themesample.R;

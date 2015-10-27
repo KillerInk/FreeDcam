@@ -3,10 +3,10 @@ package troop.com.themesample.views;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import troop.com.themesample.R;
-
 
 import java.lang.reflect.Method;
+
+import troop.com.themesample.R;
 
 /**
  * Created by GeorgeKiarie on 9/15/2015.

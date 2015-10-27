@@ -1,10 +1,8 @@
 package com.troop.freedcam.apis;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +10,6 @@ import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.ExtendedSurfaceView;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.TextureViewRatio;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * Created by troop on 06.06.2015.

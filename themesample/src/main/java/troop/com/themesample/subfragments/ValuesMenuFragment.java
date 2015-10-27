@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.menu.MenuItem;
 
 /**
  * Created by troop on 15.06.2015.

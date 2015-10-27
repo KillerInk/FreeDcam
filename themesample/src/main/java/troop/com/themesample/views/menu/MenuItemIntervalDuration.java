@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.

@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -17,8 +16,6 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 16.08.2014.

@@ -2,10 +2,8 @@ package com.troop.freedcam.ui;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -29,18 +27,18 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.manager.FileLogger;
-import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.handler.ApiHandler;
+import com.troop.freedcam.ui.handler.ApiHandler.ApiEvent;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
-import troop.com.imageviewer.ScreenSlideActivity;
 import troop.com.imageviewer.ScreenSlideFragment;
 
 /**
@@ -70,6 +68,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
+        DeviceUtils.contex = this.getApplicationContext();
         checkStartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -110,7 +109,8 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         themeHandler = new ThemeHandler(this, appSettingsManager);
         timerHandler = new TimerHandler(this);
         //initUI
-        apiHandler = new ApiHandler();
+        apiHandler = new ApiHandler(appSettingsManager, apiEvent);
+        apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
 
@@ -228,20 +228,27 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 createUI();
             }
         });
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraFragment == null)
-                    loadCameraUiWrapper();
-                orientationHandler.Start();
-            }
-        });
 
 
         Log.d(TAGLIFE, "Activity onResume");
     }
 
-    @Override
+    private Runnable loadwrapper = new Runnable() {
+        @Override
+        public void run() {
+            if (cameraFragment == null)
+                loadCameraUiWrapper();
+            orientationHandler.Start();
+        }
+    };
+
+    ApiEvent apiEvent = new ApiEvent()
+    {
+        @Override
+        public void apiDetectionDone() {
+            loadwrapper.run();
+        }
+    };
     protected void onPause()
     {
         super.onPause();
@@ -536,11 +543,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraError(String error)
     {
-        if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
+        /*if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
         {
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
-        }
+        }*/
     }
 
     @Override

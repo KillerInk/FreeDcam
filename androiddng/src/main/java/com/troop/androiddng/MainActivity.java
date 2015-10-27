@@ -10,10 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,12 +62,18 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
 		if (filename.contains("Meizu_Mx4"))
 			return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
+		if (filename.contains("Meizu_MX5"))
+			return DngSupportedDevices.SupportedDevices.Meizu_Mx5;
 		if (filename.contains("MTK_THL5000"))
 			return DngSupportedDevices.SupportedDevices.THL5000;
 		if (filename.contains("Xiaomi_MI_NOTE_Pro"))
 			return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
 		if (filename.contains("alcatel idol 3 "))
 			return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
+		if (filename.contains("vivo Xplay3S"))
+			return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
+		if (filename.contains("I_Mobile_I_StyleQ6"))
+			return DngSupportedDevices.SupportedDevices.I_Mobile_I_StyleQ6;
 		return null;
 	}
 	

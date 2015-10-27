@@ -18,7 +18,6 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.ColorSpaceTransform;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
@@ -160,7 +159,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void CloseCamera() {
         try {
-            mCameraOpenCloseLock.acquire();
+            //mCameraOpenCloseLock.tryAcquire(1000, TimeUnit.MILLISECONDS);
             if (null != mCaptureSession) {
                 mCaptureSession.close();
                 mCaptureSession = null;
@@ -169,7 +168,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         } finally {
             mCameraOpenCloseLock.release();
@@ -409,10 +408,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
             //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
         }
-        /*if (ParameterHandler.ExposureMode.IsSupported())
+        if (ParameterHandler.ExposureMode.IsSupported())
         {
-            builder.set(CaptureRequest.CONTROL_MODE, Enum.valueOf(ControlModesApi2.ControlModes.class, ParameterHandler.ExposureMode.GetValue()).ordinal());
-        }*/
+            ParameterHandler.ExposureMode.SetValue(Settings.getString(AppSettingsManager.SETTING_EXPOSUREMODE), true);
+        }
         if (ParameterHandler.ManualShutter.IsSupported())
         {
             ParameterHandler.ManualShutter.SetValue(ParameterHandler.ManualShutter.GetValue());
@@ -474,10 +473,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onOpened(CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
-            mCameraOpenCloseLock.release();
+            //mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
 
 
+            if (UIHandler != null)
             UIHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -636,6 +636,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
+                SetLastUsedParameters(mPreviewRequestBuilder);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -685,7 +686,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    private boolean isLegacyDevice()
+    public boolean isLegacyDevice()
     {
         if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
             return false;

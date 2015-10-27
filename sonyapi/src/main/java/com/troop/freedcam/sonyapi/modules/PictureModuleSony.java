@@ -1,6 +1,5 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -17,8 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 22.12.2014.

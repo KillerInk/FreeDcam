@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.util.Log;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

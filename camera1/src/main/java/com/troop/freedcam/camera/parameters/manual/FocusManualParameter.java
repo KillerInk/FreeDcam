@@ -21,7 +21,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
-        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isG4())
+        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
         {
             this.isSupported = true;
             this.max_value = null;
@@ -30,6 +30,8 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else if (DeviceUtils.isHTC_M8())
         {
+            if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
+                return;
             this.isSupported = true;
             this.max_value = "max-focus";
             this.value = "focus";

@@ -1,12 +1,10 @@
 package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Gallery;
 import android.widget.HorizontalScrollView;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;

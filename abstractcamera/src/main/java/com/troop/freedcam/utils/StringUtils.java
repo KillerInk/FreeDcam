@@ -1,9 +1,7 @@
 package com.troop.freedcam.utils;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;

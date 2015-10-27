@@ -4,14 +4,8 @@ package com.troop.freedcam.ui;
  * Created by troop on 09.06.2015.
  */
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.troop.freedcam.i_camera.FocusRect;

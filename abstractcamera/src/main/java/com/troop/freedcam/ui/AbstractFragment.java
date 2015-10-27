@@ -1,7 +1,6 @@
 package com.troop.freedcam.ui;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.ui.I_Fragment;
 
 /**
  * Created by troop on 25.03.2015.

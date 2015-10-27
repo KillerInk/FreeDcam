@@ -1,7 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
 import android.os.Handler;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;

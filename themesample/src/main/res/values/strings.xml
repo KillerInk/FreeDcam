@@ -52,7 +52,7 @@
     <string name="setting_savecamparams_description"> </string>
 
     <!-- rightmenufragment  -->
-    <string name="setting_camera_">Legacy Camera Settings</string>
+    <string name="setting_camera_">Camera Settings</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduce flickering on artificial light sources</string>
     <string name="setting_color_header">Color Effect: </string>
@@ -123,5 +123,6 @@
     <string name="uisetting_camerswitch_header">Camera</string>
     <string name="uisetting_mode_header">Mode</string>
     <string name="uisetting_exit_header">Exit</string>
+    <string name="timelapse_frames">Timelapse Frames</string>
 
 </resources>

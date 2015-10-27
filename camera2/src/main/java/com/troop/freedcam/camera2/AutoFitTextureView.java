@@ -17,17 +17,8 @@
 package com.troop.freedcam.camera2;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.TextureView;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * A {@link android.view.TextureView} that can be adjusted to a specified aspect ratio.

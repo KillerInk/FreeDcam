@@ -2,22 +2,16 @@ package com.troop.freedcam.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
 import android.util.Log;
-import android.util.Rational;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * Created by Ingo on 01.05.2015.

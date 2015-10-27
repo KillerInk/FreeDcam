@@ -1,7 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

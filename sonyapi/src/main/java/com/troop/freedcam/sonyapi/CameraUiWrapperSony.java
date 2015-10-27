@@ -8,9 +8,7 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
-import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**

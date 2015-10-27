@@ -1,6 +1,9 @@
 package com.troop.freedcam.utils;
 
+import android.content.Context;
 import android.os.Build;
+
+import com.troop.freedcam.abstractcamera.R;
 
 
 /**
@@ -8,208 +11,153 @@ import android.os.Build;
  */
 public class DeviceUtils
 {
-    private static int lgeadv = 0;
+    public static Context contex;
 
-
-    public static String Omap4Devices = "Galaxy Nexus,LG-P920,LG-P720,LG-P925,LG-P760,LG-P765,LG-P925,LG-SU760,LG-SU870,Motorola RAZR MAXX,DROID RAZR,DROID 4,GT-I9100G,U9200";
-    public static boolean isOmap()
+    private static boolean isDevice(String[] ar)
     {
-        return Omap4Devices.contains(Build.MODEL);
+        boolean supported = false;
+        for (String s : ar)
+        {
+            if (s.equals(Build.MODEL))
+            {
+                supported = true;
+                break;
+            }
+        }
+        return supported;
     }
 
-    public static boolean isQualcomm()
+    private static boolean containsDevice(String[] ar)
     {
-        String s = Build.MODEL;
-        return s.equals("LG-D800") || isEvo3d() || s.equals("LG-D802") || s.equals("LG-D803") || s.equals("LG-D820") || s.equals("LG-D821") || s.equals("LG-D801") || s.equals("C6902") || s.equals("C6903") || s.equals("C833") || s.equals("LG803") || s.equals("C6602") || s.equals("C6603") || s.equals("Nexus 4") || s.equals("Nexus 5") || s.equals("SM-N9005") || s.equals("GT-I9505") || s.equals("GT-I9506") || s.equals("LG803") || s.equals("HTC One") || s.equals("LG-F320") || s.equals("LG-F320S") || s.equals("LG-F320K") || s.equals("LG-F320L") || s.equals("LG-VS980") || s.equals("HTC One_M8") || s.equals("NX503A")|| s.equals("Z5S");
+        boolean supported = false;
+        for (String s : ar)
+        {
+            if (Build.MODEL.contains(s))
+            {
+                supported = true;
+                break;
+            }
+        }
+        return supported;
     }
 
-    public static boolean isTegra()
+    public static boolean isCamera1DNGSupportedDevice()
     {
-        String s = Build.MODEL;
-        return s.equals("Nexus 7") || s.equals("LG-P880") || s.equals("ZTE-Mimosa X") || s.equals("HTC One X") || s.equals("HTC One X+") || s.equals("LG-P990") || s.equals("EPAD") || s.equals("GT-P7500") || s.equals("GT-P7300");
-    }
-
-    public static boolean isExynos()
-    {
-        String s = Build.MODEL;
-        return s.equals("GT-I9000") || s.equals("GT-I9100") || s.equals("GT-I9300") || s.equals("GT-I9500") || s.equals("SM-905") || s.equals("GT-N7000") || s.equals("GT-N7100")|| s.equals("SM-G900H");
-    }
-
-    public static boolean isO3d()
-    {
-        String s = Build.MODEL;
-        return s.equals("LG-P920") || s.equals("LG-P720") || s.equals("LG-P925") || s.equals("LG-P925") || s.equals("LG-SU760") || s.equals("LG-SU870");
-    }
-
-    public static boolean isTablet()
-    {
-        String s = Build.MODEL;
-
-        return s.equals("Nexus 7") || s.equals("Nexus 10");
-    }
-
-    public static boolean isMotoXpure()
-    {
-        String s = Build.MODEL;
-        return s.equals("XT1575");
-    }
-
-    public static boolean isMotoX2K14()
-    {
-        String s = Build.MODEL;
-        return s.equals("XT1095") || s.equals("XT1092") || s.contains("XT109");
+        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() /*|| isYureka()*/ ||
+                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
     }
 
     public static boolean isG4()
     {
-        String s = Build.MODEL;
-                      ///EU CA ZA MEA              //Sprint              ///Verizon              //US
-        return s.contains("LG-H81") || s.contains("LG-LS99") || s.contains("LG-VS9") || s.contains("LG-US9");
+        return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g4));
     }
-
-    public static String G2Models = "LG-D800,LG-D801,LG-D802,LG-D803,LG-D804,LG-D805,LG-D820,LG-F320,LG-F320S,LG-F320L,F320K,LG-VS980";
-
 
     public static boolean isG2()
     {
-        boolean supported = Build.DEVICE.equals("g2");
-        if (!supported)
-            supported = G2Models.contains(Build.MODEL);
-        return supported;
+        return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g2));
     }
 
     public static boolean isEvo3d()
     {
-        return Build.MODEL.equals("HTC EVO 3D X515m") || Build.MODEL.equals("HTC X515d")|| Build.MODEL.equals("HTC ShooterU")|| Build.MODEL.equals("HTC Shooter");
+        return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.evo3d));
     }
 
-    public static String M8Models = "HTC One_M8, One M8,HTC One M8,htc_m8";
     public static boolean isHTC_M8()
     {
-        boolean supported = Build.DEVICE.equals("htc_m8");
-        if (!supported)
-            supported = Build.MODEL.equals("HTC One_M8") || Build.MODEL.equals("One M8") || Build.MODEL.equals("HTC One M8") || Build.MODEL.equals("htc_m8") || Build.MODEL.equals("831C");
-        return supported;
+        return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.htc_m8));
     }
 
     public static boolean isHTC_M9()
     {
-        String s = Build.MODEL;
-        return s.equals("HTC One_M9") || s.equals("HTC One M9") ;
-    }
-
-    public static boolean isHTC_M7()
-    {
-        String s = Build.MODEL;
-        return s.equals("HTC One_M7");
+        return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.htc_m9));
     }
 
     public static boolean isHtc_One_SV()
     {
-        return Build.MODEL.contains("HTC One SV");
+        return isDevice(contex.getResources().getStringArray(R.array.Htc_One_SV));
     }
 
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
-
-    public static String G3Models = "LG-D855,LGLS990,LG VS985,LG-D851";
     public static boolean isLG_G3()
     {
-        boolean supported = Build.DEVICE.equals("g3");
-        if (!supported)
-            supported = G3Models.contains(Build.MODEL);
-        return supported;
+        return isDevice(contex.getResources().getStringArray(R.array.g3));
     }
 
 
     public static boolean isZTEADV()
     {
-        String s = Build.MODEL;
-        return s.equals("NX503A") || s.contains("NX") || s.equals("NX403A") || s.contains("Z5s") || s.equals("Z5") || s.contains("NX505") || s.contains("NX506") || s.contains("NX507");
+        return isDevice(contex.getResources().getStringArray(R.array.zteadv));
     }
 
     public static boolean hasIMX135()
     {
-        String s = Build.MODEL;
-        return s.equals("NX503A") || s.contains("NX501") || s.equals("NX403A") || s.equals("Z5Smini") || s.equals("Z5") || s.contains("NX601");
+        return isDevice(contex.getResources().getStringArray(R.array.hasImx135));
     }
 
     public static boolean hasIMX214()
     {
-        String s = Build.MODEL;
-        return s.contains("NX505") || s.contains("NX506") || s.contains("NX507") || s.contains("A0001");
-    }
-
-    public static boolean isXiaomiADV()
-    {
-        String s = Build.MODEL;
-        return s.equals("Aries") || s.equals("cNexus 10");
-    }
-
-    static String samsung = "SM-G900V,SM-G900,SM-G900H";
-    public static boolean isSamsungADV()
-    {
-        return samsung.contains(Build.MODEL);
+        return isDevice(contex.getResources().getStringArray(R.array.hasImx214));
     }
 
     public static boolean isSonyADV()
     {
-        String s = Build.MODEL;
-        return s.contains("C66") || s.contains("C69") || s.contains("C65") || s.contains("C64") || s.contains("D65")|| s.contains("D66");
-    }
-
-    static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
-    public static boolean isMediaTekDevice()
-    {
-        return MTK.contains(Build.MODEL);
-    }
-
-    public static boolean isMeizuMX4()
-    {
-        return Build.MODEL.equals("MX4");
-    }
-    public static boolean isTHL5000()
-    {
-        return Build.MODEL.equals("thl 5000");
+        return containsDevice(contex.getResources().getStringArray(R.array.sony_adv));
     }
 
     public static boolean isLenovoK910()
     {
-        return Build.MODEL.contains("Lenovo K910");
+        return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
 
-    static String xperiaLModels = "C2104";
     public static  boolean isXperiaL()
     {
-        return xperiaLModels.contains(Build.MODEL);
+        return isDevice(contex.getResources().getStringArray(R.array.Sony_XperiaL));
     }
 
-    public static String Yureka = "YUREKA,AO5510,Yureka,A05510";
     public static boolean isYureka()
     {
-        boolean supported = Build.DEVICE.equals("YUREKA");
-        if (!supported)
-            supported = Yureka.contains(Build.MODEL);
-        return supported;
+        return isDevice(contex.getResources().getStringArray(R.array.YuYureka));
     }
 
-    public static boolean isGioneE7() { return Build.MODEL.contains("E7");}
+    public static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
 
-    public static boolean isOnePlusOne(){ return Build.MODEL.equals("A0001");}
+    public static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
 
-    public static boolean isRedmiNote() { return Build.MODEL.equals("HM NOTE 1LTE");}
+    public static boolean isRedmiNote() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
 
-    public static boolean isXiaomiMI3W() { return Build.MODEL.equals("MI 3W");}
+    public static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
 
-    public static boolean isXiaomiMI_Note_Pro() { return Build.MODEL.equals("MI NOTE Pro");}
+    public static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
-    public static boolean isAlcatel_Idol3() { return Build.MODEL.equals("6045Y");}
+    public static boolean isAlcatel_Idol3() { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 
+    public static boolean isVivo_Xplay3s() { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
 
-    public static boolean isCamera1DNGSupportedDevice()
+    ///MTK DEVICES
+
+    static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
+    public static boolean isMediaTekDevice()
     {
-        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
-                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL()||isMeizuMX4() || isTHL5000() ||isXiaomiMI_Note_Pro() || isAlcatel_Idol3();
+        return isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5();
     }
+
+    public static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
+
+    public static boolean isMeizuMX4()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.meizu_mx4));
+    }
+    public static boolean isMeizuMX5()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.meizu_mx5));
+    }
+    public static boolean isTHL5000()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.thl5000));
+    }
+
+
+
 
 }

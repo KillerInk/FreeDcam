@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.troop.freedcam.camera2.AutoFitTextureView;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.camera2.R;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * Created by troop on 06.06.2015.

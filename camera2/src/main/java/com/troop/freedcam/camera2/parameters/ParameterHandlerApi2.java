@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;

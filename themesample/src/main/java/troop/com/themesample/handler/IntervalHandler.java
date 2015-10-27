@@ -1,18 +1,12 @@
 package troop.com.themesample.handler;
 
-import android.media.Ringtone;
 import android.os.Handler;
-import android.text.format.Time;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-
 import java.util.Date;
-
-import troop.com.themesample.subfragments.CameraUiFragment;
 
 /**
  * Created by Ingo on 04.10.2015.
@@ -49,11 +43,7 @@ public class IntervalHandler
         this.startTime = new Date().getTime();
         String interval = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).replace(" sec", "");
         this.intervalDuration = Integer.parseInt(interval)*1000;
-        String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
-        if (!shutterdelay.equals("0 sec"))
-            shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) *1000;
-        else
-            shutterDelay = 0;
+
         String endDuration = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).replace(" min","");
         this.intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
@@ -63,7 +53,6 @@ public class IntervalHandler
     {
         handler.removeCallbacks(intervalDelayRunner);
         handler.removeCallbacks(shutterDelayRunner);
-        handler.removeCallbacks(doWorkDelayRunner);
         working = false;
     }
 
@@ -107,7 +96,7 @@ public class IntervalHandler
                 shuttercounter++;
             }
             else {
-                handler.postDelayed(shutterDelayRunner, 1000);
+                cameraUiWrapper.DoWork();
                 shuttercounter = 0;
             }
         }
@@ -122,6 +111,10 @@ public class IntervalHandler
         }
     };
 
+    private void msg()
+    {
+        messageHandler.SetUserMessage(shutterWaitCounter+"");
+    }
 
     int shutterWaitCounter =0;
     private void startShutterDelay()
@@ -130,20 +123,27 @@ public class IntervalHandler
         if (shutterWaitCounter <  IntervalHandler.this.shutterDelay / 1000)
         {
             handler.postDelayed(shutterDelayRunner, 1000);
-            sendMsg();
+            msg();
             shutterWaitCounter++;
         }
         else
         {
-            handler.postDelayed(doWorkDelayRunner, 1000);
+            cameraUiWrapper.DoWork();
             shutterWaitCounter = 0;
         }
     }
 
-    private Runnable doWorkDelayRunner =new Runnable() {
-        @Override
-        public void run() {
-            cameraUiWrapper.DoWork();
-        }
-    };
+    public void StartShutterTime()
+    {
+        String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
+        if (shutterdelay.equals(""))
+            shutterdelay = "0 sec";
+        if (!shutterdelay.equals("0 sec"))
+            shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) *1000;
+        else
+            shutterDelay = 0;
+        handler.postDelayed(shutterDelayRunner, shutterDelay);
+    }
+
+
 }

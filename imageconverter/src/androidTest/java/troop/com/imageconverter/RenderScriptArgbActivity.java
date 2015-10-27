@@ -3,7 +3,6 @@ package troop.com.imageconverter;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.os.Bundle;
 import android.os.Environment;
 import android.renderscript.Allocation;

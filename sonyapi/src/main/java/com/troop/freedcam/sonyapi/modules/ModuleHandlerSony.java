@@ -1,7 +1,5 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.util.Log;
-
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
