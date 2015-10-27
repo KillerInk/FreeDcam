@@ -20,19 +20,25 @@ public class ISOManualParameter extends BaseManualParameter {
 
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
+        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+            this.isSupported = false;
+        else if (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        {
+            this.isSupported = true;
+            this.max_value = "min-iso";
+            this.value = "cur-iso";
+            this.min_value = "max-iso";
+        }
+        else
+            this.isSupported = false;
     }
 
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-            return true;
-        else if (parameters.containsKey("cur-iso") )
-        {
-            return true;
-        }
-        else
-            return false;
+
+        return isSupported;
+
     }
 
     @Override
@@ -40,12 +46,8 @@ public class ISOManualParameter extends BaseManualParameter {
 
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return 6400;
-        else if (parameters.containsKey("max-iso") )
-        {
-            return Integer.parseInt(parameters.get("max-iso"));
-        }
         else
-            return 80;
+            return Integer.parseInt(max_value);
     }
 
     @Override
@@ -53,32 +55,20 @@ public class ISOManualParameter extends BaseManualParameter {
 
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return 64;
-        else if (parameters.containsKey("max-iso") )
-        {
-            return Integer.parseInt(parameters.get("min-iso"));
-        }
         else
-            return 0;
+            return Integer.parseInt(min_value);
     }
 
     @Override
     public int GetValue()
     {
-         if (parameters.containsKey("cur-iso") )
-    {
-        return Integer.parseInt(parameters.get("cur-iso"));
-    }
+
+        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
+         return     Integer.parseInt(parameters.get("iso-st"));}
         else {
+            return Integer.parseInt(value);}
 
-             int i = 400;
-             try {
-                 i = Integer.parseInt(parameters.get("iso-st"));
 
-             } catch (Exception ex) {
-
-             }
-             return i;
-         }
     }
 
     @Override

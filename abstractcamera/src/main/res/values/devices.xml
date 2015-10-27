@@ -76,6 +76,36 @@
         <item>A0001</item>
     </string-array>
 
+    <string-array name="isX_Style_Pure_Play">
+        <item>XT1560</item>
+        <item>XT1561</item>
+        <item>XT1562</item>
+        <item>XT1563</item>
+        <item>XT1564</item>
+        <item>XT1565</item>
+        <item>XT1566</item>
+        <item>XT1567</item>
+        <item>XT1568</item>
+        <item>XT1570</item>
+        <item>XT1571</item>
+        <item>XT1572</item>
+        <item>XT1573</item>
+        <item>XT1574</item>
+        <item>XT1575</item>
+        <item>XT1576</item>
+        <item>XT1577</item>
+        <item>XT1578</item>
+    </string-array>
+
+    <string-array name="isX2k14">
+        <item>XT1090</item>
+        <item>XT1091</item>
+        <item>XT1092</item>
+        <item>XT1093</item>
+        <item>XT1094</item>
+        <item>XT1095</item>
+    </string-array>
+
     <string-array name="sony_adv">
         <item>C66</item>
         <item>C69</item>

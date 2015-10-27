@@ -45,7 +45,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.min_value = "min-wb-ct";
             this.isSupported = true;
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey("wb-manual-cct"))
+        else if (parameters.containsKey("wb-manual-cct") ||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";

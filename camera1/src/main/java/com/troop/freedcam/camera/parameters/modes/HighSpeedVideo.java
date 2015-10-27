@@ -19,7 +19,7 @@ public class HighSpeedVideo extends  BaseModeParameter
     {
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isMotoX2K14()) {
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isMoto_MSM8974()||DeviceUtils.isMoto_MSM8982_8994()) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
 
@@ -44,7 +44,7 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DeviceUtils.isMotoX2K14())
+        if (DeviceUtils.isMoto_MSM8974())
             return new String[] {"off","60"};
         else
             return super.GetValues();
@@ -71,7 +71,7 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String GetValue()
     {
-        if (DeviceUtils.isMotoX2K14())
+        if (DeviceUtils.isMoto_MSM8974())
 
         {
             return new String ("off");
