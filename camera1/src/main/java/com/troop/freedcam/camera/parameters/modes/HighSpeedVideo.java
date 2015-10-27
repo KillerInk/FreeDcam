@@ -19,13 +19,14 @@ public class HighSpeedVideo extends  BaseModeParameter
     {
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isG4()) {
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isMotoX2K14()) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
-                this.isSupported = true;
+
                 this.values = "video-hfr-values";
                 this.value = "video-hfr";
             }
+            this.isSupported = true;
         }
         else
         {
@@ -43,8 +44,8 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DeviceUtils.isLG_G3())
-            return new String[] {"off","on", "auto" };
+        if (DeviceUtils.isMotoX2K14())
+            return new String[] {"off","60"};
         else
             return super.GetValues();
     }
@@ -70,17 +71,24 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String GetValue()
     {
-        String ret = super.GetValue();
-        if (ret == null || ret == "")
-            ret = "off";
-        else if (ret.equals("0"))
-            ret = "off";
-        else if (ret.equals("1"))
-            ret = "on";
-        else if (ret.equals("2"))
-            ret = "auto";
+        if (DeviceUtils.isMotoX2K14())
+
+        {
+            return new String ("off");
+        }
+        else {
+            String ret = super.GetValue();
+            if (ret == null || ret == "")
+                ret = "off";
+            else if (ret.equals("0"))
+                ret = "off";
+            else if (ret.equals("1"))
+                ret = "on";
+            else if (ret.equals("2"))
+                ret = "auto";
 
 
-        return ret;
+            return ret;
+        }
     }
 }

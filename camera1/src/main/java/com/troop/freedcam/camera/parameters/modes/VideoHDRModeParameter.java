@@ -42,7 +42,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
                 try
                 {
                     String tmp = parameters.get("video-hdr");
-                    if((tmp != null && !tmp.equals(""))||DeviceUtils.isG4()) {
+                    if((tmp != null && !tmp.equals(""))||DeviceUtils.isMotoX2K14()) {
                         this.isSupported = true;
                         this.values = "video-hdr-values";
                         this.value = "video-hdr";

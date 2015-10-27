@@ -17,9 +17,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.sql.Time;
 
-
-import java.sql.Time;
-
 import troop.com.themesample.R;
 import troop.com.themesample.handler.IntervalHandler;
 import troop.com.themesample.handler.UserMessageHandler;
@@ -29,18 +26,6 @@ import troop.com.themesample.handler.UserMessageHandler;
  */
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
 {
-
-    //intervalmeter start ///////////////
-
-    static int counter = 0;
-    boolean running = false;
-    int interval_millis = 15000;
-    int interval_duration = 15000;
-    int delay = 1000;
-    Handler handler = new Handler();
-
-    //end//////////////////////////////
-
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
     IntervalHandler intervalHandler;
@@ -58,18 +43,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         //start handler
         Toast.makeText(context, "STARTING", Toast.LENGTH_SHORT).show();
         //set delay to start
-        handler.postDelayed(runnable, delay);
     }
-
-
-    // handle interval
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            running = true;
-            handler.postDelayed(this, interval_millis);
-        }
-    };
 
     private void init()
     {
@@ -97,11 +71,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                             intervalHandler.CancelInterval();
                     }
                     else
-                //need to workout how to calculate duration in time when its over end handler
-                handler.removeCallbacks(runnable);
+                        cameraUiWrapper.DoWork();
+                }
             }
         });
     }
+
+
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, UserMessageHandler messageHandler)
     {

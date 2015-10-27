@@ -44,7 +44,20 @@ public class DeviceUtils
     public static boolean isTablet()
     {
         String s = Build.MODEL;
+
         return s.equals("Nexus 7") || s.equals("Nexus 10");
+    }
+
+    public static boolean isMotoXpure()
+    {
+        String s = Build.MODEL;
+        return s.equals("XT1575");
+    }
+
+    public static boolean isMotoX2K14()
+    {
+        String s = Build.MODEL;
+        return s.equals("XT1095") || s.equals("XT1092") || s.contains("XT109");
     }
 
     public static boolean isG4()

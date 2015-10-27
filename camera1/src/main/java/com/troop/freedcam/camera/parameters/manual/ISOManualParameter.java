@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -26,6 +27,10 @@ public class ISOManualParameter extends BaseManualParameter {
     {
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return true;
+        else if (parameters.containsKey("cur-iso") )
+        {
+            return true;
+        }
         else
             return false;
     }
@@ -35,7 +40,12 @@ public class ISOManualParameter extends BaseManualParameter {
 
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return 6400;
-        return 80;
+        else if (parameters.containsKey("max-iso") )
+        {
+            return Integer.parseInt(parameters.get("max-iso"));
+        }
+        else
+            return 80;
     }
 
     @Override
@@ -43,28 +53,45 @@ public class ISOManualParameter extends BaseManualParameter {
 
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return 64;
-        return 0;
+        else if (parameters.containsKey("max-iso") )
+        {
+            return Integer.parseInt(parameters.get("min-iso"));
+        }
+        else
+            return 0;
     }
 
     @Override
     public int GetValue()
     {
-        int i = 400;
-        try {
-                i = Integer.parseInt(parameters.get("iso-st"));
+         if (parameters.containsKey("cur-iso") )
+    {
+        return Integer.parseInt(parameters.get("cur-iso"));
+    }
+        else {
 
-        }
-        catch (Exception ex)
-        {
+             int i = 400;
+             try {
+                 i = Integer.parseInt(parameters.get("iso-st"));
 
-        }
-        return i;
+             } catch (Exception ex) {
+
+             }
+             return i;
+         }
     }
 
     @Override
     protected void setvalue(int valueToSet)
-    {   	if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+    {   if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()) {
         parameters.put("iso-st", valueToSet + "");
+    }
+
+        else
+    {
+        camParametersHandler.IsoMode.SetValue("manual", true);
+        parameters.put("iso", valueToSet + "");
+    }
 
     }
 

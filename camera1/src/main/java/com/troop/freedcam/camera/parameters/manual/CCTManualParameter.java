@@ -76,8 +76,10 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMaxValue() {
         if (DeviceUtils.isZTEADV())
+            return Integer.parseInt(parameters.get("max-wb-cct"));
+        else if(parameters.containsKey("wb-manual-cct"))
         {
-            return 8000;
+            return Integer.parseInt(parameters.get("max-wb-cct"));
         }
         else
     	return Integer.parseInt(parameters.get(max_value));
@@ -87,8 +89,10 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV())
+            return Integer.parseInt(parameters.get("min-wb-cct"));
+        else if(parameters.containsKey("wb-manual-cct"))
         {
-            return 2000;
+            return Integer.parseInt(parameters.get("min-wb-cct"));
         }
         else
           return Integer.parseInt(parameters.get(min_value));
@@ -97,34 +101,25 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetValue()
     {
-        int i = 0;
-        try {
-           // if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
-           //     i = -1;
-             if (DeviceUtils.isLG_G3())
-                i = getCTReflection();
-             else if(DeviceUtils.isZTEADV())
-                 i = 4000;
-            else
-                i = Integer.parseInt(parameters.get(value));
-        }
-        catch (Exception ex)
+        if (DeviceUtils.isZTEADV())
+            return Integer.parseInt(parameters.get("wb-manual-cct"));
+        else if(parameters.containsKey("wb-manual-cct"))
         {
-
+            return Integer.parseInt(parameters.get("wb-manual-cct"));
         }
-
-        return i;
+        else
+            return Integer.parseInt(parameters.get(value));
     }
 
-    @Override
-    public String GetStringValue() {
-        return null;
-    }
+   // @Override
+   // public String GetStringValue() {
+  //      return null;
+  //  }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
+        if (DeviceUtils.isZTEADV())
         {
             if(valueToSet != -1)
             {
@@ -133,6 +128,11 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+        }
+        else if (parameters.containsKey("wb-manaul-cct"))
+        {
+            camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
+            parameters.put("wb-manual-cct", valueToSet + "");
         }
         else if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);

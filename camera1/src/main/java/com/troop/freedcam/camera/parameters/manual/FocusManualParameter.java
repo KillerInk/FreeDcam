@@ -28,7 +28,7 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "manualfocus_step";
             this.min_value = null;
         }
-        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+        else if (DeviceUtils.isHTC_M8())
         {
             this.isSupported = true;
             this.max_value = "max-focus";
@@ -107,12 +107,12 @@ public class FocusManualParameter extends  BaseManualParameter
             else if (valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
+        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote() ||parameters.containsKey("cur-focus-diopter"))
         {
             if(valueToSet != -1)
             {
                 camParametersHandler.FocusMode.SetValue("manual", true);
-                if (DeviceUtils.isZTEADV())
+                if (DeviceUtils.isZTEADV() ||parameters.containsKey("cur-focus-diopter"))
                     parameters.put("manual-focus-pos-type", "1");
             }
             else

@@ -67,7 +67,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (parameters.containsKey("exposure-time"))
+        else if (parameters.containsKey("exposure-time") )
         {
             try {
 
@@ -83,6 +83,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
+
     }
 
     @Override
@@ -156,8 +157,19 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else
         {
-            parameters.put("exposure-time", valueToSet + "");
-            baseCameraHolder.SetCameraParameters(parameters);
+            if(parameters.containsKey("manual-exposure-modes"))
+            {
+                parameters.put("exposure-time", valueToSet + "");
+                baseCameraHolder.SetCameraParameters(parameters);
+
+            }
+            else
+            {
+                parameters.put("exposure-time", valueToSet + "");
+                baseCameraHolder.SetCameraParameters(parameters);
+            }
+
+
         }
     }
 
