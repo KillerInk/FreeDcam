@@ -24,7 +24,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.max_value = "max-wb-cct";
             this.isSupported = true;
         }
-        else if (DeviceUtils.isRedmiNote()  || DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isRedmiNote()  || !DeviceUtils.isZTEADV())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";
@@ -102,14 +102,9 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetValue()
     {
-        if (DeviceUtils.isZTEADV())
-            return Integer.parseInt(parameters.get("wb-manual-cct"));
-        else if(parameters.containsKey("wb-manual-cct"))
-        {
-            return Integer.parseInt(parameters.get("wb-manual-cct"));
-        }
-        else
-            return Integer.parseInt(parameters.get(value));
+
+
+            return 5500;
     }
 
    // @Override
