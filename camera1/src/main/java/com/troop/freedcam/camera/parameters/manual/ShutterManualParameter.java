@@ -19,7 +19,7 @@ public class ShutterManualParameter extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = "freedcam.ShutterManualParameter";
-    float Cur;
+    Double Cur;
     public static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
 
     public static String Z5SShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
@@ -31,6 +31,11 @@ public class ShutterManualParameter extends BaseManualParameter
             ",30.0,31.0,32.0,33.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44,45.0,46.0"+
             ",47.0,48.0,49.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,58.0,59.0,60.0,120.0,240.0";
     public static String LGG4Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30";
+
+    public static String xIMX214_IMX230 = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1/1.9,1/1.8,1/1.7,1/1.6,1/1.5,1/1.4,1";
+
+    public static String IMX214_IMX230 = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65\"+\n" +
+            "            \",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,1/1.9,1/1.8,1/1.7,1/1.6";
 
 
     String shutterValues[];
@@ -67,16 +72,26 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (parameters.containsKey("exposure-time") || DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994() )
+        else if (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994() )
         {
-                int min = Integer.parseInt(parameters.get("min-exposure-time"));
-
-                this.max_value = parameters.get("max-exposure-time");
-                this.min_value = parameters.get("min-exposure-time");
-                this.value = parameters.get("cur-exposure-time");
-                //shutterValues = StringUtils.getSupportedShutterValues(min, max);
-                this.isSupported = true;
+            this.isSupported = true;
+            shutterValues = IMX214_IMX230.split(",");
         }
+
+        else if (parameters.containsKey("exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3())) {
+            try {
+
+                int min = Integer.parseInt(parameters.get("min-exposure-time"));
+                int max = Integer.parseInt(parameters.get("max-exposure-time"));
+                shutterValues = StringUtils.getSupportedShutterValues(min, max);
+                this.isSupported = true;
+
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+                isSupported = false;
+            }
+        }
+
 
     }
 
@@ -89,12 +104,14 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4())
+        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4() ||DeviceUtils.isMoto_MSM8982_8994() ||DeviceUtils.isAlcatel_Idol3())
             return shutterValues.length-1;
         else if (shutterValues != null)
             return shutterValues.length-1;
+        else if (parameters.containsKey("max-exposure-time")&& (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
+            return Integer.parseInt(parameters.get("max-exposure-time"));
         else
-            return Integer.parseInt(max_value);
+            return 0;
     }
 
     @Override
@@ -103,50 +120,49 @@ public class ShutterManualParameter extends BaseManualParameter
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (shutterValues != null)
             return 0;
-        else if(parameters.containsKey("min-exposure-time"))
+        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
             return Integer.parseInt(parameters.get("min-exposure-time"));
         else
-            return Integer.parseInt(min_value);
+            return 0;
     }
 
     @Override
     public int GetValue() {
-        if(!DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
         return current;
-        else
-            return Integer.parseInt(value);
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(DeviceUtils.isAlcatel_Idol3()||DeviceUtils.isMoto_MSM8982_8994())
-        {
-            parameters.put("exposure-time", valueToSet + "");
-        }
-       else if(DeviceUtils.isSonyADV())
+        if(DeviceUtils.isSonyADV())
         {
             parameters.put("sony-ae-mode", "manual");
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
         else if (DeviceUtils.isHTC_M8() ||
-                 DeviceUtils.isHTC_M9() ||
-                 DeviceUtils.isZTEADV() ||
-                 parameters.containsKey("exposure-time") ||!DeviceUtils.isMoto_MSM8982_8994() ||!DeviceUtils.isAlcatel_Idol3())
+                DeviceUtils.isHTC_M9() ||
+                DeviceUtils.isZTEADV() ||
+                parameters.containsKey("exposure-time") || DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
             if (shutterstring.contains("/")) {
                 String split[] = shutterstring.split("/");
-                float a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]);
+                Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
                 shutterstring = "" + a;
                 Cur = a;
 
             }
             if(!shutterValues[current].equals("Auto"))
             {
-                shutterstring = setExposureTimeToParameter(shutterstring);
+                try {
+                    shutterstring = setExposureTimeToParameter(shutterstring);
+                }
+                catch (Exception ex)
+                {
+                    Log.d("Freedcam","Shutter Set FAil");
+                }
             }
             else
             {
@@ -156,19 +172,8 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else
         {
-            if(parameters.containsKey("manual-exposure-modes"))
-            {
-                parameters.put("exposure-time", valueToSet + "");
-                baseCameraHolder.SetCameraParameters(parameters);
-
-            }
-            else
-            {
-                parameters.put("exposure-time", valueToSet + "");
-                baseCameraHolder.SetCameraParameters(parameters);
-            }
-
-
+            parameters.put("exposure-time", valueToSet + "");
+            baseCameraHolder.SetCameraParameters(parameters);
         }
     }
 
@@ -177,11 +182,15 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("slow_shutter", "-1");
             parameters.put("slow_shutter_addition", "0");
         }
+        else if(DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        {
+            parameters.put("exposure-time", "0");
+        }
         else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
             parameters.put("shutter", "-1");
-        // parameters.put("slow_shutter_addition", "0");
-        // baseCameraHolder.StopPreview();
-        // baseCameraHolder.StartPreview();
+            // parameters.put("slow_shutter_addition", "0");
+            // baseCameraHolder.StopPreview();
+            // baseCameraHolder.StartPreview();
         else if (parameters.containsKey("exposure-time"))
             parameters.put("exposure-time", 0+"");
         baseCameraHolder.SetCameraParameters(parameters);
@@ -192,6 +201,17 @@ public class ShutterManualParameter extends BaseManualParameter
         {
             parameters.put("slow_shutter", shutterstring);
             parameters.put("slow_shutter_addition", "1");
+
+        }
+        else if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
+        {
+            try {
+                parameters.put("exposure-time", String.valueOf(getMicroSec(shutterstring)));
+            }
+            catch (Exception ex)
+            {
+                System.out.println("Freedcam Manual Exposure Time Error Hal Rejected ");
+            }
 
         }
         else if(DeviceUtils.isG4())
@@ -206,7 +226,7 @@ public class ShutterManualParameter extends BaseManualParameter
             shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
             parameters.put("shutter", shutterstring);
         }
-        else if(parameters.containsKey("exposure-time"))
+        else if(parameters.containsKey("exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
         {
             shutterstring = FLOATtoSixty4(shutterstring);
             parameters.put("exposure-time", shutterstring);
@@ -215,17 +235,24 @@ public class ShutterManualParameter extends BaseManualParameter
         return shutterstring;
     }
 /* HTC M8 Value -1 = off
- * 
+ *
  *  May have to use this key "non-zsl-manual-mode" set to true for raw with manual controls
- * 
- * 
+ *
+ *
  * Sony values Untested
- * 
+ *
  */
+    public Double getMicroSec(String shutterString)
+    {
+        Double a = Double.parseDouble(shutterString);
+
+        return a * 1000;
+
+    }
 
     public String FLOATtoSixty4(String a)
     {
-       Float b =  Float.parseFloat(a);
+        Float b =  Float.parseFloat(a);
         float c = b * 1000000;
         return String.valueOf(c);
     }
@@ -236,8 +263,6 @@ public class ShutterManualParameter extends BaseManualParameter
     {
         if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()|| DeviceUtils.isHTC_M9())
             return shutterValues[current];
-        else if(DeviceUtils.isAlcatel_Idol3()||DeviceUtils.isMoto_MSM8982_8994())
-            return parameters.get("cur-exposure-time");
         else
             return  parameters.get("exposure-time");
     }

@@ -26,12 +26,13 @@ public class SkintoneManualPrameter extends BaseManualParameter {
                 this.isSupported = true;
                 this.value = "skinToneEnhancement";
             }*/
-            if (DeviceUtils.isZTEADV())
+            if (DeviceUtils.isZTEADV()||DeviceUtils.isAlcatel_Idol3()||DeviceUtils.isMoto_MSM8982_8994())
                 this.isSupported = true;
         }
         catch (Exception ex)
         {
             this.isSupported = false;
+
         }
     }
 
@@ -43,5 +44,11 @@ public class SkintoneManualPrameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
         return -100;
+    }
+
+    @Override
+    protected void setvalue(int valueToSet) {
+        camParametersHandler.SceneMode.SetValue("potrait", true);
+        parameters.put("skinToneEnhancement",valueToSet + "");
     }
 }

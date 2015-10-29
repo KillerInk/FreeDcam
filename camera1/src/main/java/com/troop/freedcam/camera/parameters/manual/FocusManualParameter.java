@@ -116,12 +116,13 @@ public class FocusManualParameter extends  BaseManualParameter
             else if (valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote() ||parameters.containsKey("cur-focus-diopter"))
+        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
             if(valueToSet != -1)
             {
+
                 camParametersHandler.FocusMode.SetValue("manual", true);
-                if (DeviceUtils.isZTEADV() ||parameters.containsKey("cur-focus-diopter"))
+                if (DeviceUtils.isZTEADV())
                     parameters.put("manual-focus-pos-type", "1");
             }
             else
@@ -132,8 +133,23 @@ public class FocusManualParameter extends  BaseManualParameter
         {
             if(valueToSet != -1)
             {
-                camParametersHandler.FocusMode.SetValue("manual", true);
-                parameters.put("manual-focus-pos-type", "2");
+                try {
+
+
+                    camParametersHandler.FocusMode.SetValue("manual", true);
+                    parameters.put("manual-focus-pos-type", "2");
+                }
+                catch (Exception ex)
+                {
+                    System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
+                    try {
+                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL Test 2 Failure"+ ex.toString());
+                    }
+                }
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);

@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.lge.media.TimedTextEx;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -45,7 +46,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.min_value = "min-wb-ct";
             this.isSupported = true;
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey("wb-manual-cct") ||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
+        else if (parameters.containsKey("wb-manual-cct") || DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";
@@ -90,7 +91,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV())
-            return Integer.parseInt(parameters.get("min-wb-cct"));
+            return 0;
         else if(parameters.containsKey("wb-manual-cct"))
         {
             return Integer.parseInt(parameters.get("min-wb-cct"));
@@ -104,7 +105,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
 
 
-            return 5500;
+            return 0;
     }
 
    // @Override
@@ -119,16 +120,31 @@ public class CCTManualParameter extends BaseManualParameter {
         {
             if(valueToSet != -1)
             {
-                camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-                parameters.put("wb-manual-cct", valueToSet + "");
+                try {
+                    camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+                    if(valueToSet < 2000)
+                    {
+                        parameters.put("wb-manual-cct", "2000");
+                    }
+                    parameters.put("wb-manual-cct", valueToSet + "");
+                }
+                catch (Exception exc)
+                {
+
+                }
             }
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
         }
-        else if (parameters.containsKey("wb-manaul-cct"))
+        else if (parameters.containsKey("wb-manaul-cct") ||DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
         {
-            camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
-            parameters.put("wb-manual-cct", valueToSet + "");
+            try{
+            camParametersHandler.WhiteBalanceMode.SetValue("manual", true);}
+            catch (Exception c)
+            {
+                System.out.println("Freedcam Error Setting Manual Color Temp");
+            }
+                        parameters.put("wb-manual-cct", valueToSet + "");
         }
         else if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);

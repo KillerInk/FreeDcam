@@ -86,6 +86,26 @@ public class StringUtils
         return  (long)a;
     }
 
+   /* public static String getMicro(double value)
+    {
+        double Oneth = value *1000;
+
+        double QTR = Oneth / 100 * 25;
+
+        String ExpoString = "1/"+String.valueOf(QTR);
+
+        String[] Shutter = ShutterValues.split(",");
+
+        String newSupport;
+
+        if(ShutterValues.contains(ExpoString))
+        {
+            newSupport = ShutterValues.indexOf()
+        }
+
+        return
+    }*/
+
     public static String BayerMipiBGGR()
     {
         return "bayer-mipi-10bggr";
