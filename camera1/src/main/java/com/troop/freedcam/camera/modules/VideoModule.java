@@ -277,7 +277,7 @@ public class VideoModule extends AbstractModule
 
     private void loadProfileSpecificParameters()
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214())
             camParametersHandler.setString("slow_shutter", "-1");
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;

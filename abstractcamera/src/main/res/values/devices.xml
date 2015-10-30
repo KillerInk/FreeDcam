@@ -52,13 +52,26 @@
 
     <string-array name="zteadv">
         <item>NX503A</item>
-        <item>NX</item>
+        <item>NX503J</item>
         <item>NX403A</item>
+        <item>NX501</item>
         <item>Z5s</item>
         <item>Z5</item>
-        <item>NX505</item>
-        <item>NX506</item>
-        <item>NX507</item>
+        <item>NX601J</item>
+    </string-array>
+
+    <string-array name="zteadvIMX214">
+        <item>NX505J</item>
+        <item>NX506J</item>
+        <item>NX507J</item>
+    </string-array>
+
+    <string-array name="zteadvIMX234">
+        <item>NX508J</item>
+        <item>NX509J</item>
+        <item>NX510J</item>
+        <item>NX511J</item>
+        <item>NX512J</item>
     </string-array>
 
     <string-array name="hasImx135">

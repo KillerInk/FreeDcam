@@ -25,7 +25,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.max_value = "max-wb-cct";
             this.isSupported = true;
         }
-        else if (DeviceUtils.isRedmiNote()  || !DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isRedmiNote()  || !DeviceUtils.isZTEADV()||!DeviceUtils.isZTEADVIMX214()||!DeviceUtils.isZTEADV234())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";
@@ -77,7 +77,7 @@ public class CCTManualParameter extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return Integer.parseInt(parameters.get("max-wb-cct"));
         else if(parameters.containsKey("wb-manual-cct"))
         {
@@ -90,7 +90,7 @@ public class CCTManualParameter extends BaseManualParameter {
 //M8 Step values "wb-ct-step"
     @Override
     public int GetMinValue() {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return 0;
         else if(parameters.containsKey("wb-manual-cct"))
         {
@@ -116,7 +116,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
         {
             if(valueToSet != -1)
             {

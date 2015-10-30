@@ -56,7 +56,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = LGG4Values.split(",");
         }
-        else if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
         {
             this.isSupported = true;
             shutterValues = Z5SShutterValues.split(",");
@@ -104,7 +104,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if(DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4() ||DeviceUtils.isMoto_MSM8982_8994() ||DeviceUtils.isAlcatel_Idol3())
+        else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4() ||DeviceUtils.isMoto_MSM8982_8994() ||DeviceUtils.isAlcatel_Idol3())
             return shutterValues.length-1;
         else if (shutterValues != null)
             return shutterValues.length-1;
@@ -142,7 +142,7 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else if (DeviceUtils.isHTC_M8() ||
                 DeviceUtils.isHTC_M9() ||
-                DeviceUtils.isZTEADV() ||
+                DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() ||
                 parameters.containsKey("exposure-time") || DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
         {
             current = valueToSet;
@@ -178,7 +178,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if (DeviceUtils.isZTEADV()) {
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()) {
             parameters.put("slow_shutter", "-1");
             parameters.put("slow_shutter_addition", "0");
         }
@@ -197,7 +197,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private String setExposureTimeToParameter(String shutterstring) {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
         {
             parameters.put("slow_shutter", shutterstring);
             parameters.put("slow_shutter_addition", "1");
@@ -261,7 +261,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()|| DeviceUtils.isHTC_M9())
+        if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.isHTC_M9())
             return shutterValues[current];
         else
             return  parameters.get("exposure-time");

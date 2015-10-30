@@ -37,7 +37,7 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "focus";
             this.min_value = "min-focus";
         }
-        else if (DeviceUtils.isZTEADV() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
         {
             this.isSupported = true;
             this.max_value = null;
@@ -116,13 +116,13 @@ public class FocusManualParameter extends  BaseManualParameter
             else if (valueToSet == -1)
                 camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else if (DeviceUtils.isZTEADV() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
             if(valueToSet != -1)
             {
 
                 camParametersHandler.FocusMode.SetValue("manual", true);
-                if (DeviceUtils.isZTEADV())
+                if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
                     parameters.put("manual-focus-pos-type", "1");
             }
             else
