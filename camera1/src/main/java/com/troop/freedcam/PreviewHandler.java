@@ -23,6 +23,7 @@ import com.troop.freedcam.camera.TextureViewRatio;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
+import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 
 import troop.com.camera1.ScriptC_focus_peak;
@@ -31,7 +32,7 @@ import troop.com.camera1.ScriptC_focus_peak;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner, I_ModuleEvent
+public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner, I_ModuleEvent,I_Shutter_Changed
 {
     final String TAG = PreviewHandler.class.getSimpleName();
     private TextureViewRatio output;
@@ -56,6 +57,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
         mRS = RenderScript.create(context);
+
 
     }
 
@@ -284,6 +286,16 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     @Override
     public void onCameraStatusChanged(String status) {
+
+    }
+    @Override
+    public void PreviewWasRestarted()
+    {
+        setDoWork(false);
+        setEnable(false);
+        setEnable(enable);
+        setDoWork(true);
+        System.out.println("Preview Handler "+"Interface active");
 
     }
 

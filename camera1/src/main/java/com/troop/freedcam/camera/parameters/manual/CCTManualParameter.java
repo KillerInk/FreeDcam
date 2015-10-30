@@ -122,11 +122,8 @@ public class CCTManualParameter extends BaseManualParameter {
             {
                 try {
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-                    if(valueToSet < 2000)
-                    {
-                        parameters.put("wb-manual-cct", "2000");
-                    }
-                    parameters.put("wb-manual-cct", valueToSet + "");
+
+                    parameters.put("wb-manual-cct", String.valueOf(valueToSet * 40 + 2000));
                 }
                 catch (Exception exc)
                 {

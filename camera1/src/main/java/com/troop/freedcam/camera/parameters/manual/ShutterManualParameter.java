@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -92,6 +93,15 @@ public class ShutterManualParameter extends BaseManualParameter
             }
         }
 
+        this.setTheListener(i_shutter_changed);
+
+
+    }
+
+    private I_Shutter_Changed i_shutter_changed;
+
+    public void setTheListener(I_Shutter_Changed i_shutter_changedx) {
+        i_shutter_changed = i_shutter_changedx;
 
     }
 
@@ -201,6 +211,9 @@ public class ShutterManualParameter extends BaseManualParameter
         {
             parameters.put("slow_shutter", shutterstring);
             parameters.put("slow_shutter_addition", "1");
+            if (i_shutter_changed != null) {
+                i_shutter_changed.PreviewWasRestarted();
+            }
 
         }
         else if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
