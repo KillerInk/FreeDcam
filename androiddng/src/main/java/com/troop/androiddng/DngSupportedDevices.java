@@ -26,6 +26,8 @@ public class DngSupportedDevices
         OnePlusOne,
         yureka,
         zteAdv,
+        zteADV_IMX214,
+        zteAdv_IMX234,
         Xiaomi_Redmi_Note,
         Xiaomi_mi_note_pro,
         Xiaomi_mi3,
@@ -61,6 +63,10 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.LG_G2;
         if (DeviceUtils.hasIMX135())
             return DngSupportedDevices.SupportedDevices.zteAdv;
+        if(DeviceUtils.isZTEADVIMX214())
+            return SupportedDevices.zteADV_IMX214;
+        if(DeviceUtils.isZTEADV234())
+            return SupportedDevices.zteAdv_IMX234;
         if (DeviceUtils.isXperiaL())
             return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
         if(DeviceUtils.hasIMX214())
@@ -206,6 +212,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4212, 3082,Mipi, RGGb, getG3_rowSizeL);
                     case zteAdv:
                         return new Nexus6Profile(64, 4208, 3120,Mipi, BGGR, getG3_rowSizeL);
+                    case zteADV_IMX214:
+                        return new Nexus6Profile(64, 4208, 3120,Mipi, RGGb, getG3_rowSizeL);
                     case Lenovo_k910:
                         return new Nexus6Profile(64, 4208, 3120,Mipi, BGGR, getG3_rowSizeL);
                     case LG_G3:
@@ -247,6 +255,13 @@ public class DngSupportedDevices
                                 Matrixes.G4_reduction_matrix1,
                                 Matrixes.G4_reduction_matrix2,
                                 Matrixes.G4_noise_3x1_matrix);
+                    case zteADV_IMX214:
+                        return new DngProfile(64, 4212, 3120,Qcom, RGGb, getG3_rowSizeL, Matrixes.onePCCM1,Matrixes.onePCCM2,Matrixes.onePNM,
+                                Matrixes.OnePlus_foward_matrix1,
+                                Matrixes.OnePlus_foward_matrix2,
+                                Matrixes.OnePlus_reduction_matrix1,
+                                Matrixes.OnePlus_reduction_matrix2,
+                                Matrixes.OnePlus_noise_3x1_matrix);
                     case Lenovo_k910:
                         return new DngProfile(64, 4212, 3082,Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1,Matrixes.G4CCM2,Matrixes.G4NM,
                                 Matrixes.G4_foward_matrix1,

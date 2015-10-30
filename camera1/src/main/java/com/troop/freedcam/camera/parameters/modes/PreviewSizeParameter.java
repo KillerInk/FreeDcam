@@ -28,7 +28,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         if (!firststart)
             baseCameraHolder.StopPreview();
 
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             parameters.put(value, valueToSet);
 
         try

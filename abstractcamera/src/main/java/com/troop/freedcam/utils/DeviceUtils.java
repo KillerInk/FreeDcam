@@ -43,7 +43,7 @@ public class DeviceUtils
 
     public static boolean isCamera1DNGSupportedDevice()
     {
-        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() /*|| isYureka()*/ ||
+        return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isZTEADVIMX214() || isZTEADV234() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() /*|| isYureka()*/ ||
                 isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
     }
 
@@ -98,6 +98,16 @@ public class DeviceUtils
     public static boolean isZTEADV()
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadv));
+    }
+
+    public static boolean isZTEADVIMX214()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX214));
+    }
+
+    public static boolean isZTEADV234()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX234));
     }
 
     public static boolean hasIMX135()

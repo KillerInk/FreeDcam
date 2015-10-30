@@ -53,7 +53,7 @@ public class HardwareKeyHandler
             cameraUiWrapper.moduleHandler.DoWork();
 
         }
-        if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
+        if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV() || DeviceUtils.isZTEADV234() || DeviceUtils.isZTEADVIMX214())
         {
             //shutterbutton full pressed
             if (keyCode == KeyEvent.KEYCODE_CAMERA)
