@@ -64,7 +64,7 @@ public class SampleThemeFragment extends AbstractFragment
         cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
         cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragmentholder, cameraUiFragment);
+        transaction.replace(R.id.fragmentholder, cameraUiFragment);
         transaction.commitAllowingStateLoss();
         return view;
     }
