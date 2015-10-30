@@ -23,7 +23,7 @@ public class WhiteBalanceApi2 extends BaseModeApi2
             this.isSupported = true;
     }
 
-    enum WhiteBalanceValues
+    public enum WhiteBalanceValues
     {
 
         OFF,
