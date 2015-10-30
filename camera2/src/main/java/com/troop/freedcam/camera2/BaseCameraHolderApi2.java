@@ -522,9 +522,22 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     try
                     {
                         if (!ParameterHandler.ExposureMode.GetValue().equals("off") && !ParameterHandler.ControlMode.equals("off")) {
+
                             final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+
                             //String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDSasString(expores);
-                            ParameterHandler.ManualShutter.currentValueStringCHanged(getShutterString(expores));
+                            try {
+
+                                if(expores != 0) {
+                                    ParameterHandler.ManualShutter.currentValueStringCHanged(getShutterString(expores));
+                                }
+                                else
+                                    ParameterHandler.ManualShutter.currentValueStringCHanged("1/60");
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
                         }
                     }
                     catch (NullPointerException ex)
@@ -655,14 +668,19 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     private String getShutterString(long val)
     {
-        int mili =(int) val /10000  ;
-        //double sec =  mili / 1000;
-        if (mili < 80000)
-            return 1 +"/" + (10000000/mili);
-        else
+        try {
+            int mili = (int) val / 10000;
+            //double sec =  mili / 1000;
+            if (mili < 80000)
+                return 1 + "/" + (10000000 / mili);
+            else {
+                float t = mili / 10000;
+                return String.format("%01.1f", t);
+            }
+        }
+        catch (Exception ex)
         {
-            float t = mili / 10000;
-            return String.format("%01.1f", t);
+            return "1/60";
         }
     }
 

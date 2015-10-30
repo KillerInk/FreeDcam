@@ -47,6 +47,16 @@ public class DeviceUtils
                 isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
     }
 
+    public static boolean isMoto_MSM8974()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.isX2k14));
+    }
+
+    public static boolean isMoto_MSM8982_8994()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.isX_Style_Pure_Play));
+    }
+
     public static boolean isG4()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g4));
