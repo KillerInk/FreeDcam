@@ -147,6 +147,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
+            catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -230,6 +234,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
             } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            catch (NullPointerException e)
+            {
                 e.printStackTrace();
             }
 

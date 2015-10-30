@@ -26,13 +26,11 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     {
         BackgroundValueHasChanged(valueToSet);
         cameraHolder.picSize = valueToSet;
-        if (!firststart)
+        if (setToCamera)
         {
             cameraHolder.StopPreview();
             cameraHolder.StartPreview();
         }
-        else
-            firststart = false;
     }
 
     @Override

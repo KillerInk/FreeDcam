@@ -404,8 +404,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public void SetLastUsedParameters(CaptureRequest.Builder builder)
     {
+        ParameterHandler.SetAppSettingsToParameters();
         Log.d(TAG, "set last used parameters");
-        if (ParameterHandler.ManualExposure.IsSupported())
+        /*if (ParameterHandler.ManualExposure.IsSupported())
         {
             ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
             //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
@@ -465,7 +466,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
             FocusModeApi2.FocusModes wbModes = Enum.valueOf(FocusModeApi2.FocusModes.class, wb);
             builder.set(CaptureRequest.CONTROL_AF_MODE, wbModes.ordinal());
-        }
+        }*/
     }
 
     public CaptureRequest.Builder createCaptureRequest(int template) throws CameraAccessException {
