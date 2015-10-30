@@ -50,6 +50,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         //866 975 130 = 0,8sec
         if (DeviceUtils.isG4())
             millimax = 30000000;
+        else if (DeviceUtils.isSamsung_S6_edge_plus())
+            millimax = 10000000;
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
         int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;

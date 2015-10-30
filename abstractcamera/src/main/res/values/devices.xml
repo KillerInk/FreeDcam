@@ -173,4 +173,7 @@
     <string-array name="I_Mobile_I_StyleQ6">
         <item>i-mobile i-STYLE Q6</item>
     </string-array>
+    <string-array name="Samsung_S6_edge_plus">
+        <item>SM-G928G</item>
+    </string-array>
 </resources>
