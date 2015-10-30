@@ -59,7 +59,8 @@ public class SampleThemeFragment extends AbstractFragment
     {
         super.onCreateView(inflater,container,null);
         this.view = inflater.inflate(R.layout.samplethemefragment, container, false);
-        cameraUiFragment = new CameraUiFragment();
+        if (cameraUiFragment == null)
+            cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
         cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -74,7 +75,7 @@ public class SampleThemeFragment extends AbstractFragment
 
         super.onDestroyView();
         this.settingsMenuFragment = null;
-        this.cameraUiFragment = null;
+
 
     }
 
@@ -117,7 +118,8 @@ public class SampleThemeFragment extends AbstractFragment
     private void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
-        cameraUiFragment = new CameraUiFragment();
+        if (cameraUiFragment == null)
+            cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
         cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
