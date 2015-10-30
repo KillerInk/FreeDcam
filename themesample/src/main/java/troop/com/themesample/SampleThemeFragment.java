@@ -106,25 +106,38 @@ public class SampleThemeFragment extends AbstractFragment
     private void replaceCameraUIWithSettings()
     {
         settingsOpen = true;
-        settingsMenuFragment =  new SettingsMenuFragment();
-        settingsMenuFragment.SetStuff(appSettingsManager,i_activity,onSettingsClick);
+        if (settingsMenuFragment == null) {
+            settingsMenuFragment = new SettingsMenuFragment();
+            settingsMenuFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.fragmentholder,settingsMenuFragment);
+            transaction.commitAllowingStateLoss();
+        }
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.fragmentholder, settingsMenuFragment);
+        //transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+        //transaction.replace(R.id.fragmentholder, settingsMenuFragment);
+        transaction.hide(cameraUiFragment);
+        transaction.show(settingsMenuFragment);
         transaction.commitAllowingStateLoss();
     }
 
     private void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
-        if (cameraUiFragment == null)
+        if (cameraUiFragment == null) {
             cameraUiFragment = new CameraUiFragment();
-        cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+            cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.fragmentholder,cameraUiFragment);
+            transaction.commitAllowingStateLoss();
+        }
         cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.fragmentholder, cameraUiFragment);
+        //transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+        //transaction.replace(R.id.fragmentholder, cameraUiFragment);
+        transaction.show(cameraUiFragment);
+        transaction.hide(settingsMenuFragment);
         transaction.commitAllowingStateLoss();
     }
 
