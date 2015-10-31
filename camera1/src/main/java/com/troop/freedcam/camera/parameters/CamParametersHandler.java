@@ -122,7 +122,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder, this);
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
         Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
 

@@ -98,6 +98,7 @@ public abstract class AbstractParameterHandler
     public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
+    public AbstractCameraChanged cameraChanged;
     protected AppSettingsManager appSettingsManager;
 
     //camera2 modes

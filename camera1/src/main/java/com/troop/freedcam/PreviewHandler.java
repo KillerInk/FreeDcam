@@ -271,11 +271,16 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public void onPreviewOpen(String message)
     {
         clear_preview();
+        if(message.equals("restart"))
+        {
+            setEnable(enable);
+        }
     }
 
     @Override
     public void onPreviewClose(String message)
     {
+
 
     }
 

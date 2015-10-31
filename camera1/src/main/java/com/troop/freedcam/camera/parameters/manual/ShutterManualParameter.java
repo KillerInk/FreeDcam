@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -42,11 +43,13 @@ public class ShutterManualParameter extends BaseManualParameter
     String shutterValues[];
     int current = 0;
     I_CameraHolder baseCameraHolder;
+    I_CameraChangedListner i_cameraChangedListner;
 
-    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder,I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
+        this.i_cameraChangedListner = i_cameraChangedListner;
         if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
         {
             this.isSupported = true;
@@ -214,6 +217,9 @@ public class ShutterManualParameter extends BaseManualParameter
             if (i_shutter_changed != null) {
                 i_shutter_changed.PreviewWasRestarted();
             }
+             baseCameraHolder.StopPreview();
+             baseCameraHolder.StartPreview();
+            i_cameraChangedListner.onPreviewOpen("restart");
 
         }
         else if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
