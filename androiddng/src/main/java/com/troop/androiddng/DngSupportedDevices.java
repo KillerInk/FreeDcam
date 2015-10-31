@@ -259,14 +259,14 @@ public class DngSupportedDevices
                                     Matrixes.G4_reduction_matrix2,
                                     Matrixes.G4_noise_3x1_matrix);
                         case zteADV_IMX214:
-                            return new DngProfile(64, 4212, 3120, Qcom, RGGb, getG3_rowSizeL, Matrixes.onePCCM1, Matrixes.onePCCM2, Matrixes.onePNM,
-                                    Matrixes.OnePlus_foward_matrix1,
-                                    Matrixes.OnePlus_foward_matrix2,
-                                    Matrixes.OnePlus_reduction_matrix1,
-                                    Matrixes.OnePlus_reduction_matrix2,
-                                    Matrixes.OnePlus_noise_3x1_matrix);
+                            return new DngProfile(64, 4212, 3120, Qcom, RGGb, getG3_rowSizeL, Matrixes.Nexus6_identity_matrix1, Matrixes.Nexus6_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+                                    Matrixes.Nexus6_foward_matrix1,
+                                    Matrixes.Nexus6_foward_matrix2,
+                                    Matrixes.Nexus6_reduction_matrix1,
+                                    Matrixes.Nexus6_reduction_matrix2,
+                                    Matrixes.Nexus6_noise_3x1_matrix);
                         case Lenovo_k910:
-                            return new DngProfile(64, 4212, 3082, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
+                            return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
                                     Matrixes.G4_foward_matrix1,
                                     Matrixes.G4_foward_matrix2,
                                     Matrixes.G4_reduction_matrix1,
