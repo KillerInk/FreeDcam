@@ -296,7 +296,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, boolean fromUser) {
-        Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
+        //Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
         if (userIsSeeking && parameter != null)
         {
             if (!(parameter instanceof BaseManualParameterSony) && !(parameter instanceof BurstApi2))
