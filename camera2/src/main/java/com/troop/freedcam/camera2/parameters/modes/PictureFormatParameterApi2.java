@@ -45,13 +45,12 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         {
 
         }
-        if (!firststart)
+        if (setToCamera)
         {
             cameraHolder.StopPreview();
             cameraHolder.StartPreview();
         }
-        else
-            firststart = false;
+
 
     }
 

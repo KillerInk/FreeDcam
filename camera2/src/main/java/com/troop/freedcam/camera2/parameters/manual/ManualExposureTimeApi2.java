@@ -50,6 +50,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         //866 975 130 = 0,8sec
         if (DeviceUtils.isG4())
             millimax = 30000000;
+        else if (DeviceUtils.isSamsung_S6_edge_plus())
+            millimax = 10000000;
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
         int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
@@ -95,8 +97,12 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     {
         current = valueToSet;
         long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
-        if (val > 500000000)
-            val = 500000000;
+        Log.d(TAG, "ExposureTimeToSet:" + val);
+        if (val > 300000000)
+        {
+            Log.d(TAG, "ExposureTime Exceed 0,3sec for preview, set it to 0,3sec");
+            val = 300000000;
+        }
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,

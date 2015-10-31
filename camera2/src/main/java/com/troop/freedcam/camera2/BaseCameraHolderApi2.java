@@ -34,7 +34,9 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
@@ -402,8 +404,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public void SetLastUsedParameters(CaptureRequest.Builder builder)
     {
+        ParameterHandler.SetAppSettingsToParameters();
         Log.d(TAG, "set last used parameters");
-        if (ParameterHandler.ManualExposure.IsSupported())
+        /*if (ParameterHandler.ManualExposure.IsSupported())
         {
             ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
             //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
@@ -444,6 +447,26 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             }
         }
+        if (ParameterHandler.WhiteBalanceMode.IsSupported())
+        {
+            final String wb = Settings.getString(AppSettingsManager.SETTING_WHITEBALANCEMODE);
+            if (wb.equals(""))
+            {
+                Settings.setString(AppSettingsManager.SETTING_WHITEBALANCEMODE, Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, ParameterHandler.WhiteBalanceMode.GetValue()).toString());
+            }
+            WhiteBalanceApi2.WhiteBalanceValues wbModes = Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, wb);
+            builder.set(CaptureRequest.CONTROL_AWB_MODE, wbModes.ordinal());
+        }
+        if (ParameterHandler.FocusMode.IsSupported())
+        {
+            final String wb = Settings.getString(AppSettingsManager.SETTING_FOCUSMODE);
+            if (wb.equals(""))
+            {
+                Settings.setString(AppSettingsManager.SETTING_FOCUSMODE, Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, ParameterHandler.FocusMode.GetValue()).toString());
+            }
+            FocusModeApi2.FocusModes wbModes = Enum.valueOf(FocusModeApi2.FocusModes.class, wb);
+            builder.set(CaptureRequest.CONTROL_AF_MODE, wbModes.ordinal());
+        }*/
     }
 
     public CaptureRequest.Builder createCaptureRequest(int template) throws CameraAccessException {

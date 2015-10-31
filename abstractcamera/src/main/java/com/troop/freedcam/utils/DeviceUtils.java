@@ -154,6 +154,8 @@ public class DeviceUtils
 
     public static boolean isVivo_Xplay3s() { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
 
+    public static boolean isSamsung_S6_edge_plus() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge_plus));}
+
     ///MTK DEVICES
 
     static String MTK = "P6Life,thl 5000,Philips W8555,MX4";

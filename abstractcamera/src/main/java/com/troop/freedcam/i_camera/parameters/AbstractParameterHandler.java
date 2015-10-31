@@ -194,7 +194,7 @@ public abstract class AbstractParameterHandler
 
     }
 
-    private void setMode(AbstractModeParameter parameter, String settingsval)
+    protected void setMode(AbstractModeParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
@@ -205,7 +205,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    private void setManualMode(AbstractManualParameter parameter, String settingsval)
+    protected void setManualMode(AbstractManualParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {

@@ -144,5 +144,63 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         SetAppSettingsToParameters();
     }
 
+    @Override
+    public void SetAppSettingsToParameters()
+    {
+        setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
+        setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
+        setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);
+        setMode(IsoMode, AppSettingsManager.SETTING_ISOMODE);
+        setMode(AntiBandingMode, AppSettingsManager.SETTING_ANTIBANDINGMODE);
+        setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
+        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+        setMode(oismode, AppSettingsManager.SETTING_OIS);
+
+        setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);
+        setMode(GuideList, AppSettingsManager.SETTING_GUIDE);
+        setMode(ImagePostProcessing, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        setMode(SceneMode, AppSettingsManager.SETTING_SCENEMODE);
+        setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
+        setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
+        setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
+        setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
+        setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
+        setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
+        setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
+        setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
+        //setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
+        setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
+        setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
+        setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
+        setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
+        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
+        setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
+        setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
+        setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
+        setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
+        setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
+        setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
+        setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
+        setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
+
+        setManualMode(ManualBrightness, AppSettingsManager.MWB);
+        setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
+        setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
+        setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
+        setManualMode(ManualFocus, AppSettingsManager.MF);
+        setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
+        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
+        setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
+        setManualMode(ISOManual, AppSettingsManager.MISO);
+        setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
+        setManualMode(CCT,AppSettingsManager.MWB);
+
+
+    }
+
 
 }
