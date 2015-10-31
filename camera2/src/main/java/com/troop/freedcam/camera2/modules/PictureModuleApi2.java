@@ -17,11 +17,13 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.modules.IO.LegacyDngSaver;
 import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -230,6 +232,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         Image image = reader.acquireNextImage();
                         while (image == null) {
                             image = reader.acquireNextImage();
+
                         }
                         new ImageSaver(image, file).run();
                     }
@@ -245,20 +248,34 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         while (image == null) {
                             image = reader.acquireNextImage();
                         }
-                        while (mDngResult == null)
+
+
+                        if(!DeviceUtils.isMoto_MSM8982_8994()) {
+                            while (mDngResult == null)
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+
                             try {
-                                Thread.sleep(1);
-                            } catch (InterruptedException e) {
+                                dngCreator.writeImage(new FileOutputStream(file), image);
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
-
-                        try {
-                            dngCreator.writeImage(new FileOutputStream(file), image);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            image.close();
                         }
-                        image.close();
+                        else
+                        {
+
+                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                            byte[] data = new byte[buffer.remaining()];
+                            buffer.get(data);
+
+                            LegacyDngSaver legacyDngSaver = new LegacyDngSaver(false);
+                            legacyDngSaver.processData(data,file);
+                        }
                     }
 
                     isWorking = false;
