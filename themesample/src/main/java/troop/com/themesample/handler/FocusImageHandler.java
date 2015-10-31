@@ -48,6 +48,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private boolean wbWasVisible = false;
 
 
+
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
     {
         super(view,fragment, activity);
@@ -137,8 +138,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(FocusRect rect)
     {
+        focusImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                focusImageView.removeCallbacks(hideFocus);
+            }
+        });
 
-        focusImageView.removeCallbacks(hideFocus);
         if (!(wrapper instanceof CameraUiWrapperSony))
         {
 
@@ -289,6 +295,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     };
 
+    /*
+    This listen to clicks that happen inside awb or exposuremetering
+    and translate that postion into preview coordinates for touchtofocus
+     */
     public void OnClick(int x, int y)
     {
         if (wrapper == null || wrapper.Focus == null)
@@ -301,6 +311,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
     }
 
+    /*
+    returns the display size depending on sdk
+     */
     private Point getSize()
     {
         if (Build.VERSION.SDK_INT >= 17) {
@@ -317,6 +330,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     }
 
+    /*
+    Centers the attached Imageview
+     */
     private FocusRect centerImageView(ImageView imageview)
     {
         int width = 0;
