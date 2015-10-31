@@ -78,7 +78,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMaxValue() {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
-            return Integer.parseInt(parameters.get("max-wb-cct"));
+            return 150;
         else if(parameters.containsKey("wb-manual-cct"))
         {
             return Integer.parseInt(parameters.get("max-wb-cct"));
@@ -91,7 +91,7 @@ public class CCTManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
-            return 0;
+            return -1;
         else if(parameters.containsKey("wb-manual-cct"))
         {
             return Integer.parseInt(parameters.get("min-wb-cct"));
@@ -108,10 +108,10 @@ public class CCTManualParameter extends BaseManualParameter {
             return 0;
     }
 
-   // @Override
-   // public String GetStringValue() {
-  //      return null;
-  //  }
+    @Override
+   public String GetStringValue() {
+        return null;
+    }
 
     @Override
     protected void setvalue(int valueToSet)
