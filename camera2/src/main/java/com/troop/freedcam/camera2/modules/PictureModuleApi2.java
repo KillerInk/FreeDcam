@@ -240,9 +240,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     {
                         Log.d(TAG, "Create DNG");
                         if (burstcount > 1)
+                            if(!DeviceUtils.isMoto_MSM8982_8994())
                             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".dng"));
+                            else
+                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
                         else
+                        if(!DeviceUtils.isMoto_MSM8982_8994())
                             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+                        else
+                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
                         checkFileExists(file);
                         Image image = reader.acquireNextImage();
                         while (image == null) {
@@ -268,13 +274,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         }
                         else
                         {
+                            File tmp = file;
+                            new ImageSaver(image, file).run();
 
-                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                            byte[] data = new byte[buffer.remaining()];
-                            buffer.get(data);
+                           // ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                          // byte[] data = new byte[buffer.remaining()];
+                          // buffer.get(data);
 
                             LegacyDngSaver legacyDngSaver = new LegacyDngSaver(false);
-                            legacyDngSaver.processData(data,file);
+                            legacyDngSaver.processData(tmp);
                         }
                     }
 

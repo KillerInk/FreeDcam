@@ -94,7 +94,7 @@ public class DngSupportedDevices
 
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
-        if(DeviceUtils.isMoto_MSM8982_8994())
+        if(DeviceUtils.isMoto_MSM8982_8994()||filesize== 42923008)
         {
             return new DngProfile(64,5344 ,4016 ,Plain, RGGb, 0,
                     Matrixes.imx230_identity_matrix1,

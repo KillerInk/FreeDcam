@@ -9,20 +9,23 @@ import android.util.Log;
 import com.troop.androiddng.RawToDng;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class LegacyDngSaver {
     final public String fileEnding = ".dng";
-    final RawToDng dngConverter;
+   // final RawToDng dngConverter;
     boolean exTSD;
 
     final String TAG = LegacyDngSaver.class.getSimpleName();
     public LegacyDngSaver(boolean externalSD)
     {
      exTSD = externalSD;
-        dngConverter = RawToDng.GetInstance();
+       // dngConverter = RawToDng.GetInstance();
     }
 
-    public void processData(byte[] data, File file)
+    public void processData(File file)
     {
 
 
@@ -40,7 +43,24 @@ public class LegacyDngSaver {
         long gpsTime = 0;
 
 
-        dngConverter.SetBayerData(data, file.getAbsolutePath());
+        String dng = file.getAbsolutePath().replace("raw","dng");
+
+        final RawToDng dngConverter = RawToDng.GetInstance();
+
+        try {
+            dngConverter.SetBayerData(readFile(file), dng);
+
+
+
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         float fnum, focal = 0;
         fnum = 2.0f;
         focal = 4.7f;
@@ -49,8 +69,27 @@ public class LegacyDngSaver {
 
         dngConverter.WriteDNG(null);
         dngConverter.RELEASE();
+        file.delete();
 
 
+    }
+
+    private static byte[] readFile(File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "r");
+        try {
+            // Get and check length
+            long longlength = f.length();
+            int length = (int) longlength;
+            if (length != longlength)
+                throw new IOException("File size >= 2 GB");
+
+            byte[] data = new byte[length];
+            f.readFully(data);
+            return data;
+        } finally {
+            f.close();
+        }
     }
 
 }
