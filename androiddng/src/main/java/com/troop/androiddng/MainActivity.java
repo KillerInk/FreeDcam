@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.troop.freedcam.utils.DeviceUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -74,6 +76,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
 		if (filename.contains("I_Mobile_I_StyleQ6"))
 			return DngSupportedDevices.SupportedDevices.I_Mobile_I_StyleQ6;
+		if (filename.contains("MotoX_pure")|| DeviceUtils.isMoto_MSM8982_8994())
+			return DngSupportedDevices.SupportedDevices.MotoX_pure;
 		return null;
 	}
 	

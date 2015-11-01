@@ -275,6 +275,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             fnum = 2.0f;
                             focal = 4.7f;
                             Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+
+                          //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
+                            double mExposuretime;
+                            int mFlash;
+
+
                             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
                             dngConverter.WriteDNG(null);
