@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -54,8 +55,15 @@ public class MenuItemSaveCamParams extends MenuItem
     @Override
     public void onClick(View v)
     {
-        saveCamParameters();
-        Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
+        try {
+
+
+            saveCamParameters();
+            Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
+        }
+        catch (Exception ex) {
+            Log.d("Freedcam",ex.getMessage());
+        }
     }
 
     @Override

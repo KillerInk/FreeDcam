@@ -479,15 +479,23 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
                 startActivity(chooser);
             }
         }*/
-        themeHandler.DestroyUI();
-        previewWasRunning = true;
-        cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
-        imageViewerFragment = new ScreenSlideFragment();
-        imageViewerFragment.Set_I_Activity(this);
-        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.themeFragmentholder, imageViewerFragment);
-        transaction.commitAllowingStateLoss();
+        try {
+
+
+            themeHandler.DestroyUI();
+            previewWasRunning = true;
+            cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
+            imageViewerFragment = new ScreenSlideFragment();
+            imageViewerFragment.Set_I_Activity(this);
+            android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.replace(R.id.themeFragmentholder, imageViewerFragment);
+            transaction.commitAllowingStateLoss();
+        }
+        catch (Exception ex)
+        {
+            Log.d("Freedcam",ex.getMessage());
+        }
     }
 
     @Override

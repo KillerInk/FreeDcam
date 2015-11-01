@@ -266,34 +266,35 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean SetCameraParameters(final HashMap<String, String> parameters)
     {
-        String ret = "";
-        for (Map.Entry s : parameters.entrySet())
-        {
-            ret += s.getKey() + "=" + s.getValue()+";";
-        }
+        try {
 
-        if (hasSamsungFrameWork)
-        {
-            Log.d(TAG, "Set Samsung Parameters");
-            SecCamera.Parameters p = samsungCamera.getParameters();
-            p.unflatten(ret);
-            samsungCamera.setParameters(p);
-        }
-        else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
-        {
-            Log.d(TAG, "Set lg Parameters");
-            Camera.Parameters p = lgParameters.getParameters();
-            p.unflatten(ret);
-            lgParameters.setParameters(p);
-        }
-        else
-        {
-            Log.d(TAG, "Set Parameters");
-            Camera.Parameters p = mCamera.getParameters();
-            p.unflatten(ret);
-            mCamera.setParameters(p);
-        }
 
+            String ret = "";
+            for (Map.Entry s : parameters.entrySet()) {
+                ret += s.getKey() + "=" + s.getValue() + ";";
+            }
+
+            if (hasSamsungFrameWork) {
+                Log.d(TAG, "Set Samsung Parameters");
+                SecCamera.Parameters p = samsungCamera.getParameters();
+                p.unflatten(ret);
+                samsungCamera.setParameters(p);
+            } else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
+                Log.d(TAG, "Set lg Parameters");
+                Camera.Parameters p = lgParameters.getParameters();
+                p.unflatten(ret);
+                lgParameters.setParameters(p);
+            } else {
+                Log.d(TAG, "Set Parameters");
+                Camera.Parameters p = mCamera.getParameters();
+                p.unflatten(ret);
+                mCamera.setParameters(p);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.d("Freedcam",ex.getMessage());
+        }
 
 
 
@@ -348,12 +349,28 @@ public class BaseCameraHolder extends AbstractCameraHolder
         if (samsungCamera == null && mCamera == null)
             return;
         if (hasSamsungFrameWork)
-            samsungCamera.startPreview();
+            try {
+
+
+                samsungCamera.startPreview();
+            }
+            catch (Exception ex)
+            {
+                Log.d("Freedcam",ex.getMessage());
+            }
         else
+        try {
+
+
             mCamera.startPreview();
-        isPreviewRunning = true;
-        Log.d(TAG, "PreviewStarted");
-        cameraChangedListner.onPreviewOpen("");
+            isPreviewRunning = true;
+            Log.d(TAG, "PreviewStarted");
+            cameraChangedListner.onPreviewOpen("");
+        }
+        catch (Exception ex)
+        {
+            Log.d("Freedcam",ex.getMessage());
+        }
     }
 
     @Override

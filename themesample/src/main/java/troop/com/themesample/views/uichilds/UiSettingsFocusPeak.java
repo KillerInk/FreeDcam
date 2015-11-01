@@ -2,6 +2,7 @@ package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.troop.freedcam.utils.StringUtils;
 
@@ -31,8 +32,15 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
     {
-        if (parameter.GetValue().equals(StringUtils.ON))
-            parameter.SetValue(StringUtils.OFF,false);
+        if (parameter.GetValue().equals(StringUtils.ON)) {
+            try {
+                parameter.SetValue(StringUtils.OFF, false);
+            }
+            catch (Exception ex)
+            {
+                Log.d("Freedcam", ex.getMessage());
+            }
+        }
         else
             parameter.SetValue(StringUtils.ON,false);
     }

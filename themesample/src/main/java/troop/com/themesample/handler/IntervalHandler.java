@@ -136,13 +136,21 @@ public class IntervalHandler
     public void StartShutterTime()
     {
         String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
-        if (shutterdelay.equals(""))
-            shutterdelay = "0 sec";
-        if (!shutterdelay.equals("0 sec"))
-            shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) *1000;
-        else
-            shutterDelay = 0;
-        handler.postDelayed(shutterDelayRunner, shutterDelay);
+        try {
+
+
+            if (shutterdelay.equals(""))
+                shutterdelay = "0 sec";
+            if (!shutterdelay.equals("0 sec"))
+                shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) * 1000;
+            else
+                shutterDelay = 0;
+            handler.postDelayed(shutterDelayRunner, shutterDelay);
+        }
+        catch (Exception ex)
+        {
+            Log.d("Freedcam",ex.getMessage());
+        }
     }
 
 
