@@ -28,6 +28,11 @@ public class ISOManualParameter extends BaseManualParameter {
             this.max_value = "min-iso";
             this.value = "cur-iso";
             this.min_value = "max-iso";
+
+            if(min_value.equals(null))
+            {
+                this.isSupported=false;
+            }
         }
         else
             this.isSupported = false;
@@ -47,28 +52,48 @@ public class ISOManualParameter extends BaseManualParameter {
         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             return 6400;
         else
+        try {
+
+
             return Integer.parseInt(max_value);
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
+
     }
 
     @Override
     public int GetMinValue() {
 
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-            return 64;
-        else
-            return Integer.parseInt(min_value);
-    }
+            if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+                return 64;
+            else
+                try {
+                    return Integer.parseInt(min_value);
+                }
+                catch (NullPointerException ex)
+                {
+                    return 0;
+                }
+
+        }
 
     @Override
-    public int GetValue()
-    {
+    public int GetValue() {
 
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
-         return     Integer.parseInt(parameters.get("iso-st"));}
-        else {
-            return Integer.parseInt(value);}
+        if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9()) {
+            return Integer.parseInt(parameters.get("iso-st"));
+        } else {
+            try {
+                return Integer.parseInt(value);
+            } catch (NullPointerException ex) {
+                return 0;
+            }
 
 
+        }
     }
 
     @Override

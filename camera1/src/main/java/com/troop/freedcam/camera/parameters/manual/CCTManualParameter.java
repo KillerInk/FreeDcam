@@ -48,10 +48,19 @@ public class CCTManualParameter extends BaseManualParameter {
         } //&& !DeviceUtils.isZTEADV()
         else if (parameters.containsKey("wb-manual-cct") || DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
         {
-            this.value = "wb-manual-cct";
-            this.max_value = "max-wb-cct";
-            this.min_value = "min-wb-cct";
-            this.isSupported = true;
+            try {
+
+
+                this.value = "wb-manual-cct";
+                this.max_value = "max-wb-cct";
+                this.min_value = "min-wb-cct";
+                this.isSupported = true;
+
+            }
+            catch (NullPointerException ex)
+            {
+                this.isSupported=false;
+            }
         }
         //force close app
         /*else if (DeviceUtils.isG4()) {
@@ -81,10 +90,23 @@ public class CCTManualParameter extends BaseManualParameter {
             return 150;
         else if(parameters.containsKey("wb-manual-cct"))
         {
-            return Integer.parseInt(parameters.get("max-wb-cct"));
+            try {
+                return Integer.parseInt(parameters.get("max-wb-cct"));
+            }
+            catch (NullPointerException ex)
+            {
+                return 0;
+            }
         }
         else
-    	return Integer.parseInt(parameters.get(max_value));
+        try {
+            return Integer.parseInt(parameters.get(max_value));
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
+
 
     }
 //M8 Step values "wb-ct-step"
