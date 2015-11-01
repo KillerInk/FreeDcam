@@ -16,9 +16,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.camera2.modules.IO.LegacyDngSaver;
-import com.troop.freedcam.camera2.parameters.manual.ManualWbCtApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -241,22 +240,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     {
                         Log.d(TAG, "Create DNG");
                         if (burstcount > 1)
-                            if(!DeviceUtils.isMoto_MSM8982_8994())
                             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".dng"));
-                            else
-                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
                         else
-                        if(!DeviceUtils.isMoto_MSM8982_8994())
                             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-                        else
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
                         checkFileExists(file);
                         Image image = reader.acquireNextImage();
                         while (image == null) {
                             image = reader.acquireNextImage();
                         }
-
-
                         if(!DeviceUtils.isMoto_MSM8982_8994()) {
                             while (mDngResult == null)
                                 try {
@@ -275,15 +266,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         }
                         else
                         {
-                            File tmp = file;
-                            new ImageSaver(image, file).run();
+                            final RawToDng dngConverter = RawToDng.GetInstance();
+                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                            byte[] bytes = new byte[buffer.remaining()];
+                            buffer.get(bytes);
+                            dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+                            float fnum, focal = 0;
+                            fnum = 2.0f;
+                            focal = 4.7f;
 
-                           // ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                          // byte[] data = new byte[buffer.remaining()];
-                          // buffer.get(data);
+                            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
-                            LegacyDngSaver legacyDngSaver = new LegacyDngSaver(false);
-                            legacyDngSaver.processData(tmp);
+                            dngConverter.WriteDNG(null);
+                            dngConverter.RELEASE();
+                            image.close();
+                            bytes = null;
                         }
                     }
 
