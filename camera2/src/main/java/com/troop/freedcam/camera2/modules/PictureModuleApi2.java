@@ -141,6 +141,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
+            captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
 
             List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
             for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
