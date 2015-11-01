@@ -65,7 +65,7 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
         brightnes.SetStuff(appSettingsManager, AppSettingsManager.MBRIGHTNESS);
 
         cct = (ManualItem)view.findViewById(R.id.manual_cct);
-        cct.SetStuff(appSettingsManager, "");
+        cct.SetStuff(appSettingsManager, AppSettingsManager.MCCT);
 
         convergence = (ManualItem)view.findViewById(R.id.manual_convergence);
         convergence.SetStuff(appSettingsManager, AppSettingsManager.MCONVERGENCE);

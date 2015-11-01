@@ -107,6 +107,7 @@ public class AppSettingsManager
     final public static String MBRIGHTNESS = "mbrightness";
     final public static String MISO = "miso";
     final public static String MSATURATION = "msaturation";
+    final public static String MCCT = "mcct";
 
     final public static String APPVERSION = "appversion";
 

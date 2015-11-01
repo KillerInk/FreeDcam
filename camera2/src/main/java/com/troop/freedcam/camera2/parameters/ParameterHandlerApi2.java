@@ -197,7 +197,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
         setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
-        setManualMode(CCT,AppSettingsManager.MWB);
+        setManualMode(CCT,AppSettingsManager.MCCT);
 
 
     }
