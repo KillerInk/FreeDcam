@@ -14,18 +14,23 @@
         <item>F320K</item>
         <item>LG-VS980</item>
         <item>LG-LS980</item>
+        <item>L-01F</item>
+        <item>L-01F g2</item>
+        <item>g2</item>
     </string-array>
     <string-array name="g3">
         <item>LG-D855</item>
         <item>LGLS990</item>
         <item>LG VS985</item>
         <item>LG-D851</item>
+        <item>L-02F</item>
     </string-array>
     <string-array name="g4">
         <item>LG-H81</item>
         <item>LG-LS99</item>
         <item>LG-VS9</item>
         <item>LG-US9</item>
+        <item>L-01G</item>
     </string-array>
 
     <string-array name="evo3d">
@@ -143,12 +148,14 @@
         <item>C2104</item>
         <item>C2105</item>
     </string-array>
+
     <string-array name="YuYureka">
         <item>YUREKA</item>
         <item>AO5510</item>
         <item>Yureka</item>
         <item>A05510</item>
     </string-array>
+
     <string-array name="GioneE7">
         <item>E7</item>
     </string-array>

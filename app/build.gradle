@@ -7,7 +7,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 51
-        versionName "3.3.114"
+        versionName "3.3.118"
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 19
     }

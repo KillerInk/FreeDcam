@@ -46,6 +46,7 @@ public class DngSupportedDevices
     {
         if (DeviceUtils.isYureka())
             return DngSupportedDevices.SupportedDevices.yureka;
+
         if (DeviceUtils.isLG_G3())
             return DngSupportedDevices.SupportedDevices.LG_G3;
         if (DeviceUtils.isGioneE7())

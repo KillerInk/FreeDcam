@@ -172,12 +172,12 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
             if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
+                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
             else
-                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
+                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 10 / 8;
         }
         else
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.2;
+            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 8 / 8;
     }
 
     private static long SDspace()

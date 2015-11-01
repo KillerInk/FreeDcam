@@ -138,6 +138,7 @@ public class DeviceUtils
     public static boolean isYureka()
     {
         return isDevice(contex.getResources().getStringArray(R.array.YuYureka));
+
     }
 
     public static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
