@@ -133,6 +133,7 @@ public class RawToDng
 
     public void SetBayerData(final byte[] fileBytes, String fileout)
     {
+        Log.d("Freedcam Raw2DNG",String.valueOf(fileBytes.length));
         filepath = fileout;
         if (filepath.contains("bayer"))
             bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);

@@ -274,7 +274,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             float fnum, focal = 0;
                             fnum = 2.0f;
                             focal = 4.7f;
-
+                            Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
                             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
                             dngConverter.WriteDNG(null);
