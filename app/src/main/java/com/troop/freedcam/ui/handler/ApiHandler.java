@@ -45,19 +45,19 @@ public class ApiHandler implements I_CameraChangedListner
 
     public void CheckApi()
     {
-        if (appSettingsManager.getString(AppSettingsManager.CAMERA2FULLSUPPORTED).equals(""))
+        if (appSettingsManager.IsCamera2FullSupported().equals(""))
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
                 waitforclose = true;
 
                 final AppSettingsManager app = appSettingsManager;
-                cam2 = new BaseCameraHolderApi2(app.context, ApiHandler.this,handler, app);
+                cam2 = new BaseCameraHolderApi2(app.context, ApiHandler.this,handler, app, null);
                 cam2.OpenCamera(0);
 
             }
             else {
-                appSettingsManager.setString(AppSettingsManager.CAMERA2FULLSUPPORTED, "false");
+                appSettingsManager.SetCamera2FullSupported("false");
                 event.apiDetectionDone();
             }
         }
@@ -97,11 +97,11 @@ public class ApiHandler implements I_CameraChangedListner
     public void onCameraOpen(String message)
     {
         if (cam2.isLegacyDevice()) {
-            appSettingsManager.setString(AppSettingsManager.CAMERA2FULLSUPPORTED, "false");
+            appSettingsManager.SetCamera2FullSupported("false");
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
         else {
-            appSettingsManager.setString(AppSettingsManager.CAMERA2FULLSUPPORTED, "true");
+            appSettingsManager.SetCamera2FullSupported("true");
             appSettingsManager.setCamApi(AppSettingsManager.API_2);
         }
         cam2.CloseCamera();
