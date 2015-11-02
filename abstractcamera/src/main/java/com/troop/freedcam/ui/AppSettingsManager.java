@@ -233,4 +233,14 @@ public class AppSettingsManager
     {
         appSettings.edit().putBoolean(AppSettingsManager.SETTING_EXTERNALSD, write).apply();
     }
+
+    public void SetCamera2FullSupported(String value)
+    {
+        appSettings.edit().putString(AppSettingsManager.CAMERA2FULLSUPPORTED, value).apply();
+    }
+
+    public String IsCamera2FullSupported()
+    {
+        return appSettings.getString(AppSettingsManager.CAMERA2FULLSUPPORTED, "");
+    }
 }
