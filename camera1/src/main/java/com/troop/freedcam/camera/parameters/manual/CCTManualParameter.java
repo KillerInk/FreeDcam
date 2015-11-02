@@ -100,7 +100,13 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else
         try {
-            return Integer.parseInt(parameters.get(max_value));
+            String wbct  = parameters.get(max_value);
+            if(wbct.equals("null"))
+            {
+                isSupported = false;
+                wbct = "0";
+            }
+            return Integer.parseInt(wbct);
         }
         catch (NullPointerException ex)
         {
@@ -111,7 +117,8 @@ public class CCTManualParameter extends BaseManualParameter {
     }
 //M8 Step values "wb-ct-step"
     @Override
-    public int GetMinValue() {
+    public int GetMinValue()
+    {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return -1;
         else if(parameters.containsKey("wb-manual-cct"))
@@ -119,7 +126,15 @@ public class CCTManualParameter extends BaseManualParameter {
             return Integer.parseInt(parameters.get("min-wb-cct"));
         }
         else
-          return Integer.parseInt(parameters.get(min_value));
+        try {
+            return Integer.parseInt(parameters.get(min_value));
+        }
+        catch (NumberFormatException ex)
+        {
+            ex.printStackTrace();
+        }
+        return 0;
+
     }
 
     @Override
