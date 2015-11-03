@@ -32,6 +32,18 @@ public class HighSpeedVideo extends  BaseModeParameter
         {
             this.isSupported = false;
         }
+        try {
+           System.out.println("Kraatus90 HFR Sizes"+ parameters.get("hfr-size-values"));
+            System.out.println("Kraatus90 HFR values" + parameters.get("video-hfr-values"));
+            System.out.println("Kraatus90 HFR "+ parameters.get("video-hfr"));
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+
 
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
     }
@@ -71,6 +83,7 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String GetValue()
     {
+
         if (DeviceUtils.isMoto_MSM8974())
 
         {

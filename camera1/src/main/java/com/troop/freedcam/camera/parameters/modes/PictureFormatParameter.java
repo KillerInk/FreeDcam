@@ -66,7 +66,8 @@ public class PictureFormatParameter extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if((Build.MANUFACTURER.contains("samsung") || Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
+        //if((Build.MANUFACTURER.contains("samsung") || Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
+        if((Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
             return  new String[]{"jpeg"};
         if (DeviceUtils.isMediaTekDevice())
             return new String[]{"jpeg", "raw"};
@@ -74,6 +75,14 @@ public class PictureFormatParameter extends BaseModeParameter
         {
             return new String[]{"jpeg", "bayer-mipi-10bggr"};
         }*/
+         if(DeviceUtils.isMoto_MSM8982_8994())
+        {
+            return new String[]{"jpeg", "bayer-mipi-10rggb" , "bayer-qcom-10rggb","bayer-ideal-qcom-10rggb"};
+        }
+        if(DeviceUtils.isMoto_MSM8982_8994())
+        {
+            return new String[]{"jpeg", "bayer-mipi-10bggr" , "bayer-qcom-10bggr","bayer-ideal-qcom-10bggr"};
+        }
         else
         {
             String[] supervals = super.GetValues();

@@ -37,7 +37,8 @@ public class DngSupportedDevices
         Alcatel_Idol3,
         Vivo_Xplay3s,
         I_Mobile_I_StyleQ6,
-        MotoX_pure
+        MotoX_pure,
+        moto2k14
 
     }
 
@@ -93,6 +94,8 @@ public class DngSupportedDevices
             return SupportedDevices.I_Mobile_I_StyleQ6;
         if(DeviceUtils.isMoto_MSM8982_8994())
             return SupportedDevices.MotoX_pure;
+        if(DeviceUtils.isMoto_MSM8974())
+            return SupportedDevices.moto2k14;
         return null;
     }
 
