@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera2.modules;
 
+import android.os.Handler;
+
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -15,19 +17,21 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
 
     private static String TAG = "freedcam.ModuleHandler";
     AppSettingsManager appSettingsManager;
+    Handler backgroundHandler;
 
-    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backgroundHandler)
     {
         super(cameraHolder,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
         this.appSettingsManager = appSettingsManager;
+        this.backgroundHandler = backgroundHandler;
         initModules(appSettingsManager);
     }
 
 
     protected void initModules(AppSettingsManager appSettingsManager)
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

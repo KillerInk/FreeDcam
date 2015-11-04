@@ -23,6 +23,7 @@ import android.hardware.display.DisplayManager;
 import android.location.Location;
 import android.media.ImageReader;
 import android.os.Build;
+import android.os.DeadObjectException;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 import android.util.Log;
@@ -109,18 +110,21 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     int lastAwbState;
     private boolean focuspeakEnable = false;
 
+    Handler backgroundHandler;
+    boolean errorRecieved = false;
     /**
      * An {@link android.media.ImageReader} that handles still image capture.
      */
     public ImageReader mImageReader;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings, Handler backgroundHandler)
     {
         super(cameraChangedListner, UIHandler);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.Settings = Settings;
+        this.backgroundHandler = backgroundHandler;
 
     }
 
@@ -134,6 +138,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public boolean OpenCamera(int camera)
     {
         //startBackgroundThread();
+        Log.d(TAG,"Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
         try
@@ -141,7 +146,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback, null);
+            manager.openCamera(cam, mStateCallback, backgroundHandler);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
@@ -161,18 +166,26 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void CloseCamera() {
         try {
-            //mCameraOpenCloseLock.tryAcquire(1000, TimeUnit.MILLISECONDS);
-            if (null != mCaptureSession) {
-                mCaptureSession.close();
-                mCaptureSession = null;
+            Log.d(TAG,"Close Camera");
+            mCameraOpenCloseLock.acquire();
+            mProcessor.kill();
+            try {
+                if (null != mCaptureSession) {
+                    mCaptureSession.close();
+                    mCaptureSession = null;
+                }
             }
+           catch (Exception e) {}
+
             if (null != mCameraDevice) {
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
-        } finally {
+        }
+        catch (Exception e) {
+            //throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
+        }
+        finally {
             mCameraOpenCloseLock.release();
         }
     }
@@ -215,9 +228,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
+
         if (textureView == null)
             return;
         try {
+            Log.d(TAG,"Start Preview");
             largestImageSize = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
@@ -278,6 +293,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public void SetBurst(int burst)
     {
         try {
+            Log.d(TAG,"Set Burst to:" + burst);
             previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
 
             SurfaceTexture texture = textureView.getSurfaceTexture();
@@ -321,6 +337,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
     {
+       /* if (errorRecieved)
+        {
+            errorRecieved = false;
+            //StopPreview();
+            //StartPreview();
+            return;
+        }*/
         if (mCaptureSession != null)
         {
             //StopPreview();
@@ -366,7 +389,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
-
+        Log.d(TAG,"Stop Preview");
         if (mCaptureSession != null)
             mCaptureSession.close();
         mCaptureSession = null;
@@ -406,67 +429,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
         ParameterHandler.SetAppSettingsToParameters();
         Log.d(TAG, "set last used parameters");
-        /*if (ParameterHandler.ManualExposure.IsSupported())
-        {
-            ParameterHandler.ManualExposure.SetValue(ParameterHandler.ManualExposure.GetValue());
-            //builder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, ParameterHandler.ManualExposure.GetValue());
-        }
-        if (ParameterHandler.ExposureMode.IsSupported())
-        {
-            ParameterHandler.ExposureMode.SetValue(Settings.getString(AppSettingsManager.SETTING_EXPOSUREMODE), true);
-        }
-        if (ParameterHandler.ManualShutter.IsSupported())
-        {
-            ParameterHandler.ManualShutter.SetValue(ParameterHandler.ManualShutter.GetValue());
-        }
-
-        if (ParameterHandler.ColorMode.IsSupported())
-        {
-            final String set = Settings.getString(AppSettingsManager.SETTING_COLORMODE);
-            if (set.equals(""))
-            {
-                Settings.setString(AppSettingsManager.SETTING_COLORMODE, Enum.valueOf(ColorModeApi2.ColorModes.class, ParameterHandler.ColorMode.GetValue()).toString());
-            }
-            ColorModeApi2.ColorModes colorModes = Enum.valueOf(ColorModeApi2.ColorModes.class, set);
-            builder.set(CaptureRequest.CONTROL_EFFECT_MODE, colorModes.ordinal());
-        }
-        if (ParameterHandler.SceneMode.IsSupported())
-        {
-            try
-            {
-                final String scene = Settings.getString(AppSettingsManager.SETTING_SCENEMODE);
-                if (scene.equals(""))
-                {
-                    Settings.setString(AppSettingsManager.SETTING_SCENEMODE, Enum.valueOf(SceneModeApi2.SceneModes.class, ParameterHandler.SceneMode.GetValue()).toString());
-                }
-                SceneModeApi2.SceneModes sceneModes = Enum.valueOf(SceneModeApi2.SceneModes.class, scene);
-                builder.set(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        if (ParameterHandler.WhiteBalanceMode.IsSupported())
-        {
-            final String wb = Settings.getString(AppSettingsManager.SETTING_WHITEBALANCEMODE);
-            if (wb.equals(""))
-            {
-                Settings.setString(AppSettingsManager.SETTING_WHITEBALANCEMODE, Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, ParameterHandler.WhiteBalanceMode.GetValue()).toString());
-            }
-            WhiteBalanceApi2.WhiteBalanceValues wbModes = Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, wb);
-            builder.set(CaptureRequest.CONTROL_AWB_MODE, wbModes.ordinal());
-        }
-        if (ParameterHandler.FocusMode.IsSupported())
-        {
-            final String wb = Settings.getString(AppSettingsManager.SETTING_FOCUSMODE);
-            if (wb.equals(""))
-            {
-                Settings.setString(AppSettingsManager.SETTING_FOCUSMODE, Enum.valueOf(WhiteBalanceApi2.WhiteBalanceValues.class, ParameterHandler.FocusMode.GetValue()).toString());
-            }
-            FocusModeApi2.FocusModes wbModes = Enum.valueOf(FocusModeApi2.FocusModes.class, wb);
-            builder.set(CaptureRequest.CONTROL_AF_MODE, wbModes.ordinal());
-        }*/
     }
 
     public CaptureRequest.Builder createCaptureRequest(int template) throws CameraAccessException {
@@ -496,33 +458,42 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onOpened(CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
-            //mCameraOpenCloseLock.release();
+            mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
-
+            Log.d(TAG,"Camera open");
 
             if (UIHandler != null)
-            UIHandler.post(new Runnable() {
+                UIHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     cameraChangedListner.onCameraOpen("");
                 }
             });
-
-
         }
 
         @Override
-        public void onDisconnected(CameraDevice cameraDevice) {
+        public void onDisconnected(CameraDevice cameraDevice)
+        {
+            Log.d(TAG,"Camera Disconnected");
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
         }
 
         @Override
-        public void onError(CameraDevice cameraDevice, int error) {
+        public void onError(CameraDevice cameraDevice, final int error)
+        {
+            Log.d(TAG, "Camera Error" + error);
             mCameraOpenCloseLock.release();
-            cameraDevice.close();
-            mCameraDevice = null;
+            /*cameraDevice.close();
+            mCameraDevice = null;*/
+            errorRecieved = true;
+            UIHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraError("Error:" + error);
+                }
+            });
 
         }
     };

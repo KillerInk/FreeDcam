@@ -64,13 +64,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     public static final int STATE_PICTURE_TAKEN = 4;
     private TotalCaptureResult mDngResult;
+    Handler backgroundHandler;
 
     int imagecount = 0;
 
-    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
+    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
         super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.Settings = Settings;
+        this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
     }
 
@@ -100,11 +102,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         isWorking = true;
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-        Log.d(TAG, "dng:"+ Boolean.toString(ParameterHandler.IsDngActive()));
+        Log.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
-        cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, null);
+        cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
 
-        captureStillPicture();
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                captureStillPicture();
+            }
+        });
+
         //lockFocus();
     }
 
@@ -149,9 +157,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             imagecount = 0;
             cameraHolder.mCaptureSession.stopRepeating();
-            captureBuilder.removeTarget(cameraHolder.previewsurface);
+            //captureBuilder.removeTarget(cameraHolder.previewsurface);
             mDngResult = null;
-            cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, null);
+            //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
+            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback, backgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -182,18 +191,29 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     };
 
     private void finishCapture() {
-        try {
+        try
+        {
             Log.d(TAG, "CaptureDone");
-            cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
+            //cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
 
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                    null);
+            //cameraHolder.mCaptureSession.abortCaptures();
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                        null);
+            }
+            catch (CameraAccessException ex)
+            {
+                cameraHolder.CloseCamera();
+                cameraHolder.OpenCamera(Settings.GetCurrentCamera());
+            }
 
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
         }
+        catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+
         isWorking = false;
     }
 
@@ -217,6 +237,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 @Override
                 public void run()
                 {
+                    while (mDngResult == null)
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     int burstcount = ParameterHandler.Burst.GetValue()+1;
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -249,12 +275,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             image = reader.acquireNextImage();
                         }
                         if(!DeviceUtils.isMoto_MSM8982_8994()) {
-                            while (mDngResult == null)
-                                try {
-                                    Thread.sleep(1);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+
                             DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
 
                             try {
