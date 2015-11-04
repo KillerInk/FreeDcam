@@ -68,6 +68,10 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Override

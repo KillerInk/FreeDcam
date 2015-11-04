@@ -67,6 +67,10 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 

@@ -116,6 +116,10 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 
