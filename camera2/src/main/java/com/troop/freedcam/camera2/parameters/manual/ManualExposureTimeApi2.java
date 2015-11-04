@@ -49,7 +49,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
         //866 975 130 = 0,8sec
         if (DeviceUtils.isG4())
-            millimax = 30000000;
+            millimax = 60000000;
         else if (DeviceUtils.isSamsung_S6_edge_plus())
             millimax = 10000000;
         else
