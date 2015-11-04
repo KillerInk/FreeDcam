@@ -192,10 +192,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
         {
             if (hasSamsungFrameWork)
                 samsungCamera = SecCamera.open(camera);
-            else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
-                lgCamera = new LGCamera(camera);
-                mCamera = lgCamera.getCamera();
-                lgParameters = lgCamera.getLGParameters();
+            else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+            {
+                try {
+                    lgCamera = new LGCamera(camera);
+                    mCamera = lgCamera.getCamera();
+                    lgParameters = lgCamera.getLGParameters();
+                }
+                catch (RuntimeException ex)
+                {
+                    cameraChangedListner.onCameraError("Fail to connect to camera service");
+                }
             } else {
                 mCamera = Camera.open(camera);
             }
@@ -291,9 +298,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.setParameters(p);
             }
         }
-        catch (Exception ex)
-        {
-            Log.d("Freedcam",ex.getMessage());
+        catch (Exception ex) {
+            Log.d("Freedcam", ex.getMessage());
         }
 
 
