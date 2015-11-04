@@ -43,7 +43,7 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
 
     @Override
     public boolean IsSupported() {
-        return true;
+        return false;
     }
 
     @Override
