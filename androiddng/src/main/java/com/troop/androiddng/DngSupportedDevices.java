@@ -38,7 +38,8 @@ public class DngSupportedDevices
         Vivo_Xplay3s,
         I_Mobile_I_StyleQ6,
         MotoX_pure,
-        moto2k14
+        moto2k14,
+        SonyM5
 
     }
 
@@ -96,6 +97,8 @@ public class DngSupportedDevices
             return SupportedDevices.MotoX_pure;
         if(DeviceUtils.isMoto_MSM8974())
             return SupportedDevices.moto2k14;
+        if(DeviceUtils.isSonyM5_MTK())
+            return SupportedDevices.SonyM5;
         return null;
     }
 

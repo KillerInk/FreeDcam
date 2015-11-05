@@ -130,6 +130,12 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
 
+    public static boolean isSonyM5_MTK()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
+    }
+
+
     public static  boolean isXperiaL()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Sony_XperiaL));
@@ -162,7 +168,7 @@ public class DeviceUtils
     static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
     public static boolean isMediaTekDevice()
     {
-        return isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5();
+        return isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5() || isSonyM5_MTK();
     }
 
     public static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
