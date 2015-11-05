@@ -79,7 +79,7 @@ public class PictureFormatParameter extends BaseModeParameter
         {
             return new String[]{"jpeg", "bayer-mipi-10rggb" , "bayer-qcom-10rggb","bayer-ideal-qcom-10rggb"};
         }
-        if(DeviceUtils.isMoto_MSM8982_8994())
+        if(DeviceUtils.isMoto_MSM8974())
         {
             return new String[]{"jpeg", "bayer-mipi-10bggr" , "bayer-qcom-10bggr","bayer-ideal-qcom-10bggr"};
         }

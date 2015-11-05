@@ -291,7 +291,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         isExposureAndWBLocked = value;
         if (ExposureLock.IsSupported())
-            ExposureLock.SetValue(value+"", false);
+            ExposureLock.SetValue(value + "", false);
         SetParametersToCamera();
     }
 
@@ -319,6 +319,14 @@ public class CamParametersHandler extends AbstractParameterHandler
             cameraParameters.put("isp-mode", 1+"");
             Log.e(TAG, "MTK set mode to RAW");
         }
+        cameraHolder.SetCameraParameters(cameraParameters);
+    }
+
+    public void simpleRawTest()
+
+    {
+        cameraParameters.put("rawsave-mode", "1");
+        cameraParameters.put("rawfname", "/mnt/sdcard/test.raw");
         cameraHolder.SetCameraParameters(cameraParameters);
     }
 

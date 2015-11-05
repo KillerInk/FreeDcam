@@ -18,7 +18,13 @@ public class CCTManualParameter extends BaseManualParameter {
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (DeviceUtils.isMoto_MSM8974())
+        if (DeviceUtils.isSonyM5_MTK())
+        {
+            //temp disable
+            this.isSupported = false;
+        }
+
+       else if (DeviceUtils.isMoto_MSM8974())
         {
             this.isSupported = false;
         }

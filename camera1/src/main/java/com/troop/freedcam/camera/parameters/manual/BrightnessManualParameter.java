@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -16,6 +17,11 @@ public class BrightnessManualParameter extends BaseManualParameter
     public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        if (DeviceUtils.isSonyM5_MTK())
+        {
+            //temp disable
+            this.isSupported = false;
+        }
         if (parameters.containsKey("brightness-values") && parameters.get("brightness-values").contains("middle"))
             this.value = "brightness_value";
         else
