@@ -20,7 +20,6 @@ import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * Created by troop on 06.06.2015.
@@ -43,6 +42,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     String[] configuredNetworks = null;
     String deviceNetworkToConnect;
+    private boolean connected = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
-        hideTextViewWifi(true);
+        //hideTextViewWifi(true);
 
 
         return view;
@@ -115,25 +115,32 @@ public class SonyCameraFragment extends AbstractCameraFragment
         return surfaceView;
     }
 
-    @Override
-    public void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner) {
-        surfaceView.SetOnPreviewSizeCHangedListner(previewSizeChangedListner);
-    }
 
     //WIFI STUFF START
 
 
     private void searchSsdpClient()
     {
-        if (wifiUtils.getWifiConnected())
+        setTextFromWifi("Search SSDP Client...");
+        if (true)//wifiUtils.getWifiConnected())
         {
-            setTextFromWifi("Search SSDP Client...");
+            while (!wifiUtils.getWifiConnected())
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
             {
                 @Override
                 public void onDeviceFound(ServerDevice device)
                 {
+                    if(connected)
+                        return;
                     setTextFromWifi("Found SSDP Client... Connecting");
+                    connected = true;
                     wrapperSony.serverDevice = device;
                     wrapperSony.StartCamera();
                     hideTextViewWifi(true);
@@ -150,7 +157,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
                 public void onErrorFinished()
                 {
                     if (wrapperSony.serverDevice == null)
-                        setTextFromWifi("Error happend while searching for sony remote device");
+                        setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
                 }
             });
         }
@@ -160,7 +167,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
     public void onResume()
     {
         super.onResume();
-        getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
         getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         getConfiguredNetworks();
         lookupAvailNetworks();
@@ -172,16 +179,22 @@ public class SonyCameraFragment extends AbstractCameraFragment
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(wifiReciever);
-        getActivity().unregisterReceiver(wifiConnectedReceiver);
+        //getActivity().unregisterReceiver(wifiConnectedReceiver);
     }
 
     private void getConfiguredNetworks()
     {
+        setTextFromWifi("Looking up Configured Wifi Networks");
         try {
             configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
         }
         catch (Exception ex) {
             setTextFromWifi("Wifi disabled");
+        }
+        if (configuredNetworks == null)
+        {
+            setTextFromWifi("Wifi disabled");
+            return;
         }
         deviceNetworkToConnect = "";
         for (String s : configuredNetworks)

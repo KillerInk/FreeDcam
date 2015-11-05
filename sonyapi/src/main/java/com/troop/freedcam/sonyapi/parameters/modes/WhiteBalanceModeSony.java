@@ -2,7 +2,6 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
 
-import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
 import org.json.JSONArray;

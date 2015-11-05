@@ -118,7 +118,8 @@ void        crw_init_tables (unsigned table, ushort *huff[2]);
 
 // Misc P&S cameras
     void        nokia_load_raw();
-	void		android_tight_load_raw();
+    void        android_loose_load_raw();
+    void        android_tight_load_raw();
     void        canon_rmf_load_raw();
     unsigned    pana_bits (int nbits);
     void        panasonic_load_raw();

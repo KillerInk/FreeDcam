@@ -53,7 +53,7 @@ public class MenuItemSDSave extends MenuItem
                 onValueChanged(SDModeParameter.external);
             }
             else {
-                cameraUiWrapper.onCameraError("Cant write on External SD, pls apply SD fix");
+                cameraUiWrapper.onCameraError("Cant write to External SD, pls insert SD or apply SD fix");
                 onValueChanged(SDModeParameter.internal);
             }
         }

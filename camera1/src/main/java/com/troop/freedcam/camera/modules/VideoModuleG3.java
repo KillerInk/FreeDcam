@@ -108,19 +108,23 @@ public class VideoModuleG3 extends VideoModule
             camParametersHandler.setString("dual-recorder", "0");
             camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            //ParameterHandler.setString("video-hfr", "off");
-            //ParameterHandler.setString("video-hdr", "off");
             camParametersHandler.setString("lge-camera", "1");
         }
         else
         {
-            camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
+            //camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+        if (sprof.equals(""))
+        {
+            sprof = "HIGH";
+            Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
+        }
+        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
         String size;
         if (prof == null)
         {

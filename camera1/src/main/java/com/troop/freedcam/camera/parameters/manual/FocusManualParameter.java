@@ -19,22 +19,47 @@ public class FocusManualParameter extends  BaseManualParameter
 
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-
         this.baseCameraHolder = cameraHolder;
 
-        if (((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2()) ||
-                DeviceUtils.isZTEADV() ||
-                DeviceUtils.isHTC_M8()||
-                DeviceUtils.isHTC_M9())
+        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+        {
             this.isSupported = true;
-        else if (parameters.containsKey("manual-focus-position"))
+            this.max_value = null;
+            this.value = "manualfocus_step";
+            this.min_value = null;
+        }
+        else if (DeviceUtils.isHTC_M8())
+        {
+            if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
+                return;
+            this.isSupported = true;
+            this.max_value = "max-focus";
+            this.value = "focus";
+            this.min_value = "min-focus";
+        }
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
+        {
+            this.isSupported = true;
+            this.max_value = null;
+            this.value = "manual-focus-position";
+            this.min_value = null;
+        }
+        else if (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        {
+            this.isSupported = true;
+            this.max_value = "max-focus-pos-ratio";
+            this.value = "cur-focus-scale";
+            this.min_value = "min-focus-pos-ratio";
+        }
+        /*else if (parameters.containsKey("manual-focus-position") && !DeviceUtils.isZTEADV())
         {
             this.value = "manual-focus-position";
             this.max_value = "min-focus-pos-dac"; // this is like camera2 it returns only the min lens position up to 0
-        }
+            this.isSupported = true;
+        }*/
         else
             this.isSupported = false;
-    }
+}
 
     @Override
     public boolean IsSupported()
@@ -45,94 +70,100 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        try {
-            if (max_value != null || !max_value.equals(""))
+        if (max_value == null)
+            return 79;
+        else {
+            try {
                 return Integer.parseInt(parameters.get(max_value));
-            else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isZTEADV())
-                return 79;
-            /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
-                return parameters.getInt("max-focus-pos-index");*/
-            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-                return Integer.parseInt(parameters.get("max-focus"));
-            else return 0;
+            } catch (NumberFormatException ex) {
+                return 0;
+            }
         }
-        catch (Exception ex)
-        {
-            Log.e(TAG, "get ManualFocus max value failed");
-        }
-        return 0;
+
     }
 // HTC Focus Step "focus-step"
     @Override
-    public int GetMinValue() {
-    	if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-            return Integer.parseInt(parameters.get("min-focus"));
-        if (value != null || !value.equals(""))
-            return 0;
-        /*if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21)
-            return parameters.getInt("min-focus-pos-index");*/
-        return -1;
+    public int GetMinValue()
+    {
+        if (min_value == null)
+            return -1;
+        else
+            return Integer.parseInt(parameters.get(min_value));
     }
 //m8 Step Value
     @Override
     public int GetValue()
     {
-        int i = 0;
         try {
-            if (value != null || !value.equals(""))
-                i = Integer.parseInt(parameters.get("manual-focus-position"));
-            else if ((DeviceUtils.isLG_G3()&& Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
-                i = Integer.parseInt(parameters.get("manualfocus_step"));
-            else if (DeviceUtils.isZTEADV())
-                i = -1;
-            else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-                i = Integer.parseInt(parameters.get("focus"));
+                return Integer.parseInt(parameters.get(value));
         }
         catch (Exception ex)
         {
             Log.e(TAG, "get ManualFocus value failed");
         }
-
-        return i;
+        return 0;
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (value != null || !value.equals(""))
+        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isG4())
         {
-            parameters.put(value, valueToSet+"");
+            if(valueToSet != -1 && !camParametersHandler.FocusMode.GetValue().equals("normal"))
+            {
+                camParametersHandler.FocusMode.SetValue("normal", true);
+            }
+            else if (valueToSet == -1)
+                camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        else if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
-        {
-            camParametersHandler.FocusMode.SetValue("normal", true);
-            parameters.put("manualfocus_step", valueToSet+"");
-        }
-        else if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= 21 && !DeviceUtils.isG2())
-        {
-            camParametersHandler.FocusMode.SetValue("manual", true);
-            parameters.put("focus-pos", valueToSet + "");
-        }
-        else if (DeviceUtils.isZTEADV())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
             if(valueToSet != -1)
             {
+
                 camParametersHandler.FocusMode.SetValue("manual", true);
-                parameters.put("manual-focus-pos-type", "1");
-                parameters.put("manual-focus-position", String.valueOf(valueToSet));
+                if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+                    parameters.put("manual-focus-pos-type", "1");
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
         }
-        else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        else if (DeviceUtils.isAlcatel_Idol3() ||DeviceUtils.isMoto_MSM8982_8994())
         {
             if(valueToSet != -1)
             {
-                parameters.put("focus", valueToSet + "");
+                try {
+
+
+                    camParametersHandler.FocusMode.SetValue("manual", true);
+                    parameters.put("manual-focus-pos-type", "2");
+                }
+                catch (Exception ex)
+                {
+                    System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
+                    try {
+                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL Test 2 Failure"+ ex.toString());
+                    }
+                }
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
+
+        }
+
+         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        {
+            if(valueToSet == -1)
+                camParametersHandler.FocusMode.SetValue("auto", true);
+        }
+        if (value != null && !value.equals("") && valueToSet > -1)
+        {
+            parameters.put(value, valueToSet+"");
         }
         camParametersHandler.SetParametersToCamera();
 

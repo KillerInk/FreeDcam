@@ -1,7 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
-import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,12 +28,17 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public int GetMaxValue() {
+    public int GetMaxValue()
+    {
+        if (max == 0)
+            getMinMax();
         return max;
     }
 
     @Override
     public int GetMinValue() {
+        if (min == 0)
+            getMinMax();
         return min;
     }
 
@@ -52,13 +56,18 @@ public class WbCTManualSony extends BaseManualParameterSony
                         array = object.getJSONArray("result");
                         int ret = array.getJSONObject(0).getInt("colorTemperature");
                         val = ret;
+                        if (step == 0) {
+                            getMinMax();
+                            return;
+                        }
+
                         onCurrentValueChanged(val / step);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    val = 0;
+
                 }
             }
         }).start();
@@ -74,7 +83,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             public void run() {
                 try
                 {
-                    JSONArray array = new JSONArray().put(valueToSet).put(false).put(val*step) ;
+                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(val * step) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -87,40 +96,46 @@ public class WbCTManualSony extends BaseManualParameterSony
     public void onIsSupportedChanged(boolean value)
     {
         super.onIsSupportedChanged(value);
-        if (step == 0 && value)
+        if (step != 0 && value)
         {
-            new Thread(new Runnable() {
-                @Override
-                public void run()
-                {
-                    try {
-                        JSONObject jsonObject = mRemoteApi.getParameterFromCamera("getAvailableWhiteBalance");
-                        try {
-                            JSONArray array = jsonObject.getJSONArray("result");
-                            JSONArray subarray = array.getJSONArray(1);
+            GetValue();
+        }
+    }
 
-                            for (int i = 0; i< subarray.length(); i++)
+
+    private void getMinMax()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    JSONObject jsonObject = mRemoteApi.getParameterFromCamera("getAvailableWhiteBalance");
+                    try {
+                        JSONArray array = jsonObject.getJSONArray("result");
+                        JSONArray subarray = array.getJSONArray(1);
+
+                        for (int i = 0; i< subarray.length(); i++)
+                        {
+                            JSONObject ob = subarray.getJSONObject(i);
+                            if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
                             {
-                                JSONObject ob = subarray.getJSONObject(i);
-                                if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
-                                {
-                                    JSONArray ar = ob.getJSONArray("colorTemperatureRange");
-                                    step = ar.getInt(2);
-                                    max = ar.getInt(0)/step;
-                                    min = ar.getInt(1)/step;
-                                    BackgroundMaxValueChanged(max);
-                                    BackgroundMinValueChanged(min);
-                                    BackgroundIsSetSupportedChanged(true);
-                                }
+                                JSONArray ar = ob.getJSONArray("colorTemperatureRange");
+                                step = ar.getInt(2);
+                                max = ar.getInt(0)/step;
+                                min = ar.getInt(1)/step;
+                                BackgroundMaxValueChanged(max);
+                                BackgroundMinValueChanged(min);
+                                BackgroundIsSetSupportedChanged(true);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }).start();
-        }
+            }
+        }).start();
     }
 }

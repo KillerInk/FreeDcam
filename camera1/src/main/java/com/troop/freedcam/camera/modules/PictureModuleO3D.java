@@ -1,9 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
-import android.os.Environment;
-import android.util.Log;
+import android.os.Handler;
 
-import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -22,9 +20,9 @@ import java.io.InputStream;
 public class PictureModuleO3D extends PictureModule
 {
     private static String TAG = StringUtils.TAG+PictureModuleO3D.class.getSimpleName();
-    public PictureModuleO3D(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
+    public PictureModuleO3D(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backHandler)
     {
-        super(baseCameraHolder, appSettingsManager, eventHandler);
+        super(baseCameraHolder, appSettingsManager, eventHandler, backHandler);
     }
 
 

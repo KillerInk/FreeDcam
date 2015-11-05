@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff000000"
+    android:background="#ff1d1d1d"
     android:keepScreenOn="true"
     android:longClickable="false"
     android:touchscreenBlocksFocus="true"
@@ -15,21 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cameraFragmentHolder"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/histogramHolder"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/appiconsizethree"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/guideHolder"></LinearLayout>
+    s
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -60,30 +46,6 @@
         android:id="@+id/themeFragmentholder"
 
         android:layout_alignParentLeft="true">
-
-
-
     </LinearLayout>
-
-
-
-
-
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/SettingsCover"
-        android:visibility="gone" />
-
-    <com.troop.freedcam.ui.handler.HelpOverlayHandler
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/helpoverlay"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="80dp" />
-
 
 </RelativeLayout>

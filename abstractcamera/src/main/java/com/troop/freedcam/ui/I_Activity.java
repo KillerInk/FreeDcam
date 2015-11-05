@@ -3,6 +3,8 @@ package com.troop.freedcam.ui;
 import android.content.Context;
 import android.view.SurfaceView;
 
+import java.io.File;
+
 /**
  * Created by troop on 22.03.2015.
  */
@@ -16,13 +18,12 @@ public interface I_Activity
     int GetPreviewLeftMargine();
     int GetPreviewRightMargine();
     int GetPreviewTopMargine();
-    void SetPreviewSizeChangedListner(I_PreviewSizeEvent event);
     int[] GetScreenSize();
     void MenuActive(boolean status);
     void ShowHistogram(boolean enable);
     Context GetActivityContext();
 
-    void loadImageViewerFragment();
+    void loadImageViewerFragment(File file);
     void loadCameraUiFragment();
     void closeActivity();
 }

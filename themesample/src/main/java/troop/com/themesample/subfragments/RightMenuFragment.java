@@ -2,7 +2,6 @@ package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,8 +9,8 @@ import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItem;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
  * Created by troop on 15.06.2015.
@@ -42,13 +41,21 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     MenuItem edgeMode;
     MenuItem hotPixelMode;
     MenuItem opticalImageStabilization;
+    troop.com.themesample.views.menu.MenuItem redeyeflash;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         this.view = inflater.inflate(R.layout.rightmenufragment, container, false);
-        setWrapper();
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if(wrapper != null)
+            setWrapper();
     }
 
     private void setWrapper()
@@ -87,6 +94,11 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         controleMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_CONTROLMODE);
         controleMode.SetParameter(wrapper.camParametersHandler.ControlMode);
         controleMode.SetMenuItemListner(this);
+
+        redeyeflash = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemRedEye);
+        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
+        redeyeflash.SetParameter(wrapper.camParametersHandler.RedEye);
+        redeyeflash.SetMenuItemListner(this);
 
         antiBanding = (MenuItem)view.findViewById(R.id.MenuItemAntiBanding);
         antiBanding.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE);

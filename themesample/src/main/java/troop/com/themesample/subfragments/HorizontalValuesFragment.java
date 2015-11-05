@@ -22,7 +22,9 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     Interfaces.I_CloseNotice rdytoclose;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        super.onCreateView(inflater,container,null);
         this.view = inflater.inflate(R.layout.horizontal_values_fragment, container, false);
         valuesHolder = (LinearLayout) view.findViewById(R.id.horizontal_values_holder);
         return view;

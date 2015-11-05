@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -19,7 +19,7 @@ import com.troop.freedcam.utils.StringUtils;
  */
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
-    private final AbstractCameraUiWrapper camerUiWrapper;
+    private final AbstractCameraHolder cameraHolder;
     AppSettingsManager appSettingsManager;
     LocationManager locationManager;
 
@@ -27,10 +27,10 @@ public class LocationParameter extends AbstractModeParameter implements Location
     final int updateDistance = 15;
 
 
-    public LocationParameter(Handler uiHandler, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper) {
+    public LocationParameter(Handler uiHandler, AppSettingsManager appSettingsManager, AbstractCameraHolder cameraHolder) {
         super(uiHandler);
         this.appSettingsManager = appSettingsManager;
-        this.camerUiWrapper = cameraUiWrapper;
+        this.cameraHolder = cameraHolder;
         locationManager = (LocationManager)appSettingsManager.context.getSystemService(Context.LOCATION_SERVICE);
         if (GetValue().equals(StringUtils.ON))
             startLocationListing();
@@ -66,8 +66,8 @@ public class LocationParameter extends AbstractModeParameter implements Location
 
     @Override
     public void onLocationChanged(Location location) {
-        if (camerUiWrapper != null && camerUiWrapper.cameraHolder != null)
-            camerUiWrapper.cameraHolder.SetLocation(location);
+        if (cameraHolder != null)
+            cameraHolder.SetLocation(location);
     }
 
     @Override
@@ -116,10 +116,10 @@ public class LocationParameter extends AbstractModeParameter implements Location
                         LocationParameter.this);
                 locgps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
-            if (locgps != null && camerUiWrapper.cameraHolder != null)
-                camerUiWrapper.cameraHolder.SetLocation(locgps);
-            else if(locnet != null &&  camerUiWrapper.cameraHolder != null)
-                camerUiWrapper.cameraHolder.SetLocation(locnet);
+            if (locgps != null && cameraHolder != null)
+                cameraHolder.SetLocation(locgps);
+            else if(locnet != null && cameraHolder != null)
+                cameraHolder.SetLocation(locnet);
         }
         else
         {

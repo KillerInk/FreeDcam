@@ -6,9 +6,10 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 27
-        versionName "3.3.90"
+        versionCode 51
+        versionName "3.3.118"
         applicationId "troop.com.freedcam"
+        renderscriptTargetApi 19
     }
     lintOptions{checkReleaseBuilds false}
 
@@ -29,14 +30,12 @@ dependencies {
     provided files('libs/extended_framework_hardware.jar')
     compile project(':abstractcamera')
     compile project(':androiddng')
-    compile project(':seekarc')
-    compile project(':themeclassic')
     compile project(':sonyapi')
     compile project(':camera1')
     compile project(':camera2')
-    compile project(':language')
     compile project(':longexposure')
-    compile project(':guide')
     compile project(':imageviewer')
     compile project(':themesample')
+    compile project(':imageconverter')
+    compile project(':views')
 }

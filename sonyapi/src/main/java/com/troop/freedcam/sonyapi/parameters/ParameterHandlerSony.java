@@ -16,12 +16,14 @@ import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
+import com.troop.freedcam.sonyapi.parameters.modes.FocusPeakSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.WhiteBalanceModeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -39,14 +41,15 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public Set<String> mAvailableCameraApiSet;
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
+    SimpleStreamSurfaceView surfaceView;
 
-    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
     {
         super(cameraHolder, appSettingsManager, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder;
-        ParametersEventHandler = new CameraParametersEventHandler();
+        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         parametersChangedList  = new ArrayList<I_SonyApi>();
-
+        this.surfaceView = surfaceView;
     }
 
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
@@ -124,6 +127,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         VideoSize = new BaseModeParameterSony(uiHandler, "getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) VideoSize);
+
+        Focuspeak = new FocusPeakSony(uiHandler, null,null,null,null, surfaceView);
+        parametersChangedList.add((BaseModeParameterSony) Focuspeak);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

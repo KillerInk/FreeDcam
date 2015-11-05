@@ -10,8 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -34,7 +33,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private AbstractCameraUiWrapper wrapper;
     protected ImageView focusImageView;
-    final int crosshairShowTime = 5000;
+    final int crosshairShowTime = 3000;
     int disHeight;
     int disWidth;
     int recthalf;
@@ -44,6 +43,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     FocusRect meteringRect;
     FocusRect awbRect;
     static final int MAX_DURATION = 3500;
+    private boolean focusWasVisible = false;
+    private boolean meteringWasVisible = false;
+    private boolean wbWasVisible = false;
+
 
 
     public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
@@ -70,6 +73,36 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch, true));
         awbArea.setVisibility(View.GONE);
 
+    }
+
+    public void HideImages(boolean hide)
+    {
+        if (hide)
+        {
+            if (focusImageView.getVisibility() == View.VISIBLE)
+                focusWasVisible = true;
+            else
+                focusWasVisible = false;
+            if (meteringArea.getVisibility() == View.VISIBLE)
+                meteringWasVisible = true;
+            else
+                meteringWasVisible = false;
+            if (awbArea.getVisibility() == View.VISIBLE)
+                wbWasVisible = true;
+            else
+                wbWasVisible = false;
+            focusImageView.setVisibility(View.GONE);
+            meteringArea.setVisibility(View.GONE);
+            awbArea.setVisibility(View.GONE);
+        }
+        else {
+            if (focusWasVisible)
+                focusImageView.setVisibility(View.VISIBLE);
+            if (wbWasVisible)
+                awbArea.setVisibility(View.VISIBLE);
+            if (meteringWasVisible)
+                meteringArea.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void init(View view)
@@ -105,46 +138,56 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(FocusRect rect)
     {
+        focusImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                focusImageView.removeCallbacks(hideFocus);
+            }
+        });
+
         if (!(wrapper instanceof CameraUiWrapperSony))
         {
-            disWidth = activity.GetPreviewWidth();
-            disHeight = activity.GetPreviewHeight();
-            int margineleft = activity.GetPreviewLeftMargine();
-            //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
             {
-                int halfwidth = disWidth / 2;
-                int halfheight = disHeight / 2;
+                Point size = getSize();
+                int halfwidth = size.x / 2;
+                int halfheight = size.y / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
-            RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
+            final RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
             mParams.leftMargin = rect.left;
             //mParams.rightMargin = x +half;
             mParams.topMargin = rect.top;
 
-            focusImageView.setLayoutParams(mParams);
-            focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
-            focusImageView.setVisibility(View.VISIBLE);
+            focusImageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    focusImageView.setLayoutParams(mParams);
+                    focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
+                    focusImageView.setVisibility(View.VISIBLE);
+                }
+            });
 
-            RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+            /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 //Setup anim with desired properties
             anim.setInterpolator(new LinearInterpolator());
             anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds
+            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds*/
 
 //Start animation
+            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
             focusImageView.startAnimation(anim);
-//Later on, use view.setAnimation(null) to stop it.
-            //focusImageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         }
     }
 
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony)) {
+        if (!(wrapper instanceof CameraUiWrapperSony))
+        {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -154,12 +197,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                         focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
-                    //handler.postDelayed(hideCrosshair, crosshairShowTime);
+                    focusImageView.postDelayed(hideFocus, crosshairShowTime);
                 }
             });
         }
 
     }
+
+    private Runnable hideFocus = new Runnable() {
+        @Override
+        public void run() {
+            focusImageView.setVisibility(View.GONE);
+            wrapper.Focus.SetFocusFalse();
+        }
+    };
+
 
     @Override
     public void FocusLocked(final boolean locked)
@@ -184,11 +236,18 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void AEMeteringSupported(boolean isSupported) {
-        if (isSupported)
-            meteringArea.setVisibility(View.VISIBLE);
-        else
-            meteringArea.setVisibility(View.GONE);
+    public void AEMeteringSupported(final boolean isSupported)
+    {
+        meteringArea.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isSupported)
+                    meteringArea.setVisibility(View.VISIBLE);
+                else
+                    meteringArea.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override
@@ -214,7 +273,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.Focus.SetMeteringAreas(imageRect,previewWidth, previewHeight);
+                wrapper.Focus.SetMeteringAreas(imageRect, previewWidth, previewHeight);
         }
 
         @Override
@@ -236,6 +295,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     };
 
+    /*
+    This listen to clicks that happen inside awb or exposuremetering
+    and translate that postion into preview coordinates for touchtofocus
+     */
     public void OnClick(int x, int y)
     {
         if (wrapper == null || wrapper.Focus == null)
@@ -248,41 +311,45 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
     }
 
+    /*
+    returns the display size depending on sdk
+     */
+    private Point getSize()
+    {
+        if (Build.VERSION.SDK_INT >= 17) {
+            WindowManager wm = (WindowManager) fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
+            Point size = new Point();
+            wm.getDefaultDisplay().getRealSize(size);
+            return size;
+        }
+        else {
+            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
+            Point size = new Point();
+            size.set(metrics.widthPixels, metrics.heightPixels);
+            return size;
+        }
+    }
 
+    /*
+    Centers the attached Imageview
+     */
     private FocusRect centerImageView(ImageView imageview)
     {
         int width = 0;
         int height = 0;
 
-        if (Build.VERSION.SDK_INT >= 17)
-        {
-            WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                height = size.x;
-                width = size.y;
-            }
+        if(fragment == null || fragment.getActivity() == null)
+            return null;
+
+        Point size =  getSize();
+        if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            width = size.x;
+            height = size.y;
         }
         else
         {
-            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else
-            {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-
+            height = size.x;
+            width = size.y;
         }
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);

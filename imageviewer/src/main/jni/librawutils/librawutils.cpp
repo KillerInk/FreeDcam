@@ -12,10 +12,6 @@
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 
-extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_native_init(JNIEnv * env) {
-
-}
-
 extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_BitmapExtractor(JNIEnv * env, jobject obj,jbyteArray bufferBytes, jint blackLevel)
 {
 	char outfn[1024];
@@ -158,9 +154,9 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRaw
 	//P2.focal_len = 3.83f;
 	//P2.iso_speed = 100.0f;
 
-	OUT.android_raw = 1;
+	/*OUT.android_raw = 1;
 	OUT.android_aperture = 2.0f;
-	OUT.android_focal = 3.83f;
+	OUT.android_focal = 3.83f;*/
 
 
 
@@ -282,42 +278,36 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif
 	raw.recycle();
 }
 
-extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename)
-{
+extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename) {
 	int ret;
 	LibRaw raw;
-	#define P1 raw.imgdata.idata
-    #define S raw.imgdata.sizes
-    #define C raw.imgdata.color
-    #define T raw.imgdata.thumbnail
-    #define P2 raw.imgdata.other
-    #define OUT raw.imgdata.params
-    OUT.no_auto_bright = 1;
-    OUT.use_camera_wb = 1;
-	//OUT.output_bps = 8;
+#define P1 raw.imgdata.idata
+#define S raw.imgdata.sizes
+#define C raw.imgdata.color
+#define T raw.imgdata.thumbnail
+#define P2 raw.imgdata.other
+#define OUT raw.imgdata.params
+	OUT.no_auto_bright = 1;
+	OUT.use_camera_wb = 1;
+	OUT.output_bps = 8;
 	OUT.user_qual = 0;
-	OUT.half_size=1;
-    jboolean bIsCopy;
-    void* bitmapPixels;
+	OUT.half_size = 1;
+	jboolean bIsCopy;
+	void *bitmapPixels;
 
-    const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
-	if( (ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
-		LOGD("cannot open file");
-    else
-    	LOGD("File opend");
-    if( (ret = raw.unpack() ) != LIBRAW_SUCCESS)
-    	LOGD("cannot unpack img");
-	else
-		LOGD("unpack img");
+	//raw.recycle();
+
+	const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
+	raw.open_file(strFilename);
+	LOGD("File opend");
+
+	ret = raw.unpack();
+	LOGD("unpacked img %i", ret);
 	ret = raw.dcraw_process();
-	if(LIBRAW_SUCCESS !=ret)
-	{
-        if(LIBRAW_FATAL_ERROR(ret))
-        	LOGD("error processing dcraw");
-	}
-	else
-		LOGD("processing dcraw");
+	LOGD("processing dcraw %i", ret);
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+
+	LOGD("processed image, creating bitmap");
 
 	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
@@ -351,13 +341,17 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
             bufrow += 3;
         }
         LOGD("memcopy end");
-		raw.dcraw_clear_mem(image);
+
 
 		LOGD("dcraw mem cleared");
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
-	}
+		//raw.free_image();
+		LibRaw::dcraw_clear_mem(image);
 
+	}
+	(env)->ReleaseStringUTFChars(jfilename, strFilename);
+	raw.recycle();
 	LOGD("rawdata recycled");
 
     return newBitmap;

@@ -20,4 +20,6 @@ android {
 
 dependencies {
     provided project(':abstractcamera')
+    provided project(':imageconverter')
+    provided project(':androiddng')
 }

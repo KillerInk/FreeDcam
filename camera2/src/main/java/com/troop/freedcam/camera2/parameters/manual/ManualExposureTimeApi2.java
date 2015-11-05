@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
@@ -22,57 +23,72 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     ParameterHandlerApi2 camParametersHandler;
     BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
+    private boolean isSupported = false;
+    String usedShutterValues[];
+    final String TAG = ManualExposureTimeApi2.class.getSimpleName();
+
     public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
         this.camParametersHandler = camParametersHandler;
+        try {
+            findMinMaxValue();
+        }
+        catch (NullPointerException ex)
+        {
+            this.isSupported = false;
+        }
     }
 
     int current = 0;
 
+    private void findMinMaxValue()
+    {
+        int millimax = 0;
+        Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
+        Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
+        //866 975 130 = 0,8sec
+        if (DeviceUtils.isG4())
+            millimax = 60000000;
+        else if (DeviceUtils.isSamsung_S6_edge_plus())
+            millimax = 10000000;
+        else
+            millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
+        int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
+        usedShutterValues = StringUtils.getSupportedShutterValues(millimin, millimax);
+    }
+
     @Override
-    public int GetMaxValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue()/1000;
+    public int GetMaxValue()
+    {
+        return usedShutterValues.length-1;
     }
 
     @Override
     public int GetMinValue()
     {
-        //if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
-        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue()/1000;
-        //return 0;
+        return 0;
     }
 
     @Override
     public int GetValue()
     {
 
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME).intValue()/1000;
+        return current;
     }
 
     @Override
     public String GetStringValue()
     {
 
-        if (IsSupported()) {
-            long mili = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-            return StringUtils.TrimmFloatString(getSECONDS(mili));
-        }
-        else
-            return "";
+        return usedShutterValues[current];
 
     }
 
-    public String getSECONDS (long time)
-    {
-        double mili = time /1000000  ;
-        double sec =  mili / 1000;
-        return sec +"";
-    }
 
     @Override
     public String[] getStringValues() {
-        return null;
+        return usedShutterValues;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -80,18 +96,28 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long)valueToSet * 1000);
+        long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
+        Log.d(TAG, "ExposureTimeToSet:" + val);
+        if (val > 300000000)
+        {
+            Log.d(TAG, "ExposureTime Exceed 0,3sec for preview, set it to 0,3sec");
+            val = 300000000;
+        }
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex){ex.printStackTrace();}
     }
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+    public boolean IsSupported()
+    {
+        this.isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+        return isSupported;
     }
 
     @Override

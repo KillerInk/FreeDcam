@@ -18,7 +18,7 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
         super(cameraHandler, Settings, eventHandler);
         this.name = AbstractModuleHandler.MODULE_VIDEO;
         this.cameraHolder = cameraHandler;
-        cameraHolder.CameraStatusListner = this;
+
     }
 
     @Override
@@ -43,7 +43,7 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
 
     @Override
     public void LoadNeededParameters() {
-
+        cameraHolder.CameraStatusListner = this;
     }
 
     @Override

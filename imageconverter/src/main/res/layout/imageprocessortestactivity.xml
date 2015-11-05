@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:id="@+id/surfaceView_camera"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <SurfaceView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/surfaceView_focusPeak" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <troop.com.imageconverter.NativeDrawView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/view_to_draw" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ProcessFrame"
+        android:id="@+id/button_processFrame"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false" />
+
+    <troop.com.views.MyHistogram
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:id="@+id/Histogram"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>

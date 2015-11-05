@@ -1,0 +1,269 @@
+raw-dump-flag=0
+nv-raw-dump-flag-values=0,1,5,7;
+
+nv-contrast
+nv-contrast-values=lowest,low,normal,high,highest;
+
+public void setWhiteBalance(String s)
+        {
+            if ("manual".equals(s))
+                setColorTemperature(CameraSettings.getKValue());
+            setWhiteBalance(s);
+        }
+nv-awb-cct-range
+
+nv-edge-enhancement=-1;nv-edge-enhancement-values=-101,100;
+
+
+nv-exposure-time
+
+public void setFocusMode(String s)
+        {
+            if ("manual".equals(s))
+            {
+                s = "auto";
+                setFocusPosition(CameraSettings.getFocusPosition());
+            } else
+            if ("lock".equals(s))
+                s = "auto";
+            setFocusMode(s);
+        }
+
+        public void setFocusPosition(int i)
+        {
+            set("nv-focus-position", Integer.toString(i));
+        }
+nv-picture-iso
+nv-picture-iso-values=auto,100,200,400,800;
+
+nv-saturation
+nv-saturation-minmax=0,10;
+
+
+RawCallback used on mi3 nvidia reu
+
+        public void onPictureTaken(byte abyte0[], android.hardware.Camera camera)
+        {
+            mRawPictureCallbackTime = System.currentTimeMillis();
+            Log.v("Camera", (new StringBuilder()).append("mShutterToRawCallbackTime = ").append(mRawPictureCallbackTime - mShutterCallbackTime).append("ms").toString());
+            if (abyte0 != null)
+            {
+                Log.v("Camera", (new StringBuilder()).append("rawData size = ").append(abyte0.length).toString());
+                writeImage(abyte0, parseDataSizeDNG(abyte0));
+            }
+        }
+
+        protected int parseDataSizeDNG(byte abyte0[])
+        {
+            if (8 > abyte0.length)
+                return 0;
+            int i = 318 + (0xff & abyte0[4] | (0xff & abyte0[5]) << 8 | (0xff & abyte0[6]) << 16 | (0xff & abyte0[7]) << 24);
+            if (i > abyte0.length)
+            {
+                return 0;
+            } else
+            {
+                Log.e("Camera", (new StringBuilder()).append("DNG size:").append(i).toString());
+                return i;
+            }
+        }
+
+        private RawPictureCallback()
+        {
+            this$0 = CameraModule.this;
+            Object();
+        }
+
+    }
+
+
+
+
+
+
+
+
+        public boolean getAohdrEnable()  //always on hdr
+        {
+            return Boolean.valueOf(get("nv-aohdr-enable")).booleanValue();
+        }
+
+        public boolean getAutoRotation()
+        {
+            return Boolean.valueOf(get("nv-auto-rotation")).booleanValue();
+        }
+
+        public String getISOValue()
+        {
+            return get("nv-picture-iso");
+        }
+
+        public int getNSLNumBuffers()
+        {
+            return getInt("nv-nsl-num-buffers");
+        }
+
+        public int getNvExposureTime()
+        {
+            return getInt("nv-exposure-time");
+        }
+
+        public boolean getPreviewPauseDisabled()
+        {
+            return Boolean.valueOf(get("nv-disable-preview-pause")).booleanValue();
+        }
+
+        public List getSupportedFocusModes()
+        {
+            List list = getSupportedFocusModes();
+            if (list != null && !CameraSettings.isFrontCamera())
+            {
+                if (!Util.isSupported("manual", list))
+                    list.add("manual");
+                if (!Util.isSupported("lock", list))
+                    list.add("lock");
+            }
+            return list;
+        }
+
+        public List getSupportedIsoValues()
+        {
+            return split(get("nv-picture-iso-values"));
+        }
+
+        public boolean isFrontMirror()
+        {
+            return "horizontal".equals(get("nv-flip-still"));
+        }
+
+        public void setAohdrEnable(boolean flag)
+        {
+            set("nv-aohdr-enable", Boolean.toString(flag));
+        }
+
+        public void setAutoRotation(boolean flag)
+        {
+            set("nv-auto-rotation", Boolean.toString(flag));
+        }
+
+        public void setBurstCount(int i)
+        {
+            set("nv-burst-picture-count", Integer.toString(i));
+        }
+
+        public void setColorTemperature(int i)
+        {
+            set("nv-awb-cct-range", (new StringBuilder()).append(i).append(",").append(i).toString());
+        }
+
+        public void setContrast(String s)
+        {
+            set("nv-contrast", s);
+        }
+
+        public void setEdgeEnhancement(int i)
+        {
+            set("nv-edge-enhancement", Integer.toString(i));
+        }
+
+        public void setExposureTime(int i)
+        {
+            set("nv-exposure-time", Integer.toString(i));
+        }
+
+        public void setFlipStill(String s)
+        {
+            set("nv-flip-still", s);
+        }
+
+        public void setFocusMode(String s)
+        {
+            if ("manual".equals(s))
+            {
+                s = "auto";
+                setFocusPosition(CameraSettings.getFocusPosition());
+            } else
+            if ("lock".equals(s))
+                s = "auto";
+            setFocusMode(s);
+        }
+
+        public void setFocusPosition(int i)
+        {
+            set("nv-focus-position", Integer.toString(i));
+        }
+
+        public void setHandNight(boolean flag)
+        {
+            set("hand-night", Boolean.toString(flag));
+        }
+
+        public void setISOValue(String s)
+        {
+            set("nv-picture-iso", s);
+        }
+
+        public void setMorphoHDR(boolean flag)
+        {
+            set("nv-still-hdr-morpho", Boolean.toString(flag));
+        }
+
+        public void setNSLBurstCount(int i)
+        {
+            set("nv-nsl-burst-picture-count", Integer.toString(i));
+        }
+
+        public void setNSLNumBuffers(int i)
+        {
+            set("nv-nsl-num-buffers", Integer.toString(i));
+        }
+
+        public boolean setNVShotMode(String s)
+        {
+            boolean flag = false;
+            if (s != null)
+                if (s.equals("shot2shot"))
+                {
+                    set("nv-capture-mode", "shot2shot");
+                    flag = true;
+                } else
+                {
+                    boolean flag1 = s.equals("normal");
+                    flag = false;
+                    if (flag1)
+                    {
+                        set("nv-capture-mode", "normal");
+                        return true;
+                    }
+                }
+            return flag;
+        }
+
+        public void setPreviewPauseDisabled(boolean flag)
+        {
+            set("nv-disable-preview-pause", Boolean.toString(flag));
+        }
+
+        public void setRawDumpFlag(int i)
+        {
+            set("nv-raw-dump-flag", Integer.toString(i));
+        }
+
+        public void setSaturation(int i)
+        {
+            set("nv-saturation", Integer.toString(i));
+        }
+
+        public void setWhiteBalance(String s)
+        {
+            if ("manual".equals(s))
+                setColorTemperature(CameraSettings.getKValue());
+            setWhiteBalance(s);
+        }
+
+        public NvidiaParameters()
+        {
+            this$0 = NvidiaCamera.this;
+            HardwareParameters(NvidiaCamera.this);
+        }
+    }

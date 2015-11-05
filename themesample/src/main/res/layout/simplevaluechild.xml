@@ -7,7 +7,7 @@
     android:layout_marginRight="2dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
-    android:background="@color/menuBackgColor">
+    android:background="@color/uiSettingsBackground">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/simplevaluetext"
-        android:textColor="@color/menuTextColor"
+        android:textColor="@color/uiSettingsTextColor"
         android:textSize="@dimen/infoOverlayTextSize"
         android:layout_gravity="center"
         android:layout_marginLeft="2dp"

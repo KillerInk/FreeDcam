@@ -17,26 +17,17 @@
 package com.troop.freedcam.camera2;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.TextureView;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
 
 /**
  * A {@link android.view.TextureView} that can be adjusted to a specified aspect ratio.
  */
-public class AutoFitTextureView extends TextureView {
+public class AutoFitTextureView extends TextureView /*implements  AbstractModeParameter.I_ModeParameterEvent*/ {
 
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
     Context context;
-    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
 
     public AutoFitTextureView(Context context) {
         this(context, null);
@@ -51,11 +42,6 @@ public class AutoFitTextureView extends TextureView {
     public AutoFitTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-    }
-
-    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
-    {
-        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
     }
 
     /**
@@ -75,7 +61,7 @@ public class AutoFitTextureView extends TextureView {
         requestLayout();
     }
 
-    public void setPreviewToDisplay(int w, int h)
+    /*public void setPreviewToDisplay(int w, int h)
     {
         //CX = w;
         //CY = h;
@@ -98,7 +84,7 @@ public class AutoFitTextureView extends TextureView {
             WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 width = size.x;
                 height = size.y;
             }
@@ -152,10 +138,14 @@ public class AutoFitTextureView extends TextureView {
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
+                layoutParams.rightMargin = 0;
+                layoutParams.leftMargin = 0;
             }
             else {
                 layoutParams.rightMargin = newwidthdiff / 2;
                 layoutParams.leftMargin = newwidthdiff / 2;
+                layoutParams.topMargin = 0;
+                layoutParams.bottomMargin = 0;
             }
             this.setLayoutParams(layoutParams);
         }
@@ -171,23 +161,22 @@ public class AutoFitTextureView extends TextureView {
             {
                 layoutParams.topMargin = newwidthdiff / 2;
                 layoutParams.bottomMargin = newwidthdiff / 2;
+                layoutParams.rightMargin = 0;
+                layoutParams.leftMargin = 0;
             }
             else {
                 layoutParams.rightMargin = newwidthdiff/2;
                 layoutParams.leftMargin = newwidthdiff /2;
+                layoutParams.topMargin =  0;
+                layoutParams.bottomMargin = 0;
             }
-
             this.setLayoutParams(layoutParams);
         }
-
-
-    }
+    }*/
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
     }
 
     private double getRatio(int w, int h)
@@ -213,4 +202,26 @@ public class AutoFitTextureView extends TextureView {
         }
     }
 
+    /*@Override
+    public void onValueChanged(String val) {
+        String vlas[] = val.split("x");
+        int w = Integer.parseInt(vlas[0]);
+        int h = Integer.parseInt(vlas[1]);
+        setPreviewToDisplay(w, h);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }*/
 }

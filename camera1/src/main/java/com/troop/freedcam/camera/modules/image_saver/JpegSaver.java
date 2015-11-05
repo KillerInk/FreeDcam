@@ -1,21 +1,16 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
-import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 15.04.2015.
@@ -31,6 +26,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     boolean externalSd = false;
 
     final public String fileEnding = ".jpg";
+    boolean awaitpicture = false;
 
     public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSd)
     {
@@ -42,12 +38,22 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     public void TakePicture()
     {
-        cameraHolder.TakePicture(null, null, this);
+        awaitpicture = true;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.TakePicture(null, null, JpegSaver.this);
+            }
+        });
+
     }
 
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +66,8 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     public void saveBytesToFile(byte[] bytes, File fileName)
     {
+        checkFileExists(fileName);
+
         Log.d(TAG, "Start Saving Bytes");
         FileOutputStream outStream = null;
         try {
@@ -77,5 +85,16 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         Log.d(TAG, "End Saving Bytes");
         iWorkeDone.OnWorkDone(fileName);
 
+    }
+
+    public void checkFileExists(File fileName) {
+        if(!fileName.getParentFile().exists())
+            fileName.getParentFile().mkdirs();
+        if (!fileName.exists())
+            try {
+                fileName.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 }

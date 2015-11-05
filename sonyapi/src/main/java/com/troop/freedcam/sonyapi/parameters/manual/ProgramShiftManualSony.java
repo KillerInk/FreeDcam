@@ -82,13 +82,12 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
                         values = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        if (values.length != 2)
+                        if (values == null || values.length != 2)
                             return;
                         max = Integer.parseInt(values[0]);
-                        BackgroundMaxValueChanged(max);
                         min = Integer.parseInt(values[1]);
                         BackgroundMinValueChanged(min);
-                        values = null;
+                        BackgroundMaxValueChanged(max);
 
 
                     } catch (IOException e) {

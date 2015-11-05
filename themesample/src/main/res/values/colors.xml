@@ -3,4 +3,7 @@
     <color name="menuBackgColor">#46ffffff</color>
     <color name="menuTextColor">#ff000000</color>
     <color name="settingsmenuBackColor" >#32FFFFFF</color>
+    <color name="uiSettingsTextColor">#FFFFFFFF</color>
+    <color name="uiSettingsBackground">#A0010101</color>
+    <color name="menu_header_color">#ffffffff</color>
 </resources>

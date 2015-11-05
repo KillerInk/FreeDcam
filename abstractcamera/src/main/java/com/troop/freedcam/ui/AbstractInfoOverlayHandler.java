@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.CamcorderProfile;
 import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
@@ -53,7 +52,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
     {
         this.cameraUiWrapper = cameraUIWrapper;
-        cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        if (cameraUIWrapper != null && cameraUIWrapper.moduleHandler != null && cameraUIWrapper.moduleHandler.moduleEventHandler != null)
+            cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     @Override
@@ -99,6 +99,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         @Override
         public void run()
         {
+            if (cameraUiWrapper == null)
+                return;
             timeString = dateFormat.format(new Date());
             getFormat();
             getStorageSpace();
@@ -170,12 +172,12 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
             if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) *1.2;
+                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
             else
-                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.26;
+                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 10 / 8;
         }
         else
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) *1.2;
+            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 8 / 8;
     }
 
     private static long SDspace()

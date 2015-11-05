@@ -1,0 +1,75 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="troop.com.imageconverter">
+
+    <application>
+        <activity
+            android:name="troop.com.imageconverter.ImageProcessorTestActivity"
+            android:label="imageconverter"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+        <activity
+            android:name="troop.com.imageconverter.SurfaceNativeDrawActivity"
+            android:label="imageconverter"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+        <activity
+            android:name="troop.com.imageconverter.RenderScriptTestActivity"
+            android:label="imageconverter"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+
+        <activity
+            android:name="troop.com.imageconverter.RenderScriptArgbActivity"
+            android:label="imageconverter"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+
+
+    <activity
+        android:name="troop.com.imageconverter.RS_TextureviewActivity"
+        android:label="imageconverter"
+        >
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+        </intent-filter>
+
+
+
+    </activity>
+    </application>
+
+</manifest>

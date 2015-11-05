@@ -2,38 +2,25 @@ package com.troop.freedcam.camera;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
-import com.troop.freedcam.camera.modules.ModuleHandler;
-import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
-import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 21.08.2014.
  */
-public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEvent, I_ParametersLoaded, I_ModuleEvent
+public class ExtendedSurfaceView extends SurfaceView
 {
     boolean hasReal3d = false;
     boolean hasOpenSense = false;
-    private static String TAG = "freedcam.ExtendedTextureView";
+    private static String TAG = ExtendedSurfaceView.class.getSimpleName();
     Context context;
 
     public SurfaceHolder mHolder;
@@ -45,11 +32,14 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
     Real3D mReal3D;
     boolean is3D = false;
 
+    private int mRatioWidth = 0;
+    private int mRatioHeight = 0;
+
+
+
     public com.troop.freedcam.ui.AppSettingsManager appSettingsManager;
     public AbstractParameterHandler ParametersHandler;
     String currentModule;
-
-    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
 
     public ExtendedSurfaceView(Context context) {
         super(context);
@@ -129,17 +119,6 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
-    }
-
-    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
-    {
-        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
-    }
 
     public  void SwitchViewMode()
     {
@@ -160,28 +139,65 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         }
     }
 
-    private class Size
-    {
-        public int width;
-        public int height;
-        public Size(int w, int h)
-        {
-            this.height = h;
-            this.width = w;
+    public void setAspectRatio(int width, int height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException("Size cannot be negative.");
         }
-        public Size(String s)
+        if (hasReal3d && is3D)
         {
-            String[] split = s.split("x");
-            this.height = Integer.parseInt(split[1]);
-            this.width = Integer.parseInt(split[0]);;
+            ParametersHandler.PreviewSize.SetValue(800 + "x" + 480, true);
+            mRatioWidth = 800;
+            mRatioHeight = 480;
         }
+        else {
+            mRatioWidth = width;
+            mRatioHeight = height;
+        }
+        Log.d(TAG, "new size: " + width + "x" + height);
+        requestLayout();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        if (0 == mRatioWidth || 0 == mRatioHeight) {
+            setMeasuredDimension(width, height);
+        } else {
+            if (width < height * mRatioWidth / mRatioHeight) {
+                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
+            } else {
+                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+            }
+        }
+    }
+
+    /*@Override
+    public void onValueChanged(String val) {
+        setPreviewSize(val);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
 
     }
 
     @Override
-    public void OnPreviewSizeChanged(int w, int h)
-    {
+    public void onIsSetSupportedChanged(boolean isSupported) {
 
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+
+
+    private void OnPreviewSizeChanged(int w, int h)
+    {
+        Log.d(TAG, "Preview Size Changed " + w +"x"+h);
         if (currentModule == null || currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
@@ -198,6 +214,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                     sizes.add(new Size(s));
                 }
                 Size size = getOptimalPreviewSize(sizes, w, h);
+                Log.d(TAG, "set size to " +size.width + "x" + size.height);
                 ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 setPreviewToDisplay(size.width, size.height);
         }
@@ -236,22 +253,23 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
                 }
             }
         }
+        Log.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void ParametersLoaded()
     {
-        /*String previewsize = "";
+        String previewsize = "";
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_PICTURE)
                 || appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_HDR) )
             previewsize = ParametersHandler.PictureSize.GetValue();
         if (appSettingsManager.GetCurrentModule().equals(ModuleHandler.MODULE_LONGEXPO))
             previewsize = ParametersHandler.PreviewSize.GetValue();
-        setPreviewSize(previewsize);*/
-    }
+        setPreviewSize(previewsize);
+    }*/
 
-    public void setPreviewSize(String previewsize)
+    /*public void setPreviewSize(String previewsize)
     {
         //TODO crash on s5
         if (previewsize  == null || previewsize.equals("")) {
@@ -286,6 +304,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
 
         double newratio = getRatio(w, h);
+        Log.d(TAG, "Preview ratio:"+newratio);
         int width = 0;
         int height = 0;
 
@@ -320,7 +339,7 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
         }
         double displayratio = getRatio(width, height);
-
+        Log.d(TAG, "Display ratio:"+displayratio);
         if (newratio == displayratio)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
@@ -376,9 +395,9 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
 
             this.setLayoutParams(layoutParams);
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public String ModuleChanged(String module)
     {
         if (ParametersHandler.PictureSize == null && ParametersHandler.PreviewSize == null)
@@ -388,19 +407,15 @@ public class ExtendedSurfaceView extends SurfaceView implements I_PreviewSizeEve
         {
             if (ParametersHandler.PictureSize == null)
                 return null;
-            setPreviewSize(ParametersHandler.PictureSize.GetValue());
+            Size size = new Size(ParametersHandler.PictureSize.GetValue());
+            setAspectRatio(size.width,size.height);
+            //setPreviewSize(ParametersHandler.PictureSize.GetValue());
         }
-        if (module.equals(ModuleHandler.MODULE_LONGEXPO) || module.equals(ModuleHandler.MODULE_VIDEO))
-            setPreviewSize(ParametersHandler.PreviewSize.GetValue());
+        if (module.equals(ModuleHandler.MODULE_LONGEXPO) || module.equals(ModuleHandler.MODULE_VIDEO)) {
+            Size size = new Size(ParametersHandler.PreviewSize.GetValue());
+            setAspectRatio(size.width, size.height);
+        }
         return null;
-    }
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    }
-
+    }*/
 
 }

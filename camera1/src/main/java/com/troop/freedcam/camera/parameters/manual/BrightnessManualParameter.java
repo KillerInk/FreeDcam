@@ -16,7 +16,10 @@ public class BrightnessManualParameter extends BaseManualParameter
     public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        this.value = "brightness";
+        if (parameters.containsKey("brightness-values") && parameters.get("brightness-values").contains("middle"))
+            this.value = "brightness_value";
+        else
+            this.value = "brightness";
         if (!hasSupport())
         {
             try
@@ -36,6 +39,7 @@ public class BrightnessManualParameter extends BaseManualParameter
 
         }
         Log.d(TAG, "support brightness:" + isSupported);
+
 
     }
 

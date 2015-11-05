@@ -30,6 +30,8 @@ import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
+import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
+import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -52,7 +54,6 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
-        ParametersEventHandler = new CameraParametersEventHandler();
+        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         baseCameraHolder = (BaseCameraHolder) cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -121,7 +122,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder, this);
+        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
         Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
 
@@ -180,7 +181,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
 
+        //
+
         VideoHDR = new VideoHDRModeParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+
+        VideoHighSpeedVideo = new HighSpeedVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
 
         if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
@@ -198,21 +203,20 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         oismode = new OisParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
 
+        Focuspeak = new FocusPeakModeParameter(uiHandler,baseCameraHolder,cameraUiWrapper.previewHandler);
+
         SetCameraRotation();
         SetPictureOrientation(0);
-        SetAppSettingsToParameters();
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        else if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-            isDngActive = true;
-        cameraHolder.SetCameraParameters(cameraParameters);
-
         //appSettingsManager.context.runOnUiThread(new Runnable() {
           //  @Override
             //public void run() {
-                ParametersEventHandler.ParametersHasLoaded();
+
             //}
         //});
+        ParametersEventHandler.ParametersHasLoaded();
+        SetAppSettingsToParameters();
+        cameraHolder.SetCameraParameters(cameraParameters);
+        //ParametersEventHandler.ParametersHasLoaded();
     }
 
     class SetParameterRunner implements Runnable
@@ -243,7 +247,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
-        ((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
+        //((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
+        cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
+        SetParametersToCamera();
 
     }
 
@@ -295,28 +301,31 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
     //rawsave-mode=2
-    public void setTHL5000Raw(boolean raw)
+    //rawfname=/storage/emulated/0/DCIM/CameraEM/Capture20150830-234030ISOAuto.raw;rawsave-mode=2
+    //rawsave-mode=2;
+    public void setMTKRaw(boolean raw)
     {
-        cameraHolder.StopPreview();
-        Log.d(TAG, "THL5000 try to set mode");
+        Log.d(TAG, "MTK try to set mode");
         if (!raw) {
+            cameraParameters.put("afeng_raw_dump_flag",0 +"");
             cameraParameters.put("rawsave-mode", 0+"");
             cameraParameters.put("isp-mode", 0+"");
-            Log.d(TAG, "THL5000 set mode to jpeg");
+            Log.e(TAG, "MTK set mode to jpeg");
         }
         else
         {
+            cameraParameters.put("afeng_raw_dump_flag",1 +"");
             cameraParameters.put("rawsave-mode", 2+"");
-            cameraParameters.put("isp-mode", 0+"");
-            Log.d(TAG, "THL5000 set mode to RAW");
+            cameraParameters.put("isp-mode", 1+"");
+            Log.e(TAG, "MTK set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
-        cameraHolder.StartPreview();
     }
 
     //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;
-    public void setTHL5000rawFilename(String filename)
+    public void setMTKrawFilename(String filename)
     {
+        Log.e(TAG, "MTK set rawfname" + filename);
         cameraParameters.put("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
     }
@@ -363,4 +372,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
+    @Override
+    public void SetAppSettingsToParameters() {
+        super.SetAppSettingsToParameters();
+        PreviewFormat.SetValue("yuv420sp", false);
+    }
 }

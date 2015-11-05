@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -20,26 +21,25 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.apis.AbstractCameraFragment;
-import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
-import com.troop.freedcam.ui.guide.GuideHandler;
+import com.troop.freedcam.manager.FileLogger;
 import com.troop.freedcam.ui.handler.ApiHandler;
+import com.troop.freedcam.ui.handler.ApiHandler.ApiEvent;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
-import com.troop.freedcam.ui.handler.HelpOverlayHandler;
-import com.troop.freedcam.ui.menu.themes.classic.MessageHandler;
 import com.troop.freedcam.ui.handler.ThemeHandler;
 import com.troop.freedcam.ui.handler.TimerHandler;
 import com.troop.freedcam.ui.menu.I_orientation;
 import com.troop.freedcam.ui.menu.OrientationHandler;
-import com.troop.freedcam.utils.SensorsUtil;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-import troop.com.imageviewer.ImageViewerFragment;
+import java.io.File;
+
+import troop.com.imageviewer.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -47,35 +47,29 @@ import troop.com.imageviewer.ImageViewerFragment;
 public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy
 {
     protected ViewGroup appViewGroup;
-    protected boolean helpOverlayOpen = false;
     boolean histogramFragmentOpen = false;
-    OrientationHandler orientationHandler;
+    static OrientationHandler orientationHandler;
     int flags;
-    protected HelpOverlayHandler helpOverlayHandler;
-    protected GuideHandler guideHandler;
+
     private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    AppSettingsManager appSettingsManager;
-    HardwareKeyHandler hardwareKeyHandler;
+    static AppSettingsManager appSettingsManager;
+    static HardwareKeyHandler hardwareKeyHandler;
     MainActivity_v2 activity;
-    ApiHandler apiHandler;
-    TimerHandler timerHandler;
-
-
+    static ApiHandler apiHandler;
+    static TimerHandler timerHandler;
     public ThemeHandler themeHandler;
-    public SensorsUtil sensorsUtil;
-    HistogramFragment histogramFragment;
-
-
-
-    AbstractCameraFragment cameraFragment;
-    ImageViewerFragment imageViewerFragment;
-
+    static HistogramFragment histogramFragment;
+    static AbstractCameraFragment cameraFragment;
+    ScreenSlideFragment imageViewerFragment;
+    private boolean debuglogging = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
+        DeviceUtils.contex = this.getApplicationContext();
+        checkStartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -85,47 +79,41 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
-        HIDENAVBAR();
-        createUI();
-        if (!appSettingsManager.getShowHelpOverlay())
-        {
 
-            helpOverlayOpen = false;
-            helpOverlayHandler.setVisibility(View.GONE);
-        }
-        else
-        {
-            helpOverlayOpen = true;
-        }
     }
 
+    private void checkStartLogging()
+    {
+        File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
+        if (debugfile.exists()) {
+            debuglogging = true;
+            FileLogger.StartLogging();
+        }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(null, null);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
     private void createUI() {
-
-
         orientationHandler = new OrientationHandler(this, this);
-
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
-        sensorsUtil = new SensorsUtil();
         timerHandler = new TimerHandler(this);
-
         //initUI
-
-        apiHandler = new ApiHandler();
-
+        apiHandler = new ApiHandler(appSettingsManager, apiEvent);
+        apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
 
 
-        helpOverlayHandler = (HelpOverlayHandler)findViewById(R.id.helpoverlay);
-        helpOverlayHandler.appSettingsManager = appSettingsManager;
-
-        guideHandler = new GuideHandler();
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.guideHolder, guideHandler, "Guide");
-        transaction.commit();
         timerHandler = new TimerHandler(this);
 
 
@@ -144,7 +132,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
 
             loadingWrapper = false;
             Log.d(TAG, "loaded cameraWrapper");
@@ -155,19 +143,19 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
 
     @Override
-    public void onCameraUiWrapperRdy()
+    public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
     {
 
-        cameraFragment.GetCameraUiWrapper().SetCameraChangedListner(this);
+        cameraUiWrapper.SetCameraChangedListner(this);
 
-        cameraFragment.GetCameraUiWrapper().moduleHandler.SetWorkListner(orientationHandler);
-        initCameraUIStuff(cameraFragment.GetCameraUiWrapper());
+        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+        initCameraUIStuff(cameraUiWrapper);
         //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
         Log.d(TAG, "add events");
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(themeHandler);
-        cameraFragment.GetCameraUiWrapper().moduleHandler.moduleEventHandler.addListner(this);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     private void destroyCameraUiWrapper()
@@ -183,29 +171,18 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
             cameraFragment = null;
         }
     }
 
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
-        themeHandler.GetThemeFragment(true);
-
+        if (themeHandler.getCurrenttheme() == null)
+            themeHandler.GetThemeFragment(true);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
-        guideHandler.setCameraUiWrapper(cameraUiWrapper, this);
-        guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
-
-
-
-        if (histogramFragment != null && histogramFragment.isAdded())
-        {
-            histogramFragment.SetCameraUIWrapper(cameraUiWrapper);
-            cameraUiWrapper.moduleHandler.SetWorkListner(histogramFragment);
-        }
     }
 
     @Override
@@ -227,19 +204,16 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
             //HIDE nav and action bar
             final View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
+            {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
                     if (visibility > 0) {
                         if (Build.VERSION.SDK_INT >= 16)
                             getWindow().getDecorView().setSystemUiVisibility(flags);
-
                     }
                 }
             });
-            //final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            //imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
-
         }
     }
 
@@ -247,14 +221,34 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     protected void onResume()
     {
         super.onResume();
-        if(cameraFragment == null)
-            loadCameraUiWrapper();
-        orientationHandler.Start();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                HIDENAVBAR();
+                createUI();
+            }
+        });
+
 
         Log.d(TAGLIFE, "Activity onResume");
     }
 
-    @Override
+    private Runnable loadwrapper = new Runnable() {
+        @Override
+        public void run() {
+            if (cameraFragment == null)
+                loadCameraUiWrapper();
+            orientationHandler.Start();
+        }
+    };
+
+    ApiEvent apiEvent = new ApiEvent()
+    {
+        @Override
+        public void apiDetectionDone() {
+            loadwrapper.run();
+        }
+    };
     protected void onPause()
     {
         super.onPause();
@@ -271,7 +265,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         Log.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
         if (hasFocus)
             HIDENAVBAR();
-        //super.onWindowFocusChanged(hasFocus);
     }
 
     @Override
@@ -282,9 +275,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        if (debuglogging) {
+            debuglogging = false;
+            FileLogger.StopLogging();
+        }
     }
-
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
@@ -292,9 +287,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         boolean haskey = hardwareKeyHandler.OnKeyUp(keyCode, event);
         if (!haskey)
             haskey = super.onKeyUp(keyCode, event);
-
         return haskey;
-
     }
 
     @Override
@@ -331,8 +324,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void OnError(final String error)
     {
-
-
     }
 
     public void SwitchCameraAPI(String value)
@@ -363,7 +354,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return GetScreenSize()[0];
         }
-
     }
 
     @Override
@@ -376,7 +366,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return GetScreenSize()[1];
         }
-
     }
 
     @Override
@@ -389,7 +378,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return 0;
         }
-
     }
 
     @Override
@@ -402,7 +390,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return 0;
         }
-
     }
 
     @Override
@@ -415,11 +402,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         {
             return 0;
         }
-    }
-
-    @Override
-    public void SetPreviewSizeChangedListner(I_PreviewSizeEvent event) {
-        cameraFragment.setOnPreviewSizeChangedListner(event);
     }
 
     @Override
@@ -461,40 +443,10 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     }
 
     @Override
-    public void ShowHistogram(boolean enable)
+    public void
+    ShowHistogram(boolean enable)
     {
-        if (enable && !histogramFragmentOpen)
-        {
-            if(histogramFragment == null)
-                histogramFragment = new HistogramFragment();
-            histogramFragment.SetAppSettings(appSettingsManager, this);
-            if (!histogramFragment.isAdded()) {
-                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-                transaction.add(R.id.histogramHolder, histogramFragment, "Histogramm");
-                transaction.commit();
-                histogramFragmentOpen = true;
-            }
-        }
-        else if (!enable && histogramFragmentOpen)
-        {
-            histogramFragmentOpen = false;
-            histogramFragment.stopLsn();
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.remove(histogramFragment);
-            transaction.commit();
-        }
-        if (enable && histogramFragmentOpen)
-        {
-            if (cameraFragment.GetCameraUiWrapper() != null)
-            {
-                histogramFragment.SetCameraUIWrapper(cameraFragment.GetCameraUiWrapper());
-                cameraFragment.GetCameraUiWrapper().moduleHandler.SetWorkListner(histogramFragment);
-                if (cameraFragment.GetCameraUiWrapper().cameraHolder.isPreviewRunning)
-                    histogramFragment.strtLsn();
-            }
-        }
+
     }
 
     @Override
@@ -502,26 +454,64 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
         return getApplicationContext();
     }
 
-    @Override
-    public void loadImageViewerFragment()
-    {
-        themeHandler.DestroyUI();
+    boolean previewWasRunning = false;
 
-        imageViewerFragment = new ImageViewerFragment();
-        imageViewerFragment.SetIActivity(this);
-        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.MainLayout, imageViewerFragment);
-        transaction.commit();
+    @Override
+    public void loadImageViewerFragment(File file)
+    {
+        /*if (file == null) {
+            Intent intent = new Intent(this, ScreenSlideActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Uri uri = Uri.fromFile(file);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            if (file.getAbsolutePath().endsWith("mp4"))
+                i.setDataAndType(uri, "video/*");
+            else
+                i.setDataAndType(uri, "image/*");
+            String title = "Choose App:";
+            // Create intent to show chooser
+            Intent chooser = Intent.createChooser(i, title);
+
+            // Verify the intent will resolve to at least one activity
+            if (i.resolveActivity(getPackageManager()) != null) {
+                startActivity(chooser);
+            }
+        }*/
+        try {
+
+
+            themeHandler.DestroyUI();
+            previewWasRunning = true;
+            cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
+            imageViewerFragment = new ScreenSlideFragment();
+            imageViewerFragment.Set_I_Activity(this);
+            android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.replace(R.id.themeFragmentholder, imageViewerFragment);
+            transaction.commitAllowingStateLoss();
+        }
+        catch (Exception ex)
+        {
+            Log.d("Freedcam",ex.getMessage());
+        }
     }
 
     @Override
     public void loadCameraUiFragment()
     {
+        if (previewWasRunning) {
+            cameraFragment.GetCameraUiWrapper().cameraHolder.StartPreview();
+            previewWasRunning = false;
+            imageViewerFragment.onDestroyView();
+            imageViewerFragment = null;
+            System.gc();
+        }
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.MainLayout,themeHandler.GetThemeFragment(false));
-        transaction.commit();
+        transaction.replace(R.id.themeFragmentholder,themeHandler.GetThemeFragment(false));
+        transaction.commitAllowingStateLoss();
 
     }
 
@@ -533,9 +523,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraOpen(String message)
     {
-
-        //else
-            //progress = ProgressDialog.show(this,"", "Loading", true);
     }
 
     @Override
@@ -564,12 +551,11 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onCameraError(String error)
     {
-        if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
+        /*if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
         {
-
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
             loadCameraUiWrapper();
-        }
+        }*/
     }
 
     @Override
@@ -580,7 +566,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public void onModuleChanged(I_Module module)
     {
-
 
     }
 
@@ -595,10 +580,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     @Override
     public String ModuleChanged(String module)
     {
-        if ((module.equals(ModuleHandler.MODULE_PICTURE) || module.equals(ModuleHandler.MODULE_HDR)) && appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals("true"))
-            ShowHistogram(true);
-        else if (!module.equals(""))
-            ShowHistogram(false);
         return null;
     }
 

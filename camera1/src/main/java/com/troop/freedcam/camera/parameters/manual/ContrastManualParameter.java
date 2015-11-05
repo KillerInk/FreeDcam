@@ -16,7 +16,13 @@ public class ContrastManualParameter extends BaseManualParameter
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "contrast";
-        if (hasSupport()) {
+        if (hasSupport())
+        {
+            if (parameters.containsKey("contrast-value") && parameters.get("contrast-values").contains("middle"))
+            {
+                this.isSupported = false;
+                return;
+            }
             int max = 100;
             try {
                 max = Integer.parseInt(parameters.get("max-contrast"));

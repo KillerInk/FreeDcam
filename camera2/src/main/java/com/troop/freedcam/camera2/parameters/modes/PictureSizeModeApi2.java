@@ -2,7 +2,6 @@ package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Size;
@@ -27,13 +26,11 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     {
         BackgroundValueHasChanged(valueToSet);
         cameraHolder.picSize = valueToSet;
-        if (!firststart)
+        if (setToCamera)
         {
             cameraHolder.StopPreview();
             cameraHolder.StartPreview();
         }
-        else
-            firststart = false;
     }
 
     @Override

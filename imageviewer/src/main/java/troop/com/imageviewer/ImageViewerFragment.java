@@ -6,15 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,24 +27,24 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.TouchHandler;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import troop.com.views.MyHistogram;
+
 /**
  * Created by troop on 09.05.2015.
  */
-public class ImageViewerFragment extends Fragment
+public class ImageViewerFragment extends Fragment implements View.OnTouchListener
 {
     final String TAG = ImageViewerFragment.class.getSimpleName();
     View view;
@@ -65,12 +63,13 @@ public class ImageViewerFragment extends Fragment
     TextView filename;
     LinearLayout exifinfo;
     ProgressBar spinner;
-    private HandlerThread backgroundThread;
-    Handler handler;
     MyHistogram myHistogram;
     LinearLayout ll;
     RelativeLayout ui_holder;
     private I_Activity i_activity;
+
+    int imageviewDEfaultPos;
+
 
 
     @Override
@@ -82,11 +81,10 @@ public class ImageViewerFragment extends Fragment
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (i_activity != null)
                     i_activity.loadCameraUiFragment();
-                stopThread();
+                //stopThread();
                 if (i_activity == null)
                     getActivity().finish();
             }
@@ -105,6 +103,8 @@ public class ImageViewerFragment extends Fragment
                     ui_holder.setVisibility(View.GONE);
             }
         });
+        imageviewDEfaultPos = (int)imageView.getX();
+        imageView.setOnTouchListener(this);
         this.play = (Button)view.findViewById(R.id.button_play);
         play.setVisibility(View.GONE);
         play.setOnClickListener(new View.OnClickListener() {
@@ -120,22 +120,7 @@ public class ImageViewerFragment extends Fragment
             }
         });
 
-        this.last = (Button)view.findViewById(R.id.button_last);
-        last.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                loadLastImage();
-            }
-        });
 
-        this.next = (Button)view.findViewById(R.id.button_next);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadNextImage();
-            }
-        });
 
         exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
         exifinfo.setVisibility(View.GONE);
@@ -154,17 +139,38 @@ public class ImageViewerFragment extends Fragment
         ui_holder = (RelativeLayout)view.findViewById(R.id.ui_holder);
 
 
-        loadFilePaths();
-        startThread();
-        current = files.length -1;
-        if (files.length > 0)
-            setBitmap(files[current]);
-        else
-        {
-            spinner.setVisibility(View.GONE);
-            filename.setText("No Files in FreeDcam Folder");
-        }
+
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        //imageloader = new LoadImageTask();
+        try {
+            loadFilePaths();
+            //startThread();
+            current = files.length -1;
+            if (files.length > 0)
+                setBitmap(files[current]);
+            else
+            {
+                spinner.setVisibility(View.GONE);
+                filename.setText("No Files in FreeDcam Folder");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.d(TAG, "WTF DOES THAT FUCKInG SHIT CRASH");
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     public void SetIActivity(I_Activity i_activity)
@@ -172,7 +178,7 @@ public class ImageViewerFragment extends Fragment
         this.i_activity =  i_activity;
     }
 
-    private void startThread() {
+    /*private void startThread() {
         backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
         handler = new Handler(backgroundThread.getLooper());
@@ -190,7 +196,7 @@ public class ImageViewerFragment extends Fragment
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void loadFilePaths()
     {
@@ -266,7 +272,14 @@ public class ImageViewerFragment extends Fragment
 
     private void setBitmap(final File file)
     {
-        fadeout();
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                fadeout();
+                spinner.setVisibility(View.VISIBLE);
+            }
+        });
+
         //imageView.setImageBitmap(null);
         filename.setText(file.getName());
         if (file.getAbsolutePath().endsWith(".jpg"))
@@ -281,28 +294,7 @@ public class ImageViewerFragment extends Fragment
             exifinfo.setVisibility(View.GONE);
             play.setText("Play");
             play.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.GONE);
-
-            handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    final int itemint = current;
-                    final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            if (itemint == current) {
-                                imageView.setImageBitmap(bitmap);
-                                fadein();
-                            }
-                        }
-                    });
-
-                }
-            });
 
         }
         if (file.getAbsolutePath().endsWith(".dng"))
@@ -310,47 +302,15 @@ public class ImageViewerFragment extends Fragment
             play.setText("Open DNG");
             exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.VISIBLE);
             myHistogram.setVisibility(View.VISIBLE);
-            handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    final int itemint = current;
-                    final Bitmap map= RawUtils.UnPackRAW(file.getAbsolutePath());
-                    map.setHasAlpha(true);
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (itemint == current)
-                            {
-                                fadein();
-                                imageView.setImageBitmap(map);
-                                myHistogram.setBitmap(map, false);
-                                spinner.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-                }
-            });
         }
-    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LoadFUCKINGIMAGE(file);
+            }
+        }).start();
 
-    public void saveBytesToFile(byte[] bytes, File fileName)
-    {
-        File newy = new File(fileName.getAbsoluteFile().getAbsolutePath().replace(".dng","_thumb.jpg"));
-        Log.d(TAG, "Start Saving Bytes");
-        FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(newy);
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void processJpeg(final File file)
@@ -371,62 +331,131 @@ public class ImageViewerFragment extends Fragment
         {
             ex.printStackTrace();
         }
-        spinner.setVisibility(View.VISIBLE);
-        handler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-
-                //loadBitmapSampleSized(16, file);
-                loadBitmapSampleSized(2, file);
-            }
-        });
-
     }
 
-    private void loadBitmapSampleSized(int samplesize, File file)
-    {
-        final int itemint = current;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = samplesize;
-        final Bitmap map = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        Log.d(TAG, "Bitmap loaded");
-
-        //options =null;
-        imageView.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                if (itemint == current)
-                {
-                    fadein();
-                    imageView.setImageBitmap(map);
-                    myHistogram.setBitmap(map, false);
-                    //spinner.setVisibility(View.GONE);
-
-                }
-            }
-        });
-    }
 
     private void loadNextImage()
     {
-        if (files.length == 0)
-            return;
-        current++;
-        if (current == files.length)
-            current = 0;
-        setBitmap(files[current]);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                if (files.length == 0)
+                    return;
+                current++;
+                if (current == files.length)
+                    current = 0;
+                setBitmap(files[current]);
+            }
+        });
+
     }
 
     private void loadLastImage()
     {
-        if (files.length == 0)
-            return;
-        current--;
-        if (current < 0)
-            current = files.length-1;
-        setBitmap(files[current]);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                if (files.length == 0)
+                    return;
+                current--;
+                if (current < 0)
+                    current = files.length-1;
+                setBitmap(files[current]);
+            }
+        });
+
     }
 
+    private void LoadFUCKINGIMAGE(File file)
+    {
+        final Bitmap response;
+        if (file.getAbsolutePath().endsWith(".jpg"))
+        {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        }
+        else if (file.getAbsolutePath().endsWith(".mp4"))
+            response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+        else if (file.getAbsolutePath().endsWith(".dng"))
+        {
+            response = RawUtils.UnPackRAW(file.getAbsolutePath());
+            if(response != null)
+                response.setHasAlpha(true);
+        }
+        else response = null;
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                fadein();
+                imageView.setImageBitmap(response);
+                myHistogram.setBitmap(response, false);
+            }
+        });
+
+    }
+
+
+    public int startX;
+    public int currentX;
+
+    boolean swipe = false;
+    long start;
+    long duration;
+    static final int MAX_DURATION = 3500;
+    float x, difx;
+    boolean lastset;
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        if (!imageView.isZoomed()) {
+            boolean fireagain = false;
+            final int distance = imageView.getWidth() / 4;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startX = (int) event.getX() - (int) imageView.getX();
+                    x = (int) event.getX();
+                    start = System.currentTimeMillis();
+                    break;
+                // case MotionEvent.A
+                case MotionEvent.ACTION_MOVE:
+                    difx = x - imageView.getX();
+                    int xd = TouchHandler.getDistance(imageviewDEfaultPos, (int) imageView.getX());
+                    if (xd < distance) {
+                        imageView.setX(event.getX() - difx);
+
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    xd = TouchHandler.getDistance(imageviewDEfaultPos, (int) imageView.getX());
+                    if (xd >= distance && !lastset) {
+                        lastset = true;
+                        xd = TouchHandler.getNegDistance(imageviewDEfaultPos, (int) imageView.getX());
+                        int min = imageviewDEfaultPos - distance;
+                        int max = imageviewDEfaultPos +distance;
+                        if (max <= xd) {
+                            loadNextImage();
+                            Log.d(TAG, "loadnextImage");
+                        } else if (min >= xd) {
+                            loadLastImage();
+                            Log.d(TAG, "loadlastImage");
+                        }
+                        imageView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                lastset = false;
+                            }
+                        }, 100);
+                        imageView.setX(imageviewDEfaultPos);
+                        x = imageviewDEfaultPos;
+                        return false;
+                    }
+                    else
+                        imageView.setX(imageviewDEfaultPos);
+                    break;
+            }
+        }
+        return false;
+    }
 }

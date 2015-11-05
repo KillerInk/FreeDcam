@@ -484,8 +484,14 @@ typedef enum {
 						   matrix 1 */
 #define TIFFTAG_REDUCTIONMATRIX2	50726	/* &dimensionality reduction
 						   matrix 2 */
+////////////////////////////////////////////////////////////////////////////////////
+#define TIFFTAG_FOWARDMATRIX1		50964
+#define TIFFTAG_FOWARDMATRIX2		50965
+#define TIFFTAG_NOISEPROFILE		51041
+
 #define TIFFTAG_ANALOGBALANCE		50727	/* &gain applied the stored raw
 						   values*/
+//////////////////////////////////////////////////////////////////////////////////
 #define TIFFTAG_ASSHOTNEUTRAL		50728	/* &selected white balance in
 						   linear reference space */
 #define TIFFTAG_ASSHOTWHITEXY		50729	/* &selected white balance in

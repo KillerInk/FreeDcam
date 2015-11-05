@@ -25,9 +25,10 @@ public class PreviewSizeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         //if (baseCameraHolder.IsPreviewRunning())
-            //baseCameraHolder.StopPreview();
+        if (!firststart)
+            baseCameraHolder.StopPreview();
 
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             parameters.put(value, valueToSet);
 
         try
@@ -41,6 +42,8 @@ public class PreviewSizeParameter extends BaseModeParameter
         }
         //baseCameraHolder.SetCameraParameters(parameters);
         //if (!baseCameraHolder.IsPreviewRunning())
-            //baseCameraHolder.StartPreview();
+        if (!firststart)
+            baseCameraHolder.StartPreview();
+        firststart = false;
     }
 }

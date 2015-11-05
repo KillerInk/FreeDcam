@@ -36,12 +36,8 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
-        if (parametersHandler == null)
+        if (parametersHandler == null && !cameraHolder.isPreviewRunning)
             return;
-        if (parametersHandler.ObjectTracking.GetValue().equals("On"))
-        {
-
-        }
         if (isFocusing)
         {
             cameraHolder.CancelFocus();
@@ -68,6 +64,21 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
 
     @Override
     public void SetAwbAreas(FocusRect awbRect, int width, int height) {
+
+    }
+
+    @Override
+    public boolean HasFocus() {
+        return false;
+    }
+
+    @Override
+    public void SetFocusFalse() {
+
+    }
+
+    @Override
+    public void SetModuleFocusCallback(I_Callbacks.AutoFocusCallback moduleFocusCallback) {
 
     }
 

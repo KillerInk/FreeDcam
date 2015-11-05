@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.util.Log;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,7 +19,7 @@ public class RawUtils {
 
     private static int DEFAULT_JPG_QUALITY = 85;
 
-    private RawUtils() {
+    public RawUtils() {
 
     }
 
@@ -33,10 +31,6 @@ public class RawUtils {
         }
     }
 
-	
-	
-
-    private static native void native_init();
 
     private static native byte[] unpackThumbnailBytes(String fileName);
 

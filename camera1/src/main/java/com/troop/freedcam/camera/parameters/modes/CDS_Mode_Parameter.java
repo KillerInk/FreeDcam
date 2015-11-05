@@ -29,7 +29,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         if (!this.isSupported)
         {
-            if (DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV() || DeviceUtils.isHTC_M9())
+            if (DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214()|| DeviceUtils.isZTEADV234()|| DeviceUtils.isHTC_M9())
                 this.isSupported = true;
         }
     }
@@ -55,7 +55,8 @@ public class CDS_Mode_Parameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
         parameters.put("cds-mode", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);

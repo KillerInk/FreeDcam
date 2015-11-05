@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -13,7 +12,6 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -47,12 +45,21 @@ public class DngSaver extends JpegSaver
 
             return;
         }
-        super.TakePicture();
+        awaitpicture = true;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.TakePicture(null, null, DngSaver.this);
+            }
+        });
     }
 
     @Override
     public void onPictureTaken(final byte[] data)
     {
+        if (awaitpicture == false)
+            return;
+        awaitpicture =false;
         Log.d(TAG, "Take Picture Callback");
         handler.post(new Runnable() {
             @Override
@@ -63,8 +70,10 @@ public class DngSaver extends JpegSaver
 
     }
 
-    public void processData(byte[] data, File file)
-    {
+           public void processData(byte[] data, File file)
+        {
+
+        checkFileExists(file);
         try
         {
             if (data.length < 4500)

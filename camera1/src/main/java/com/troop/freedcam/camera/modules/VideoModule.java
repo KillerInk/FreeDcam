@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -17,8 +16,6 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 16.08.2014.
@@ -128,7 +125,7 @@ public class VideoModule extends AbstractModule
             else
                 recorder.setOrientationHint(0);
 
-            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder().getSurface());
+            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder());
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
@@ -176,6 +173,19 @@ public class VideoModule extends AbstractModule
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
 
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
+        {
+          //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+            recorder.setMaxFileSize(3037822976L);
+            recorder.setMaxDuration(7200000);
+
+            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+            ParameterHandler.Denoise.SetValue("denoise-off", true);
+        }
+
 
 
         /*recorder.setOutputFormat(prof.fileFormat);
@@ -205,6 +215,41 @@ public class VideoModule extends AbstractModule
                 Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
             recorder.setCaptureRate(frame);
         }
+
+        if (profile.contains("1080p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("60"))
+        {
+          //  recorder.setCaptureRate(60);
+            recorder.setVideoFrameRate(60);
+            recorder.setVideoEncodingBitRate(60000000);
+
+
+
+        }
+
+
+        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("120"))
+        {
+            recorder.setCaptureRate(120);
+            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+            ParameterHandler.Denoise.SetValue("denoise-off", true);
+        }
+
+        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("150"))
+        {
+            recorder.setCaptureRate(150);
+            recorder.setCaptureRate(150);
+            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+            ParameterHandler.Denoise.SetValue("denoise-off", true);
+        }
+
+
+
         return recorder;
     }
 
@@ -232,15 +277,22 @@ public class VideoModule extends AbstractModule
 
     private void loadProfileSpecificParameters()
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214())
             camParametersHandler.setString("slow_shutter", "-1");
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
             String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+            if (sprof.equals(""))
+            {
+                sprof = "HIGH";
+                Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
+            }
             CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+            if (prof == null)
+                return;
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            ParameterHandler.PreviewSize.SetValue(size, false);
+            //ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);
         }
     }

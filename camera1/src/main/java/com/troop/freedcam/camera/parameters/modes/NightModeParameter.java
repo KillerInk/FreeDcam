@@ -20,7 +20,7 @@ public class NightModeParameter extends BaseModeParameter
     public boolean IsSupported()
     {
         this.isSupported = false;
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             this.isSupported = true;
         BackgroundSetIsSupportedHasChanged(isSupported);
         return  isSupported;

@@ -12,8 +12,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.R;
-import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.menu.MenuItemTheme;
+import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
  * Created by troop on 14.06.2015.
@@ -51,8 +51,14 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         closeTab.setOnClickListener(onSettingsClickListner);
         right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
         left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
-        setWrapper();
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setWrapper();
     }
 
     private void setWrapper()
@@ -71,7 +77,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.left_holder, leftMenuFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     private void loadRightFragment()
@@ -83,7 +89,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
         transaction.replace(R.id.right_holder, rightMenuFragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 
@@ -137,7 +143,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.right_holder, valuesMenuFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
         else
         {
@@ -145,7 +151,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.left_holder, valuesMenuFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 }

@@ -8,9 +8,7 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
-import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -31,13 +29,14 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     }
 
     public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
-        super(preview, appSettingsManager);
+        super(appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler);
-        camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, uiHandler);
+        camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, uiHandler, (SimpleStreamSurfaceView)surfaceView);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
+
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
@@ -54,12 +53,12 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void StartCamera()
     {
-        new Thread(new Runnable() {
+        backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 startCamera();
             }
-        }).start();
+        });
     }
 
     @Override

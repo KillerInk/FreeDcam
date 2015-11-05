@@ -9,12 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 06.06.2015.
@@ -35,7 +30,7 @@ public abstract class AbstractCameraFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy();
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -58,7 +53,7 @@ public abstract class AbstractCameraFragment extends Fragment
     public abstract int getPreviewHeight();
     public abstract SurfaceView getSurfaceView();
 
-    public abstract void setOnPreviewSizeChangedListner(I_PreviewSizeEvent previewSizeChangedListner);
+
 
     public void DestroyCameraUiWrapper()
     {
@@ -79,7 +74,7 @@ public abstract class AbstractCameraFragment extends Fragment
 
     public interface CamerUiWrapperRdy
     {
-        void onCameraUiWrapperRdy();
+        void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
     }
 
 }

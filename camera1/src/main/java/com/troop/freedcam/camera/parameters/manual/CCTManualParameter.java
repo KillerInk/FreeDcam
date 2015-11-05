@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.lge.media.TimedTextEx;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -17,7 +18,21 @@ public class CCTManualParameter extends BaseManualParameter {
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (parameters.containsKey("wb-cct"))
+        if (DeviceUtils.isOnePlusOne())
+        {
+            this.value = "wb-current-cct";
+            this.min_value = "min-wb-cct";
+            this.max_value = "max-wb-cct";
+            this.isSupported = true;
+        }
+        else if (DeviceUtils.isRedmiNote()  || !DeviceUtils.isZTEADV()||!DeviceUtils.isZTEADVIMX214()||!DeviceUtils.isZTEADV234())
+        {
+            this.value = "wb-manual-cct";
+            this.max_value = "max-wb-cct";
+            this.min_value = "min-wb-cct";
+            this.isSupported = true;
+        }
+        else if (parameters.containsKey("wb-cct"))
         {
             this.value = "wb-cct";
             this.max_value = "max-wb-cct";
@@ -30,15 +45,32 @@ public class CCTManualParameter extends BaseManualParameter {
             this.max_value = "max-wb-ct";
             this.min_value = "min-wb-ct";
             this.isSupported = true;
-        }
-        else if (parameters.containsKey("wb-manual-cct"))
+        } //&& !DeviceUtils.isZTEADV()
+        else if (parameters.containsKey("wb-manual-cct") || DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
         {
-            this.value = "wb-manual-cct";
-            this.max_value = "max-wb-cct";
-            this.min_value = "min-wb-cct";
-            this.isSupported = true;
+            try {
+
+
+                this.value = "wb-manual-cct";
+                this.max_value = "max-wb-cct";
+                this.min_value = "min-wb-cct";
+                this.isSupported = true;
+
+            }
+            catch (NullPointerException ex)
+            {
+                this.isSupported=false;
+            }
         }
+        //force close app
+        /*else if (DeviceUtils.isG4()) {
+            this.value = "lg-wb";
+            this.max_value = "lg-wb-supported-max";
+            this.min_value = "lg-wb-supported-min";
+            this.isSupported = true;
+        }*/
     }
+
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
@@ -54,52 +86,99 @@ public class CCTManualParameter extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-    	return Integer.parseInt(parameters.get(max_value));
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+            return 150;
+        else if(parameters.containsKey("wb-manual-cct"))
+        {
+            try {
+                return Integer.parseInt(parameters.get("max-wb-cct"));
+            }
+            catch (NullPointerException ex)
+            {
+                return 0;
+            }
+        }
+        else
+        try {
+            String wbct  = parameters.get(max_value);
+            if(wbct.equals("null"))
+            {
+                isSupported = false;
+                wbct = "0";
+            }
+            return Integer.parseInt(wbct);
+        }
+        catch (NullPointerException ex)
+        {
+            return 0;
+        }
+
 
     }
 //M8 Step values "wb-ct-step"
     @Override
-    public int GetMinValue() {
-	    return Integer.parseInt(parameters.get(min_value));
+    public int GetMinValue()
+    {
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+            return -1;
+        else if(parameters.containsKey("wb-manual-cct"))
+        {
+            return Integer.parseInt(parameters.get("min-wb-cct"));
+        }
+        else
+        try {
+            return Integer.parseInt(parameters.get(min_value));
+        }
+        catch (NumberFormatException ex)
+        {
+            ex.printStackTrace();
+        }
+        return 0;
+
     }
 
     @Override
     public int GetValue()
     {
-        int i = 0;
-        try {
-            if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
-                i = -1;
-            else if (DeviceUtils.isLG_G3())
-                i = getCTReflection();
-            else
-                i = Integer.parseInt(parameters.get(value));
-        }
-        catch (Exception ex)
-        {
 
-        }
 
-        return i;
+            return 0;
     }
 
     @Override
-    public String GetStringValue() {
+   public String GetStringValue() {
         return null;
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV() || value.equals("wb-manual-cct"))
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
         {
             if(valueToSet != -1)
             {
-                camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-                parameters.put("wb-manual-cct", valueToSet + "");
+                try {
+                    camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+
+                    parameters.put("wb-manual-cct", String.valueOf(valueToSet * 40 + 2000));
+                }
+                catch (Exception exc)
+                {
+
+                }
             }
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+        }
+        else if (parameters.containsKey("wb-manaul-cct") ||DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        {
+            try{
+            camParametersHandler.WhiteBalanceMode.SetValue("manual", true);}
+            catch (Exception c)
+            {
+                System.out.println("Freedcam Error Setting Manual Color Temp");
+            }
+                        parameters.put("wb-manual-cct", valueToSet + "");
         }
         else if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);
@@ -107,6 +186,11 @@ public class CCTManualParameter extends BaseManualParameter {
 
         else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
             parameters.put("wb-ct", valueToSet + "");
+        else if(DeviceUtils.isG4()) {
+            //"lg-manual-mode-reset"
+            parameters.put("lge-camera", "1");
+            parameters.put("lg-wb", valueToSet + "");
+        }
         camParametersHandler.SetParametersToCamera();
 
     }

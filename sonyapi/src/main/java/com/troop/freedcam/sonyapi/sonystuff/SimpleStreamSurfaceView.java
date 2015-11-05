@@ -13,22 +13,28 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
-import com.troop.freedcam.ui.I_PreviewSizeEvent;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import troop.com.imageconverter.ScriptC_focuspeak_argb;
+
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
@@ -42,9 +48,31 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    Bitmap[] crosshairs;
-    I_PreviewSizeEvent uiPreviewSizeCHangedListner;
     I_Callbacks.PreviewCallback previewFrameCallback;
+    public boolean focuspeak = false;
+
+    RenderScript mRS;
+    private Allocation mInputAllocation;
+    private Allocation mOutputAllocation;
+    ScriptC_focuspeak_argb focuspeak_argb;
+    Bitmap drawBitmap;
+
+    private void initRenderScript()
+    {
+        drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
+        Type.Builder tbIn = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbIn.setX(mPreviousWidth);
+        tbIn.setY(mPreviousHeight);
+
+        Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbOut.setX(mPreviousWidth);
+        tbOut.setY(mPreviousHeight);
+
+        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+
+        //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
+    }
 
 
     /**
@@ -89,11 +117,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         initBitmaps(context);
     }
 
-    public void SetOnPreviewSizeCHangedListner(I_PreviewSizeEvent previewSizeEventListner)
-    {
-        this.uiPreviewSizeCHangedListner = previewSizeEventListner;
-    }
-
     public void SetOnPreviewFrame(I_Callbacks.PreviewCallback previewCallback)
     {
         this.previewFrameCallback = previewCallback;
@@ -105,10 +128,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
-        /*crosshairs = new Bitmap[3];
-        crosshairs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_normal);
-        crosshairs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_failed);
-        crosshairs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.crosshair_success);*/
+        if (Build.VERSION.SDK_INT >= 18) {
+            mRS = RenderScript.create(context);
+            focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+        }
+
     }
 
     @Override
@@ -318,7 +342,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         if (canvas == null) {
             return;
         }
-        canvas.drawColor(Color.BLACK);
+        //canvas.drawColor(Color.BLACK);
         int w = frame.getWidth();
         int h = frame.getHeight();
         Rect src = new Rect(0, 0, w, h);
@@ -327,7 +351,18 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetX = (getWidth() - (int) (w * by)) / 2;
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        canvas.drawBitmap(frame, src, dst, mFramePaint);
+        if (focuspeak)
+        {
+            mInputAllocation.copyFrom(frame);
+            focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+            focuspeak_argb.forEach_peak(mOutputAllocation);
+            mOutputAllocation.copyTo(drawBitmap);
+            canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+        }
+        else
+        {
+            canvas.drawBitmap(frame, src, dst, mFramePaint);
+        }
         if (frameExtractor != null)
             drawFrameInformation(frameExtractor, canvas,dst);
         getHolder().unlockCanvasAndPost(canvas);
@@ -380,6 +415,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         Log.d(TAG, "Change of aspect ratio detected");
         mPreviousWidth = width;
         mPreviousHeight = height;
+        initRenderScript();
         drawBlackFrame();
         drawBlackFrame();
         drawBlackFrame(); // delete triple buffers
@@ -390,8 +426,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (uiPreviewSizeCHangedListner != null)
-            uiPreviewSizeCHangedListner.OnPreviewSizeChanged(left,right);
+
     }
     /**
      * Draw black screen.
@@ -408,6 +443,26 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
         getHolder().unlockCanvasAndPost(canvas);
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 
     public interface StreamErrorListener {

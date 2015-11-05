@@ -1,18 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
-import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifSubIFDDirectory;
-import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
@@ -21,6 +10,7 @@ import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
+import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -28,14 +18,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 //import com.drew.metadata.exif.ExifDirectory;
 
@@ -44,39 +27,31 @@ import java.util.Date;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_WorkeDone {
+public class PictureModule extends AbstractModule implements I_WorkeDone, I_Callbacks.AutoFocusCallback {
 
     private static String TAG = PictureModule.class.getSimpleName();
-
-    protected String rawFormats = "bayer-mipi-10gbrg,bayer-mipi-10grbg,bayer-mipi-10rggb,bayer-mipi-10bggr,raw,bayer-qcom-10gbrg,bayer-qcom-10grbg,bayer-qcom-10rggb,bayer-qcom-10bggr,bayer-ideal-qcom-10grbg,bayer-ideal-qcom-10bggr";
-    protected String jpegFormat = "jpeg";
-    protected String jpsFormat = "jps";
-
-    protected String lastBayerFormat;
-    private String lastPicSize;
-    RawToDng dngConverter;
     boolean dngcapture = false;
 
     int burstcount = 0;
 
-    private HandlerThread backgroundThread;
+    //private HandlerThread backgroundThread;
     Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
     public String OverRidePath = "";
-    CamParametersHandler parametersHandler;
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
 
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler)
+    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
+        this.handler = backgroundHandler;
         name = ModuleHandler.MODULE_PICTURE;
 
-        parametersHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
+        ParameterHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
         this.baseCameraHolder = baseCameraHolder;
     }
 
@@ -99,13 +74,37 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void DoWork()
     {
+        if (!Settings.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
+            baseCameraHolder.ParameterHandler.IntervalCapture = true;
+        else
+            baseCameraHolder.ParameterHandler.IntervalCapture = false;
+        if (!baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCapture) {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+            return;
+        }
+        else if(!baseCameraHolder.Focus.HasFocus() && baseCameraHolder.ParameterHandler.IntervalCapture && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
+        {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+            return;
+        }
+        else if (baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
+            baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
+        
         if (!this.isWorking)
         {
             startworking();
-            if (parametersHandler.Burst != null && parametersHandler.Burst.IsSupported() && parametersHandler.Burst.GetValue() > 1)
+            if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
-                burstcount = 0;
-                baseCameraHolder.TakePicture(null,null, burstCallback);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        burstcount = 0;
+                        baseCameraHolder.TakePicture(null,null, burstCallback);
+                    }
+                });
+
             }
             else {
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
@@ -115,12 +114,14 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 } else if (picFormat.equals("jps")) {
                     final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpsSaver.TakePicture();
-                } else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
-                    rawSaver.TakePicture();
-                } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                }
+                else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
+                }
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    rawSaver.TakePicture();
                 }
             }
         }
@@ -137,10 +138,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        startThread();
+        //startThread();
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
-        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && ParameterHandler.VideoHDR.GetValue().equals("off"))
+        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
             //ParameterHandler.CameraMode.SetValue("0", true);
@@ -151,24 +152,24 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
 
-        if(DeviceUtils.isZTEADV())
-           parametersHandler.setString("slow_shutter", "-1");
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214())
+            ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
 
     }
 
-    protected void startThread() {
+    /*protected void startThread() {
         backgroundThread = new HandlerThread("PictureModuleThread");
         backgroundThread.start();
         handler = new Handler(backgroundThread.getLooper());
-    }
+    }*/
 
     @Override
     public void UnloadNeededParameters()
     {
-        stopThread();
+        //stopThread();
     }
 
-    protected void stopThread() {
+    /*protected void stopThread() {
         if (Build.VERSION.SDK_INT>17)
             backgroundThread.quitSafely();
         else
@@ -180,7 +181,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     protected void startworking()
     {
@@ -197,7 +198,15 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void OnWorkDone(File file)
     {
-        baseCameraHolder.StartPreview();
+        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+        {
+            int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
+            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
+            baseCameraHolder.StartPreview();
+            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
+        }
+        else
+            baseCameraHolder.StartPreview();
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
         stopworking();
         eventHandler.WorkFinished(file);
@@ -227,10 +236,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                         final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
                     }
-                    else if (!parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                         final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
-                    } else if (parametersHandler.isDngActive && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
                         DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         dngSaver.processData(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }
@@ -244,11 +253,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            if (burstcount == parametersHandler.Burst.GetValue() -1) {
+            if (burstcount == ParameterHandler.Burst.GetValue() -1) {
                 stopworking();
                 baseCameraHolder.StartPreview();
             }
-            else if (burstcount < parametersHandler.Burst.GetValue() -1)
+            else if (burstcount < ParameterHandler.Burst.GetValue() -1)
                 burstcount++;
         }
 
@@ -259,4 +268,25 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             stopworking();
         }
     };
+
+    @Override
+    public void onAutoFocus(CameraFocusEvent cameraFocusEvent)
+    {
+        if (cameraFocusEvent != null && cameraFocusEvent.success)
+        {
+            if (baseCameraHolder.ParameterHandler.IntervalCapture)
+                baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
+            DoWork();
+        }
+        else
+        {
+            baseCameraHolder.Focus.SetModuleFocusCallback(this);
+            baseCameraHolder.Focus.StartFocus();
+        }
+    }
+
+    @Override
+    public void onFocusLock(boolean locked) {
+
+    }
 }

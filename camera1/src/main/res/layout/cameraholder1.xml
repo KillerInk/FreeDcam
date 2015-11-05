@@ -4,12 +4,16 @@
     android:layout_height="match_parent">
 
     <view
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         class="com.troop.freedcam.camera.ExtendedSurfaceView"
         android:id="@+id/exSurface"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true" />
+    <com.troop.freedcam.camera.TextureViewRatio
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textureView_preview"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:background="@drawable/iv_bg">
+
+    <Button
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="+"
+        android:id="@+id/delayAdd"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignTop="@+id/delayMin"
+        android:layout_toLeftOf="@+id/delayMin"
+        android:layout_toStartOf="@+id/delayMin"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        android:id="@+id/delayMin"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignTop="@+id/delayLabel"
+        android:layout_alignLeft="@+id/LongMin"
+        android:layout_alignStart="@+id/LongMin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Seconds"
+        android:id="@+id/delayTimeUnit"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/delayAdd"
+        android:layout_toRightOf="@+id/delayTimeValue"
+        android:layout_toEndOf="@+id/delayTimeValue" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="99"
+        android:id="@+id/delayTimeValue"
+        android:background="@drawable/btn_crc_redish"
+        android:textAlignment="center"
+        android:textSize="55dp"
+        android:paddingTop="15dp"
+        android:layout_toRightOf="@+id/DuartionLabel"
+        android:layout_toEndOf="@+id/DuartionLabel"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Delay"
+        android:id="@+id/delayLabel"
+        android:textSize="60dp"
+        android:layout_above="@+id/LongTimeValue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Long"
+        android:id="@+id/LongLabel"
+        android:textSize="60dp"
+        android:layout_alignBottom="@+id/LongTimeValue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Interval"
+        android:id="@+id/IntervalLabel"
+        android:textSize="60dp"
+        android:layout_above="@+id/DurationTimeValue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Duration"
+        android:id="@+id/DuartionLabel"
+        android:textSize="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="99"
+        android:id="@+id/LongTimeValue"
+        android:background="@drawable/btn_crc_redish"
+        android:textAlignment="center"
+        android:textSize="55dp"
+        android:paddingTop="15dp"
+        android:layout_above="@+id/IntervalTimeValue"
+        android:layout_alignLeft="@+id/delayTimeValue"
+        android:layout_alignStart="@+id/delayTimeValue" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="99"
+        android:id="@+id/IntervalTimeValue"
+        android:background="@drawable/btn_crc_redish"
+        android:textAlignment="center"
+        android:textSize="55dp"
+        android:paddingTop="15dp"
+        android:layout_above="@+id/DurationTimeValue"
+        android:layout_alignLeft="@+id/LongTimeValue"
+        android:layout_alignStart="@+id/LongTimeValue" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="99"
+        android:id="@+id/DurationTimeValue"
+        android:background="@drawable/btn_crc_redish"
+        android:textAlignment="center"
+        android:textSize="55dp"
+        android:paddingTop="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/IntervalTimeValue"
+        android:layout_alignStart="@+id/IntervalTimeValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Seconds"
+        android:id="@+id/LongTimeUnit"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:textSize="30dp"
+        android:layout_alignBottom="@+id/LongTimeValue"
+        android:layout_toRightOf="@+id/LongTimeValue"
+        android:layout_toEndOf="@+id/LongTimeValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Seconds"
+        android:id="@+id/IntervalTimeUnit"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:textSize="30dp"
+        android:layout_alignBottom="@+id/IntervalTimeValue"
+        android:layout_toRightOf="@+id/IntervalTimeValue"
+        android:layout_toEndOf="@+id/IntervalTimeValue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Seconds"
+        android:id="@+id/DurationTimeUnit"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:textSize="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/DurationTimeValue"
+        android:layout_toEndOf="@+id/DurationTimeValue" />
+
+    <Button
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="+"
+        android:id="@+id/LongAdd"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignBottom="@+id/LongTimeValue"
+        android:layout_alignLeft="@+id/delayAdd"
+        android:layout_alignStart="@+id/delayAdd"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="+"
+        android:id="@+id/IntervalAdd"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignBottom="@+id/IntervalTimeUnit"
+        android:layout_alignLeft="@+id/LongAdd"
+        android:layout_alignStart="@+id/LongAdd"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="+"
+        android:id="@+id/DurationAdd"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/IntervalAdd"
+        android:layout_alignStart="@+id/IntervalAdd"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        android:id="@+id/LongMin"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignBottom="@+id/LongAdd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        android:id="@+id/IntervalMin"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignBottom="@+id/IntervalAdd"
+        android:layout_alignLeft="@+id/delayMin"
+        android:layout_alignStart="@+id/delayMin" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        android:id="@+id/DurationMin"
+        android:background="@drawable/btn_crc_greenish"
+        android:layout_alignBottom="@+id/DurationAdd"
+        android:layout_alignRight="@+id/LongMin"
+        android:layout_alignEnd="@+id/LongMin" />
+</RelativeLayout>

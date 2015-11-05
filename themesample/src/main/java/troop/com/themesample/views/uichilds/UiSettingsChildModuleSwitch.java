@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.sonyapi.modules.ModuleHandlerSony;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,11 +36,14 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
 
     @Override
     public void ParametersLoaded() {
-        if ((cameraUiWrapper.moduleHandler instanceof ModuleHandlerSony) || cameraUiWrapper.moduleHandler == null)
+        if (cameraUiWrapper.moduleHandler == null)
             return;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null)
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null) {
             cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-        onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+
+        }
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
     }
 
     private class ModuleParamters extends AbstractModeParameter

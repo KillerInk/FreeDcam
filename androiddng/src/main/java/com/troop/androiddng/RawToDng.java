@@ -4,8 +4,6 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
-import com.troop.freedcam.utils.DeviceUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -43,11 +41,16 @@ public class RawToDng
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
+                                            float[] fowardMatrix1,
+                                            float[] fowardMatrix2,
+                                            float[] reductionMatrix1,
+                                            float[] reductionMatrix2,
+                                            float[] noiseMatrix,
                                      int blacklevel,
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
-                                     boolean tight,int width,int height);
+                                     int rawType,int width,int height);
 
     private static native ByteBuffer Create();
     private static native void SetExifData(ByteBuffer nativeHandler,
@@ -130,6 +133,7 @@ public class RawToDng
 
     public void SetBayerData(final byte[] fileBytes, String fileout)
     {
+        Log.d("Freedcam Raw2DNG",String.valueOf(fileBytes.length));
         filepath = fileout;
         if (filepath.contains("bayer"))
             bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
@@ -140,14 +144,19 @@ public class RawToDng
     private void SetBayerInfo(float[] colorMatrix1,
                              float[] colorMatrix2,
                              float[] neutralColor,
+                              float[] fowardMatrix1,
+                              float[] fowardMatrix2,
+                              float[] reductionMatrix1,
+                              float[] reductionMatrix2,
+                              float[] noise,
                              int blacklevel,
                              String bayerformat,
                              int rowSize,
                              String devicename,
-                             boolean tight,int width,int height)
+                             int tight,int width,int height)
     {
         if (nativeHandler != null)
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, blacklevel, bayerformat, rowSize, devicename, tight,width,height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor,fowardMatrix1,fowardMatrix2,reductionMatrix1,reductionMatrix2,noise, blacklevel, bayerformat, rowSize, devicename, tight,width,height);
     }
 
     public void RELEASE()
@@ -165,42 +174,13 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    private DngSupportedDevices.SupportedDevices getDevice()
-    {
-        if (DeviceUtils.isYureka())
-            return DngSupportedDevices.SupportedDevices.yureka;
-        if (DeviceUtils.isLG_G3())
-            return DngSupportedDevices.SupportedDevices.LG_G3;
-        if (DeviceUtils.isGioneE7())
-            return DngSupportedDevices.SupportedDevices.Gione_E7;
-        if (DeviceUtils.isHTC_M8())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m8;
-        if (DeviceUtils.isHTC_M9())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m9;
-        if (DeviceUtils.isHtc_One_SV())
-            return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
-        if (DeviceUtils.isHtc_One_XL())
-            return DngSupportedDevices.SupportedDevices.HTC_One_XL;
-        if (DeviceUtils.isLenovoK910())
-            return DngSupportedDevices.SupportedDevices.Lenovo_k910;
-        if(DeviceUtils.isG2())
-            return DngSupportedDevices.SupportedDevices.LG_G2;
-        if (DeviceUtils.hasIMX135())
-            return DngSupportedDevices.SupportedDevices.zteAdv;
-        if (DeviceUtils.isXperiaL())
-            return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
-        if(DeviceUtils.hasIMX214())
-            return DngSupportedDevices.SupportedDevices.OnePlusOne;
-        if (DeviceUtils.isRedmiNote())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
-        return null;
-    }
+
 
     public void WriteDNG(DngSupportedDevices.SupportedDevices device)
     {
         DngSupportedDevices.SupportedDevices devices = device;
         if (device == null)
-            devices = getDevice();
+            devices = DngSupportedDevices.getDevice();
         else
             devices = device;
 
@@ -209,8 +189,13 @@ public class RawToDng
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
+            if (profile == null)
+            {
+                RELEASE();
+                return;
+            }
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.isTightRAw,profile.widht,profile.height);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
             RELEASE();
         }

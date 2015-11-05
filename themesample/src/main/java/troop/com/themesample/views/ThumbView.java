@@ -3,9 +3,12 @@ package troop.com.themesample.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,6 +22,7 @@ import com.troop.freedcam.ui.I_Activity;
 import java.io.File;
 import java.io.IOException;
 
+import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.themesample.R;
 
 /**
@@ -31,6 +35,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     I_Activity i_activity;
     AbstractCameraUiWrapper cameraUiWrapper;
     Bitmap bitmap;
+    File lastFile;
+    Bitmap mask;
     public ThumbView(Context context) {
         super(context);
         this.setOnClickListener(this);
@@ -41,7 +47,15 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     {
         super(context, attrs);
         this.setOnClickListener(this);
-        this.setBackgroundDrawable(context.getResources().getDrawable( troop.com.themesample.R.drawable.thumbnail));
+        this.setBackgroundDrawable(context.getResources().getDrawable(troop.com.themesample.R.drawable.thumbnail));
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        final File[] f =ScreenSlideFragment.loadFilePaths();
+        if (f != null && f.length > 0)
+            WorkHasFinished(f[f.length-1]);
     }
 
     public void INIT(I_Activity i_activity, AbstractCameraUiWrapper cameraUiWrapper)
@@ -49,27 +63,35 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         this.i_activity = i_activity;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
+
     }
 
     @Override
     public String WorkHasFinished(final File filePath)
     {
-        this.post(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 if (!hasWork) {
                     hasWork = true;
                     Log.d(TAG, "Load Thumb " + filePath.getName());
-                    showThumb(filePath);
+                    try {
+                        showThumb(filePath);
+                    }
+                    catch (NullPointerException ex)
+                    {}
+
                     hasWork = false;
                 }
             }
-        });
+        }).start();
         return null;
     }
 
     private Bitmap loadThumbViewImage(File file)
     {
+        lastFile = file;
         if(file.getAbsolutePath().endsWith("jpg"))
         {
             byte[] thum = null;
@@ -79,12 +101,21 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 e.printStackTrace();
             }
             if (thum != null)
-                return BitmapFactory.decodeByteArray(thum, 0, thum.length);
+            {
+                try {
+                    return Bitmap.createScaledBitmap(BitmapFactory.decodeByteArray(thum, 0, thum.length), mask.getWidth(), mask.getHeight(), false);
+                }
+                catch (NullPointerException ex)
+                {
+                    return null;
+                }
+
+            }
 
         }
         else if (file.getAbsolutePath().endsWith("mp4"))
         {
-            return ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+            return Bitmap.createScaledBitmap(ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND), mask.getWidth(), mask.getHeight(), false);
         }
         return null;
     }
@@ -96,15 +127,34 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             if (bitmap != null) {
                 bitmap.recycle();
                 bitmap = null;
-                System.gc();
             }
             bitmap = loadThumbViewImage(filePath);
-            this.setImageBitmap(bitmap);
+            final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas drawc = new Canvas(drawMap);
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+            if (bitmap != null && !bitmap.isRecycled())
+                drawc.drawBitmap(bitmap, 0, 0, null);
+            drawc.drawBitmap(mask, 0, 0, paint);
+            //drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
+            paint.setXfermode(null);
+            if (bitmap != null && !bitmap.isRecycled())
+                bitmap.recycle();
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    ThumbView.this.setImageBitmap(drawMap);
+                }
+            });
+
         }
     }
 
     @Override
-    public void onClick(View v) {
-        i_activity.loadImageViewerFragment();
+    public void onClick(View v)
+    {
+        i_activity.loadImageViewerFragment(lastFile);
+
+
     }
 }

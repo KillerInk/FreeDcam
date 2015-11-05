@@ -33,8 +33,9 @@ public class MenuItemBayerFormat extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(APPSETTING_BAYERFORMAT, value);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+        if (!appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).toLowerCase().equals("jpeg"))
         {
+            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, value);
             parameter.SetValue(value, false);
         }
     }

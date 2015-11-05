@@ -50,12 +50,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            jniDebuggable true
+            renderscriptDebuggable true
+        }
     }
 }
 
 dependencies {
-    provided project(':themeclassic')
-    provided project(':language')
+    provided project(':views')
     provided project(':abstractcamera')
     provided project(':camera1')
+    provided project(':androiddng')
 }

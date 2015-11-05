@@ -24,6 +24,9 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     List<Camera.Area> areas;
     boolean isFocusing = false;
 
+    private I_Callbacks.AutoFocusCallback moduleFocusCallback;
+
+
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
@@ -36,28 +39,49 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     {
         //camera.cancelAutoFocus();
         isFocusing = false;
-        if (focusEvent != null)
+        if (focusEvent != null) {
             focusEvent.FocusFinished(event.success);
+            hasFocus = event.success;
+            if (moduleFocusCallback != null)
+            {
+                moduleFocusCallback.onAutoFocus(event);
+                moduleFocusCallback = null;
+            }
+        }
     }
 
     @Override
     public void onFocusLock(boolean locked) {
 
     }
+    @Override
+    public void SetModuleFocusCallback(I_Callbacks.AutoFocusCallback moduleFocusCallback)
+    {
+        this.moduleFocusCallback = moduleFocusCallback;
+    }
+
+    public boolean HasFocus()
+    {
+        return hasFocus;
+    }
+
+    @Override
+    public void SetFocusFalse() {
+        hasFocus = false;
+    }
 
     public void StartFocus()
     {
-        if (isFocusing) {
+        /*if (isFocusing) {
             cameraHolder.StartFocus(this);
             isFocusing =false;
-        }
+        }*/
 
         if (focusEvent != null)
         {
             focusEvent.FocusStarted(null);
         }
-        BaseCameraHolder baseCameraHolder = (BaseCameraHolder)cameraHolder;
-        baseCameraHolder.StartFocus(this);
+        cameraHolder.StartFocus(this);
         isFocusing = true;
     }
 

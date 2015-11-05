@@ -9,6 +9,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 19
     }
     buildTypes {
         release {
@@ -26,4 +27,5 @@ dependencies {
     compile files('libs/metadata-extractor-2.7.0.jar')
     compile files('libs/xmpcore-5.1.2.jar')
     compile project(':longexposure')
+    provided project(':imageconverter')
 }

@@ -5,10 +5,10 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.AbstractFragment;
-import com.troop.freedcam.ui.menu.themes.classic.ClassicUi;
+
 import troop.com.themesample.SampleThemeFragment;
 
 /**
@@ -17,7 +17,7 @@ import troop.com.themesample.SampleThemeFragment;
 public class ThemeHandler implements I_ModuleEvent
 {
     AppSettingsManager appSettingsManager;
-    MainActivity_v2 activity_v2;
+    static MainActivity_v2 activity_v2;
     LinearLayout uiLayout;
     AbstractFragment uiFragment;
     AbstractCameraUiWrapper cameraUiWrapper;
@@ -30,28 +30,35 @@ public class ThemeHandler implements I_ModuleEvent
 
     }
 
+    public AbstractFragment getCurrenttheme()
+    {
+        return  uiFragment;
+    }
+
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (uiFragment != null)
+            uiFragment.SetCameraUIWrapper(cameraUiWrapper);
     }
 
     public AbstractFragment GetThemeFragment(boolean infalte)
     {
         String theme = appSettingsManager.GetTheme();
-        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia")) {
-            theme = "Classic";
-            appSettingsManager.SetTheme("Classic");
+        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic")) {
+            theme = "Sample";
+            appSettingsManager.SetTheme("Sample");
         }
         if (infalte)
             DestroyUI();
-        if (theme.equals("Classic"))
+        /*if (theme.equals("Classic"))
         {
             ClassicUi CuiFragment = new ClassicUi();
             CuiFragment.SetStuff(appSettingsManager, activity_v2);
 
             CuiFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = CuiFragment;
-        }
+        }*/
         if (theme.equals("Sample"))
         {
             SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
@@ -85,10 +92,6 @@ public class ThemeHandler implements I_ModuleEvent
         transaction.commitAllowingStateLoss();
     }
 
-
-
-
-
     public void SetTheme(String theme)
     {
         GetThemeFragment(true);
@@ -99,8 +102,6 @@ public class ThemeHandler implements I_ModuleEvent
     public String ModuleChanged(String module) {
 
         return null;
-
-
     }
 
 

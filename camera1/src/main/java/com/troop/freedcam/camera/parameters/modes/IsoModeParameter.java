@@ -72,6 +72,18 @@ public class IsoModeParameter extends BaseModeParameter
                 }
             } catch (Exception ex) {}
         }
+        if(!isSupported)
+        {
+            try {
+
+                String isomodes = parameters.get("lg-iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso";
+                    this.values = "lg-iso-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
     }
 
     @Override
@@ -79,9 +91,15 @@ public class IsoModeParameter extends BaseModeParameter
     {
         if (setToCam)
         {
+           // if(DeviceUtils.isG4())
+                //need to add "lge-camera"
             super.SetValue(valueToSet, setToCam);
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+            if (!firststart) {
+                baseCameraHolder.StopPreview();
+                baseCameraHolder.StartPreview();
+
+            }
+            firststart = false;
         }
         else
             super.SetValue(valueToSet, setToCam);

@@ -11,11 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.troop.freedcam.camera2.parameters.manual.BurstApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
+import troop.com.views.FreeVerticalSeekbar;
 
 /**
  * Created by Ingo on 24.07.2015.
@@ -25,9 +27,12 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     AbstractManualParameter parameter;
     AppSettingsManager appSettingsManager;
     String settingsname;
-    VerticalSeekBar seekBar;
+    FreeVerticalSeekbar seekBar;
     TextView headerTextView;
     TextView valueTextView;
+    TextView minTextView;
+    TextView maxTextView;
+
 
     String[] parameterValues;
 
@@ -73,14 +78,23 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.manual_item, this);
-        this.seekBar = (VerticalSeekBar)findViewById(R.id.vertical_seekbar);
+        this.seekBar = (FreeVerticalSeekbar)findViewById(R.id.vertical_seekbar);
+
         seekBar.setOnSeekBarChangeListener(this);
         this.headerTextView = (TextView)findViewById(R.id.textView_mheader);
+        headerTextView.setSelected(true);
         this.valueTextView = (TextView)findViewById(R.id.textView_mvalue);
+        valueTextView.setSelected(true);
+
+        minTextView = (TextView)findViewById(R.id.textView_min);
+        maxTextView = (TextView)findViewById(R.id.textView_max);
 
         thread = new HandlerThread("seekbarThread");
         thread.start();
         handler = new Handler(thread.getLooper());
+
+
+
     }
 
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
@@ -95,14 +109,13 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(parameter.GetValue()+"");
+
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-                int min = parameter.GetMinValue();
-                int max = parameter.GetMaxValue();
-                if (max > 0)
-                    setSeekbar_Min_Max(min, max);
-                else if (parameter.getStringValues() != null)
-                    setSeekbar_Min_Max(0, parameter.getStringValues().length-1);
+                realMax = parameter.GetMaxValue();
+                realMin = parameter.GetMinValue();
+                parameterValues = parameter.getStringValues();
+                updateMinMaxTextViewAndSeekbarMax();
                 setSeekbarProgress(parameter.GetValue());
             }
             else
@@ -111,6 +124,22 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
         else
             onIsSupportedChanged(false);
 
+    }
+
+    private void updateMinMaxTextViewAndSeekbarMax()
+    {
+        if (parameterValues != null && parameterValues.length > 0)
+        {
+            minTextView.setText(parameterValues[0]);
+            maxTextView.setText(parameterValues[parameterValues.length-1]);
+            setSeekbar_Min_Max(0, parameterValues.length-1);
+        }
+        else
+        {
+            minTextView.setText(realMin+"");
+            maxTextView.setText(realMax+"");
+            setSeekbar_Min_Max(realMin, realMax);
+        }
     }
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
@@ -145,10 +174,14 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 if (value) {
                     ManualItem.this.setEnabled(true);
                     seekBar.setVisibility(VISIBLE);
+                    minTextView.setVisibility(VISIBLE);
+                    maxTextView.setVisibility(VISIBLE);
                 }
                 else {
                     ManualItem.this.setEnabled(false);
                     seekBar.setVisibility(GONE);
+                    minTextView.setVisibility(GONE);
+                    maxTextView.setVisibility(GONE);
                 }
             }
         });
@@ -159,13 +192,13 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onMaxValueChanged(int max)
     {
         realMax = max;
-        setSeekbar_Min_Max(realMin, realMax);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
     public void onMinValueChanged(int min) {
         realMin = min;
-        setSeekbar_Min_Max(realMin, realMax);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
@@ -195,7 +228,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     public void onValuesChanged(String[] values)
     {
         this.parameterValues = values;
-        setSeekbar_Min_Max(0, parameterValues.length -1);
+        updateMinMaxTextViewAndSeekbarMax();
     }
 
     @Override
@@ -232,31 +265,55 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     //              SEEKBAR
     //##################################
 
-    private void setValueToParameters(int value)
+    private void setValueToParameters(final int value)
     {
-        if (realMin < 0)
-            parameter.SetValue(value + realMin);
-        else
-            parameter.SetValue(value);
+        handler.post(new Runnable() {
+            @Override
+            public void run()
+            {
+                int runValue = value;
+                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+                    if (realMin < 0)
+                        appSettingsManager.setString(settingsname, (runValue + realMin) + "");
+                    else
+                        appSettingsManager.setString(settingsname, runValue + "");
+                }
+                if (realMin < 0)
+                    runValue += realMin;
+                if (runValue > realMax) {
+                    Log.e(headerTextView.getText().toString(), "value bigger then max");
+                    return;
+                }
+                if (runValue < realMin)
+                    runValue = realMin;
+                if (runValue > realMax)
+                    runValue = realMax;
+                parameter.SetValue(runValue);
+            }
+        });
+
     }
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, boolean fromUser) {
-        Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
+        //Log.d(headerTextView.getText().toString(), "Seekbar onProgressChanged fromUser:" + userIsSeeking + "Progress:" + progress);
         if (userIsSeeking && parameter != null)
         {
-            if (!(parameter instanceof BaseManualParameterSony))
-                handler.post(new Runnable() {
-                @Override
-                public void run()
-                {
-                    setValueToParameters(progress);
-                }
-            });
-            if (realMin < 0)
-                setTextValue(progress + realMin);
+            if (!(parameter instanceof BaseManualParameterSony) && !(parameter instanceof BurstApi2))
+            {
+                setValueToParameters(progress);
+                if (realMin < 0)
+                    setTextValue(progress + realMin);
+                else
+                    setTextValue(progress);
+            }
             else
-                setTextValue(progress);
+            {
+                if (realMin < 0)
+                    setTextValue(progress + realMin);
+                else
+                    setTextValue(progress);
+            }
         }
 
     }
@@ -269,12 +326,12 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     @Override
     public void onStopTrackingTouch(final SeekBar seekBar) {
         userIsSeeking = false;
-        if (parameter instanceof BaseManualParameterSony)
+        if (parameter instanceof BaseManualParameterSony || parameter instanceof BurstApi2)
             handler.post(new Runnable() {
                 @Override
                 public void run()
                 {
-                    setValueToParameters(seekBar.getProgress());
+                    setValueToParameters(ManualItem.this.seekBar.getProgress());
                 }
             });
     }

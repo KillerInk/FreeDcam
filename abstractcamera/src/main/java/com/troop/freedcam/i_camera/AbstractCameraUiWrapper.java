@@ -1,7 +1,7 @@
 package com.troop.freedcam.i_camera;
 
 import android.os.Handler;
-import android.view.SurfaceView;
+import android.os.HandlerThread;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraUiWrapper;
@@ -32,11 +32,14 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     protected List<I_CameraChangedListner> cameraChangedListners;
 
     protected Handler uiHandler;
+    //background threading
+    protected HandlerThread backgroundThread;
+    protected Handler backgroundHandler;
 
     public abstract String CameraApiName();
 
     public AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
-    public AbstractCameraUiWrapper(SurfaceView preview, AppSettingsManager appSettingsManager)
+    public AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
     {
         this();
         /*if (backGroundThread == null) {
@@ -46,6 +49,9 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
         }*/
         uiHandler = new Handler(appSettingsManager.context.getMainLooper());
+        backgroundThread = new HandlerThread(TAG);
+        backgroundThread.start();
+        backgroundHandler = new Handler(backgroundThread.getLooper());
     };
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
@@ -191,6 +197,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraClose(final String message)
     {
+        camParametersHandler.locationParameter.stopLocationListining();
         for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
@@ -198,6 +205,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
                     cameraChangedListner.onCameraClose(message);
                 }
             });
+
 
     }
 

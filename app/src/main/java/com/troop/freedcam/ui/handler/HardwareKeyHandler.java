@@ -6,8 +6,8 @@ import android.view.KeyEvent;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.MainActivity_v2;
-import com.troop.freedcam.ui.menu.themes.classic.menu.childs.ExpandableChildExternalShutter;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 
 /**
@@ -39,11 +39,11 @@ public class HardwareKeyHandler
         longKeyPress = false;
         int appSettingsKeyShutter = 0;
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(ExpandableChildExternalShutter.VoLP))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(ExpandableChildExternalShutter.VoLM))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(ExpandableChildExternalShutter.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
@@ -53,7 +53,7 @@ public class HardwareKeyHandler
             cameraUiWrapper.moduleHandler.DoWork();
 
         }
-        if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV())
+        if(DeviceUtils.isEvo3d() || DeviceUtils.isZTEADV() || DeviceUtils.isZTEADV234() || DeviceUtils.isZTEADVIMX214())
         {
             //shutterbutton full pressed
             if (keyCode == KeyEvent.KEYCODE_CAMERA)

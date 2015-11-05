@@ -161,7 +161,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                 }
             }
             //remove the previewcallback
-            baseCameraHolder.SetPreviewCallback(null);
+            baseCameraHolder.ResetPreviewCallback();
 
             File file = createFilename();
             if (!file.exists())

@@ -29,8 +29,15 @@ public class OrientationHandler implements AbstractModuleHandler.I_worker
                 if (currentOrientation != calcCurrentOrientation(orientation))
                 {
                     currentOrientation = calcCurrentOrientation(orientation);
-                    if (orientationListner != null)
-                        orientationListner.OrientationChanged(currentOrientation);
+                    if (orientationListner != null) {
+                        try {
+                            orientationListner.OrientationChanged(currentOrientation);
+                        }
+                        catch (NullPointerException ex)
+                        {
+
+                        }
+                    }
                 }
             }
         };

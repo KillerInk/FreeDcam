@@ -4,14 +4,8 @@ package com.troop.freedcam.ui;
  * Created by troop on 09.06.2015.
  */
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.troop.freedcam.i_camera.FocusRect;
@@ -132,13 +126,14 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     y = 0;
                     difx = 0;
                     dify = 0;
+                    recthalf = (int)imageView.getWidth()/2;
                     imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf);
                     if (touchListnerEvent != null)
                         touchListnerEvent.onAreaCHanged(imageRect, i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
                 }
                 else
                 {
-                    touchListnerEvent.OnAreaClick((int)imageView.getX()+recthalf,(int)imageView.getY()+recthalf);
+                    touchListnerEvent.OnAreaClick(((int)imageView.getX()+ (int)event.getX()),((int)imageView.getY() + (int)event.getY()));
                 }
 
                 if (duration >= MAX_DURATION) {

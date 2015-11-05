@@ -23,7 +23,9 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
     AppSettingsManager appSettingsManager;
-    TextureView preview;
+    AutoFitTextureView preview;
+
+
 
     private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
 
@@ -37,31 +39,35 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     }
 
-    public CameraUiWrapperApi2(Context context, TextureView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
     {
-        super(null, appSettingsManager);
+        super(appSettingsManager);
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
         this.appSettingsManager = appSettingsManager;
         this.context = context;
         //attache the callback to the Campreview
-        //preview.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager);
+        //previewSize.getHolder().addCallback(this);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager, backgroundHandler);
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
-        moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager);
+        moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager, backgroundHandler);
 
 
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        //preview.ParametersHandler = camParametersHandler;
+        //previewSize.ParametersHandler = camParametersHandler;
 
 
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
         Log.d(TAG, "Constructor done");
 
+
+
     }
+
+
 
     @Override
     protected void startCamera() {
@@ -91,7 +97,9 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded()
+    {
+        //camParametersHandler.PictureSize.addEventListner(this);
         //cameraHolder.StartPreview();
     }
 
@@ -152,4 +160,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public void OnError(final String error) {
         super.onCameraError(error);
     }
+
+
 }

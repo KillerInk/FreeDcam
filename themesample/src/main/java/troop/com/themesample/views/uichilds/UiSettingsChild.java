@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.i_camera.parameters.I_ModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
@@ -84,7 +83,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
         headerText = (TextView)findViewById(R.id.textView);
+        headerText.setSelected(true);
         valueText = (TextView)findViewById(R.id.textView2);
+        valueText.setSelected(true);
         this.setOnClickListener(this);
 
     }
@@ -105,14 +106,21 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         {
             onIsSupportedChanged(false);
             Log.d(TAG, "Paramters is null or Unsupported");
+            if (parameter != null) {
+                parameter.addEventListner(this);
+                this.parameter = parameter;
+            }
             return;
         }
         else {
             onIsSupportedChanged(true);
+            if (parameter != null) {
+                parameter.addEventListner(this);
+                this.parameter = parameter;
+            }
         }
-        this.parameter = parameter;
-        if (parameter != null)
-            parameter.addEventListner(this);
+
+
         setTextToTextBox(parameter);
     }
 
@@ -120,6 +128,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         if (parameter.IsSupported())
         {
+            onIsSupportedChanged(true);
             String campara = parameter.GetValue();
             if (campara != null && !campara.equals(""))
                 onValueChanged(campara);
@@ -142,7 +151,13 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         {
             if (settingsname != null && !settingsname.equals(""))
                 appSettingsManager.setString(settingsname, value);
-            parameter.SetValue(value, true);
+            try {
+                parameter.SetValue(value, true);
+            }
+            catch (NullPointerException ex)
+            {
+                ex.printStackTrace();
+            }
             onValueChanged(value);
         }
     }

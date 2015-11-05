@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     HashMap<String, CamcorderProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
+    String profile = "HIGH";
 
     public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, value, values);
@@ -32,7 +34,8 @@ public class VideoProfilesParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+        profile = valueToSet;
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
 
     }
@@ -44,7 +47,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        return super.GetValue();
+        return profile;
     }
 
     @Override
@@ -193,6 +196,31 @@ public class VideoProfilesParameter extends BaseModeParameter
             try {
                 if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD))
                     supportedProfiles.put("Timelapse4kUHD", CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
+                    supportedProfiles.put("1080pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P))
+                    supportedProfiles.put("2016pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P))
+                    supportedProfiles.put("720pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P))
+                    supportedProfiles.put("480pHFR", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P));
             } catch (Exception e) {
                 e.printStackTrace();
             }

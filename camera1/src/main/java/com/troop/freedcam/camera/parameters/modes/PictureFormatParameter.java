@@ -54,23 +54,13 @@ public class PictureFormatParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (DeviceUtils.isMediaTekDevice())
+        super.SetValue(valueToSet, true);
+        if(baseCameraHolder.hasLGFrameWork && !firststart)
         {
-            if (valueToSet.equals("raw"))
-                camParametersHandler.setTHL5000Raw(true);
-            else
-                camParametersHandler.setTHL5000Raw(false);
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.StartPreview();
         }
-        else
-        {
-            super.SetValue(valueToSet, true);
-            if(baseCameraHolder.hasLGFrameWork)
-            {
-                baseCameraHolder.StopPreview();
-                baseCameraHolder.StartPreview();
-            }
-        }
-
+        firststart = false;
     }
 
     @Override

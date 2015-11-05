@@ -18,6 +18,7 @@
 typedef unsigned long long uint64;
 typedef unsigned short UINT16;
 typedef unsigned char uint8;
+#include <omp.h>
 
 extern "C"
 {
@@ -48,11 +49,16 @@ extern "C"
     	jfloatArray colorMatrix1,
     	jfloatArray colorMatrix2,
     	jfloatArray neutralColor,
+    	jfloatArray fowardMatrix1,
+        jfloatArray fowardMatrix2,
+        jfloatArray reductionMatrix1,
+        jfloatArray reductionMatrix2,
+        jfloatArray noiseMatrix,
     	jint blacklevel,
     	jstring bayerformat,
     	jint rowSize,
     	jstring devicename,
-    	jboolean tight,
+    	jint tight,
     	jint width,
     	jint height);
 }
@@ -86,8 +92,13 @@ public:
     float *colorMatrix1;
     float *colorMatrix2;
     float *neutralColorMatrix;
+    float *fowardMatrix1;
+    float *fowardMatrix2;
+    float *reductionMatrix1;
+    float *reductionMatrix2;
+    float *noiseMatrix;
     char* bayerformat;
-    bool tightRaw;
+    int rawType;
     long rawSize;
 
 
@@ -204,22 +215,34 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *e
 	jfloatArray colorMatrix1,
 	jfloatArray colorMatrix2,
 	jfloatArray neutralColor,
+	jfloatArray fowardMatrix1,
+        jfloatArray fowardMatrix2,
+        jfloatArray reductionMatrix1,
+        jfloatArray reductionMatrix2,
+        jfloatArray noiseMatrix,
 	jint blacklevel,
 	jstring bayerformat,
 	jint rowSize,
 	jstring devicename,
-	jboolean tight,
+	jint tight,
 	jint width,
 	jint height)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
 
     writer->blacklevel = new float[4] {blacklevel, blacklevel, blacklevel,blacklevel};
-    writer->tightRaw = tight;
+    writer->rawType = tight;
     writer->rowSize =rowSize;
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
+
+    writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
+    writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
+    writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
+    writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
+    writer->noiseMatrix =env->GetFloatArrayElements(noiseMatrix, 0);
+
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
     writer->rawheight = height;
     writer->rawwidht = width;
@@ -235,6 +258,7 @@ TIFF *openfTIFF(char* fileSavePath)
     }
     return tif;
 }
+
 
 void writeIfd0(TIFF *tif, DngWriter *writer)
 {
@@ -294,6 +318,32 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
+
+        static const float cam_foward1[] = {
+      		// R 	G     	B
+      		0.6648, 0.2566, 0.0429, 0.197, 0.9994, -0.1964, -0.0894, -0.2304, 1.145
+      	};
+
+      	static const float cam_foward2[] = {
+        	0.6617, 0.3849, -0.0823, 0.24, 1.1138, -0.3538, -0.0062, -0.1147, 0.946
+        	};
+
+        	static const float cam_nex_foward1[] = {
+                  		// R 	G     	B
+                  		0.6328, 0.0469, 0.2813, 0.1641, 0.7578, 0.0781, -0.0469, -0.6406, 1.5078
+                  	};
+
+                  	static const float cam_nex_foward2[] = {
+                    	0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859
+                    	};
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
+    static const float testNR[] = {
+                        	0.00051471, 0, 0.00051471,0, 0.00051471, 0};
+    TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  testNR);
+
+
+
     LOGD("colormatrix2");
        	    //////////////////////////////IFD POINTERS///////////////////////////////////////
        	                                ///GPS//////////
@@ -451,20 +501,25 @@ void processTight(TIFF *tif,DngWriter *writer)
         buffer =(unsigned char *)malloc(writer->rowSize);
     }
     LOGD("rowsize:%i", writer->rowSize);
+   //#pragma omp parallel for
 	for (row=0; row < writer->rawheight; row ++)
 	{
 		i = 0;
+		//#pragma omp parallel for
 		for(b = row * writer->rowSize; b < row * writer->rowSize + writer->rowSize; b++)
 			buffer[i++] = writer->bayerBytes[b];
 		j = 0;
 
+
 		for (dp=buffer, col = 0; col < writer->rawwidht; dp+=5, col+= 4)
 		{
+		   // #pragma omp parallel for
 			for(int i = 0; i< 4; i++)
 			{
 			    pixel[col+i] = (dp[i] <<2) | (dp[4] >> (i << 1) & 3);
 			}
 		}
+
 		if (TIFFWriteScanline(tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
 		}
@@ -564,36 +619,23 @@ void processLoose(TIFF *tif,DngWriter *writer)
 void processSXXX16(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
-    int i, j, row, col, b;
-    unsigned char *buffer;
+    int i, j, row, col, b, nextlog;
     unsigned char split; // single byte with 4 pairs of low-order bits
-    unsigned short * pixel=(unsigned short *)malloc(writer->rawwidht *(sizeof(unsigned short)));
-    buffer =(unsigned char *)malloc(writer->rowSize * (sizeof(unsigned char)));
+    unsigned short pixel[writer->rawwidht];
     j=0;
 	for (row=0; row < writer->rawheight; row ++)
 	{
-		i = 0;
-		for(b = row * writer->rowSize; b < (row * writer->rowSize) + writer->rowSize; b++)
-			buffer[i++] = writer->bayerBytes[b];
-		// offset into buffer
-		j = 0;
-		for (col = 0; col < writer->rawwidht; col+= 4)
+        nextlog = 0;
+		for (col = 0; col < writer->rawwidht; col+=4)
 		{ // iterate over pixel columns
-            a = buffer[j++];
-            unsigned short b = buffer[j++];
-			pixel[col+0] = b << 8 | a ;
-
-			unsigned short c = buffer[j++];
-            unsigned short d = buffer[j++];
-			pixel[col+1] = d << 8 | c ;
-
-			unsigned short EvenHI = buffer[j++];
-            unsigned short OddLow = buffer[j++];
-            pixel[col+2] = OddLow << 8 | EvenHI ;
-
-			unsigned short g = buffer[j++];
-            unsigned short h = buffer[j++];
-			pixel[col+3] = h << 8 | g ;
+            for (int k = 0; k < 4; ++k)
+            {
+                unsigned short low = writer->bayerBytes[j++];
+                unsigned short high =   writer->bayerBytes[j++];
+                pixel[col+k] =  high << 8 |low;
+                if(col < 4 && row < 4)
+                    LOGD("Pixel : %i, high: %i low: %i ", pixel[col+k], high, low);
+            }
 		}
 		if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
 		LOGD("Error writing TIFF scanline.");
@@ -625,18 +667,20 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-    if(writer->tightRaw == true)
+    if(writer->rawType == 0)
     {
         LOGD("Processing tight RAW data...");
         processTight(tif, writer);
         LOGD("Done tight RAW data...");
     }
-    else
+    else if (writer->rawType == 1)
     {
         LOGD("Processing loose RAW data...");
         processLoose(tif, writer);
         LOGD("Done loose RAW data...");
     }
+    else if (writer->rawType == 2)
+        processSXXX16(tif,writer);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)
@@ -659,8 +703,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
         makeGPS_IFD(tif, writer);
         TIFFCheckpointDirectory(tif);
         TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+        TIFFSetDirectory(tif, 0);
     }
-    TIFFSetDirectory(tif, 0);
+
 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD

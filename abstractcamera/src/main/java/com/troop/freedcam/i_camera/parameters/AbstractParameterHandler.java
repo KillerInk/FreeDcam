@@ -75,6 +75,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoProfilesG3;
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
+    public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
 
     //yet only seen on m9
@@ -87,13 +88,17 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ContShootModeSpeed;
     public AbstractModeParameter ObjectTracking;
     public AbstractModeParameter PostViewSize;
+    public AbstractModeParameter Focuspeak;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
-    public boolean isDngActive = false;
+    private boolean isDngActive = false;
+    public boolean IsDngActive(){ return this.isDngActive; };
+    public void SetDngActive(boolean active) {this.isDngActive = active;}
     public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
+    public AbstractCameraChanged cameraChanged;
     protected AppSettingsManager appSettingsManager;
 
     //camera2 modes
@@ -105,6 +110,11 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter oismode;
 
+    public LocationParameter locationParameter;
+
+    public boolean IntervalCapture = false;
+    public boolean IntervalCaptureFocusSet = false;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -112,6 +122,7 @@ public abstract class AbstractParameterHandler
         this.uiHandler = uiHandler;
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
+        locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
     }
 
     public void SetParametersToCamera() {};
@@ -160,9 +171,13 @@ public abstract class AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "true");
-        isDngActive = Boolean.getBoolean(appSettingsManager.getString(AppSettingsManager.SETTING_DNG));
+            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            this.isDngActive = true;
+        else
+            this.isDngActive = false;
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
@@ -170,7 +185,7 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
         //setManualMode(ManualFocus, AppSettingsManager.MF);
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
-        //setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
+        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
         //setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
@@ -179,7 +194,7 @@ public abstract class AbstractParameterHandler
 
     }
 
-    private void setMode(AbstractModeParameter parameter, String settingsval)
+    protected void setMode(AbstractModeParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
@@ -190,7 +205,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    private void setManualMode(AbstractManualParameter parameter, String settingsval)
+    protected void setManualMode(AbstractManualParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {

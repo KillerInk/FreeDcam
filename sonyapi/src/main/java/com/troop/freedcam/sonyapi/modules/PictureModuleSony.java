@@ -1,6 +1,5 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -17,8 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by troop on 22.12.2014.
@@ -35,7 +32,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         super(cameraHandler, Settings, eventHandler);
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
-        cameraHolder.CameraStatusListner = this;
+
     }
 
     @Override
@@ -69,7 +66,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void LoadNeededParameters()
     {
-
+        cameraHolder.CameraStatusListner = this;
     }
 
     @Override
@@ -143,6 +140,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onCameraStatusChanged(String status)
     {
+        Log.d(TAG, "Status:"+status);
         if (status.equals("IDLE") && isWorking)
         {
             this.isWorking = false;

@@ -29,10 +29,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"
 
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
         android:largeHeap="true">
         android:name="com.troop.">
@@ -41,7 +41,7 @@
             android:name="com.troop.freedcam.ui.MainActivity_v2"
             android:label="FreeDCam"
 
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
@@ -61,38 +61,21 @@
             android:name="com.troop.freedcam.ui.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/launcher_freedcam"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PICK" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter> -->
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- <action android:name="com.lge.action.BLE_ONEKEY" /> -->
             </intent-filter>
-
-
-
         </activity>
 
         <activity
-            android:name="troop.com.imageviewer.ImageViewerActivity"
+            android:name="troop.com.imageviewer.ScreenSlideActivity"
             android:label="FreeDCam Viewer"
 
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/launcher_imageviewer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
@@ -100,6 +83,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="image/*"/>
             </intent-filter>
 
 

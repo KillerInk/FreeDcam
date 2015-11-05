@@ -86,6 +86,10 @@ public class ZoomApi2 extends AbstractManualParameter
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

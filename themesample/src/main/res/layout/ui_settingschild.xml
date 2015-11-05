@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:background="@color/menuBackgColor"
+    android:background="#ffffff"
     android:id="@+id/uiSettingsTopLayout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView"
-        android:textStyle="bold"
-        android:textColor="@color/menuTextColor"
-        android:layout_marginTop="4dp"
-        android:textSize="10dip" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="@color/uiSettingsBackground"
+        android:layout_margin="1dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView2"
-        android:textColor="@color/menuTextColor"
-        android:textSize="8dip"
-        android:layout_marginBottom="4dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView"
+            android:textStyle="bold"
+            android:textColor="@color/uiSettingsTextColor"
+            android:layout_marginTop="4dp"
+            android:textSize="10dip"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView2"
+            android:textColor="@color/uiSettingsTextColor"
+            android:textSize="8dip"
+            android:layout_marginBottom="4dp"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"/>
+    </LinearLayout>
+
 </LinearLayout>

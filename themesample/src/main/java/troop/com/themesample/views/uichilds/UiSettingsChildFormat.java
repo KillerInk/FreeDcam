@@ -37,16 +37,27 @@ public class UiSettingsChildFormat extends UiSettingsChild
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
 
-
     }
 
     @Override
     public void SetParameter(AbstractModeParameter parameter)
     {
-        if (cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof CameraUiWrapper && DeviceUtils.isCamera1DNGSupportedDevice())
         {
             camera1picFormat = new Camera1picFormat(this.getHandler());
             super.SetParameter(camera1picFormat);
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            {
+                cameraUiWrapper.camParametersHandler.SetDngActive(true);
+                valueText.setText("DNG");
+            }
+            else if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("false") &&
+                    (appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer")||
+                     appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw")))
+            {
+                cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                valueText.setText("RAW");
+            }
         }
         else {
             camera1picFormat = null;
@@ -61,42 +72,71 @@ public class UiSettingsChildFormat extends UiSettingsChild
         }
 
         @Override
-        public boolean IsSupported() {
-            return DeviceUtils.isCamera1DNGSupportedDevice();
+        public boolean IsSupported()
+        {
+            return true; //DeviceUtils.isCamera1DNGSupportedDevice() || DeviceUtils.isMediaTekDevice() || !(cameraUiWrapper instanceof CameraUiWrapper);
         }
 
         @Override
         public void SetValue(String valueToSet, boolean setToCamera)
         {
-            if (valueToSet.equals("DNG"))
-            {
-                cameraUiWrapper.camParametersHandler.isDngActive = true;
-                cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT),false);
+            if (!DeviceUtils.isMediaTekDevice()) {
+                if (valueToSet.equals("DNG")) {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(true);
+                    cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT), false);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT));
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, true + "");
+                } else if (valueToSet.equals("JPEG")) {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                    cameraUiWrapper.camParametersHandler.PictureFormat.SetValue("jpeg", false);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
+                }
+                if (valueToSet.equals("RAW")) {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                    cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT), false);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, appSettingsManager.getString(MenuItemBayerFormat.APPSETTING_BAYERFORMAT));
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
+                }
+                else
+                    super.SetValue(valueToSet, setToCamera);
             }
-            else if (valueToSet.equals("JPEG"))
+            else if (DeviceUtils.isCamera1DNGSupportedDevice())
             {
-                cameraUiWrapper.camParametersHandler.isDngActive = true;
-                cameraUiWrapper.camParametersHandler.PictureFormat.SetValue("jpeg",false);
+                if (valueToSet.equals("DNG")) {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(true);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, true + "");
+                }
+                else if (valueToSet.equals("JPEG"))
+                {
+                    cameraUiWrapper.camParametersHandler.SetDngActive(false);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_DNG, false + "");
+                }
             }
             else
-                super.SetValue(valueToSet, setToCamera);
+                cameraUiWrapper.camParametersHandler.PictureFormat.SetValue(valueToSet,true);
+
         }
 
         @Override
         public String GetValue()
         {
-            if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null || cameraUiWrapper.camParametersHandler.PictureFormat == null)
-                return "JPEG";
-            final String format =cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
-            if (DeviceUtils.isCamera1DNGSupportedDevice())
+            if (DeviceUtils.isCamera1DNGSupportedDevice()|| DeviceUtils.isMediaTekDevice())
             {
-                if (format.contains("bayer") || format.contains("raw"))
-                    return "DNG";
-                else
+                String t = appSettingsManager.getString(AppSettingsManager.SETTING_DNG);
+                String format = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+                if ((t.equals("") || t.equals("false")) && !format.contains("bayer") && !format.contains("raw"))
+                {
                     return "JPEG";
+                }
+                else if (t.equals("true"))
+                    return "DNG";
+                else if (t.equals("false"))
+                    return "RAW";
             }
-            else
-                return format;
+            else if (cameraUiWrapper !=null)
+                return cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
+            return null;
         }
 
         @Override

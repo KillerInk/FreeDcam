@@ -85,7 +85,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
         }
         else
         {
-            baseCameraHolder.SetPreviewCallback(null);
+            baseCameraHolder.ResetPreviewCallback();
 
         }
         doBurst = enable;

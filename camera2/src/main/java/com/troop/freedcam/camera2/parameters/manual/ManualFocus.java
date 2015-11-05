@@ -27,7 +27,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
     @Override
     public int GetMaxValue() {
-        return (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) * 100);
+        return (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
     @Override
     public int GetValue() {
-        return (int)(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE)* 100);
+        return (int)(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE)* 10);
     }
 
     @Override
@@ -59,13 +59,17 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float)valueToSet /100);
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float)valueToSet /10);
 
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
         }
     }
 
