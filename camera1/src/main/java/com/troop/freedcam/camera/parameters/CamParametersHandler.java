@@ -314,9 +314,26 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         else
         {
-            cameraParameters.put("afeng_raw_dump_flag",1 +"");
-            cameraParameters.put("rawsave-mode", 2+"");
-            cameraParameters.put("isp-mode", 1+"");
+            cameraParameters.put("camera-mode","0");
+
+            try {
+
+
+                cameraParameters.put("afeng_raw_dump_flag", "1");
+            }
+            catch (Exception what)
+            {  }
+
+            cameraParameters.put("rawfname", "/mnt/sdcard/test.raw");
+            try {
+                cameraParameters.put("isp-mode", "1");
+            }
+            catch (Exception ex)
+            { }
+
+            cameraParameters.put("rawsave-mode", "2");
+
+
             Log.e(TAG, "MTK set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
