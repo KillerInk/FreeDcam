@@ -41,13 +41,13 @@ public class PictureModuleMTK extends PictureModule
             {
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),"");
                 parametersHandler.setMTKRaw(true);
-                parametersHandler.setMTKrawFilename(file + ".raw");
+               // parametersHandler.setMTKrawFilename(file + ".raw");
             }
             else
             {
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),".jpg");;
-                parametersHandler.setMTKRaw(false);
-                parametersHandler.setMTKrawFilename("");
+                parametersHandler.setMTKRaw(true);
+                //parametersHandler.setMTKrawFilename("");
             }
 
             baseCameraHolder.TakePicture(null,null, picCallback);

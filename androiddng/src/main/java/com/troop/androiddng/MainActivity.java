@@ -78,6 +78,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.I_Mobile_I_StyleQ6;
 		if (filename.contains("MotoX_pure")|| DeviceUtils.isMoto_MSM8982_8994())
 			return DngSupportedDevices.SupportedDevices.MotoX_pure;
+		if(filename.contains("SonyM5"))
+			return DngSupportedDevices.SupportedDevices.SonyM5;
 		return null;
 	}
 	

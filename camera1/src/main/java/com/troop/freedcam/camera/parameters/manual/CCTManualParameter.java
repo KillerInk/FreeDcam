@@ -18,7 +18,17 @@ public class CCTManualParameter extends BaseManualParameter {
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (DeviceUtils.isOnePlusOne())
+        if (DeviceUtils.isSonyM5_MTK())
+        {
+            //temp disable
+            this.isSupported = false;
+        }
+
+       else if (DeviceUtils.isMoto_MSM8974())
+        {
+            this.isSupported = false;
+        }
+      else  if (DeviceUtils.isOnePlusOne())
         {
             this.value = "wb-current-cct";
             this.min_value = "min-wb-cct";
@@ -62,6 +72,8 @@ public class CCTManualParameter extends BaseManualParameter {
                 this.isSupported=false;
             }
         }
+        else
+            this.isSupported=false;
         //force close app
         /*else if (DeviceUtils.isG4()) {
             this.value = "lg-wb";
@@ -100,6 +112,11 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else
         try {
+            if(DeviceUtils.isMoto_MSM8974())
+            {
+                return 8000;
+            }
+            else {
             String wbct  = parameters.get(max_value);
             if(wbct.equals("null"))
             {

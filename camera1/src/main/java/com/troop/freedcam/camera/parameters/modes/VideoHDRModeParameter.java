@@ -42,7 +42,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
                 try
                 {
                     String tmp = parameters.get("video-hdr");
-                    if((tmp != null && !tmp.equals(""))||DeviceUtils.isMoto_MSM8974()) {
+                    if((tmp != null && !tmp.equals(""))) {
                         this.isSupported = true;
                         this.values = "video-hdr-values";
                         this.value = "video-hdr";
