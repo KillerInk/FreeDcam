@@ -516,12 +516,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     try
                     {
                         if (!ParameterHandler.ExposureMode.GetValue().equals("off") && !ParameterHandler.ControlMode.equals("off")) {
-
-                            final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-
-                            //String sec = ((ManualExposureTimeApi2) ParameterHandler.ManualShutter).getSECONDSasString(expores);
                             try {
-
+                                final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 if(expores != 0) {
                                     ParameterHandler.ManualShutter.currentValueStringCHanged(getShutterString(expores));
                                 }
@@ -532,22 +528,24 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                             {
 
                             }
+                            try {
+                                final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                                ParameterHandler.ISOManual.currentValueStringCHanged(""+iso);
+                            }
+                            catch (NullPointerException ex) {}
+                            try {
+                                final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
+                                ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
+                            }
+                            catch (NullPointerException ex) {}
                         }
                     }
                     catch (NullPointerException ex)
                     {
 
                     }
-                    try {
-                        final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                        ParameterHandler.ISOManual.currentValueStringCHanged(""+iso);
-                    }
-                    catch (NullPointerException ex) {}
-                    try {
-                        final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                        ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
-                    }
-                    catch (NullPointerException ex) {}
+
+
                 }
             }
 
