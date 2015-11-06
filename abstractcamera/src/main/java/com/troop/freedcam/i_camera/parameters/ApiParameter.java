@@ -13,6 +13,7 @@ public class ApiParameter extends AbstractModeParameter
 {
     I_Activity i_activity;
     AppSettingsManager appSettingsManager;
+    boolean DEBUG = false;
 
     public ApiParameter(Handler uiHandler, I_Activity i_activity, AppSettingsManager appSettingsManager) {
         super(uiHandler);
@@ -23,15 +24,19 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public String[] GetValues()
     {
-        if (Build.VERSION.SDK_INT  >= 21)
+        if (DEBUG)
         {
-            if (appSettingsManager.IsCamera2FullSupported().equals("true"))
-                return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2};
-            else
-                return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+            return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
         }
-        else
-            return new String[] {AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+        else {
+            if (Build.VERSION.SDK_INT >= 21) {
+                if (appSettingsManager.IsCamera2FullSupported().equals("true"))
+                    return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2};
+                else
+                    return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+            } else
+                return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+        }
     }
 
     @Override
