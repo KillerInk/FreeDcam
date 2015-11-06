@@ -36,6 +36,7 @@ import java.util.Map;
 public class BaseCameraHolder extends AbstractCameraHolder
 {
     Camera mCamera;
+    private Camera.Parameters mCameraParam;
     LGCamera lgCamera;
     LGCamera.LGParameters lgParameters;
     private static String TAG = BaseCameraHolder.class.getSimpleName();
@@ -366,6 +367,38 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
         else
         try {
+            if(DeviceUtils.isSonyM5_MTK())
+            {
+                if (null != mCameraParam) {
+                    try {
+                        mCameraParam.set("camera-mode", "0");
+                        mCameraParam.set("afeng_raw_dump_flag", "1");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("BaseCameraHolder","Fail Set Param afeng");
+                    }
+                    mCameraParam.set("rawsave-mode", "1");
+                    Log.d("BaseCameraHolder", "raw save mode engaged");
+                    mCameraParam.set("isp-mode", "1");
+                    Log.d("BaseCameraHolder", "ISP Switched to raw mode");
+                    mCameraParam.set("rawfname", "/mnt/sdcard/test.raw");
+                    Log.d("BaseCameraHolder", "Raw Path set");
+
+try {
+
+
+    mCamera.setParameters(mCameraParam);
+    Log.d("BaseCameraHolder", "Params Set");
+}
+catch (Exception ex)
+{}
+
+                    
+
+                }
+
+            }
 
 
             mCamera.startPreview();
