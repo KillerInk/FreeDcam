@@ -151,6 +151,8 @@ public class DeviceUtils
 
     public static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
 
+    public static boolean isOnePlusTwo(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusTwo));}
+
     public static boolean isRedmiNote() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
 
     public static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}

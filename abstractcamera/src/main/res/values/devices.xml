@@ -168,9 +168,18 @@
     <string-array name="GioneE7">
         <item>E7</item>
     </string-array>
+
     <string-array name="OnePlusOne">
         <item>A0001</item>
     </string-array>
+
+    <string-array name="OnePlusTwo">
+        <item>A2001</item>
+        <item>A2003</item>
+        <item>A2005</item>
+        <item>ONE A2003</item>
+    </string-array>
+
     <string-array name="Xiaomi_RedmiNote">
         <item>HM NOTE 1LTE</item>
     </string-array>

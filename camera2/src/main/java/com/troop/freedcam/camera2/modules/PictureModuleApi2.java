@@ -275,7 +275,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         while (image == null) {
                             image = reader.acquireNextImage();
                         }
-                        if(!DeviceUtils.isMoto_MSM8982_8994()) {
+                        if(!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isOnePlusTwo()) {
 
                             DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
 
@@ -285,6 +285,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                                 e.printStackTrace();
                             }
                             image.close();
+                        }
+                        else if(DeviceUtils.isOnePlusTwo())
+                        {
+                          File  xfile = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
+                            new ImageSaver(image, xfile).run();
                         }
                         else
                         {
