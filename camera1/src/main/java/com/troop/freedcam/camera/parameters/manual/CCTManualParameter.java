@@ -112,25 +112,21 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else
         try {
-            if(DeviceUtils.isMoto_MSM8974())
-            {
+            if (DeviceUtils.isMoto_MSM8974()) {
                 return 8000;
+            } else {
+                String wbct = parameters.get(max_value);
+                if (wbct.equals("null")) {
+                    isSupported = false;
+                    wbct = "0";
+                }
+                return Integer.parseInt(wbct);
             }
-            else {
-            String wbct  = parameters.get(max_value);
-            if(wbct.equals("null"))
-            {
-                isSupported = false;
-                wbct = "0";
-            }
-            return Integer.parseInt(wbct);
         }
         catch (NullPointerException ex)
         {
             return 0;
         }
-
-
     }
 //M8 Step values "wb-ct-step"
     @Override
