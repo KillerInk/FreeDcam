@@ -49,6 +49,8 @@ public class SampleThemeFragment extends AbstractFragment
         this.wrapper = wrapper;
         if (cameraUiFragment != null)
             cameraUiFragment.SetCameraUIWrapper(wrapper);
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
 
 
     }
@@ -63,6 +65,8 @@ public class SampleThemeFragment extends AbstractFragment
             cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
         cameraUiFragment.SetCameraUIWrapper(wrapper);
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentholder, cameraUiFragment);
         transaction.commitAllowingStateLoss();

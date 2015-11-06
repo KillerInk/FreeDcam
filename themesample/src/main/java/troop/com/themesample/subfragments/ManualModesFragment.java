@@ -140,6 +140,7 @@ public class ManualModesFragment extends AbstractFragment implements I_Parameter
         super.SetCameraUIWrapper(wrapper);
         try {
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+            setWrapper();
         }
         catch (NullPointerException ex)
         {

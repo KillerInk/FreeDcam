@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
@@ -35,6 +36,13 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     int value_menu_status = VALUE_MENU_CLOSED;
 
     UiSettingsChild currentOpendItem;
+
+    @Override
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
+        super.SetCameraUIWrapper(wrapper);
+        if(getActivity() != null)
+            setWrapper();
+    }
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
     {
