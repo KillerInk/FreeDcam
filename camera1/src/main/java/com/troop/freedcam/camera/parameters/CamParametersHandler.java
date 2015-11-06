@@ -14,7 +14,9 @@ import com.troop.freedcam.camera.parameters.manual.ConvergenceManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
+import com.troop.freedcam.camera.parameters.manual.FocusManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
+import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
@@ -50,10 +52,12 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -119,7 +123,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
         ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this);
         ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
-        ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
+        if (DeviceUtils.isG4())
+            ManualFocus = new FocusManualParameterG4(cameraParameters,"","","", cameraHolder, this);
+        else
+            ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
         ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
@@ -132,7 +139,13 @@ public class CamParametersHandler extends AbstractParameterHandler
        /* if (DeviceUtils.isSonyADV()) {
             ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
         }*/
-        ISOManual = new ISOManualParameter(cameraParameters,"","","", this);
+        if (DeviceUtils.isG4())
+        {
+            ISOManual = new ISOManualParameterG4(cameraParameters,"", "","",baseCameraHolder, this);
+        }
+        else {
+            ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
+        }
 
         Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
 
