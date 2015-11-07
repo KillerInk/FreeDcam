@@ -174,10 +174,14 @@
     </string-array>
 
     <string-array name="OnePlusTwo">
+        <item>ONE A2001</item>
+        <item>ONE A2003</item>
+        <item>ONE A2005</item>
+        <item>ONE A2004</item>
         <item>A2001</item>
         <item>A2003</item>
         <item>A2005</item>
-        <item>ONE A2003</item>
+        <item>A2004</item>
     </string-array>
 
     <string-array name="Xiaomi_RedmiNote">
