@@ -25,6 +25,15 @@
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/manual_iso"
+
+            app:Header="ISO"
+            android:visibility="visible"
+            android:layout_gravity="bottom" />
+
+        <troop.com.themesample.views.ManualItem
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/manual_shutter"
 
@@ -35,17 +44,17 @@
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/manual_exposure"
-            app:Header="Exposure"
+            android:id="@+id/manual_aperture"
+
+            app:Header="Aperture"
             android:visibility="visible"
             android:layout_gravity="bottom" />
 
         <troop.com.themesample.views.ManualItem
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/manual_aperture"
-
-            app:Header="Aperture"
+            android:id="@+id/manual_exposure"
+            app:Header="Exposure"
             android:visibility="visible"
             android:layout_gravity="bottom" />
 
@@ -131,15 +140,6 @@
             android:layout_height="fill_parent"
             android:id="@+id/manual_fx"
             app:Header="FX"
-            android:visibility="visible"
-            android:layout_gravity="bottom" />
-
-        <troop.com.themesample.views.ManualItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/manual_iso"
-
-            app:Header="ISO"
             android:visibility="visible"
             android:layout_gravity="bottom" />
 

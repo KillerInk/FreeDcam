@@ -43,8 +43,12 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     @Override
     public String GetStringValue()
     {
-        if (supported)
-            return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        if (current == -1)
+            return "Auto";
+        else {
+            if (supported)
+                return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        }
         return "";
     }
 

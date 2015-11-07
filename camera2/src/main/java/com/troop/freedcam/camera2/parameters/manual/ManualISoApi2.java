@@ -51,6 +51,9 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     @Override
     public String GetStringValue()
     {
+        if (GetValue() == -1)
+            return "Auto";
+        else
             return ""+ GetValue()*50;
     }
 
