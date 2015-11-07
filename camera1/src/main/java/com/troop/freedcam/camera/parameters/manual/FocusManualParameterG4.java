@@ -60,7 +60,7 @@ public class FocusManualParameterG4 extends  BaseManualParameter
         if(valueToSet != -1 && !camParametersHandler.FocusMode.GetValue().equals("manual"))
         {
             parameters.put("manual-focus", "0");
-            camParametersHandler.FocusMode.SetValue("manual", true);
+            camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", value);
         }
         else if (valueToSet == -1)
