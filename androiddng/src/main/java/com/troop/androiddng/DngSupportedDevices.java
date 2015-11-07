@@ -232,6 +232,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case LG_G3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
+                    case yureka:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
                 }
