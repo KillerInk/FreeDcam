@@ -32,6 +32,8 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
     {
+        if (parameter == null)
+            return;
         if (parameter.GetValue().equals(StringUtils.ON)) {
             try {
                 parameter.SetValue(StringUtils.OFF, false);

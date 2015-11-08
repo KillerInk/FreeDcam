@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -27,7 +28,7 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2)
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
@@ -45,12 +46,17 @@ public class MenuItemOrientationHack extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        if (value.equals(StringUtils.ON))
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack,  "true");
-        else
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, "false");
-        ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetCameraRotation();
-        ((CamParametersHandler)cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
+        appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
+            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetCameraRotation();
+            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
+        }
+        else if(cameraUiWrapper instanceof CameraUiWrapperApi2)
+        {
+            ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.StopPreview();
+            ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.StartPreview();
+
+        }
         onValueChanged(value);
     }
 }

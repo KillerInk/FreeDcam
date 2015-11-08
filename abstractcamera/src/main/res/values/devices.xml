@@ -4,37 +4,69 @@
         <item>LG-D800</item>
         <item>LG-D801</item>
         <item>LG-D802</item>
+        <item>LG-D802T</item>
+        <item>LG-D802TR</item>
         <item>LG-D803</item>
         <item>LG-D804</item>
         <item>LG-D805</item>
+        <item>LG-D806</item>
         <item>LG-D820</item>
         <item>LG-F320</item>
         <item>LG-F320S</item>
         <item>LG-F320L</item>
-        <item>F320K</item>
+        <item>LG-F320K</item>
         <item>LG-VS980</item>
         <item>LG-LS980</item>
         <item>L-01F</item>
         <item>L-01F g2</item>
         <item>g2</item>
+        <item>VS980 4G</item>
     </string-array>
     <string-array name="g3">
-        <item>LG-D855</item>
-        <item>LGLS990</item>
-        <item>LG VS985</item>
+        <item>AS985</item>
+        <item>LG-AS990</item>
+        <item>LG-D850</item>
         <item>LG-D851</item>
+        <item>LG-D852</item>
+        <item>LG-D852G</item>
+        <item>LG-D855</item>
+        <item>LG-D856</item>
+        <item>LG-D857</item>
+        <item>LG-D858</item>
+        <item>LG-D858HK</item>
+        <item>LG-D859</item>
+        <item>LG-F400K</item>
+        <item>LG-F400L</item>
+        <item>LG-F400S</item>
+        <item>LGL24</item>
+        <item>LGLS990</item>
+        <item>LGUS990</item>
+        <item>LGV31</item>
+        <item>LG VS985 4G</item>
+        <item>LG VS985</item>
         <item>L-02F</item>
     </string-array>
     <string-array name="g4">
+        <item>LG-AS986</item>
+        <item>LG-AS811</item>
+        <item>LG-AS991</item>
+        <item>LG-F500K</item>
+        <item>LG-F500L</item>
+        <item>LG-F500S</item>
+        <item>LG-H810</item>
+        <item>LG-H811</item>
+        <item>LG-H812</item>
         <item>LG-H815</item>
         <item>LG-H815P</item>
-        <item>LG-H811</item>
         <item>LG-H818P</item>
+        <item>LG-H818</item>
         <item>LG-H818N</item>
+        <item>LG-H819</item>
         <item>LG-LS991</item>
-        <item>LG-VS9</item>
-        <item>LG-US9</item>
-        <item>L-01G</item>
+        <item>LGLS991</item>
+        <item>LGUS991</item>
+        <item>LGV32</item>
+        <item>VS986</item>
     </string-array>
 
     <string-array name="evo3d">
@@ -49,10 +81,24 @@
         <item>One M8</item>
         <item>HTC One M8</item>
         <item>831C</item>
+        <item>HTC M8w</item>
+        <item>HTC One_M8</item>
+        <item>HTC_0P6B</item>
+        <item>HTC_0P6B6</item>
+        <item>HTC_M8x</item>
+        <item>HTC One_M8 dual sim</item>
+        <item>HTC M8d</item>
+        <item>HTC6525LVW</item>
     </string-array>
     <string-array name="htc_m9">
         <item>HTC One_M9"</item>
         <item>HTC One M9</item>
+        <item>0PJA10</item>
+        <item>HTC 0PJA10</item>
+        <item>HTC_M9u</item>
+        <item>HTC6535LRA</item>
+        <item>HTC6535LVW</item>
+        <item>0PJA2</item>
     </string-array>
     <string-array name="Htc_One_SV">
         <item>HTC One SV</item>
@@ -163,6 +209,7 @@
         <item>AO5510</item>
         <item>Yureka</item>
         <item>A05510</item>
+        <item>YU5510</item>
     </string-array>
 
     <string-array name="GioneE7">
@@ -171,6 +218,7 @@
 
     <string-array name="OnePlusOne">
         <item>A0001</item>
+        <item>One</item>
     </string-array>
 
     <string-array name="OnePlusTwo">
@@ -186,6 +234,8 @@
 
     <string-array name="Xiaomi_RedmiNote">
         <item>HM NOTE 1LTE</item>
+        <item>HM NOTE 1LTETD</item>
+        <item>HM NOTE 1LTEW</item>
     </string-array>
     <string-array name="Xiaomi_Mi3">
         <item>MI 3W</item>
@@ -195,6 +245,10 @@
     </string-array>
     <string-array name="Alcatel_Idol_3">
         <item>6045Y</item>
+        <item>6045B</item>
+        <item>6045F</item>
+        <item>6045I</item>
+        <item>6045K</item>
     </string-array>
     <string-array name="Vivo_Xplay3s">
         <item>vivo Xplay3S</item>
@@ -203,6 +257,25 @@
         <item>i-mobile i-STYLE Q6</item>
     </string-array>
     <string-array name="Samsung_S6_edge_plus">
+        <item>SM-G9287</item>
+        <item>SM-G9287C</item>
+        <item>SM-G928C</item>
+        <item>SM-G928F</item>
         <item>SM-G928G</item>
+        <item>SM-G928I</item>
+        <item>SM-G928X</item>
+        <item>SAMSUNG-SM-G928A</item>
+        <item>SM-G928W8</item>
+        <item>SM-G9280</item>
+        <item>SM-G928K</item>
+        <item>SM-G928N0</item>
+        <item>SM-G928L</item>
+        <item>SM-G928S</item>
+        <item>SM-G928P</item>
+        <item>SM-G928T</item>
+        <item>SM-G928V</item>
+    </string-array>
+    <string-array name="Samsung_S6_edge">
+        <item>SM-G925F</item>
     </string-array>
 </resources>

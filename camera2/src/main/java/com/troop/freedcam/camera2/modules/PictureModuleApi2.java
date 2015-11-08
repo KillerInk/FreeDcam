@@ -150,6 +150,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
             captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
             captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+            else
+                captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
 
             List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
             for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)

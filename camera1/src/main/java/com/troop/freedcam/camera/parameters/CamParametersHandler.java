@@ -58,6 +58,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -274,7 +275,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -296,9 +297,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , "false");
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("false"))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
         else
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);

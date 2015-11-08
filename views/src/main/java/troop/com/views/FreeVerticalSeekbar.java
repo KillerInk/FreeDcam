@@ -153,6 +153,8 @@ public class FreeVerticalSeekbar extends View
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
+                if (touchArea == null)
+                    break;
                 if (touchArea.contains((int)event.getX(), (int)event.getY()))
                 {
                     startY = (int)event.getY();

@@ -166,20 +166,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setLayoutParams(mParams);
                     focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_normal);
                     focusImageView.setVisibility(View.VISIBLE);
+                    Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
+                    focusImageView.startAnimation(anim);
                 }
             });
 
-
-            /*RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-
-//Setup anim with desired properties
-            anim.setInterpolator(new LinearInterpolator());
-            anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-            anim.setDuration(5000); //Put desired duration per anim cycle here, in milliseconds*/
-
-//Start animation
-            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
-            focusImageView.startAnimation(anim);
         }
     }
 

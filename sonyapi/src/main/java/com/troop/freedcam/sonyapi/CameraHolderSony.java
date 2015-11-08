@@ -723,6 +723,9 @@ public class CameraHolderSony extends AbstractCameraHolder
                 } catch (JSONException e) {
                     Log.w(TAG, "setShootMode: JSON format error.");
                 }
+                catch (NullPointerException e) {
+                    Log.w(TAG, "remote api null");
+                }
             }
         }.start();
     }
@@ -872,6 +875,9 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
                 } catch (JSONException e) {
                     Log.w(TAG, "setShootMode: JSON format error.");
+                }
+                catch (NullPointerException e) {
+                    Log.w(TAG, "remote api is null");
                 }
             }
         }.start();
