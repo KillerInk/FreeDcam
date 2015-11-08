@@ -39,7 +39,8 @@ public class DngSupportedDevices
         I_Mobile_I_StyleQ6,
         MotoX_pure,
         moto2k14,
-        SonyM5
+        SonyM5,
+        op2
 
     }
 
@@ -99,6 +100,8 @@ public class DngSupportedDevices
             return SupportedDevices.moto2k14;
         if(DeviceUtils.isSonyM5_MTK())
             return SupportedDevices.SonyM5;
+        if(DeviceUtils.isOnePlusTwo())
+            return SupportedDevices.op2;
         return null;
     }
 
@@ -138,6 +141,26 @@ public class DngSupportedDevices
                         Matrixes.imx230_reduction_matrix1,
                         Matrixes.imx230_reduction_matrix2,
                         Matrixes.imx230_3x1_matrix);
+            case 26357760: //oneplus
+                return new DngProfile(16,4224 ,3120 ,Plain, BGGR, 0,
+                        Matrixes.Nexus6_identity_matrix1,
+                        Matrixes.Nexus6_identity_matrix2,
+                        Matrixes.Nexus6_identity_neutra,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 16473600: //oneplus
+                return new DngProfile(16,4224 ,3120 ,Mipi, BGGR, 5280,
+                        Matrixes.Nexus6_identity_matrix1,
+                        Matrixes.Nexus6_identity_matrix2,
+                        Matrixes.Nexus6_identity_neutra,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
             case 6299648: {
                 switch (device) {
                     case Xiaomi_Redmi_Note:

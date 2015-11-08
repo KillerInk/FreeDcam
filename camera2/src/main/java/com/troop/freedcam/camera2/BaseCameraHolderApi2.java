@@ -341,6 +341,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
             if (picFormat.equals(JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
+            else if (picFormat.equals(RAW10))
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
             else
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
 
