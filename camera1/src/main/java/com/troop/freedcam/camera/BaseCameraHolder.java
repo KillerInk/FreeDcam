@@ -316,14 +316,25 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.surfaceHolder = surfaceHolder.getSurface();
         try
         {
-            if(hasSamsungFrameWork)
+            if(hasSamsungFrameWork) {
                 samsungCamera.setPreviewDisplay(surfaceHolder);
-            else
-                mCamera.setPreviewDisplay(surfaceHolder);
-            return  true;
+                return true;
+            }
+            else {
+                if (isRdy && mCamera != null) {
+                    mCamera.setPreviewDisplay(surfaceHolder);
+                    return true;
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-
+            return false;
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+            return false;
         }
         return false;
     }
