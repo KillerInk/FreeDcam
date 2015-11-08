@@ -2,6 +2,7 @@ package troop.com.themesample.views;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -97,18 +98,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
-        this.post(new Runnable() {
-            @Override
-            public void run() {
                 workerCounter++;
                 finishcounter = 0;
-                setBackgroundResource(R.drawable.shuttercloseanimation);
-                shutterOpenAnimation = (AnimationDrawable) getBackground();
-                shutterOpenAnimation.stop();
-                shutterOpenAnimation.setOneShot(true);
-                shutterOpenAnimation.start();
-            }
-        });
+        setBackgroundResource(R.drawable.shuttercloseanimation);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+        shutterOpenAnimation.stop();
+        shutterOpenAnimation.setOneShot(true);
+        shutterOpenAnimation.start();
     }
 
     @Override

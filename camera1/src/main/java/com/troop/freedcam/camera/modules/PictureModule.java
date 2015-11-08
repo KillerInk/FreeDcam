@@ -10,7 +10,6 @@ import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
-import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -27,7 +26,7 @@ import java.io.File;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_WorkeDone, I_Callbacks.AutoFocusCallback {
+public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
@@ -74,24 +73,6 @@ public class PictureModule extends AbstractModule implements I_WorkeDone, I_Call
     @Override
     public void DoWork()
     {
-        if (!Settings.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
-            baseCameraHolder.ParameterHandler.IntervalCapture = true;
-        else
-            baseCameraHolder.ParameterHandler.IntervalCapture = false;
-        if (!baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCapture) {
-            baseCameraHolder.Focus.SetModuleFocusCallback(this);
-            baseCameraHolder.Focus.StartFocus();
-            return;
-        }
-        else if(!baseCameraHolder.Focus.HasFocus() && baseCameraHolder.ParameterHandler.IntervalCapture && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
-        {
-            baseCameraHolder.Focus.SetModuleFocusCallback(this);
-            baseCameraHolder.Focus.StartFocus();
-            return;
-        }
-        else if (baseCameraHolder.Focus.HasFocus() && !baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet)
-            baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
-        
         if (!this.isWorking)
         {
             startworking();
@@ -269,24 +250,4 @@ public class PictureModule extends AbstractModule implements I_WorkeDone, I_Call
         }
     };
 
-    @Override
-    public void onAutoFocus(CameraFocusEvent cameraFocusEvent)
-    {
-        if (cameraFocusEvent != null && cameraFocusEvent.success)
-        {
-            if (baseCameraHolder.ParameterHandler.IntervalCapture)
-                baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = true;
-            DoWork();
-        }
-        else
-        {
-            baseCameraHolder.Focus.SetModuleFocusCallback(this);
-            baseCameraHolder.Focus.StartFocus();
-        }
-    }
-
-    @Override
-    public void onFocusLock(boolean locked) {
-
-    }
 }

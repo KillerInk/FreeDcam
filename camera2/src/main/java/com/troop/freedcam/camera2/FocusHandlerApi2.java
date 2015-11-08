@@ -15,7 +15,6 @@ import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 
@@ -261,21 +260,6 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         MeteringRectangle[] mre = { rectangle};
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_REGIONS, mre);
         lockAE();
-
-    }
-
-    @Override
-    public boolean HasFocus() {
-        return false;
-    }
-
-    @Override
-    public void SetFocusFalse() {
-
-    }
-
-    @Override
-    public void SetModuleFocusCallback(I_Callbacks.AutoFocusCallback moduleFocusCallback) {
 
     }
 
