@@ -33,7 +33,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private AbstractCameraUiWrapper wrapper;
     protected ImageView focusImageView;
-    final int crosshairShowTime = 3000;
+    final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
     int recthalf;
@@ -138,21 +138,18 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        focusImageView.post(new Runnable() {
-            @Override
-            public void run() {
-                focusImageView.removeCallbacks(hideFocus);
-            }
-        });
 
         if (!(wrapper instanceof CameraUiWrapperSony))
         {
+            disWidth = activity.GetPreviewWidth();
+            disHeight = activity.GetPreviewHeight();
+            int margineleft = activity.GetPreviewLeftMargine();
+            //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
             {
-                Point size = getSize();
-                int halfwidth = size.x / 2;
-                int halfheight = size.y / 2;
+                int halfwidth = disWidth / 2;
+                int halfheight = disHeight / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
             }
             final RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
@@ -177,8 +174,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony))
-        {
+        if (!(wrapper instanceof CameraUiWrapperSony)) {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -188,21 +184,12 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                         focusImageView.setBackgroundResource(troop.com.themesample.R.drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
-                    focusImageView.postDelayed(hideFocus, crosshairShowTime);
+                    //handler.postDelayed(hideCrosshair, crosshairShowTime);
                 }
             });
         }
 
     }
-
-    private Runnable hideFocus = new Runnable() {
-        @Override
-        public void run() {
-            focusImageView.setVisibility(View.GONE);
-            wrapper.Focus.SetFocusFalse();
-        }
-    };
-
 
     @Override
     public void FocusLocked(final boolean locked)
@@ -264,7 +251,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.Focus.SetMeteringAreas(imageRect, previewWidth, previewHeight);
+                wrapper.Focus.SetMeteringAreas(imageRect,previewWidth, previewHeight);
         }
 
         @Override
@@ -305,21 +292,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     /*
     returns the display size depending on sdk
      */
-    private Point getSize()
-    {
-        if (Build.VERSION.SDK_INT >= 17) {
-            WindowManager wm = (WindowManager) fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
-            Point size = new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            return size;
-        }
-        else {
-            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
-            Point size = new Point();
-            size.set(metrics.widthPixels, metrics.heightPixels);
-            return size;
-        }
-    }
 
     /*
     Centers the attached Imageview
@@ -331,16 +303,35 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         if(fragment == null || fragment.getActivity() == null)
             return null;
-
-        Point size =  getSize();
-        if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            width = size.x;
-            height = size.y;
+        if (Build.VERSION.SDK_INT >= 17)
+        {
+            WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
+            Point size =  new Point();
+            wm.getDefaultDisplay().getRealSize(size);
+            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                width = size.x;
+                height = size.y;
+            }
+            else
+            {
+                height = size.x;
+                width = size.y;
+            }
         }
         else
         {
-            height = size.x;
-            width = size.y;
+            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
+            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                width = metrics.widthPixels;
+                height = metrics.heightPixels;
+            }
+            else
+            {
+                width = metrics.heightPixels;
+                height = metrics.widthPixels;
+            }
+
         }
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);
