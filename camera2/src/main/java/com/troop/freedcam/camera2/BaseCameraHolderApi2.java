@@ -44,6 +44,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -293,8 +294,15 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mImageWidth = largestImageSize.getWidth();
                 mImageHeight = largestImageSize.getHeight();
             }
+
+
             // We set up a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            //OrientationHACK
+            if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+            else
+                mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
 
             // Here, we create a CameraCaptureSession for camera previewSize.
             if (ParameterHandler.Burst == null)
@@ -330,7 +338,15 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mProcessor.setOutputSurface(previewsurface);
                 camerasurface = mProcessor.getInputSurface();
                 mPreviewRequestBuilder.addTarget(camerasurface);
-                textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
+                textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
+                Matrix matrix = new Matrix();
+                RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+                matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                    matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
+                else
+                    matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
+                textureView.setTransform(matrix);
             }
             else
             {
@@ -394,7 +410,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         RectF bufferRect = new RectF(0, 0, previewSize.getWidth(), previewSize.getHeight());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
-        rotation = 1;
+        //rotation = 1;
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
@@ -402,7 +418,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             float scalex =(float) displaySize.x / displaySize.y;
             float scaley = (float) previewSize.getWidth() / previewSize.getHeight();
             float xy = scalex -scaley +2;
-            matrix.postScale(xy-1, xy, centerX, centerY);
+            matrix.postScale(xy - 1, xy, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         textureView.setTransform(matrix);
