@@ -18,7 +18,7 @@ import com.troop.freedcam.utils.StringUtils;
 public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-    int current = 0;
+    int current = -1;
     boolean supported = false;
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {

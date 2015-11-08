@@ -74,7 +74,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Contrast extends ManualExposureApi2
     {
-        int current = 50;
+        int current = -1;
         boolean firststart = true;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
@@ -184,7 +184,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Brightness extends ManualExposureApi2
     {
-        int current = 100;
+        int current = 50;
         public Brightness(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
         }
