@@ -29,6 +29,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public Contrast contrast;
     public Brightness brightness;
 
+
     public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {
         this.contrast = new Contrast(camParametersHandler,cameraHolder);
@@ -74,6 +75,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public class Contrast extends ManualExposureApi2
     {
         int current = 50;
+        boolean firststart = true;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
 
@@ -108,16 +110,23 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public void SetValue(int valueToSet)
         {
+            Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-
+                Log.d(TAG, "Current TonemapMode:" + camParametersHandler.ToneMapMode.GetValue());
                 if (camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                {
                     camParametersHandler.ToneMapMode.SetValue("FAST", true);
+                    Log.d(TAG, "Disabled Contrast Curve");
+                }
             }
             else {
-
-                if (!camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                Log.d(TAG, "Current TonemapMode:" + camParametersHandler.ToneMapMode.GetValue());
+                if (!camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
+                {
                     camParametersHandler.ToneMapMode.SetValue("CONTRAST_CURVE", true);
+                    Log.d(TAG, "Enabled Contrast Curve");
+                }
                 valueToSet = valueToSet * 3;
                 current = valueToSet;
 
@@ -156,6 +165,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                     e.printStackTrace();
                 }
             }
+            firststart = false;
         }
 
         @Override

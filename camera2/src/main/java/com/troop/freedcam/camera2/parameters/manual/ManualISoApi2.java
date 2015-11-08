@@ -17,7 +17,6 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-
     public ManualISoApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler, cameraHolder);
     }
@@ -71,7 +70,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
             camParametersHandler.ExposureMode.SetValue("on",true);
         }
         else {
-            if (!camParametersHandler.ExposureMode.GetValue().equals("off"))
+            if (!camParametersHandler.ExposureMode.GetValue().equals("off") && !firststart)
                 camParametersHandler.ExposureMode.SetValue("off",true);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet * 50);
             try {
@@ -83,6 +82,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
                 ex.printStackTrace();
             }
         }
+        firststart = false;
     }
 
     @Override
