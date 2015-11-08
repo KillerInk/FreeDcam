@@ -101,6 +101,12 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LoadParametersFromCamera()
     {
         cameraParameters = baseCameraHolder.GetCameraParameters();
+        if (DeviceUtils.isG4())
+        {
+            cameraParameters.put("lge-camera", "1");
+            SetParametersToCamera();
+            cameraParameters = baseCameraHolder.GetCameraParameters();
+        }
         setParameterRunner = new SetParameterRunner();
         initParameters();
     }

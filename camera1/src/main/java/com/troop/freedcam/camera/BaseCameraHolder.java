@@ -62,7 +62,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
-        if (!DeviceUtils.isG4())
+
             hasLGFramework();
     }
 
@@ -199,6 +199,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     lgCamera = new LGCamera(camera);
                     mCamera = lgCamera.getCamera();
                     lgParameters = lgCamera.getLGParameters();
+                    lgParameters.getParameters().set("lge-camera", 1);
                 }
                 catch (RuntimeException ex)
                 {
@@ -775,6 +776,8 @@ catch (Exception ex)
         }
         else
         {
+            if (mCamera == null)
+                return;
             mCamera.setErrorCallback(new Camera.ErrorCallback() {
                 @Override
                 public void onError(int error, Camera camera)

@@ -34,8 +34,10 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     }
 
     @Override
-    public int GetMinValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue()/50;
+    public int GetMinValue()
+    {
+        return -1;
+        //return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue()/50;
     }
 
     @Override
@@ -49,6 +51,9 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     @Override
     public String GetStringValue()
     {
+        if (GetValue() == -1)
+            return "Auto";
+        else
             return ""+ GetValue()*50;
     }
 
@@ -61,22 +66,28 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet*50);
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                    null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex)
+        if (valueToSet == -1)
         {
-            ex.printStackTrace();
+            camParametersHandler.ExposureMode.SetValue("on",true);
+        }
+        else {
+            if (!camParametersHandler.ExposureMode.GetValue().equals("off"))
+                camParametersHandler.ExposureMode.SetValue("off",true);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet * 50);
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     @Override
     public boolean IsSetSupported() {
-        return canSet;
+        return true;
     }
 
     //implementation I_ModeParameterEvent
@@ -85,7 +96,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     @Override
     public void onValueChanged(String val)
     {
-        if (val.equals("off"))
+        /*if (val.equals("off"))
         {
             canSet = true;
             BackgroundIsSetSupportedChanged(true);
@@ -93,7 +104,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         else {
             canSet = false;
             BackgroundIsSetSupportedChanged(false);
-        }
+        }*/
     }
 
     @Override

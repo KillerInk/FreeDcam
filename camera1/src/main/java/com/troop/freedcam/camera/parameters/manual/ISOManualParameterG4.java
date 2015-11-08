@@ -47,10 +47,10 @@ public class ISOManualParameterG4 extends BaseManualParameter {
     public int GetValue() {
 
         try {
-            if (parameters.get("iso").equals("auto"))
+            if (parameters.get("lg-iso").equals("auto"))
                 return  -1;
             else
-                return Integer.parseInt(parameters.get("iso"));
+                return Integer.parseInt(parameters.get("lg-iso"));
         } catch (NullPointerException ex) {
             return 0;
         }
@@ -61,10 +61,15 @@ public class ISOManualParameterG4 extends BaseManualParameter {
 
     @Override
     protected void setvalue(int valueToSet) {
-        if (valueToSet == -1)
-            parameters.put("iso", "auto");
-        else
-            parameters.put("iso", valueToSet + "");
+        if (valueToSet == -1) {
+            parameters.put("lg-manual-mode-reset", "0");
+            parameters.put("lg-iso", "auto");
+        }
+        else {
+            parameters.put("lg-manual-mode-reset", "1");
+            parameters.put("lg-iso", valueToSet + "");
+        }
+        baseCameraHolder.ParameterHandler.SetParametersToCamera();
     }
 
 }

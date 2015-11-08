@@ -49,9 +49,9 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             canSet = false;
             isSupported = false;
         }
-        contrast.BackgroundIsSetSupportedChanged(canSet);
-        contrast.BackgroundIsSupportedChanged(isSupported);
-        brightness.BackgroundIsSupportedChanged(isSupported);
+        //contrast.BackgroundIsSetSupportedChanged(canSet);
+        //contrast.BackgroundIsSupportedChanged(isSupported);
+        brightness.BackgroundIsSupportedChanged(true);
         brightness.BackgroundIsSetSupportedChanged(canSet);
     }
 
@@ -87,7 +87,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public int GetMinValue() {
-            return 0;
+            return -1;
         }
 
         @Override
@@ -108,55 +108,60 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public void SetValue(int valueToSet)
         {
-            valueToSet = valueToSet *3;
-            current = valueToSet;
+            if (valueToSet == -1)
+            {
 
-            float toset = 0;
-            if (valueToSet > 150)
-            {
-                toset = (valueToSet - 100) * 0.001f;
-                highlights[0] = 0.75f - toset;
-                highlights[1] = 0.75f + toset;
-                shadows[0] = 0.25f - toset;
-                shadows[1] = 0.25f + toset;
+                if (camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                    camParametersHandler.ToneMapMode.SetValue("FAST", true);
             }
-            if (valueToSet == 150)
-            {
-                highlights[0] = 0.75f;
-                highlights[1] = 0.75f;
-                shadows[0] = 0.25f;
-                shadows[1] = 0.25f;
-            }
-            else
-            {
-                toset = (150 - valueToSet) * 0.001f;
-                highlights[0] = 0.75f + toset;
-                highlights[1] = 0.75f - toset;
-                shadows[0] = 0.25f + toset;
-                shadows[1] = 0.25f - toset;
-            }
+            else {
 
-            Log.d(TAG, "toset:" + toset + " val:" + valueToSet+ " hx:" + highlights[0] + " hy:"+ highlights[1] + " sx:"+shadows[0]+" sy:"+shadows[1]);
+                if (!camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                    camParametersHandler.ToneMapMode.SetValue("CONTRAST_CURVE", true);
+                valueToSet = valueToSet * 3;
+                current = valueToSet;
 
-            float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0],shadows[1], midtones[0], midtones[1], highlights[0], highlights[1],whitepoint[0], whitepoint[1]};
-            TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
-            try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                        null);
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            }
-            catch (NullPointerException e)
-            {
-                e.printStackTrace();
+                float toset = 0;
+                if (valueToSet > 150) {
+                    toset = (valueToSet - 100) * 0.001f;
+                    highlights[0] = 0.75f - toset;
+                    highlights[1] = 0.75f + toset;
+                    shadows[0] = 0.25f - toset;
+                    shadows[1] = 0.25f + toset;
+                }
+                if (valueToSet == 150) {
+                    highlights[0] = 0.75f;
+                    highlights[1] = 0.75f;
+                    shadows[0] = 0.25f;
+                    shadows[1] = 0.25f;
+                } else {
+                    toset = (150 - valueToSet) * 0.001f;
+                    highlights[0] = 0.75f + toset;
+                    highlights[1] = 0.75f - toset;
+                    shadows[0] = 0.25f + toset;
+                    shadows[1] = 0.25f - toset;
+                }
+
+                Log.d(TAG, "toset:" + toset + " val:" + valueToSet + " hx:" + highlights[0] + " hy:" + highlights[1] + " sx:" + shadows[0] + " sy:" + shadows[1]);
+
+                float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
+                TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
+                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+                try {
+                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                            null);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         @Override
         public boolean IsSupported() {
             if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
+                    /*&& cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE*/)
                 return true;
             else return false;
         }

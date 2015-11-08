@@ -32,7 +32,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
     @Override
     public int GetMinValue() {
-        return 0;
+        return -1;
     }
 
     @Override
@@ -43,8 +43,12 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     @Override
     public String GetStringValue()
     {
-        if (supported)
-            return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        if (current == -1)
+            return "Auto";
+        else {
+            if (supported)
+                return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+        }
         return "";
     }
 
@@ -59,17 +63,24 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float)valueToSet /10);
-
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                    null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex)
+        if(valueToSet == -1)
         {
-            ex.printStackTrace();
+            camParametersHandler.FocusMode.SetValue("auto", true);
+        }
+        else
+        {
+            if (!camParametersHandler.FocusMode.GetValue().equals("off"))
+                camParametersHandler.FocusMode.SetValue("off",true);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
+
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -94,12 +105,12 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
     @Override
     public boolean IsSetSupported() {
-        return canSet;
+        return true;
     }
     @Override
     public void onValueChanged(String val)
     {
-        if (val.equals("off"))
+        /*if (val.equals("off"))
         {
             canSet = true;
             BackgroundIsSetSupportedChanged(true);
@@ -107,7 +118,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
         else {
             canSet = false;
             BackgroundIsSetSupportedChanged(false);
-        }
+        }*/
     }
 
     @Override
