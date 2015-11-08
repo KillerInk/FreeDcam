@@ -53,6 +53,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
             millimax = 60000000;
         else if (DeviceUtils.isSamsung_S6_edge_plus())
             millimax = 10000000;
+        if (DeviceUtils.isSamsung_S6_edge())
+            millimax = 1000000;
         else if (DeviceUtils.isMoto_MSM8982_8994())
             millimax = 10000000;
         else

@@ -275,4 +275,7 @@
         <item>SM-G928T</item>
         <item>SM-G928V</item>
     </string-array>
+    <string-array name="Samsung_S6_edge">
+        <item>SM-G925F</item>
+    </string-array>
 </resources>
