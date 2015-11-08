@@ -150,11 +150,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             }
             manager.openCamera(cam, mStateCallback, backgroundHandler);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
-            printCharacteristics();
             if (!isLegacyDevice())
             {
                 mRS = RenderScript.create(Settings.context);
                 mProcessor = new ViewfinderProcessor(mRS);
+                printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {
