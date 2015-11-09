@@ -37,7 +37,7 @@ public class PictureModuleMTK extends PictureModule
         if (!this.isWorking)
         {
             startworking();
-            if (parametersHandler.IsDngActive())
+            /*if (parametersHandler.IsDngActive())
             {
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),"");
                 parametersHandler.setMTKRaw(true);
@@ -48,7 +48,7 @@ public class PictureModuleMTK extends PictureModule
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),".jpg");;
                 parametersHandler.setMTKRaw(true);
                 //parametersHandler.setMTKrawFilename("");
-            }
+            }*/
 
             baseCameraHolder.TakePicture(null,null, picCallback);
 

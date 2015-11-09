@@ -394,7 +394,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                         Log.d("BaseCameraHolder", "raw save mode engaged");
                         ((CamParametersHandler)ParameterHandler).setString("isp-mode", "1");
                         Log.d("BaseCameraHolder", "ISP Switched to raw mode");
-                        ((CamParametersHandler)ParameterHandler).setString("rawfname", "/mnt/sdcard/test.raw");
+                        ((CamParametersHandler)ParameterHandler).setString("rawfname", StringUtils.GetInternalSDCARD()+"/test.raw");
                         Log.d("BaseCameraHolder", "Raw Path set");
                     }
 
