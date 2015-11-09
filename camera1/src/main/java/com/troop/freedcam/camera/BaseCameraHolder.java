@@ -12,6 +12,7 @@ import android.view.TextureView;
 
 import com.lge.hardware.LGCamera;
 import com.sec.android.seccamera.SecCamera;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -19,6 +20,7 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -62,8 +64,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
-
-            hasLGFramework();
+        hasLGFramework();
     }
 
     private void hasSamsungFramework()
@@ -196,10 +197,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
             else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
-                    lgCamera = new LGCamera(camera);
+                    if (DeviceUtils.isG4())
+                        lgCamera = new LGCamera(0, camera);
+                    else
+                        lgCamera = new LGCamera(camera);
                     mCamera = lgCamera.getCamera();
                     lgParameters = lgCamera.getLGParameters();
-                    lgParameters.getParameters().set("lge-camera", 1);
                 }
                 catch (RuntimeException ex)
                 {
@@ -381,7 +384,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
             try {
                 if(DeviceUtils.isSonyM5_MTK())
                 {
-                    if (null != ParameterHandler) {
+                    if (null != ParameterHandler)
+                    {
                         try {
                             ((CamParametersHandler)ParameterHandler).setString("camera-mode", "0");
                             ((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
