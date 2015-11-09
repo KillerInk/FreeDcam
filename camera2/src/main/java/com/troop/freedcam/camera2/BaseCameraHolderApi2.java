@@ -154,7 +154,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             {
                 mRS = RenderScript.create(Settings.context);
                 mProcessor = new ViewfinderProcessor(mRS);
-                printCharacteristics();
+                //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         } catch (CameraAccessException e) {
