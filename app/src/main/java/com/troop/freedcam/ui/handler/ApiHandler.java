@@ -28,14 +28,11 @@ import troop.com.imageconverter.ViewfinderProcessor;
  * Created by troop on 11.12.2014.
  */
 
-public class ApiHandler implements I_CameraChangedListner
+public class ApiHandler
 {
     private static String TAG = ApiHandler.class.getSimpleName();
     AppSettingsManager appSettingsManager;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
-    boolean waitforclose = false;
-    Handler handler = new Handler();
-    BaseCameraHolderApi2 cam2;
     ApiEvent event;
 
     public ApiHandler(final AppSettingsManager appSettingsManager, ApiEvent event) {
@@ -49,12 +46,18 @@ public class ApiHandler implements I_CameraChangedListner
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
-                waitforclose = true;
 
                 final AppSettingsManager app = appSettingsManager;
-                cam2 = new BaseCameraHolderApi2(app.context, ApiHandler.this,handler, app, null);
-                cam2.OpenCamera(0);
-
+                boolean legacy = IsLegacy();
+                if (legacy) {
+                    appSettingsManager.SetCamera2FullSupported("false");
+                    appSettingsManager.setCamApi(AppSettingsManager.API_1);
+                }
+                else {
+                    appSettingsManager.SetCamera2FullSupported("true");
+                    appSettingsManager.setCamApi(AppSettingsManager.API_2);
+                }
+                event.apiDetectionDone();
             }
             else {
                 appSettingsManager.SetCamera2FullSupported("false");
@@ -65,13 +68,6 @@ public class ApiHandler implements I_CameraChangedListner
             event.apiDetectionDone();
     }
 
-    public boolean ApiCheckDone()
-    {
-        if(waitforclose)
-            return false;
-        else
-            return true;
-    }
 
     public AbstractCameraFragment getCameraFragment(AppSettingsManager appSettingsManager)
     {
@@ -93,59 +89,46 @@ public class ApiHandler implements I_CameraChangedListner
     }
 
 
-    @Override
-    public void onCameraOpen(String message)
-    {
-        if (cam2.isLegacyDevice()) {
-            appSettingsManager.SetCamera2FullSupported("false");
-            appSettingsManager.setCamApi(AppSettingsManager.API_1);
-        }
-        else {
-            appSettingsManager.SetCamera2FullSupported("true");
-            appSettingsManager.setCamApi(AppSettingsManager.API_2);
-        }
-        cam2.CloseCamera();
-        waitforclose = false;
-        event.apiDetectionDone();
-    }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(String error) {
-
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
-
-    }
-
-    @Override
-    public void onModuleChanged(I_Module module) {
-
-    }
+    
 
     public interface ApiEvent
     {
         void apiDetectionDone();
+    }
+
+    private boolean IsLegacy()
+    {
+        boolean legacy = true;
+        try
+        {
+            if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                throw new RuntimeException("Time out waiting to lock camera opening.");
+            }
+            CameraManager manager = (CameraManager) appSettingsManager.context.getSystemService(Context.CAMERA_SERVICE);
+            //manager.openCamera("0", null, null);
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
+            if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                legacy = false;
+            else
+                legacy = true;
+            manager = null;
+            characteristics = null;
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally
+        {
+
+            mCameraOpenCloseLock.release();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return  legacy;
     }
 }
