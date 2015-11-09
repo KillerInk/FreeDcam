@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 
@@ -64,10 +65,16 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public String[] GetValues()
     {
         ArrayList<String> ret = new ArrayList<String>();
-        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            ret.add(BaseCameraHolderApi2.RAW_SENSOR);
-        if(cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
-            ret.add(BaseCameraHolderApi2.RAW10);
+
+        if (DeviceUtils.isOnePlusTwo() || DeviceUtils.isMoto_MSM8974() || DeviceUtils.isMoto_MSM8982_8994()) {
+            if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
+                ret.add(BaseCameraHolderApi2.RAW10);
+        }
+        else
+        {
+            if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+                ret.add(BaseCameraHolderApi2.RAW_SENSOR);
+        }
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(BaseCameraHolderApi2.JPEG);
         return ret.toArray(new String[ret.size()]);
