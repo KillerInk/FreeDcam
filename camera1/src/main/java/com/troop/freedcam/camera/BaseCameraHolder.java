@@ -378,50 +378,37 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 Log.d("Freedcam",ex.getMessage());
             }
         else
-        try {
-            if(DeviceUtils.isSonyM5_MTK())
-            {
-                if (null != mCameraParam) {
-                    try {
-                        mCameraParam.set("camera-mode", "0");
-                        mCameraParam.set("afeng_raw_dump_flag", "1");
+            try {
+                if(DeviceUtils.isSonyM5_MTK())
+                {
+                    if (null != ParameterHandler) {
+                        try {
+                            ((CamParametersHandler)ParameterHandler).setString("camera-mode", "0");
+                            ((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.d("BaseCameraHolder","Fail Set Param afeng");
+                        }
+                        ((CamParametersHandler)ParameterHandler).setString("rawsave-mode", "1");
+                        Log.d("BaseCameraHolder", "raw save mode engaged");
+                        ((CamParametersHandler)ParameterHandler).setString("isp-mode", "1");
+                        Log.d("BaseCameraHolder", "ISP Switched to raw mode");
+                        ((CamParametersHandler)ParameterHandler).setString("rawfname", "/mnt/sdcard/test.raw");
+                        Log.d("BaseCameraHolder", "Raw Path set");
                     }
-                    catch (Exception ex)
-                    {
-                        Log.d("BaseCameraHolder","Fail Set Param afeng");
-                    }
-                    mCameraParam.set("rawsave-mode", "1");
-                    Log.d("BaseCameraHolder", "raw save mode engaged");
-                    mCameraParam.set("isp-mode", "1");
-                    Log.d("BaseCameraHolder", "ISP Switched to raw mode");
-                    mCameraParam.set("rawfname", "/mnt/sdcard/test.raw");
-                    Log.d("BaseCameraHolder", "Raw Path set");
-
-try {
-
-
-    mCamera.setParameters(mCameraParam);
-    Log.d("BaseCameraHolder", "Params Set");
-}
-catch (Exception ex)
-{}
-
-
 
                 }
 
+                mCamera.startPreview();
+                isPreviewRunning = true;
+                Log.d(TAG, "PreviewStarted");
+                cameraChangedListner.onPreviewOpen("");
             }
-
-
-            mCamera.startPreview();
-            isPreviewRunning = true;
-            Log.d(TAG, "PreviewStarted");
-            cameraChangedListner.onPreviewOpen("");
-        }
-        catch (Exception ex)
-        {
-            Log.d("Freedcam",ex.getMessage());
-        }
+            catch (Exception ex)
+            {
+                Log.d("Freedcam",ex.getMessage());
+            }
     }
 
     @Override
