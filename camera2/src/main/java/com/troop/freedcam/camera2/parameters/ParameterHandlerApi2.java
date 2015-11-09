@@ -188,7 +188,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
-        setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
+        //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
         setManualMode(ManualFocus, AppSettingsManager.MF);
