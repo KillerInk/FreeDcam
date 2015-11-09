@@ -102,12 +102,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LoadParametersFromCamera()
     {
         cameraParameters = baseCameraHolder.GetCameraParameters();
-        if (DeviceUtils.isG4())
-        {
-            cameraParameters.put("lge-camera", "1");
-            SetParametersToCamera();
-            cameraParameters = baseCameraHolder.GetCameraParameters();
-        }
         setParameterRunner = new SetParameterRunner();
         initParameters();
     }
@@ -123,8 +117,11 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
+
     private void initParameters()
     {
+        if (DeviceUtils.isG4())
+            setupLg_G4Parameters();
         logParameters(cameraParameters);
         ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
         ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
@@ -421,5 +418,19 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
         PreviewFormat.SetValue("yuv420sp", false);
+    }
+
+    private void setupLg_G4Parameters()
+    {
+        cameraParameters.put("lge-camera","1");
+        cameraParameters.put("ae-bracket-hdr","Off");
+        cameraParameters.put("ae-bracket-hdr-values","Off,AE-Bracket");
+        cameraParameters.put("dng-capture", "1"); // 0 diasbled 1 enable
+        cameraParameters.put("dng-size","20027632");
+        cameraParameters.put("lg-manual-mode-reset","0"); // 0 diasbled 1 enable
+        cameraParameters.put("lg-iso","-1000"); //-1000 disable?
+        cameraParameters.put("shutter-speed","-1000"); // -1000 disable
+        cameraParameters.put("lg-wb","-1000");
+        cameraParameters.put("manualfocus_step","0");
     }
 }

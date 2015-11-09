@@ -42,7 +42,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         handler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, JpegSaver.this);
+                cameraHolder.TakePicture(null, raw, JpegSaver.this);
             }
         });
 
@@ -63,6 +63,19 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
 
     }
+
+    I_Callbacks.PictureCallback raw = new I_Callbacks.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data)
+        {
+            if (data != null)
+            {
+                Log.d(TAG, "RawSize:" + data.length + "");
+            }
+            else
+                Log.d(TAG, "RawSize: null");
+        }
+    };
 
     public void saveBytesToFile(byte[] bytes, File fileName)
     {
