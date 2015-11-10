@@ -24,7 +24,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = false;
         }
 
-       else if (DeviceUtils.isMoto_MSM8974())
+       else if (DeviceUtils.isMoto_MSM8974() || DeviceUtils.isMoto_MSM8982_8994())
         {
             this.isSupported = false;
         }
@@ -56,7 +56,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.min_value = "min-wb-ct";
             this.isSupported = true;
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey("wb-manual-cct") || DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isAlcatel_Idol3())
+        else if (parameters.containsKey("wb-manual-cct") ||DeviceUtils.isAlcatel_Idol3())
         {
             try {
 

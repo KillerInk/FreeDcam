@@ -44,7 +44,11 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "manual-focus-position";
             this.min_value = null;
         }
-        else if (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        else if( DeviceUtils.isMoto_MSM8982_8994())
+        {
+            this.isSupported = true;
+        }
+        else if (DeviceUtils.isAlcatel_Idol3() )
         {
             this.isSupported = true;
             this.max_value = "max-focus-pos-ratio";
@@ -71,7 +75,10 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         if (max_value == null)
-            return 79;
+            if (DeviceUtils.isMoto_MSM8982_8994())
+                return 100;
+            else
+                return 79;
         else {
             try {
                 return Integer.parseInt(parameters.get(max_value));
@@ -86,7 +93,10 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMinValue()
     {
         if (min_value == null)
-            return -1;
+            if (DeviceUtils.isMoto_MSM8982_8994())
+                return 100;
+            else
+                return -1;
         else
             return Integer.parseInt(parameters.get(min_value));
     }
