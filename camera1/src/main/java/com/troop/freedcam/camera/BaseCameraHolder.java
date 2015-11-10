@@ -198,7 +198,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 try {
                     if (DeviceUtils.isG4())
-                        lgCamera = new LGCamera(0, camera);
+                        lgCamera = new LGCamera(camera, 256);
                     else
                         lgCamera = new LGCamera(camera);
                     mCamera = lgCamera.getCamera();
