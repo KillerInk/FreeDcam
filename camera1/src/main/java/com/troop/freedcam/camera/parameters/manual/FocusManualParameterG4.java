@@ -32,7 +32,7 @@ public class FocusManualParameterG4 extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        return 79;
+        return 100;
     }
 
     @Override
@@ -57,15 +57,13 @@ public class FocusManualParameterG4 extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(valueToSet != -1 && !camParametersHandler.FocusMode.GetValue().equals("manual"))
+        if(valueToSet != -1)
         {
-            parameters.put("manual-focus", "0");
             camParametersHandler.FocusMode.SetValue("normal", true);
-            parameters.put("manualfocus_step", value);
+            parameters.put("manualfocus_step", valueToSet+"");
         }
         else if (valueToSet == -1)
         {
-            parameters.put("manual-focus", "1");
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
         camParametersHandler.SetParametersToCamera();
