@@ -20,6 +20,7 @@ import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
+import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
@@ -133,7 +134,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
         ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
-        ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
+        if (DeviceUtils.isG4())
+            ManualShutter = new ShutterManualParameterG4(cameraParameters,"","","", cameraHolder, cameraChanged, this);
+        else
+            ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
         Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
 

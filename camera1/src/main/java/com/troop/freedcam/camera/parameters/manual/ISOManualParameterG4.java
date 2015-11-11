@@ -63,7 +63,7 @@ public class ISOManualParameterG4 extends BaseManualParameter {
     protected void setvalue(int valueToSet) {
         if (valueToSet == -1) {
             parameters.put("lg-manual-mode-reset", "0");
-            parameters.put("lg-iso", "auto");
+            parameters.put("lg-iso", "-1000");
         }
         else {
             parameters.put("lg-manual-mode-reset", "1");
