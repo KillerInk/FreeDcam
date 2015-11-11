@@ -14,6 +14,7 @@ import com.troop.freedcam.camera.parameters.manual.ConvergenceManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
+import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
@@ -129,6 +130,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
         if (DeviceUtils.isG4() || (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
             ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
+        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
         else
             ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
         ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);

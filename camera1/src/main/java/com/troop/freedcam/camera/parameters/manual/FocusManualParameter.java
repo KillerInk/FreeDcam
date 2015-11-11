@@ -21,16 +21,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
-        if (DeviceUtils.isHTC_M8())
-        {
-            if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
-                return;
-            this.isSupported = true;
-            this.max_value = "max-focus";
-            this.value = "focus";
-            this.min_value = "min-focus";
-        }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
         {
             this.isSupported = true;
             this.max_value = null;
@@ -142,12 +133,6 @@ public class FocusManualParameter extends  BaseManualParameter
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
-        }
-
-         if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-        {
-            if(valueToSet == -1)
-                camParametersHandler.FocusMode.SetValue("auto", true);
         }
         if (value != null && !value.equals("") && valueToSet > -1)
         {
