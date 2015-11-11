@@ -32,7 +32,9 @@ public class MenuItemOrientationHack extends MenuItem
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
             onValueChanged(StringUtils.ON);
         else
             onValueChanged(StringUtils.OFF);
