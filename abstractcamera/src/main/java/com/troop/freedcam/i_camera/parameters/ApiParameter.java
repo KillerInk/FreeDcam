@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 21.07.2015.
@@ -24,7 +25,7 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DEBUG)
+        if (DEBUG || DeviceUtils.isG4())
         {
             return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
         }
