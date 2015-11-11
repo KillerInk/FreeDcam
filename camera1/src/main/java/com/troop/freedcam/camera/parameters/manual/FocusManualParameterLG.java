@@ -12,12 +12,12 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class FocusManualParameterG4 extends  BaseManualParameter
+public class FocusManualParameterLG extends  BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocusG4";
 
-    public FocusManualParameterG4(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public FocusManualParameterLG(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
@@ -32,7 +32,10 @@ public class FocusManualParameterG4 extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        return 100;
+        if (DeviceUtils.isG4())
+            return 100;
+        else
+            return 79;
     }
 
     @Override
@@ -59,7 +62,8 @@ public class FocusManualParameterG4 extends  BaseManualParameter
     {
         if(valueToSet != -1)
         {
-            camParametersHandler.FocusMode.SetValue("normal", true);
+            if (!camParametersHandler.FocusMode.GetValue().equals("normal"))
+                camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", valueToSet+"");
         }
         else if (valueToSet == -1)

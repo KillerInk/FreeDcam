@@ -21,14 +21,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
-        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
-        {
-            this.isSupported = true;
-            this.max_value = null;
-            this.value = "manualfocus_step";
-            this.min_value = null;
-        }
-        else if (DeviceUtils.isHTC_M8())
+        if (DeviceUtils.isHTC_M8())
         {
             if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
                 return;
@@ -55,12 +48,6 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "cur-focus-scale";
             this.min_value = "min-focus-pos-ratio";
         }
-        /*else if (parameters.containsKey("manual-focus-position") && !DeviceUtils.isZTEADV())
-        {
-            this.value = "manual-focus-position";
-            this.max_value = "min-focus-pos-dac"; // this is like camera2 it returns only the min lens position up to 0
-            this.isSupported = true;
-        }*/
         else
             this.isSupported = false;
 }
@@ -117,16 +104,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if ((DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2() || DeviceUtils.isG4())
-        {
-            if(valueToSet != -1 && !camParametersHandler.FocusMode.GetValue().equals("normal"))
-            {
-                camParametersHandler.FocusMode.SetValue("normal", true);
-            }
-            else if (valueToSet == -1)
-                camParametersHandler.FocusMode.SetValue("auto", true);
-        }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
             if(valueToSet != -1)
             {
