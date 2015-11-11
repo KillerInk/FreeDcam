@@ -118,7 +118,7 @@ public class AppSettingsManager
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {
         this.appSettings = appSettings;
-        try {
+        /*try {
             String appver = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
             if (!appSettings.getString(APPVERSION, "").equals(appver))
             {
@@ -127,7 +127,7 @@ public class AppSettingsManager
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
         this.context = context;
     }
 
