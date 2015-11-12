@@ -13,43 +13,35 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class CCTManualParameter extends BaseManualParameter {
-	
-	I_CameraHolder baseCameraHolder;
+
+    I_CameraHolder baseCameraHolder;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (DeviceUtils.isSonyM5_MTK())
-        {
-            //temp disable
-            this.isSupported = false;
-        }
 
-       else if (DeviceUtils.isMoto_MSM8974() || DeviceUtils.isMoto_MSM8982_8994())
-        {
-            this.isSupported = false;
-        }
-      else  if (DeviceUtils.isOnePlusOne())
+        this.isSupported = false;
+        if (DeviceUtils.isOnePlusOne())
         {
             this.value = "wb-current-cct";
             this.min_value = "min-wb-cct";
             this.max_value = "max-wb-cct";
             this.isSupported = true;
         }
-        else if (DeviceUtils.isRedmiNote()  || !DeviceUtils.isZTEADV()||!DeviceUtils.isZTEADVIMX214()||!DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.isRedmiNote())
         {
             this.value = "wb-manual-cct";
             this.max_value = "max-wb-cct";
             this.min_value = "min-wb-cct";
             this.isSupported = true;
         }
-        else if (parameters.containsKey("wb-cct"))
+        else if (parameters.containsKey("wb-cct") && parameters.containsKey("max-wb-cct") && parameters.containsKey("min-wb-cct"))
         {
             this.value = "wb-cct";
             this.max_value = "max-wb-cct";
             this.min_value = "min-wb-cct";
             this.isSupported = true;
         }
-        else if (parameters.containsKey("wb-ct"))
+        else if (parameters.containsKey("wb-ct") && parameters.containsKey("max-wb-ct") &&  parameters.containsKey("min-wb-ct"))
         {
             this.value = "wb-ct";
             this.max_value = "max-wb-ct";
@@ -59,8 +51,6 @@ public class CCTManualParameter extends BaseManualParameter {
         else if (parameters.containsKey("wb-manual-cct") ||DeviceUtils.isAlcatel_Idol3())
         {
             try {
-
-
                 this.value = "wb-manual-cct";
                 this.max_value = "max-wb-cct";
                 this.min_value = "min-wb-cct";
@@ -74,13 +64,6 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else
             this.isSupported=false;
-        //force close app
-        /*else if (DeviceUtils.isG4()) {
-            this.value = "lg-wb";
-            this.max_value = "lg-wb-supported-max";
-            this.min_value = "lg-wb-supported-min";
-            this.isSupported = true;
-        }*/
     }
 
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
@@ -89,11 +72,11 @@ public class CCTManualParameter extends BaseManualParameter {
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
     }
-    
+
     @Override
     public boolean IsSupported()
     {
-        return isSupported;
+        return this.isSupported;
     }
 
     @Override
@@ -111,24 +94,24 @@ public class CCTManualParameter extends BaseManualParameter {
             }
         }
         else
-        try {
-            if (DeviceUtils.isMoto_MSM8974()) {
-                return 8000;
-            } else {
-                String wbct = parameters.get(max_value);
-                if (wbct.equals("null")) {
-                    isSupported = false;
-                    wbct = "0";
+            try {
+                if (DeviceUtils.isMoto_MSM8974()) {
+                    return 8000;
+                } else {
+                    String wbct = parameters.get(max_value);
+                    if (wbct.equals("null")) {
+                        isSupported = false;
+                        wbct = "0";
+                    }
+                    return Integer.parseInt(wbct);
                 }
-                return Integer.parseInt(wbct);
             }
-        }
-        catch (NullPointerException ex)
-        {
-            return 0;
-        }
+            catch (NullPointerException ex)
+            {
+                return 0;
+            }
     }
-//M8 Step values "wb-ct-step"
+    //M8 Step values "wb-ct-step"
     @Override
     public int GetMinValue()
     {
@@ -139,13 +122,13 @@ public class CCTManualParameter extends BaseManualParameter {
             return Integer.parseInt(parameters.get("min-wb-cct"));
         }
         else
-        try {
-            return Integer.parseInt(parameters.get(min_value));
-        }
-        catch (NumberFormatException ex)
-        {
-            ex.printStackTrace();
-        }
+            try {
+                return Integer.parseInt(parameters.get(min_value));
+            }
+            catch (NumberFormatException ex)
+            {
+                ex.printStackTrace();
+            }
         return 0;
 
     }
@@ -155,11 +138,11 @@ public class CCTManualParameter extends BaseManualParameter {
     {
 
 
-            return 0;
+        return 0;
     }
 
     @Override
-   public String GetStringValue() {
+    public String GetStringValue() {
         return null;
     }
 
@@ -186,12 +169,12 @@ public class CCTManualParameter extends BaseManualParameter {
         else if (parameters.containsKey("wb-manaul-cct") ||DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
         {
             try{
-            camParametersHandler.WhiteBalanceMode.SetValue("manual", true);}
+                camParametersHandler.WhiteBalanceMode.SetValue("manual", true);}
             catch (Exception c)
             {
                 System.out.println("Freedcam Error Setting Manual Color Temp");
             }
-                        parameters.put("wb-manual-cct", valueToSet + "");
+            parameters.put("wb-manual-cct", valueToSet + "");
         }
         else if (DeviceUtils.isLG_G3())
             setCTReflection(valueToSet);
