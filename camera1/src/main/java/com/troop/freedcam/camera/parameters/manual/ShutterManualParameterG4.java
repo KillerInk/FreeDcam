@@ -77,6 +77,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
             parameters.put("lg-manual-mode-reset", "1");
             parameters.put("shutter-speed", shutterValues[valueToSet]);
         }
+        baseCameraHolder.SetCameraParameters(parameters);
     }
 
 
