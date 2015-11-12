@@ -67,25 +67,24 @@ public class BaseModeParameter extends AbstractModeParameter {
         String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
         Log.d(TAG, "set "+value+" from " + tmp + " to "+ valueToSet);
-        try {
-            baseCameraHolder.SetCameraParameters(parameters);
-            BackgroundValueHasChanged(valueToSet);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
-            if (tmp == null)
-                return;
-            parameters.put(value, tmp);
+        BackgroundValueHasChanged(valueToSet);
+        if(setToCam) {
             try {
                 baseCameraHolder.SetCameraParameters(parameters);
-                BackgroundValueHasChanged(valueToSet);
-            }
-            catch (Exception ex2)
-            {
+
+            } catch (Exception ex) {
                 ex.printStackTrace();
-                Log.e(TAG, "set " + value + " back to " + tmp + " failed");
+                Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
+                if (tmp == null)
+                    return;
+                parameters.put(value, tmp);
+                try {
+                    baseCameraHolder.SetCameraParameters(parameters);
+                    BackgroundValueHasChanged(valueToSet);
+                } catch (Exception ex2) {
+                    ex.printStackTrace();
+                    Log.e(TAG, "set " + value + " back to " + tmp + " failed");
+                }
             }
         }
 
