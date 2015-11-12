@@ -10,6 +10,8 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
+import java.util.ArrayList;
+
 /**
  * Created by troop on 28.04.2015.
  */
@@ -17,9 +19,21 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
+    String[] isovals;
+
     public ManualISoApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler, cameraHolder);
-        current = -1;
+        current = 0;
+        ArrayList<String> ar = new ArrayList<>();
+        for (int i = 0; i<= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i+=50)
+        {
+            if (i == 0)
+                ar.add("auto");
+            else
+                ar.add(i+"");
+        }
+        isovals = new String[ar.size()];
+        ar.toArray(isovals);
     }
 
 
@@ -30,13 +44,13 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
 
     @Override
     public int GetMaxValue() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper()).intValue()/50;
+        return isovals.length-1;
     }
 
     @Override
     public int GetMinValue()
     {
-        return -1;
+        return 0;
         //return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue()/50;
     }
 
@@ -49,29 +63,26 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     @Override
     public String GetStringValue()
     {
-        if (GetValue() == -1)
-            return "Auto";
-        else
-            return ""+ GetValue()*50;
+        return isovals[current];
     }
 
     @Override
     public String[] getStringValues() {
-        return null;
+        return isovals;
     }
 
     @Override
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if (valueToSet == -1)
+        if (valueToSet == 0)
         {
             camParametersHandler.ExposureMode.SetValue("on",true);
         }
         else {
             if (!camParametersHandler.ExposureMode.GetValue().equals("off") && !firststart)
                 camParametersHandler.ExposureMode.SetValue("off",true);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, valueToSet * 50);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(isovals[valueToSet]));
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
