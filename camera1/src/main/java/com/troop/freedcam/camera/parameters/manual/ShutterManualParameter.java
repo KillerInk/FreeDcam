@@ -117,7 +117,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public int GetMaxValue() {
         if (DeviceUtils.isSonyADV())
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8() ||DeviceUtils.isG4() ||DeviceUtils.isMoto_MSM8982_8994() ||DeviceUtils.isAlcatel_Idol3())
+        else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isMoto_MSM8982_8994() ||DeviceUtils.isAlcatel_Idol3())
             return shutterValues.length-1;
         else if (shutterValues != null)
             return shutterValues.length-1;
@@ -153,9 +153,7 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if (DeviceUtils.isHTC_M8() ||
-                DeviceUtils.isHTC_M9() ||
-                DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() ||
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() ||
                 parameters.containsKey("exposure-time") || DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
         {
             current = valueToSet;
@@ -199,11 +197,6 @@ public class ShutterManualParameter extends BaseManualParameter
         {
             parameters.put("exposure-time", "0");
         }
-        else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
-            parameters.put("shutter", "-1");
-            // parameters.put("slow_shutter_addition", "0");
-            // baseCameraHolder.StopPreview();
-            // baseCameraHolder.StartPreview();
         else if (parameters.containsKey("exposure-time"))
             parameters.put("exposure-time", 0+"");
         baseCameraHolder.SetCameraParameters(parameters);
@@ -232,18 +225,6 @@ public class ShutterManualParameter extends BaseManualParameter
                 System.out.println("Freedcam Manual Exposure Time Error Hal Rejected ");
             }
 
-        }
-        else if(DeviceUtils.isG4())
-        {
-            // Spoof Stock CAM
-            parameters.put("lge-camera", "1");
-
-            //note hal has this LG_SHUTTER_SPEED_MAP_TO_FLOAT so it may actually accept 1/2 type values instead of 0.5
-            parameters.put("shutter-speed", shutterstring);
-        }
-        else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()){
-            shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
-            parameters.put("shutter", shutterstring);
         }
         else if(parameters.containsKey("exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
         {
@@ -280,7 +261,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        if(DeviceUtils.isHTC_M8() || DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.isHTC_M9())
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return shutterValues[current];
         else
             return  parameters.get("exposure-time");
