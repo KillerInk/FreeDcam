@@ -33,7 +33,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     public int GetMaxValue()
     {
         if (DeviceUtils.isG4())
-            return 100;
+            return 60;
         else
             return 79;
     }
