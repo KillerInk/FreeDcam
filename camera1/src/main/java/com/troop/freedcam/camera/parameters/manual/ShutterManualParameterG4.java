@@ -67,10 +67,11 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (valueToSet == -1)
+        if (valueToSet == 0)
         {
             parameters.put("lg-manual-mode-reset", "0");
             parameters.put("shutter-speed", "-1000");
+            parameters.put("lg-iso", "-1000");
         }
         else
         {
