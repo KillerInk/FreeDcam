@@ -73,12 +73,14 @@ public class FocusManualParameterHTC extends  BaseManualParameter
         if(valueToSet != -1)
         {
             parameters.put(value, valueToSet+"");
+            camParametersHandler.SetParametersToCamera();
         }
         else if (valueToSet == -1)
         {
+            parameters.put(value, valueToSet+"");
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        camParametersHandler.SetParametersToCamera();
+
 
     }
 

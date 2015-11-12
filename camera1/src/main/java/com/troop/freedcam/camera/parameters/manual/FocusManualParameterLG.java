@@ -65,12 +65,13 @@ public class FocusManualParameterLG extends  BaseManualParameter
             if (!camParametersHandler.FocusMode.GetValue().equals("normal"))
                 camParametersHandler.FocusMode.SetValue("normal", true);
             parameters.put("manualfocus_step", valueToSet+"");
+            camParametersHandler.SetParametersToCamera();
         }
         else if (valueToSet == -1)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
-        camParametersHandler.SetParametersToCamera();
+
 
     }
 
