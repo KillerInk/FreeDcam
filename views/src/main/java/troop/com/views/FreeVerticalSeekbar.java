@@ -40,7 +40,8 @@ public class FreeVerticalSeekbar extends View
 
     SeekBar.OnSeekBarChangeListener mListener;
 
-
+    private int viewWidth =0;
+    private int viewHeight = 0;
 
     public FreeVerticalSeekbar(Context context) {
         super(context);
@@ -55,6 +56,14 @@ public class FreeVerticalSeekbar extends View
     public FreeVerticalSeekbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        this.viewWidth = w;
+        this.viewHeight = h;
+        pixelProValue = (viewHeight-viewWidth)  / max;
     }
 
     private void init(Context context, AttributeSet attrs)
@@ -97,19 +106,19 @@ public class FreeVerticalSeekbar extends View
     {
         if (max == 0)
             return null;
-        pixelProValue = (getheight()-getWidth())  / max;
+
         currentValuePixelPos = currentValue * pixelProValue;
-        int half = getWidth() / 2;
+        int half = viewWidth / 2;
         Rect tmp = new Rect(half/2, (int)currentValuePixelPos, half/2+half, half + (int)currentValuePixelPos);
         drawPosition = tmp;
-        touchArea = new Rect(0, (int)currentValuePixelPos - 10, getWidth(), getWidth() + (int)currentValuePixelPos +10);
+        touchArea = new Rect(0, (int)currentValuePixelPos - 10, viewWidth, viewWidth + (int)currentValuePixelPos +10);
         return tmp;
     }
 
     private int getValueFromDrawingPos(int posi)
     {
         int val;
-        int i = (getheight()- getWidth()/2)/max;
+        int i = (viewHeight- viewWidth/2)/max;
         if (i == 0)
             i=1;
         val = (posi)/i;
@@ -135,9 +144,9 @@ public class FreeVerticalSeekbar extends View
         {
 
             currentValuePixelPos = r;
-            int half = getWidth()/2;
+            int half = viewWidth/2;
             Rect tmp = new Rect(half/2,(int) currentValuePixelPos , half/2+half, half +(int)currentValuePixelPos);
-            touchArea = new Rect(0, (int)currentValuePixelPos - 10, getWidth(), getWidth() + (int)currentValuePixelPos +10);
+            touchArea = new Rect(0, (int)currentValuePixelPos - 10, viewWidth, viewWidth + (int)currentValuePixelPos +10);
             drawPosition = tmp;
 
 
