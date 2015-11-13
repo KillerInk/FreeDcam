@@ -332,7 +332,7 @@ public class DngSupportedDevices
             }
             case 19906560://e7mipi
                 //return new Nexus6Profile(0, 4608, 3456, Mipi, BGGR, 0);
-            return new DngProfile(0, 4608, 3456, Mipi, BGGR, 0,
+            return new DngProfile(16, 4608, 3456, Mipi, BGGR, 0,
                     Matrixes.OV_matrix1,
                     Matrixes.OV_matrix2,
                     Matrixes.OV_ASSHOT,
@@ -342,7 +342,7 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
             case 21233664: //e7qcom
-                return new DngProfile(0, 4608, 3456, Qcom, BGGR, 0,
+                return new DngProfile(16, 4608, 3456, Qcom, BGGR, 0,
                         Matrixes.OV_matrix1,
                         Matrixes.OV_matrix2,
                         Matrixes.OV_ASSHOT,

@@ -173,7 +173,7 @@ public class VideoModule extends AbstractModule
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
 
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
         {
           //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
             recorder.setMaxFileSize(3037822976L);
@@ -181,9 +181,11 @@ public class VideoModule extends AbstractModule
 
             ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
+           // ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+           // ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+           // ParameterHandler.Denoise.SetValue("denoise-off", true);
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.StartPreview();
         }
 
 
@@ -277,9 +279,11 @@ public class VideoModule extends AbstractModule
 
     private void loadProfileSpecificParameters()
     {
-        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214())
+        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()) {
             camParametersHandler.setString("slow_shutter", "-1");
-        //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+            //camParametersHandler.ManualShutter.SetValue("Auto",);
+            baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+        }
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
             String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
