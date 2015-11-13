@@ -162,19 +162,29 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 6299648: {
-                switch (device) {
+
+                return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
+                        Matrixes.OV_matrix1,
+                        Matrixes.OV_matrix2,
+                        Matrixes.OV_ASSHOT,
+                        Matrixes.OV_Foward,
+                        Matrixes.OV_Foward2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.OV_NREDUCTION_Matrix);
+               /* switch (device) {
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(16, 2592, 1944, Mipi, BGGR, 0);
                     case zteAdv:
                         return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
-                                Matrixes.nocal_color1,
-                                Matrixes.nocal_color2,
-                                Matrixes.nocal_nutral,
-                                Matrixes.Nexus6_foward_matrix1,
-                                Matrixes.Nexus6_foward_matrix2,
+                                Matrixes.OV_matrix1,
+                                Matrixes.OV_matrix2,
+                                Matrixes.OV_ASSHOT,
+                                Matrixes.OV_Foward,
+                                Matrixes.OV_Foward2,
                                 Matrixes.Nexus6_reduction_matrix1,
                                 Matrixes.Nexus6_reduction_matrix2,
-                                Matrixes.Nexus6_noise_3x1_matrix);
+                                Matrixes.OV_NREDUCTION_Matrix);
                     case Lenovo_k910:
                         return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
                                 Matrixes.nocal_color1,
@@ -187,7 +197,7 @@ public class DngSupportedDevices
                                 Matrixes.Nexus6_noise_3x1_matrix);
                     default:
                         return new Nexus6Profile(64, 2592, 1944, Mipi, BGGR, 0);
-                }
+                }*/
             }
             case 6746112:// Htc One SV
                 return new Nexus6Profile(64, 2592, 1944, Qcom, GRBG, 0);
@@ -321,9 +331,27 @@ public class DngSupportedDevices
                 }
             }
             case 19906560://e7mipi
-                return new Nexus6Profile(0, 4608, 3456, Mipi, BGGR, 0);
+                //return new Nexus6Profile(0, 4608, 3456, Mipi, BGGR, 0);
+            return new DngProfile(0, 4608, 3456, Mipi, BGGR, 0,
+                    Matrixes.OV_matrix1,
+                    Matrixes.OV_matrix2,
+                    Matrixes.OV_ASSHOT,
+                    Matrixes.OV_Foward,
+                    Matrixes.OV_Foward2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.OV_NREDUCTION_Matrix);
             case 21233664: //e7qcom
-                return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
+                return new DngProfile(0, 4608, 3456, Qcom, BGGR, 0,
+                        Matrixes.OV_matrix1,
+                        Matrixes.OV_matrix2,
+                        Matrixes.OV_ASSHOT,
+                        Matrixes.OV_Foward,
+                        Matrixes.OV_Foward2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.OV_NREDUCTION_Matrix);
+               // return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi, GRBG, 0);
             case 26023936: //THL 5000 MTK
@@ -332,15 +360,43 @@ public class DngSupportedDevices
                 return new Nexus6Profile(64, 5388, 3752, Qcom, GRBG, 0);
             case 41312256: // Meizu MX4/5
                 return new Nexus6Profile(64, 5248, 3936, Plain, BGGR, 0);
+            case 5364240: //testing matrix
+                return new DngProfile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize,
+                        Matrixes.OV_matrix1,
+                        Matrixes.OV_matrix2,
+                        Matrixes.OV_ASSHOT,
+                        Matrixes.OV_Foward,
+                        Matrixes.OV_Foward2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.OV_NREDUCTION_Matrix);
 
 
         }
 
         if (device == SupportedDevices.HTC_One_m8) {
             if (filesize < 6000000 && filesize > 5382641)//M8 qcom
-                return new Nexus6Profile(0, 2688, 1520, Qcom, GRBG, 0);
+                //return new Nexus6Profile(0, 2688, 1520, Qcom, GRBG, 0);
+            return new DngProfile(0, 2688, 1520, Qcom, GRBG, 0,
+                    Matrixes.OV_matrix1,
+                    Matrixes.OV_matrix2,
+                    Matrixes.OV_ASSHOT,
+                    Matrixes.OV_Foward,
+                    Matrixes.OV_Foward2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.OV_NREDUCTION_Matrix);
             else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-                return new Nexus6Profile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize);
+                return new DngProfile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize,
+                        Matrixes.OV_matrix1,
+                        Matrixes.OV_matrix2,
+                        Matrixes.OV_ASSHOT,
+                        Matrixes.OV_Foward,
+                        Matrixes.OV_Foward2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.OV_NREDUCTION_Matrix);
+                //return new Nexus6Profile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize);
             return null;
         }
         return null;
