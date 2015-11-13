@@ -141,7 +141,7 @@ public class Matrixes
 
     public static final float[] OnePlus_noise_3x1_matrix =
             {
-                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+                    0.5438498847101853f, (float) 0, (float) 0.5438498847101853 ,0f,0.5438498847101853f,0f
             };
 
 //////////////////////////////end 1+ ////////////////////////////////////////////////////////////////
@@ -184,7 +184,52 @@ public class Matrixes
 
     public static final float[] Nexus6_noise_3x1_matrix =
             {
-                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+                    0.00051471478f, 0f, 0.00051471478f, 0f, 0.00051471478f, 0f
+            };
+
+
+    //////////////////////////////////eND nEXUS 6//////////////////////////////////////////////////
+    //////////////////////////////   Omnivision ////////////////////////////////////////////////////////////////
+    public  static final float[]  OV_matrix1 =
+            {
+                    1.15625f, -0.421875f, -0.328125f, -0.265625f, 1.3359375f, -0.125f, 0f, 0.1640625f, 0.6328125f
+            };
+    public static final float[] OV_matrix2 =
+            {
+                    0.671875f, -0.125f, -0.1015625f, -0.34375f, 1.15625f, 0.15625f, -0.0390625f, 0.1953125f, 0.5234375f
+            };
+
+    public static final float[] OV_ASSHOT =
+            {
+                    0.5546875f, 1f, 0.515625f
+            };
+    public static final float[] OV_Foward =
+            {
+                    0.5703125f, 0.078125f, 0.3203125f, 0.0625f, 0.8046875f, 0.1328125f, -0.0625f, -0.5390625f, 1.4296875f
+            };
+
+    public static final float[] OV_Foward2 =
+            {
+                    0.671875f, 0.171875f, 0.1171875f, 0.2109375f, 0.953125f, -0.1640625f, -0.0234375f, -0.25f, 1.09375f
+            };
+
+    public static final float[] OV_REDUCTION =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] OV_REDUCTION2 =
+            {
+                    1, -1, -1,
+                    -1, 1, 1,
+                    -1, 1, 1
+            };
+
+    public static final float[] OV_NREDUCTION_Matrix =
+            {
+                    0.003127599148f, 3.56840528e-005f, 0.003127599148f, 3.56840528e-005f, 0.003127599148f, 3.56840528e-005f
             };
 
 
@@ -229,7 +274,7 @@ public class Matrixes
 
     public static final float[] G4_noise_3x1_matrix =
             {
-                    0.8853462669953089f, (float) 1, (float) 0.5438498847101853
+                    0.8853462669953089f, (float) 0, (float) 0.8853462669953089f, 0f, 0.8853462669953089f,0f
             };
 
 
@@ -279,7 +324,7 @@ public class Matrixes
 
     public static final float[] imx230_3x1_matrix =
             {
-                    0.00072030654f, (float) 1, (float) 0.00072030654
+                    0.00072030654f, (float) 0, (float) 0.00072030654, 0f,0.00072030654f,0f
             };
 
     //////////////////////////////end 1+ ////////////////////////////////////////////////////////////////

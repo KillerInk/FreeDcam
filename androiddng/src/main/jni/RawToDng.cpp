@@ -309,15 +309,15 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
     LOGD("imagedescription");
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix1);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
     LOGD("neutralMatrix");
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
 
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
 
         static const float cam_foward1[] = {
       		// R 	G     	B
@@ -336,11 +336,11 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
                   	static const float cam_nex_foward2[] = {
                     	0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859
                     	};
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
     static const float testNR[] = {
                         	0.00051471, 0, 0.00051471,0, 0.00051471, 0};
-    TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  testNR);
+    TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 
 
 
