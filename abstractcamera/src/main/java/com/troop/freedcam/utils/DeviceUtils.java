@@ -147,6 +147,8 @@ public class DeviceUtils
 
     }
 
+    public static boolean isNexus4() {return isDevice(contex.getResources().getStringArray(R.array.Nex4));}
+
     public static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
 
     public static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
