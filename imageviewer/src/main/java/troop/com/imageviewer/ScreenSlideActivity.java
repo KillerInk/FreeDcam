@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.troop.freedcam.utils.DeviceUtils;
+
 /**
  * Created by troop on 21.08.2015.
  */
@@ -32,6 +34,8 @@ public class ScreenSlideActivity extends FragmentActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         HIDENAVBAR();
+        if (DeviceUtils.contex == null)
+            DeviceUtils.contex = getApplicationContext();
 
     }
 
