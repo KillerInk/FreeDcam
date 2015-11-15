@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.bluetooth.BluetoothClass;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -136,6 +137,9 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()){
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
+        if(DeviceUtils.isNexus4()){
+            ((CamParametersHandler)ParameterHandler).setString("camera-mode", "0");
+        baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
 
     }
 
