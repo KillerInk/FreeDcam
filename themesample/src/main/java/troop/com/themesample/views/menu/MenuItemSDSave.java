@@ -2,6 +2,7 @@ package troop.com.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.SDModeParameter;
@@ -37,9 +38,10 @@ public class MenuItemSDSave extends MenuItem
         if (value.equals(SDModeParameter.external))
         {
             boolean canWriteExternal = false;
-            final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "/test.t";
+            final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "test.t";
             final File f = new File(path);
             try {
+                f.mkdirs();
                 f.createNewFile();
                 canWriteExternal = true;
                 f.delete();
@@ -53,7 +55,7 @@ public class MenuItemSDSave extends MenuItem
                 onValueChanged(SDModeParameter.external);
             }
             else {
-                cameraUiWrapper.onCameraError("Cant write to External SD, pls insert SD or apply SD fix");
+                Toast.makeText(context,"Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
                 onValueChanged(SDModeParameter.internal);
             }
         }

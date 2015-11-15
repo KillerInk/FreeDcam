@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
@@ -180,11 +181,23 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
             return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 8 / 8;
     }
 
-    private static long SDspace()
+    private long SDspace()
     {
-        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-        stat.restat(Environment.getExternalStorageDirectory().getPath());
-        long bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
+        long bytesAvailable = 0;
+        if (!appSettingsManager.GetWriteExternal()) {
+            bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
+        }
+        else
+        {
+            StatFs stat = new StatFs(System.getenv("SECONDARY_STORAGE"));
+            if(Build.VERSION.SDK_INT > 17)
+                bytesAvailable = stat.getFreeBytes();
+            else
+            {
+                bytesAvailable = stat.getAvailableBlocks() * stat.getBlockSize();
+            }
+
+        }
         return bytesAvailable;
     }
 

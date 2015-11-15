@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-    String[] isovals;
+    private String[] isovals;
 
     public ManualISoApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler, cameraHolder);
@@ -32,7 +32,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
             else
                 ar.add(i+"");
         }
-        isovals = new String[ar.size()];
+        this.isovals = new String[ar.size()];
         ar.toArray(isovals);
     }
 
@@ -74,6 +74,10 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
     @Override
     public void SetValue(int valueToSet)
     {
+        //workaround when value was -1 to avoid outofarray ex
+        if (valueToSet == -1)
+            valueToSet = 0;
+        //////////////////////
         current = valueToSet;
         if (valueToSet == 0)
         {

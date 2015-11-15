@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -78,7 +79,14 @@ public class PictureModuleMTK extends PictureModule
             File f = new File(file +".jpg");
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), f);
             if (parametersHandler.IsDngActive())
+            {
+                File rawfile = new File(file + ".raw");
+                if (rawfile.exists())
+                    Log.d(TAG, "created raw file:" + rawfile.getAbsolutePath());
+                else
+                    Log.d(TAG, "raw file does not exists");
                 MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(file + ".raw"));
+            }
             stopworking();
             eventHandler.WorkFinished(f);
         }
