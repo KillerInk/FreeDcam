@@ -133,6 +133,7 @@ public abstract class AbstractParameterHandler
 
     public void SetAppSettingsToParameters()
     {
+        setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);
         setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
         setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
         setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);

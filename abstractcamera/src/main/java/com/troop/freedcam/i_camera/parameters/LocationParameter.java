@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -65,7 +66,9 @@ public class LocationParameter extends AbstractModeParameter implements Location
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location)
+    {
+        Log.d("Location", "updated location");
         if (cameraHolder != null)
             cameraHolder.SetLocation(location);
     }
@@ -86,18 +89,24 @@ public class LocationParameter extends AbstractModeParameter implements Location
     }
 
 
-    public void stopLocationListining() {
+    public void stopLocationListining()
+    {
+        Log.d("Location", "stop location");
         if(locationManager != null)
         {
             locationManager.removeUpdates(LocationParameter.this);
         }
     }
 
-    public void startLocationListing() {
+    public void startLocationListing()
+    {
+        Log.d("Location", "start location");
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        Log.d("Location", "Gps:"+gps + "Network:"+network);
         if (gps || network)
         {
+
             Location locnet = null;
             Location locgps = null;
             if (network)
@@ -124,7 +133,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         else
         {
             Toast.makeText(appSettingsManager.context, "Gps and Network are deactivated", Toast.LENGTH_LONG);
-
+            Log.d("Location", "Gps and Network are deactivated");
         }
     }
 }

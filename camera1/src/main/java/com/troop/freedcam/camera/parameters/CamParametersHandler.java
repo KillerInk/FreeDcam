@@ -58,6 +58,7 @@ import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.parameters.LocationParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -126,6 +127,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
+        locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
         try
         {
             ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
