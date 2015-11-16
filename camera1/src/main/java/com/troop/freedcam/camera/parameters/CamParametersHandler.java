@@ -548,7 +548,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
-        Mediatek();
+        //Mediatek();
 
     }
 

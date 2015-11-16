@@ -31,19 +31,19 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (DeviceUtils.isMediaTekDevice())
+        /*if (DeviceUtils.isMediaTekDevice())
         {
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
-        }
+        }*/
         /*else if (DeviceUtils.isOmap())
         {
             Log.d(TAG, "load omap picmodule");
             PictureModuleO3D omap = new PictureModuleO3D(this.cameraHolder,appSettingsManager,moduleEventHandler);
             moduleList.put(omap.ModuleName(),omap);
         }*/
-        else //use default pictureModule
+        if(true)//else //use default pictureModule
         {
             Log.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
