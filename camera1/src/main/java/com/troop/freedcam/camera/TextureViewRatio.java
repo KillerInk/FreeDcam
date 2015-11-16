@@ -5,10 +5,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.TextureView;
 
+import com.troop.freedcam.ui.I_AspectRatio;
+
 /**
  * Created by troop on 27.08.2015.
  */
-public class TextureViewRatio extends TextureView
+public class TextureViewRatio extends TextureView implements I_AspectRatio
 {
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
@@ -25,7 +27,7 @@ public class TextureViewRatio extends TextureView
     public TextureViewRatio(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
+    @Override
     public void setAspectRatio(int width, int height) {
         if (width < 0 || height < 0)
         {

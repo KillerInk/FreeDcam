@@ -1,4 +1,4 @@
-package com.troop.freedcam;
+package troop.com.imageconverter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -17,16 +17,16 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.Size;
-import com.troop.freedcam.camera.TextureViewRatio;
-import com.troop.freedcam.camera.modules.ModuleHandler;
+
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.I_AspectRatio;
 
-import troop.com.camera1.ScriptC_focus_peak;
 
 /**
  * Created by troop on 24.08.2015.
@@ -35,8 +35,8 @@ import troop.com.camera1.ScriptC_focus_peak;
 public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner, I_ModuleEvent,I_Shutter_Changed
 {
     final String TAG = PreviewHandler.class.getSimpleName();
-    private TextureViewRatio output;
-    CameraUiWrapper cameraUiWrapper;
+    private I_AspectRatio output;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     private int mHeight;
     private int mWidth;
@@ -46,11 +46,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private boolean mHaveSurface;
     private Surface mSurface;
-    private ScriptC_focus_peak mScriptFocusPeak;
+    private ScriptC_focus_peak_cam1 mScriptFocusPeak;
     boolean enable = false;
     boolean doWork = false;
 
-    public PreviewHandler(TextureViewRatio output, CameraUiWrapper cameraUiWrapper, Context context)
+    public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -140,7 +140,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         else
             Log.d(TAG, "surfaceNull");
         Log.d(TAG, "script");
-        mScriptFocusPeak = new ScriptC_focus_peak(mRS);
+        mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
         Log.d(TAG, "script done");
         cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
     }
@@ -307,9 +307,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onModuleChanged(I_Module module)
     {
-        if (module.ModuleName().equals(ModuleHandler.MODULE_PICTURE))
+        if (module.ModuleName().equals(AbstractModuleHandler.MODULE_PICTURE))
             setEnable(enable);
-        else if (module.ModuleName().equals(ModuleHandler.MODULE_VIDEO))
+        else if (module.ModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             setEnable(false);
 
     }
@@ -318,11 +318,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public String ModuleChanged(String module)
     {
 
-        if (module.equals(ModuleHandler.MODULE_PICTURE)) {
+        if (module.equals(AbstractModuleHandler.MODULE_PICTURE)) {
             setEnable(enable);
             setDoWork(true);
         }
-        else if (module.equals(ModuleHandler.MODULE_VIDEO)) {
+        else if (module.equals(AbstractModuleHandler.MODULE_VIDEO)) {
             setDoWork(false);
             setEnable(false);
         }

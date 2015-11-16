@@ -16,6 +16,7 @@ import com.sec.android.seccamera.SecCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
+import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
@@ -708,6 +709,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         samsungCamera.takePicture(sh,r,pic);
     }
 
+    @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
         this.previewCallback = previewCallback;
@@ -739,6 +741,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
+    @Override
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
     {
         try {
@@ -760,6 +763,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    @Override
     public void ResetPreviewCallback()
     {
         try {

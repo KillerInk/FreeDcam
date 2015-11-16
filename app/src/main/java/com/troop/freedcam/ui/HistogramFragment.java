@@ -174,7 +174,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
     {
         doWork = false;
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null)
-            cameraUiWrapper.cameraHolder.SetPreviewCallback(null);
+            cameraUiWrapper.cameraHolder.SetPreviewCallback((I_Callbacks.PreviewCallback)null);
     }
 
     @Override

@@ -14,7 +14,7 @@
      * limitations under the License.
      */
     #pragma version(1)
-    #pragma rs java_package_name(troop.com.camera1)
+#pragma rs java_package_name(troop.com.imageconverter)
     #pragma rs_fp_relaxed
     rs_allocation gCurrentFrame;
     uchar4 __attribute__((kernel)) peak(uint32_t x, uint32_t y) {

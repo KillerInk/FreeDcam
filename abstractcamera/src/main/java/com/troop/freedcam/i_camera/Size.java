@@ -1,4 +1,4 @@
-package com.troop.freedcam.camera;
+package com.troop.freedcam.i_camera;
 
 /**
  * Created by troop on 24.08.2015.

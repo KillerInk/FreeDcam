@@ -28,6 +28,6 @@ dependencies {
     compile files('libs/metadata-extractor-2.7.0.jar')
     compile files('libs/xmpcore-5.1.2.jar')
     compile project(':longexposure')
-    provided project(':imageconverter')
     provided files('libs/mtk.jar')
+    provided project(':imageconverter')
 }

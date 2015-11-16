@@ -63,4 +63,5 @@ android {
 
 dependencies {
     provided project(':views')
+    provided project(':abstractcamera')
 }
