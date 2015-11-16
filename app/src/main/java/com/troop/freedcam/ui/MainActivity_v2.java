@@ -484,7 +484,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
 
             themeHandler.DestroyUI();
             previewWasRunning = true;
-            cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
+            //cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
             imageViewerFragment = new ScreenSlideFragment();
             imageViewerFragment.Set_I_Activity(this);
             android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
@@ -502,7 +502,7 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     public void loadCameraUiFragment()
     {
         if (previewWasRunning) {
-            cameraFragment.GetCameraUiWrapper().cameraHolder.StartPreview();
+            //cameraFragment.GetCameraUiWrapper().cameraHolder.StartPreview();
             previewWasRunning = false;
             imageViewerFragment.onDestroyView();
             imageViewerFragment = null;
