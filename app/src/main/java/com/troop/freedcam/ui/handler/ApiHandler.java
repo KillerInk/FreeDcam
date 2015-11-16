@@ -4,25 +4,18 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
-import android.os.Handler;
-import android.renderscript.RenderScript;
 
 import com.troop.apis.SonyCameraFragment;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.apis.Camera1Fragment;
 import com.troop.freedcam.apis.Camera2Fragment;
-import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import troop.com.imageconverter.ViewfinderProcessor;
 
 /**
  * Created by troop on 11.12.2014.
@@ -46,8 +39,6 @@ public class ApiHandler
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
-
-                final AppSettingsManager app = appSettingsManager;
                 boolean legacy = IsLegacy();
                 if (legacy) {
                     appSettingsManager.SetCamera2FullSupported("false");
@@ -96,6 +87,7 @@ public class ApiHandler
         void apiDetectionDone();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean IsLegacy()
     {
         boolean legacy = true;
@@ -119,6 +111,8 @@ public class ApiHandler
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        catch (VerifyError ex)
+        {ex.printStackTrace();}
         finally
         {
 
