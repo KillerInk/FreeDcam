@@ -124,6 +124,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         if (DeviceUtils.isG4())
             setupLg_G4Parameters();
+
         logParameters(cameraParameters);
         try
         {
@@ -544,6 +545,9 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
+        //camMode();
+        Mediatek();
+
     }
 
     class SetParameterRunner implements Runnable
@@ -728,6 +732,28 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
         PreviewFormat.SetValue("yuv420sp", false);
+    }
+
+    private void camMode()
+    {
+        cameraParameters.put("camera-mode","0");
+        cameraHolder.SetCameraParameters(cameraParameters);
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
+    }
+    private void Mediatek()
+    {
+        cameraParameters.put("zsd-mode","1");
+        cameraParameters.put("camera-mode","0");
+        cameraParameters.put("afeng_raw_dump_flag","1");
+        cameraParameters.put("rawsave-mode","2");
+        cameraParameters.put("isp-mode","1");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
+
+
+        cameraHolder.SetCameraParameters(cameraParameters);
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
     }
 
     private void setupLg_G4Parameters()

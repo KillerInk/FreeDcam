@@ -3,6 +3,7 @@ package com.troop.freedcam.camera;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
+
 import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
@@ -38,6 +39,7 @@ import java.util.Map;
 public class BaseCameraHolder extends AbstractCameraHolder
 {
     Camera mCamera;
+
     private Camera.Parameters mCameraParam;
     LGCamera lgCamera;
     LGCamera.LGParameters lgParameters;
@@ -209,6 +211,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     cameraChangedListner.onCameraError("Fail to connect to camera service");
                 }
             } else {
+
+                //if(DeviceUtils.isSonyM5_MTK())
+                    //android.hardware.Camera.setProperty("client.appmode", "MtkEng");
                 mCamera = Camera.open(camera);
             }
 
