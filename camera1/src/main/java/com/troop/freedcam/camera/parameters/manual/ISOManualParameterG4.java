@@ -67,9 +67,10 @@ public class ISOManualParameterG4 extends BaseManualParameter
     {
         current = valueToSet;
         if (valueToSet == 0) {
+
+            parameters.put("lg-iso", "auto");
+            parameters.put("shutter-speed", "0");
             parameters.put("lg-manual-mode-reset", "0");
-            parameters.put("lg-iso", "-1000");
-            parameters.put("shutter-speed", "-1000");
         }
         else {
             parameters.put("lg-manual-mode-reset", "1");

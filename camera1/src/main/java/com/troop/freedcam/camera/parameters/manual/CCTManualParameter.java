@@ -8,59 +8,76 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CCTManualParameter extends BaseManualParameter {
 
     I_CameraHolder baseCameraHolder;
+    final String WBCURRENT = "wb-current-cct";
+    final String WB_CCT = "wb-cct";
+    final String WB_CT = "wb-ct";
+    final String WB_MANUAL = "wb-manual-cct";
+    final String MAX_WB_CCT = "max-wb-cct";
+    final String MIN_WB_CCT = "min-wb-cct";
+    final String MAX_WB_CT = "max-wb-ct";
+    final String MIN_WB_CT = "min-wb-ct";
+    final String LG_Min = "lg-wb-supported-min";
+    final String LG_Max = "lg-wb-supported-max";
+    final String LG_WB = "lg-wb";
+
+
+    String[] wbvalues;
+    int currentWBPos = 0;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.isSupported = false;
-        if (DeviceUtils.isOnePlusOne())
+        if (parameters.containsKey(WBCURRENT) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT))
         {
-            this.value = "wb-current-cct";
-            this.min_value = "min-wb-cct";
-            this.max_value = "max-wb-cct";
+            this.value = WBCURRENT;
+            this.max_value = MAX_WB_CCT;
+            this.min_value = MIN_WB_CCT;
             this.isSupported = true;
+            createStringArray();
         }
-        else if (DeviceUtils.isRedmiNote())
+        else if (parameters.containsKey(WB_CCT) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT))
         {
-            this.value = "wb-manual-cct";
-            this.max_value = "max-wb-cct";
-            this.min_value = "min-wb-cct";
+            this.value = WB_CCT;
+            this.max_value = MAX_WB_CCT;
+            this.min_value = MIN_WB_CCT;
             this.isSupported = true;
+            createStringArray();
         }
-        else if (parameters.containsKey("wb-cct") && parameters.containsKey("max-wb-cct") && parameters.containsKey("min-wb-cct"))
+        else if (parameters.containsKey(WB_CT) && parameters.containsKey(MAX_WB_CT) &&  parameters.containsKey(MIN_WB_CT))
         {
-            this.value = "wb-cct";
-            this.max_value = "max-wb-cct";
-            this.min_value = "min-wb-cct";
+            this.value = WB_CT;
+            this.max_value = MAX_WB_CT;
+            this.min_value = MIN_WB_CT;
             this.isSupported = true;
-        }
-        else if (parameters.containsKey("wb-ct") && parameters.containsKey("max-wb-ct") &&  parameters.containsKey("min-wb-ct"))
-        {
-            this.value = "wb-ct";
-            this.max_value = "max-wb-ct";
-            this.min_value = "min-wb-ct";
-            this.isSupported = true;
+            createStringArray();
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey("wb-manual-cct") ||DeviceUtils.isAlcatel_Idol3())
+        else if (parameters.containsKey(WB_MANUAL) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT))
         {
-            try {
-                this.value = "wb-manual-cct";
-                this.max_value = "max-wb-cct";
-                this.min_value = "min-wb-cct";
-                this.isSupported = true;
-
-            }
-            catch (NullPointerException ex)
-            {
-                this.isSupported=false;
-            }
+            this.value = WB_MANUAL;
+            this.max_value = MAX_WB_CCT;
+            this.min_value = MIN_WB_CCT;
+            this.isSupported = true;
+            createStringArray();
+        }
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+            isSupported = true;
+        else if (parameters.containsKey(LG_Max) && parameters.containsKey(LG_Min) && parameters.containsKey(LG_WB))
+        {
+            this.value = LG_WB;
+            this.max_value = LG_Max;
+            this.min_value = LG_Min;
+            this.isSupported = true;
+            createStringArray();
         }
         else
             this.isSupported=false;
@@ -73,6 +90,20 @@ public class CCTManualParameter extends BaseManualParameter {
         //TODO add missing logic
     }
 
+    private void createStringArray()
+    {
+        int min = Integer.parseInt(parameters.get(min_value));
+        int max = Integer.parseInt(parameters.get(max_value));
+        ArrayList<String> t = new ArrayList<String>();
+        t.add("auto");
+        for (int i = min; i<=max;i+=50)
+        {
+            t.add(i+"");
+        }
+        wbvalues = new String[t.size()];
+        t.toArray(wbvalues);
+    }
+
     @Override
     public boolean IsSupported()
     {
@@ -80,76 +111,68 @@ public class CCTManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public int GetMaxValue() {
+    public int GetMaxValue()
+    {
+        if (wbvalues != null)
+            return wbvalues.length-1;
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return 150;
-        else if(parameters.containsKey("wb-manual-cct"))
-        {
-            try {
-                return Integer.parseInt(parameters.get("max-wb-cct"));
-            }
-            catch (NullPointerException ex)
-            {
-                return 0;
-            }
-        }
-        else
-            try {
-                if (DeviceUtils.isMoto_MSM8974()) {
-                    return 8000;
-                } else {
-                    String wbct = parameters.get(max_value);
-                    if (wbct.equals("null")) {
-                        isSupported = false;
-                        wbct = "0";
-                    }
-                    return Integer.parseInt(wbct);
-                }
-            }
-            catch (NullPointerException ex)
-            {
-                return 0;
-            }
+        if (DeviceUtils.isMoto_MSM8974())
+            return 8000;
+        return 0;
     }
     //M8 Step values "wb-ct-step"
     @Override
     public int GetMinValue()
     {
+        if (wbvalues != null)
+            return 0;
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return -1;
-        else if(parameters.containsKey("wb-manual-cct"))
-        {
-            return Integer.parseInt(parameters.get("min-wb-cct"));
-        }
-        else
-            try {
-                return Integer.parseInt(parameters.get(min_value));
-            }
-            catch (NumberFormatException ex)
-            {
-                ex.printStackTrace();
-            }
         return 0;
-
     }
 
     @Override
     public int GetValue()
     {
-
-
-        return 0;
+        return currentWBPos;
     }
 
     @Override
-    public String GetStringValue() {
+    public String GetStringValue()
+    {
+        if (wbvalues != null)
+            return wbvalues[currentWBPos];
         return null;
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        if (wbvalues != null)
+        {
+            currentWBPos = valueToSet;
+            if (currentWBPos == 0)
+            {
+                if (DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
+                {
+                    parameters.put(value, "-1");
+                }
+                else if (max_value.equals(LG_Max))
+                    parameters.put(value, "0");
+                else
+                    camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+            }
+            else
+            {
+                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote()) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                    camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
+                    camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
+                parameters.put(value, wbvalues[currentWBPos]);
+            }
+        }
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
         {
             if(valueToSet != -1)
             {
@@ -160,32 +183,10 @@ public class CCTManualParameter extends BaseManualParameter {
                 }
                 catch (Exception exc)
                 {
-
                 }
             }
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
-        }
-        else if (parameters.containsKey("wb-manaul-cct") ||DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
-        {
-            try{
-                camParametersHandler.WhiteBalanceMode.SetValue("manual", true);}
-            catch (Exception c)
-            {
-                System.out.println("Freedcam Error Setting Manual Color Temp");
-            }
-            parameters.put("wb-manual-cct", valueToSet + "");
-        }
-        else if (DeviceUtils.isLG_G3())
-            setCTReflection(valueToSet);
-            //parameters.put("cct", valueToSet + "");
-
-        else if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
-            parameters.put("wb-ct", valueToSet + "");
-        else if(DeviceUtils.isG4()) {
-            //"lg-manual-mode-reset"
-            parameters.put("lge-camera", "1");
-            parameters.put("lg-wb", valueToSet + "");
         }
         camParametersHandler.SetParametersToCamera();
 
