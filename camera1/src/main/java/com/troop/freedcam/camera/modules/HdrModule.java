@@ -109,7 +109,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             public void run() {
                 setExposureToCamera();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(800);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -137,6 +137,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         if (hdrCount == 2)
         {
             stopworking();
+            ParameterHandler.ManualExposure.SetValue(0);
         }
         else if (hdrCount < 2)
         {
@@ -159,12 +160,12 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
         if (hdrCount == 0)
         {
-           value = ParameterHandler.ManualExposure.GetMinValue();
+           value = ParameterHandler.ManualExposure.GetMinValue()+2;
         }
         else if (hdrCount == 1)
             value = 0;
         else if (hdrCount == 2)
-            value = ParameterHandler.ManualExposure.GetMaxValue();
+            value = ParameterHandler.ManualExposure.GetMaxValue()-2;
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         ParameterHandler.ManualExposure.SetValue(value);
         Log.d(TAG, "HDR Exposure SET");
