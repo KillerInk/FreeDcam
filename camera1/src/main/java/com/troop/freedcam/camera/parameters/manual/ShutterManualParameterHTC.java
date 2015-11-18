@@ -34,17 +34,6 @@ public class ShutterManualParameterHTC extends BaseManualParameter
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");
         }
-
-        this.setTheListener(i_shutter_changed);
-
-
-    }
-
-    private I_Shutter_Changed i_shutter_changed;
-
-    public void setTheListener(I_Shutter_Changed i_shutter_changedx) {
-        i_shutter_changed = i_shutter_changedx;
-
     }
 
     @Override

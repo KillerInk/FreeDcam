@@ -31,17 +31,8 @@ public class ShutterManualParameterG4 extends BaseManualParameter
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
-
-            this.isSupported = true;
-            shutterValues = ShutterManualParameter.LGG4Values.split(",");
-
-    }
-
-    private I_Shutter_Changed i_shutter_changed;
-
-    public void setTheListener(I_Shutter_Changed i_shutter_changedx) {
-        i_shutter_changed = i_shutter_changedx;
-
+        this.isSupported = true;
+        shutterValues = ShutterManualParameter.LGG4Values.split(",");
     }
 
     @Override
