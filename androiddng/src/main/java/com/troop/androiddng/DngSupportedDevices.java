@@ -358,7 +358,16 @@ public class DngSupportedDevices
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi, GRBG, 0);
             case 26023936: //THL 5000 MTK, Redmi note2
-                return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
+                switch (device)
+                {
+                    case THL5000:
+                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
+                    case Xiaomi_Redmi_Note2:
+                        return new Nexus6Profile(64, 4192, 3104, Plain, gbrg, 0);
+                    default:
+                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
+
+                }
             case 27127808: //HTC M9 QCom
                 return new Nexus6Profile(64, 5388, 3752, Qcom, GRBG, 0);
             case 41312256: // Meizu MX4/5

@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(buttonclick);
+		DeviceUtils.contex = getApplicationContext();
 	}
 
 	private DngSupportedDevices.SupportedDevices getDevice(String filename)
@@ -80,6 +81,8 @@ public class MainActivity extends Activity {
 			return DngSupportedDevices.SupportedDevices.MotoX_pure;
 		if(filename.contains("SonyM5"))
 			return DngSupportedDevices.SupportedDevices.SonyM5;
+		if(filename.contains("Xiaomi_RedmiNote2"))
+			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note2;
 		return null;
 	}
 	
