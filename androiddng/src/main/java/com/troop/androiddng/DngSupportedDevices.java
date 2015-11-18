@@ -29,6 +29,7 @@ public class DngSupportedDevices
         zteADV_IMX214,
         zteAdv_IMX234,
         Xiaomi_Redmi_Note,
+        Xiaomi_Redmi_Note2,
         Xiaomi_mi_note_pro,
         Xiaomi_mi3,
         Meizu_Mx4,
@@ -78,6 +79,8 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.OnePlusOne;
         if (DeviceUtils.isRedmiNote())
             return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
+        if (DeviceUtils.isRedmiNote2())
+            return SupportedDevices.Xiaomi_Redmi_Note2;
         if (DeviceUtils.isXiaomiMI3W())
             return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
         if (DeviceUtils.isMeizuMX4())
@@ -354,7 +357,7 @@ public class DngSupportedDevices
                // return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi, GRBG, 0);
-            case 26023936: //THL 5000 MTK
+            case 26023936: //THL 5000 MTK, Redmi note2
                 return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
             case 27127808: //HTC M9 QCom
                 return new Nexus6Profile(64, 5388, 3752, Qcom, GRBG, 0);
