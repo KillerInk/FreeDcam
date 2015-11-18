@@ -3,12 +3,12 @@ package com.troop.freedcam.ui.handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.troop.freedcam.MainActivity;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.manager.MyTimer;
-import com.troop.freedcam.ui.MainActivity_v2;
 
 /**
  * Created by troop on 26.11.2014.
@@ -17,13 +17,13 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
 {
     TextView timerText;
 
-    private final MainActivity_v2 mainActivity_v2;
+    private final MainActivity mainActivity;
     MyTimer timer;
 
-    public TimerHandler(MainActivity_v2 mainActivity_v2)
+    public TimerHandler(MainActivity mainActivity)
     {
-        this.mainActivity_v2 = mainActivity_v2;
-        this.timerText = (TextView) mainActivity_v2.findViewById(R.id.textView_RecCounter);
+        this.mainActivity = mainActivity;
+        this.timerText = (TextView) mainActivity.findViewById(R.id.textView_RecCounter);
         timer = new MyTimer(timerText);
         timerText.setVisibility(View.GONE);
     }
@@ -31,7 +31,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
     @Override
     public String ModuleChanged(final String module)
     {
-        mainActivity_v2.runOnUiThread(new Runnable() {
+        mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (module.equals(ModuleHandler.MODULE_VIDEO))

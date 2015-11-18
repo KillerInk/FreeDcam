@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui;
+package com.troop.freedcam;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import com.troop.freedcam.MainActivity;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 
 import java.io.File;
@@ -13,7 +14,7 @@ import java.io.File;
 /**
  * Created by troop on 18.10.2014.
  */
-public class ShareActivity extends MainActivity_v2 implements I_WorkEvent
+public class ShareActivity extends MainActivity implements I_WorkEvent
 {
     Intent callerIntent;
     Uri data;

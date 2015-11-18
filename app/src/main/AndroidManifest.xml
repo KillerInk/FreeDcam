@@ -38,7 +38,7 @@
         android:name="com.troop.">
 
         <activity
-            android:name="com.troop.freedcam.ui.MainActivity_v2"
+            android:name=".MainActivity"
             android:label="FreeDCam"
 
             android:icon="@drawable/launcher_freedcam"
@@ -58,7 +58,7 @@
         </activity>
 
         <activity
-            android:name="com.troop.freedcam.ui.ShareActivity"
+            android:name=".ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/launcher_freedcam"

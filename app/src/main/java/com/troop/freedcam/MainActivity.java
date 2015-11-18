@@ -1,4 +1,4 @@
-package com.troop.freedcam.ui;
+package com.troop.freedcam;
 
 
 import android.content.Context;
@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -27,6 +26,8 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.manager.FileLogger;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.handler.ApiHandler;
 import com.troop.freedcam.ui.handler.ApiHandler.ApiEvent;
 import com.troop.freedcam.ui.handler.HardwareKeyHandler;
@@ -44,22 +45,21 @@ import troop.com.imageviewer.ScreenSlideFragment;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity_v2 extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy
+public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy
 {
     protected ViewGroup appViewGroup;
     boolean histogramFragmentOpen = false;
     static OrientationHandler orientationHandler;
     int flags;
 
-    private static String TAG = StringUtils.TAG + MainActivity_v2.class.getSimpleName();
+    private static String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
     static AppSettingsManager appSettingsManager;
     static HardwareKeyHandler hardwareKeyHandler;
-    MainActivity_v2 activity;
+    MainActivity activity;
     static ApiHandler apiHandler;
     static TimerHandler timerHandler;
     public ThemeHandler themeHandler;
-    static HistogramFragment histogramFragment;
     static AbstractCameraFragment cameraFragment;
     ScreenSlideFragment imageViewerFragment;
     private boolean debuglogging = false;
@@ -161,11 +161,6 @@ public class MainActivity_v2 extends FragmentActivity implements I_orientation, 
     private void destroyCameraUiWrapper()
     {
         themeHandler.SetCameraUIWrapper(null);
-        if (histogramFragment != null)
-        {
-            histogramFragment.stopLsn();
-            histogramFragment.SetCameraUIWrapper(null);
-        }
         if (cameraFragment != null) {
             cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

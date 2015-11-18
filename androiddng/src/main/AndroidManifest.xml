@@ -2,7 +2,7 @@
 
     <application>
     <activity
-        android:name="com.troop.androiddng.MainActivity"
+        android:name="com.troop.androiddng.RawToDngTestActivity"
         android:label="androiddng"
         >
 

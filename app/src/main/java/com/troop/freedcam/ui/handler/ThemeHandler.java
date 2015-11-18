@@ -2,12 +2,12 @@ package com.troop.freedcam.ui.handler;
 
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.MainActivity;
 import com.troop.freedcam.R;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.MainActivity_v2;
 
 import troop.com.themesample.SampleThemeFragment;
 
@@ -17,12 +17,12 @@ import troop.com.themesample.SampleThemeFragment;
 public class ThemeHandler implements I_ModuleEvent
 {
     AppSettingsManager appSettingsManager;
-    static MainActivity_v2 activity_v2;
+    static MainActivity activity_v2;
     LinearLayout uiLayout;
     AbstractFragment uiFragment;
     AbstractCameraUiWrapper cameraUiWrapper;
 
-    public ThemeHandler(MainActivity_v2 activity_v2, AppSettingsManager appSettingsManager)
+    public ThemeHandler(MainActivity activity_v2, AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
         this.activity_v2 = activity_v2;

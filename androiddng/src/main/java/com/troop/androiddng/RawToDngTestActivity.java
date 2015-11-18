@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import troop.com.androiddng.R;
 
-public class MainActivity extends Activity {
+public class RawToDngTestActivity extends Activity {
 
     final int g3W = 4160;
     final int g3H = 3120;
