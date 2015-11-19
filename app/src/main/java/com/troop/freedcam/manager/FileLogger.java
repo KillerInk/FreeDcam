@@ -72,7 +72,7 @@ public class FileLogger
 
                 waitforLine(bufferedReader, outputstream);
 
-                Runtime.getRuntime().exec("logcat -c");
+                //Runtime.getRuntime().exec("logcat -c");
                 Thread.sleep(300);
             }
         }
@@ -105,9 +105,12 @@ public class FileLogger
             {
                 String line;
                 try {
-                    while ((line = bufferedReader.readLine()) != null && LOGTOFILE)
+                    while (LOGTOFILE)
                     {
-                        outputstream.write(DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime())+ ":" +line + "\n");
+                        if ((line = bufferedReader.readLine()) != null)
+                            outputstream.write(DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime())+ ":" +line + "\n");
+                        else
+                            Thread.sleep(500);
                     }
                 } catch (IOException e) {
                     try {
@@ -117,6 +120,8 @@ public class FileLogger
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
