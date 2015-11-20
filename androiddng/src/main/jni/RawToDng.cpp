@@ -43,6 +43,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *env, jobject thiz, jobject handler);
 
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -725,4 +726,128 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     delete[] writer->bayerBytes;
     writer->bayerBytes = NULL;
 
+}
+
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *env, jobject thiz, jobject handler)
+{
+    uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    TIFF *tif = openfTIFF(writer->fileSavePath);
+
+    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+    LOGD("subfiletype");
+    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, writer->rawwidht) != 0);
+    LOGD("width");
+    assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
+    LOGD("height");
+    assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
+    LOGD("bitspersample");
+    assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
+    LOGD("PhotometricCFA");
+    TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
+//assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
+    assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
+    LOGD("Compression");
+    TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    LOGD("sampelsperpixel");
+    TIFFSetField(tif, TIFFTAG_MAKE, writer->_make);
+    LOGD("make");
+    TIFFSetField(tif, TIFFTAG_MODEL, writer->_model);
+    LOGD("model");
+    try
+    {
+        if(0 == strcmp(writer->_orientation,"0") )
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+        if(0 == strcmp(writer->_orientation,"90") )
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
+        if(0 == strcmp(writer->_orientation,"180") )
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
+        if(0 == strcmp(writer->_orientation,"270") )
+            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
+        LOGD("orientation");
+    }
+    catch(...)
+    {
+        LOGD("Caught NULL NOT SET Orientation");
+    }
+    assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
+    LOGD("planarconfig");
+//assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
+TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
+LOGD("software");
+TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+LOGD("dngversion");
+TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+LOGD("CameraModel");
+TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
+LOGD("imagedescription");
+TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
+LOGD("colormatrix1");
+TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
+LOGD("neutralMatrix");
+TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
+TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
+TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
+TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
+TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
+LOGD("colormatrix2");
+//////////////////////////////IFD POINTERS///////////////////////////////////////
+///GPS//////////
+// TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+///EXIF////////
+
+TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+LOGD("set exif");
+//CheckPOINT to KEEP EXIF IFD in MEMory
+//Try FiX DIR
+TIFFCheckpointDirectory(tif);
+TIFFWriteDirectory(tif);
+TIFFSetDirectory(tif, 0);
+
+if(writer->gps == true)
+{
+makeGPS_IFD(tif, writer);
+TIFFCheckpointDirectory(tif);
+TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+TIFFSetDirectory(tif, 0);
+}
+
+
+writeExifIfd(tif,writer);
+//Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
+TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
+TIFFWriteCustomDirectory(tif, &dir_offset);
+///////////////////// GO Back TO IFD 0
+TIFFSetDirectory(tif, 0);
+if(writer->gps)
+TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
+TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
+
+if(0 == strcmp(writer->bayerformat,"bggr"))
+TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+if(0 == strcmp(writer->bayerformat , "grbg"))
+TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+if(0 == strcmp(writer->bayerformat , "rggb"))
+TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+if(0 == strcmp(writer->bayerformat , "gbrg"))
+TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+long white=0x3ff;
+TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
+
+short CFARepeatPatternDim[] = { 2,2 };
+TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+
+TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
+LOGD("wrote blacklevel");
+TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+
+TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
+
+if (writer->bayerBytes == NULL)
+return;
+delete[] writer->bayerBytes;
+writer->bayerBytes = NULL;
 }
