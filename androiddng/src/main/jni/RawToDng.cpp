@@ -846,8 +846,13 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
 TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
 
+TIFFWriteDirectory (tif);
+LOGD("Finalizng DNG");
+TIFFClose(tif);
+
 if (writer->bayerBytes == NULL)
 return;
 delete[] writer->bayerBytes;
 writer->bayerBytes = NULL;
+
 }
