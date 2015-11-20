@@ -33,6 +33,7 @@ public class RawToDng
     private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
+    private static native void Write10bitDNG(ByteBuffer nativeHandler);
     private static native void Release(ByteBuffer nativeHandler);
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
@@ -156,7 +157,7 @@ public class RawToDng
                              int tight,int width,int height)
     {
         if (nativeHandler != null)
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor,fowardMatrix1,fowardMatrix2,reductionMatrix1,reductionMatrix2,noise, blacklevel, bayerformat, rowSize, devicename, tight,width,height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
     }
 
     public void RELEASE()
@@ -197,6 +198,31 @@ public class RawToDng
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
             SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
+            RELEASE();
+        }
+    }
+
+    public void Write10BitDNG(DngSupportedDevices.SupportedDevices device)
+    {
+        DngSupportedDevices.SupportedDevices devices = device;
+        if (device == null)
+            devices = DngSupportedDevices.getDevice();
+        else
+            devices = device;
+
+        if (devices != null)
+        {
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            //if (profile.rowsize == 0)
+            //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
+            if (profile == null)
+            {
+                RELEASE();
+                return;
+            }
+            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+            Write10bitDNG(nativeHandler);
             RELEASE();
         }
     }

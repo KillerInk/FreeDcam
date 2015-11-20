@@ -735,7 +735,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
     TIFF *tif = openfTIFF(writer->fileSavePath);
 
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-    LOGD("subfiletype");
+    LOGD("subfiletype 10BIT DNG");
     assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, writer->rawwidht) != 0);
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
@@ -744,7 +744,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
     LOGD("bitspersample");
     assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
     LOGD("PhotometricCFA");
-    TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
+
 //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
     assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
     LOGD("Compression");
@@ -793,6 +793,10 @@ TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
 TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
 TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 LOGD("colormatrix2");
+
+TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
+//TIFFSetField(tif, TIFFTAG_STRIPOFFSETS, writer->rawwidht*10/8);
+TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, writer->rawwidht*10/8);
 //////////////////////////////IFD POINTERS///////////////////////////////////////
 ///GPS//////////
 // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
@@ -844,7 +848,7 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
+TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawheight*writer->rawwidht*10/8);
 
 TIFFWriteDirectory (tif);
 LOGD("Finalizng DNG");
