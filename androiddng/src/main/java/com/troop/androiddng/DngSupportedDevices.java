@@ -14,6 +14,7 @@ public class DngSupportedDevices
 
     public enum SupportedDevices
     {
+        Lg_G4,
         LG_G3,
         LG_G2,
         Lenovo_k910,
@@ -50,9 +51,10 @@ public class DngSupportedDevices
     {
         if (DeviceUtils.isYureka())
             return DngSupportedDevices.SupportedDevices.yureka;
-
         if (DeviceUtils.isLG_G3())
             return DngSupportedDevices.SupportedDevices.LG_G3;
+        if (DeviceUtils.isG4())
+            return SupportedDevices.Lg_G4;
         if (DeviceUtils.isGioneE7())
             return DngSupportedDevices.SupportedDevices.Gione_E7;
         if (DeviceUtils.isHTC_M8())
@@ -344,6 +346,16 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix1,
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
+            case 19976192: //g4 raw10 camera2
+                return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+                Matrixes.G4_identity_matrix1,
+                        Matrixes.G4_identity_matrix2,
+                        Matrixes.G4_identity_neutra,
+                        Matrixes.G4_foward_matrix1,
+                        Matrixes.G4_foward_matrix2,
+                        Matrixes.G4_reduction_matrix1,
+                        Matrixes.G4_reduction_matrix2,
+                        Matrixes.G4_noise_3x1_matrix);
             case 21233664: //e7qcom
                 return new DngProfile(16, 4608, 3456, Qcom, BGGR, 0,
                         Matrixes.OV_matrix1,

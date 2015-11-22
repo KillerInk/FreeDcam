@@ -791,12 +791,12 @@ TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
 TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
 TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
-TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
+//TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 LOGD("colormatrix2");
 
-TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
+//TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
 //TIFFSetField(tif, TIFFTAG_STRIPOFFSETS, writer->rawwidht*10/8);
-TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, writer->rawwidht*10/8);
+//TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, (writer->rawSize/writer->rawheight)/10*8);
 //////////////////////////////IFD POINTERS///////////////////////////////////////
 ///GPS//////////
 // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
@@ -848,7 +848,7 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawheight*writer->rawwidht*10/8);
+TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawwidht*writer->rawheight*10/8);
 
 TIFFWriteDirectory (tif);
 LOGD("Finalizng DNG");
