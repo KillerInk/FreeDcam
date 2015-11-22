@@ -850,18 +850,23 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-char* tmp = new char[4];
-for(int i =0; i< writer->rawSize; i+=4)
+unsigned char* tmp = new unsigned char[5];
+unsigned char* ar = writer->bayerBytes;
+for(int i =0; i< writer->rawSize; i+=5)
 {
 
-    tmp[0] = writer->bayerBytes[3+i];
-    tmp[1] = writer->bayerBytes[2+i];
-    tmp[2] = writer->bayerBytes[1+i];
-    tmp[3] = writer->bayerBytes[i];
-writer->bayerBytes[3+i] = tmp[3];
-writer->bayerBytes[2+i] = tmp[2];
+    tmp[0] = (ar[i+4]<< 6) |  (ar[i] >>2);
+    tmp[1] = (ar[i] <<6)  | (ar[i+4] & 0x3) << 4 | (ar[i+1]>>4);
+    tmp[2] = (ar[i+1]<< 4) | (ar[i+4] & 0x30 ) >>2 | (ar[i +2] >> 6);
+    tmp[3] = (ar[i+2] << 2) | (ar[i+4] >> 6);
+    tmp[4] = ar[i+3];
+
+
+writer->bayerBytes[i] = tmp[0];
 writer->bayerBytes[1+i] = tmp[1];
-writer->bayerBytes[0+i] = tmp[0];
+writer->bayerBytes[2+i] = tmp[2];
+writer->bayerBytes[3+i] = tmp[3];
+writer->bayerBytes[4+i] = tmp[4];
 }
 
 TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
