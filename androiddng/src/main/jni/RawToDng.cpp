@@ -728,6 +728,8 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
 
 }
 
+
+
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *env, jobject thiz, jobject handler)
 {
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
@@ -848,7 +850,21 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawwidht*writer->rawheight*10/8);
+char* tmp = new char[4];
+for(int i =0; i< writer->rawSize; i+=4)
+{
+
+    tmp[0] = writer->bayerBytes[3+i];
+    tmp[1] = writer->bayerBytes[2+i];
+    tmp[2] = writer->bayerBytes[1+i];
+    tmp[3] = writer->bayerBytes[i];
+writer->bayerBytes[3+i] = tmp[3];
+writer->bayerBytes[2+i] = tmp[2];
+writer->bayerBytes[1+i] = tmp[1];
+writer->bayerBytes[0+i] = tmp[0];
+}
+
+TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
 
 TIFFWriteDirectory (tif);
 LOGD("Finalizng DNG");
