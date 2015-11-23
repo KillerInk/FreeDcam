@@ -850,24 +850,6 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-unsigned char* tmp = new unsigned char[5];
-unsigned char* ar = writer->bayerBytes;
-for(int i =0; i< writer->rawSize; i+=5)
-{
-
-    tmp[0] = (ar[i+4]<< 6) |  (ar[i] >>2);
-    tmp[1] = (ar[i] <<6)  | (ar[i+4] & 0x3) << 4 | (ar[i+1]>>4);
-    tmp[2] = (ar[i+1]<< 4) | (ar[i+4] & 0x30 ) >>2 | (ar[i +2] >> 6);
-    tmp[3] = (ar[i+2] << 2) | (ar[i+4] >> 6);
-    tmp[4] = ar[i+3];
-
-
-writer->bayerBytes[i] = tmp[0];
-writer->bayerBytes[1+i] = tmp[1];
-writer->bayerBytes[2+i] = tmp[2];
-writer->bayerBytes[3+i] = tmp[3];
-writer->bayerBytes[4+i] = tmp[4];
-}
 
 char* tmp2 = new char[4];
 for(int i =0; i< writer->rawSize; i+=4)
@@ -882,6 +864,33 @@ writer->bayerBytes[2+i] = tmp2[2];
 writer->bayerBytes[1+i] = tmp2[1];
 writer->bayerBytes[0+i] = tmp2[0];
 }
+
+
+unsigned char* tmp = new unsigned char[5];
+unsigned char* ar = writer->bayerBytes;
+for(int i =0; i< writer->rawSize; i+=5)
+{
+
+    /*tmp[0] = (ar[i+4]<< 6) |  (ar[i] >>2);
+    tmp[1] = (ar[i] <<6)  | (ar[i+4] & 0x3) << 4 | (ar[i+1]>>4);
+    tmp[2] = (ar[i+1]<< 4) | (ar[i+4] & 0x30 ) >>2 | (ar[i +2] >> 6);
+    tmp[3] = (ar[i+2] << 2) | (ar[i+4] >> 6);
+    tmp[4] = ar[i+3];*/
+
+    tmp[0] = (ar[i]); // 00110001
+    tmp[1] =  (ar[i+4] <<6)  | (ar[i+1]>>2); // 01 001100
+    tmp[2] = (ar[i+1]<< 6) | (ar[i+4] & 0x3) <<4 | (ar[i +2] >> 4);// 10 01 0011
+    tmp[3] = (ar[i+2] << 4) | (ar[i+4] &0x30 )>> 2| ar[i+3]>>6; // 0011 11 00
+    tmp[4] = ar[i+3]<<2 | ar[i+4]>>6;//110100 00
+
+
+writer->bayerBytes[i] = tmp[0];
+writer->bayerBytes[1+i] = tmp[1];
+writer->bayerBytes[2+i] = tmp[2];
+writer->bayerBytes[3+i] = tmp[3];
+writer->bayerBytes[4+i] = tmp[4];
+}
+
 
 
 
