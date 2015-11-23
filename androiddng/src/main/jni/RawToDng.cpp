@@ -869,6 +869,22 @@ writer->bayerBytes[3+i] = tmp[3];
 writer->bayerBytes[4+i] = tmp[4];
 }
 
+char* tmp2 = new char[4];
+for(int i =0; i< writer->rawSize; i+=4)
+{
+
+tmp2[0] = writer->bayerBytes[3+i];
+tmp2[1] = writer->bayerBytes[2+i];
+tmp2[2] = writer->bayerBytes[1+i];
+tmp2[3] = writer->bayerBytes[i];
+writer->bayerBytes[3+i] = tmp2[3];
+writer->bayerBytes[2+i] = tmp2[2];
+writer->bayerBytes[1+i] = tmp2[1];
+writer->bayerBytes[0+i] = tmp2[0];
+}
+
+
+
 TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
 
 TIFFWriteDirectory (tif);
