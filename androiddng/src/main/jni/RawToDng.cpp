@@ -850,15 +850,21 @@ TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
 LOGD("wrote blacklevel");
 TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-
-char* tmp2 = new char[4];
-for(int i =0; i< writer->rawSize; i+=4)
+unsigned char* ar = writer->bayerBytes;
+unsigned char* tmp2 = new unsigned char[5];
+for(int i =0; i< writer->rawSize; i+=5)
 {
 
-tmp2[0] = writer->bayerBytes[3+i];
-tmp2[1] = writer->bayerBytes[2+i];
-tmp2[2] = writer->bayerBytes[1+i];
-tmp2[3] = writer->bayerBytes[i];
+/*tmp2[0] = (ar[3+i]& 0b00001111)<< 4 | (ar[3+i]& 0b11110000)>> 4 ;
+tmp2[1] = (ar[2+i]& 0b00001111)<< 4 | (ar[2+i]& 0b11110000)>> 4 ;
+tmp2[2] = (ar[1+i]& 0b00001111)<< 4 | (ar[1+i]& 0b11110000)>> 4 ;
+tmp2[3] = (ar[i]& 0b00001111)<< 4 | (ar[i]& 0b11110000)>> 4 ;*/
+tmp2[0] = ar[i+1];
+tmp2[1]= ar[i];
+tmp2[2] = ar[i+3];
+tmp2[3] = ar[i+2];
+tmp2[4] = ar[i+4];
+writer->bayerBytes[4+i] = tmp2[4];
 writer->bayerBytes[3+i] = tmp2[3];
 writer->bayerBytes[2+i] = tmp2[2];
 writer->bayerBytes[1+i] = tmp2[1];
@@ -867,7 +873,7 @@ writer->bayerBytes[0+i] = tmp2[0];
 
 
 unsigned char* tmp = new unsigned char[5];
-unsigned char* ar = writer->bayerBytes;
+
 for(int i =0; i< writer->rawSize; i+=5)
 {
 
@@ -878,10 +884,10 @@ for(int i =0; i< writer->rawSize; i+=5)
     tmp[4] = ar[i+3];*/
 
     tmp[0] = (ar[i]); // 00110001
-    tmp[1] =  (ar[i+4] <<6)  | (ar[i+1]>>2); // 01 001100
-    tmp[2] = (ar[i+1]<< 6) | (ar[i+4] & 0x3) <<4 | (ar[i +2] >> 4);// 10 01 0011
-    tmp[3] = (ar[i+2] << 4) | (ar[i+4] &0x30 )>> 2| ar[i+3]>>6; // 0011 11 00
-    tmp[4] = ar[i+3]<<2 | ar[i+4]>>6;//110100 00
+    tmp[1] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
+    tmp[2] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
+    tmp[3] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
+    tmp[4] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
 
 
 writer->bayerBytes[i] = tmp[0];
