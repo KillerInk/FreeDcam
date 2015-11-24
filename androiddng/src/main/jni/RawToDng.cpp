@@ -269,7 +269,10 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
     LOGD("height");
-    assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+    if(writer->rawType > 0)
+        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+    else
+        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
     LOGD("bitspersample");
     assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
     LOGD("PhotometricCFA");
@@ -547,6 +550,42 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Mem Released");
 }
 
+void process10tight(TIFF *tif,DngWriter *writer)
+{
+    unsigned char* ar = writer->bayerBytes;
+    unsigned char* tmp = new unsigned char[5];
+    int bytesToSkip = 0;
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*10/8;
+    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
+    if (realrowsize != shouldberowsize)
+        bytesToSkip = realrowsize - shouldberowsize;
+    int row = shouldberowsize;
+    unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
+    int m = 0;
+    for(int i =0; i< writer->rawSize; i+=5)
+    {
+        if(i == row)
+        {
+            row += shouldberowsize +bytesToSkip;
+            i+=bytesToSkip;
+            //LOGD("new row: %i", row/shouldberowsize);
+        }
+        out[m++] = (ar[i]); // 00110001
+        out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
+        out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
+        out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
+        out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
+    }
+    TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
+
+    TIFFWriteDirectory (tif);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+
+    delete[] out;
+}
+
 void processLoose(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
@@ -671,7 +710,7 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     if(writer->rawType == 0)
     {
         LOGD("Processing tight RAW data...");
-        processTight(tif, writer);
+        process10tight(tif, writer);
         LOGD("Done tight RAW data...");
     }
     else if (writer->rawType == 1)
@@ -682,6 +721,8 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     }
     else if (writer->rawType == 2)
         processSXXX16(tif,writer);
+    else if (writer->rawType == 3)
+        processTight(tif, writer);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)
@@ -850,37 +891,6 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	LOGD("wrote blacklevel");
 	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-    /*int i, j, row, col, b;
-    unsigned char *buffer;
-
-    writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
-	unsigned char* ar = writer->bayerBytes;
-	unsigned char* tmp = new unsigned char[5];
-	unsigned char* output = new unsigned char[writer->rowSize*writer->rawheight];
-
-	int outpos = 0;
-LOGD("alloc start loop");
-	for (row=0; row < writer->rawheight; row ++)
-	{
-		i = 0;
-LOGD("buffer filled");
-
-		for (i = 0; i < writer->rowSize; i+=5)
-		{
-            j = row*writer->rowSize +i;
-			output[outpos++] = (ar[j]); // 00110001
-			output[outpos++] =  (ar[j+4] & 0b00000011 ) <<6 | (ar[j+1] & 0b11111100)>>2; // 01 001100
-			output[outpos++] = (ar[j+1]& 0b00000011 )<< 6 | (ar[j+4] & 0b00001100 ) <<2 | (ar[j +2] & 0b11110000 )>> 4;// 10 01 0011
-			output[outpos++] = (ar[j+2] & 0b00001111 ) << 4 | (ar[j+4] & 0b00110000 )>> 2| (ar[j+3]& 0b11000000)>>6; // 0011 11 00
-			output[outpos++] = (ar[j+3]& 0b00111111)<<2 | (ar[j+4]& 0b11000000)>>6;//110100 00
-		}
-LOGD("row written %i", row);
-		
-	}
-
-	TIFFWriteRawStrip(tif, 0, output, writer->rowSize*writer->rawheight);*/
-
-
 	unsigned char* ar = writer->bayerBytes;
 	unsigned char* tmp = new unsigned char[5];
     int bytesToSkip = 0;
@@ -892,26 +902,19 @@ LOGD("row written %i", row);
     int row = shouldberowsize;
     unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
     int m = 0;
-    //writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
 	for(int i =0; i< writer->rawSize; i+=5)
 	{
         if(i == row)
         {
             row += shouldberowsize +bytesToSkip;
             i+=bytesToSkip;
-            LOGD("new row: %i", row/shouldberowsize);
+            //LOGD("new row: %i", row/shouldberowsize);
         }
 		out[m++] = (ar[i]); // 00110001
         out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
         out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
         out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
         out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
-
-	    /*writer->bayerBytes[i] = tmp[0];
-	    writer->bayerBytes[1+i] = tmp[1];
-	    writer->bayerBytes[2+i] = tmp[2];
-	    writer->bayerBytes[3+i] = tmp[3];
-	    writer->bayerBytes[4+i] = tmp[4];*/
 	}
 	TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 

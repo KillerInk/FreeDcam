@@ -11,6 +11,7 @@ public class DngSupportedDevices
     public final static int Mipi = 0;
     public final static int Qcom = 1;
     public final static int Plain = 2;
+    public final static int Mipi16 = 3;
 
     public enum SupportedDevices
     {
@@ -253,7 +254,7 @@ public class DngSupportedDevices
             case (16424960): {
                 switch (device) {
                     case Vivo_Xplay3s:
-                        return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Xiaomi_mi3:
@@ -261,7 +262,7 @@ public class DngSupportedDevices
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
                     case OnePlusOne:
-                        return new Nexus6Profile(64, 4212, 3082, Mipi, RGGb, getG3_rowSizeL);
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case zteAdv:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case zteADV_IMX214:
@@ -368,7 +369,7 @@ public class DngSupportedDevices
                         Matrixes.OV_NREDUCTION_Matrix);
                // return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
             case 25677824://m9 mipi
-                return new Nexus6Profile(64, 5388, 3752, Mipi, GRBG, 0);
+                return new Nexus6Profile(64, 5388, 3752, Mipi16, GRBG, 0);
             case 26023936: //THL 5000 MTK, Redmi note2
                 switch (device)
                 {
@@ -411,7 +412,7 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
             else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-                return new DngProfile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize,
+                return new DngProfile(0, 2688, 1520, Mipi16, GRBG, HTCM8_rowSize,
                         Matrixes.OV_matrix1,
                         Matrixes.OV_matrix2,
                         Matrixes.OV_ASSHOT,
