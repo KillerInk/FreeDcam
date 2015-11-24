@@ -774,113 +774,155 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
     }
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
     LOGD("planarconfig");
-//assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
-TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
-LOGD("software");
-TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
-TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-LOGD("dngversion");
-TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
-LOGD("CameraModel");
-TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
-LOGD("imagedescription");
-TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
-LOGD("colormatrix1");
-TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
-LOGD("neutralMatrix");
-TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
-TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
-TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
-TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
-//TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
-LOGD("colormatrix2");
+	//assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
+	TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
+	LOGD("software");
+	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+	LOGD("dngversion");
+	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+	LOGD("CameraModel");
+	TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
+	LOGD("imagedescription");
+	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
+	LOGD("colormatrix1");
+	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
+	LOGD("neutralMatrix");
+	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
+	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
+	TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
+	TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
+	//TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
+	LOGD("colormatrix2");
 
-//TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
-//TIFFSetField(tif, TIFFTAG_STRIPOFFSETS, writer->rawwidht*10/8);
-//TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, (writer->rawSize/writer->rawheight)/10*8);
-//////////////////////////////IFD POINTERS///////////////////////////////////////
-///GPS//////////
-// TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-///EXIF////////
+	//TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
+	//TIFFSetField(tif, TIFFTAG_STRIPOFFSETS, writer->rawwidht*10/8);
+	//TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, (writer->rawSize/writer->rawheight)/10*8);
+	//////////////////////////////IFD POINTERS///////////////////////////////////////
+	///GPS//////////
+	// TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+	///EXIF////////
 
-TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
-LOGD("set exif");
-//CheckPOINT to KEEP EXIF IFD in MEMory
-//Try FiX DIR
-TIFFCheckpointDirectory(tif);
-TIFFWriteDirectory(tif);
-TIFFSetDirectory(tif, 0);
+	TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+	LOGD("set exif");
+	//CheckPOINT to KEEP EXIF IFD in MEMory
+	//Try FiX DIR
+	TIFFCheckpointDirectory(tif);
+	TIFFWriteDirectory(tif);
+	TIFFSetDirectory(tif, 0);
 
-if(writer->gps == true)
-{
-makeGPS_IFD(tif, writer);
-TIFFCheckpointDirectory(tif);
-TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
-TIFFSetDirectory(tif, 0);
-}
-
-
-writeExifIfd(tif,writer);
-//Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
-TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-TIFFWriteCustomDirectory(tif, &dir_offset);
-///////////////////// GO Back TO IFD 0
-TIFFSetDirectory(tif, 0);
-if(writer->gps)
-TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
-
-if(0 == strcmp(writer->bayerformat,"bggr"))
-TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-if(0 == strcmp(writer->bayerformat , "grbg"))
-TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-if(0 == strcmp(writer->bayerformat , "rggb"))
-TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-if(0 == strcmp(writer->bayerformat , "gbrg"))
-TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-long white=0x3ff;
-TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
-
-short CFARepeatPatternDim[] = { 2,2 };
-TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-
-TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
-LOGD("wrote blacklevel");
-TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+	if(writer->gps == true)
+	{	
+		makeGPS_IFD(tif, writer);
+		TIFFCheckpointDirectory(tif);
+		TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+		TIFFSetDirectory(tif, 0);
+	}
 
 
-unsigned char* ar = writer->bayerBytes;
-unsigned char* tmp = new unsigned char[5];
+	writeExifIfd(tif,writer);
+	//Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
+	TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
+	TIFFWriteCustomDirectory(tif, &dir_offset);
+	///////////////////// GO Back TO IFD 0
+	TIFFSetDirectory(tif, 0);
+	if(writer->gps)
+		TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
+	///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
+	TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
-for(int i =0; i< writer->rawSize; i+=5)
-{
-    tmp[0] = (ar[i]); // 00110001
-    tmp[1] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
-    tmp[2] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
-    tmp[3] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
-    tmp[4] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
+	if(0 == strcmp(writer->bayerformat,"bggr"))
+		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+	if(0 == strcmp(writer->bayerformat , "grbg"))
+		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+	if(0 == strcmp(writer->bayerformat , "rggb"))
+		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+	if(0 == strcmp(writer->bayerformat , "gbrg"))
+		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+	long white=0x3ff;
+	TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
-writer->bayerBytes[i] = tmp[0];
-writer->bayerBytes[1+i] = tmp[1];
-writer->bayerBytes[2+i] = tmp[2];
-writer->bayerBytes[3+i] = tmp[3];
-writer->bayerBytes[4+i] = tmp[4];
-}
+	short CFARepeatPatternDim[] = { 2,2 };
+	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+
+	TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
+	LOGD("wrote blacklevel");
+	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+
+    /*int i, j, row, col, b;
+    unsigned char *buffer;
+
+    writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
+	unsigned char* ar = writer->bayerBytes;
+	unsigned char* tmp = new unsigned char[5];
+	unsigned char* output = new unsigned char[writer->rowSize*writer->rawheight];
+
+	int outpos = 0;
+LOGD("alloc start loop");
+	for (row=0; row < writer->rawheight; row ++)
+	{
+		i = 0;
+LOGD("buffer filled");
+
+		for (i = 0; i < writer->rowSize; i+=5)
+		{
+            j = row*writer->rowSize +i;
+			output[outpos++] = (ar[j]); // 00110001
+			output[outpos++] =  (ar[j+4] & 0b00000011 ) <<6 | (ar[j+1] & 0b11111100)>>2; // 01 001100
+			output[outpos++] = (ar[j+1]& 0b00000011 )<< 6 | (ar[j+4] & 0b00001100 ) <<2 | (ar[j +2] & 0b11110000 )>> 4;// 10 01 0011
+			output[outpos++] = (ar[j+2] & 0b00001111 ) << 4 | (ar[j+4] & 0b00110000 )>> 2| (ar[j+3]& 0b11000000)>>6; // 0011 11 00
+			output[outpos++] = (ar[j+3]& 0b00111111)<<2 | (ar[j+4]& 0b11000000)>>6;//110100 00
+		}
+LOGD("row written %i", row);
+		
+	}
+
+	TIFFWriteRawStrip(tif, 0, output, writer->rowSize*writer->rawheight);*/
 
 
+	unsigned char* ar = writer->bayerBytes;
+	unsigned char* tmp = new unsigned char[5];
+    int bytesToSkip = 0;
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*10/8;
+    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
+    if (realrowsize != shouldberowsize)
+        bytesToSkip = realrowsize - shouldberowsize;
+    int row = shouldberowsize;
+    unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
+    int m = 0;
+    //writer->rowSize =  -(-5 * writer->rawwidht >> 5) << 3;
+	for(int i =0; i< writer->rawSize; i+=5)
+	{
+        if(i == row)
+        {
+            row += shouldberowsize +bytesToSkip;
+            i+=bytesToSkip;
+            LOGD("new row: %i", row/shouldberowsize);
+        }
+		out[m++] = (ar[i]); // 00110001
+        out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
+        out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
+        out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
+        out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
 
+	    /*writer->bayerBytes[i] = tmp[0];
+	    writer->bayerBytes[1+i] = tmp[1];
+	    writer->bayerBytes[2+i] = tmp[2];
+	    writer->bayerBytes[3+i] = tmp[3];
+	    writer->bayerBytes[4+i] = tmp[4];*/
+	}
+	TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-TIFFWriteRawStrip(tif, 0, writer->bayerBytes, writer->rawSize);
+	TIFFWriteDirectory (tif);
+	LOGD("Finalizng DNG");
+	TIFFClose(tif);
 
-TIFFWriteDirectory (tif);
-LOGD("Finalizng DNG");
-TIFFClose(tif);
-
-if (writer->bayerBytes == NULL)
-return;
-delete[] writer->bayerBytes;
-writer->bayerBytes = NULL;
+	if (writer->bayerBytes == NULL)
+	return;
+	delete[] writer->bayerBytes;
+    delete[] out;
+	writer->bayerBytes = NULL;
 
 }
