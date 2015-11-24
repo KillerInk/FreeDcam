@@ -13,6 +13,7 @@ public class DngSupportedDevices
     public final static int Plain = 2;
     public final static int Mipi16 = 3;
 
+
     public enum SupportedDevices
     {
         Lg_G4,
@@ -258,7 +259,7 @@ public class DngSupportedDevices
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Xiaomi_mi3:
-                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGb, getG3_rowSizeL);
+                        return new Nexus6Profile(0, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
                     case OnePlusOne:
@@ -280,9 +281,9 @@ public class DngSupportedDevices
             case (16560128): {
                 switch (device) {
                     case Xiaomi_mi_note_pro:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi16, RGGb, 0);
                     default:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, 0);
                 }
             }
             case 17326080://qcom g3
@@ -331,9 +332,9 @@ public class DngSupportedDevices
             case 17612800: {
                 switch (device) {
                     case Xiaomi_mi_note_pro:
-                        return new Nexus6Profile(64, 4208, 3120, Qcom, RGGb, 0);
+                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGb, 0);
                     default:
-                        return new Nexus6Profile(64, 4208, 3120, Qcom, RGGb, 0);
+                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGb, 0);
                 }
             }
             case 19906560://e7mipi
