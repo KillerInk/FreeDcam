@@ -294,6 +294,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mImageWidth = largestImageSize.getWidth();
                 mImageHeight = largestImageSize.getHeight();
             }
+            else if (picFormat.equals(RAW10))
+            {
+                Log.d(TAG, "ImageReader RAW_SENOSR");
+                largestImageSize = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
+                mImageWidth = largestImageSize.getWidth();
+                mImageHeight = largestImageSize.getHeight();
+            }
 
 
             // We set up a CaptureRequest.Builder with the output Surface.
