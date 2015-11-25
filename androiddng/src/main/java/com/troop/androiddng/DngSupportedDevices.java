@@ -466,6 +466,10 @@ public class DngSupportedDevices
         }
     }
 
+    public DngProfile getProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
+    {
+        return new DngProfile(blacklevel,widht,height,rawType,bayerPattern,rowsize,matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise);
+    }
 
     public class Nexus6Profile extends DngProfile
     {
@@ -494,6 +498,6 @@ public class DngSupportedDevices
     public static String Optimus3DRawSize = "2608x1944";
     public static String BGGR = "bggr";
     public static String RGGb = "rggb";
-    private static final String GRBG = "grbg";
-    private static final String gbrg =  "gbrg";
+    public static final String GRBG = "grbg";
+    public static final String gbrg =  "gbrg";
 }

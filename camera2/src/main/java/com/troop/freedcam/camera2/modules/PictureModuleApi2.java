@@ -4,11 +4,14 @@ import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.BlackLevelPattern;
+import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
@@ -16,7 +19,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.Rational;
 
+import com.troop.androiddng.DngSupportedDevices;
+import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -384,10 +390,48 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
 
-
         dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", "0", 0);
 
-        dngConverter.WriteDNG(null);
+        int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
+        int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        String colorpattern;
+        switch (c)
+        {
+            case 1:
+                colorpattern = DngSupportedDevices.GRBG;
+                break;
+            case 2:
+                colorpattern = DngSupportedDevices.gbrg;
+                break;
+            case 3:
+                colorpattern = DngSupportedDevices.BGGR;
+                break;
+            default:
+                colorpattern = DngSupportedDevices.RGGb;
+                break;
+        }
+        float[] m1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+        float[] m2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
+        Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+        float[] neutral = new float[3];
+        neutral[0] = n[0].floatValue();
+        neutral[1] = n[1].floatValue();
+        neutral[2] = n[0].floatValue();
+        float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+        float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+        DngSupportedDevices d = new DngSupportedDevices();
+        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
+                m1,
+                m2,
+                neutral,
+                f1,
+                f2,
+                Matrixes.G4_reduction_matrix1,
+                Matrixes.G4_reduction_matrix2,
+                Matrixes.G4_noise_3x1_matrix
+                );
+
+        dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();
         image.close();
         bytes = null;
@@ -408,6 +452,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             new ImageSaver(image, file).run();
                         }*/
         return file;
+    }
+
+    private float[]getFloatMatrix(ColorSpaceTransform transform)
+    {
+        float[] ret = new float[9];
+
+        ret[0] = transform.getElement(0,0).floatValue();
+        ret[1] = transform.getElement(0,1).floatValue();
+        ret[2] = transform.getElement(0,2).floatValue();
+        ret[3] = transform.getElement(1,0).floatValue();
+        ret[4] = transform.getElement(1,1).floatValue();
+        ret[5] = transform.getElement(1,2).floatValue();
+        ret[6] = transform.getElement(2,0).floatValue();
+        ret[7] = transform.getElement(2,1).floatValue();
+        ret[8] = transform.getElement(2,2).floatValue();
+        return ret;
     }
 
     /**

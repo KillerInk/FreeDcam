@@ -202,6 +202,16 @@ public class RawToDng
         }
     }
 
+    public void WriteDngWithProfile(DngSupportedDevices.DngProfile profile)
+    {
+        if (profile == null)
+            return;
+        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+        SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+        WriteDNG(nativeHandler);
+        RELEASE();
+    }
+
     public void Write10BitDNG(DngSupportedDevices.SupportedDevices device)
     {
         DngSupportedDevices.SupportedDevices devices = device;
