@@ -23,6 +23,7 @@ import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterHTC;
+import com.troop.freedcam.camera.parameters.manual.ShutterManualZTE;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
@@ -189,6 +190,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ManualShutter = new ShutterManualParameterG4(cameraParameters,"","","", cameraHolder, cameraChanged, this);
             else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
+            else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+                ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
             else
                 ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
         }
