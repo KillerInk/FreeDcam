@@ -28,6 +28,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(StringUtils.ON))
         {
+            baseCameraHolder.ParameterHandler.FocusMode.SetValue(baseCameraHolder.ParameterHandler.FocusMode.GetValue(),true);
             previewHandler.Enable(true);
         }
         else
