@@ -113,6 +113,10 @@ public class ApiHandler
         }
         catch (VerifyError ex)
         {ex.printStackTrace();}
+        catch (IllegalArgumentException ex)
+        {
+            ex.printStackTrace();
+        }
         finally
         {
 
