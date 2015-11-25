@@ -81,8 +81,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = IMX214_IMX230.split(",");
         }
-
-        else if (parameters.containsKey("exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3())) {
+        else if (parameters.containsKey("exposure-time") || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W()) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
@@ -121,7 +120,7 @@ public class ShutterManualParameter extends BaseManualParameter
             return shutterValues.length-1;
         else if (shutterValues != null)
             return shutterValues.length-1;
-        else if (parameters.containsKey("max-exposure-time")&& (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
+        else if (parameters.containsKey("max-exposure-time"))
             return Integer.parseInt(parameters.get("max-exposure-time"));
         else
             return 0;
@@ -226,7 +225,7 @@ public class ShutterManualParameter extends BaseManualParameter
             }
 
         }
-        else if(parameters.containsKey("exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
+        else if(parameters.containsKey("exposure-time"))
         {
             shutterstring = FLOATtoSixty4(shutterstring);
             parameters.put("exposure-time", shutterstring);

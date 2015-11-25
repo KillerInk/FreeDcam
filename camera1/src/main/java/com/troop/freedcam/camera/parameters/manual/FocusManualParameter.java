@@ -88,8 +88,8 @@ public class FocusManualParameter extends  BaseManualParameter
         catch (Exception ex)
         {
             Log.e(TAG, "get ManualFocus value failed");
+            return 0;
         }
-        return 0;
     }
 
     @Override
