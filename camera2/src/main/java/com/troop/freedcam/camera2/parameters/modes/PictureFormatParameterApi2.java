@@ -31,7 +31,6 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-
         BackgroundValueHasChanged(valueToSet);
         cameraHolder.picFormat = valueToSet;
         if (valueToSet.equals("jpeg"))
@@ -65,16 +64,10 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public String[] GetValues()
     {
         ArrayList<String> ret = new ArrayList<String>();
-
-        if (DeviceUtils.isOnePlusTwo() || DeviceUtils.isMoto_MSM8974() || DeviceUtils.isMoto_MSM8982_8994()) {
-            if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
-                ret.add(BaseCameraHolderApi2.RAW10);
-        }
-        else
-        {
-            if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-                ret.add(BaseCameraHolderApi2.RAW_SENSOR);
-        }
+        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
+            ret.add(BaseCameraHolderApi2.RAW10);
+        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+            ret.add(BaseCameraHolderApi2.RAW_SENSOR);
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(BaseCameraHolderApi2.JPEG);
         return ret.toArray(new String[ret.size()]);

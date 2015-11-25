@@ -14,6 +14,7 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
@@ -254,125 +255,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     imagecount++;
                     if (reader.getImageFormat() == ImageFormat.JPEG)
                     {
-                        Log.d(TAG, "Create JPEG");
-                        if (burstcount > 1)
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".jpg"));
-                        else
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
-                        checkFileExists(file);
-                        Image image = reader.acquireNextImage();
-                        while (image == null) {
-                            image = reader.acquireNextImage();
-
-                        }
-                        new ImageSaver(image, file).run();
+                        file = process_jpeg(burstcount, reader);
                     }
 
-                  else  if (reader.getImageFormat() == ImageFormat.RAW10)
+                    else  if (reader.getImageFormat() == ImageFormat.RAW10)
                     {
-                        Log.d(TAG, "Create DNG VIA RAw2DNG");
-                        if (burstcount > 1)
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".dng"));
-                        else
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-                        checkFileExists(file);
-                        Image image = reader.acquireNextImage();
-                        while (image == null) {
-                            image = reader.acquireNextImage();
-                        }
-
-
-                        if(DeviceUtils.isOnePlusTwo())
-                        {
-                            final RawToDng dngConverter = RawToDng.GetInstance();
-                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                            byte[] bytes = new byte[buffer.remaining()];
-                            buffer.get(bytes);
-                            dngConverter.SetBayerData(bytes, file.getAbsolutePath());
-                            float fnum, focal = 0;
-                            fnum = 2.0f;
-                            focal = 4.7f;
-                            Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
-
-                            //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
-                            double mExposuretime;
-                            int mFlash;
-
-
-                            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
-
-                            dngConverter.WriteDNG(null);
-                            dngConverter.RELEASE();
-                            image.close();
-                            bytes = null;
-                        }
-                        else
-                        {
-                            Log.d(TAG, "Create RAW 10");
-                            if (burstcount > 1)
-                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
-                            else
-                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
-                            checkFileExists(file);
-                            //Image image = reader.acquireNextImage();
-                            while (image == null) {
-                                image = reader.acquireNextImage();
-
-                            }
-                            new ImageSaver(image, file).run();
-                        }
+                        file = process_raw10(burstcount, reader);
 
                     }
-
                     else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/)
                     {
-                        Log.d(TAG, "Create DNG");
-                        if (burstcount > 1)
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".dng"));
-                        else
-                            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-                        checkFileExists(file);
-                        Image image = reader.acquireNextImage();
-                        while (image == null) {
-                            image = reader.acquireNextImage();
-                        }
-
-
-                       if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isOnePlusTwo())
-                       {
-                           final RawToDng dngConverter = RawToDng.GetInstance();
-                           ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                           byte[] bytes = new byte[buffer.remaining()];
-                           buffer.get(bytes);
-                           dngConverter.SetBayerData(bytes, file.getAbsolutePath());
-                           float fnum, focal = 0;
-                           fnum = 2.0f;
-                           focal = 4.7f;
-                           Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
-
-                           //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
-                           double mExposuretime;
-                           int mFlash;
-
-
-                           dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
-
-                           dngConverter.WriteDNG(null);
-                           dngConverter.RELEASE();
-                           image.close();
-                           bytes = null;
-                       }
-                        else
-                       {
-                           DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
-
-                           try {
-                               dngCreator.writeImage(new FileOutputStream(file), image);
-                           } catch (IOException e) {
-                               e.printStackTrace();
-                           }
-                           image.close();
-                       }
+                        file = process_rawSensor(burstcount, reader);
                     }
 
 
@@ -392,6 +285,130 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }).start();
         }
     };
+
+    @NonNull
+    private File process_jpeg(int burstcount, ImageReader reader) {
+        File file;
+        Log.d(TAG, "Create JPEG");
+        if (burstcount > 1)
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".jpg"));
+        else
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+        checkFileExists(file);
+        Image image = reader.acquireNextImage();
+        while (image == null) {
+            image = reader.acquireNextImage();
+
+        }
+        new ImageSaver(image, file).run();
+        return file;
+    }
+
+    @NonNull
+    private File process_rawSensor(int burstcount, ImageReader reader) {
+        File file;
+        Log.d(TAG, "Create DNG");
+        if (burstcount > 1)
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+        else
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+        checkFileExists(file);
+        Image image = reader.acquireNextImage();
+        while (image == null) {
+            image = reader.acquireNextImage();
+        }
+
+
+        if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isOnePlusTwo())
+        {
+            final RawToDng dngConverter = RawToDng.GetInstance();
+            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+            float fnum, focal = 0;
+            fnum = 2.0f;
+            focal = 4.7f;
+            Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+
+            //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
+            double mExposuretime;
+            int mFlash;
+
+
+            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
+
+            dngConverter.WriteDNG(null);
+            dngConverter.RELEASE();
+            image.close();
+            bytes = null;
+        }
+        else
+        {
+            DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+
+            try {
+                dngCreator.writeImage(new FileOutputStream(file), image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            image.close();
+        }
+        return file;
+    }
+
+    @NonNull
+    private File process_raw10(int burstcount, ImageReader reader) {
+        File file;
+        Log.d(TAG, "Create DNG VIA RAw2DNG");
+        if (burstcount > 1)
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+        else
+            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+        checkFileExists(file);
+        Image image = reader.acquireNextImage();
+        while (image == null) {
+            image = reader.acquireNextImage();
+        }
+        final RawToDng dngConverter = RawToDng.GetInstance();
+        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
+        dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+        float fnum, focal = 0;
+        fnum = mDngResult.get(CaptureResult.LENS_APERTURE);
+        focal = mDngResult.get(CaptureResult.LENS_FOCAL_LENGTH);
+        Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+
+        int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY).intValue();
+        double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
+        int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
+
+
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", "0", 0);
+
+        dngConverter.WriteDNG(null);
+        dngConverter.RELEASE();
+        image.close();
+        bytes = null;
+                       /* }
+                        else
+                        {
+                            Log.d(TAG, "Create RAW 10");
+                            if (burstcount > 1)
+                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
+                            else
+                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
+                            checkFileExists(file);
+                            //Image image = reader.acquireNextImage();
+                            while (image == null) {
+                                image = reader.acquireNextImage();
+
+                            }
+                            new ImageSaver(image, file).run();
+                        }*/
+        return file;
+    }
 
     /**
      * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
