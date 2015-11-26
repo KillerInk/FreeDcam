@@ -202,8 +202,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         VideoSize.SetMenuItemListner(this);
         ////////////////////////////////////////////////////////////////////////////////////////////
 
+        timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         if (wrapper instanceof CameraUiWrapper) {
-            timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
             timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
             timeLapseFrames.setVisibility(View.VISIBLE);
         }

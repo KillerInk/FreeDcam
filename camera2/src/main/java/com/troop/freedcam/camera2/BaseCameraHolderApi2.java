@@ -357,12 +357,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 new CompareSizesByArea());
 
         Size video[] = map.getOutputSizes(MediaRecorder.class);
+        Size re [] = map.getOutputSizes(TextureView.class);
         String[] split = VideoSize.split("x");
         int width, height;
         if (split.length < 2)
         {
-            mImageWidth = largestImageSize.getWidth();
-            mImageHeight = largestImageSize.getHeight();
+            mImageWidth = 1280;
+            mImageHeight = 720;
         }
         else
         {
@@ -402,8 +403,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        mPreviewRequestBuilder.addTarget(previewsurface);
+
         mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
+        mPreviewRequestBuilder.addTarget(previewsurface);
         configureTransform();
 
         try {
