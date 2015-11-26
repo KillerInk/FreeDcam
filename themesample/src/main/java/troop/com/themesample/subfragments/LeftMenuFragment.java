@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.ApiParameter;
 import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
+import troop.com.themesample.views.menu.MenuItem;
 import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemInterval;
@@ -57,7 +59,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemTimeLapseFrames timeLapseFrames;
 
     troop.com.themesample.views.menu.MenuItem OverrideVideoProfile;
-    troop.com.themesample.views.menu.MenuItem VideoWidth;
+    troop.com.themesample.views.menu.MenuItem VideoSize;
     troop.com.themesample.views.menu.MenuItem VideoHeight;
     troop.com.themesample.views.menu.MenuItem VideoFps;
     troop.com.themesample.views.menu.MenuItem VideoBitrate;
@@ -194,10 +196,19 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         HighSpeedVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
 
 
+        VideoSize = (MenuItem)view.findViewById(R.id.MenuItemVideoSize);
+        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE);
+        VideoSize.SetParameter(wrapper.camParametersHandler.VideoSize);
+        VideoSize.SetMenuItemListner(this);
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        timeLapseFrames = (MenuItemTimeLapseFrames)view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
-        timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+        if (wrapper instanceof CameraUiWrapper) {
+            timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
+            timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+            timeLapseFrames.setVisibility(View.VISIBLE);
+        }
+        else
+            timeLapseFrames.setVisibility(View.GONE);
 
         saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
         saveCamParams.setCameraUiWrapper(wrapper);

@@ -25,6 +25,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
 import android.media.ImageReader;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.DeadObjectException;
 import android.os.Handler;
@@ -44,11 +45,13 @@ import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -100,6 +103,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public String picFormat;
     public String picSize;
+    public String VideoSize;
     Size previewSize;
     private Size largestImageSize;
     private Point displaySize;
@@ -120,6 +124,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      * An {@link android.media.ImageReader} that handles still image capture.
      */
     public ImageReader mImageReader;
+    public MediaRecorder mediaRecorder;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings, Handler backgroundHandler)
@@ -259,17 +264,28 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-
+        picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        VideoSize = Settings.getString(AppSettingsManager.SETTING_VIDEOSIZE);
+        Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        displaySize = new Point();
+        display.getRealSize(displaySize);
         if (textureView == null)
             return;
+        String s = Settings.GetCurrentModule();
+        if (s.equals(AbstractModuleHandler.MODULE_PICTURE))
+            startPreviewPicture();
+        else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
+            startPreviewVideo();
+
+    }
+
+    private void startPreviewPicture() {
         try {
-            Log.d(TAG,"Start Preview");
+            Log.d(TAG, "Start Preview");
             largestImageSize = Collections.max(
                     Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                     new CompareSizesByArea());
-            Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            displaySize = new Point();
-            display.getRealSize(displaySize);
+
 
 
             picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
@@ -278,7 +294,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, JPEG);
 
             }
-            picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+
             if (picFormat.equals(JPEG))
             {
                 String[] split = picSize.split("x");
@@ -332,7 +348,69 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             e.printStackTrace();
             return;
         }
+    }
 
+    private void startPreviewVideo()
+    {
+        largestImageSize = Collections.max(
+                Arrays.asList(map.getOutputSizes(MediaRecorder.class)),
+                new CompareSizesByArea());
+
+        Size video[] = map.getOutputSizes(MediaRecorder.class);
+        String[] split = VideoSize.split("x");
+        int width, height;
+        if (split.length < 2)
+        {
+            mImageWidth = largestImageSize.getWidth();
+            mImageHeight = largestImageSize.getHeight();
+        }
+        else
+        {
+            mImageWidth = Integer.parseInt(split[0]);
+            mImageHeight = Integer.parseInt(split[1]);
+        }
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.reset();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
+        mediaRecorder.setVideoEncodingBitRate(10000000);
+        mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
+            @Override
+            public void onError(MediaRecorder mr, int what, int extra) {
+                Log.d(TAG,"error MediaRecorder:"+what+"extra:"+ extra);
+            }
+        });
+        mediaRecorder.setVideoFrameRate(30);
+        mediaRecorder.setVideoSize(mImageWidth, mImageHeight);
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        try {
+            mediaRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
+        SurfaceTexture texture = textureView.getSurfaceTexture();
+        texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        previewsurface = new Surface(texture);
+        try {
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        mPreviewRequestBuilder.addTarget(previewsurface);
+        mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
+        configureTransform();
+
+        try {
+            mCameraDevice.createCaptureSession(Arrays.asList(previewsurface, mediaRecorder.getSurface()), previewStateCallBackFirstStart, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public void SetBurst(int burst)

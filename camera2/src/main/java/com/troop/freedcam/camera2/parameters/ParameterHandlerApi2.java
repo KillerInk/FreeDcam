@@ -32,6 +32,7 @@ import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.VideoSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -126,6 +127,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         Burst = new BurstApi2(this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
+        VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
 
         uiHandler.post(new Runnable() {
             @Override

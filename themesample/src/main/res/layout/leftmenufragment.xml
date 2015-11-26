@@ -73,6 +73,17 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp" />
 
+                <troop.com.themesample.views.menu.MenuItem
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemVideoSize"
+                    app:Description=""
+                    app:HeaderText="VideoSize:"
+                    app:ValueText=""
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
