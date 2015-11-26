@@ -10,6 +10,8 @@ import android.view.TextureView;
 import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.interfaces.I_error;
+import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -19,11 +21,13 @@ import com.troop.freedcam.utils.StringUtils;
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener, I_ParametersLoaded
+
 {
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
     AppSettingsManager appSettingsManager;
     AutoFitTextureView preview;
+    protected I_error errorHandler;
 
 
 
@@ -46,10 +50,12 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         preview.setSurfaceTextureListener(this);
         this.appSettingsManager = appSettingsManager;
         this.context = context;
+        errorHandler = this;
         //attache the callback to the Campreview
         //previewSize.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager, backgroundHandler);
         super.cameraHolder = this.cameraHolder;
+        cameraHolder.errorHandler = errorHandler;
         camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager, backgroundHandler);
@@ -160,6 +166,5 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public void OnError(final String error) {
         super.onCameraError(error);
     }
-
 
 }

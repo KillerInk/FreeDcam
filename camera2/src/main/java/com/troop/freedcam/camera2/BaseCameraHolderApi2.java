@@ -1,7 +1,9 @@
 package com.troop.freedcam.camera2;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -135,7 +137,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     //###########################
     //###########################
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public boolean OpenCamera(int camera)
     {
@@ -143,12 +145,18 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         Log.d(TAG,"Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
+        if (context.checkSelfPermission(Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
+        {
+            errorHandler.OnError("Error: Permission for Camera are not granted!");
+            return false;
+        }
+
         try
         {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback, backgroundHandler);
+            manager.openCamera(cam, mStateCallback,backgroundHandler);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
@@ -165,6 +173,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
         return true;
     }
+
 
     private void printCharacteristics()
     {
