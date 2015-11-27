@@ -143,7 +143,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
         public String[] GetValues()
         {
             if (DeviceUtils.isCamera1DNGSupportedDevice())
-                return new String[]{"DNG", "JPEG"};
+                return new String[]{"DNG","RAW", "JPEG"};
             else
                 return cameraUiWrapper.camParametersHandler.PictureFormat.GetValues();
         }
