@@ -40,7 +40,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             stopRecording();
         else
             startRecording();
-        super.DoWork();
+        //super.DoWork();
     }
 
     @Override
@@ -79,6 +79,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         int orientation = ORIENTATIONS.get(rotation);
         MediaRecorder.setOrientationHint(orientation);*/
         Log.d(TAG, "startRecording");
+
+
         cameraHolder.mediaRecorder.start();
         isRecording = true;
         eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
