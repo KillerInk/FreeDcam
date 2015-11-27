@@ -150,6 +150,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
                 //if(DeviceUtils.isSonyM5_MTK())
                     //android.hardware.Camera.setProperty("client.appmode", "MtkEng");
+                if(DeviceUtils.isSonyM5_MTK())
+                    setMtkAppMode();
                 mCamera = Camera.open(camera);
             }
 
@@ -396,6 +398,31 @@ public class BaseCameraHolder extends AbstractCameraHolder
             errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
         }
 
+    }
+
+    private void setMtkAppMode()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app == null)
+                throw new  NoSuchMethodException();
+            app.invoke("client.appmode", "MtkEng");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void runObjectTrackingReflection()

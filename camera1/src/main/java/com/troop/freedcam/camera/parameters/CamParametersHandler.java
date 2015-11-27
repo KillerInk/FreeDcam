@@ -551,7 +551,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
-        //Mediatek();
+        Mediatek();
 
     }
 
@@ -748,8 +748,8 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
     private void Mediatek()
     {
-        cameraParameters.put("zsd-mode","1");
-        cameraParameters.put("camera-mode","0");
+       // cameraParameters.put("zsd-mode","on");
+        //cameraParameters.put("camera-mode","0");
         cameraParameters.put("afeng_raw_dump_flag","1");
         cameraParameters.put("rawsave-mode","2");
         cameraParameters.put("isp-mode","1");
