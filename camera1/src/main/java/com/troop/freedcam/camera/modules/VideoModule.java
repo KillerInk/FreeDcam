@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.os.Environment;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -178,6 +179,8 @@ public class VideoModule extends AbstractModule
           //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
             recorder.setMaxFileSize(3037822976L);
             recorder.setMaxDuration(7200000);
+            recorder.setCaptureRate(30);
+            recorder.setVideoFrameRate(30);
 
             ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
@@ -298,6 +301,46 @@ public class VideoModule extends AbstractModule
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
             //ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);
+            videoTime(prof.videoBitRate,prof.audioBitRate);
+
+
         }
+    }
+
+    private void videoTime(int VB, int AB)
+    {
+        int i = VB / 2;
+        int j = AB;
+
+        long l2 = (i + j >> 3) / 1000;
+       // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
+       Log.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
+
+    }
+
+    private String getTimeString(long paramLong)
+    {
+        long l1 = paramLong / 1000L;
+        long l2 = l1 / 60L;
+        long l3 = l2 / 60L;
+        long l4 = l2 - 60L * l3;
+        String str1 = Long.toString(l1 - 60L * l2);
+        if (str1.length() < 2) {
+            str1 = "0" + str1;
+        }
+        String str2 = Long.toString(l4);
+        if (str2.length() < 2) {
+            str2 = "0" + str2;
+        }
+        String str3 = str2 + ":" + str1;
+        if (l3 > 0L)
+        {
+            String str4 = Long.toString(l3);
+            if (str4.length() < 2) {
+                str4 = "0" + str4;
+            }
+            str3 = str4 + ":" + str3;
+        }
+        return str3;
     }
 }
