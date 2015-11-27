@@ -285,8 +285,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public boolean SetCameraParameters(final HashMap<String, String> parameters)
     {
         try {
-
-
             String ret = "";
             for (Map.Entry s : parameters.entrySet()) {
                 ret += s.getKey() + "=" + s.getValue() + ";";
@@ -308,6 +306,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 p.unflatten(ret);
                 mCamera.setParameters(p);
             }
+            Thread.sleep(300);
         }
         catch (Exception ex) {
             Log.d("Freedcam", ex.getMessage());
@@ -398,7 +397,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 Log.d("Freedcam", ex.getMessage());
             }
         }
-        ParameterHandler.SetParametersToCamera();
+
     }
 
     @Override
