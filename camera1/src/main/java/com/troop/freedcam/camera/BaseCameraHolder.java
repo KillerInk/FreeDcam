@@ -386,43 +386,19 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 Log.d("Freedcam",ex.getMessage());
             }
-        else
-            try {
-                if(DeviceUtils.isSonyM5_MTK())
-                {
-                    //   rawsave-mode :  1,preview 2,Capture 3,jpeg only 4,video  5,slim video1 6,slim video2
-                    //                           7,custom1 8,custom2 9,custom3 10,custom4 11,custom5
-                    //   isp-mode   : 0: process raw, 1:pure raw
-                    if (null != ParameterHandler) {
-                        try {
-                            ((CamParametersHandler)ParameterHandler).setString("cam-mode", "0");
-                            ((CamParametersHandler) ParameterHandler).setString("zsd-mode", "on");
-                            //((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.d("BaseCameraHolder","Fail Set Param afeng");
-                        }
-                        ((CamParametersHandler)ParameterHandler).setString("rawsave-mode", "2");
-                        Log.d("BaseCameraHolder", "raw save mode engaged");
-                        ((CamParametersHandler)ParameterHandler).setString("isp-mode", "1");
-                        Log.d("BaseCameraHolder", "ISP Switched to raw mode");
-                        ((CamParametersHandler)ParameterHandler).setString("rawfname", StringUtils.GetInternalSDCARD()+"/test.raw");
-                        Log.d("BaseCameraHolder", "Raw Path set");
-                    }
-                    ParameterHandler.SetParametersToCamera();
-                    Thread.sleep(200);
-                }
-
+        else {
+            try
+            {
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Log.d(TAG, "PreviewStarted");
                 cameraChangedListner.onPreviewOpen("");
+
+            } catch (Exception ex) {
+                Log.d("Freedcam", ex.getMessage());
             }
-            catch (Exception ex)
-            {
-                Log.d("Freedcam",ex.getMessage());
-            }
+        }
+        ParameterHandler.SetParametersToCamera();
     }
 
     @Override
