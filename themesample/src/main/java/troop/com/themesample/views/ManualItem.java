@@ -271,6 +271,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
             @Override
             public void run()
             {
+                handler.removeCallbacks(this);
                 int runValue = value;
                 if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
                     if (realMin < 0)
