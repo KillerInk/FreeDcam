@@ -180,7 +180,7 @@ public class VideoModule extends AbstractModule
             recorder.setMaxFileSize(3037822976L);
             recorder.setMaxDuration(7200000);
             recorder.setCaptureRate(30);
-            recorder.setVideoFrameRate(30);
+            //recorder.setVideoFrameRate(30);
 
             ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
             camParametersHandler.setString("preview-size", "3840x2160");
