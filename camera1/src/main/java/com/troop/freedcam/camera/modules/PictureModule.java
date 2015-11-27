@@ -183,14 +183,14 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void OnWorkDone(File file)
     {
-        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-        {
-            int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
-            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
-            baseCameraHolder.StartPreview();
-            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
-        }
-        else
+//        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+      //  {
+       //     int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
+       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
+       //     baseCameraHolder.StartPreview();
+       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
+      //  }
+       // else
             baseCameraHolder.StartPreview();
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
         stopworking();
