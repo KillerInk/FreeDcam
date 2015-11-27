@@ -183,6 +183,8 @@ public class VideoModule extends AbstractModule
             recorder.setVideoFrameRate(30);
 
             ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            camParametersHandler.setString("preview-size", "3840x2160");
+            camParametersHandler.setString("video-size", "3840x2160");
 
            // ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
            // ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
