@@ -28,6 +28,7 @@ import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.DeadObjectException;
+import android.os.Environment;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 import android.util.Log;
@@ -150,10 +151,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         Log.d(TAG,"Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
-        if (context.checkSelfPermission(Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
-        {
-            errorHandler.OnError("Error: Permission for Camera are not granted!");
-            return false;
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                errorHandler.OnError("Error: Permission for Camera are not granted!");
+                return false;
+            }
         }
 
         try
