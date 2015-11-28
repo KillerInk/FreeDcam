@@ -643,33 +643,20 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         Log.d(TAG, "MTK try to set mode");
         if (!raw) {
-            cameraParameters.put("afeng_raw_dump_flag",0 +"");
-            cameraParameters.put("rawsave-mode", 0+"");
-            cameraParameters.put("isp-mode", 0+"");
+            cameraParameters.put("afeng_raw_dump_flag", "0");
+            cameraParameters.put("rawsave-mode", "0");
+            cameraParameters.put("zsd-mode", "off");
             Log.e(TAG, "MTK set mode to jpeg");
         }
         else
         {
-            cameraParameters.put("camera-mode","0");
-
-            try {
-
-
-                cameraParameters.put("afeng_raw_dump_flag", "1");
-            }
-            catch (Exception what)
-            {  }
-
-            cameraParameters.put("rawfname", "/mnt/sdcard/test.raw");
-            try {
-                cameraParameters.put("isp-mode", "1");
-            }
-            catch (Exception ex)
-            { }
-
+            //baseCameraHolder.StopPreview();
+            cameraParameters.put("afeng_raw_dump_flag", "1");
+            cameraParameters.put("isp-mode", "1");
             cameraParameters.put("rawsave-mode", "2");
-
-
+            cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/1_.raw");
+            cameraParameters.put("zsd-mode", "on");
+           // baseCameraHolder.StartPreview();
             Log.e(TAG, "MTK set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
