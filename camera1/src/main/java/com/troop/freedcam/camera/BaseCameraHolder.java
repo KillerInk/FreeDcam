@@ -12,7 +12,6 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import com.lge.hardware.LGCamera;
-import com.sec.android.seccamera.SecCamera;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
@@ -46,7 +45,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
     LGCamera.LGParameters lgParameters;
     private static String TAG = BaseCameraHolder.class.getSimpleName();
     public I_error errorHandler;
-    SecCamera samsungCamera;
     I_Callbacks.PictureCallback pictureCallback;
     I_Callbacks.PictureCallback rawCallback;
     I_Callbacks.ShutterCallback shutterCallback;
@@ -54,7 +52,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
     Surface surfaceHolder;
 
     public boolean hasLGFrameWork = false;
-    public boolean hasSamsungFrameWork = false;
     public Location gpsLocation;
     public int Orientation;
 
@@ -68,65 +65,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
         hasLGFramework();
-    }
-
-    private void hasSamsungFramework()
-    {
-        try {
-            Class c = Class.forName("com.sec.android.seccamera.SecCamera");
-            Log.d(TAG, "Has Samsung Framework");
-            hasSamsungFrameWork = true;
-
-            try {
-                Class r = Class.forName("com.sec.android.secmediarecorder.SecMediaRecorder");
-                Log.d(TAG, "Has SamsungMediaRecorder Framework");
-                hasSamsungFrameWork = true;
-
-            }
-            catch (ClassNotFoundException e)
-            {
-                hasSamsungFrameWork = false;
-                Log.d(TAG, "No Samsung Framework");
-            }
-            catch (Exception e) {
-
-                hasSamsungFrameWork = false;
-                Log.d(TAG, "No Samsung Framework");
-            }
-            catch (UnsatisfiedLinkError er)
-            {
-                hasSamsungFrameWork = false;
-                Log.d(TAG, "No Samsung Framework");
-            }
-            catch (ExceptionInInitializerError error)
-            {
-                hasSamsungFrameWork = false;
-                Log.d(TAG, "No Samsung Framework");
-            }
-
-        }
-        catch (ClassNotFoundException e)
-        {
-            hasSamsungFrameWork = false;
-            Log.d(TAG, "No Samsung Framework");
-        }
-        catch (Exception e) {
-
-            hasSamsungFrameWork = false;
-            Log.d(TAG, "No Samsung Framework");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            hasSamsungFrameWork = false;
-            Log.d(TAG, "No Samsung Framework");
-        }
-        catch (ExceptionInInitializerError error)
-        {
-            hasSamsungFrameWork = false;
-            Log.d(TAG, "No Samsung Framework");
-        }
-
-
     }
 
     private void hasLGFramework()
@@ -192,12 +130,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(final int camera)
     {
-
         try
         {
-            if (hasSamsungFrameWork)
-                samsungCamera = SecCamera.open(camera);
-            else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
                     if (DeviceUtils.isG4())
@@ -233,22 +168,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void CloseCamera()
     {
         Log.d(TAG, "Try to close Camera");
-        if (samsungCamera != null)
-        {
-            try {
-                samsungCamera.release();
-                samsungCamera = null;
-                Log.d(TAG, "Samsung Camera closed");
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-                isRdy = false;
-                Log.e(TAG, "Error on Samsung Camera close");
-            }
-            isRdy = false;
-        }
-        else if (mCamera != null)
+        if (mCamera != null)
         {
             try
             {
@@ -289,13 +209,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             for (Map.Entry s : parameters.entrySet()) {
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
-
-            if (hasSamsungFrameWork) {
-                Log.d(TAG, "Set Samsung Parameters");
-                SecCamera.Parameters p = samsungCamera.getParameters();
-                p.unflatten(ret);
-                samsungCamera.setParameters(p);
-            } else if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
+            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
                 Log.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
@@ -324,17 +238,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.surfaceHolder = surfaceHolder.getSurface();
         try
         {
-            if(hasSamsungFrameWork) {
-                samsungCamera.setPreviewDisplay(surfaceHolder);
+            if (isRdy && mCamera != null) {
+                mCamera.setPreviewDisplay(surfaceHolder);
                 return true;
             }
-            else {
-                if (isRdy && mCamera != null) {
-                    mCamera.setPreviewDisplay(surfaceHolder);
-                    return true;
-                }
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -351,10 +258,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try
         {
-            if(hasSamsungFrameWork)
-                samsungCamera.setPreviewTexture(textureView.getSurfaceTexture());
-            else
-                mCamera.setPreviewTexture(textureView.getSurfaceTexture());
+            mCamera.setPreviewTexture(textureView.getSurfaceTexture());
             this.textureView = textureView;
             this.surfaceHolder = new Surface(textureView.getSurfaceTexture());
             return  true;
@@ -373,19 +277,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        if (samsungCamera == null && mCamera == null)
+        if (mCamera == null)
             return;
-        if (hasSamsungFrameWork)
-            try {
 
-
-                samsungCamera.startPreview();
-            }
-            catch (Exception ex)
-            {
-                Log.d("Freedcam",ex.getMessage());
-            }
-        else {
             try
             {
                 mCamera.startPreview();
@@ -396,23 +290,21 @@ public class BaseCameraHolder extends AbstractCameraHolder
             } catch (Exception ex) {
                 Log.d("Freedcam", ex.getMessage());
             }
-        }
+
 
     }
 
     @Override
     public void StopPreview()
     {
-        if (mCamera == null && samsungCamera == null)
+        if (mCamera == null)
             return;
         try {
 
-            if (hasSamsungFrameWork)
-                samsungCamera.stopPreview();
-            else {
+
                 mCamera.setPreviewCallback(null);
                 mCamera.stopPreview();
-            }
+
             isPreviewRunning = false;
             Log.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
@@ -429,9 +321,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public HashMap<String, String> GetCameraParameters()
     {
         String[] split = null;
-        if (hasSamsungFrameWork)
-            split = samsungCamera.getParameters().flatten().split(";");
-        else if (hasLGFrameWork)
+        if (hasLGFrameWork)
             split = lgCamera.getLGParameters().getParameters().flatten().split(";");
         else
             split = mCamera.getParameters().flatten().split(";");
@@ -460,14 +350,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.shutterCallback = shutter;
         this.rawCallback = raw;
 
-        if (hasSamsungFrameWork)
-        {
-            takeSamsungPicture();
-        }
-        else
-        {
+
             takePicture();
-        }
+
     }
 
     private void takePicture()
@@ -649,40 +534,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
     }
 
-    private void takeSamsungPicture() {
-        SecCamera.ShutterCallback sh = null;
-        if (shutterCallback != null)
-        {
-            sh = new SecCamera.ShutterCallback() {
-                @Override
-                public void onShutter() {
-                    shutterCallback.onShutter();
-                }
-            };
-        }
-        SecCamera.PictureCallback r = null;
-        if (rawCallback != null)
-        {
-            r = new SecCamera.PictureCallback() {
-                @Override
-                public void onPictureTaken(byte[] bytes, SecCamera secCamera) {
-                    rawCallback.onPictureTaken(bytes);
-                }
-            };
-        }
-        if (pictureCallback == null)
-            return;
-        SecCamera.PictureCallback pic = new SecCamera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] bytes, SecCamera secCamera) {
-                pictureCallback.onPictureTaken(bytes);
-                rawCallback = null;
-                shutterCallback = null;
-                pictureCallback = null;
-            }
-        };
-        samsungCamera.takePicture(sh,r,pic);
-    }
+
 
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
@@ -690,20 +542,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.previewCallback = previewCallback;
         if (!isPreviewRunning && !isRdy)
             return;
-        if (hasSamsungFrameWork)
-        {
-            if (previewCallback == null)
-                samsungCamera.setPreviewCallback(null);
-            else
-                samsungCamera.setPreviewCallback(new SecCamera.PreviewCallback() {
-                    @Override
-                    public void onPreviewFrame(byte[] bytes, SecCamera secCamera) {
-                        previewCallback.onPreviewFrame(bytes, I_Callbacks.YUV);
-                    }
-                });
-        }
-        else
-        {
+
             if (previewCallback == null)
                 mCamera.setPreviewCallback(null);
             else
@@ -713,7 +552,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                         previewCallback.onPreviewFrame(data, I_Callbacks.YUV);
                     }
                 });
-        }
+
     }
 
     @Override
@@ -753,19 +592,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
     {
-        if (hasSamsungFrameWork)
-        {
-            samsungCamera.setErrorCallback(new SecCamera.ErrorCallback() {
-                @Override
-                public void onError(int i, SecCamera secCamera)
-                {
-                    isRdy = false;
-                    errorCallback.onError(i);
-                }
-            });
-        }
-        else
-        {
+
             if (mCamera == null)
                 return;
             mCamera.setErrorCallback(new Camera.ErrorCallback() {
@@ -776,7 +603,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     errorCallback.onError(error);
                 }
             });
-        }
+
     }
 
     public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
@@ -784,23 +611,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         if (!isRdy)
             return;
         try {
-            if (hasSamsungFrameWork)
-            {
-                samsungCamera.autoFocus(new SecCamera.AutoFocusCallback() {
-                    @Override
-                    public void onAutoFocus(int i, SecCamera secCamera) {
-                        CameraFocusEvent focusEvent = new CameraFocusEvent();
-                        focusEvent.samsungCamera = secCamera;
-                        if (i == 1) //no idea if this correct
-                            focusEvent.success = true;
-                        else
-                            focusEvent.success = false;
-                        autoFocusCallback.onAutoFocus(focusEvent);
-                    }
-                });
-            }
-            else
-            {
+
                 mCamera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
                     public void onAutoFocus(boolean success, Camera camera)
@@ -812,7 +623,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                         autoFocusCallback.onAutoFocus(focusEvent);
                     }
                 });
-            }
+
         }
         catch (RuntimeException ex)
         {
@@ -836,37 +647,15 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         if (!isRdy)
             return;
-        if (hasSamsungFrameWork)
-        {
-            samsungCamera.cancelAutoFocus();
-        }
-        else
-        {
+
             mCamera.cancelAutoFocus();
-        }
+
     }
 
     public void SetMeteringAreas(FocusRect meteringRect)
     {
         try {
-            if (hasSamsungFrameWork)
-            {
-                List<SecCamera.Area> meteringList = new ArrayList<>();
-                if (meteringRect != null)
-                    meteringList.add(new SecCamera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 1000));
-                SecCamera.Parameters p = samsungCamera.getParameters();
-                if(p.getMaxNumMeteringAreas() > 0)
-                    p.setMeteringAreas(meteringList);
 
-                try {
-                    Log.d(TAG, "try Set Metering");
-                    samsungCamera.setParameters(p);
-                    Log.d(TAG, "Setted Metering");
-                } catch (Exception ex) {
-                    Log.d(TAG, "Set Metering FAILED!");
-                }
-            }
-            else {
                 List<Camera.Area> meteringList = new ArrayList<>();
                 if (meteringRect != null)
                     meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
@@ -881,7 +670,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 } catch (Exception ex) {
                     Log.d(TAG, "Set Metering FAILED!");
                 }
-            }
+
         }
         catch (Exception ex)
         {
@@ -895,18 +684,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         this.gpsLocation = loc;
         if(!isRdy)
             return;
-        if(hasSamsungFrameWork && samsungCamera != null)
-        {
-            SecCamera.Parameters paras = samsungCamera.getParameters();
-            paras.setGpsAltitude(loc.getAltitude());
-            paras.setGpsLatitude(loc.getLatitude());
-            paras.setGpsLongitude(loc.getLongitude());
-            paras.setGpsProcessingMethod(loc.getProvider());
-            paras.setGpsTimestamp(loc.getTime());
-            samsungCamera.setParameters(paras);
-        }
-        else
-        {
+
             if (mCamera != null) {
                 Camera.Parameters paras = mCamera.getParameters();
                 paras.setGpsAltitude(loc.getAltitude());
@@ -923,7 +701,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 }
 
             }
-        }
+
     }
 
     public void SetOrientation(int or)
@@ -931,20 +709,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
         if (!isRdy || or == Orientation)
             return;
         this.Orientation = or;
-        if(hasSamsungFrameWork && samsungCamera != null)
-        {
-            SecCamera.Parameters paras = samsungCamera.getParameters();
-            paras.setRotation(or);
-            samsungCamera.setParameters(paras);
-        }
-        else
-        {
+
             if (mCamera != null) {
                 Camera.Parameters paras = mCamera.getParameters();
                 paras.setRotation(or);
                 mCamera.setParameters(paras);
             }
-        }
+
     }
 
     public void SetPreviewSize(String size)
@@ -953,32 +724,18 @@ public class BaseCameraHolder extends AbstractCameraHolder
         int width = Integer.parseInt(split[0]);
         int height = Integer.parseInt(split[1]);
 
-
-        if (hasSamsungFrameWork && samsungCamera != null)
-        {
-            SecCamera.Parameters paras = samsungCamera.getParameters();
-            paras.setPreviewSize(width,height);
-            samsungCamera.setParameters(paras);
-        }
-        else
-        {
             if (mCamera != null) {
                 Camera.Parameters paras = mCamera.getParameters();
                 paras.setPreviewSize(width,height);
                 mCamera.setParameters(paras);
             }
-        }
+
     }
 
     public void SetCameraRotation(int rotation)
     {
         if (!isRdy)
             return;
-        if (samsungCamera == null && mCamera == null)
-            return;
-        if (hasSamsungFrameWork)
-            samsungCamera.setDisplayOrientation(rotation);
-        else
             mCamera.setDisplayOrientation(rotation);
     }
 
@@ -989,15 +746,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public String getLgParameters()
     {
         return lgParameters.getParameters().flatten();
-    }
-
-    public SecCamera GetSamsungCamera() {
-        return samsungCamera;
-    }
-
-    public void setShootmode(int shootmode)
-    {
-        samsungCamera.setShootingMode(shootmode);
     }
 
 

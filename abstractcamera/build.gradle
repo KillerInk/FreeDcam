@@ -20,6 +20,5 @@ android {
 }
 
 dependencies {
-    provided files('libs/samsung.jar')
     compile 'com.android.support:support-v4:23.0.0'
 }
