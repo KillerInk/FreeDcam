@@ -20,3 +20,4 @@ imageconverter/libs/armeabi-v7a/*
 */libs/armeabi*
 app/manifest-merger-release-report.txt
 .gitignore
+build.gradle
