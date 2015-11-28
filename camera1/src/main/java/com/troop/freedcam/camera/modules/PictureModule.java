@@ -90,7 +90,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             }
             else {
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-                if (picFormat.equals("jpeg")) {
+                if (picFormat.equals("jpeg") || DeviceUtils.isMediaTekDevice()) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
                 } else if (picFormat.equals("jps")) {
@@ -101,7 +101,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||!DeviceUtils.isMediaTekDevice() )) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }
