@@ -83,7 +83,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public BaseModeParameter DualMode;
     CameraUiWrapper cameraUiWrapper;
 
-    SetParameterRunner setParameterRunner;
+    //SetParameterRunner setParameterRunner;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
@@ -106,7 +106,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LoadParametersFromCamera()
     {
         cameraParameters = baseCameraHolder.GetCameraParameters();
-        setParameterRunner = new SetParameterRunner();
+        //setParameterRunner = new SetParameterRunner();
         initParameters();
     }
 
@@ -555,7 +555,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     }
 
-    class SetParameterRunner implements Runnable
+    /*class SetParameterRunner implements Runnable
     {
         private boolean isRunning = false;
 
@@ -578,7 +578,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 run();
             }
         }
-    }
+    }*/
 
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
