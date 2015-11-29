@@ -117,7 +117,14 @@ public class MediatekSaver extends JpegSaver {
 
     private File DeviceSwitcher()
     {
-        File dump = null;
+        File freedcamFolder = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder);
+        for (File f : freedcamFolder.listFiles())
+        {
+            if (f.isFile() && f.getName().startsWith("mtk"))
+                return f;
+        }
+        return null;
+        /*File dump = null;
         switch (Build.MODEL)
         {
             case "Retro":
@@ -144,7 +151,7 @@ public class MediatekSaver extends JpegSaver {
 
 
         }
-        return dump;
+        return dump;*/
     }
 
 
