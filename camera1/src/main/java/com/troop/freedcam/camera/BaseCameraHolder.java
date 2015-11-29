@@ -39,7 +39,6 @@ import java.util.Map;
 public class BaseCameraHolder extends AbstractCameraHolder
 {
     Camera mCamera;
-    Camera.Parameters MTKparameters;
 
     private Camera.Parameters mCameraParam;
     LGCamera lgCamera;
@@ -75,6 +74,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
         hasLGFramework();
+        if (DeviceFrameWork == Frameworks.Normal)
+            isMTKDevice();
     }
 
     private void hasLGFramework()
@@ -132,6 +133,43 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void isMTKDevice()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app != null)
+                DeviceFrameWork = Frameworks.MTK;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "MTK Framework found");
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
+        }
+        catch (ExceptionInInitializerError e) {
+
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
+        }
+
+    }
+
     /**
      * Opens the Camera
      * @param camera the camera to open
@@ -156,12 +194,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 {
                     cameraChangedListner.onCameraError("Fail to connect to camera service");
                 }
-            } else {
-
-                //if(DeviceUtils.isSonyM5_MTK())
-                    //android.hardware.Camera.setProperty("client.appmode", "MtkEng");
-                if(DeviceUtils.isMediaTekDevice())
-                    setMtkAppMode();
+            }
+            else if (DeviceFrameWork == Frameworks.MTK)
+            {
+                setMtkAppMode();
+                mCamera = Camera.open(camera);
+            }
+            else
+            {
                 mCamera = Camera.open(camera);
             }
 
@@ -294,9 +334,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             try
             {
-                if (DeviceUtils.isMediaTekDevice())
-                    initMTKSHit();
-
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Log.d(TAG, "PreviewStarted");
@@ -309,22 +346,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
-    private void initMTKSHit()    {
 
-        MTKparameters = mCamera.getParameters();
-        MTKparameters.set("afeng_raw_dump_flag", 1);
-        MTKparameters.set("isp-mode", 1);
-        MTKparameters.set("rawsave-mode", "2");
-        MTKparameters.set("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
-        MTKparameters.set("zsd-mode", "on");
-        mCamera.setParameters(MTKparameters);
-
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void StopPreview()
@@ -443,7 +465,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
             if (app == null)
                 throw new  NoSuchMethodException();
-            app.invoke(null,"client.appmode", "MtkEng");
+            app.invoke(null, "client.appmode", "MtkEng");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -454,6 +476,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
             e.printStackTrace();
         }
     }
+
+
 
     private void runObjectTrackingReflection()
     {
@@ -479,119 +503,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
             e.printStackTrace();
         }
     }
-    private void setHistogramReflection()
-    {
-        try
-        {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-            Class datacallback = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("CameraDataCallback"))
-                    datacallback = i;
-            }
-            if (datacallback == null)
-                throw new NoClassDefFoundError();
-
-            Object dcb = (Object) Proxy.newProxyInstance(datacallback.getClassLoader(), new Class[]{datacallback}, new InvocationHandler()
-            {
-
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    //Handle the invocations
-                    if(method.getName().equals("onCameraData")){
-                        return 1;
-                    }
-                    else return -1;
-                }
-            });
-            Method[] meths = camera.getMethods();
-            Method setHistogramMode = null;
-            Method sendHistogramData = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setHistogramMode"))
-                    setHistogramMode = m;
-                if (m.getName().equals("sendHistogramData"))
-                    sendHistogramData = m;
-            }
-            if (sendHistogramData == null || setHistogramMode == null)
-                throw new  NoSuchMethodException();
-            setHistogramMode.invoke(mCamera, dcb);
-
-
-            sendHistogramData.invoke(mCamera, null);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void SetMetaDataCallbackReflection()
-    {
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-
-            Class metadatacallback = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("CameraMetaDataCallback"))
-                    metadatacallback = i;
-            }
-            if (metadatacallback == null)
-                throw new NoClassDefFoundError();
-
-            Object dcb = (Object) Proxy.newProxyInstance(metadatacallback.getClassLoader(), new Class[]{metadatacallback}, new InvocationHandler()
-            {
-
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    //Handle the invocations
-                    if(method.getName().equals("onCameraMetaData")){
-                        return 1;
-                    }
-                    else return -1;
-                }
-            });
-
-            Method[] meths = camera.getMethods();
-            Method setMetaDataCB = null;
-            Method sendMetaData = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setMetadataCb"))
-                    setMetaDataCB = m;
-                if (m.getName().equals("sendMetaData"))
-                    sendMetaData = m;
-            }
-            if (sendMetaData == null || setMetaDataCB == null)
-                throw new  NoSuchMethodException();
-            setMetaDataCB.invoke(mCamera, dcb);
-
-
-            sendMetaData.invoke(mCamera, null);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)

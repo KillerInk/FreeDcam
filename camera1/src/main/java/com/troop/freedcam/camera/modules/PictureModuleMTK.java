@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.FocusHandler;
+import com.troop.freedcam.camera.modules.image_saver.MediatekSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -38,57 +39,11 @@ public class PictureModuleMTK extends PictureModule
         if (!this.isWorking)
         {
             startworking();
-            if (parametersHandler.IsDngActive())
-            {
-                file = StringUtils.getFilePath(Settings.GetWriteExternal(),"");
-                parametersHandler.setMTKRaw(true);
-               // parametersHandler.setMTKrawFilename(file + ".raw");
-            }
-            else
-            {
-                file = StringUtils.getFilePath(Settings.GetWriteExternal(),".jpg");;
-                parametersHandler.setMTKRaw(false);
-                //parametersHandler.setMTKrawFilename("");
-            }
-
-            baseCameraHolder.TakePicture(null,null, picCallback);
+            final MediatekSaver mtksaver = new MediatekSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+            mtksaver.TakePicture();
 
         }
 
     }
 
-    I_Callbacks.PictureCallback picCallback = new I_Callbacks.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data)
-        {
-            Log.e(TAG, "Start Saving Bytes");
-            FileOutputStream outStream = null;
-            try {
-                outStream = new FileOutputStream(file+".jpg");
-                outStream.write(data);
-                outStream.flush();
-                outStream.close();
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            baseCameraHolder.StartPreview();
-            File f = new File(file +".jpg");
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), f);
-            if (parametersHandler.IsDngActive())
-            {
-                File rawfile = new File(file + ".jpg");
-                if (rawfile.exists())
-                    Log.d(TAG, "created raw file:" + rawfile.getAbsolutePath());
-                else
-                    Log.d(TAG, "raw file does not exists");
-                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(file + ".jpg"));
-            }
-            stopworking();
-            eventHandler.WorkFinished(f);
-        }
-    };
 }

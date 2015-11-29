@@ -91,12 +91,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             }
             else {
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-                if(DeviceUtils.isMediaTekDevice())
-                {
-                    final MediatekSaver mtksaver = new MediatekSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
-                    mtksaver.TakePicture();
-                }
-                else if (picFormat.equals("jpeg") ) {
+                if (picFormat.equals("jpeg") ) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
                 } else if (picFormat.equals("jps")) {
