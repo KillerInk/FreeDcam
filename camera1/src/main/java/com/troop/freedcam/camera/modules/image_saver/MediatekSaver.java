@@ -73,13 +73,12 @@ public class MediatekSaver extends JpegSaver {
 
 
         byte[] data = null;
-        File mtkraw = DeviceSwitcher();
         try {
-            while (!checkFileCanRead(mtkraw))
+            while (!checkFileCanRead(DeviceSwitcher()))
             {
                 Thread.sleep(100);
             }
-            data = RawToDng.readFile(mtkraw);
+            data = RawToDng.readFile(DeviceSwitcher());
             Log.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
 
         } catch (FileNotFoundException e) {
