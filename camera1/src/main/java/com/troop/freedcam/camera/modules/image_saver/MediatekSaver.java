@@ -11,6 +11,7 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -60,7 +61,7 @@ public class MediatekSaver extends JpegSaver {
             {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-                saveBytesToFile(data, holdFile );
+                saveBytesToFile(data, holdFile);
                 if(DeviceSwitcher().exists())
                     CreateDNG_DeleteRaw();
                 else {
@@ -83,14 +84,20 @@ public class MediatekSaver extends JpegSaver {
 
 
         byte[] data = null;
+        File mtkraw = DeviceSwitcher();
         try {
-
-                data = RawToDng.readFile(DeviceSwitcher());
+            while (!checkFileCanRead(mtkraw))
+            {
+                Thread.sleep(100);
+            }
+            data = RawToDng.readFile(mtkraw);
             Log.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -152,6 +159,21 @@ public class MediatekSaver extends JpegSaver {
 
         }
         return dump;*/
+    }
+
+    public boolean checkFileCanRead(File file){
+        if (!file.exists())
+            return false;
+        if (!file.canRead())
+            return false;
+        try {
+            FileReader fileReader = new FileReader(file.getAbsolutePath());
+            fileReader.read();
+            fileReader.close();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 
