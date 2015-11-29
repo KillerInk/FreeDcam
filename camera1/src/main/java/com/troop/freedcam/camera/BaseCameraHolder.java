@@ -39,6 +39,7 @@ import java.util.Map;
 public class BaseCameraHolder extends AbstractCameraHolder
 {
     Camera mCamera;
+    Camera.Parameters MTKparameters;
 
     private Camera.Parameters mCameraParam;
     LGCamera lgCamera;
@@ -54,6 +55,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public boolean hasLGFrameWork = false;
     public Location gpsLocation;
     public int Orientation;
+
 
     TextureView textureView;
 
@@ -150,6 +152,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
                 //if(DeviceUtils.isSonyM5_MTK())
                     //android.hardware.Camera.setProperty("client.appmode", "MtkEng");
+                if(DeviceUtils.isMediaTekDevice())
+                    setMtkAppMode();
                 mCamera = Camera.open(camera);
             }
 
@@ -282,6 +286,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             try
             {
+                if (DeviceUtils.isMediaTekDevice())
+                    initMTKSHit();
+
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Log.d(TAG, "PreviewStarted");
@@ -292,6 +299,23 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
 
 
+    }
+
+    private void initMTKSHit()    {
+
+        MTKparameters = mCamera.getParameters();
+        MTKparameters.set("afeng_raw_dump_flag", 1);
+        MTKparameters.set("isp-mode", 1);
+        MTKparameters.set("rawsave-mode", "2");
+        MTKparameters.set("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        MTKparameters.set("zsd-mode", "on");
+        mCamera.setParameters(MTKparameters);
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -396,6 +420,31 @@ public class BaseCameraHolder extends AbstractCameraHolder
             errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
         }
 
+    }
+
+    private void setMtkAppMode()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app == null)
+                throw new  NoSuchMethodException();
+            app.invoke(null,"client.appmode", "MtkEng");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void runObjectTrackingReflection()

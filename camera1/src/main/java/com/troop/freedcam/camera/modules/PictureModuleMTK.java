@@ -38,7 +38,7 @@ public class PictureModuleMTK extends PictureModule
         if (!this.isWorking)
         {
             startworking();
-            /*if (parametersHandler.IsDngActive())
+            if (parametersHandler.IsDngActive())
             {
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),"");
                 parametersHandler.setMTKRaw(true);
@@ -47,9 +47,9 @@ public class PictureModuleMTK extends PictureModule
             else
             {
                 file = StringUtils.getFilePath(Settings.GetWriteExternal(),".jpg");;
-                parametersHandler.setMTKRaw(true);
+                parametersHandler.setMTKRaw(false);
                 //parametersHandler.setMTKrawFilename("");
-            }*/
+            }
 
             baseCameraHolder.TakePicture(null,null, picCallback);
 
@@ -80,12 +80,12 @@ public class PictureModuleMTK extends PictureModule
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), f);
             if (parametersHandler.IsDngActive())
             {
-                File rawfile = new File(file + ".raw");
+                File rawfile = new File(file + ".jpg");
                 if (rawfile.exists())
                     Log.d(TAG, "created raw file:" + rawfile.getAbsolutePath());
                 else
                     Log.d(TAG, "raw file does not exists");
-                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(file + ".raw"));
+                MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), new File(file + ".jpg"));
             }
             stopworking();
             eventHandler.WorkFinished(f);
