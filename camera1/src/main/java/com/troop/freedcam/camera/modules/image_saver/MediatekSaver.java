@@ -47,7 +47,7 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
                             ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
@@ -71,6 +71,9 @@ public class MediatekSaver extends JpegSaver {
             {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
+
+             //   Log.d(TAG,RawToDng.getFilePath());
+
                 if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
                 {
                     saveBytesToFile(data, holdFile);
@@ -83,10 +86,15 @@ public class MediatekSaver extends JpegSaver {
 
                     }
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+dng"))
                 {
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
+                }
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                {
+                    saveBytesToFile(data, holdFile);
+
                 }
 
 
@@ -135,6 +143,13 @@ public class MediatekSaver extends JpegSaver {
         dngConverter.RELEASE();
         data = null;
         DeviceSwitcher().delete();
+    }
+
+    public String FeeDJNI(String msg)
+    {
+        Log.d(TAG,msg);
+
+        return DeviceSwitcher().getAbsolutePath();
     }
 
     private File DeviceSwitcher()
