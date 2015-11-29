@@ -44,7 +44,8 @@ public class DngSupportedDevices
         MotoX_pure,
         moto2k14,
         SonyM5,
-        op2
+        op2,
+        Mobicel_Retro
 
     }
 
@@ -109,6 +110,8 @@ public class DngSupportedDevices
             return SupportedDevices.SonyM5;
         if(DeviceUtils.isOnePlusTwo())
             return SupportedDevices.op2;
+        if(DeviceUtils.isRetro())
+            return SupportedDevices.Mobicel_Retro;
         return null;
     }
 
@@ -228,6 +231,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 2592, 1296, Qcom, BGGR, 0);
                 }
             }
+            case 3763584: //I_Mobile_I_StyleQ6
+                return new Nexus6Profile(0, 1584, 1184, Plain, GRBG, 0);
             case 9631728: //I_Mobile_I_StyleQ6
                 return new Nexus6Profile(64, 2532, 1902, Plain, GRBG, 0);
             case 9990144://e7 front mipi
