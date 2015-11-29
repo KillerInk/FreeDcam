@@ -61,7 +61,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = true;
             createStringArray();
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey(WB_MANUAL) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT))
+        else if (parameters.containsKey(WB_MANUAL) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT) || DeviceUtils.isXiaomiMI3W())
         {
             this.value = WB_MANUAL;
             this.max_value = MAX_WB_CCT;
@@ -165,7 +165,7 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
             {
-                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote()) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W()) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
                 else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
