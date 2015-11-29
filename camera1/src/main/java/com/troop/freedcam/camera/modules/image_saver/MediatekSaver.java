@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -21,10 +23,12 @@ import java.io.RandomAccessFile;
 public class MediatekSaver extends JpegSaver {
 
     File holdFile = null;
+    protected AbstractParameterHandler ParameterHandlerx;
 
     final public String fileEnding = ".jpg";
     public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
         super(cameraHolder, i_workeDone, handler, externalSD);
+        this.ParameterHandlerx = cameraHolder.ParameterHandler;
     }
 
     final String TAG = "MediatekIMG";
@@ -43,6 +47,12 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                {
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+                            ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
+                    cameraHolder.SetCameraParameters(((CamParametersHandler) ParameterHandlerx).getParameters());
+                }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
         });
@@ -61,8 +71,25 @@ public class MediatekSaver extends JpegSaver {
             {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-                saveBytesToFile(data, holdFile);
-                CreateDNG_DeleteRaw();
+                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+                {
+                    saveBytesToFile(data, holdFile);
+                    try
+                    {
+                        DeviceSwitcher().delete();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                {
+                    saveBytesToFile(data, holdFile);
+                    CreateDNG_DeleteRaw();
+                }
+
+
             }
         });
     }
