@@ -124,7 +124,7 @@ public class MediatekSaver extends JpegSaver {
                 dump = new File("/mnt/sdcard/DCIM/FreeDCam/mtk___1584x1188_10_0.raw");
                 break;
             case "E5663":
-                dump = new File("/mnt/sdcard/DCIM/FreeDCam/mtk___5344x4016_10_3.raw");
+                dump = new File("/mnt/sdcard/DCIM/FreeDCam/mtk_pure__5344x4016_10_3.raw");
                 break;
             case "i-mobile i-STYLE Q6":
                 dump = new File("/mnt/sdcard/DCIM/FreeDCam/mtk___1584x1188_10_0.raw");
