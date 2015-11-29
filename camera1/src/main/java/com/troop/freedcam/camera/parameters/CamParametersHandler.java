@@ -126,8 +126,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         if (DeviceUtils.isG4())
             setupLg_G4Parameters();
-        if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
-            initMTKSHit();
 
         logParameters(cameraParameters);
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
@@ -764,18 +762,5 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("manualfocus_step","0");*/
     }
 
-    private void initMTKSHit()    {
 
-
-        cameraParameters.put("afeng_raw_dump_flag", "1");
-        cameraParameters.put("isp-mode", "1");
-        cameraParameters.put("rawsave-mode", "2");
-        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
-        cameraParameters.put("zsd-mode", "on");
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }

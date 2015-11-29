@@ -63,7 +63,6 @@ public class MediatekSaver extends JpegSaver {
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
                 saveBytesToFile(data, holdFile);
                 CreateDNG_DeleteRaw();
-
             }
         });
     }
