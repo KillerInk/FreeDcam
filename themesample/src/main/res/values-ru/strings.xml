@@ -1,0 +1,115 @@
+<resources>
+    <!-- leftmenufragment  -->
+    <string name="app_name">themesample</string>
+    <string name="setting_picture_group_header">Настройки изображения</string>
+    <string name="setting_bayerformat_description">RAW в DNG</string>
+    <string name="setting_bayerformat_header">Фильтр Байера: </string>
+    <string name="setting_jpegquality_description">Качество % </string>
+    <string name="setting_jpegquality_header">JPEG кажество: </string>
+    <string name="setting_picturesize_description">Размер изображения для JPEG: </string>
+    <string name="setting_picturesize_header">Разрешение: </string>
+
+    <string name="setting_video_group_header">Видео</string>
+    <string name="setting_videoprofile_description">Медиа профиль, используемый в видео</string>
+    <string name="setting_videoprofile_header">Видео профиль: </string>
+    <string name="setting_videohdr_description">Включите для hdr видео</string>
+    <string name="setting_videohdr_header">Видео HDR: </string>
+
+    <string name="setting_hdr_">HDR</string>
+    <string name="setting_aebracket_header">AE-Bracket: </string>
+    <string name="setting_aebracket_description">Выбор лучшей экспозиции</string>
+
+    <string name="setting_freedcam_">Настройки Freedcam</string>
+    <string name="setting_api_header">Api: </string>
+    <string name="setting_api_description">Выберите API, который будет использоваться</string>
+    <string name="setting_externalshutter_description">Могут использоваться наушники</string>
+    <string name="setting_externalshutter_header">Внешняя кнопка затвора: </string>
+    <string name="setting_location_description">Информация о местоположение в файле</string>
+    <string name="setting_location_header">Местоположение: </string>
+    <string name="setting_guide_description">Композиционные линии</string>
+    <string name="setting_guide_header">Линии: </string>
+    <string name="setting_focuspeak_description">Точки фокусировки</string>
+    <string name="setting_focuspeak_header">Focuspeak: </string>
+    <string name="setting_orientation_header">Коррекция ориентации: </string>
+    <string name="setting_orientation_description">Переворот камеры на 180°</string>
+    <string name="setting_sdcard_header">SD карта: </string>
+    <string name="setting_sdcard_description">Место сохранения. Заметка: С KitKat Вы можете сохранять только на внешнюю SD если у Вас есть рут</string>
+    <string name="setting_theme_header">Тема: </string>
+    <string name="setting_theme_description">Выберите любимую тему</string>
+    <string name="setting_savecamparams_header">Сохранить настройки</string>
+    <string name="setting_savecamparams_description"> </string>
+
+    <!-- rightmenufragment  -->
+    <string name="setting_camera_">Расширенные настройки</string>
+    <string name="setting_antiflicker_header">Удаление мерцания: </string>
+    <string name="setting_antiflicker_description">Уменьшает мерцание от искуственных ист. света</string>
+    <string name="setting_color_header">Эффект: </string>
+    <string name="setting_color_description">Серпия и др.</string>
+    <string name="setting_scene_header">Сюжет: </string>
+    <string name="setting_scene_description">Выберите лучший сюжет</string>
+
+    <string name="setting_qcom_">Настройки Qualcomm</string>
+    <string name="setting_cds_header">Correlated double sampling: </string>
+    <string name="setting_cds_description">Sensor electrical readout measured twice</string>
+    <string name="setting_dis_header">Цифр. стабилизация изображения: </string>
+    <string name="setting_dis_description">Shifts electronic image to counteract movement</string>
+    <string name="setting_lensshade_header">Lens shade: </string>
+    <string name="setting_lensshade_description">Уменьшает виньетирование </string>
+    <string name="setting_mce_header">Memory Color Enhacement: </string>
+    <string name="setting_mce_description">Boosts Colors equivelant to adobe vibrance</string>
+    <string name="setting_redeye_header">Удаление красных глаз: </string>
+    <string name="setting_redeye_description">Издает небольшую начальную вспышку перед основной</string>
+    <string name="setting_scenedec_header">Определение сюжета: </string>
+    <string name="setting_scenedec_description">Автоопределение сюжета (ночь,пейзаж и др.)</string>
+    <string name="setting_temporaldenoise_header">Temporal Denoise: </string>
+    <string name="setting_temporaldenoise_description">Denoise for Video, dont use it with wavelet!</string>
+    <string name="setting_waveletdenoise_header">Подавление шума wavelet: </string>
+    <string name="setting_waveletdenoise_description">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
+    <string name="setting_zsl_header">Zero Shutter Lag: </string>
+    <string name="setting_zsl_description">Буферизация кадра для мгновенной съемки. Для RAW выключите</string>
+
+    <string name="setting_camera2_">Настройки Camera 2</string>
+    <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
+    <string name="setting_colorcorrection_description">Изменяйте вручную или автоматически</string>
+    <string name="setting_controlmode_header">Camera Control: </string>
+    <string name="setting_controlmode_description">Контролирование основных функций, выключите для ручного контроля</string>
+    <string name="setting_edge_header">EdgeMode: </string>
+    <string name="setting_edge_description"></string>
+    <string name="setting_hotpixel_header">HotPixel Correction: </string>
+    <string name="setting_hotpixel_description"></string>
+    <string name="setting_tonemap_header">Tonemap: </string>
+    <string name="setting_tonemap_description"></string>
+
+    <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
+    <string name="setting_objecttrack_header">Отслеживание объекта: </string>
+    <string name="setting_objecttrack_description">Фокусировка на движущемся объекте</string>
+    <string name="setting_postview_header">PostViewSize: </string>
+    <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
+
+    <string name="setting_omap_">OMAP Settings</string>
+    <string name="setting_ipp_header">ImagePostProcessing: </string>
+    <string name="setting_ipp_description">The quality of the PostProcessing</string>
+
+    <string name="setting_lg_">LG Settings</string>
+    <string name="setting_ois_header">Optical Image Stabilisation: </string>
+    <string name="setting_ois_description"></string>
+
+    <string name="setting_htc_">HTC Settings</string>
+    <string name="setting_nonzsl_header">Ручные настройки(ZSL= OFF): </string>
+    <string name="setting_nonzsl_description">Включите для ручных настроек, если ZSL выкл</string>
+
+    <!-- cameraui  -->
+    <string name="uisetting_wb_header">ББ</string>
+    <string name="uisetting_iso_header">ISO</string>
+    <string name="uisetting_flash_header">Вспышка</string>
+    <string name="uisetting_focus_header">Фокус</string>
+    <string name="uisetting_ae_header">AE</string>
+    <string name="uisetting_night_header">Ночь</string>
+    <string name="uisetting_continouseshot_header">Мультисъемка</string>
+    <string name="uisetting_format_header">Формат</string>
+    <string name="uisetting_settings_header">Настройки</string>
+    <string name="uisetting_camerswitch_header">Камера</string>
+    <string name="uisetting_mode_header">Режим</string>
+    <string name="uisetting_exit_header">Выход</string>
+
+</resources>
