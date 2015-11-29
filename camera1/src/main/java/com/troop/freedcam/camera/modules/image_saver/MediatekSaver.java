@@ -62,18 +62,7 @@ public class MediatekSaver extends JpegSaver {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
                 saveBytesToFile(data, holdFile);
-                if(DeviceSwitcher().exists())
-                    CreateDNG_DeleteRaw();
-                else {
-                    try {
-                        Thread.sleep(200);
-                        CreateDNG_DeleteRaw();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
+                CreateDNG_DeleteRaw();
             }
         });
     }

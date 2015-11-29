@@ -334,6 +334,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             try
             {
+                if (DeviceFrameWork == Frameworks.MTK)
+                    initMTKSHit();
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Log.d(TAG, "PreviewStarted");
@@ -346,6 +348,20 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void initMTKSHit()    {
+
+
+        ((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
+        ((CamParametersHandler)ParameterHandler).setString("isp-mode", "1");
+        ((CamParametersHandler)ParameterHandler).setString("rawsave-mode", "2");
+        ((CamParametersHandler)ParameterHandler).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        ((CamParametersHandler)ParameterHandler).setString("zsd-mode", "on");
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -700,7 +716,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             if (mCamera != null) {
                 Camera.Parameters paras = mCamera.getParameters();
-                paras.setPreviewSize(width,height);
+                paras.setPreviewSize(width, height);
                 mCamera.setParameters(paras);
             }
 
