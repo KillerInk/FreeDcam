@@ -224,10 +224,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 p.unflatten(ret);
                 mCamera.setParameters(p);
             }
-            Thread.sleep(300);
+           // Thread.sleep(300);
         }
         catch (Exception ex) {
-            Log.d("Freedcam", ex.getMessage());
+           // Log.d("Freedcam", ex.getMessage());
         }
 
 
