@@ -172,7 +172,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
         if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
+            if (Build.MANUFACTURER.contains("HTC"))
                 return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
             else
                 return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 10 / 8;

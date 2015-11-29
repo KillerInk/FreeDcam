@@ -8,6 +8,7 @@ import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
+import com.troop.freedcam.camera.modules.image_saver.MediatekSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -90,7 +91,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             }
             else {
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
-                if (picFormat.equals("jpeg")) {
+                if (picFormat.equals("jpeg") ) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
                 } else if (picFormat.equals("jps")) {
@@ -101,7 +102,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||!DeviceUtils.isMediaTekDevice() )) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }
@@ -183,14 +184,14 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void OnWorkDone(File file)
     {
-        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-        {
-            int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
-            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
-            baseCameraHolder.StartPreview();
-            baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
-        }
-        else
+//        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+      //  {
+       //     int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
+       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
+       //     baseCameraHolder.StartPreview();
+       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
+      //  }
+       // else
             baseCameraHolder.StartPreview();
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
         stopworking();

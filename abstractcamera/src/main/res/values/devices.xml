@@ -204,6 +204,10 @@
         <item>C2105</item>
     </string-array>
 
+    <string-array name="Retro">
+        <item>Retro</item>
+    </string-array>
+
     <string-array name="YuYureka">
         <item>YUREKA</item>
         <item>AO5510</item>

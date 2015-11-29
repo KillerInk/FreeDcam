@@ -126,6 +126,8 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         if (DeviceUtils.isG4())
             setupLg_G4Parameters();
+        if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+            initMTKSHit();
 
         logParameters(cameraParameters);
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
@@ -479,7 +481,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (baseCameraHolder.hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+            if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
                 VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
             else
                 VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
@@ -551,7 +553,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
-        //Mediatek();
+        Mediatek();
 
     }
 
@@ -643,33 +645,20 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         Log.d(TAG, "MTK try to set mode");
         if (!raw) {
-            cameraParameters.put("afeng_raw_dump_flag",0 +"");
-            cameraParameters.put("rawsave-mode", 0+"");
-            cameraParameters.put("isp-mode", 0+"");
+            cameraParameters.put("afeng_raw_dump_flag", "0");
+            cameraParameters.put("rawsave-mode", "0");
+            cameraParameters.put("zsd-mode", "off");
             Log.e(TAG, "MTK set mode to jpeg");
         }
         else
         {
-            cameraParameters.put("camera-mode","0");
-
-            try {
-
-
-                cameraParameters.put("afeng_raw_dump_flag", "1");
-            }
-            catch (Exception what)
-            {  }
-
-            cameraParameters.put("rawfname", "/mnt/sdcard/test.raw");
-            try {
-                cameraParameters.put("isp-mode", "1");
-            }
-            catch (Exception ex)
-            { }
-
+            //baseCameraHolder.StopPreview();
+            cameraParameters.put("afeng_raw_dump_flag", "1");
+            cameraParameters.put("isp-mode", "1");
             cameraParameters.put("rawsave-mode", "2");
-
-
+            cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/1_.raw");
+            cameraParameters.put("zsd-mode", "on");
+           // baseCameraHolder.StartPreview();
             Log.e(TAG, "MTK set mode to RAW");
         }
         cameraHolder.SetCameraParameters(cameraParameters);
@@ -748,8 +737,8 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
     private void Mediatek()
     {
-        cameraParameters.put("zsd-mode","1");
-        cameraParameters.put("camera-mode","0");
+       // cameraParameters.put("zsd-mode","on");
+        //cameraParameters.put("camera-mode","0");
         cameraParameters.put("afeng_raw_dump_flag","1");
         cameraParameters.put("rawsave-mode","2");
         cameraParameters.put("isp-mode","1");
@@ -763,7 +752,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void setupLg_G4Parameters()
     {
-        cameraParameters.put("lge-camera","1");
+        cameraParameters.put("lge-camera", "1");
         /*cameraParameters.put("ae-bracket-hdr","Off");
         cameraParameters.put("ae-bracket-hdr-values","Off,AE-Bracket");
         cameraParameters.put("dng-capture", "1"); // 0 diasbled 1 enable
@@ -773,5 +762,20 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("shutter-speed","-1000"); // -1000 disable
         cameraParameters.put("lg-wb","-1000");
         cameraParameters.put("manualfocus_step","0");*/
+    }
+
+    private void initMTKSHit()    {
+
+
+        cameraParameters.put("afeng_raw_dump_flag", "1");
+        cameraParameters.put("isp-mode", "1");
+        cameraParameters.put("rawsave-mode", "2");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        cameraParameters.put("zsd-mode", "on");
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
