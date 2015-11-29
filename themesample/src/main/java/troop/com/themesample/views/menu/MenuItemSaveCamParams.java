@@ -135,7 +135,7 @@ public class MenuItemSaveCamParams extends MenuItem
     {
         String[] paras = null;
         BaseCameraHolder holder = (BaseCameraHolder)cameraUiWrapper.cameraHolder;
-        if (holder.hasLGFrameWork)
+        if (holder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
         {
             paras = holder.getLgParameters().split(";");
         }

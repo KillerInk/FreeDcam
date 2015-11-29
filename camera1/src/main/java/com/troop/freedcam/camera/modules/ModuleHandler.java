@@ -50,7 +50,7 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(pictureModule.ModuleName(), pictureModule);
         }
 
-        if (cameraHolder.hasLGFrameWork)
+        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
         {
             Log.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);

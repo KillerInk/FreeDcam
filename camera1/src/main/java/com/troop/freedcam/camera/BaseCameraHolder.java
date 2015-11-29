@@ -52,7 +52,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     I_Callbacks.PreviewCallback previewCallback;
     Surface surfaceHolder;
 
-    public boolean hasLGFrameWork = false;
+    //public boolean hasLGFrameWork = false;
+    public Frameworks DeviceFrameWork = Frameworks.Normal;
     public Location gpsLocation;
     public int Orientation;
 
@@ -61,6 +62,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
 
     public int CurrentCamera;
+
+    public enum Frameworks
+    {
+        Normal,
+        LG,
+        MTK
+    }
 
     public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
@@ -74,51 +82,51 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
             Log.d(TAG, "Has Lg Framework");
-            hasLGFrameWork = true;
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         try {
             Class c = Class.forName("com.lge.media.CamcorderProfileEx");
             Log.d(TAG, "Has Lg Framework");
-            hasLGFrameWork = true;
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
 
@@ -134,7 +142,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try
         {
-            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
                     if (DeviceUtils.isG4())
@@ -213,7 +221,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             for (Map.Entry s : parameters.entrySet()) {
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
-            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
+            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
                 Log.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
@@ -345,7 +353,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public HashMap<String, String> GetCameraParameters()
     {
         String[] split = null;
-        if (hasLGFrameWork)
+        if (DeviceFrameWork == Frameworks.LG)
             split = lgCamera.getLGParameters().getParameters().flatten().split(";");
         else
             split = mCamera.getParameters().flatten().split(";");
@@ -611,6 +619,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (!isPreviewRunning && !isRdy)
                 return;
             Size s = new Size(ParameterHandler.PreviewSize.GetValue());
+            //Add 3 pre allocated buffers. that avoids that the camera create with each frame a new one
             mCamera.addCallbackBuffer(new byte[s.height * s.width *
                     ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
             mCamera.addCallbackBuffer(new byte[s.height * s.width *
@@ -630,7 +639,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void ResetPreviewCallback()
     {
         try {
-            mCamera.setPreviewCallback(null);
+
+            mCamera.setPreviewCallbackWithBuffer(null);
+            //Clear added Callbackbuffers
+            mCamera.addCallbackBuffer(null);
+            mCamera.addCallbackBuffer(null);
+            mCamera.addCallbackBuffer(null);
         }
         catch (NullPointerException ex)
         {
