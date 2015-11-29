@@ -264,14 +264,16 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
     //##################################
     //              SEEKBAR
     //##################################
-
+    boolean currentlysettingsparameter = false;
     private void setValueToParameters(final int value)
     {
+        if (currentlysettingsparameter)
+            return;
         handler.post(new Runnable() {
             @Override
             public void run()
             {
-                handler.removeCallbacks(this);
+                currentlysettingsparameter = true;
                 int runValue = value;
                 if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
                     if (realMin < 0)
@@ -290,6 +292,7 @@ public class ManualItem extends LinearLayout implements AbstractManualParameter.
                 if (runValue > realMax)
                     runValue = realMax;
                 parameter.SetValue(runValue);
+                currentlysettingsparameter = false;
             }
         });
 
