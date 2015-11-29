@@ -56,12 +56,10 @@ public class VideoModuleG3 extends VideoModule
                 Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
             recorder.setCaptureRate(frame);
         }
-        else if (profile.contains("HFR"))
+        if (profile.contains("HFR"))
         {
             recorder.setCaptureRate(120);
         }
-        else
-            recorder.setCaptureRate(30);
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
             recorder.setMaxFileSize(3037822976L);
