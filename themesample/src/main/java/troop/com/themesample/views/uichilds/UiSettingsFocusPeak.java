@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.StringUtils;
 
 import troop.com.themesample.subfragments.Interfaces;
@@ -29,6 +31,14 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
         super.SetMenuItemListner(this);
     }
 
+    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+
+
+    }
+
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
     {
@@ -45,5 +55,14 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
         }
         else
             parameter.SetValue(StringUtils.ON,false);
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        if (module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR))
+            this.setVisibility(VISIBLE);
+        else
+            this.setVisibility(GONE);
+        return null;
     }
 }

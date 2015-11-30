@@ -148,6 +148,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         guideHandler.setCameraUiWrapper(wrapper);
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
+        focuspeak.SetCameraUiWrapper(wrapper);
+
 
     }
 

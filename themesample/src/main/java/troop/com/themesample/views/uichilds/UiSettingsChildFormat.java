@@ -3,9 +3,11 @@ package troop.com.themesample.views.uichilds;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -63,6 +65,30 @@ public class UiSettingsChildFormat extends UiSettingsChild
             camera1picFormat = null;
             super.SetParameter(cameraUiWrapper.camParametersHandler.PictureFormat);
         }
+    }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+        if (module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR))
+            this.setVisibility(VISIBLE);
+        else
+            this.setVisibility(GONE);
+        return null;
+    }
+
+    @Override
+    public void ParametersLoaded()
+    {
+        Log.d(TAG, "Parameters Loaded");
+        if (parameter != null && parameter.IsSupported() &&
+                (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)))
+        {
+            setTextToTextBox(parameter);
+            onIsSupportedChanged(true);
+        }
+        else
+            onIsSupportedChanged(false);
     }
 
     private class Camera1picFormat extends AbstractModeParameter
