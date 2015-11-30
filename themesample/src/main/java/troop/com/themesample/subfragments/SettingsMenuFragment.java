@@ -1,6 +1,7 @@
 package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
@@ -19,7 +21,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 /**
  * Created by troop on 14.06.2015.
  */
-public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick
+public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick, I_ParametersLoaded
 {
     TextView closeTab;
     LinearLayout left_Holder;
@@ -40,6 +42,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
         super.SetCameraUIWrapper(wrapper);
+        if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
+            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if(getActivity() != null)
             setWrapper();
     }
@@ -71,6 +75,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private void setWrapper()
     {
+        Log.d("SettingsmenuFragment", "set CameraWrapper");
+        closeValueMenu();
         loadLeftFragment();
         loadRightFragment();
         value_menu_status = VALUE_MENU_CLOSED;
@@ -78,26 +84,31 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private void loadLeftFragment()
     {
-        leftMenuFragment = new LeftMenuFragment();
+        if (leftMenuFragment == null)
+        {
+            leftMenuFragment = new LeftMenuFragment();
+        }
         leftMenuFragment.SetStuff(appSettingsManager, i_activity);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.left_holder, leftMenuFragment);
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.replace(R.id.left_holder, leftMenuFragment);
         transaction.commitAllowingStateLoss();
-    }
 
-    private void loadRightFragment()
-    {
-        rightMenuFragment = new RightMenuFragment();
+    }
+    private void loadRightFragment() {
+        if (rightMenuFragment == null)
+            rightMenuFragment = new RightMenuFragment();
         rightMenuFragment.SetStuff(appSettingsManager, i_activity);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
+
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.replace(R.id.right_holder, rightMenuFragment);
-        transaction.commitAllowingStateLoss();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.replace(R.id.right_holder, rightMenuFragment);
+            transaction.commitAllowingStateLoss();
+
     }
 
 
@@ -161,5 +172,10 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.replace(R.id.left_holder, valuesMenuFragment);
             transaction.commitAllowingStateLoss();
         }
+    }
+
+    @Override
+    public void ParametersLoaded() {
+        setWrapper();
     }
 }

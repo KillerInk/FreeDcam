@@ -67,7 +67,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     {
         this.i_activity = i_activity;
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        if(cameraUiWrapper != null && cameraUiWrapper.moduleHandler != null && cameraUiWrapper.moduleHandler.moduleEventHandler != null)
+            cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
         mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
 
     }
