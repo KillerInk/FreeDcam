@@ -53,9 +53,14 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        final File[] f =ScreenSlideFragment.loadFilePaths();
-        if (f != null && f.length > 0)
-            WorkHasFinished(f[f.length-1]);
+        try {
+            final File[] f =ScreenSlideFragment.loadFilePaths();
+            if (f != null && f.length > 0)
+                WorkHasFinished(f[f.length-1]);
+        }
+        catch (NullPointerException ex)
+        {}
+
     }
 
     public void INIT(I_Activity i_activity, AbstractCameraUiWrapper cameraUiWrapper)
