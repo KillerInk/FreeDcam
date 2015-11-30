@@ -21,7 +21,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote()|| DeviceUtils.isXiaomiMI3W())
         {
             this.isSupported = true;
             this.max_value = null;
@@ -53,7 +53,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         if (max_value == null)
-            if (DeviceUtils.isMoto_MSM8982_8994())
+            if (DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isXiaomiMI3W())
                 return 100;
             else
                 return 79;
@@ -99,9 +99,14 @@ public class FocusManualParameter extends  BaseManualParameter
         {
             if(valueToSet != -1)
             {
-                camParametersHandler.FocusMode.SetValue("manual", true);
-                //if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
-                    parameters.put("manual-focus-pos-type", "1");
+                if (!camParametersHandler.FocusMode.GetValue().equals("manual")) //do not set "manual" to "manual"
+
+                    camParametersHandler.FocusMode.SetValue("manual", true);
+                    //if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+
+
+                parameters.put("manual-focus-pos-type", "1");
+
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
@@ -133,7 +138,11 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (value != null && !value.equals("") && valueToSet != -1)
         {
-            parameters.put(value, valueToSet+"");
+            if (DeviceUtils.isXiaomiMI3W())
+                parameters.put(value, String.valueOf((100-valueToSet)*10));
+            else
+                parameters.put(value, valueToSet+"");
+
         }
         camParametersHandler.SetParametersToCamera();
 

@@ -51,20 +51,31 @@ public class BaseCameraHolder extends AbstractCameraHolder
     I_Callbacks.PreviewCallback previewCallback;
     Surface surfaceHolder;
 
-    public boolean hasLGFrameWork = false;
+    //public boolean hasLGFrameWork = false;
+    public Frameworks DeviceFrameWork = Frameworks.Normal;
     public Location gpsLocation;
     public int Orientation;
+
 
     TextureView textureView;
 
 
     public int CurrentCamera;
 
+    public enum Frameworks
+    {
+        Normal,
+        LG,
+        MTK
+    }
+
     public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
         hasLGFramework();
+        if (DeviceFrameWork == Frameworks.Normal)
+            isMTKDevice();
     }
 
     private void hasLGFramework()
@@ -72,52 +83,89 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
             Log.d(TAG, "Has Lg Framework");
-            hasLGFrameWork = true;
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         try {
             Class c = Class.forName("com.lge.media.CamcorderProfileEx");
             Log.d(TAG, "Has Lg Framework");
-            hasLGFrameWork = true;
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
-            hasLGFrameWork = false;
+            DeviceFrameWork = Frameworks.Normal;
             Log.d(TAG, "No LG Framework");
+        }
+
+    }
+
+    private void isMTKDevice()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app != null)
+                DeviceFrameWork = Frameworks.MTK;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "MTK Framework found");
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
+        }
+        catch (ExceptionInInitializerError e) {
+
+            DeviceFrameWork = Frameworks.Normal;
+            Log.d(TAG, "No MTK");
         }
 
     }
@@ -132,7 +180,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try
         {
-            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/)
+            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
                     if (DeviceUtils.isG4())
@@ -146,10 +194,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 {
                     cameraChangedListner.onCameraError("Fail to connect to camera service");
                 }
-            } else {
-
-                //if(DeviceUtils.isSonyM5_MTK())
-                    //android.hardware.Camera.setProperty("client.appmode", "MtkEng");
+            }
+            else if (DeviceFrameWork == Frameworks.MTK)
+            {
+                setMtkAppMode();
+                mCamera = Camera.open(camera);
+            }
+            else
+            {
                 mCamera = Camera.open(camera);
             }
 
@@ -209,7 +261,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             for (Map.Entry s : parameters.entrySet()) {
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
-            if (hasLGFrameWork /*&& Build.VERSION.SDK_INT < 21*/) {
+            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
                 Log.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
@@ -220,10 +272,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 p.unflatten(ret);
                 mCamera.setParameters(p);
             }
-            Thread.sleep(300);
+           // Thread.sleep(300);
         }
         catch (Exception ex) {
-            Log.d("Freedcam", ex.getMessage());
+           // Log.d("Freedcam", ex.getMessage());
         }
 
 
@@ -282,6 +334,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             try
             {
+                if (DeviceFrameWork == Frameworks.MTK)
+                    initMTKSHit();
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Log.d(TAG, "PreviewStarted");
@@ -293,6 +347,22 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
 
     }
+
+    private void initMTKSHit()    {
+
+
+        ((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
+        ((CamParametersHandler)ParameterHandler).setString("isp-mode", "1");
+        ((CamParametersHandler)ParameterHandler).setString("rawsave-mode", "2");
+        ((CamParametersHandler)ParameterHandler).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        ((CamParametersHandler)ParameterHandler).setString("zsd-mode", "on");
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void StopPreview()
@@ -321,7 +391,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public HashMap<String, String> GetCameraParameters()
     {
         String[] split = null;
-        if (hasLGFrameWork)
+        if (DeviceFrameWork == Frameworks.LG)
             split = lgCamera.getLGParameters().getParameters().flatten().split(";");
         else
             split = mCamera.getParameters().flatten().split(";");
@@ -398,6 +468,33 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void setMtkAppMode()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app == null)
+                throw new  NoSuchMethodException();
+            app.invoke(null, "client.appmode", "MtkEng");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     private void runObjectTrackingReflection()
     {
         try {
@@ -422,119 +519,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
             e.printStackTrace();
         }
     }
-    private void setHistogramReflection()
-    {
-        try
-        {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-            Class datacallback = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("CameraDataCallback"))
-                    datacallback = i;
-            }
-            if (datacallback == null)
-                throw new NoClassDefFoundError();
-
-            Object dcb = (Object) Proxy.newProxyInstance(datacallback.getClassLoader(), new Class[]{datacallback}, new InvocationHandler()
-            {
-
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    //Handle the invocations
-                    if(method.getName().equals("onCameraData")){
-                        return 1;
-                    }
-                    else return -1;
-                }
-            });
-            Method[] meths = camera.getMethods();
-            Method setHistogramMode = null;
-            Method sendHistogramData = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setHistogramMode"))
-                    setHistogramMode = m;
-                if (m.getName().equals("sendHistogramData"))
-                    sendHistogramData = m;
-            }
-            if (sendHistogramData == null || setHistogramMode == null)
-                throw new  NoSuchMethodException();
-            setHistogramMode.invoke(mCamera, dcb);
-
-
-            sendHistogramData.invoke(mCamera, null);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void SetMetaDataCallbackReflection()
-    {
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-
-            Class metadatacallback = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("CameraMetaDataCallback"))
-                    metadatacallback = i;
-            }
-            if (metadatacallback == null)
-                throw new NoClassDefFoundError();
-
-            Object dcb = (Object) Proxy.newProxyInstance(metadatacallback.getClassLoader(), new Class[]{metadatacallback}, new InvocationHandler()
-            {
-
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    //Handle the invocations
-                    if(method.getName().equals("onCameraMetaData")){
-                        return 1;
-                    }
-                    else return -1;
-                }
-            });
-
-            Method[] meths = camera.getMethods();
-            Method setMetaDataCB = null;
-            Method sendMetaData = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setMetadataCb"))
-                    setMetaDataCB = m;
-                if (m.getName().equals("sendMetaData"))
-                    sendMetaData = m;
-            }
-            if (sendMetaData == null || setMetaDataCB == null)
-                throw new  NoSuchMethodException();
-            setMetaDataCB.invoke(mCamera, dcb);
-
-
-            sendMetaData.invoke(mCamera, null);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
@@ -562,6 +546,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (!isPreviewRunning && !isRdy)
                 return;
             Size s = new Size(ParameterHandler.PreviewSize.GetValue());
+            //Add 3 pre allocated buffers. that avoids that the camera create with each frame a new one
             mCamera.addCallbackBuffer(new byte[s.height * s.width *
                     ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
             mCamera.addCallbackBuffer(new byte[s.height * s.width *
@@ -581,7 +566,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void ResetPreviewCallback()
     {
         try {
-            mCamera.setPreviewCallback(null);
+
+            mCamera.setPreviewCallbackWithBuffer(null);
+            //Clear added Callbackbuffers
+            mCamera.addCallbackBuffer(null);
+            mCamera.addCallbackBuffer(null);
+            mCamera.addCallbackBuffer(null);
         }
         catch (NullPointerException ex)
         {
@@ -726,7 +716,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             if (mCamera != null) {
                 Camera.Parameters paras = mCamera.getParameters();
-                paras.setPreviewSize(width,height);
+                paras.setPreviewSize(width, height);
                 mCamera.setParameters(paras);
             }
 

@@ -40,6 +40,7 @@ public class ShutterManualZTE extends BaseManualParameter
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
         shutterValues = ShutterManualParameter.Z5SShutterValues.split(",");
+        this.isSupported = true;
     }
 
     @Override

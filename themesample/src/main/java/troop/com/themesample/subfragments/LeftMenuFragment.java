@@ -31,6 +31,8 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick
 {
+
+    final boolean DEBUG = false;
     MenuItemTheme themeItem;
     MenuItemBayerFormat bayerFormatItem;
     troop.com.themesample.views.menu.MenuItem pictureSize;
@@ -69,6 +71,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem AudioBitrate;
     troop.com.themesample.views.menu.MenuItem AudioSampleRate;
     troop.com.themesample.views.menu.MenuItem AudioCodec;
+
+    troop.com.themesample.views.menu.MenuItem PreviewSize;
+    troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
 
     Interfaces.I_MenuItemClick onMenuItemClick;
@@ -218,6 +223,27 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
         saveCamParams.setCameraUiWrapper(wrapper);
 
+        PreviewFormat = (MenuItem)view.findViewById(R.id.MenuItemPreviewFormat);
+        if (DEBUG)
+        {
+            PreviewFormat.SetStuff(i_activity, appSettingsManager, null);
+            PreviewFormat.SetParameter(wrapper.camParametersHandler.PreviewFormat);
+            PreviewFormat.SetMenuItemListner(this);
+            PreviewFormat.setVisibility(View.VISIBLE);
+        }
+        else
+            PreviewFormat.setVisibility(View.GONE);
+
+        PreviewSize = (MenuItem)view.findViewById(R.id.MenuItemPreviewSize);
+        if (DEBUG)
+        {
+            PreviewSize.SetStuff(i_activity, appSettingsManager, null);
+            PreviewSize.SetParameter(wrapper.camParametersHandler.PreviewSize);
+            PreviewSize.SetMenuItemListner(this);
+            PreviewSize.setVisibility(View.VISIBLE);
+        }
+        else
+            PreviewSize.setVisibility(View.GONE);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

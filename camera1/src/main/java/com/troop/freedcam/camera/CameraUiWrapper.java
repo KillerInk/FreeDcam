@@ -208,10 +208,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 cameraHolder.SetSurface(preview.getHolder());
 
                 cameraHolder.StartPreview();
-
-                camParametersHandler.SetParametersToCamera();
-                cameraHolder.StopPreview();
-                cameraHolder.StartPreview();
             }
         });
 

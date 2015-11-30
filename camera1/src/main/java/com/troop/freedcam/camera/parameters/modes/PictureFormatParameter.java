@@ -55,7 +55,7 @@ public class PictureFormatParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         super.SetValue(valueToSet, true);
-        if(baseCameraHolder.hasLGFrameWork && !firststart)
+        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && !firststart)
         {
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
@@ -70,7 +70,7 @@ public class PictureFormatParameter extends BaseModeParameter
         if((Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
             return  new String[]{"jpeg"};
         if (DeviceUtils.isMediaTekDevice())
-            return new String[]{"jpeg", "raw"};
+            return new String[]{"jpeg", "jpeg+raw","raw"};
         /*else if(DeviceUtils.isG2())
         {
             return new String[]{"jpeg", "bayer-mipi-10bggr"};
