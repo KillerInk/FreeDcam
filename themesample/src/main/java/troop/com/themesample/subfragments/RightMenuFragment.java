@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -181,5 +182,12 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment) {
         onMenuItemClick.onMenuItemClick(item, false);
+    }
+
+    @Override
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
+        super.SetCameraUIWrapper(wrapper);
+        if (view != null)
+            setWrapper();
     }
 }

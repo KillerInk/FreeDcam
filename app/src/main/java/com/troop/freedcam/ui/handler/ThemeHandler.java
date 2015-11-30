@@ -38,8 +38,8 @@ public class ThemeHandler implements I_ModuleEvent
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (uiFragment != null)
-            uiFragment.SetCameraUIWrapper(cameraUiWrapper);
+        /*if (uiFragment != null)
+            uiFragment.SetCameraUIWrapper(cameraUiWrapper);*/
     }
 
     public AbstractFragment GetThemeFragment(boolean infalte)

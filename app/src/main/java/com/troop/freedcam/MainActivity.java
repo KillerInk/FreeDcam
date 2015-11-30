@@ -160,7 +160,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     private void destroyCameraUiWrapper()
     {
-        themeHandler.SetCameraUIWrapper(null);
+        //themeHandler.SetCameraUIWrapper(null);
         if (cameraFragment != null) {
             cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -176,6 +176,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         themeHandler.SetCameraUIWrapper(cameraUiWrapper);
         if (themeHandler.getCurrenttheme() == null)
             themeHandler.GetThemeFragment(true);
+        else
+            themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
     }
