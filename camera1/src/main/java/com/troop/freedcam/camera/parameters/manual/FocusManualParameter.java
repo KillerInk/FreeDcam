@@ -83,6 +83,9 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetValue()
     {
         try {
+            if (DeviceUtils.isXiaomiMI3W())
+                return 100-(Integer.parseInt(parameters.get(value))/10);
+            else
                 return Integer.parseInt(parameters.get(value));
         }
         catch (Exception ex)
