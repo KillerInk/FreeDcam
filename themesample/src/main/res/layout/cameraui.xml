@@ -182,7 +182,7 @@
             android:id="@+id/Flash"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="1dp"
-            app:HeaderText="Flash"/>
+            app:HeaderText="@string/uisetting_exit_header"/>
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/uiSettingsWidth"
