@@ -56,13 +56,6 @@ public class ShutterManualZTE extends BaseManualParameter
 
     @Override
     public int GetMinValue() {
-        if (DeviceUtils.isSonyADV())
-            return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-        else if (shutterValues != null)
-            return 0;
-        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
-            return Integer.parseInt(parameters.get("min-exposure-time"));
-        else
             return 0;
     }
 
@@ -119,5 +112,15 @@ public class ShutterManualZTE extends BaseManualParameter
         i_cameraChangedListner.onPreviewOpen("restart");
         baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;
+    }
+
+    @Override
+    public String[] getStringValues() {
+        return shutterValues;
+    }
+
+    @Override
+    public String GetStringValue() {
+        return shutterValues[current];
     }
 }
