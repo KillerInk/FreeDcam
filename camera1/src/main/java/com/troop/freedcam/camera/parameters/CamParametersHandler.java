@@ -56,6 +56,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -368,6 +369,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             LensShade = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "lensshade", "lensshade-values");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        try {
+            ChromaFlash = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "chroma-flash", "chroma-flash-values");
         }
         catch (Exception ex)
         {

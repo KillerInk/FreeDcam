@@ -31,7 +31,8 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     MenuItem antiBanding;
     MenuItem ipp;
     MenuItem lensShade;
-    MenuItem sceneDectecMode;
+    MenuItem chromaFlash;
+    MenuItem sceneDetectMode;
     MenuItem waveletdenoiseMode;
     MenuItem digitalImageStabilization;
     MenuItem memoryColorEnhancement;
@@ -116,10 +117,15 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         lensShade.SetParameter(wrapper.camParametersHandler.LensShade);
         lensShade.SetMenuItemListner(this);
 
-        sceneDectecMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
-        sceneDectecMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
-        sceneDectecMode.SetParameter(wrapper.camParametersHandler.SceneDetect);
-        sceneDectecMode.SetMenuItemListner(this);
+        chromaFlash = (MenuItem)view.findViewById(R.id.MenuItemChromaFlash);
+        chromaFlash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CHROMAFLASH_MODE);
+        chromaFlash.SetParameter(wrapper.camParametersHandler.ChromaFlash);
+        chromaFlash.SetMenuItemListner(this);
+
+        sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
+        sceneDetectMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
+        sceneDetectMode.SetParameter(wrapper.camParametersHandler.SceneDetect);
+        sceneDetectMode.SetMenuItemListner(this);
 
         waveletdenoiseMode = (MenuItem)view.findViewById(R.id.MenuItemWaveletDenoise);
         waveletdenoiseMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
