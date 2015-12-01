@@ -58,6 +58,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter FocusMode;
     public AbstractModeParameter RedEye;
     public AbstractModeParameter LensShade;
+    public AbstractModeParameter ChromaFlash;
     public AbstractModeParameter ZSL;
     public AbstractModeParameter SceneDetect;
     public AbstractModeParameter Denoise;
@@ -151,6 +152,7 @@ public abstract class AbstractParameterHandler
         setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
         setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
         setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
+        setMode(ChromaFlash,AppSettingsManager.SETTING_CHROMAFLASH_MODE);
         setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
         setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);

@@ -24,7 +24,8 @@
                 android:textColor="@color/menuTextColor"
                 android:background="@color/menu_header_color"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp" />
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -98,6 +99,17 @@
             android:id="@+id/MenuItemLensShade"
             app:Description="@string/setting_lensshade_description"
             app:HeaderText="@string/setting_lensshade_header"
+            app:ValueText="Test"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MenuItemChromaFlash"
+            app:Description="@string/setting_chromaflash.description"
+            app:HeaderText="@string/setting_chromaflash.header"
             app:ValueText="Test"
                 android:layout_marginBottom="1dp"
                 android:layout_marginLeft="3dp"
