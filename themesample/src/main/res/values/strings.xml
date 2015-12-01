@@ -67,6 +67,8 @@
     <string name="setting_dis_description">Shifts electronic image to counteract movement</string>
     <string name="setting_lensshade_header">Lens shade: </string>
     <string name="setting_lensshade_description">Reduces Vignetting on the edges </string>
+    <string name="setting_chromaflash.header">Chroma Flash:</string>
+    <string name="setting_chromaflash.description">Flash technology from Qualcomm</string>
     <string name="setting_mce_header">Memory Color Enhacement: </string>
     <string name="setting_mce_description">Boosts Colors equivelant to adobe vibrance</string>
     <string name="setting_redeye_header">Red-Eye Reduction: </string>
@@ -109,6 +111,7 @@
     <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
+
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>

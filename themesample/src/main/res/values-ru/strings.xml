@@ -55,6 +55,8 @@
     <string name="setting_dis_description">Shifts electronic image to counteract movement</string>
     <string name="setting_lensshade_header">Lens shade: </string>
     <string name="setting_lensshade_description">Уменьшает виньетирование </string>
+    <string name="setting_chromaflash.header">Вспышка  Chroma:</string>
+    <string name="setting_chromaflash.description"> Технология вспышки от  Qualcomm</string>
     <string name="setting_mce_header">Memory Color Enhacement: </string>
     <string name="setting_mce_description">Boosts Colors equivelant to adobe vibrance</string>
     <string name="setting_redeye_header">Удаление красных глаз: </string>
@@ -111,5 +113,6 @@
     <string name="uisetting_camerswitch_header">Камера</string>
     <string name="uisetting_mode_header">Режим</string>
     <string name="uisetting_exit_header">Выход</string>
+
 
 </resources>
