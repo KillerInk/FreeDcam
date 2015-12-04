@@ -5,7 +5,7 @@
     <string name="setting_bayerformat_description">RAW в DNG</string>
     <string name="setting_bayerformat_header">Фильтр Байера: </string>
     <string name="setting_jpegquality_description">Качество % </string>
-    <string name="setting_jpegquality_header">JPEG кажество: </string>
+    <string name="setting_jpegquality_header">JPEG качество: </string>
     <string name="setting_picturesize_description">Размер изображения для JPEG: </string>
     <string name="setting_picturesize_header">Разрешение: </string>
 
