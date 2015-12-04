@@ -63,6 +63,7 @@ public class RawToDng
                                            String imagedescription,
                                            String orientation,
                                            double exposureIndex);
+   // public static native String getFilePath();
 
     private RawToDng()
     {

@@ -687,6 +687,45 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
     LOGD("Free Memory");
 }
 
+unsigned char* BufferedRaw(const char* in)
+{
+    FILE * pFile;
+    long lSize;
+    char * buffer;
+    size_t result;
+
+    pFile = fopen ( "myfile.bin" , "rb" );
+    if (pFile==NULL) {
+        LOGD("File Read Error.");
+        return NULL;
+    }
+
+    fseek (pFile , 0 , SEEK_END);
+    lSize = ftell (pFile);
+    rewind (pFile);
+
+    buffer = (char*) malloc (sizeof(char)*lSize);
+    if (buffer == NULL) {
+        LOGD("Memory Error.");
+        return NULL;
+    }
+
+    result = fread (buffer,1,lSize,pFile);
+    if (result != lSize) {
+        LOGD("Read into buffer Error.");
+        return NULL;
+    }
+
+    fclose (pFile);
+
+    return (unsigned char*)buffer;
+    //free(buffer;)
+
+
+
+
+}
+
 void writeRawStuff(TIFF *tif, DngWriter *writer)
 {
     if(0 == strcmp(writer->bayerformat,"bggr"))
@@ -929,3 +968,20 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	writer->bayerBytes = NULL;
 
 }
+
+
+/*
+jstring Java_com_troop_androiddng_RawToDng_getFilePath( JNIEnv* env, jobject obj){
+
+    //env->GetFloatArrayElements(Latitude,NULL);
+    jstring jstr = env->NewStringUTF(env, "This comes from jni.");
+    jclass clazz = env->FindClass(env, "com/troop/freedcam/camera/modules/image_saver");
+    jmethodID messageMe = env->GetMethodID(env, clazz, "FeeDJNI", "(Ljava/lang/String;)Ljava/lang/String;");
+    jobject result = env->CallObjectMethod(env, obj, messageMe, jstr);
+
+    const char* str = env->GetStringUTFChars(env,(jstring) result, NULL); // should be released but what a heck, it's a tutorial :)
+    LOGD("get filepath",str);
+    //BufferedRaw(str);
+
+    return env->NewStringUTF(env, str);
+}*/
