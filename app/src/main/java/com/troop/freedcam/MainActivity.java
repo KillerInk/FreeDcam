@@ -92,16 +92,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(null, null);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
     private void createUI() {
         orientationHandler = new OrientationHandler(this, this);
         this.activity =this;
@@ -112,11 +102,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         apiHandler = new ApiHandler(appSettingsManager, apiEvent);
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-
-
         timerHandler = new TimerHandler(this);
-
-
     }
 
     boolean loadingWrapper = false;

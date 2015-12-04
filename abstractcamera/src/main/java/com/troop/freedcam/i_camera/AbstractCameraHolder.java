@@ -27,6 +27,17 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     protected I_CameraChangedListner cameraChangedListner;
     protected Handler UIHandler;
 
+    protected CameraStates currentState = CameraStates.closed;
+    public enum CameraStates
+    {
+        opening,
+        open,
+        closing,
+        closed,
+        working,
+    }
+
+
     public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner,Handler UIHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
@@ -37,13 +48,13 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-
+        currentState = CameraStates.open;
         return false;
     }
 
     @Override
     public void CloseCamera() {
-
+        currentState = CameraStates.closed;
     }
 
     @Override

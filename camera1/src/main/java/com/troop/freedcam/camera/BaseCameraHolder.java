@@ -212,13 +212,15 @@ public class BaseCameraHolder extends AbstractCameraHolder
             isRdy = false;
             ex.printStackTrace();
         }
-
+        super.OpenCamera(0);
         return isRdy;
     }
 
     @Override
     public void CloseCamera()
     {
+        if (currentState == CameraStates.closed)
+            return;
         Log.d(TAG, "Try to close Camera");
         if (mCamera != null)
         {
@@ -239,6 +241,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         isRdy = false;
         cameraChangedListner.onCameraClose("");
+        super.CloseCamera();
     }
 
 
@@ -367,6 +370,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
+        if (currentState == CameraStates.closed)
+            return;
         if (mCamera == null)
             return;
         try {
