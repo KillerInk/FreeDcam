@@ -121,6 +121,8 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void searchSsdpClient()
     {
+        if(connected)
+            return;
         setTextFromWifi("Search SSDP Client...");
         if (true)//wifiUtils.getWifiConnected())
         {
@@ -171,6 +173,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
         getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         getConfiguredNetworks();
         lookupAvailNetworks();
+        connected = false;
 
         //connect();
     }
