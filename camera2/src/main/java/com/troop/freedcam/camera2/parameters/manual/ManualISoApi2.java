@@ -25,15 +25,20 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         super(camParametersHandler, cameraHolder);
         current = 0;
         ArrayList<String> ar = new ArrayList<>();
-        for (int i = 0; i<= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i+=50)
-        {
-            if (i == 0)
-                ar.add("auto");
-            else
-                ar.add(i+"");
+        try {
+            for (int i = 0; i <= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i += 50) {
+                if (i == 0)
+                    ar.add("auto");
+                else
+                    ar.add(i + "");
+            }
+            this.isovals = new String[ar.size()];
+            ar.toArray(isovals);
         }
-        this.isovals = new String[ar.size()];
-        ar.toArray(isovals);
+        catch (NullPointerException ex)
+        {
+            this.isSupported = false;
+        }
     }
 
 

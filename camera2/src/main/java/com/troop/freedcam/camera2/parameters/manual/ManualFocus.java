@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
@@ -95,6 +96,16 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
             if (i == CameraCharacteristics.CONTROL_AF_MODE_OFF)
                 supported = true;
         }
+        try {
+            Log.d(TAG, "LensFocusDistance" + cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+        }
+        catch (NullPointerException ex){};
+        try {
+            Log.d(TAG, "LensMinFocusDistance" + cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
+        }
+        catch (NullPointerException ex){};
+
+
         if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
                 || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
             supported = false;

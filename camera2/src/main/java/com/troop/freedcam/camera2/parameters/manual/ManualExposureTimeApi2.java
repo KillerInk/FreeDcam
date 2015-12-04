@@ -23,7 +23,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     ParameterHandlerApi2 camParametersHandler;
     BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
-    private boolean isSupported = false;
+    protected boolean isSupported = false;
     String usedShutterValues[];
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
     protected boolean firststart = true;
