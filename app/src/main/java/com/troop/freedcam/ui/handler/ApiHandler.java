@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui.handler;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -87,7 +86,6 @@ public class ApiHandler
         void apiDetectionDone();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean IsLegacy()
     {
         boolean legacy = true;
