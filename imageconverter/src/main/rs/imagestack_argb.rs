@@ -10,9 +10,9 @@
         int4 rgb;
         //rsDebug("curPixel", curPixel);
         //rsDebug("lastPixel", lastPixel);
-        rgb.r = (curPixel.r + lastPixel.r) / 2 + 60;
-        rgb.g = (curPixel.g + lastPixel.b) / 2 +60;
-        rgb.b = (curPixel.b + lastPixel.b) / 2 +60;
+        rgb.r = (curPixel.r + lastPixel.r);
+        rgb.g = (curPixel.g + lastPixel.b);
+        rgb.b = (curPixel.b + lastPixel.b);
         rgb.a = 255;
         if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
         if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
