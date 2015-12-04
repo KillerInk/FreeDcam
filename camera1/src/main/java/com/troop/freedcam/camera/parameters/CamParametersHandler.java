@@ -548,18 +548,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
-
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
-        Mediatek();
+        if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+            Mediatek();
 
     }
 
