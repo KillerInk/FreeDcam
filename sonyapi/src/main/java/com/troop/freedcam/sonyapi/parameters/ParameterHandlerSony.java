@@ -18,6 +18,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.FocusPeakSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
+import com.troop.freedcam.sonyapi.parameters.modes.NightModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
@@ -130,6 +131,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         Focuspeak = new FocusPeakSony(uiHandler, null,null,null,null, surfaceView);
         parametersChangedList.add((BaseModeParameterSony) Focuspeak);
+
+        NightMode = new NightModeSony(uiHandler,null,null,null,null,surfaceView);
+        parametersChangedList.add((BaseModeParameterSony) NightMode);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
