@@ -126,10 +126,11 @@ public class VideoModule extends AbstractModule
             else
                 recorder.setOrientationHint(0);
 
-            baseCameraHolder.StopPreview();
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+           // baseCameraHolder.StopPreview();
+            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+
             recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder());
-            baseCameraHolder.StartPreview();
+           // baseCameraHolder.StartPreview();
 
             try {
                 Log.d(TAG,"Preparing Recorder");
@@ -307,10 +308,13 @@ public class VideoModule extends AbstractModule
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
             // ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);
-            videoTime(prof.videoBitRate,prof.audioBitRate);
+            videoTime(prof.videoBitRate, prof.audioBitRate);
+
 
 
         }
+
+        camParametersHandler.UHDDO();
     }
 
     private void videoTime(int VB, int AB)

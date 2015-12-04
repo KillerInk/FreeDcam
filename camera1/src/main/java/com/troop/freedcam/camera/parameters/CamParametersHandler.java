@@ -725,7 +725,21 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
-        PreviewFormat.SetValue("yuv420sp", false);
+
+        //PreviewFormat.SetValue("yuv420sp", false);
+    }
+
+    public void UHDDO ()
+    {
+        //cameraParameters.put("","")
+        baseCameraHolder.StopPreview();
+        cameraParameters.put("recording-hint", "true");
+        cameraParameters.put("preview-frame-rate", "30");
+        cameraParameters.put("preview-size", "3840x2160");
+        cameraParameters.put("preview-fps-range","24000, 30000");
+        cameraParameters.put("preview-format","nv12-venus");
+        cameraHolder.SetCameraParameters(cameraParameters);
+        baseCameraHolder.StartPreview();
     }
 
     private void camMode()
