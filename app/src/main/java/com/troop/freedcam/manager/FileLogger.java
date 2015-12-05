@@ -48,7 +48,7 @@ public class FileLogger
         BufferedReader bufferedReader = null;
         FileOutputStream fileOut = null;
         OutputStreamWriter outputstream = null;
-        File file = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime()) + ".txt");
+        File file = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd hh.mm.ss", new Date().getTime()) + ".txt");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
             file.getParentFile().mkdir();
