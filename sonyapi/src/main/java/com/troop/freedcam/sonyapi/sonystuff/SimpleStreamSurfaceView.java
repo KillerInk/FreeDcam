@@ -16,6 +16,7 @@ import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,7 +30,10 @@ import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import troop.com.imageconverter.ScriptC_brightness;
+import troop.com.imageconverter.ScriptC_contrast;
 import troop.com.imageconverter.ScriptC_focuspeak_argb;
+import troop.com.imageconverter.ScriptC_imagestack_argb;
 
 /**
  * A SurfaceView based class to draw liveview frames serially.
@@ -50,25 +54,38 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private StreamErrorListener mErrorListener;
     I_Callbacks.PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
+    public boolean nightmode = false;
+    int currentImageStackCount = 0;
 
     RenderScript mRS;
     private Allocation mInputAllocation;
+    private Allocation mInputAllocation2;
     private Allocation mOutputAllocation;
     ScriptC_focuspeak_argb focuspeak_argb;
+    ScriptC_imagestack_argb imagestack_argb;
+    ScriptC_brightness brightnessRS;
+    ScriptC_contrast contrastRS;
+    ScriptIntrinsicBlur blurRS;
     Bitmap drawBitmap;
+    Bitmap stackBitmap;
 
     private void initRenderScript()
     {
         drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
+        stackBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
         Type.Builder tbIn = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbIn.setX(mPreviousWidth);
         tbIn.setY(mPreviousHeight);
+        Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbIn2.setX(mPreviousWidth);
+        tbIn2.setY(mPreviousHeight);
 
         Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbOut.setX(mPreviousWidth);
         tbOut.setY(mPreviousHeight);
 
         mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mInputAllocation2 = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
 
         //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
@@ -131,6 +148,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         if (Build.VERSION.SDK_INT >= 18) {
             mRS = RenderScript.create(context);
             focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+            imagestack_argb = new ScriptC_imagestack_argb(mRS);
+            brightnessRS = new ScriptC_brightness(mRS);
+            contrastRS = new ScriptC_contrast(mRS);
+            blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
         }
 
     }
@@ -222,6 +243,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
                 BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
                 factoryOptions.inSampleSize = 1;
+
                 if (mInMutableAvailable) {
                     initInBitmap(factoryOptions);
                 }
@@ -338,10 +360,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
             return;
         }
-        Canvas canvas = getHolder().lockCanvas();
-        if (canvas == null) {
-            return;
-        }
+
         //canvas.drawColor(Color.BLACK);
         int w = frame.getWidth();
         int h = frame.getHeight();
@@ -351,21 +370,78 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetX = (getWidth() - (int) (w * by)) / 2;
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        if (focuspeak)
+        if (nightmode)
         {
+
+
             mInputAllocation.copyFrom(frame);
-            focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-            focuspeak_argb.forEach_peak(mOutputAllocation);
+            blurRS.setInput(mInputAllocation);
+            blurRS.setRadius(1.5f);
+            blurRS.forEach(mOutputAllocation);
+            mInputAllocation.copyFrom(mOutputAllocation);
+            if (currentImageStackCount == 0)
+                mInputAllocation2.copyFrom(frame);
+            else
+                mInputAllocation2.copyFrom(drawBitmap);
+            imagestack_argb.set_gCurrentFrame(mInputAllocation);
+            imagestack_argb.set_gLastFrame(mInputAllocation2);
+            imagestack_argb.forEach_stackimage(mOutputAllocation);
             mOutputAllocation.copyTo(drawBitmap);
-            canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+
+            if (currentImageStackCount < 4)
+                currentImageStackCount++;
+            else
+                currentImageStackCount = 0;
+            if (currentImageStackCount < 4)
+                return;
+            else
+            {
+                mInputAllocation.copyFrom(drawBitmap);
+                brightnessRS.set_gCurrentFrame(mInputAllocation);
+                brightnessRS.set_brightness((float) (100 / 255.0f));
+                brightnessRS.forEach_processBrightness(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+                mInputAllocation.copyFrom(drawBitmap);
+                contrastRS.set_gCurrentFrame(mInputAllocation);
+                contrastRS.invoke_setBright(200f);
+                contrastRS.forEach_processContrast(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+                if (focuspeak) {
+                    mInputAllocation.copyFrom(drawBitmap);
+                    focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+                    focuspeak_argb.forEach_peak(mOutputAllocation);
+                    mOutputAllocation.copyTo(drawBitmap);
+                }
+                Canvas canvas = getHolder().lockCanvas();
+                if (canvas == null) {
+                    return;
+                }
+                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+                if (frameExtractor != null)
+                    drawFrameInformation(frameExtractor, canvas, dst);
+                getHolder().unlockCanvasAndPost(canvas);
+            }
+
         }
         else
         {
-            canvas.drawBitmap(frame, src, dst, mFramePaint);
+            Canvas canvas = getHolder().lockCanvas();
+            if (canvas == null) {
+                return;
+            }
+            if (focuspeak) {
+                mInputAllocation.copyFrom(frame);
+                focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+                focuspeak_argb.forEach_peak(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+            } else {
+                canvas.drawBitmap(frame, src, dst, mFramePaint);
+            }
+            if (frameExtractor != null)
+                drawFrameInformation(frameExtractor, canvas, dst);
+            getHolder().unlockCanvasAndPost(canvas);
         }
-        if (frameExtractor != null)
-            drawFrameInformation(frameExtractor, canvas,dst);
-        getHolder().unlockCanvasAndPost(canvas);
     }
 
     private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas, Rect dst)

@@ -115,6 +115,10 @@ public class ApiHandler
         {
             ex.printStackTrace();
         }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         finally
         {
 
