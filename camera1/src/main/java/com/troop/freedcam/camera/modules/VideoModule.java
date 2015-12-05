@@ -73,6 +73,7 @@ public class VideoModule extends AbstractModule
 
     private void startRecording()
     {
+
         prepareRecorder();
 
     }
@@ -216,6 +217,8 @@ public class VideoModule extends AbstractModule
         if (!profile.contains("Timelapse"))
             recorder.setVideoFrameRate(prof.videoFrameRate);*/
 
+
+
         recorder.setProfile(prof);
 
         if (profile.contains("Timelapse"))
@@ -310,11 +313,14 @@ public class VideoModule extends AbstractModule
             ParameterHandler.VideoSize.SetValue(size, true);
             videoTime(prof.videoBitRate, prof.audioBitRate);
 
+            if(DeviceUtils.isZTEADV() && sprof.equals("4kUHD"))
+                camParametersHandler.UHDDO();
+
 
 
         }
 
-        camParametersHandler.UHDDO();
+       // camParametersHandler.UHDDO();
     }
 
     private void videoTime(int VB, int AB)

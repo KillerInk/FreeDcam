@@ -732,14 +732,14 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void UHDDO ()
     {
         //cameraParameters.put("","")
-        baseCameraHolder.StopPreview();
+        //baseCameraHolder.StopPreview();
         cameraParameters.put("recording-hint", "true");
         cameraParameters.put("preview-frame-rate", "30");
         cameraParameters.put("preview-size", "3840x2160");
         cameraParameters.put("preview-fps-range","24000, 30000");
         cameraParameters.put("preview-format","nv12-venus");
         cameraHolder.SetCameraParameters(cameraParameters);
-        baseCameraHolder.StartPreview();
+        //baseCameraHolder.StartPreview();
     }
 
     private void camMode()
