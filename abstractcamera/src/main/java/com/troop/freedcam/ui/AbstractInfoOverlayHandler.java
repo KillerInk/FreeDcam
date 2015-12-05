@@ -138,6 +138,11 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         }
     }
 
+    private void setVideoRecordingTime()
+    {
+
+    }
+
     public void getStorageSpace()
     {
         try {
