@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -102,7 +103,7 @@ public class FocusManualParameter extends  BaseManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToSet)
+    protected void setvalue(final int valueToSet)
     {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
         {
@@ -156,8 +157,26 @@ public class FocusManualParameter extends  BaseManualParameter
         }
 
         if(DeviceUtils.isZTEADV()) {
-            camParametersHandlerx.setString("manual-focus-position", valueToSet + "");
-            baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+
+
+            try
+            {
+
+                Handler handler = new Handler();
+                Runnable r = new Runnable() {
+                    public void run() {
+
+                        camParametersHandlerx.setString("manual-focus-position", valueToSet + "");
+                        baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                    }
+                };
+                handler.postDelayed(r, 1);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         else
             camParametersHandler.SetParametersToCamera();
