@@ -16,6 +16,7 @@ import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import troop.com.imageconverter.ScriptC_brightness;
+import troop.com.imageconverter.ScriptC_contrast;
 import troop.com.imageconverter.ScriptC_focuspeak_argb;
 import troop.com.imageconverter.ScriptC_imagestack_argb;
 
@@ -60,6 +63,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private Allocation mOutputAllocation;
     ScriptC_focuspeak_argb focuspeak_argb;
     ScriptC_imagestack_argb imagestack_argb;
+    ScriptC_brightness brightnessRS;
+    ScriptC_contrast contrastRS;
+    ScriptIntrinsicBlur blurRS;
     Bitmap drawBitmap;
     Bitmap stackBitmap;
 
@@ -143,6 +149,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             mRS = RenderScript.create(context);
             focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
             imagestack_argb = new ScriptC_imagestack_argb(mRS);
+            brightnessRS = new ScriptC_brightness(mRS);
+            contrastRS = new ScriptC_contrast(mRS);
+            blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
         }
 
     }
@@ -366,6 +375,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
 
             mInputAllocation.copyFrom(frame);
+            blurRS.setInput(mInputAllocation);
+            blurRS.setRadius(1.5f);
+            blurRS.forEach(mOutputAllocation);
+            mInputAllocation.copyFrom(mOutputAllocation);
             if (currentImageStackCount == 0)
                 mInputAllocation2.copyFrom(frame);
             else
@@ -375,14 +388,24 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             imagestack_argb.forEach_stackimage(mOutputAllocation);
             mOutputAllocation.copyTo(drawBitmap);
 
-            if (currentImageStackCount < 3)
+            if (currentImageStackCount < 4)
                 currentImageStackCount++;
             else
                 currentImageStackCount = 0;
-            if (currentImageStackCount < 3)
+            if (currentImageStackCount < 4)
                 return;
             else
             {
+                mInputAllocation.copyFrom(drawBitmap);
+                brightnessRS.set_gCurrentFrame(mInputAllocation);
+                brightnessRS.set_brightness((float) (80 / 255.0f));
+                brightnessRS.forEach_processBrightness(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+                mInputAllocation.copyFrom(drawBitmap);
+                contrastRS.set_gCurrentFrame(mInputAllocation);
+                contrastRS.set_contrast(80);
+                contrastRS.forEach_processContrast(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
                 if (focuspeak) {
                     mInputAllocation.copyFrom(drawBitmap);
                     focuspeak_argb.set_gCurrentFrame(mInputAllocation);
@@ -394,6 +417,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     return;
                 }
                 canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+                if (frameExtractor != null)
+                    drawFrameInformation(frameExtractor, canvas, dst);
                 getHolder().unlockCanvasAndPost(canvas);
             }
 
