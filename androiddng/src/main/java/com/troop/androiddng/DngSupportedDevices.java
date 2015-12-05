@@ -270,7 +270,13 @@ public class DngSupportedDevices
                     case OnePlusOne:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case zteAdv:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
+                       // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
+                    return new DngProfile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+                            Matrixes.imx214_foward_matrix1,
+                            Matrixes.imx214_foward_matrix2,
+                            Matrixes.G4_reduction_matrix1,
+                            Matrixes.G4_reduction_matrix2,
+                            Matrixes.G4_noise_3x1_matrix);
                     case zteADV_IMX214:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Lenovo_k910:
