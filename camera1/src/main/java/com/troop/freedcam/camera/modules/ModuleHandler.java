@@ -31,7 +31,7 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK || DeviceUtils.isMediaTekDevice())
         {
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);

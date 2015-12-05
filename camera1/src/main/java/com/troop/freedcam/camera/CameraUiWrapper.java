@@ -187,7 +187,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
         startPreviewinternal();
-        setAspect();
+      //  setAspect();
     }
 
     /**this gets called twice
