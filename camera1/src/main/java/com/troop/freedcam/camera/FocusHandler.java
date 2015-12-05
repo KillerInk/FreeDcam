@@ -7,6 +7,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.List;
 
@@ -103,8 +104,16 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     @Override
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
     {
-        final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
-        cameraHolder.SetMeteringAreas(targetFocusRect);
+        if (DeviceUtils.isZTEADV())
+        {
+            final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
+            parametersHandler.SetMeterAREA(targetFocusRect);
+        }
+        else {
+            final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
+            cameraHolder.SetMeteringAreas(targetFocusRect);
+        }
+
     }
 
     @Override

@@ -583,11 +583,64 @@ public class CamParametersHandler extends AbstractParameterHandler
     }*/
 
     //focus-areas=(0, 0, 0, 0, 0)
+    public void SetMeterAREA(FocusRect meteringAreas)
+    {
+        if(DeviceUtils.isZTEADV())
+        {
+            try
+            {
+                final FocusRect lF = meteringAreas;
+                Handler handler = new Handler();
+                Runnable r = new Runnable() {
+                    public void run() {
+                        setString("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
+                        baseCameraHolder.SetCameraParameters(cameraParameters);
+                    }
+                };
+                handler.postDelayed(r, 1);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+
+    }
+
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
+        if(DeviceUtils.isZTEADV())
+        {
+            try
+            {
+                final FocusRect lF = focusAreas;
+               Handler handler = new Handler();
+                Runnable r = new Runnable() {
+                    public void run() {
+                        setString("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
+                        baseCameraHolder.SetCameraParameters(cameraParameters);
+                    }
+                };
+                handler.postDelayed(r, 1);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        else
+        {
+            cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
+
+            SetParametersToCamera();
+
+        }
         //((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
-        cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
-        SetParametersToCamera();
 
     }
 
