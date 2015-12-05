@@ -187,6 +187,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
         startPreviewinternal();
+        setAspect();
     }
 
     /**this gets called twice
@@ -195,7 +196,32 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
      * that way the cam can started faster and we dont have to care about when surface needs longer to load or the cam
      * when both are up preview gets started
      */
+    private void setAspect()
+    {
+        try {
+            if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)) {
+                Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
+                List<Size> sizes = new ArrayList<Size>();
+                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                for (String s : stringsSizes) {
+                    sizes.add(new Size(s));
+                }
+                Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
+                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                if (preview != null)
+                    preview.setAspectRatio(size.width, size.height);
+                if (previewHandler != null)
+                    previewHandler.SetAspectRatio(size.width, size.height);
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+
+        }
+    }
     private void startPreviewinternal()
     {
         if (!PreviewSurfaceRdy || !cameraRdy)
