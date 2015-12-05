@@ -16,18 +16,21 @@
 #pragma version(1)
     #pragma rs java_package_name(troop.com.imageconverter)
     #pragma rs_fp_relaxed
-int contrast;
+
 rs_allocation gCurrentFrame;
+static float brightM = 0.f;
+static float brightC = 0.f;
+
+void setBright(float v) {
+    brightM = pow(2.f, v / 100.f);
+    brightC = 127.f - brightM * 127.f;
+}
 
 uchar4 __attribute__((kernel)) processContrast(uint32_t x, uint32_t y)
 {
-        float factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
-        uchar4 in = rsGetElementAt_uchar4(gCurrentFrame, x,y);
-        in.r = (factor * in.r - 128) + 128;
-        in.g = (int)(factor * in.g - 128) + 128;
-        in.b = (int)(factor * in.b - 128) + 128;
-        if (in.r > 255) in.r = 255; if(in.r < 0) in.r = 0;
-                if (in.g > 255) in.g = 255; if(in.g < 0) in.g = 0;
-                if (in.b > 255) in.b = 255; if(in.b < 0) in.b = 0;
-        return in;
+            float3 v = convert_float3(rsGetElementAt_uchar4(gCurrentFrame, x, y).rgb) * brightM + brightC;
+            uchar4 o;
+            o.rgb = convert_uchar3(clamp(v, 0.f, 255.f));
+            o.a = 0xff;
+            return o;
 }

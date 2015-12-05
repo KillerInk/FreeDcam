@@ -398,12 +398,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             {
                 mInputAllocation.copyFrom(drawBitmap);
                 brightnessRS.set_gCurrentFrame(mInputAllocation);
-                brightnessRS.set_brightness((float) (80 / 255.0f));
+                brightnessRS.set_brightness((float) (100 / 255.0f));
                 brightnessRS.forEach_processBrightness(mOutputAllocation);
                 mOutputAllocation.copyTo(drawBitmap);
                 mInputAllocation.copyFrom(drawBitmap);
                 contrastRS.set_gCurrentFrame(mInputAllocation);
-                contrastRS.set_contrast(80);
+                contrastRS.invoke_setBright(200f);
                 contrastRS.forEach_processContrast(mOutputAllocation);
                 mOutputAllocation.copyTo(drawBitmap);
                 if (focuspeak) {
