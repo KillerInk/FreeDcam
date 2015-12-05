@@ -113,7 +113,7 @@ public class FocusManualParameter extends  BaseManualParameter
                     camParametersHandler.FocusMode.SetValue("manual", true);
                     //if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
 
-                if(!parameters.get("manual-focus-pos-type").equals("1"))
+//                if(!parameters.get("manual-focus-pos-type").equals("1"))
                     parameters.put("manual-focus-pos-type", "1");
 
             }
