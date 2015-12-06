@@ -131,6 +131,7 @@ public abstract class AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};
+    public void UHDDO (){};
     public void SetPictureOrientation(int or){};
 
     public void SetAppSettingsToParameters()

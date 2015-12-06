@@ -182,6 +182,8 @@ public class VideoModule extends AbstractModule
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
         {
+
+            //camParametersHandler.UHDDO();
           //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
             //recorder.setMaxFileSize(3037822976L);
             //recorder.setMaxDuration(7200000);
@@ -294,6 +296,11 @@ public class VideoModule extends AbstractModule
     {
         if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()) {
             camParametersHandler.setString("slow_shutter", "-1");
+            camParametersHandler.setString("recording-hint", "true");
+            camParametersHandler.setString("preview-frame-rate", "30");
+            camParametersHandler.setString("preview-size", "3840x2160");
+            camParametersHandler.setString("preview-fps-range", "24000, 30000");
+            camParametersHandler.setString("preview-format", "nv12-venus");
             //camParametersHandler.ManualShutter.SetValue("Auto",);
             baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         }
@@ -313,8 +320,7 @@ public class VideoModule extends AbstractModule
             ParameterHandler.VideoSize.SetValue(size, true);
             videoTime(prof.videoBitRate, prof.audioBitRate);
 
-            if(DeviceUtils.isZTEADV() && sprof.equals("4kUHD"))
-                camParametersHandler.UHDDO();
+
 
 
 

@@ -786,13 +786,36 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         //cameraParameters.put("","")
         //baseCameraHolder.StopPreview();
-        cameraParameters.put("recording-hint", "true");
+      /*  cameraParameters.put("recording-hint", "true");
         cameraParameters.put("preview-frame-rate", "30");
         cameraParameters.put("preview-size", "3840x2160");
         cameraParameters.put("preview-fps-range","24000, 30000");
         cameraParameters.put("preview-format","nv12-venus");
-        cameraHolder.SetCameraParameters(cameraParameters);
+        cameraHolder.SetCameraParameters(cameraParameters);*/
         //baseCameraHolder.StartPreview();
+
+        try
+        {
+
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+
+                    setString("recording-hint", "true");
+                    setString("preview-frame-rate", "30");
+                    setString("preview-size", "3840x2160");
+                    setString("preview-fps-range", "24000, 30000");
+                    setString("preview-format", "nv12-venus");
+                    baseCameraHolder.SetCameraParameters(cameraParameters);
+                }
+            };
+            handler.postDelayed(r, 1);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     private void camMode()
