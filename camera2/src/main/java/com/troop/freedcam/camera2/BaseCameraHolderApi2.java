@@ -401,9 +401,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         previewsurface = new Surface(texture);
         try {
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            errorHandler.OnError("MediaRecorder Prepare failed");
+            return;
         }
 
         mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
@@ -846,5 +848,49 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackFirstStart, null);
         else
             mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackRestart, null);
+    }
+
+    public static boolean IsLegacy(AppSettingsManager appSettingsManager)
+    {
+        boolean legacy = true;
+        Semaphore mCameraOpenCloseLock = new Semaphore(1);
+        try
+        {
+            if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                throw new RuntimeException("Time out waiting to lock camera opening.");
+            }
+            CameraManager manager = (CameraManager) appSettingsManager.context.getSystemService(Context.CAMERA_SERVICE);
+            //manager.openCamera("0", null, null);
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
+            if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                legacy = false;
+            else
+                legacy = true;
+            manager = null;
+            characteristics = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        catch (VerifyError ex)
+        {ex.printStackTrace();}
+        catch (IllegalArgumentException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+
+            mCameraOpenCloseLock.release();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return  legacy;
     }
 }
