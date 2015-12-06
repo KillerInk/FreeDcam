@@ -133,12 +133,11 @@ public class RawToDng
             SetModelAndMake(nativeHandler, model, make);
     }
 
-    public void SetBayerData(final byte[] fileBytes, String fileout)
+    public void SetBayerData(final byte[] fileBytes, String fileout) throws NullPointerException
     {
-        Log.d("Freedcam Raw2DNG",String.valueOf(fileBytes.length));
-        filepath = fileout;
-        if (filepath.contains("bayer"))
-            bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
+        if (fileBytes == null) {
+            throw new NullPointerException();
+        }
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout);
     }

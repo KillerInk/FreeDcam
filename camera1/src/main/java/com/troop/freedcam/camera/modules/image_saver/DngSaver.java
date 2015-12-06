@@ -70,8 +70,8 @@ public class DngSaver extends JpegSaver
 
     }
 
-           public void processData(byte[] data, File file)
-        {
+    public void processData(byte[] data, File file)
+    {
 
         checkFileExists(file);
         try

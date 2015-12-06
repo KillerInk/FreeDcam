@@ -340,46 +340,47 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         {
             int[] size = new int[2];
 
-try {
+            try {
 
 
-    switch (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)) {
-        case "720p":
-            size[0] = 1280;
-            size[1] = 720;
-            break;
-        case "1080p":
-            size[0] = 1280;
-            size[1] = 720;
-            break;
-        case "TimeLapseHIGH":
-            size[0] = 1920;
-            size[1] = 1080;
-            break;
-        case "HIGH":
-            size[0] = 1920;
-            size[1] = 1080;
-            break;
+                switch (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)) {
+                    case "720p":
+                        size[0] = 1280;
+                        size[1] = 720;
+                        break;
+                    case "1080p":
+                        size[0] = 1280;
+                        size[1] = 720;
+                        break;
+                    case "TimeLapseHIGH":
+                        size[0] = 1920;
+                        size[1] = 1080;
+                        break;
+                    case "HIGH":
+                        size[0] = 1920;
+                        size[1] = 1080;
+                        break;
 
-        case "4kUHD":
-            if (DeviceUtils.isZTEADV()) {
-                size[0] = 3840;
-                size[1] = 2160;
-            } else
+                    case "4kUHD":
+                        if (DeviceUtils.isZTEADV()) {
+                            size[0] = 3840;
+                            size[1] = 2160;
+                        } else {
+                            size[0] = 1920;
+                            size[1] = 1080;
+                        }
+                        break;
+                    default:
+                        size[0] = 1920;
+                        size[1] = 1080;
+                }
+            }
+            catch (NullPointerException ex)
+            {
+
                 size[0] = 1920;
-            size[1] = 1080;
-            break;
-        case "":
-            size[0] = 1920;
-            size[1] = 1080;
-    }
-}
-catch (NullPointerException ex)
-{
-
-    size[0] = 1920;
-    size[1] = 1080;
-}
+                size[1] = 1080;
+            }
             return size;
         }
 
