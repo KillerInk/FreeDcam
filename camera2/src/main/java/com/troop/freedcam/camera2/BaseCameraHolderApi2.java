@@ -868,11 +868,17 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 legacy = true;
             manager = null;
             characteristics = null;
-        } catch (InterruptedException e) {
+        }
+        catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e) {
             e.printStackTrace();
         }
         catch (VerifyError ex)
-        {ex.printStackTrace();}
+        {
+            ex.printStackTrace();
+        }
         catch (IllegalArgumentException ex)
         {
             ex.printStackTrace();
