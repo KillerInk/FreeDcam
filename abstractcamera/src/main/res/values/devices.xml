@@ -251,6 +251,10 @@
     <string-array name="Xiaomi_Mi3">
         <item>MI 3W</item>
     </string-array>
+    <string-array name="Xiaomi_Mi4">
+        <item>MI 4</item>
+        <item>MI 4W</item>
+    </string-array>
     <string-array name="Xiaomi_Mi_Note_Pro">
         <item>MI NOTE Pro</item>
     </string-array>

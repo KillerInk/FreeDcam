@@ -44,7 +44,7 @@ public class DeviceUtils
     public static boolean isCamera1DNGSupportedDevice()
     {
         return isLG_G3() || isG2() || isHTC_M8() || isZTEADV() || isZTEADVIMX214() || isZTEADV234() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
-                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
+                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()||isXiaomiMI4W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
     }
 
     public static boolean isMoto_MSM8974()
@@ -164,6 +164,7 @@ public class DeviceUtils
     public static boolean isRedmiNote2() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote2));}
 
     public static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
+    public static boolean isXiaomiMI4W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
 
     public static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
