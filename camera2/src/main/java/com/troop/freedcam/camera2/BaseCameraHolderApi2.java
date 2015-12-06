@@ -401,9 +401,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         previewsurface = new Surface(texture);
         try {
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            errorHandler.OnError("MediaRecorder Prepare failed");
+            return;
         }
 
         mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
