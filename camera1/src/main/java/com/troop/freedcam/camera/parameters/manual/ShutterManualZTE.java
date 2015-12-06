@@ -1,7 +1,9 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 public class ShutterManualZTE extends BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
+    CamParametersHandler camParametersHandlerx;
     I_CameraChangedListner i_cameraChangedListner;
     String[] shutterValues;
     int current =0;
@@ -38,6 +41,7 @@ public class ShutterManualZTE extends BaseManualParameter
     public ShutterManualZTE(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = baseCameraHolder;
+        camParametersHandlerx = (CamParametersHandler) camParametersHandler;
         this.i_cameraChangedListner = i_cameraChangedListner;
         shutterValues = ShutterManualParameter.Z5SShutterValues.split(",");
         this.isSupported = true;
@@ -95,22 +99,73 @@ public class ShutterManualZTE extends BaseManualParameter
 
     private void setShutterToAuto() {
 
-        parameters.put("slow_shutter", "-1");
-        parameters.put("slow_shutter_addition", "0");
-        baseCameraHolder.SetCameraParameters(parameters);
+      //  parameters.put("slow_shutter", "-1");
+      //  parameters.put("slow_shutter_addition", "0");
+      //  baseCameraHolder.SetCameraParameters(parameters);
+
+        try
+        {
+
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+
+                    camParametersHandlerx.setString("slow_shutter", "-1");
+
+                    camParametersHandlerx.setString("slow_shutter_addition", "0");
+                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                    baseCameraHolder.StopPreview();
+                    baseCameraHolder.StartPreview();
+                }
+            };
+            handler.postDelayed(r, 1);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 
-    private String setExposureTimeToParameter(String shutterstring) {
+    private String setExposureTimeToParameter(final String shutterstring) {
 
-        parameters.put("slow_shutter", shutterstring);
-        parameters.put("slow_shutter_addition", "1");
-        if (i_shutter_changed != null) {
-            i_shutter_changed.PreviewWasRestarted();
+       // parameters.put("slow_shutter", shutterstring);
+        // parameters.put("slow_shutter_addition", "1");
+        // if (i_shutter_changed != null) {
+        //   i_shutter_changed.PreviewWasRestarted();
+        // }
+
+        try {
+
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+
+                    camParametersHandlerx.setString("slow_shutter", shutterstring);
+                    camParametersHandlerx.setString("slow_shutter_addition", "1");
+                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+
+                    if(Double.parseDouble(shutterstring) <= 1.000000){
+                        baseCameraHolder.StopPreview();
+                        baseCameraHolder.StartPreview();
+                    }
+
+
+                   // baseCameraHolder.SetCameraParameters(cameraParameters);
+                }
+            };
+            handler.postDelayed(r, 1);
+
         }
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
-        i_cameraChangedListner.onPreviewOpen("restart");
-        baseCameraHolder.SetCameraParameters(parameters);
+        catch (Exception ex)
+        {
+
+        }
+
+
+      //  i_cameraChangedListner.onPreviewOpen("restart");
+      //  baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;
     }
 

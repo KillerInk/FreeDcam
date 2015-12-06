@@ -19,6 +19,7 @@ import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +188,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         CamParametersHandler camParametersHandler1 = (CamParametersHandler) camParametersHandler;
         camParametersHandler1.LoadParametersFromCamera();
         startPreviewinternal();
+      //  setAspect();
     }
 
     /**this gets called twice
@@ -195,7 +197,32 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
      * that way the cam can started faster and we dont have to care about when surface needs longer to load or the cam
      * when both are up preview gets started
      */
+    private void setAspect()
+    {
+        try {
+            if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)) {
+                Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
+                List<Size> sizes = new ArrayList<Size>();
+                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                for (String s : stringsSizes) {
+                    sizes.add(new Size(s));
+                }
+                Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
+                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                if (preview != null)
+                    preview.setAspectRatio(size.width, size.height);
+                if (previewHandler != null)
+                    previewHandler.SetAspectRatio(size.width, size.height);
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+
+        }
+    }
     private void startPreviewinternal()
     {
         if (!PreviewSurfaceRdy || !cameraRdy)
@@ -292,14 +319,68 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
+
+
+               // if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
+
+
                 Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+
+                camParametersHandler.PreviewSize.SetValue(HardSizes()[0] + "x" + HardSizes()[1], true);
                 if (preview != null)
-                    preview.setAspectRatio(size.width, size.height);
+                    previewHandler.SetAspectRatio(HardSizes()[0],HardSizes()[1]);
                 if (previewHandler != null)
-                    previewHandler.SetAspectRatio(size.width,size.height);
+                    previewHandler.SetAspectRatio(HardSizes()[0],HardSizes()[1]);
             }
+        }
+
+
+        private int[] HardSizes()
+        {
+            int[] size = new int[2];
+
+try {
+
+
+    switch (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)) {
+        case "720p":
+            size[0] = 1280;
+            size[1] = 720;
+            break;
+        case "1080p":
+            size[0] = 1280;
+            size[1] = 720;
+            break;
+        case "TimeLapseHIGH":
+            size[0] = 1920;
+            size[1] = 1080;
+            break;
+        case "HIGH":
+            size[0] = 1920;
+            size[1] = 1080;
+            break;
+
+        case "4kUHD":
+            if (DeviceUtils.isZTEADV()) {
+                size[0] = 3840;
+                size[1] = 2160;
+            } else
+                size[0] = 1920;
+            size[1] = 1080;
+            break;
+        case "":
+            size[0] = 1920;
+            size[1] = 1080;
+    }
+}
+catch (NullPointerException ex)
+{
+
+    size[0] = 1920;
+    size[1] = 1080;
+}
+            return size;
         }
 
         @Override

@@ -73,6 +73,7 @@ public class VideoModule extends AbstractModule
 
     private void startRecording()
     {
+
         prepareRecorder();
 
     }
@@ -126,7 +127,12 @@ public class VideoModule extends AbstractModule
             else
                 recorder.setOrientationHint(0);
 
+           // baseCameraHolder.StopPreview();
+            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+
             recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder());
+           // baseCameraHolder.StartPreview();
+
             try {
                 Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
@@ -176,21 +182,23 @@ public class VideoModule extends AbstractModule
 
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
         {
+
+            //camParametersHandler.UHDDO();
           //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            recorder.setMaxFileSize(3037822976L);
-            recorder.setMaxDuration(7200000);
-            recorder.setCaptureRate(30);
+            //recorder.setMaxFileSize(3037822976L);
+            //recorder.setMaxDuration(7200000);
+            //recorder.setCaptureRate(30);
             //recorder.setVideoFrameRate(30);
 
-            ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-            camParametersHandler.setString("preview-size", "3840x2160");
-            camParametersHandler.setString("video-size", "3840x2160");
+            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            //  camParametersHandler.setString("preview-size", "3840x2160");
+            // camParametersHandler.setString("video-size", "3840x2160");
 
            // ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
            // ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
            // ParameterHandler.Denoise.SetValue("denoise-off", true);
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+            //  baseCameraHolder.StopPreview();
+            // baseCameraHolder.StartPreview();
         }
 
 
@@ -210,6 +218,8 @@ public class VideoModule extends AbstractModule
         recorder.setVideoSize(prof.videoFrameWidth ,prof.videoFrameHeight);
         if (!profile.contains("Timelapse"))
             recorder.setVideoFrameRate(prof.videoFrameRate);*/
+
+
 
         recorder.setProfile(prof);
 
@@ -277,7 +287,7 @@ public class VideoModule extends AbstractModule
 
     @Override
     public void UnloadNeededParameters() {
-        ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+        // ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported())
             ParameterHandler.VideoHDR.SetValue("off", true);
     }
@@ -286,6 +296,11 @@ public class VideoModule extends AbstractModule
     {
         if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()) {
             camParametersHandler.setString("slow_shutter", "-1");
+           // camParametersHandler.setString("recording-hint", "true");
+           // camParametersHandler.setString("preview-frame-rate", "30");
+            //camParametersHandler.setString("preview-size", "3840x2160");
+            camParametersHandler.setString("preview-fps-range", "24000, 30000");
+           // camParametersHandler.setString("preview-format", "nv12-venus");
             //camParametersHandler.ManualShutter.SetValue("Auto",);
             baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         }
@@ -301,12 +316,17 @@ public class VideoModule extends AbstractModule
             if (prof == null)
                 return;
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            //ParameterHandler.PreviewSize.SetValue(size, false);
+            // ParameterHandler.PreviewSize.SetValue(size, false);
             ParameterHandler.VideoSize.SetValue(size, true);
-            videoTime(prof.videoBitRate,prof.audioBitRate);
+            videoTime(prof.videoBitRate, prof.audioBitRate);
+
+
+
 
 
         }
+
+       // camParametersHandler.UHDDO();
     }
 
     private void videoTime(int VB, int AB)
