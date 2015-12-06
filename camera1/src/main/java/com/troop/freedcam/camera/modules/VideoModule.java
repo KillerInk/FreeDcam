@@ -296,11 +296,11 @@ public class VideoModule extends AbstractModule
     {
         if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()) {
             camParametersHandler.setString("slow_shutter", "-1");
-            camParametersHandler.setString("recording-hint", "true");
-            camParametersHandler.setString("preview-frame-rate", "30");
-            camParametersHandler.setString("preview-size", "3840x2160");
+           // camParametersHandler.setString("recording-hint", "true");
+           // camParametersHandler.setString("preview-frame-rate", "30");
+            //camParametersHandler.setString("preview-size", "3840x2160");
             camParametersHandler.setString("preview-fps-range", "24000, 30000");
-            camParametersHandler.setString("preview-format", "nv12-venus");
+           // camParametersHandler.setString("preview-format", "nv12-venus");
             //camParametersHandler.ManualShutter.SetValue("Auto",);
             baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         }
