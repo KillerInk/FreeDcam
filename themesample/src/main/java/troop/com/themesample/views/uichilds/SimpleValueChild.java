@@ -46,6 +46,6 @@ public class SimpleValueChild extends FrameLayout implements View.OnClickListene
     @Override
     public void onClick(View v)
     {
-        closeNotice.onClose((String)textView.getText());
+        closeNotice.onClose(textView.getText().toString());
     }
 }
