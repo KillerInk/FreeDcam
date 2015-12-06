@@ -152,6 +152,13 @@ public class MediatekSaver extends JpegSaver {
         return DeviceSwitcher().getAbsolutePath();
     }
 
+   /* private int getFileSize()
+    {
+        S
+
+
+    }*/
+
     private File DeviceSwitcher()
     {
         File freedcamFolder = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder);

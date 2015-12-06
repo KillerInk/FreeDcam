@@ -69,7 +69,7 @@ public class PictureFormatParameter extends BaseModeParameter
         //if((Build.MANUFACTURER.contains("samsung") || Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
        // if((Build.MANUFACTURER.contains("sony") || Build.MANUFACTURER.contains("Sony")) && !DeviceUtils.isXperiaL())
          //   return  new String[]{"jpeg"};
-        if (DeviceUtils.isMediaTekDevice())
+        if (DeviceUtils.isMediaTekDevice() || baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
             return new String[]{"jpeg", "jpeg+dng","jpeg+raw"};
         /*else if(DeviceUtils.isG2())
         {
