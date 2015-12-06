@@ -28,7 +28,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         if (!firststart)
             baseCameraHolder.StopPreview();
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W())
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
             parameters.put(value, valueToSet);
 
         try

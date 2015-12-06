@@ -21,7 +21,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote()|| DeviceUtils.isXiaomiMI3W())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote()|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
         {
             this.isSupported = true;
             this.max_value = null;
@@ -53,7 +53,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         if (max_value == null)
-            if (DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isXiaomiMI3W())
+            if (DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
                 return 100;
             else
                 return 79;
@@ -83,8 +83,8 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetValue()
     {
         try {
-            if (DeviceUtils.isXiaomiMI3W())
-                return 100-(Integer.parseInt(parameters.get(value))/10);
+            if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+                return Integer.parseInt(parameters.get(value))/10;
             else
                 return Integer.parseInt(parameters.get(value));
         }
@@ -98,7 +98,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W())
         {
             if(valueToSet != -1)
             {
@@ -141,8 +141,8 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         if (value != null && !value.equals("") && valueToSet != -1)
         {
-            if (DeviceUtils.isXiaomiMI3W())
-                parameters.put(value, String.valueOf((100-valueToSet)*10));
+            if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+                parameters.put(value, String.valueOf(valueToSet*10));
             else
                 parameters.put(value, valueToSet+"");
 

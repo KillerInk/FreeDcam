@@ -35,6 +35,7 @@ public class DngSupportedDevices
         Xiaomi_Redmi_Note2,
         Xiaomi_mi_note_pro,
         Xiaomi_mi3,
+        Xiaomi_mi4,
         Meizu_Mx4,
         Meizu_Mx5,
         THL5000,
@@ -88,6 +89,8 @@ public class DngSupportedDevices
             return SupportedDevices.Xiaomi_Redmi_Note2;
         if (DeviceUtils.isXiaomiMI3W())
             return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
+        if (DeviceUtils.isXiaomiMI4W())
+            return DngSupportedDevices.SupportedDevices.Xiaomi_mi4;
         if (DeviceUtils.isMeizuMX4())
             return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
         if (DeviceUtils.isMeizuMX5())
@@ -265,6 +268,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Xiaomi_mi3:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
+                    case Xiaomi_mi4:
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
                     case OnePlusOne:
@@ -300,6 +305,8 @@ public class DngSupportedDevices
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(64, 4212, 3082, Qcom, RGGb, getG3_rowSizeL);
                     case Xiaomi_mi3:
+                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGb, getG3_rowSizeL);
+                    case Xiaomi_mi4:
                         return new Nexus6Profile(0, 4212, 3120, Qcom, RGGb, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Qcom, RGGb, 0);

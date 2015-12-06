@@ -29,7 +29,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2()|| DeviceUtils.isXiaomiMI3W())
             return true;
         else
             return false;
@@ -39,8 +39,13 @@ public class BurstManualParam extends BaseManualParameter {
     public int GetMaxValue() {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.isG2())
             return 7;
-        if (DeviceUtils.isLG_G3())
+        if (DeviceUtils.isLG_G3()||DeviceUtils.isXiaomiMI4W())
             return 9;
+        if (DeviceUtils.isXiaomiMI3W())
+            //if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("jpeg"))
+            //return 100;
+            //else
+                return 6;
         else
             return 0;
     }
@@ -60,13 +65,13 @@ public class BurstManualParam extends BaseManualParameter {
     public void SetValue(int valueToSet)
     {
         curr = valueToSet;
-        parameters.put("snapshot-burst-num", String.valueOf(valueToSet+1));
+        parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
         camParametersHandler.SetParametersToCamera();
 
     }
 
     @Override
     public String GetStringValue() {
-        return curr +1+"";
+        return curr +"";
     }
 }
