@@ -27,7 +27,7 @@ public class RotatingSeekbar extends View
     private int currentPosToDraw = 0;
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
-    private int textsize = 40;
+    private int textsize = 30;
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -59,7 +59,7 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         this.viewWidth = w;
         this.viewHeight = h;
-        this.itemHeight = viewHeight /8;
+        this.itemHeight = viewHeight /10;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
@@ -71,14 +71,17 @@ public class RotatingSeekbar extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.WHITE);
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
-            canvas.drawLine(5,i*itemHeight+currentPosToDraw, viewWidth -5, i*itemHeight +currentPosToDraw, paint);
+            paint.setStrokeWidth(1);
+
             int pos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
-            canvas.drawText(Values[i], 0, pos, paint);
+            canvas.drawLine(viewWidth -80,pos - textsize/2, viewWidth -20, pos -textsize/2, paint);
+            canvas.drawText(Values[i], 3, pos, paint);
         }
+        paint.setStrokeWidth(10);
         canvas.drawLine(viewWidth - 60,viewHeight/2 + itemHeight/2, viewWidth, viewHeight/2 + itemHeight/2,paint);
 
     }
@@ -172,7 +175,11 @@ public class RotatingSeekbar extends View
     public void SetStringValues(String[] ar)
     {
         this.Values = ar;
-        allItemsHeight = itemHeight * Values.length;
+        this.itemHeight = viewHeight /10;
+        this.allItemsHeight = itemHeight * Values.length + itemHeight;
+        realMin = -viewHeight/2 -itemHeight/2;
+        realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
+        invalidate();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
     {
