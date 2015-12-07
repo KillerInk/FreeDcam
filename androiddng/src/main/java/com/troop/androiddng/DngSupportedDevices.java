@@ -121,7 +121,7 @@ public class DngSupportedDevices
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (filesize) {
-            case 9830400:
+            case 9830400: //NGM Forward Art
 				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
 						Matrixes.Nexus6_identity_matrix1,
                         Matrixes.Nexus6_identity_matrix2,
