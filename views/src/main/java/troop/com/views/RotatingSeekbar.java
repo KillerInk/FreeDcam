@@ -15,7 +15,7 @@ import android.widget.SeekBar;
  */
 public class RotatingSeekbar extends View
 {
-    private String[] Values = {"1","2","3","4","5","6","7","8","9","10" };
+    private String[] Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
     private int currentValue = 3;
     private Paint paint;
     private int viewWidth =0;
@@ -59,10 +59,10 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         this.viewWidth = w;
         this.viewHeight = h;
-        this.itemHeight = viewHeight /7;
-        this.allItemsHeight = itemHeight * Values.length;
-        realMax = allItemsHeight /2 + itemHeight;
-        realMin = -allItemsHeight/2 + itemHeight;
+        this.itemHeight = viewHeight /8;
+        this.allItemsHeight = itemHeight * Values.length + itemHeight;
+        realMin = -viewHeight/2 -itemHeight/2;
+        realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
         setProgress(currentValue);
         invalidate();
     }
