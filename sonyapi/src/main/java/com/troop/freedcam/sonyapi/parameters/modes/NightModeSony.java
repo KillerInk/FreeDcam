@@ -5,9 +5,12 @@ import android.os.Handler;
 
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
+import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.Set;
+
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.*;
 
 /**
  * Created by troop on 04.12.2015.
@@ -25,23 +28,32 @@ public class NightModeSony extends BaseModeParameterSony
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         if (valueToSet.equals(StringUtils.ON))
-            simpleStreamSurfaceView.nightmode = true;
+            simpleStreamSurfaceView.nightmode = on;
+        else if(valueToSet.equals("StarFinder"))
+            simpleStreamSurfaceView.nightmode = starfinder;
         else
-            simpleStreamSurfaceView.nightmode = false;
+            simpleStreamSurfaceView.nightmode = off;
     }
 
     @Override
     public String GetValue()
     {
-        if (simpleStreamSurfaceView.nightmode)
-            return StringUtils.ON;
-        else
-            return StringUtils.OFF;
+        switch (simpleStreamSurfaceView.nightmode)
+        {
+            case on:
+                return StringUtils.ON;
+            case off:
+                return StringUtils.OFF;
+            case starfinder:
+                return "StarFinder";
+            default:
+                return StringUtils.OFF;
+        }
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {StringUtils.ON, StringUtils.OFF, "StarFinder"};
     }
 
     @Override

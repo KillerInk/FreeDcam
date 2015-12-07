@@ -34,6 +34,7 @@ import troop.com.imageconverter.ScriptC_brightness;
 import troop.com.imageconverter.ScriptC_contrast;
 import troop.com.imageconverter.ScriptC_focuspeak_argb;
 import troop.com.imageconverter.ScriptC_imagestack_argb;
+import troop.com.imageconverter.ScriptC_starfinder;
 
 /**
  * A SurfaceView based class to draw liveview frames serially.
@@ -54,7 +55,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private StreamErrorListener mErrorListener;
     I_Callbacks.PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
-    public boolean nightmode = false;
+    public NightPreviewModes nightmode = NightPreviewModes.off;
     int currentImageStackCount = 0;
 
     RenderScript mRS;
@@ -65,9 +66,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     ScriptC_imagestack_argb imagestack_argb;
     ScriptC_brightness brightnessRS;
     ScriptC_contrast contrastRS;
+    ScriptC_starfinder starfinderRS;
     ScriptIntrinsicBlur blurRS;
     Bitmap drawBitmap;
     Bitmap stackBitmap;
+
+    public enum NightPreviewModes
+    {
+        on,
+        off,
+        starfinder,
+    }
 
     private void initRenderScript()
     {
@@ -152,6 +161,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             brightnessRS = new ScriptC_brightness(mRS);
             contrastRS = new ScriptC_contrast(mRS);
             blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
+            starfinderRS = new ScriptC_starfinder(mRS);
         }
 
     }
@@ -370,77 +380,80 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         int offsetX = (getWidth() - (int) (w * by)) / 2;
         int offsetY = (getHeight() - (int) (h * by)) / 2;
         Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        if (nightmode)
+        if (nightmode == NightPreviewModes.on)
         {
-
-
+            if(!drawNightPreview(frame, frameExtractor, src, dst))
+                return;
+        }
+        else if (nightmode == NightPreviewModes.starfinder)
+        {
             mInputAllocation.copyFrom(frame);
             blurRS.setInput(mInputAllocation);
             blurRS.setRadius(1.5f);
             blurRS.forEach(mOutputAllocation);
             mInputAllocation.copyFrom(mOutputAllocation);
-            if (currentImageStackCount == 0)
-                mInputAllocation2.copyFrom(frame);
-            else
-                mInputAllocation2.copyFrom(drawBitmap);
-            imagestack_argb.set_gCurrentFrame(mInputAllocation);
-            imagestack_argb.set_gLastFrame(mInputAllocation2);
-            imagestack_argb.forEach_stackimage(mOutputAllocation);
+            starfinderRS.set_gCurrentFrame(mInputAllocation);
+            starfinderRS.forEach_processBrightness(mOutputAllocation);
             mOutputAllocation.copyTo(drawBitmap);
 
-            if (currentImageStackCount < 4)
-                currentImageStackCount++;
-            else
-                currentImageStackCount = 0;
-            if (currentImageStackCount < 4)
-                return;
-            else
-            {
+        }
+        if (focuspeak) {
+            if (nightmode == NightPreviewModes.on || nightmode == NightPreviewModes.starfinder)
                 mInputAllocation.copyFrom(drawBitmap);
-                brightnessRS.set_gCurrentFrame(mInputAllocation);
-                brightnessRS.set_brightness((float) (100 / 255.0f));
-                brightnessRS.forEach_processBrightness(mOutputAllocation);
-                mOutputAllocation.copyTo(drawBitmap);
-                mInputAllocation.copyFrom(drawBitmap);
-                contrastRS.set_gCurrentFrame(mInputAllocation);
-                contrastRS.invoke_setBright(200f);
-                contrastRS.forEach_processContrast(mOutputAllocation);
-                mOutputAllocation.copyTo(drawBitmap);
-                if (focuspeak) {
-                    mInputAllocation.copyFrom(drawBitmap);
-                    focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-                    focuspeak_argb.forEach_peak(mOutputAllocation);
-                    mOutputAllocation.copyTo(drawBitmap);
-                }
-                Canvas canvas = getHolder().lockCanvas();
-                if (canvas == null) {
-                    return;
-                }
-                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
-                if (frameExtractor != null)
-                    drawFrameInformation(frameExtractor, canvas, dst);
-                getHolder().unlockCanvasAndPost(canvas);
-            }
+            else
+                mInputAllocation.copyFrom(frame);
+            focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+            focuspeak_argb.forEach_peak(mOutputAllocation);
+            mOutputAllocation.copyTo(drawBitmap);
 
         }
+        Canvas canvas = getHolder().lockCanvas();
+        if (canvas == null) {
+            return;
+        }
+        if (nightmode == NightPreviewModes.on || nightmode == NightPreviewModes.starfinder || focuspeak)
+            canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+        else
+            canvas.drawBitmap(frame, src, dst, mFramePaint);
+        if (frameExtractor != null)
+            drawFrameInformation(frameExtractor, canvas, dst);
+        getHolder().unlockCanvasAndPost(canvas);
+    }
+
+    private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
+        mInputAllocation.copyFrom(frame);
+        blurRS.setInput(mInputAllocation);
+        blurRS.setRadius(1.5f);
+        blurRS.forEach(mOutputAllocation);
+        mInputAllocation.copyFrom(mOutputAllocation);
+        if (currentImageStackCount == 0)
+            mInputAllocation2.copyFrom(frame);
+        else
+            mInputAllocation2.copyFrom(drawBitmap);
+        imagestack_argb.set_gCurrentFrame(mInputAllocation);
+        imagestack_argb.set_gLastFrame(mInputAllocation2);
+        imagestack_argb.forEach_stackimage(mOutputAllocation);
+        mOutputAllocation.copyTo(drawBitmap);
+
+        if (currentImageStackCount < 3)
+            currentImageStackCount++;
+        else
+            currentImageStackCount = 0;
+        if (currentImageStackCount < 3)
+            return false;
         else
         {
-            Canvas canvas = getHolder().lockCanvas();
-            if (canvas == null) {
-                return;
-            }
-            if (focuspeak) {
-                mInputAllocation.copyFrom(frame);
-                focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-                focuspeak_argb.forEach_peak(mOutputAllocation);
-                mOutputAllocation.copyTo(drawBitmap);
-                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
-            } else {
-                canvas.drawBitmap(frame, src, dst, mFramePaint);
-            }
-            if (frameExtractor != null)
-                drawFrameInformation(frameExtractor, canvas, dst);
-            getHolder().unlockCanvasAndPost(canvas);
+            mInputAllocation.copyFrom(drawBitmap);
+            brightnessRS.set_gCurrentFrame(mInputAllocation);
+            brightnessRS.set_brightness((float) (100 / 255.0f));
+            brightnessRS.forEach_processBrightness(mOutputAllocation);
+            mOutputAllocation.copyTo(drawBitmap);
+            mInputAllocation.copyFrom(drawBitmap);
+            contrastRS.set_gCurrentFrame(mInputAllocation);
+            contrastRS.invoke_setBright(200f);
+            contrastRS.forEach_processContrast(mOutputAllocation);
+            mOutputAllocation.copyTo(drawBitmap);
+            return true;
         }
     }
 
