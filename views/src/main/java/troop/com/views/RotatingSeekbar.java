@@ -16,7 +16,7 @@ import android.widget.SeekBar;
 public class RotatingSeekbar extends View
 {
     private String[] Values = {"1","2","3","4","5","6","7","8","9","10" };
-    private int currentValue = 5;
+    private int currentValue = 3;
     private Paint paint;
     private int viewWidth =0;
     private int viewHeight = 0;
@@ -51,6 +51,7 @@ public class RotatingSeekbar extends View
 
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
+        setProgress(currentValue);
     }
 
     @Override
@@ -138,6 +139,7 @@ public class RotatingSeekbar extends View
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
                     throwevent = false;
+                    setProgress(currentValue);
                 }
                 break;
         }
@@ -157,7 +159,9 @@ public class RotatingSeekbar extends View
     public void setProgress(int progress)
     {
         //int item = ((currentPosToDraw + realMin) /itemHeight) *1;
-        currentPosToDraw = (progress *itemHeight - itemHeight/2) - realMin * -1;
+        currentValue = progress;
+        Log.d("RotatingSeekbar", "setprogres" +progress);
+        currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
         invalidate();
     }
     public String GetCurrentString()
