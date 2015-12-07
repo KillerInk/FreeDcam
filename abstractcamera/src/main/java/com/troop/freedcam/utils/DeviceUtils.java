@@ -180,7 +180,7 @@ public class DeviceUtils
     static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
     public static boolean isMediaTekDevice()
     {
-        return isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5() || isSonyM5_MTK()|| isRedmiNote2() || isRetro();
+        return isForwardArt() || isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5() || isSonyM5_MTK()|| isRedmiNote2() || isRetro();
     }
 
     public static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
@@ -196,6 +196,10 @@ public class DeviceUtils
     public static boolean isTHL5000()
     {
         return isDevice(contex.getResources().getStringArray(R.array.thl5000));
+    }
+    public static boolean isForwardArt()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Forward_Art));
     }
 
 

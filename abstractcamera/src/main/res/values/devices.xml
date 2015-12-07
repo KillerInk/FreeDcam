@@ -293,4 +293,7 @@
     <string-array name="Samsung_S6_edge">
         <item>SM-G925F</item>
     </string-array>
+    <string-array name="Forward_Art">
+        <item>Forward_Art</item>
+    </string-array>
 </resources>
