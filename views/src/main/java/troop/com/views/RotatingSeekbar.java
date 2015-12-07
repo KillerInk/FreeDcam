@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -27,7 +28,7 @@ public class RotatingSeekbar extends View
     private int currentPosToDraw = 0;
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
-    private int textsize = 30;
+    private int textsize = 12;
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -51,6 +52,7 @@ public class RotatingSeekbar extends View
 
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
+        textsize = (int)convertDpiToPixel(textsize);
         setProgress(currentValue);
     }
 
@@ -78,12 +80,17 @@ public class RotatingSeekbar extends View
             paint.setStrokeWidth(1);
 
             int pos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
-            canvas.drawLine(viewWidth -80,pos - textsize/2, viewWidth -20, pos -textsize/2, paint);
+            canvas.drawLine(viewWidth -convertDpiToPixel(30),pos - textsize/2, viewWidth -20, pos -textsize/2, paint);
             canvas.drawText(Values[i], 3, pos, paint);
         }
         paint.setStrokeWidth(10);
-        canvas.drawLine(viewWidth - 60,viewHeight/2 + itemHeight/2, viewWidth, viewHeight/2 + itemHeight/2,paint);
+        canvas.drawLine(viewWidth - convertDpiToPixel(20), viewHeight / 2 + itemHeight / 2, viewWidth, viewHeight / 2 + itemHeight / 2, paint);
 
+    }
+
+    private float convertDpiToPixel(int dpi)
+    {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpi, getResources().getDisplayMetrics());
     }
 
     //holds the position when user touched down
