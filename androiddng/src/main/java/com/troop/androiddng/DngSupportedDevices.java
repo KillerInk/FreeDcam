@@ -46,13 +46,16 @@ public class DngSupportedDevices
         moto2k14,
         SonyM5,
         op2,
-        Mobicel_Retro
+        Mobicel_Retro,
+        Forward_Art
 
     }
 
 
     public static DngSupportedDevices.SupportedDevices getDevice()
     {
+        if(DeviceUtils.isForwardArt())
+            return DngSupportedDevices.SupportedDevices.Forward_Art;
         if (DeviceUtils.isYureka())
             return DngSupportedDevices.SupportedDevices.yureka;
         if (DeviceUtils.isLG_G3())
@@ -121,6 +124,16 @@ public class DngSupportedDevices
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
         switch (filesize) {
+            case 9830400: //NGM Forward Art
+				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
+						Matrixes.Nexus6_identity_matrix1,
+                        Matrixes.Nexus6_identity_matrix2,
+                        Matrixes.Nexus6_identity_neutra,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
             case 2658304: //g3 front mipi
                 return new DngProfile(64, 1212, 1096, Mipi, BGGR, 2424,
                         Matrixes.G3Device.CC_A_FRONT,
