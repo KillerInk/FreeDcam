@@ -16,12 +16,14 @@ import android.widget.SeekBar;
 public class RotatingSeekbar extends View
 {
     private String[] Values = {"1","2","3","4","5","6","7","8","9","10" };
-    private int currentValue = 0;
+    private int currentValue = 5;
     private Paint paint;
     private int viewWidth =0;
     private int viewHeight = 0;
     private int itemHeight = 0;
     private int allItemsHeight = 0;
+    private int realMin = 0;
+    private int realMax = 0;
     private int currentPosToDraw = 0;
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
@@ -58,6 +60,9 @@ public class RotatingSeekbar extends View
         this.viewHeight = h;
         this.itemHeight = viewHeight /7;
         this.allItemsHeight = itemHeight * Values.length;
+        realMax = allItemsHeight /2 + itemHeight;
+        realMin = -allItemsHeight/2 + itemHeight;
+        setProgress(currentValue);
         invalidate();
     }
 
@@ -67,13 +72,13 @@ public class RotatingSeekbar extends View
         super.onDraw(canvas);
         paint.setColor(Color.BLUE);
         paint.setTextSize(textsize);
-        int maxvisible = currentPosToDraw + viewHeight;
-        int minvisible = currentPosToDraw;
         for(int i = 0; i< Values.length; i++)
         {
-                int pos = i*itemHeight+ textsize +currentPosToDraw;
-                canvas.drawText(Values[i], 0, pos, paint);
+            canvas.drawLine(5,i*itemHeight+currentPosToDraw, viewWidth -5, i*itemHeight +currentPosToDraw, paint);
+            int pos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
+            canvas.drawText(Values[i], 0, pos, paint);
         }
+        canvas.drawLine(viewWidth - 60,viewHeight/2 + itemHeight/2, viewWidth, viewHeight/2 + itemHeight/2,paint);
 
     }
 
@@ -105,13 +110,22 @@ public class RotatingSeekbar extends View
                 {
                     int newpos = currentPosToDraw - getSignedDistance(startY, (int) event.getY());
                     int positivepos = newpos *-1;
-                    int max = viewHeight/2 + itemHeight *2;
-                    int min =- viewHeight/2;
-                    if (positivepos < max && positivepos > min)
+
+                    if (positivepos < realMax && positivepos > realMin)
                     {
                         currentPosToDraw = newpos;
+                        int item = ((currentPosToDraw + realMin) /itemHeight);
+                        if (item < 0)
+                            item *= -1;
+                        if (item != currentValue)
+                        {
+                            Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
+                            currentValue = item;
+                            if (mListener != null)
+                                mListener.onProgressChanged(null, currentValue, true);
+                        }
                         startY = (int) event.getY();
-                        Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw);
+
                     }
                     invalidate();
                 }
@@ -135,9 +149,16 @@ public class RotatingSeekbar extends View
         return start -current;
     }
 
-    public int GetCurrentPosition()
+    public int getProgress()
     {
         return currentValue;
+    }
+
+    public void setProgress(int progress)
+    {
+        //int item = ((currentPosToDraw + realMin) /itemHeight) *1;
+        currentPosToDraw = (progress *itemHeight - itemHeight/2) - realMin * -1;
+        invalidate();
     }
     public String GetCurrentString()
     {
