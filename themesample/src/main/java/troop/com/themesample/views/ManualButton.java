@@ -147,13 +147,14 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     }
 
     @Override
-    public void onMaxValueChanged(int max) {
-
+    public void onMaxValueChanged(int max)
+    {
+        this.realMax = max;
     }
 
     @Override
     public void onMinValueChanged(int min) {
-
+        this.realMin = min;
     }
 
     @Override
@@ -215,7 +216,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         return parameterValues;
     }
 
-    public int getCurrentItem(){return  parameter.GetValue();}
+    public int getCurrentItem(){return  parameter.GetValue() + (realMin*-1);}
 
     boolean currentlysettingsparameter = false;
     public void setValueToParameters(final int value)
@@ -250,5 +251,6 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         });
 
     }
+    public int getRealMin() {return realMin; }
 
 }
