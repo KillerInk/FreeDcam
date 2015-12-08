@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -29,6 +30,9 @@ public class RotatingSeekbar extends View
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
     private int textsize = 12;
+    private int distanceInPixelFromLastSwipe = 0;
+    private Handler handler;
+    private boolean autoscroll = false;
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -47,6 +51,7 @@ public class RotatingSeekbar extends View
     private void init(Context context, AttributeSet attrs)
     {
         this.context = context;
+        handler = new Handler();
         paint = new Paint();
         paint.setAntiAlias(true);
 
@@ -61,7 +66,7 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         this.viewWidth = w;
         this.viewHeight = h;
-        this.itemHeight = viewHeight /10;
+        this.itemHeight = viewHeight /13;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
@@ -104,6 +109,7 @@ public class RotatingSeekbar extends View
         {
             case MotionEvent.ACTION_DOWN:
                 startY = (int)event.getY();
+                autoscroll = false;
                 throwevent = true;
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -119,22 +125,14 @@ public class RotatingSeekbar extends View
                 }
                 if (sliderMoving)
                 {
-                    int newpos = currentPosToDraw - getSignedDistance(startY, (int) event.getY());
+                    distanceInPixelFromLastSwipe = getSignedDistance(startY, (int) event.getY());
+                    int newpos = currentPosToDraw - distanceInPixelFromLastSwipe;
                     int positivepos = newpos *-1;
 
                     if (positivepos < realMax && positivepos > realMin)
                     {
                         currentPosToDraw = newpos;
-                        int item = ((currentPosToDraw + realMin) /itemHeight);
-                        if (item < 0)
-                            item *= -1;
-                        if (item != currentValue)
-                        {
-                            Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
-                            currentValue = item;
-                            if (mListener != null)
-                                mListener.onProgressChanged(null, currentValue, true);
-                        }
+                        checkifCurrentValueHasChanged();
                         startY = (int) event.getY();
 
                     }
@@ -149,11 +147,79 @@ public class RotatingSeekbar extends View
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
                     throwevent = false;
-                    setProgress(currentValue);
+                    if ((distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe > 10) || (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe <-10))
+                    {
+                        autoscroll = true;
+                        handleAutoScroll();
+                    }
+                    else
+                    {
+                        setProgress(currentValue);
+                    }
                 }
                 break;
         }
         return throwevent;
+    }
+
+    private void handleAutoScroll()
+    {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                handler.removeCallbacks(this);
+                if (!autoscroll)
+                    return;
+                int newpos = currentPosToDraw - distanceInPixelFromLastSwipe -1;
+                int positivepos = newpos *-1;
+                if (positivepos < realMax && positivepos > realMin)
+                {
+                    boolean rerun = false;
+                    if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + 1 < 0) {
+                        distanceInPixelFromLastSwipe += 1;
+                        rerun = true;
+                        currentPosToDraw -= distanceInPixelFromLastSwipe;
+                        checkifCurrentValueHasChanged();
+                        invalidate();
+                    } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - 1 > 0) {
+                        distanceInPixelFromLastSwipe -= 1;
+                        rerun = true;
+                        currentPosToDraw -= distanceInPixelFromLastSwipe;
+                        checkifCurrentValueHasChanged();
+                        invalidate();
+                    } else
+                    {
+                        checkifCurrentValueHasChanged();
+                        distanceInPixelFromLastSwipe = 0;
+                        setProgress(currentValue);
+                        rerun = false;
+                    }
+
+                    if (rerun)
+                        handleAutoScroll();
+                }
+                else
+                {
+                    autoscroll = false;
+                    distanceInPixelFromLastSwipe = 0;
+                    setProgress(currentValue);
+                }
+            }
+        },30);
+    }
+
+    private void checkifCurrentValueHasChanged() {
+        int item = ((currentPosToDraw + realMin) /itemHeight);
+        if (item < 0)
+            item *= -1;
+        if (item != currentValue)
+        {
+            Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
+            currentValue = item;
+            if (mListener != null)
+                mListener.onProgressChanged(null, currentValue, true);
+        }
     }
 
     private int getSignedDistance(int start, int current)
