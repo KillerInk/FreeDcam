@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <troop.com.views.RotatingSeekbar
+            android:layout_width="70dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/seekbar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#45000000"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp" />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/horizontalScrollView2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="70dp">
+
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="MF"
+                android:id="@+id/manual_mf"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="ISO"
+                android:id="@+id/manual_iso"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Shutter"
+                android:id="@+id/manual_shutter"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="f-num"
+                android:id="@+id/manual_aperture"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Exposure"
+                android:id="@+id/manual_exposure"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Brightness"
+                android:id="@+id/manual_brightness"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Burst"
+                android:id="@+id/manual_burst"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="WB"
+                android:id="@+id/manual_wb"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Contrast"
+                android:id="@+id/manual_contrast"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Saturation"
+                android:id="@+id/manual_saturation"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Sharpness"
+                android:id="@+id/manual_sharpness"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="ProgramShift"
+                android:id="@+id/manual_program_shift"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Zoom"
+                android:id="@+id/manual_zoom"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Skintone"
+                android:id="@+id/manual_skintone"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="FX"
+                android:id="@+id/manual_fx"
+                android:layout_marginRight="10dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                app:Header="Convergence"
+                android:id="@+id/manual_convergence"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>
