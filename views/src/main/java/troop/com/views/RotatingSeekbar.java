@@ -1,6 +1,7 @@
 package troop.com.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -29,10 +30,11 @@ public class RotatingSeekbar extends View
     private int currentPosToDraw = 0;
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
-    private int textsize = 12;
+    private int textsize = 8;
     private int distanceInPixelFromLastSwipe = 0;
     private Handler handler;
     private boolean autoscroll = false;
+    private int textColor = Color.WHITE;
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -46,6 +48,7 @@ public class RotatingSeekbar extends View
     public RotatingSeekbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
+
     }
 
     private void init(Context context, AttributeSet attrs)
@@ -55,7 +58,7 @@ public class RotatingSeekbar extends View
         paint = new Paint();
         paint.setAntiAlias(true);
 
-        paint.setColor(Color.WHITE);
+        paint.setColor(textColor);
         paint.setStyle(Paint.Style.FILL);
         textsize = (int)convertDpiToPixel(textsize);
         setProgress(currentValue);
@@ -66,7 +69,7 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         this.viewWidth = w;
         this.viewHeight = h;
-        this.itemHeight = viewHeight /13;
+        this.itemHeight = viewHeight /16;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
@@ -78,7 +81,7 @@ public class RotatingSeekbar extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        paint.setColor(Color.WHITE);
+        paint.setColor(textColor);
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {

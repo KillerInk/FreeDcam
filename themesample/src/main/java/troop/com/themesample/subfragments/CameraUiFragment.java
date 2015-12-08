@@ -69,7 +69,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static ImageView SettingsButton;
     static LinearLayout left_cameraUI_holder;
     static RelativeLayout right_camerUI_holder;
-    static ManualModesFragment manualModesFragment;
+    static ManualFragmentRotatingSeekbar manualModesFragment;
     static FrameLayout manualModes_holder;
     boolean settingsIsOpen = true;
     final int animationTime = 500;
@@ -209,7 +209,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetMenuItemListner(this);
 
-        manualModesFragment = new ManualModesFragment();
+        manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
@@ -217,8 +217,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
-
-        manualModes_holder.setVisibility(View.GONE);
+        settingsIsOpen = true;
+        //manualModes_holder.setVisibility(View.GONE);
 
 
 
@@ -284,7 +284,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         settingsIsOpen = false;
         Log.d(TAG, "HideSettings");
-        left_cameraUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
+        /*left_cameraUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -305,9 +305,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             public void onAnimationRepeat(Animator animation) {
 
             }
-        }).start();
+        }).start();*/
 
-        right_camerUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
+        /*right_camerUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -327,28 +327,28 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             public void onAnimationRepeat(Animator animation) {
 
             }
-        }).start();
+        }).start();*/
 
         manualModes_holder.setVisibility(View.VISIBLE);
-        focusImageHandler.HideImages(true);
-        guidHolder.setVisibility(View.GONE);
+        //focusImageHandler.HideImages(true);
+        //guidHolder.setVisibility(View.GONE);
     }
 
     private void showSettings()
     {
         Log.d(TAG, "ShowSettings");
         settingsIsOpen = true;
-        left_cameraUI_holder.setAlpha(0F);
+        /*left_cameraUI_holder.setAlpha(0F);
         left_cameraUI_holder.setVisibility(View.VISIBLE);
         left_cameraUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
 
         right_camerUI_holder.setAlpha(0F);
         right_camerUI_holder.setVisibility(View.VISIBLE);
-        right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
+        right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();*/
 
         manualModes_holder.setVisibility(View.GONE);
-        guidHolder.setVisibility(View.VISIBLE);
-        focusImageHandler.HideImages(false);
+        //guidHolder.setVisibility(View.VISIBLE);
+        //focusImageHandler.HideImages(false);
     }
 
 

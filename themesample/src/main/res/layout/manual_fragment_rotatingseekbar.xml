@@ -10,7 +10,7 @@
         android:layout_alignParentRight="true">
 
         <troop.com.views.RotatingSeekbar
-            android:layout_width="70dp"
+            android:layout_width="64dp"
             android:layout_height="fill_parent"
             android:id="@+id/seekbar"
             android:layout_alignParentLeft="true"
