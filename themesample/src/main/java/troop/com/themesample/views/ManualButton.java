@@ -94,7 +94,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 if (parameterValues == null)
                 {
                     ArrayList<String> list = new ArrayList<>();
-                    for (int i = realMin; i< realMax; i++)
+                    for (int i = realMin; i<= realMax; i++)
                     {
                         list.add(i+"");
                     }
