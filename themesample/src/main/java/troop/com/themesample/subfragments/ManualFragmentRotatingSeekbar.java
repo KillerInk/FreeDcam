@@ -52,6 +52,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     {
         View view = inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
         seekbar = (RotatingSeekbar)view.findViewById(R.id.seekbar);
+        seekbar.setOnSeekBarChangeListener(this);
+        seekbar.setVisibility(View.GONE);
 
         mf = (ManualButton)view.findViewById(R.id.manual_mf);
         mf.SetStuff(appSettingsManager, AppSettingsManager.MF);

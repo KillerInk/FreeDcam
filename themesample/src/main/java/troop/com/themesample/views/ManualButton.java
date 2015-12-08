@@ -13,6 +13,8 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.util.ArrayList;
+
 import troop.com.themesample.R;
 
 /**
@@ -89,6 +91,16 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 realMax = parameter.GetMaxValue();
                 realMin = parameter.GetMinValue();
                 parameterValues = parameter.getStringValues();
+                if (parameterValues == null)
+                {
+                    ArrayList<String> list = new ArrayList<>();
+                    for (int i = realMin; i< realMax; i++)
+                    {
+                        list.add(i+"");
+                    }
+                    parameterValues = new String[list.size()];
+                    list.toArray(parameterValues);
+                }
             }
             else
                 onIsSupportedChanged(false);
