@@ -64,6 +64,8 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            parameters.put("num-snaps-per-shutter", String.valueOf(1));
         curr = valueToSet;
         parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
         camParametersHandler.SetParametersToCamera();
