@@ -3,10 +3,10 @@
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:id="@+id/menu_item_toplayout"
-    android:background="#db999999">
+    android:background="@color/uiSettingsBackground">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -20,7 +20,7 @@
             android:text="Header:"
             android:id="@+id/textview_menuitem_header"
             android:textSize="15dp"
-            android:textColor="@color/menuTextColor"
+            android:textColor="@color/uiSettingsTextColor"
             android:textStyle="bold" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:text="value"
             android:id="@+id/textview_menuitem_header_value"
             android:textSize="13dp"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="@color/uiSettingsTextColor" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Description"
             android:id="@+id/textview_menuitem_description"
-            android:textSize="11dp"
-            android:textColor="@color/menuTextColor" />
+            android:textSize="9dp"
+            android:textColor="@color/uiSettingsTextColor" />
     </LinearLayout>
 </LinearLayout>
