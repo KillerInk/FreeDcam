@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
-    android:layout_height="52dp"
+    android:layout_height="50dp"
     android:background="@drawable/tap_ng"
     android:clickable="true"
     android:layout_marginBottom="1dp"
-    android:layout_marginRight="1dp">
-
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:text="+"
-        android:id="@+id/button_plus"
-        android:textSize="8dp"
-        android:clickable="true"
-        android:layout_weight="0"
-        android:background="@drawable/tap_plus" />
+    android:layout_marginRight="1dp"
+    android:alpha="0.8">
 
     <EditText
         android:layout_width="fill_parent"
@@ -31,7 +22,18 @@
         android:textSize="18dp"
         android:layout_weight="1"
         android:textColor="#ffffff"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center|center_vertical|center_horizontal|top" />
+
+    <Button
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:text="+"
+        android:id="@+id/button_plus"
+        android:textSize="8dp"
+        android:clickable="true"
+        android:layout_weight="0"
+        android:background="@drawable/tap_plus" />
 
     <Button
         android:layout_width="@android:dimen/app_icon_size"

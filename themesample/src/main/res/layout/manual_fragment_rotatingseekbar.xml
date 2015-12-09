@@ -41,11 +41,12 @@
 
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 app:Header="MF"
                 app:Image="@drawable/manual_focus"
                 android:id="@+id/manual_mf"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_float_alt" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"

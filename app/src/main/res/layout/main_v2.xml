@@ -34,8 +34,13 @@
             android:layout_alignParentTop="false"
             android:rotation="0"
             android:autoText="false"
-            android:textSize="50dp"
-            android:layout_gravity="bottom" />
+            android:textSize="20dp"
+            android:layout_marginLeft="-360dp"
+            android:background="@drawable/video_time_bg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:layout_marginTop="-6dp" />
 
     </LinearLayout>
 

@@ -8,10 +8,10 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:gravity="center_horizontal"
-        android:background="@color/uiSettingsBackground"
+        android:background="@drawable/btn_float"
         android:layout_margin="1dp">
 
         <TextView
@@ -22,7 +22,7 @@
             android:id="@+id/textView"
             android:textStyle="bold"
             android:textColor="@color/uiSettingsTextColor"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="30dp"
             android:textSize="10dip"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -51,7 +51,8 @@
             android:focusableInTouchMode="true"
             android:freezesText="true"
             android:paddingLeft="2dp"
-            android:paddingRight="2dp"/>
+            android:paddingRight="2dp"
+            android:gravity="center|center_vertical" />
     </LinearLayout>
 
 </LinearLayout>
