@@ -28,6 +28,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     IntervalHandler intervalHandler;
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
+    final int alpha = 150;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +46,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     private void init()
     {
         setBackgroundResource(R.drawable.shuttercloseanimation);
+        getBackground().setAlpha(alpha);
         shutterOpenAnimation = (AnimationDrawable) getBackground();
 
         this.setOnClickListener(new OnClickListener() {
@@ -101,6 +103,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 workerCounter++;
                 finishcounter = 0;
         setBackgroundResource(R.drawable.shuttercloseanimation);
+        getBackground().setAlpha(alpha);
         shutterOpenAnimation = (AnimationDrawable) getBackground();
         shutterOpenAnimation.stop();
         shutterOpenAnimation.setOneShot(true);
@@ -115,6 +118,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             @Override
             public void run() {
                 setBackgroundResource(R.drawable.shutteropenanimation);
+                getBackground().setAlpha(alpha);
                 shutterOpenAnimation = (AnimationDrawable) getBackground();
                 shutterOpenAnimation.stop();
                 shutterOpenAnimation.setOneShot(true);
