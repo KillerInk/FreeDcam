@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffa0a0a0"
+    android:layout_height="52dp"
+    android:background="@drawable/tap_ng"
     android:clickable="true"
     android:layout_marginBottom="1dp"
     android:layout_marginRight="1dp">
@@ -14,7 +14,8 @@
         android:id="@+id/button_plus"
         android:textSize="8dp"
         android:clickable="true"
-        android:layout_weight="0" />
+        android:layout_weight="0"
+        android:background="@drawable/tap_plus" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -28,7 +29,9 @@
         android:digits="1"
         android:text="0.00"
         android:textSize="18dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textColor="#ffffff"
+        android:textAlignment="center" />
 
     <Button
         android:layout_width="@android:dimen/app_icon_size"
@@ -37,5 +40,6 @@
         android:id="@+id/button_minus"
         android:textSize="8dp"
         android:clickable="true"
-        android:layout_weight="0" />
+        android:layout_weight="0"
+        android:background="@drawable/tap_min" />
 </LinearLayout>
