@@ -209,7 +209,7 @@ public class RotatingSeekbar extends View
                     setProgress(currentValue);
                 }
             }
-        },30);
+        },33);
     }
 
     private void checkifCurrentValueHasChanged() {

@@ -180,13 +180,24 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         @Override
         public void onClick(View v)
         {
+            //when same button gets clicked second time
             if(v == currentButton && seekbar.getVisibility() == View.VISIBLE)
+            {
+                //hideseekbar and set color back from button
                 seekbar.setVisibility(View.GONE);
+                currentButton.SetActive(false);
+            }
+            //if no button was active or a different was clicked
             else
             {
                 if (seekbar.getVisibility() == View.GONE)
                     seekbar.setVisibility(View.VISIBLE);
+                //when already a button is active disable it
+                if (currentButton != null)
+                    currentButton.SetActive(false);
+                //set the returned view as active and fill seekbar
                 currentButton = (ManualButton) v;
+                currentButton.SetActive(true);
                 seekbar.SetStringValues(currentButton.getStringValues());
                 seekbar.setProgress(currentButton.getCurrentItem());
             }

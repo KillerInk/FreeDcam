@@ -2,6 +2,7 @@ package troop.com.themesample.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -32,6 +33,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     Handler handler;
     int realMin;
     int realMax;
+    final int backgroundColorActive = Color.parseColor("#46FFFFFF");
+    final int backgroundColor = Color.parseColor("#46000000");
+    final int stringColor = Color.parseColor("#FFFFFFFF");
+    final int stringColorActive = Color.parseColor("#FF000000");
 
     public ManualButton(Context context) {
         super(context);
@@ -252,5 +257,21 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     }
     public int getRealMin() {return realMin; }
+
+    public void SetActive(boolean active)
+    {
+        if (active)
+        {
+            setBackgroundColor(backgroundColorActive);
+            headerTextView.setTextColor(stringColorActive);
+            valueTextView.setTextColor(stringColorActive);
+        }
+        else
+        {
+            setBackgroundColor(backgroundColor);
+            headerTextView.setTextColor(stringColor);
+            valueTextView.setTextColor(stringColor);
+        }
+    }
 
 }
