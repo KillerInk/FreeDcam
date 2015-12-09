@@ -176,7 +176,7 @@ public class RotatingSeekbar extends View
                     return;
                 int newpos = currentPosToDraw - distanceInPixelFromLastSwipe -1;
                 int positivepos = newpos *-1;
-                if (positivepos < realMax && positivepos > realMin)
+                if (positivepos <= realMax && positivepos >= realMin)
                 {
                     boolean rerun = false;
                     if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + 1 < 0) {
@@ -206,6 +206,7 @@ public class RotatingSeekbar extends View
                 {
                     autoscroll = false;
                     distanceInPixelFromLastSwipe = 0;
+                    checkifCurrentValueHasChanged();
                     setProgress(currentValue);
                 }
             }
@@ -254,7 +255,7 @@ public class RotatingSeekbar extends View
         this.itemHeight = viewHeight /10;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
-        realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
+        realMax = allItemsHeight - viewHeight/2;
         invalidate();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
