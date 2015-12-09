@@ -222,14 +222,6 @@
             android:layout_marginBottom="1dp"
             app:HeaderText="@string/uisetting_format_header"/>
 
-        <troop.com.themesample.views.uichilds.UiSettingsMenu
-            android:layout_width="@dimen/uiSettingsWidth"
-            android:layout_height="wrap_content"
-            android:id="@+id/menu"
-            android:layout_marginLeft="2dp"
-            android:layout_marginBottom="1dp"
-            app:HeaderText="@string/uisetting_settings_header"/>
-
 
     </LinearLayout>
 

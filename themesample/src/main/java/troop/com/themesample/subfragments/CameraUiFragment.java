@@ -160,9 +160,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
-        ManualSettingsButton.setOnClickListener(settingsButtonClick);
-        this.menu = (UiSettingsMenu)view.findViewById(R.id.menu);
-        menu.setOnClickListener(onSettingsClick);
+        ManualSettingsButton.setOnClickListener(onSettingsClick);
+
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this);
