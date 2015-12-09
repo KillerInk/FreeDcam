@@ -250,7 +250,16 @@ public class DngSupportedDevices
             case 3763584: //I_Mobile_I_StyleQ6
                 return new Nexus6Profile(0, 1584, 1184, Plain, GRBG, 0);
             case 9631728: //I_Mobile_I_StyleQ6
-                return new Nexus6Profile(64, 2532, 1902, Plain, GRBG, 0);
+                //return new Nexus6Profile(64, 2532, 1902, Plain, GRBG, 0);
+            return new DngProfile(0, 2532, 1902, Plain, GRBG, 0,
+                    Matrixes.OV_matrix1,
+                    Matrixes.OV_matrix2,
+                    Matrixes.OV_ASSHOT,
+                    Matrixes.OV_Foward,
+                    Matrixes.OV_Foward2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.OV_NREDUCTION_Matrix);
             case 9990144://e7 front mipi
                 return new Nexus6Profile(0, 2040, 2448, Mipi, BGGR, 4080);
             case 10782464: //HTC one xl
