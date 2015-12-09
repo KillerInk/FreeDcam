@@ -1,6 +1,5 @@
 package troop.com.themesample.subfragments;
 
-import android.animation.Animator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +37,7 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe
+public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
@@ -66,12 +65,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     static ThumbView thumbView;
 
-    static ImageView SettingsButton;
+    static ImageView ManualSettingsButton;
     static LinearLayout left_cameraUI_holder;
     static RelativeLayout right_camerUI_holder;
     static ManualFragmentRotatingSeekbar manualModesFragment;
     static FrameLayout manualModes_holder;
-    boolean settingsIsOpen = true;
+    boolean manualsettingsIsOpen = true;
+    boolean settingsOpen = false;
     final int animationTime = 500;
 
     static FocusImageHandler focusImageHandler;
@@ -81,16 +81,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static I_Activity i_activity;
     static AppSettingsManager appSettingsManager;
     static SampleInfoOverlayHandler infoOverlayHandler;
-    static View.OnClickListener onSettingsClickListner;
 
     static GuideHandler guideHandler;
     static LinearLayout guidHolder;
 
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
-    {
-        SetStuff(appSettingsManager, i_activity);
-        this.onSettingsClickListner = onSettingsClickListner;
-    }
+    SettingsMenuFragment settingsMenuFragment;
+    FrameLayout settingsmenuholer;
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
@@ -108,6 +104,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if(view != null)
             setWrapper();
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
     }
 
     private void setWrapper()
@@ -161,10 +159,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
-        this.SettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
-        SettingsButton.setOnClickListener(settingsButtonClick);
+        this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
+        ManualSettingsButton.setOnClickListener(settingsButtonClick);
         this.menu = (UiSettingsMenu)view.findViewById(R.id.menu);
-        menu.setOnClickListener(onSettingsClickListner);
+        menu.setOnClickListener(onSettingsClick);
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this);
@@ -217,7 +215,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
-        settingsIsOpen = true;
+        manualsettingsIsOpen = true;
         //manualModes_holder.setVisibility(View.GONE);
 
 
@@ -229,6 +227,16 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.commitAllowingStateLoss();
 
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
+
+        this.settingsmenuholer = (FrameLayout)view.findViewById(R.id.settingsMenuHolder);
+        settingsMenuFragment = new SettingsMenuFragment();
+        settingsMenuFragment.SetStuff(appSettingsManager, i_activity);
+        settingsMenuFragment.SetCameraUIWrapper(wrapper);
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+        transaction.add(R.id.settingsMenuHolder, settingsMenuFragment);
+        transaction.commitAllowingStateLoss();
+        settingsmenuholer.setVisibility(View.GONE);
 
 
         return view;
@@ -272,83 +280,26 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         @Override
         public void onClick(View v)
         {
-            Log.d(TAG, "OnSettingsClick settings open:" + settingsIsOpen);
-            if (settingsIsOpen)
-                hide_settings();
+            Log.d(TAG, "OnSettingsClick settings open:" + manualsettingsIsOpen);
+            if (manualsettingsIsOpen)
+                hide_ManualSettings();
             else
-                showSettings();
+                showManualSettings();
         }
     };
 
-    private void hide_settings()
+    private void hide_ManualSettings()
     {
-        settingsIsOpen = false;
+        manualsettingsIsOpen = false;
         Log.d(TAG, "HideSettings");
-        /*left_cameraUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                left_cameraUI_holder.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).start();*/
-
-        /*right_camerUI_holder.animate().alpha(0F).setDuration(animationTime).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                right_camerUI_holder.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).start();*/
-
         manualModes_holder.setVisibility(View.VISIBLE);
-        //focusImageHandler.HideImages(true);
-        //guidHolder.setVisibility(View.GONE);
     }
 
-    private void showSettings()
+    private void showManualSettings()
     {
         Log.d(TAG, "ShowSettings");
-        settingsIsOpen = true;
-        /*left_cameraUI_holder.setAlpha(0F);
-        left_cameraUI_holder.setVisibility(View.VISIBLE);
-        left_cameraUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();
-
-        right_camerUI_holder.setAlpha(0F);
-        right_camerUI_holder.setVisibility(View.VISIBLE);
-        right_camerUI_holder.animate().alpha(1F).setDuration(animationTime).setListener(null).start();*/
-
+        manualsettingsIsOpen = true;
         manualModes_holder.setVisibility(View.GONE);
-        //guidHolder.setVisibility(View.VISIBLE);
-        //focusImageHandler.HideImages(false);
     }
 
 
@@ -368,7 +319,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         }
         currentOpendChild = item;
         horizontalValuesFragment = new HorizontalValuesFragment();
-        horizontalValuesFragment.SetStringValues(item.GetValues(),this);
+        horizontalValuesFragment.SetStringValues(item.GetValues(), this);
         infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
@@ -419,4 +370,36 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         }
 
     };
+
+    //On Settings Menu Click
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    View.OnClickListener onSettingsClick = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            if (!settingsOpen)
+                replaceCameraUIWithSettings();
+            else
+                replaceSettingsWithCameraUI();
+        }
+    };
+
+    private void replaceCameraUIWithSettings()
+    {
+        settingsOpen = true;
+        manualModes_holder.setVisibility(View.GONE);
+        settingsmenuholer.setVisibility(View.VISIBLE);
+    }
+
+    private void replaceSettingsWithCameraUI()
+    {
+        settingsOpen = false;
+        manualModes_holder.setVisibility(View.VISIBLE);
+        settingsmenuholer.setVisibility(View.GONE);
+    }
 }

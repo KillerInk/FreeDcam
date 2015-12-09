@@ -333,4 +333,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="15dp"></FrameLayout>
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/settingsMenuHolder"
+        android:foregroundGravity="center_horizontal"
+        android:layout_toRightOf="@+id/fastsettings_button"
+        android:layout_toLeftOf="@+id/shutter_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp" />
+
 </RelativeLayout>

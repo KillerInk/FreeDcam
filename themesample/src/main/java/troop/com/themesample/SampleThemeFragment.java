@@ -25,7 +25,7 @@ public class SampleThemeFragment extends AbstractFragment
     I_Activity i_activity;
     AppSettingsManager appSettingsManager;
     CameraUiFragment cameraUiFragment;
-    SettingsMenuFragment settingsMenuFragment;
+
     FrameLayout fragmentHolder;
     boolean settingsOpen= false;
 
@@ -49,8 +49,7 @@ public class SampleThemeFragment extends AbstractFragment
         this.wrapper = wrapper;
         if (cameraUiFragment != null)
             cameraUiFragment.SetCameraUIWrapper(wrapper);
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);
+
 
 
     }
@@ -63,10 +62,9 @@ public class SampleThemeFragment extends AbstractFragment
         this.view = inflater.inflate(R.layout.samplethemefragment, container, false);
         if (cameraUiFragment == null)
             cameraUiFragment = new CameraUiFragment();
-        cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
+        cameraUiFragment.SetStuff(appSettingsManager, i_activity);
         cameraUiFragment.SetCameraUIWrapper(wrapper);
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);
+
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentholder, cameraUiFragment);
         transaction.commitAllowingStateLoss();
@@ -76,11 +74,7 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public void onDestroyView()
     {
-
         super.onDestroyView();
-        this.settingsMenuFragment = null;
-
-
     }
 
     @Override
@@ -95,54 +89,6 @@ public class SampleThemeFragment extends AbstractFragment
 
     }
 
-    View.OnClickListener onSettingsClick = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            if (!settingsOpen)
-                replaceCameraUIWithSettings();
-            else
-                replaceSettingsWithCameraUI();
-        }
-    };
 
-    private void replaceCameraUIWithSettings()
-    {
-        settingsOpen = true;
-        if (settingsMenuFragment == null) {
-            settingsMenuFragment = new SettingsMenuFragment();
-            settingsMenuFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragmentholder,settingsMenuFragment);
-            transaction.commitAllowingStateLoss();
-        }
-        settingsMenuFragment.SetCameraUIWrapper(wrapper);
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        //transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        //transaction.replace(R.id.fragmentholder, settingsMenuFragment);
-        transaction.hide(cameraUiFragment);
-        transaction.show(settingsMenuFragment);
-        transaction.commitAllowingStateLoss();
-    }
-
-    private void replaceSettingsWithCameraUI()
-    {
-        settingsOpen = false;
-        if (cameraUiFragment == null) {
-            cameraUiFragment = new CameraUiFragment();
-            cameraUiFragment.SetStuff(appSettingsManager, i_activity, onSettingsClick);
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragmentholder,cameraUiFragment);
-            transaction.commitAllowingStateLoss();
-        }
-        cameraUiFragment.SetCameraUIWrapper(wrapper);
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        //transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        //transaction.replace(R.id.fragmentholder, cameraUiFragment);
-        transaction.show(cameraUiFragment);
-        transaction.hide(settingsMenuFragment);
-        transaction.commitAllowingStateLoss();
-    }
 
 }

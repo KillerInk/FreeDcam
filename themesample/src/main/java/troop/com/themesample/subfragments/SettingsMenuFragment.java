@@ -1,5 +1,6 @@
 package troop.com.themesample.subfragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,6 +74,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         setWrapper();
     }
 
+
+
     private void setWrapper()
     {
         Log.d("SettingsmenuFragment", "set CameraWrapper");
@@ -91,10 +94,13 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         leftMenuFragment.SetStuff(appSettingsManager, i_activity);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        try {
+            android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.left_holder, leftMenuFragment);
-        transaction.commitAllowingStateLoss();
+            transaction.commitAllowingStateLoss();
+        }catch (NullPointerException ex)
+        {}
 
     }
     private void loadRightFragment() {
@@ -103,11 +109,16 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         rightMenuFragment.SetStuff(appSettingsManager, i_activity);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
-
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        try {
+            android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
+        }
+        catch (NullPointerException ex)
+        {}
+
+
 
     }
 
