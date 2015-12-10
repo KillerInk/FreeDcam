@@ -122,6 +122,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     public void LoadNeededParameters()
     {
         //startThread();
+        ((CamParametersHandler)ParameterHandler).setString("preview-format", "yuv420sp");
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
             ParameterHandler.AE_Bracket.SetValue("false", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
