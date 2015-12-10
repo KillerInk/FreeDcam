@@ -61,7 +61,9 @@ public class VideoModuleG3 extends VideoModule
             recorder.setCaptureRate(120);
         }
 
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
+        {
+
             recorder.setMaxFileSize(3037822976L);
             recorder.setMaxDuration(7200000);
         }
@@ -99,7 +101,7 @@ public class VideoModuleG3 extends VideoModule
     {
         if (camParametersHandler.PreviewFormat == null && ParameterHandler.VideoSize == null)
             return;
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
         {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
@@ -112,7 +114,7 @@ public class VideoModuleG3 extends VideoModule
         }
         else
         {
-            //camParametersHandler.PreviewFormat.SetValue("yuv420sp", true);
+            camParametersHandler.setString("preview-format", "yuv420sp");
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
@@ -137,6 +139,8 @@ public class VideoModuleG3 extends VideoModule
         camParametersHandler.setString("preview-size", size);
         camParametersHandler.setString("video-size", size);
         camParametersHandler.SetParametersToCamera();
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
 
 
     }
