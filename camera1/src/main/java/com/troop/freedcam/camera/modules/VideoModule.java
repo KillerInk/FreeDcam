@@ -294,15 +294,17 @@ public class VideoModule extends AbstractModule
 
     private void loadProfileSpecificParameters()
     {
-        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()) {
-            camParametersHandler.setString("slow_shutter", "-1");
-           // camParametersHandler.setString("recording-hint", "true");
-           // camParametersHandler.setString("preview-frame-rate", "30");
-            //camParametersHandler.setString("preview-size", "3840x2160");
-            camParametersHandler.setString("preview-fps-range", "24000, 30000");
-           // camParametersHandler.setString("preview-format", "nv12-venus");
-            //camParametersHandler.ManualShutter.SetValue("Auto",);
-            baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
+        {
+            camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
+            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            camParametersHandler.Denoise.SetValue("denoise-off", true);
+            camParametersHandler.setString("dual-recorder", "0");
+            camParametersHandler.setString("preview-format", "nv12-venus");
+        }
+        else
+        {
+            camParametersHandler.setString("preview-format", "yuv420sp");
         }
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
@@ -316,9 +318,12 @@ public class VideoModule extends AbstractModule
             if (prof == null)
                 return;
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            // ParameterHandler.PreviewSize.SetValue(size, false);
-            ParameterHandler.VideoSize.SetValue(size, true);
+            camParametersHandler.setString("preview-size", size);
+            camParametersHandler.setString("video-size", size);
+            camParametersHandler.SetParametersToCamera();
             videoTime(prof.videoBitRate, prof.audioBitRate);
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.StartPreview();
 
 
 
