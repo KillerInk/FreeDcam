@@ -13,7 +13,9 @@
     <string name="setting_videoprofile_description">Медиа профиль, используемый в видео</string>
     <string name="setting_videoprofile_header">Видео профиль: </string>
     <string name="setting_videohdr_description">Включите для hdr видео</string>
+    <string name="setting_vs_description">Включить стабилизацию видео</string>
     <string name="setting_videohdr_header">Видео HDR: </string>
+    <string name="setting_vs_header">Стабилизация видео: </string>
 
     <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>

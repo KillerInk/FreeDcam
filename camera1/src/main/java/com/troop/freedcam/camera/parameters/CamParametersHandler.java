@@ -54,6 +54,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoHDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
+import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 
@@ -376,6 +377,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ChromaFlash = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "chroma-flash", "chroma-flash-values");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        try {
+            VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,baseCameraHolder,"video-stabilization","");
         }
         catch (Exception ex)
         {

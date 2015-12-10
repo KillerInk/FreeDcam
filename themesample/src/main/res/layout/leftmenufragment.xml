@@ -71,6 +71,16 @@
                 <troop.com.themesample.views.menu.MenuItem
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemVideoStabilization"
+                    app:Description="@string/setting_vs_description"
+                    app:HeaderText="@string/setting_vs_header"
+                    app:ValueText=""
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp" />
+
+                <troop.com.themesample.views.menu.MenuItem
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/MenuItemVideoSize"
                     app:Description=""
                     app:HeaderText="VideoSize:"

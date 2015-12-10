@@ -63,6 +63,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter SceneDetect;
     public AbstractModeParameter Denoise;
     public AbstractModeParameter DigitalImageStabilization;
+    public AbstractModeParameter VideoStabilization;
     public AbstractModeParameter MemoryColorEnhancement;
     public AbstractModeParameter SkinToneEnhancment;
     public AbstractModeParameter NightMode;
@@ -169,6 +170,7 @@ public abstract class AbstractParameterHandler
         setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
+        setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);

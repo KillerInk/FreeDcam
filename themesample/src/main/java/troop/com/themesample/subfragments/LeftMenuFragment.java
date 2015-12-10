@@ -76,6 +76,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem PreviewSize;
     troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
+    troop.com.themesample.views.menu.MenuItem videoStabilization;
+
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -211,6 +213,12 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
         else
             VideoSize.setVisibility(View.GONE);
+
+        videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
+        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
+        videoStabilization.SetParameter(wrapper.camParametersHandler.VideoStabilization);
+        videoStabilization.SetMenuItemListner(this);
+
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
