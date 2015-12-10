@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/wb"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 app:HeaderText="@string/uisetting_wb_header"
                 />
 
@@ -178,21 +178,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ui_settings_iso"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 app:HeaderText="@string/uisetting_iso_header"/>
 
             <troop.com.themesample.views.uichilds.UiSettingsChild
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Flash"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 app:HeaderText="@string/uisetting_flash_header"/>
 
             <troop.com.themesample.views.uichilds.UiSettingsChild
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/focus_uisetting"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_marginBottom="1dp"
                 app:HeaderText="@string/uisetting_focus_header"/>
 
@@ -200,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Ae"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_marginBottom="1dp"
                 app:HeaderText="@string/uisetting_ae_header"/>
 
@@ -208,21 +208,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/night"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_marginBottom="1dp"
                 app:HeaderText="@string/uisetting_night_header"/>
             <troop.com.themesample.views.uichilds.UiSettingsChild
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/continousShot"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_marginBottom="1dp"
                 app:HeaderText="@string/uisetting_continouseshot_header"/>
             <troop.com.themesample.views.uichilds.UiSettingsChildFormat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/format"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="1.5dp"
                 android:layout_marginBottom="1dp"
                 app:HeaderText="@string/uisetting_format_header"/>
 
@@ -251,8 +251,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="-6dp" />
+                android:layout_centerHorizontal="true" />
 
             <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
                 android:layout_width="wrap_content"
@@ -260,8 +259,7 @@
                 android:id="@+id/camera_switch"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="-3dp" />
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 

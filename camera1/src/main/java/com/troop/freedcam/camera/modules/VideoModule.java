@@ -306,6 +306,18 @@ public class VideoModule extends AbstractModule
         {
             camParametersHandler.setString("preview-format", "yuv420sp");
         }
+
+        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
+        {
+          //  camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
+         //   camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+           // camParametersHandler.Denoise.SetValue("denoise-off", true);
+
+      //      camParametersHandler.setString("dual-recorder", "0");
+            //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
+            camParametersHandler.setString("preview-format", "nv12-venus");
+         //   camParametersHandler.setString("lge-camera", "1");
+        }
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
             String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
@@ -321,7 +333,7 @@ public class VideoModule extends AbstractModule
             camParametersHandler.setString("preview-size", size);
             camParametersHandler.setString("video-size", size);
             camParametersHandler.SetParametersToCamera();
-            videoTime(prof.videoBitRate, prof.audioBitRate);
+            camParametersHandler.setString("video-size", size);
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
 
