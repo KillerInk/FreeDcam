@@ -106,8 +106,8 @@ public class VideoModuleG3 extends VideoModule
             camParametersHandler.Denoise.SetValue("denoise-off", true);
 
             camParametersHandler.setString("dual-recorder", "0");
-            camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
-
+            //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
+            camParametersHandler.setString("preview-format", "nv12-venus");
             camParametersHandler.setString("lge-camera", "1");
         }
         else
@@ -134,8 +134,9 @@ public class VideoModuleG3 extends VideoModule
         else {
             size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
         }
-        ParameterHandler.PreviewSize.SetValue(size, false);
-        camParametersHandler.VideoSize.SetValue(size,true);
+        camParametersHandler.setString("preview-size", size);
+        camParametersHandler.setString("video-size", size);
+        camParametersHandler.SetParametersToCamera();
 
 
     }
