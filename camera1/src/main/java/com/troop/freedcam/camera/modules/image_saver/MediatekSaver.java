@@ -8,6 +8,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -143,6 +144,7 @@ public class MediatekSaver extends JpegSaver {
         dngConverter.RELEASE();
         data = null;
         DeviceSwitcher().delete();
+        iWorkeDone.OnWorkDone(new File(out));
     }
 
     public String FeeDJNI(String msg)
