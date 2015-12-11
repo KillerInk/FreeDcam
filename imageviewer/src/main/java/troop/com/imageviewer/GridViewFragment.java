@@ -48,16 +48,11 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private ImageAdapter mPagerAdapter;
     File[] files;
     int mImageThumbSize = 0;
-
-    private DiskLruCache mDiskLruCache;
-    private final Object mDiskCacheLock = new Object();
-    private boolean mDiskCacheStarting = true;
-    private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
-    private static final String DISK_CACHE_SUBDIR = "thumbnails";
+    CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
 
 
-    private LruCache<String, Bitmap> mMemoryCache;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -66,169 +61,24 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         view = inflater.inflate(R.layout.gridviewfragment, container, false);
         this.gridView = (GridView) view.findViewById(R.id.gridView);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        // Get max available VM memory, exceeding this amount will throw an
-        // OutOfMemory exception. Stored in kilobytes as LruCache takes an
-        // int in its constructor.
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-        // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 8;
-
-        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
-                return bitmap.getByteCount() / 1024;
-            }
-        };
-
-        File cacheDir = getDiskCacheDir(getActivity(), DISK_CACHE_SUBDIR);
-        new InitDiskCacheTask().execute(cacheDir);
-
-
-
         return view;
     }
 
-    class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
-        @Override
-        protected Void doInBackground(File... params) {
-            synchronized (mDiskCacheLock) {
-                File cacheDir = params[0];
-                try {
-                    mDiskLruCache = DiskLruCache.open(cacheDir, 1,1, DISK_CACHE_SIZE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mDiskCacheStarting = false; // Finished initialization
-                mDiskCacheLock.notifyAll(); // Wake any waiting threads
-            }
-            return null;
-        }
-    }
 
-    public void addBitmapToCache(String data, Bitmap value) {
-        //BEGIN_INCLUDE(add_bitmap_to_cache)
-        if (data == null || value == null) {
-            return;
-        }
-
-        // Add to memory cache
-        if (mMemoryCache != null) {
-
-            mMemoryCache.put(data, value);
-        }
-
-        synchronized (mDiskCacheLock) {
-            // Add to disk cache
-            if (mDiskLruCache != null) {
-
-                OutputStream out = null;
-                try {
-                    DiskLruCache.Snapshot snapshot = mDiskLruCache.get(data);
-                    if (snapshot == null) {
-                        final DiskLruCache.Editor editor = mDiskLruCache.edit(data);
-                        if (editor != null) {
-                            out = editor.newOutputStream(0);
-                            value.compress(
-                                    Bitmap.CompressFormat.JPEG,70, out);
-                            editor.commit();
-                            out.close();
-                        }
-                    } else {
-                        snapshot.getInputStream(0).close();
-                    }
-                } catch (final IOException e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
-                } catch (Exception e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
-                } finally {
-                    try {
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (IOException e) {}
-                }
-            }
-        }
-        //END_INCLUDE(add_bitmap_to_cache)
-    }
-
-    public Bitmap getBitmapFromDiskCache(String data) {
-        //BEGIN_INCLUDE(get_bitmap_from_disk_cache)
-        //final String key = hashKeyForDisk(data);
-        Bitmap bitmap = null;
-
-        synchronized (mDiskCacheLock) {
-            while (mDiskCacheStarting) {
-                try {
-                    mDiskCacheLock.wait();
-                } catch (InterruptedException e) {}
-            }
-            if (mDiskLruCache != null) {
-                InputStream inputStream = null;
-                try {
-                    final DiskLruCache.Snapshot snapshot = mDiskLruCache.get(data);
-                    if (snapshot != null) {
-
-                        inputStream = snapshot.getInputStream(0);
-                        if (inputStream != null) {
-                            FileDescriptor fd = ((FileInputStream) inputStream).getFD();
-
-                            // Decode bitmap, but we don't want to sample so give
-                            // MAX_VALUE as the target dimensions
-                            bitmap = BitmapFactory.decodeFileDescriptor(fd, null, null);
-                        }
-                    }
-                } catch (final IOException e) {
-
-                } finally {
-                    try {
-                        if (inputStream != null) {
-                            inputStream.close();
-                        }
-                    } catch (IOException e) {}
-                }
-            }
-            return bitmap;
-        }
-        //END_INCLUDE(get_bitmap_from_disk_cache)
-    }
-
-    // Creates a unique subdirectory of the designated app cache directory. Tries to use external
-// but if not mounted, falls back on internal storage.
-    public static File getDiskCacheDir(Context context, String uniqueName) {
-        // Check if media is mounted or storage is built-in, if so, try and use external cache dir
-        // otherwise use internal cache dir
-        final String cachePath = context.getCacheDir().getPath();
-
-        return new File(cachePath + File.separator + uniqueName);
-    }
-
-
-    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
-        }
-    }
-
-    public Bitmap getBitmapFromMemCache(String key) {
-        return mMemoryCache.get(key);
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         files = ScreenSlideFragment.loadFilePaths();
         mPagerAdapter = new ImageAdapter(getContext());
-
+        cacheHelper = new CacheHelper(getActivity());
         gridView.setAdapter(mPagerAdapter);
 
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
 
     }
 
@@ -257,21 +107,21 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
 
         @Override
         public View getView(int position, View convertView, ViewGroup container) {
-            ImageView imageView;
+            GridImageView imageView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
-                imageView = new ImageView(mContext);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView = new GridImageView(mContext);
+
                 imageView.setLayoutParams(new GridView.LayoutParams(
                         AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
             } else {
-                imageView = (ImageView) convertView;
+                imageView = (GridImageView) convertView;
             }
            loadBitmap(files[position], imageView); // Load image into ImageView
             return imageView;
         }
     }
 
-    private static BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
+    private static BitmapWorkerTask getBitmapWorkerTask(GridImageView imageView) {
         if (imageView != null) {
             final Drawable drawable = imageView.getDrawable();
             if (drawable instanceof AsyncDrawable) {
@@ -282,12 +132,14 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         return null;
     }
 
-    public void loadBitmap(File file, ImageView imageView) {
+    public void loadBitmap(File file, GridImageView imageView) {
         if (cancelPotentialWork(file, imageView)) {
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
             final AsyncDrawable asyncDrawable =
                     new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(),R.drawable.noimage), mImageThumbSize, mImageThumbSize), task);
             imageView.setImageDrawable(asyncDrawable);
+            String f = file.getName();
+            imageView.SetFileEnding(f.substring(f.length()-3));
             task.execute(file);
         }
     }
@@ -308,7 +160,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         }
     }
 
-    public static boolean cancelPotentialWork(File file, ImageView imageView) {
+    public static boolean cancelPotentialWork(File file, GridImageView imageView) {
         final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
 
         if (bitmapWorkerTask != null) {
@@ -326,12 +178,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     class BitmapWorkerTask extends AsyncTask<File, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
+        private final WeakReference<GridImageView> imageViewReference;
         private File file;
 
-        public BitmapWorkerTask(ImageView imageView) {
+        public BitmapWorkerTask(GridImageView imageView) {
             // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<ImageView>(imageView);
+            imageViewReference = new WeakReference<GridImageView>(imageView);
         }
 
         // Decode image in background.
@@ -345,7 +197,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             if (imageViewReference != null && bitmap != null) {
-                final ImageView imageView = imageViewReference.get();
+                final GridImageView imageView = imageViewReference.get();
                 if (imageView != null) {
                     imageView.setImageBitmap(bitmap);
                 }
@@ -355,11 +207,11 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
 
     private Bitmap getBitmap(File file)
     {
-        Bitmap response = getBitmapFromMemCache(file.getName());
+        Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
         if (response == null)
         {
             Log.d(TAG,"No image in memory try from disk");
-            response = getBitmapFromDiskCache(file.getName());
+            response = cacheHelper.getBitmapFromDiskCache(file.getName());
         }
         if (response == null)
         {
@@ -370,8 +222,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
                 response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
                 if (response != null) {
-                    addBitmapToMemoryCache(file.getName(), response);
-                    addBitmapToCache(file.getName(), response);
+                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
+                    cacheHelper.addBitmapToCache(file.getName(), response);
                 }
 
             } else if (file.getAbsolutePath().endsWith(".mp4")) {
@@ -379,8 +231,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
                 if (response != null)
                 {
-                    addBitmapToCache(file.getName(),response);
-                    addBitmapToMemoryCache(file.getName(), response);
+                    cacheHelper.addBitmapToCache(file.getName(), response);
+                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
                 }
             } else if (file.getAbsolutePath().endsWith(".dng") || file.getAbsolutePath().endsWith(".raw")) {
                 try {
@@ -391,8 +243,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                         response.setHasAlpha(true);
                     response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
                     if (response != null) {
-                        addBitmapToMemoryCache(file.getName(), response);
-                        addBitmapToCache(file.getName(), response);
+                        cacheHelper.addBitmapToMemoryCache(file.getName(), response);
+                        cacheHelper.addBitmapToCache(file.getName(), response);
                     }
                 } catch (IllegalArgumentException ex) {
                     response = null;
@@ -400,7 +252,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
             }
         }
-        
+
 
         return response;
     }
