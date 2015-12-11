@@ -18,6 +18,8 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     final static String TAG = ScreenSlideActivity.class.getSimpleName();
     int flags;
+    public static final String EXTRA_IMAGE = "extra_image";
+    int extra = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         HIDENAVBAR();
         if (DeviceUtils.contex == null)
             DeviceUtils.contex = getApplicationContext();
+
 
     }
 
@@ -71,6 +74,11 @@ public class ScreenSlideActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         ScreenSlideFragment fragment = new ScreenSlideFragment();
+        final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
+        if (extraCurrentItem != -1) {
+            this.extra = extraCurrentItem;
+        }
+        fragment.defitem = extra;
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(troop.com.imageviewer.R.id.screenslideFragment_holder, fragment, "Imageviewer");
         transaction.commitAllowingStateLoss();

@@ -1,6 +1,8 @@
 package troop.com.imageviewer;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +62,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.gridviewfragment, container, false);
         this.gridView = (GridView) view.findViewById(R.id.gridView);
+        gridView.setOnItemClickListener(this);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         return view;
     }
@@ -79,7 +82,9 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-
+        final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
+        i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, (int) id);
+        startActivity(i);
     }
 
     private class ImageAdapter extends BaseAdapter {
