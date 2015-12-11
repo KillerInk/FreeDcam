@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><dimen name="app_icon_size">30dp</dimen></resources>
+<resources><dimen name="app_icon_size">30dp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+</resources>
