@@ -2,10 +2,18 @@
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/gridimageviewholder" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/gridimageviewholder"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,4 +21,5 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="jpg"
         android:id="@+id/filetypetextbox" />
+
 </AbsoluteLayout>
