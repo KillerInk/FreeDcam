@@ -1,7 +1,9 @@
 package troop.com.imageviewer;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -83,6 +85,9 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                         setViewMode(ViewStates.selection);
                         break;
                     case selection:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener).show();
                         setViewMode(ViewStates.normal);
                         break;
                 }
@@ -91,11 +96,43 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         return view;
     }
 
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+
+                    for (FileHolder f: files)
+                    {
+                        if (f.IsSelected())
+                        {
+                            boolean d = f.getFile().delete();
+                            Log.d(TAG,"File delted:" + f.getFile().getName() + " :" + d);
+                        }
+                    }
+                    loadFiles();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cacheHelper = new CacheHelper(getActivity());
+        loadFiles();
+
+
+    }
+
+    private void loadFiles()
+    {
         File[] f = ScreenSlideFragment.loadFilePaths();
         files =  new FileHolder[f.length];
         for (int i =0; i< f.length; i++)
@@ -103,9 +140,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             files[i] = new FileHolder(f[i]);
         }
         mPagerAdapter = new ImageAdapter(getContext());
-        cacheHelper = new CacheHelper(getActivity());
         gridView.setAdapter(mPagerAdapter);
-
     }
 
     @Override
@@ -115,12 +150,14 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         {
             case normal:
             final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
-            i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, (int) id);
+            i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
             startActivity(i);
                 break;
             case selection:
-                GridImageView gview = (GridImageView)view;
-                gview.SetSelected();
+                if (files[position].IsSelected())
+                    files[position].SetSelected(false);
+                else
+                    files[position].SetSelected(true);
         }
     }
 
@@ -153,13 +190,16 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new GridImageView(mContext);
                 imageView.SetEventListner(files[position]);
+                files[position].SetViewState(currentViewState);
                 imageView.setLayoutParams(new GridView.LayoutParams(
                         AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
             } else {
                 imageView = (GridImageView) convertView;
+                imageView.SetEventListner(files[position]);
+                files[position].SetViewState(currentViewState);
             }
-            imageView.SetViewState(currentViewState);
-            Log.d(TAG, "imageviewState: " + imageView.currentViewstate + "/GridState:" + currentViewState);
+            Log.d(TAG, "pos:" + position +  "imageviewState: " + files[position].GetCurrentViewState()+ "/GridState:" + currentViewState + "filename:" + files[position].getFile().getName()+
+                    "ischecked:" + files[position].IsSelected());
             loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
             return imageView;
         }
@@ -254,12 +294,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
         if (response == null)
         {
-            Log.d(TAG,"No image in memory try from disk");
+            //Log.d(TAG,"No image in memory try from disk");
             response = cacheHelper.getBitmapFromDiskCache(file.getName());
         }
         if (response == null)
         {
-            Log.d(TAG,"No image in thumbcache try from disk");
+            //Log.d(TAG,"No image in thumbcache try from disk");
             if (file.getAbsolutePath().endsWith(".jpg")) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 20;

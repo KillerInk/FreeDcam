@@ -6,6 +6,9 @@ import java.io.File;
 
 /**
  * Created by troop on 12.12.2015.
+ *
+ * This class represent the State of GridImageview when its added or not to Gridview and updates the
+ * GridviewItem when its visibile/invisible on screen
  */
 public class FileHolder
 {
@@ -49,5 +52,10 @@ public class FileHolder
     {
         void onViewStateChanged(GridViewFragment.ViewStates state);
         void onSelectionChanged(boolean selected);
+    }
+
+    public GridViewFragment.ViewStates GetCurrentViewState()
+    {
+        return currentstate;
     }
 }

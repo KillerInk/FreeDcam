@@ -19,8 +19,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 {
     ImageView imageView;
     TextView textView;
-    GridViewFragment.ViewStates currentViewstate = GridViewFragment.ViewStates.normal;
     CheckBox checkBox;
+    private FileHolder fileHolder;
     public GridImageView(Context context) {
         super(context);
         init(context);
@@ -44,6 +44,15 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         textView = (TextView)findViewById(R.id.filetypetextbox);
         checkBox = (CheckBox)findViewById(R.id.checkBox_gridviewimage);
+        checkBox.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fileHolder.IsSelected())
+                    fileHolder.SetSelected(false);
+                else
+                    fileHolder.SetSelected(true);
+            }
+        });
     }
 
     public void setImageDrawable(Drawable asyncDrawable)
@@ -58,6 +67,12 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     public void SetEventListner(FileHolder fileHolder)
     {
+        this.fileHolder = fileHolder;
+        SetViewState(fileHolder.GetCurrentViewState());
+        if (fileHolder.IsSelected())
+            checkBox.setChecked(true);
+        else
+            checkBox.setChecked(false);
         fileHolder.SetEventListner(this);
     }
 
@@ -72,8 +87,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     public void SetViewState(GridViewFragment.ViewStates state)
     {
-        this.currentViewstate = state;
-        switch (currentViewstate)
+        switch (state)
         {
             case normal:
                 checkBox.setVisibility(GONE);
@@ -86,10 +100,14 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     public void SetSelected()
     {
-        if(checkBox.isChecked())
+        if(checkBox.isChecked()) {
             checkBox.setChecked(false);
-        else
+            fileHolder.SetSelected(false);
+        }
+        else {
             checkBox.setChecked(true);
+            fileHolder.SetSelected(true);
+        }
     }
 
     @Override
