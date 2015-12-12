@@ -8,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridImageView extends AbsoluteLayout
+public class GridImageView extends AbsoluteLayout implements FileHolder.EventHandler
 {
     ImageView imageView;
     TextView textView;
+    GridViewFragment.ViewStates currentViewstate = GridViewFragment.ViewStates.normal;
+    CheckBox checkBox;
     public GridImageView(Context context) {
         super(context);
         init(context);
@@ -40,6 +43,7 @@ public class GridImageView extends AbsoluteLayout
         imageView = (ImageView) findViewById(R.id.gridimageviewholder);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         textView = (TextView)findViewById(R.id.filetypetextbox);
+        checkBox = (CheckBox)findViewById(R.id.checkBox_gridviewimage);
     }
 
     public void setImageDrawable(Drawable asyncDrawable)
@@ -52,6 +56,11 @@ public class GridImageView extends AbsoluteLayout
         imageView.setImageBitmap(bitmap);
     }
 
+    public void SetEventListner(FileHolder fileHolder)
+    {
+        fileHolder.SetEventListner(this);
+    }
+
     public void SetFileEnding(String ending)
     {
         textView.setText(ending);
@@ -59,5 +68,37 @@ public class GridImageView extends AbsoluteLayout
     public Drawable getDrawable()
     {
        return imageView.getDrawable();
+    }
+
+    public void SetViewState(GridViewFragment.ViewStates state)
+    {
+        this.currentViewstate = state;
+        switch (currentViewstate)
+        {
+            case normal:
+                checkBox.setVisibility(GONE);
+                checkBox.setChecked(false);
+                break;
+            case selection:
+                checkBox.setVisibility(VISIBLE);
+        }
+    }
+
+    public void SetSelected()
+    {
+        if(checkBox.isChecked())
+            checkBox.setChecked(false);
+        else
+            checkBox.setChecked(true);
+    }
+
+    @Override
+    public void onViewStateChanged(GridViewFragment.ViewStates state) {
+        SetViewState(state);
+    }
+
+    @Override
+    public void onSelectionChanged(boolean selected) {
+        checkBox.setChecked(selected);
     }
 }

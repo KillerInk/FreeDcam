@@ -3,10 +3,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp">
+
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_deltePics"
+            android:background="@drawable/delete"
+            android:layout_marginRight="1dp" />
+    </LinearLayout>
+
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gridView"
         android:numColumns="auto_fit"
         android:columnWidth="100dp" />
+
 </LinearLayout>

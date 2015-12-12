@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * Created by troop on 11.12.2015.
@@ -48,11 +49,19 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     GridView gridView;
     View view;
     private ImageAdapter mPagerAdapter;
-    File[] files;
+    FileHolder[] files;
     int mImageThumbSize = 0;
     CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
+    private ViewStates currentViewState = ViewStates.normal;
+    private Button deleteButton;
 
+
+    public enum ViewStates
+    {
+        normal,
+        selection,
+    }
 
 
 
@@ -64,6 +73,21 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         this.gridView = (GridView) view.findViewById(R.id.gridView);
         gridView.setOnItemClickListener(this);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+        deleteButton = (Button)view.findViewById(R.id.button_deltePics);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (currentViewState)
+                {
+                    case normal:
+                        setViewMode(ViewStates.selection);
+                        break;
+                    case selection:
+                        setViewMode(ViewStates.normal);
+                        break;
+                }
+            }
+        });
         return view;
     }
 
@@ -72,7 +96,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        files = ScreenSlideFragment.loadFilePaths();
+        File[] f = ScreenSlideFragment.loadFilePaths();
+        files =  new FileHolder[f.length];
+        for (int i =0; i< f.length; i++)
+        {
+            files[i] = new FileHolder(f[i]);
+        }
         mPagerAdapter = new ImageAdapter(getContext());
         cacheHelper = new CacheHelper(getActivity());
         gridView.setAdapter(mPagerAdapter);
@@ -82,9 +111,17 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
-        i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, (int) id);
-        startActivity(i);
+        switch (currentViewState)
+        {
+            case normal:
+            final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
+            i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, (int) id);
+            startActivity(i);
+                break;
+            case selection:
+                GridImageView gview = (GridImageView)view;
+                gview.SetSelected();
+        }
     }
 
     private class ImageAdapter extends BaseAdapter {
@@ -115,13 +152,15 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             GridImageView imageView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new GridImageView(mContext);
-
+                imageView.SetEventListner(files[position]);
                 imageView.setLayoutParams(new GridView.LayoutParams(
                         AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
             } else {
                 imageView = (GridImageView) convertView;
             }
-           loadBitmap(files[position], imageView); // Load image into ImageView
+            imageView.SetViewState(currentViewState);
+            Log.d(TAG, "imageviewState: " + imageView.currentViewstate + "/GridState:" + currentViewState);
+            loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
             return imageView;
         }
     }
@@ -262,6 +301,15 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         return response;
     }
 
+    private void setViewMode(ViewStates viewState)
+    {
+        this.currentViewState = viewState;
+        for (int i = 0; i< files.length; i++)
+        {
+            FileHolder f = files[i];
+            f.SetViewState(viewState);
 
+        }
+    }
 
 }
