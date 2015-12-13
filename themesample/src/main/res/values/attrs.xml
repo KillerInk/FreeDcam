@@ -8,9 +8,6 @@
     <declare-styleable name="MenuItem">
         <attr name="Description" format="string"/>
     </declare-styleable>
-    <declare-styleable name="ManualItem">
-        <attr name="Header" format="string"/>
-    </declare-styleable>
     <declare-styleable name="ManualButton">
         <attr name="Headerval" format="string"/>
         <attr name="Image" format="integer"/>
