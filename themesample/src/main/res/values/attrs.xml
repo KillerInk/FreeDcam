@@ -9,7 +9,7 @@
         <attr name="Description" format="string"/>
     </declare-styleable>
     <declare-styleable name="ManualButton">
-        <attr name="Headerval" format="string"/>
+        <attr name="Header" format="string"/>
         <attr name="Image" format="integer"/>
     </declare-styleable>
     <declare-styleable name="MyGallery">

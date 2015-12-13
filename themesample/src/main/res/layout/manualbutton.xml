@@ -5,6 +5,11 @@
     android:background="#46000000"
     android:gravity="center_horizontal">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView_ManualButton" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -43,10 +48,5 @@
             android:freezesText="true"
             android:textSize="@dimen/manualitemtextsize" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView_ManualButton" />
 
 </AbsoluteLayout>

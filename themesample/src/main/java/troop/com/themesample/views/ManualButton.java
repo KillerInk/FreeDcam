@@ -50,15 +50,16 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         init(context);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.ManualItem,
+                R.styleable.ManualButton,
                 0, 0
         );
         //try to set the attributs
         try
         {
-            headerTextView.setText(a.getText(R.styleable.ManualItem_Header));
-            if (a.getInteger(R.styleable.ManualButton_Image,0) != 0)
-                imageView.setImageDrawable(getResources().getDrawable(a.getInteger(R.styleable.ManualButton_Image,0)));
+            headerTextView.setText(a.getText(R.styleable.ManualButton_Header));
+            imageView.setImageDrawable(a.getDrawable(R.styleable.ManualButton_Image));
+            if (imageView.getDrawable() != null)
+                headerTextView.setVisibility(GONE);
 
         }
         finally {
