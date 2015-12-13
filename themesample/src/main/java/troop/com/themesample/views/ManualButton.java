@@ -36,7 +36,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     int realMin;
     int realMax;
     final int backgroundColorActive = Color.parseColor("#46FFFFFF");
-    final int backgroundColor = Color.parseColor("#46000000");
+    final int backgroundColor = Color.parseColor("#00000000");
     final int stringColor = Color.parseColor("#FFFFFFFF");
     final int stringColorActive = Color.parseColor("#FF000000");
     boolean imageusing = false;

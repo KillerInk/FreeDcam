@@ -95,7 +95,7 @@ public class CCTManualParameter extends BaseManualParameter {
         int min = Integer.parseInt(parameters.get(min_value));
         int max = Integer.parseInt(parameters.get(max_value));
         ArrayList<String> t = new ArrayList<String>();
-        t.add("auto");
+        t.add("Auto");
         for (int i = min; i<=max;i+=50)
         {
             t.add(i+"");
