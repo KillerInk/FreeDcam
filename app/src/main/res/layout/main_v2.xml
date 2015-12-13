@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff1d1d1d"
+    android:background="#1b1b1b"
     android:keepScreenOn="true"
     android:longClickable="false"
     android:touchscreenBlocksFocus="true"
@@ -39,7 +39,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

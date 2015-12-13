@@ -8,10 +8,9 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:gravity="center_horizontal"
-        android:background="@drawable/btn_float"
         android:layout_margin="1dp">
 
         <TextView
@@ -22,7 +21,6 @@
             android:id="@+id/textView"
             android:textStyle="bold"
             android:textColor="@color/uiSettingsTextColor"
-            android:layout_marginTop="30dp"
             android:textSize="10dip"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"

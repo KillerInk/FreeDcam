@@ -33,6 +33,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChildFormat;
 import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsFocusPeak;
 import troop.com.themesample.views.uichilds.UiSettingsMenu;
+import troop.com.themesample.views.uichilds.imageButton.ImageButtonWB;
 
 /**
  * Created by troop on 14.06.2015.
@@ -40,6 +41,8 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
 public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+
+    static ImageButtonWB test;
 
     static UiSettingsChild flash;
     static UiSettingsChild iso;
@@ -112,6 +115,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         if (wrapper == null || wrapper.camParametersHandler == null)
             return;
+
+        test.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
+
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(wrapper.camParametersHandler.IsoMode);
@@ -162,12 +168,20 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
         ManualSettingsButton.setOnClickListener(onSettingsClick);
 
+        this.test = (ImageButtonWB)view.findViewById(R.id.testwb);
+        test.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        test.SetMenuItemListner(this);
+
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this);
+
+
         this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
         iso.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
+
         iso.SetMenuItemListner(this);
+
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
         autoexposure.SetMenuItemListner(this);
