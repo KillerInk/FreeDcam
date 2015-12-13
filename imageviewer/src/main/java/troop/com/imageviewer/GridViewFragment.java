@@ -62,6 +62,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private ViewStates currentViewState = ViewStates.normal;
     private Button deleteButton;
     private Button gobackButton;
+    final String savedInstanceString = "lastpath";
+    String savedInstanceFilePath;
 
 
     public enum ViewStates
@@ -127,12 +129,30 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                     else
                     {
                         loadFiles(files[0].getFile());
+                        savedInstanceFilePath = files[0].getFile().getAbsolutePath();
                     }
                 }
             }
         });
 
+
+
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(savedInstanceString, savedInstanceFilePath);
+        super.onSaveInstanceState(outState);
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -170,7 +190,10 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         {
             MPermissions.requestSDPermission(this);
         }
+        if(savedInstanceState != null){
+            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
 
+        }
 
 
 
@@ -179,7 +202,10 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onResume() {
         super.onResume();
-        loadDefaultFolders();
+        if (savedInstanceFilePath == null)
+            loadDefaultFolders();
+        else
+            loadFiles(new File(savedInstanceFilePath));
     }
 
     private void loadFiles()
@@ -244,6 +270,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 else
                 {
                     loadFiles(files[position].getFile());
+                    savedInstanceFilePath = files[position].getFile().getParentFile().getAbsolutePath();
                 }
                 break;
             case selection:
