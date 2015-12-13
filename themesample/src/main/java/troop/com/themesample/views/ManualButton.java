@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     String settingsname;
     TextView headerTextView;
     TextView valueTextView;
+    private ImageView imageView;
     Handler handler;
     int realMin;
     int realMax;
@@ -55,6 +57,8 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         try
         {
             headerTextView.setText(a.getText(R.styleable.ManualItem_Header));
+            if (a.getInteger(R.styleable.ManualButton_Image,0) != 0)
+                imageView.setImageDrawable(getResources().getDrawable(a.getInteger(R.styleable.ManualButton_Image,0)));
 
         }
         finally {
@@ -76,6 +80,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         headerTextView.setSelected(true);
         this.valueTextView = (TextView)findViewById(R.id.manualbutton_valuetext);
         valueTextView.setSelected(true);
+        imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
     }
 
     public void SetAbstractManualParameter(AbstractManualParameter parameter)

@@ -66,8 +66,9 @@
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 app:Header="Exposure"
+                app:Image="@drawable/manual_exposure"
                 android:id="@+id/manual_exposure"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"/>
             <troop.com.themesample.views.ManualButton
                 android:layout_width="40dp"
                 android:layout_height="30dp"

@@ -13,6 +13,7 @@
     </declare-styleable>
     <declare-styleable name="ManualButton">
         <attr name="Headerval" format="string"/>
+        <attr name="Image" format="integer"/>
     </declare-styleable>
     <declare-styleable name="MyGallery">
         <attr name="android:galleryItemBackground" />
