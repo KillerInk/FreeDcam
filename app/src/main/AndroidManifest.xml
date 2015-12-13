@@ -72,7 +72,7 @@
         </activity>
 
         <activity
-            android:name="troop.com.imageviewer.ScreenSlideActivity"
+            android:name="troop.com.imageviewer.GridViewActivity"
             android:label="FreeDCam Viewer"
 
             android:icon="@drawable/launcher_imageviewer"
@@ -91,14 +91,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:mimeType="image/*"/>
             </intent-filter>
-
-
         </activity>
 
-
-
     </application>
-
-
-
 </manifest>
