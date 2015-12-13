@@ -74,6 +74,7 @@
                 android:layout_height="30dp"
                 app:Header="Brightness"
                 android:id="@+id/manual_brightness"
+                app:Image="@drawable/brightness"
                 android:layout_marginRight="10dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="40dp"

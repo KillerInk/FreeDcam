@@ -39,6 +39,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     final int backgroundColor = Color.parseColor("#46000000");
     final int stringColor = Color.parseColor("#FFFFFFFF");
     final int stringColorActive = Color.parseColor("#FF000000");
+    boolean imageusing = false;
 
     public ManualButton(Context context) {
         super(context);
@@ -58,8 +59,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         {
             headerTextView.setText(a.getText(R.styleable.ManualButton_Header));
             imageView.setImageDrawable(a.getDrawable(R.styleable.ManualButton_Image));
-            if (imageView.getDrawable() != null)
+            if (imageView.getDrawable() != null) {
                 headerTextView.setVisibility(GONE);
+                this.imageusing = true;
+            }
 
         }
         finally {
@@ -266,17 +269,24 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public void SetActive(boolean active)
     {
-        if (active)
-        {
-            setBackgroundColor(backgroundColorActive);
-            headerTextView.setTextColor(stringColorActive);
-            valueTextView.setTextColor(stringColorActive);
+        if (!imageusing) {
+            if (active) {
+                setBackgroundColor(backgroundColorActive);
+                headerTextView.setTextColor(stringColorActive);
+                valueTextView.setTextColor(stringColorActive);
+            } else {
+                setBackgroundColor(backgroundColor);
+                headerTextView.setTextColor(stringColor);
+                valueTextView.setTextColor(stringColor);
+            }
         }
         else
         {
-            setBackgroundColor(backgroundColor);
-            headerTextView.setTextColor(stringColor);
-            valueTextView.setTextColor(stringColor);
+            if (active) {
+                setBackgroundColor(backgroundColorActive);
+            } else {
+                setBackgroundColor(backgroundColor);
+            }
         }
     }
 
