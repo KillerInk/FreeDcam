@@ -16,10 +16,13 @@ public class FileHolder
     private GridViewFragment.ViewStates currentstate = GridViewFragment.ViewStates.normal;
     private EventHandler handler;
     private boolean selected = false;
+    private boolean isFolder = false;
 
     public FileHolder(File file)
     {
         this.file = file;
+        if (file.isDirectory())
+            isFolder=true;
     }
 
     public void SetViewState(GridViewFragment.ViewStates state)
@@ -57,5 +60,10 @@ public class FileHolder
     public GridViewFragment.ViewStates GetCurrentViewState()
     {
         return currentstate;
+    }
+
+    public boolean IsFolder()
+    {
+        return isFolder;
     }
 }

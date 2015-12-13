@@ -14,9 +14,18 @@
         <Button
             android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_goback"
+            android:background="@drawable/go_back"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp" />
+
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:id="@+id/button_deltePics"
             android:background="@drawable/delete"
-            android:layout_marginRight="1dp" />
+            android:layout_marginRight="5dp" />
+
     </LinearLayout>
 
     <GridView

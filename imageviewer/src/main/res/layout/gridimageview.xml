@@ -20,7 +20,8 @@
             android:id="@+id/checkBox_gridviewimage"
             android:layout_gravity="right|bottom"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:background="#85000000" />
     </FrameLayout>
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="jpg"
-        android:id="@+id/filetypetextbox" />
+        android:id="@+id/filetypetextbox"
+        android:background="#7c000000" />
 
 </AbsoluteLayout>

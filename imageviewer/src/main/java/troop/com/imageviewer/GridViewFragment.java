@@ -35,6 +35,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.defcomk.jni.libraw.RawUtils;
+import com.troop.freedcam.utils.StringUtils;
 import com.troop.marshmallowpermission.MPermissions;
 
 import java.io.File;
@@ -60,6 +61,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     final String TAG = GridViewFragment.class.getSimpleName();
     private ViewStates currentViewState = ViewStates.normal;
     private Button deleteButton;
+    private Button gobackButton;
 
 
     public enum ViewStates
@@ -82,17 +84,15 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (currentViewState)
-                {
+                switch (currentViewState) {
                     case normal:
                         setViewMode(ViewStates.selection);
                         break;
                     case selection:
                         //check if files are selceted
                         boolean hasfilesSelected = false;
-                        for(FileHolder f :files)
-                        {
-                            if(f.IsSelected()) {
+                        for (FileHolder f : files) {
+                            if (f.IsSelected()) {
                                 hasfilesSelected = true;
                                 break;
                             }
@@ -107,6 +107,27 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                                 .setNegativeButton("No", dialogClickListener).show();
                         setViewMode(ViewStates.normal);
                         break;
+                }
+            }
+        });
+
+        gobackButton = (Button)view.findViewById(R.id.button_goback);
+        gobackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (files != null && files.length > 0)
+                {
+                    String topPath = files[0].getFile().getParentFile().getParentFile().getAbsolutePath()+ "/";
+                    String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
+                    String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
+
+                    if (topPath.equals(inter)
+                            || topPath.equals(external))
+                        loadDefaultFolders();
+                    else
+                    {
+                        loadFiles(files[0].getFile());
+                    }
                 }
             }
         });
@@ -149,9 +170,16 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         {
             MPermissions.requestSDPermission(this);
         }
-        loadFiles();
 
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDefaultFolders();
     }
 
     private void loadFiles()
@@ -162,6 +190,42 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         {
             files[i] = new FileHolder(f[i]);
         }
+
+    }
+
+    private void loadDefaultFolders()
+    {
+        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
+        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
+        for (int i = 0; i< internalSDCIM.listFiles().length; i++)
+        {
+            list.add(new FileHolder(internalSDCIM.listFiles()[i]));
+        }
+        try {
+            for (int i = 0; i< externalSDCIM.listFiles().length; i++)
+            {
+                list.add(new FileHolder(externalSDCIM.listFiles()[i]));
+            }
+        }
+        catch (Exception ex) {
+            Log.d(TAG, "No external SD!");
+        }
+        files = new FileHolder[list.size()];
+        list.toArray(files);
+        mPagerAdapter = new ImageAdapter(getContext());
+        gridView.setAdapter(mPagerAdapter);
+    }
+
+    private void loadFiles(File file)
+    {
+        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
+        for (int i = 0; i< file.listFiles().length; i++)
+        {
+            list.add(new FileHolder(file.listFiles()[i]));
+        }
+        files = new FileHolder[list.size()];
+        list.toArray(files);
         mPagerAdapter = new ImageAdapter(getContext());
         gridView.setAdapter(mPagerAdapter);
     }
@@ -172,9 +236,15 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         switch (currentViewState)
         {
             case normal:
-            final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
-            i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
-            startActivity(i);
+                if (!files[position].IsFolder()) {
+                    final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
+                    i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
+                    startActivity(i);
+                }
+                else
+                {
+                    loadFiles(files[position].getFile());
+                }
                 break;
             case selection:
                 if (files[position].IsSelected())
@@ -239,14 +309,28 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         return null;
     }
 
-    public void loadBitmap(File file, GridImageView imageView) {
-        if (cancelPotentialWork(file, imageView)) {
+    public void loadBitmap(File file, GridImageView imageView)
+    {
+        if (cancelPotentialWork(file, imageView))
+        {
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-            final AsyncDrawable asyncDrawable =
-                    new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(),R.drawable.noimage), mImageThumbSize, mImageThumbSize), task);
-            imageView.setImageDrawable(asyncDrawable);
+            if (!file.isDirectory())
+            {
+                final AsyncDrawable asyncDrawable =
+                        new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), R.drawable.noimage), mImageThumbSize, mImageThumbSize), task);
+                imageView.setImageDrawable(asyncDrawable);
+            }
+            else
+            {
+                final AsyncDrawable asyncDrawable =
+                        new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), R.drawable.folder), mImageThumbSize, mImageThumbSize), task);
+                imageView.setImageDrawable(asyncDrawable);
+            }
             String f = file.getName();
-            imageView.SetFileEnding(f.substring(f.length()-3));
+            if (!file.isDirectory())
+                imageView.SetFileEnding(f.substring(f.length()-3));
+            else
+                imageView.SetFileEnding(f);
             task.execute(file);
         }
     }
@@ -314,6 +398,13 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
 
     private Bitmap getBitmap(File file)
     {
+        if (!file.getAbsolutePath().endsWith("jpg")
+                && !file.getAbsolutePath().endsWith("dng")
+                && !file.getAbsolutePath().endsWith("mp4")
+                && !file.getAbsolutePath().endsWith("raw")
+                && !file.getAbsolutePath().endsWith("jps"))
+            return null;
+
         Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
         if (response == null)
         {

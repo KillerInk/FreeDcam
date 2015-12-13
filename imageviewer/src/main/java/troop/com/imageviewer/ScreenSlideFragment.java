@@ -61,8 +61,7 @@ public class ScreenSlideFragment extends Fragment
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (activity != null)
                     activity.loadCameraUiFragment();
                 else
@@ -168,14 +167,14 @@ public class ScreenSlideFragment extends Fragment
         List<File> images = new ArrayList<File>();
         //read internal Folders
         try {
-            readSubFolderFromFolder(internalSDCIM, folders);
+            FileUtils.readSubFolderFromFolder(internalSDCIM, folders);
         }
         catch (Exception ex){}
         Log.d(TAG, "Found internal " + folders.size() + "Folders");
         //read external Folders
         File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
         try {
-            readSubFolderFromFolder(externalSDCIM, folders);
+            FileUtils.readSubFolderFromFolder(externalSDCIM, folders);
         }
         catch (Exception ex){}
         Log.d(TAG, "Found external " + folders.size() + "Folders");
@@ -186,7 +185,7 @@ public class ScreenSlideFragment extends Fragment
             {
                 if (folder.isDirectory())
                 {
-                    readFilesFromFolder(folder, images);
+                    FileUtils.readFilesFromFolder(folder, images);
                 }
             }
         }
@@ -202,27 +201,5 @@ public class ScreenSlideFragment extends Fragment
         return s;
     }
 
-    private static void readFilesFromFolder(File folder, List<File> fileList)
-    {
-        File[] folderfiles = folder.listFiles();
-        for (File f : folderfiles)
-        {
-            if (!f.isDirectory() &&
-                    (f.getAbsolutePath().endsWith(".jpg") ||
-                            f.getAbsolutePath().endsWith(".mp4")||
-                            f.getAbsolutePath().endsWith(".dng")||
-                            f.getAbsolutePath().endsWith(".raw")))
-                fileList.add(f);
-        }
-    }
 
-    private static void readSubFolderFromFolder(File folder, List<File> folderList)
-    {
-        File[] folderfiles = folder.listFiles();
-        for (File f : folderfiles)
-        {
-            if (f.isDirectory() && !f.isHidden())
-                folderList.add(f);
-        }
-    }
 }
