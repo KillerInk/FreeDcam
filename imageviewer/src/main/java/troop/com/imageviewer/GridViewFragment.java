@@ -1,10 +1,12 @@
 package troop.com.imageviewer;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +35,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.defcomk.jni.libraw.RawUtils;
+import com.troop.marshmallowpermission.MPermissions;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -85,6 +88,20 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                         setViewMode(ViewStates.selection);
                         break;
                     case selection:
+                        //check if files are selceted
+                        boolean hasfilesSelected = false;
+                        for(FileHolder f :files)
+                        {
+                            if(f.IsSelected()) {
+                                hasfilesSelected = true;
+                                break;
+                            }
+
+                        }
+                        //if no files selected skip dialog
+                        if (!hasfilesSelected)
+                            break;
+                        //else show dialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
@@ -93,6 +110,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
             }
         });
+
         return view;
     }
 
@@ -126,6 +144,11 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cacheHelper = new CacheHelper(getActivity());
+        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestSDPermission(this);
+        }
         loadFiles();
 
 

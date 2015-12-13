@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion "23.0.1"
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
@@ -15,13 +16,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
 }
 
 dependencies {
-    provided project(':abstractcamera')
-    provided project(':imageconverter')
-    provided project(':androiddng')
-    compile project(':marshmallowpermission')
+    provided 'com.android.support:support-v4:23.0.1'
 }

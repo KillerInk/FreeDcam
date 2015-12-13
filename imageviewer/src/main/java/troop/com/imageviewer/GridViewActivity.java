@@ -1,8 +1,12 @@
 package troop.com.imageviewer;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+
+import com.troop.marshmallowpermission.MPermissions;
 
 /**
  * Created by troop on 11.12.2015.
@@ -18,5 +22,6 @@ public class GridViewActivity extends FragmentActivity
             ft.add(android.R.id.content, new GridViewFragment(), TAG);
             ft.commit();
         }
+
     }
 }
