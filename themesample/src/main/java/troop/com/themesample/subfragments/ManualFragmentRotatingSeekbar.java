@@ -212,6 +212,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
         currentButton.setValueToParameters(progress);
+        currentButton.onCurrentValueChanged(progress);
     }
 
     @Override
