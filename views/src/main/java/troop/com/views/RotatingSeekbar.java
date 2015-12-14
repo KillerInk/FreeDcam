@@ -252,10 +252,10 @@ public class RotatingSeekbar extends View
     public void SetStringValues(String[] ar)
     {
         this.Values = ar;
-        this.itemHeight = viewHeight /10;
+        this.itemHeight = viewHeight /16;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
-        realMax = allItemsHeight - viewHeight/2;
+        realMax = allItemsHeight - viewHeight/2-80;
         invalidate();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
