@@ -53,7 +53,7 @@ import java.util.Comparator;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends Fragment implements AdapterView.OnItemClickListener
+public class GridViewFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     GridView gridView;
     View view;
@@ -67,6 +67,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private Button gobackButton;
     final String savedInstanceString = "lastpath";
     String savedInstanceFilePath;
+
+
 
 
     public enum ViewStates
@@ -84,8 +86,10 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         view = inflater.inflate(R.layout.gridviewfragment, container, false);
         this.gridView = (GridView) view.findViewById(R.id.gridView);
         gridView.setOnItemClickListener(this);
+        gridView.setOnItemLongClickListener(this);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
+        deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +112,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                             break;
                         //else show dialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                        builder.setMessage("Delete File's?").setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
                         setViewMode(ViewStates.normal);
                         break;
@@ -119,21 +123,31 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         gobackButton = (Button)view.findViewById(R.id.button_goback);
         gobackButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (files != null && files.length > 0)
-                {
-                    String topPath = files[0].getFile().getParentFile().getParentFile().getAbsolutePath()+ "/";
-                    String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
-                    String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
+            public void onClick(View view)
+            {
+                if (currentViewState == ViewStates.normal) {
+                    if (files != null && files.length > 0) {
+                        String topPath = files[0].getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                        String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
+                        String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
 
-                    if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
-                            || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
-                        loadDefaultFolders();
-                    else
-                    {
-                        loadFiles(files[0].getFile());
-                        savedInstanceFilePath = files[0].getFile().getAbsolutePath();
+                        if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
+                                || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
+                            loadDefaultFolders();
+                        else {
+                            loadFiles(files[0].getFile());
+                            savedInstanceFilePath = files[0].getFile().getAbsolutePath();
+                        }
                     }
+                }
+                else if (currentViewState == ViewStates.selection)
+                {
+                    for (int i = 0; i< files.length; i++)
+                    {
+                        FileHolder f = files[i];
+                        f.SetSelected(false);
+                    }
+                    setViewMode(ViewStates.normal);
                 }
             }
         });
@@ -172,7 +186,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                             Log.d(TAG,"File delted:" + f.getFile().getName() + " :" + d);
                         }
                     }
-                    loadFiles();
+                    loadFiles(new File(savedInstanceFilePath));
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -303,6 +317,21 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         }
     }
 
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        switch (currentViewState)
+        {
+            case normal:
+                setViewMode(ViewStates.selection);
+                files[position].SetSelected(true);
+        }
+        return false;
+    }
+
+
+
     private class ImageAdapter extends BaseAdapter {
         private final Context mContext;
 
@@ -331,15 +360,13 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             GridImageView imageView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new GridImageView(mContext);
-                imageView.SetEventListner(files[position]);
-                files[position].SetViewState(currentViewState);
                 imageView.setLayoutParams(new GridView.LayoutParams(
                         AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
             } else {
                 imageView = (GridImageView) convertView;
-                imageView.SetEventListner(files[position]);
-                files[position].SetViewState(currentViewState);
             }
+            //Set FileHolder to current imageview
+            imageView.SetEventListner(files[position]);
             Log.d(TAG, "pos:" + position +  "imageviewState: " + files[position].GetCurrentViewState()+ "/GridState:" + currentViewState + "filename:" + files[position].getFile().getName()+
                     "ischecked:" + files[position].IsSelected());
             loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
@@ -438,7 +465,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         protected void onPostExecute(Bitmap bitmap) {
             if (imageViewReference != null && bitmap != null) {
                 final GridImageView imageView = imageViewReference.get();
-                if (imageView != null) {
+                if (imageView != null)
+                {
                     imageView.setImageBitmap(bitmap);
                 }
             }
@@ -482,9 +510,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                     cacheHelper.addBitmapToMemoryCache(file.getName(), response);
                 }
             } else if (file.getAbsolutePath().endsWith(".dng") || file.getAbsolutePath().endsWith(".raw")) {
-                try {
-
-
+                try
+                {
                     response = RawUtils.UnPackRAW(file.getAbsolutePath());
                     if (response != null)
                         response.setHasAlpha(true);
@@ -511,6 +538,18 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         {
             FileHolder f = files[i];
             f.SetViewState(viewState);
+
+        }
+        switch (viewState)
+        {
+            case normal:
+            {
+                deleteButton.setVisibility(View.GONE);
+                break;
+            }
+            case selection:
+                deleteButton.setVisibility(View.VISIBLE);
+                break;
 
         }
     }

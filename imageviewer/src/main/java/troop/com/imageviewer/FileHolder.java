@@ -49,6 +49,8 @@ public class FileHolder
     public void SetSelected(boolean selected)
     {
         this.selected = selected;
+        if (handler!=null)
+            handler.onSelectionChanged(selected);
     }
 
     public interface EventHandler

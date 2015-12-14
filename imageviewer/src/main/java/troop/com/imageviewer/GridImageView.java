@@ -74,6 +74,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         else
             checkBox.setChecked(false);
         fileHolder.SetEventListner(this);
+        invalidate();
     }
 
     public void SetFileEnding(String ending)
@@ -98,18 +99,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         }
     }
 
-    public void SetSelected()
-    {
-        if(checkBox.isChecked()) {
-            checkBox.setChecked(false);
-            fileHolder.SetSelected(false);
-        }
-        else {
-            checkBox.setChecked(true);
-            fileHolder.SetSelected(true);
-        }
-    }
-
     @Override
     public void onViewStateChanged(GridViewFragment.ViewStates state) {
         SetViewState(state);
@@ -118,5 +107,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     @Override
     public void onSelectionChanged(boolean selected) {
         checkBox.setChecked(selected);
+        invalidate();
     }
 }
