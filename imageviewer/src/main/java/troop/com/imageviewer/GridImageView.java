@@ -70,7 +70,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
         if (fileHolder.IsSelected())
+        {
+            checkBox.setVisibility(VISIBLE);
             checkBox.setChecked(true);
+        }
         else
             checkBox.setChecked(false);
         fileHolder.SetEventListner(this);

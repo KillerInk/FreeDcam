@@ -26,6 +26,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
@@ -34,6 +36,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -65,16 +68,26 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private ViewStates currentViewState = ViewStates.normal;
     private Button deleteButton;
     private Button gobackButton;
+    private Button filetypeButton;
     final String savedInstanceString = "lastpath";
     String savedInstanceFilePath;
-
-
+    FormatTypes formatsToShow = FormatTypes.all;
 
 
     public enum ViewStates
     {
         normal,
         selection,
+    }
+
+    public enum FormatTypes
+    {
+        all,
+        raw,
+        dng,
+        jpg,
+        jps,
+        mp4,
     }
 
 
@@ -152,7 +165,13 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             }
         });
 
-
+        filetypeButton = (Button)view.findViewById(R.id.button_filetype);
+        filetypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
 
         return view;
     }
@@ -271,8 +290,26 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         File[]f = file.listFiles();
         for (int i = 0; i< f.length; i++)
         {
-            if (!f[i].isHidden())
-                list.add(new FileHolder(f[i]));
+            if (!f[i].isHidden()) {
+                if (formatsToShow == FormatTypes.all && (
+                        f[i].getAbsolutePath().endsWith("jpg")
+                        || f[i].getAbsolutePath().endsWith("jps")
+                        ||f[i].getAbsolutePath().endsWith("raw")
+                        ||f[i].getAbsolutePath().endsWith("dng")
+                                ||   f[i].getAbsolutePath().endsWith("mp4")
+                ))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.dng && f[i].getAbsolutePath().endsWith("dng"))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("raw"))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.jps && f[i].getAbsolutePath().endsWith("jps"))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.jpg && f[i].getAbsolutePath().endsWith("jpg"))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.mp4 && f[i].getAbsolutePath().endsWith("mp4"))
+                    list.add(new FileHolder(f[i]));
+            }
         }
         files = new FileHolder[list.size()];
         list.toArray(files);
@@ -552,6 +589,53 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 break;
 
         }
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this.getContext(), v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int i = item.getItemId();
+                if (i == R.id.all)
+                {
+                    filetypeButton.setText("All");
+                    formatsToShow = FormatTypes.all;
+                }
+                else if (i == R.id.raw)
+                {
+                    filetypeButton.setText("RAW");
+                    formatsToShow = FormatTypes.raw;
+                }
+                else if (i == R.id.dng)
+                {
+                    filetypeButton.setText("DNG");
+                    formatsToShow = FormatTypes.dng;
+                }
+                else if (i == R.id.jps)
+                {
+                    filetypeButton.setText("jPS");
+                    formatsToShow = FormatTypes.jps;
+                }
+                else if (i == R.id.jpg)
+                {
+                    filetypeButton.setText("JPG");
+                    formatsToShow = FormatTypes.jpg;
+                }
+                else if (i == R.id.mp4)
+                {
+                    filetypeButton.setText("MP$");
+                    formatsToShow = FormatTypes.mp4;
+                }
+                if (savedInstanceFilePath != null)
+                    loadFiles(new File(savedInstanceFilePath));
+                return false;
+
+            }
+        });
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.filetypepopupmenu, popup.getMenu());
+        popup.show();
     }
 
 }

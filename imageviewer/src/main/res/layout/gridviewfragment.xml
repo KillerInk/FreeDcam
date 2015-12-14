@@ -26,11 +26,20 @@
             android:background="@drawable/delete"
             android:layout_marginRight="5dp" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="All"
+            android:id="@+id/button_filetype"
+            android:textSize="10dp"
+            android:layout_marginRight="5dp"
+            />
+
     </LinearLayout>
 
     <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gridView"
         android:numColumns="auto_fit"
         android:columnWidth="100dp" />
