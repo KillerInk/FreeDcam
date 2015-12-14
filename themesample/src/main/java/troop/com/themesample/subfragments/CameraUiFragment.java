@@ -42,8 +42,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
-    static ImageButtonWB test;
+    //static ImageButtonWB test;
 
+   // static ImgItem wbtest;
     static UiSettingsChild flash;
     static UiSettingsChild iso;
     static UiSettingsChild autoexposure;
@@ -116,7 +117,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (wrapper == null || wrapper.camParametersHandler == null)
             return;
 
-        test.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
+       // wbtest.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
 
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
@@ -168,9 +169,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
         ManualSettingsButton.setOnClickListener(onSettingsClick);
 
-        this.test = (ImageButtonWB)view.findViewById(R.id.testwb);
-        test.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
-        test.SetMenuItemListner(this);
+       // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
+        //wbtest.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+       // wbtest.SetMenuItemListner(this);
 
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
