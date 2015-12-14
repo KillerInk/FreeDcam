@@ -146,7 +146,10 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
 
                         if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
                                 || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
+                        {
+                            savedInstanceFilePath =null;
                             loadDefaultFolders();
+                        }
                         else {
                             loadFiles(files[0].getFile());
                             savedInstanceFilePath = files[0].getFile().getAbsolutePath();
