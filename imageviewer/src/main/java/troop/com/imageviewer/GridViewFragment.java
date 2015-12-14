@@ -47,6 +47,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Created by troop on 11.12.2015.
@@ -124,8 +126,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                     String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
                     String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
 
-                    if (topPath.equals(inter)
-                            || topPath.equals(external))
+                    if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
+                            || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
                         loadDefaultFolders();
                     else
                     {
@@ -225,14 +227,18 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
         File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
         ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        for (int i = 0; i< internalSDCIM.listFiles().length; i++)
+        File[] f = internalSDCIM.listFiles();
+        for (int i = 0; i< f.length; i++)
         {
-            list.add(new FileHolder(internalSDCIM.listFiles()[i]));
+            if (!f[i].isHidden())
+                list.add(new FileHolder(f[i]));
         }
         try {
-            for (int i = 0; i< externalSDCIM.listFiles().length; i++)
+            f = externalSDCIM.listFiles();
+            for (int i = 0; i< f.length; i++)
             {
-                list.add(new FileHolder(externalSDCIM.listFiles()[i]));
+                if (!f[i].isHidden())
+                    list.add(new FileHolder(f[i]));
             }
         }
         catch (Exception ex) {
@@ -240,6 +246,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         }
         files = new FileHolder[list.size()];
         list.toArray(files);
+        sortList(files);
         mPagerAdapter = new ImageAdapter(getContext());
         gridView.setAdapter(mPagerAdapter);
     }
@@ -247,14 +254,26 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private void loadFiles(File file)
     {
         ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        for (int i = 0; i< file.listFiles().length; i++)
+        File[]f = file.listFiles();
+        for (int i = 0; i< f.length; i++)
         {
-            list.add(new FileHolder(file.listFiles()[i]));
+            if (!f[i].isHidden())
+                list.add(new FileHolder(f[i]));
         }
         files = new FileHolder[list.size()];
         list.toArray(files);
+        sortList(files);
         mPagerAdapter = new ImageAdapter(getContext());
         gridView.setAdapter(mPagerAdapter);
+    }
+
+    private void sortList(FileHolder[] filesar)
+    {
+        Arrays.sort(filesar, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f1.getFile().lastModified()).compareTo(f2.getFile().lastModified());
+            }
+        });
     }
 
     @Override
@@ -266,6 +285,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 if (!files[position].IsFolder()) {
                     final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
+                    if (files != null &&files.length >0)
+                        i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getAbsolutePath());
                     startActivity(i);
                 }
                 else

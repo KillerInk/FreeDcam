@@ -47,7 +47,8 @@ public class ScreenSlideFragment extends Fragment
     int flags;
     View view;
     I_Activity activity;
-    public int defitem = 0;
+    public int defitem = -1;
+    public String FilePathToLoad = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -74,10 +75,24 @@ public class ScreenSlideFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        files = loadFilePaths();
+        if (FilePathToLoad.equals(""))
+            files = loadFilePaths();
+        else
+        {
+            List<File> images = new ArrayList<File>();
+            File folder = new File(FilePathToLoad);
+            FileUtils.readFilesFromFolder(folder.getParentFile(), images);
+            files = images.toArray(new File[images.size()]);
+
+            Arrays.sort(files, new Comparator<File>() {
+                public int compare(File f1, File f2) {
+                    return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                }
+            });
+        }
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        if (files != null && files.length > 0 && defitem == 0) {
+        if (files != null && files.length > 0 && defitem == -1) {
             mPager.setCurrentItem(files.length);
         }
         else
