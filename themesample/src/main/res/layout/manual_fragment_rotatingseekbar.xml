@@ -27,7 +27,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-4dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:orientation="horizontal"
