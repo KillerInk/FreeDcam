@@ -8,29 +8,11 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
         android:gravity="center_horizontal"
-        android:layout_margin="1dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textView"
-            android:textStyle="bold"
-            android:textColor="@color/uiSettingsTextColor"
-            android:textSize="10dip"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:scrollHorizontally="true"
-            android:focusableInTouchMode="true"
-            android:freezesText="true"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp" />
+        android:layout_margin="1dp"
+        android:id="@+id/LAYbg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +21,7 @@
             android:text="Small Text"
             android:id="@+id/textView2"
             android:textColor="@color/uiSettingsTextColor"
-            android:textSize="8dip"
+            android:textSize="7dp"
             android:layout_marginBottom="4dp"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -50,7 +32,8 @@
             android:freezesText="true"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
-            android:gravity="center|center_vertical" />
+            android:gravity="center|center_vertical"
+            android:layout_marginTop="24dp" />
     </LinearLayout>
 
 </LinearLayout>

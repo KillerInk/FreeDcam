@@ -2,6 +2,7 @@ package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +25,8 @@ import troop.com.themesample.subfragments.Interfaces;
 public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded ,View.OnClickListener
 {
     protected Context context;
-    protected TextView headerText;
+    private String headerText;
+    protected LinearLayout laybg;
     protected TextView valueText;
     protected AbstractModeParameter parameter;
     protected I_Activity i_activity;
@@ -61,7 +63,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         try
         {
             TAG = (String)a.getText(R.styleable.UiSettingsChild_HeaderText);
-            headerText.setText(a.getText(R.styleable.UiSettingsChild_HeaderText));
+
+            headerText = String.valueOf(a.getText(R.styleable.UiSettingsChild_HeaderText));
+
             valueText.setText(a.getText(R.styleable.UiSettingsChild_ValueText));
         }
         finally {
@@ -82,11 +86,37 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        headerText = (TextView)findViewById(R.id.textView);
-        headerText.setSelected(true);
+
+        //headerText = (TextView)findViewById(R.id.textView);
+        //headerText.setSelected(true);
+
+        laybg = (LinearLayout)findViewById(R.id.LAYbg);
+       // laybg.setBackgroundDrawable(switchICOn(headerText));
+
+        if(context.getResources().getString(R.string.uisetting_wb_header) == headerText)
+        {
+            laybg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.quck_set_wb));
+        }
+
         valueText = (TextView)findViewById(R.id.textView2);
         valueText.setSelected(true);
         this.setOnClickListener(this);
+
+    }
+
+    private Drawable switchICOn(String param)
+    {
+        Drawable CurrentICon;
+
+        switch (param)
+        {
+            case "WB":
+                //CurrentICon = context.getDrawable(R.drawable.quck_set_focus);
+                break;
+
+        }
+
+        return context.getResources().getDrawable(R.drawable.quck_set_focus);
 
     }
 

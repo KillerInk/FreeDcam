@@ -33,7 +33,6 @@ import troop.com.themesample.views.uichilds.UiSettingsChildFormat;
 import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsFocusPeak;
 import troop.com.themesample.views.uichilds.UiSettingsMenu;
-import troop.com.themesample.views.uichilds.imageButton.ImageButtonWB;
 
 /**
  * Created by troop on 14.06.2015.

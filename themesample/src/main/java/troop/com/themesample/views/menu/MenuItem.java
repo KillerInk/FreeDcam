@@ -21,6 +21,8 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener
 
     LinearLayout toplayout;
 
+    TextView headerText;
+
     public MenuItem(Context context) {
         super(context);
     }
@@ -33,9 +35,16 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener
                 R.styleable.MenuItem,
                 0, 0
         );
+        TypedArray b = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.UiSettingsChild,
+                0, 0
+        );
         //try to set the attributs
         try
         {
+
+            headerText.setText(b.getText(R.styleable.UiSettingsChild_HeaderText));
 
             description.setText(a.getText(R.styleable.MenuItem_Description));
         }
