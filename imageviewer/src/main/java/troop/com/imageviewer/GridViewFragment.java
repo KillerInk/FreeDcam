@@ -366,13 +366,13 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             if (!file.isDirectory())
             {
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), R.drawable.noimage), mImageThumbSize, mImageThumbSize), task);
+                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.noimage), task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             else
             {
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), R.drawable.folder), mImageThumbSize, mImageThumbSize), task);
+                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.folder), task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             String f = file.getName();
@@ -474,7 +474,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
 
             } else if (file.getAbsolutePath().endsWith(".mp4")) {
-                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
                 response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
                 if (response != null)
                 {
