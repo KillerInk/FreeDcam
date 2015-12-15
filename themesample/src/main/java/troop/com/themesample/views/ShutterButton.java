@@ -25,6 +25,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
+    AnimationDrawable videoIsRec;
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
     Showstate currentShow = Showstate.image_capture_stopped;
@@ -102,6 +103,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     private void switchBackground(Showstate showstate, boolean animate)
+
+        if (appSettingsManager.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
     {
         currentShow = showstate;
         Log.d(TAG, "switchBackground:" + currentShow);
@@ -142,6 +145,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 break;
 
 
+            cad = new CustomAnimationDrawableNew((AnimationDrawable) getResources().getDrawable(R.drawable.video_recording)) {
+                @Override
+                void onAnimationFinish() {
+
+                }
+            };
+            setBackgroundDrawable(cad);
+
         }
         shutterOpenAnimation = (AnimationDrawable) getBackground();
         if (animate) {
@@ -155,6 +166,22 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     @Override
     public String ModuleChanged(String module) {
+        if (appSettingsManager.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
+        {
+
+            setBackgroundResource(R.drawable.video_recording);
+            videoIsRec = (AnimationDrawable) getBackground();
+
+
+
+        }
+        else
+        {
+
+            setBackgroundResource(R.drawable.shuttercloseanimation);
+            //getBackground().setAlpha(alpha);
+            shutterOpenAnimation = (AnimationDrawable) getBackground();
+        }
 
         Log.d(TAG, "Module Changed");
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
@@ -204,6 +231,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 switchBackground(Showstate.continouse_capture_open,true);
                 break;
         }
+
+
         workerCounter++;
         finishcounter = 0;
     }
@@ -277,6 +306,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         @Override
         public void onIsSetSupportedChanged(boolean isSupported) {
 
+                    //doAnim();
+                    cad.stop();
         }
 
         @Override
