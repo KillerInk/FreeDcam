@@ -29,6 +29,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
     final int alpha = 150;
+    boolean isVideo = false;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,15 +46,12 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     private void init()
     {
-        setBackgroundResource(R.drawable.shuttercloseanimation);
-        getBackground().setAlpha(alpha);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
+
 
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cameraUiWrapper != null)
-                {
+                if (cameraUiWrapper != null) {
                     String s = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION);
                     if (s.equals("")) {
                         s = "off";
@@ -61,16 +59,12 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                         appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, s);
                         appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, "0 sec");
                     }
-                    if (!s.equals("off"))
-                    {
-                        if (!intervalHandler.IsWorking())
-                        {
+                    if (!s.equals("off")) {
+                        if (!intervalHandler.IsWorking()) {
                             intervalHandler.StartInterval();
-                        }
-                        else
+                        } else
                             intervalHandler.CancelInterval();
-                    }
-                    else
+                    } else
                         intervalHandler.StartShutterTime();
                 }
             }
@@ -86,11 +80,32 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper, messageHandler);
+
+
+        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        {
+
+            isVideo = true;
+            setBackgroundResource(R.drawable.video_recording);
+            shutterOpenAnimation = (AnimationDrawable) getBackground();
+
+        }
+        else
+        {
+
+            isVideo = false;
+            setBackgroundResource(R.drawable.shuttercloseanimation);
+            //getBackground().setAlpha(alpha);
+            shutterOpenAnimation = (AnimationDrawable) getBackground();
+        }
+
+
     }
 
 
     @Override
     public String ModuleChanged(String module) {
+
         return null;
     }
 
@@ -100,31 +115,91 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
+        if(isVideo)
+        {
+            doAnim();
+        }
+        else
+        {
+            doAnimP2();
+        }
                 workerCounter++;
                 finishcounter = 0;
-        setBackgroundResource(R.drawable.shuttercloseanimation);
-        getBackground().setAlpha(alpha);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-        shutterOpenAnimation.stop();
-        shutterOpenAnimation.setOneShot(true);
-        shutterOpenAnimation.start();
+
     }
 
-    @Override
-    public void onWorkFinished(boolean finished)
+    private void doAnim()
     {
-        Log.d(TAG, "workstarted "+ workerCounter + " worfinshed " + finishcounter++);
+
+        setBackgroundResource(R.drawable.video_recording);
+
+
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+        if (shutterOpenAnimation .isRunning()) {
+            shutterOpenAnimation .stop();
+    }
+        shutterOpenAnimation .start();
+
+    }
+
+    private void doAnimP()
+    {
+        setBackgroundResource(R.drawable.shutteropenanimation);
+        //getBackground().setAlpha(alpha);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+
+        if (shutterOpenAnimation .isRunning()) {
+            shutterOpenAnimation .stop();
+        }
+        shutterOpenAnimation.setOneShot(true);
+        shutterOpenAnimation .start();
+
+     //   shutterOpenAnimation.stop();
+
+     //   shutterOpenAnimation.start();
+    }
+
+    private void doAnimP2()
+    {
+        setBackgroundResource(R.drawable.shuttercloseanimation);
+        //getBackground().setAlpha(alpha);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+
+        if (shutterOpenAnimation .isRunning()) {
+            shutterOpenAnimation .stop();
+        }
+        shutterOpenAnimation.setOneShot(true);
+        shutterOpenAnimation .start();
+
+        //   shutterOpenAnimation.stop();
+
+        //   shutterOpenAnimation.start();
+
+      //  setBackgroundResource(R.drawable.shuttercloseanimation);
+        // getBackground().setAlpha(alpha);
+       // shutterOpenAnimation = (AnimationDrawable) getBackground();
+      //  shutterOpenAnimation.stop();
+       // shutterOpenAnimation.setOneShot(true);
+      //  shutterOpenAnimation.start();
+    }
+
+
+    @Override
+    public void onWorkFinished(boolean finished) {
+        Log.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
         this.post(new Runnable() {
             @Override
             public void run() {
-                setBackgroundResource(R.drawable.shutteropenanimation);
-                getBackground().setAlpha(alpha);
-                shutterOpenAnimation = (AnimationDrawable) getBackground();
-                shutterOpenAnimation.stop();
-                shutterOpenAnimation.setOneShot(true);
-                shutterOpenAnimation.start();
+                if (isVideo) {
+                    doAnim();
+                }
+                else
+                {
+                    doAnimP();
+                }
             }
         });
+
         if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
             intervalHandler.DoNextInterval();
 
