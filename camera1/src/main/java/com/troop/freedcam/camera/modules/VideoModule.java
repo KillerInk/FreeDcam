@@ -75,6 +75,7 @@ public class VideoModule extends AbstractModule
     {
 
         prepareRecorder();
+        workstarted();
 
     }
 
@@ -101,6 +102,7 @@ public class VideoModule extends AbstractModule
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }
+        workfinished(true);
     }
 
     protected void prepareRecorder()

@@ -146,13 +146,13 @@
 
     <ImageView
         android:layout_width="50dp"
-        android:layout_height="20dp"
+        android:layout_height="50dp"
         android:id="@+id/fastsettings_button"
         android:background="@drawable/set_minimal_flat"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="2dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:orientation="vertical"

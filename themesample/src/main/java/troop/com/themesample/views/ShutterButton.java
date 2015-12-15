@@ -86,7 +86,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         {
 
             isVideo = true;
-            setBackgroundResource(R.drawable.video_recording);
+            setBackgroundResource(R.drawable.video_recording_start);
             shutterOpenAnimation = (AnimationDrawable) getBackground();
 
         }
@@ -106,7 +106,23 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public String ModuleChanged(String module) {
 
-        return null;
+        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        {
+
+            isVideo = true;
+            setBackgroundResource(R.drawable.video_recording_start);
+            shutterOpenAnimation = (AnimationDrawable) getBackground();
+
+        }
+        else {
+
+            isVideo = false;
+            setBackgroundResource(R.drawable.shuttercloseanimation);
+            //getBackground().setAlpha(alpha);
+            shutterOpenAnimation = (AnimationDrawable) getBackground();
+        }
+            return null;
+
     }
 
 
@@ -131,7 +147,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     private void doAnim()
     {
 
-        setBackgroundResource(R.drawable.video_recording);
+        setBackgroundResource(R.drawable.video_recording_start);
 
 
         shutterOpenAnimation = (AnimationDrawable) getBackground();
@@ -182,7 +198,16 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
        // shutterOpenAnimation.setOneShot(true);
       //  shutterOpenAnimation.start();
     }
-
+    private void doAnimP3()
+    {
+        setBackgroundResource(R.drawable.video_recording_stop);
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+        if (shutterOpenAnimation .isRunning())
+        {
+            shutterOpenAnimation .stop();
+        }
+        shutterOpenAnimation .start();
+    }
 
     @Override
     public void onWorkFinished(boolean finished) {
@@ -191,7 +216,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             @Override
             public void run() {
                 if (isVideo) {
-                    doAnim();
+                    doAnimP3();
                 }
                 else
                 {
