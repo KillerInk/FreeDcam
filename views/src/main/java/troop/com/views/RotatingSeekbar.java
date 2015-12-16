@@ -67,6 +67,7 @@ public class RotatingSeekbar extends View
 
         paint.setColor(textColor);
         paint.setStyle(Paint.Style.FILL);
+        paint.setTextAlign(Paint.Align.RIGHT);
         textsize = (int)convertDpiToPixel(textsize);
         setProgress(currentValue);
     }
@@ -109,7 +110,7 @@ public class RotatingSeekbar extends View
 
             int pos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
             canvas.drawLine(viewWidth -convertDpiToPixel(30),pos - textsize/2, viewWidth -20, pos -textsize/2, paint);
-            canvas.drawText(Values[i], 3, pos, paint);
+            canvas.drawText(Values[i], viewWidth/2, pos, paint);
         }
         paint.setStrokeWidth(10);
         canvas.drawLine(viewWidth - convertDpiToPixel(20), viewHeight / 2 + itemHeight / 2, viewWidth, viewHeight / 2 + itemHeight / 2, paint);
