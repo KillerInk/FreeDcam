@@ -26,8 +26,8 @@
         android:id="@+id/horizontalScrollView2"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-4dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="0dp"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -45,110 +45,111 @@
                 app:Header="MF"
                 app:Image="@drawable/manual_focus"
                 android:id="@+id/manual_mf"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Image="@drawable/manual_iso"
                 app:Header="ISO"
                 android:id="@+id/manual_iso"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Shutter"
                 app:Image="@drawable/manual_shutter"
                 android:id="@+id/manual_shutter"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="f-num"
                 android:id="@+id/manual_aperture"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Exposure"
                 app:Image="@drawable/manual_exposure"
                 android:id="@+id/manual_exposure"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="8dp"/>
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Brightness"
                 android:id="@+id/manual_brightness"
                 app:Image="@drawable/brightness"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Burst"
                 android:id="@+id/manual_burst"
                 app:Image="@drawable/manual_burst"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="WB"
                 android:id="@+id/manual_wb"
                 app:Image="@drawable/manual_wb"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Contrast"
                 android:id="@+id/manual_contrast"
                 app:Image="@drawable/manual_contrast"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Saturation"
                 android:id="@+id/manual_saturation"
                 app:Image="@drawable/manual_saturation"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Sharpness"
                 android:id="@+id/manual_sharpness"
                 app:Image="@drawable/manual_sharpness"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="ProgramShift"
                 android:id="@+id/manual_program_shift"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="Zoom"
                 app:Image="@drawable/manual_zoom"
                 android:id="@+id/manual_zoom"
-                android:layout_marginRight="10dp" />
-            <troop.com.themesample.views.ManualButton
-                android:layout_width="35dp"
-                android:layout_height="45dp"
-                app:Header="Skintone"
-                app:Image="@drawable/manual_skintone"
-                android:id="@+id/manual_skintone"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
+
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="FX"
                 app:Image="@drawable/manual_fx"
                 android:id="@+id/manual_fx"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 app:Header="Convergence"
 
                 android:id="@+id/manual_convergence"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="8dp" />
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                app:Header="Skintone"
+                app:Image="@drawable/manual_skintone"
+                android:id="@+id/manual_skintone"
+                android:layout_marginRight="0dp" />
         </LinearLayout>
     </HorizontalScrollView>
 
