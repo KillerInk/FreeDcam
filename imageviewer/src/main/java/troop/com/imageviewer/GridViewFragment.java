@@ -401,13 +401,18 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 imageView = new GridImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(
                         AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
+                if (position == 0 && !pos0ret)
+                {
+                    imageView.SetEventListner(files[position]);
+                    pos0ret = true;
+                }
+
             } else {
                 imageView = (GridImageView) convertView;
             }
             //Set FileHolder to current imageview
-            imageView.SetEventListner(files[position]);
-            Log.d(TAG, "pos:" + position +  "imageviewState: " + files[position].GetCurrentViewState()+ "/GridState:" + currentViewState + "filename:" + files[position].getFile().getName()+
-                    "ischecked:" + files[position].IsSelected());
+            if (position > 0)
+                imageView.SetEventListner(files[position]);
             loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
             return imageView;
         }
