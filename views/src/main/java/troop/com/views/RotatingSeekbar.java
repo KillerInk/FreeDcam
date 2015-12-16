@@ -206,12 +206,19 @@ public class RotatingSeekbar extends View
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
                         invalidate();
-                    } else if (distanceInPixelFromLastSwipe >= 0 && distanceInPixelFromLastSwipe - scrollsubstract >= 0) {
+                    } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - scrollsubstract > 0) {
                         distanceInPixelFromLastSwipe -= scrollsubstract;
                         rerun = true;
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
                         invalidate();
+                    }
+                    else
+                    {
+                        checkifCurrentValueHasChanged();
+                        distanceInPixelFromLastSwipe = 0;
+                        setProgress(currentValue);
+                        rerun = false;
                     }
 
                     if (rerun)
@@ -223,8 +230,16 @@ public class RotatingSeekbar extends View
                     distanceInPixelFromLastSwipe = 0;
                     if(positivepos > realMax)
                         setProgress(Values.length-1);
-                    if (positivepos < realMin)
+                    else if (positivepos < realMin)
                         setProgress(0);
+                    else {
+                        checkifCurrentValueHasChanged();
+                        if (currentValue > Values.length -1)
+                            currentValue = Values.length -1;
+                        if (currentValue < 0)
+                            currentValue = 0;
+                        setProgress(currentValue);
+                    }
                     log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
                 }
             }
@@ -273,7 +288,7 @@ public class RotatingSeekbar extends View
         this.itemHeight = viewHeight /16;
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
-        realMax = allItemsHeight - viewHeight/2-80;
+        realMax = allItemsHeight - viewHeight/2;
         invalidate();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)

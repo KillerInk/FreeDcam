@@ -212,7 +212,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             parameterValues = parameter.getStringValues();
         if (parameterValues != null && parameterValues.length > 0)
         {
-            if (pos > parameterValues.length)
+            if (pos > parameterValues.length -1)
                 return parameterValues[parameterValues.length-1];
             else if (pos < 0)
                 return parameterValues[0];
