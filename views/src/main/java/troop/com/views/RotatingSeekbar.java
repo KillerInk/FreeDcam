@@ -42,6 +42,8 @@ public class RotatingSeekbar extends View
     //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
     final int scrollsubstract = 2;
 
+    final int VISIBLE_ITEMS_INVIEW = 16;
+
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -84,7 +86,7 @@ public class RotatingSeekbar extends View
         this.viewWidth = w;
         this.viewHeight = h;
         //calculates the item height depending on view height and itemscount that should be visible
-        this.itemHeight = viewHeight /16; // 16 = itemscount visible
+        this.itemHeight = viewHeight /VISIBLE_ITEMS_INVIEW;
         //calc how big the view is when all items would be drawn
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         /*
@@ -106,15 +108,37 @@ public class RotatingSeekbar extends View
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
+            int dif = currentValue -i;
+            if (dif < 0)
+                dif *= -1;
+            if (dif <= VISIBLE_ITEMS_INVIEW/2)
+                paint.setAlpha(switchalpha(dif));
             paint.setStrokeWidth(1);
-
-            int pos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
-            canvas.drawLine(viewWidth -convertDpiToPixel(30),pos - textsize/2, viewWidth -20, pos -textsize/2, paint);
-            canvas.drawText(Values[i], viewWidth/2, pos, paint);
+            int xpos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
+            canvas.drawLine(viewWidth -convertDpiToPixel(30),xpos - textsize/2, viewWidth -20, xpos -textsize/2, paint);
+            canvas.drawText(Values[i], viewWidth/2, xpos, paint);
         }
+        paint.setAlpha(255);
         paint.setStrokeWidth(10);
         canvas.drawLine(viewWidth - convertDpiToPixel(20), viewHeight / 2 + itemHeight / 2, viewWidth, viewHeight / 2 + itemHeight / 2, paint);
+    }
 
+    private int switchalpha(int pos)
+    {
+        switch (pos)
+        {
+            case 8:
+                return 0;
+            case 7: return 31;
+            case 6: return 62;
+            case 5: return 93;
+            case 4: return 124;
+            case 3: return 155;
+            case 2: return 186;
+            case 1: return 217;
+            case 0: return 255;
+            default:return 0;
+        }
     }
 
     private float convertDpiToPixel(int dpi)
