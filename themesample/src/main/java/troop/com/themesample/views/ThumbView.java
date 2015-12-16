@@ -18,10 +18,16 @@ import android.widget.ImageView;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import troop.com.imageviewer.FileHolder;
+import troop.com.imageviewer.FileUtils;
+import troop.com.imageviewer.GridViewFragment;
 import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.themesample.R;
 
@@ -54,9 +60,10 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         try {
-            final File[] f =ScreenSlideFragment.loadFilePaths();
-            if (f != null && f.length > 0)
-                WorkHasFinished(f[f.length-1]);
+            List<FileHolder> f = new ArrayList<FileHolder>();
+            FileUtils.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
+            if (f != null && f.size() > 0)
+                WorkHasFinished(f.get(f.size()-1).getFile());
         }
         catch (NullPointerException ex)
         {}
