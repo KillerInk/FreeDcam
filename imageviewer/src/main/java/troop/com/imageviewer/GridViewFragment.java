@@ -377,6 +377,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         public ImageAdapter(Context context) {
             super();
             mContext = context;
+            pos0ret = false;
         }
 
         @Override
