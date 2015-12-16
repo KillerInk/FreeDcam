@@ -40,7 +40,7 @@ public class ScreenSlideFragment extends Fragment
      */
     private PagerAdapter mPagerAdapter;
 
-    File[] files;
+    FileHolder[] files;
     Button closeButton;
 
     File currentFile;
@@ -49,8 +49,7 @@ public class ScreenSlideFragment extends Fragment
     I_Activity activity;
     public int defitem = -1;
     public String FilePathToLoad = "";
-
-    @Override
+    public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -75,20 +74,13 @@ public class ScreenSlideFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (FilePathToLoad.equals(""))
-            files = loadFilePaths();
+        if (FilePathToLoad.equals("")) {
+            FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
+            readFiles();
+        }
         else
         {
-            List<File> images = new ArrayList<File>();
-            File folder = new File(FilePathToLoad);
-            FileUtils.readFilesFromFolder(folder.getParentFile(), images);
-            files = images.toArray(new File[images.size()]);
-
-            Arrays.sort(files, new Comparator<File>() {
-                public int compare(File f1, File f2) {
-                    return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-                }
-            });
+            readFiles();
         }
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -106,6 +98,20 @@ public class ScreenSlideFragment extends Fragment
 
     }
 
+    private void readFiles()
+    {
+        List<FileHolder> images = new ArrayList<FileHolder>();
+        File folder = new File(FilePathToLoad);
+        FileUtils.readFilesFromFolder(folder, images, filestoshow);
+        files = images.toArray(new FileHolder[images.size()]);
+
+        Arrays.sort(files, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f1.getFile().lastModified()).compareTo(f2.getFile().lastModified());
+            }
+        });
+    }
+
     public void Set_I_Activity(I_Activity activity)
     {
         this.activity = activity;
@@ -114,7 +120,7 @@ public class ScreenSlideFragment extends Fragment
     public void reloadFilesAndSetLastPos()
     {
 
-        files = loadFilePaths();
+        readFiles();
         if (files == null)
             return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
@@ -128,7 +134,7 @@ public class ScreenSlideFragment extends Fragment
 
     public void ReloadFilesAndSetLast()
     {
-        files =loadFilePaths();
+        readFiles();
         if (files == null)
             return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
@@ -153,10 +159,10 @@ public class ScreenSlideFragment extends Fragment
                 return currentFragment;
             }
             else {
-                currentFile = (files[mPager.getCurrentItem()]);
+                currentFile = (files[mPager.getCurrentItem()].getFile());
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
-                currentFragment.SetFilePath(files[position]);
+                currentFragment.SetFilePath(files[position].getFile());
 
 
                 return currentFragment;
@@ -174,7 +180,7 @@ public class ScreenSlideFragment extends Fragment
 
     }
 
-    public static File[] loadFilePaths()
+/*    public static File[] loadFilePaths()
     {
         Log.d(TAG, "Loading Files...");
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
@@ -214,7 +220,7 @@ public class ScreenSlideFragment extends Fragment
             }
         });
         return s;
-    }
+    }*/
 
 
 }

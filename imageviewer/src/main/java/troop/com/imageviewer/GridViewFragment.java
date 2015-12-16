@@ -247,16 +247,6 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             loadFiles(new File(savedInstanceFilePath));
     }
 
-    private void loadFiles()
-    {
-        File[] f = ScreenSlideFragment.loadFilePaths();
-        files =  new FileHolder[f.length];
-        for (int i =0; i< f.length; i++)
-        {
-            files[i] = new FileHolder(f[i]);
-        }
-
-    }
 
     private void loadDefaultFolders()
     {
@@ -340,13 +330,19 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                     final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
                     if (files != null &&files.length >0)
-                        i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getAbsolutePath());
+                    {
+                        if (!files[position].IsFolder())
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getParentFile().getAbsolutePath());
+                        else
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getAbsolutePath());
+                    }
+                    i.putExtra(ScreenSlideActivity.FileType, formatsToShow.name());
                     startActivity(i);
                 }
                 else
                 {
                     loadFiles(files[position].getFile());
-                    savedInstanceFilePath = files[position].getFile().getParentFile().getAbsolutePath();
+                    savedInstanceFilePath = files[0].getFile().getParentFile().getAbsolutePath();
                 }
                 break;
             case selection:
