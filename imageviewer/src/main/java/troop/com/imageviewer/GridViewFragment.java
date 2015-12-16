@@ -72,7 +72,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     final String savedInstanceString = "lastpath";
     String savedInstanceFilePath;
     FormatTypes formatsToShow = FormatTypes.all;
-
+    boolean pos0ret = false;
 
     public enum ViewStates
     {
@@ -394,13 +394,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             return position;
         }
 
+
         @Override
         public View getView(int position, View convertView, ViewGroup container) {
             GridImageView imageView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new GridImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(
-                        AbsoluteLayout.LayoutParams.MATCH_PARENT, AbsoluteLayout.LayoutParams.MATCH_PARENT));
                 if (position == 0 && !pos0ret)
                 {
                     imageView.SetEventListner(files[position]);
@@ -413,6 +412,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             //Set FileHolder to current imageview
             if (position > 0)
                 imageView.SetEventListner(files[position]);
+            Log.d(TAG, "pos:" + position + " imageviewState: " + files[position].GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files[position].getFile().getName() +
+                    " ischecked:" + files[position].IsSelected());
             loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
             return imageView;
         }
