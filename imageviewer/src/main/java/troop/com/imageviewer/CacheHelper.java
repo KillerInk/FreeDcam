@@ -120,6 +120,8 @@ public class CacheHelper
         //BEGIN_INCLUDE(get_bitmap_from_disk_cache)
         //final String key = hashKeyForDisk(data);
         Bitmap bitmap = null;
+        if (data.contains(" "))
+            data = data.replace(" ", "_");
 
         synchronized (mDiskCacheLock) {
             while (mDiskCacheStarting) {
