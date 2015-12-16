@@ -51,7 +51,7 @@
             android:freezesText="true"
             android:textSize="@dimen/manualitemtextsize"
             android:gravity="center_vertical"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="4dp"/>
     </LinearLayout>
 
 </AbsoluteLayout>
