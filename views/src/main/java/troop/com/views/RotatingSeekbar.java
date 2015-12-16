@@ -24,6 +24,7 @@ public class RotatingSeekbar extends View
     private int viewWidth =0;
     private int viewHeight = 0;
     private int itemHeight = 0;
+    //height of one item in pixel
     private int allItemsHeight = 0;
     private int realMin = 0;
     private int realMax = 0;
@@ -31,12 +32,14 @@ public class RotatingSeekbar extends View
     private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
     private int textsize = 8;
+    //holds the distance from the last swipe(how faster it was how bigger is the vale) and is used as base gravity for autoscroll how fast it moves
     private int distanceInPixelFromLastSwipe = 0;
     private Handler handler;
     private boolean autoscroll = false;
     private int textColor = Color.WHITE;
     boolean debug = true;
     final String TAG = RotatingSeekbar.class.getSimpleName();
+    //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
     final int scrollsubstract = 2;
 
     public RotatingSeekbar(Context context) {
@@ -79,9 +82,16 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         this.viewWidth = w;
         this.viewHeight = h;
-        this.itemHeight = viewHeight /16;
+        //calculates the item height depending on view height and itemscount that should be visible
+        this.itemHeight = viewHeight /16; // 16 = itemscount visible
+        //calc how big the view is when all items would be drawn
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
+        /*
+         * calc the maximal minmal pos that could drawn,
+         * we use as base the center of the view that why it can get < 0
+         */
         realMin = -viewHeight/2 -itemHeight/2;
+        //calc the maximal pos that could drawn
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
         setProgress(currentValue);
         invalidate();
