@@ -537,9 +537,9 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         if (response == null)
         {
             //Log.d(TAG,"No image in thumbcache try from disk");
-            if (file.getAbsolutePath().endsWith(".jpg")) {
+            if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps")) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 20;
+                options.inSampleSize = 8;
                 response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
                 response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
                 if (response != null) {
@@ -623,7 +623,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
                 else if (i == R.id.jps)
                 {
-                    filetypeButton.setText("jPS");
+                    filetypeButton.setText("JPS");
                     formatsToShow = FormatTypes.jps;
                 }
                 else if (i == R.id.jpg)
@@ -633,7 +633,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
                 else if (i == R.id.mp4)
                 {
-                    filetypeButton.setText("MP$");
+                    filetypeButton.setText("MP4");
                     formatsToShow = FormatTypes.mp4;
                 }
                 if (savedInstanceFilePath != null)

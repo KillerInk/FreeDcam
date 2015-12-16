@@ -232,7 +232,7 @@ public class ImageFragment extends Fragment
     private Bitmap getBitmap()
     {
         Bitmap response;
-        if (file.getAbsolutePath().endsWith(".jpg"))
+        if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps"))
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
@@ -298,6 +298,10 @@ public class ImageFragment extends Fragment
                     if (success)
                     {
                         if (file.getAbsolutePath().endsWith(".jpg")) {
+                            play.setVisibility(View.VISIBLE);
+                            play.setText("Open");
+                        }
+                        if (file.getAbsolutePath().endsWith(".jps")) {
                             play.setVisibility(View.VISIBLE);
                             play.setText("Open");
                         }
