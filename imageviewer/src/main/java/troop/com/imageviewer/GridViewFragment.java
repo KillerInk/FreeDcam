@@ -155,6 +155,8 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                             savedInstanceFilePath = files[0].getFile().getAbsolutePath();
                         }
                     }
+                    else
+                        loadDefaultFolders();
                 }
                 else if (currentViewState == ViewStates.selection)
                 {
@@ -341,8 +343,9 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
                 else
                 {
+                    savedInstanceFilePath = files[position].getFile().getAbsolutePath();
                     loadFiles(files[position].getFile());
-                    savedInstanceFilePath = files[0].getFile().getParentFile().getAbsolutePath();
+
                 }
                 break;
             case selection:
