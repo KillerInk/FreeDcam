@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="37dp"
-        android:layout_height="37dp"
+        android:layout_width="32dp"
+        android:layout_height="39dp"
         android:gravity="center_horizontal"
         android:layout_margin="1dp"
         android:id="@+id/LAYbg">
@@ -22,7 +22,7 @@
             android:id="@+id/textView2"
             android:textColor="@color/uiSettingsTextColor"
             android:textSize="7dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:singleLine="true"
@@ -33,7 +33,7 @@
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
             android:gravity="center|center_vertical"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="27dp" />
     </LinearLayout>
 
 </LinearLayout>

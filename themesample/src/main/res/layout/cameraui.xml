@@ -145,104 +145,100 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:id="@+id/fastsettings_button"
         android:background="@drawable/set_minimal_flat"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="9dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="14dp" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
         android:id="@+id/left_ui_holder"
         android:layout_above="@+id/fastsettings_button">
 
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/wb"
             app:HeaderText="@string/uisetting_wb_header"
             android:background="@drawable/quck_set_wb"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="1dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp" />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/ui_settings_iso"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_iso_header"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_iso_png"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp" />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/Flash"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_flash_header"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/quck_set_flash2"
-            android:layout_marginTop="5dp" />
+            android:background="@drawable/quck_set_flash"
+            android:layout_marginTop="3dp" />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/focus_uisetting"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_focus_header"
             android:background="@drawable/quck_set_focus"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp" />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/Ae"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_ae_header"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_ae"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp" />
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/night"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_night_header"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_night"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp" />
         <troop.com.themesample.views.uichilds.UiSettingsChild
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/continousShot"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_continouseshot_header"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_contin"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp" />
         <troop.com.themesample.views.uichilds.UiSettingsChildFormat
-            android:layout_width="37dp"
-            android:layout_height="37dp"
+            android:layout_width="32dp"
+            android:layout_height="39dp"
             android:id="@+id/format"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_format_header"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/quck_set_format2" />
+            android:background="@drawable/quck_set_format2"
+            android:layout_marginTop="3dp" />/>
 
 
     </LinearLayout>
