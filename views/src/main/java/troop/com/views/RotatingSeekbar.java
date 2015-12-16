@@ -35,6 +35,10 @@ public class RotatingSeekbar extends View
     private Handler handler;
     private boolean autoscroll = false;
     private int textColor = Color.WHITE;
+    boolean debug = true;
+    final String TAG = RotatingSeekbar.class.getSimpleName();
+    final int scrollsubstract = 2;
+
     public RotatingSeekbar(Context context) {
         super(context);
         init(context,null);
@@ -62,6 +66,12 @@ public class RotatingSeekbar extends View
         paint.setStyle(Paint.Style.FILL);
         textsize = (int)convertDpiToPixel(textsize);
         setProgress(currentValue);
+    }
+
+    private void log(String msg)
+    {
+        if (debug)
+            Log.d(TAG, msg);
     }
 
     @Override
@@ -171,32 +181,27 @@ public class RotatingSeekbar extends View
             @Override
             public void run()
             {
-                handler.removeCallbacks(this);
+
                 if (!autoscroll)
                     return;
-                int newpos = currentPosToDraw - distanceInPixelFromLastSwipe -1;
+                int newpos = currentPosToDraw - distanceInPixelFromLastSwipe -scrollsubstract;
                 int positivepos = newpos *-1;
                 if (positivepos <= realMax && positivepos >= realMin)
                 {
+                    log("scroll pos:" + newpos +" max:" + realMax + " min:" + realMin);
                     boolean rerun = false;
-                    if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + 1 < 0) {
-                        distanceInPixelFromLastSwipe += 1;
+                    if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + scrollsubstract < 0) {
+                        distanceInPixelFromLastSwipe += scrollsubstract;
                         rerun = true;
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
                         invalidate();
-                    } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - 1 > 0) {
-                        distanceInPixelFromLastSwipe -= 1;
+                    } else if (distanceInPixelFromLastSwipe >= 0 && distanceInPixelFromLastSwipe - scrollsubstract >= 0) {
+                        distanceInPixelFromLastSwipe -= scrollsubstract;
                         rerun = true;
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
                         invalidate();
-                    } else
-                    {
-                        checkifCurrentValueHasChanged();
-                        distanceInPixelFromLastSwipe = 0;
-                        setProgress(currentValue);
-                        rerun = false;
                     }
 
                     if (rerun)
@@ -206,8 +211,11 @@ public class RotatingSeekbar extends View
                 {
                     autoscroll = false;
                     distanceInPixelFromLastSwipe = 0;
-                    checkifCurrentValueHasChanged();
-                    setProgress(currentValue);
+                    if(positivepos > realMax)
+                        setProgress(Values.length-1);
+                    if (positivepos < realMin)
+                        setProgress(0);
+                    log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
                 }
             }
         },33);
