@@ -32,6 +32,8 @@ public class VideoModule extends AbstractVideoModule
     }
 
 
+        workstarted();
+        workfinished(true);
 
     protected MediaRecorder initRecorder()
     {
