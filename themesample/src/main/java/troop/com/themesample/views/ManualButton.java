@@ -254,38 +254,44 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             valueQueue.remove();
         valueQueue.add(value);
 
-        handler.post(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                currentlysettingsparameter = true;
+                setparameter();
+                if (valueQueue.size() >= 1)
+                    setparameter();
 
-                int runValue = 0;
-                try {
-                    runValue = valueQueue.take();
-                    Log.d(TAG,"setValue:" + runValue);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    currentlysettingsparameter = false;
-                }
-
-                if (realMin < -1)
-                    runValue += realMin;
-                if (runValue < realMin)
-                    runValue = realMin;
-                if (runValue >= realMax)
-                    runValue = realMax;
-                Log.d(TAG,"setValue:" + runValue);
-                parameter.SetValue(runValue);
-                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-                    appSettingsManager.setString(settingsname, runValue + "");
-                }
-
-                currentlysettingsparameter = false;
             }
-        });
+        }).start();
+
 
     }
 
+    private void setparameter() {
+        currentlysettingsparameter = true;
+
+        int runValue = 0;
+        try {
+            runValue = valueQueue.take();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            currentlysettingsparameter = false;
+        }
+
+        if (realMin < -1)
+            runValue += realMin;
+        if (runValue < realMin)
+            runValue = realMin;
+        if (runValue >= realMax)
+            runValue = realMax;
+        Log.d(TAG, "setValue:" + runValue);
+        parameter.SetValue(runValue);
+        if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+            appSettingsManager.setString(settingsname, runValue + "");
+        }
+        currentlysettingsparameter = false;
+    }
 
 
     public int getRealMin() {return realMin; }
