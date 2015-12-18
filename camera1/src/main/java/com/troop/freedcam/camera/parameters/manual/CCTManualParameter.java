@@ -96,7 +96,7 @@ public class CCTManualParameter extends BaseManualParameter {
         int max = Integer.parseInt(parameters.get(max_value));
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
-        for (int i = min; i<=max;i+=50)
+        for (int i = min; i<=max;i+=100)
         {
             t.add(i+"");
         }
@@ -258,6 +258,10 @@ public class CCTManualParameter extends BaseManualParameter {
         catch (NullPointerException ex){ex.printStackTrace();}
     }
 
+    @Override
+    public String[] getStringValues() {
+        return wbvalues;
+    }
 }
 
 
