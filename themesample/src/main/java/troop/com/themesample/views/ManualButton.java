@@ -114,7 +114,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 if (parameterValues == null)
                 {
                     ArrayList<String> list = new ArrayList<>();
-                    for (int i = realMin; i< realMax; i++)
+                    for (int i = realMin; i<= realMax; i++)
                     {
                         list.add(i+"");
                     }
@@ -270,16 +270,12 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                         currentlysettingsparameter = false;
                     }
 
-                    if (realMin < 0)
+                    if (realMin < -1)
                         runValue += realMin;
-                    if (runValue > realMax) {
-                        Log.e(headerTextView.getText().toString(), "value bigger then max");
-                        return;
-                    }
                     if (runValue < realMin)
                         runValue = realMin;
                     if (runValue >= realMax)
-                        runValue = realMax - 1;
+                        runValue = realMax;
                     parameter.SetValue(runValue);
                     if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
                         appSettingsManager.setString(settingsname, runValue + "");
