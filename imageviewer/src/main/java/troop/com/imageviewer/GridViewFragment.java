@@ -317,7 +317,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     {
         Arrays.sort(filesar, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f1.getFile().lastModified()).compareTo(f2.getFile().lastModified());
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
     }

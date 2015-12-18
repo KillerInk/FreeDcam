@@ -85,7 +85,7 @@ public class ScreenSlideFragment extends Fragment
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         if (files != null && files.length > 0 && defitem == -1) {
-            mPager.setCurrentItem(files.length);
+            mPager.setCurrentItem(0);
         }
         else
             mPager.setCurrentItem(defitem);
@@ -107,7 +107,7 @@ public class ScreenSlideFragment extends Fragment
 
         Arrays.sort(files, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f1.getFile().lastModified()).compareTo(f2.getFile().lastModified());
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
     }
