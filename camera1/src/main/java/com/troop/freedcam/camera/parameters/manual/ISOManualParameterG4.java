@@ -87,6 +87,11 @@ public class ISOManualParameterG4 extends BaseManualParameter
             return "Auto";
         }
     }
+
+    @Override
+    public String[] getStringValues() {
+        return isovalues;
+    }
 }
 
 
