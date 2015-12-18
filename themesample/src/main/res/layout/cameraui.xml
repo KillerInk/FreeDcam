@@ -145,14 +145,14 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:id="@+id/fastsettings_button"
         android:background="@drawable/set_minimal_flat"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="9dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="14dp" />
+        android:layout_marginBottom="12dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -265,14 +265,16 @@
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="3dp"/>
 
             <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="32dp"
+                android:layout_height="39dp"
                 android:id="@+id/camera_switch"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="1dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/quck_set_cswitch" />
@@ -295,8 +297,8 @@
             android:gravity="center|center_horizontal|bottom">
 
             <troop.com.themesample.views.uichilds.UiSettingsFocusPeak
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="32dp"
+                android:layout_height="39dp"
                 android:id="@+id/ui_focuspeak"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
@@ -305,8 +307,8 @@
                 android:background="@drawable/quck_set_zebra" />
 
             <troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="32dp"
+                android:layout_height="39dp"
                 android:id="@+id/mode_switch"
                 app:HeaderText="@string/uisetting_mode_header"
                 android:layout_alignParentLeft="true"
@@ -317,8 +319,8 @@
                 android:background="@drawable/quck_set_mode" />
 
             <troop.com.themesample.views.uichilds.UiSettingsChildExit
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="32dp"
+                android:layout_height="40dp"
                 android:id="@+id/exit"
                 app:HeaderText="@string/uisetting_exit_header"
                 android:layout_alignParentLeft="true"
