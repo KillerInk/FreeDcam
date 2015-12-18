@@ -204,14 +204,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onResume()
     {
         super.onResume();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                HIDENAVBAR();
-                createUI();
-            }
-        });
-
+        HIDENAVBAR();
+        createUI();
 
         Log.d(TAGLIFE, "Activity onResume");
     }
