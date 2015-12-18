@@ -283,7 +283,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             runValue += realMin;
         if (runValue < realMin)
             runValue = realMin;
-        if (runValue >= realMax)
+        if (runValue >= realMax && realMax > 0)
             runValue = realMax;
         Log.d(TAG, "setValue:" + runValue);
         parameter.SetValue(runValue);
