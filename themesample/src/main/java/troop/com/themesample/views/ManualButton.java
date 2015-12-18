@@ -13,11 +13,15 @@ import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
+import com.troop.freedcam.sonyapi.sonystuff.DataExtractor;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import troop.com.themesample.R;
+import troop.com.themesample.subfragments.Interfaces;
 
 /**
  * Created by troop on 08.12.2015.
@@ -40,6 +44,8 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     final int stringColor = Color.parseColor("#FFFFFFFF");
     final int stringColorActive = Color.parseColor("#FF000000");
     boolean imageusing = false;
+
+    private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<Integer>(2);
 
     public ManualButton(Context context) {
         super(context);
@@ -243,29 +249,41 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     boolean currentlysettingsparameter = false;
     public void setValueToParameters(final int value)
     {
-        if (currentlysettingsparameter) {
-            valueQueue.add(value);
+        if (valueQueue.size() == 2)
+            valueQueue.remove();
+        valueQueue.add(value);
+        if (currentlysettingsparameter)
+        {
+            return;
         }
         handler.post(new Runnable() {
             @Override
             public void run()
             {
                 currentlysettingsparameter = true;
-                int runValue = value;
+                while (valueQueue.size() > 0) {
+                    int runValue = 0;
+                    try {
+                        runValue = valueQueue.take();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        currentlysettingsparameter = false;
+                    }
 
-                if (realMin < 0)
-                    runValue += realMin;
-                if (runValue > realMax) {
-                    Log.e(headerTextView.getText().toString(), "value bigger then max");
-                    return;
-                }
-                if (runValue < realMin)
-                    runValue = realMin;
-                if (runValue >= realMax)
-                    runValue = realMax-1;
-                parameter.SetValue(runValue);
-                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-                    appSettingsManager.setString(settingsname, runValue + "");
+                    if (realMin < 0)
+                        runValue += realMin;
+                    if (runValue > realMax) {
+                        Log.e(headerTextView.getText().toString(), "value bigger then max");
+                        return;
+                    }
+                    if (runValue < realMin)
+                        runValue = realMin;
+                    if (runValue >= realMax)
+                        runValue = realMax - 1;
+                    parameter.SetValue(runValue);
+                    if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+                        appSettingsManager.setString(settingsname, runValue + "");
+                    }
                 }
                 currentlysettingsparameter = false;
             }
@@ -273,7 +291,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     }
 
-    
+
 
     public int getRealMin() {return realMin; }
 
