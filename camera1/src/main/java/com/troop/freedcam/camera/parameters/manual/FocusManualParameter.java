@@ -107,7 +107,7 @@ public class FocusManualParameter extends  BaseManualParameter
     {
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W())
         {
-            if(valueToSet != -1)
+            if(valueToSet != 0)
             {
                 if (!camParametersHandler.FocusMode.GetValue().equals("manual")) //do not set "manual" to "manual"
 
@@ -125,7 +125,7 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else if (DeviceUtils.isAlcatel_Idol3() ||DeviceUtils.isMoto_MSM8982_8994())
         {
-            if(valueToSet != -1)
+            if(valueToSet != 0)
             {
                 try {
                     camParametersHandler.FocusMode.SetValue("manual", true);
@@ -147,12 +147,12 @@ public class FocusManualParameter extends  BaseManualParameter
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
         }
-        if (value != null && !value.equals("") && valueToSet != -1)
+        if (value != null && !value.equals("") && valueToSet != 0)
         {
             if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-                parameters.put(value, String.valueOf(valueToSet*10));
+                parameters.put(value, String.valueOf((valueToSet-1)*10));
             else
-                parameters.put(value, valueToSet + "");
+                parameters.put(value, (valueToSet-1) + "");
 
         }
 
@@ -166,7 +166,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 Runnable r = new Runnable() {
                     public void run() {
 
-                        camParametersHandlerx.setString("manual-focus-position", valueToSet + "");
+                        camParametersHandlerx.setString("manual-focus-position", (valueToSet-1) + "");
                         baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
                     }
                 };

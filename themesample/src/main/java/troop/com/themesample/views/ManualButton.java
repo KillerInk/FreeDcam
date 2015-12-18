@@ -29,6 +29,7 @@ import troop.com.themesample.subfragments.Interfaces;
 public class ManualButton extends LinearLayout implements AbstractManualParameter.I_ManualParameterEvent
 {
 
+    final String TAG = ManualButton.class.getSimpleName();
     String[] parameterValues;
     AbstractManualParameter parameter;
     AppSettingsManager appSettingsManager;
@@ -252,35 +253,33 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         if (valueQueue.size() == 2)
             valueQueue.remove();
         valueQueue.add(value);
-        if (currentlysettingsparameter)
-        {
-            return;
-        }
+
         handler.post(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 currentlysettingsparameter = true;
-                while (valueQueue.size() > 0) {
-                    int runValue = 0;
-                    try {
-                        runValue = valueQueue.take();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        currentlysettingsparameter = false;
-                    }
 
-                    if (realMin < -1)
-                        runValue += realMin;
-                    if (runValue < realMin)
-                        runValue = realMin;
-                    if (runValue >= realMax)
-                        runValue = realMax;
-                    parameter.SetValue(runValue);
-                    if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-                        appSettingsManager.setString(settingsname, runValue + "");
-                    }
+                int runValue = 0;
+                try {
+                    runValue = valueQueue.take();
+                    Log.d(TAG,"setValue:" + runValue);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    currentlysettingsparameter = false;
                 }
+
+                if (realMin < -1)
+                    runValue += realMin;
+                if (runValue < realMin)
+                    runValue = realMin;
+                if (runValue >= realMax)
+                    runValue = realMax;
+                Log.d(TAG,"setValue:" + runValue);
+                parameter.SetValue(runValue);
+                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+                    appSettingsManager.setString(settingsname, runValue + "");
+                }
+
                 currentlysettingsparameter = false;
             }
         });

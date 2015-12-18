@@ -60,14 +60,14 @@ public class FocusManualParameterLG extends  BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(valueToSet != -1)
+        if(valueToSet != 0)
         {
             if (!camParametersHandler.FocusMode.GetValue().equals("normal"))
                 camParametersHandler.FocusMode.SetValue("normal", true);
-            parameters.put("manualfocus_step", valueToSet+"");
+            parameters.put("manualfocus_step", (valueToSet-1)+"");
             camParametersHandler.SetParametersToCamera();
         }
-        else if (valueToSet == -1)
+        else if (valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
@@ -75,4 +75,12 @@ public class FocusManualParameterLG extends  BaseManualParameter
 
     }
 
+    @Override
+    public String GetStringValue()
+    {
+        if (camParametersHandler.FocusMode.GetValue().equals("Auto"))
+            return "Auto";
+        else
+            return GetValue()+"";
+    }
 }
