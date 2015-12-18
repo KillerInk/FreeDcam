@@ -108,7 +108,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 if (parameterValues == null)
                 {
                     ArrayList<String> list = new ArrayList<>();
-                    for (int i = realMin; i<= realMax; i++)
+                    for (int i = realMin; i< realMax; i++)
                     {
                         list.add(i+"");
                     }
@@ -212,7 +212,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             parameterValues = parameter.getStringValues();
         if (parameterValues != null && parameterValues.length > 0)
         {
-            if (pos > parameterValues.length -1)
+            if (pos >= parameterValues.length)
                 return parameterValues[parameterValues.length-1];
             else if (pos < 0)
                 return parameterValues[0];
@@ -230,25 +230,29 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         return parameterValues;
     }
 
-    public int getCurrentItem(){return  parameter.GetValue() + (realMin*-1);}
+    public int getCurrentItem()
+    {
+        int t = parameter.GetValue() + (realMin*-1);
+        if (t < realMin)
+            t = realMin;
+        if (t >= realMax)
+            t= realMax;
+        return  t;
+    }
 
     boolean currentlysettingsparameter = false;
     public void setValueToParameters(final int value)
     {
-        if (currentlysettingsparameter)
-            return;
+        if (currentlysettingsparameter) {
+            valueQueue.add(value);
+        }
         handler.post(new Runnable() {
             @Override
             public void run()
             {
                 currentlysettingsparameter = true;
                 int runValue = value;
-                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-                    if (realMin < 0)
-                        appSettingsManager.setString(settingsname, (runValue + realMin) + "");
-                    else
-                        appSettingsManager.setString(settingsname, runValue + "");
-                }
+
                 if (realMin < 0)
                     runValue += realMin;
                 if (runValue > realMax) {
@@ -257,14 +261,20 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 }
                 if (runValue < realMin)
                     runValue = realMin;
-                if (runValue > realMax)
-                    runValue = realMax;
+                if (runValue >= realMax)
+                    runValue = realMax-1;
                 parameter.SetValue(runValue);
+                if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
+                    appSettingsManager.setString(settingsname, runValue + "");
+                }
                 currentlysettingsparameter = false;
             }
         });
 
     }
+
+    
+
     public int getRealMin() {return realMin; }
 
     public void SetActive(boolean active)
