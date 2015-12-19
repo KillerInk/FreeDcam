@@ -3,6 +3,7 @@ package troop.com.themesample.subfragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     ManualButton currentButton;
 
-
-    //#################VIEW STUFF##############################
-    @Override
+    final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
@@ -211,6 +210,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
+        Log.d(TAG, "onProgressChanged:" + progress);
         currentButton.setValueToParameters(progress);
         currentButton.onCurrentValueChanged(progress);
     }

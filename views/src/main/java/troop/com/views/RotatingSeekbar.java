@@ -264,6 +264,7 @@ public class RotatingSeekbar extends View
                         if (currentValue < 0)
                             currentValue = 0;
                         setProgress(currentValue);
+
                     }
                     log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
                 }
@@ -301,6 +302,8 @@ public class RotatingSeekbar extends View
         Log.d("RotatingSeekbar", "setprogres" +progress);
         currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
         invalidate();
+        if (mListener != null)
+            mListener.onProgressChanged(null, currentValue, true);
     }
     public String GetCurrentString()
     {

@@ -46,7 +46,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     final int stringColorActive = Color.parseColor("#FF000000");
     boolean imageusing = false;
 
-    private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<Integer>(2);
+    private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<Integer>(3);
 
     public ManualButton(Context context) {
         super(context);
@@ -250,16 +250,23 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     boolean currentlysettingsparameter = false;
     public void setValueToParameters(final int value)
     {
-        if (valueQueue.size() == 2)
+        if (valueQueue.size() == 3)
             valueQueue.remove();
+        Log.d(TAG, "add to queue:" + value);
         valueQueue.add(value);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                setparameter();
-                if (valueQueue.size() >= 1)
+                //setparameter();
+                while (valueQueue.size() >= 1) {
                     setparameter();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
         }).start();
