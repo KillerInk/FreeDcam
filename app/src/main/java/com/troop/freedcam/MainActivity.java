@@ -80,6 +80,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
 
+        createUI();
+
     }
 
     private void checkStartLogging()
@@ -205,15 +207,17 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
         super.onResume();
         HIDENAVBAR();
-        createUI();
+
 
         Log.d(TAGLIFE, "Activity onResume");
     }
 
     private Runnable loadwrapper = new Runnable() {
         @Override
-        public void run() {
-            if (cameraFragment == null)
+        public void run()
+        {
+
+            //if (cameraFragment == null)
                 loadCameraUiWrapper();
             orientationHandler.Start();
         }
@@ -232,8 +236,14 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
 
         orientationHandler.Stop();
-        destroyCameraUiWrapper();
+        //destroyCameraUiWrapper();
         Log.d(TAGLIFE, "Activity onPause");
+    }
+
+    @Override
+    public void onDetachedFromWindow()
+    {
+        super.onDetachedFromWindow();
     }
 
     @Override

@@ -52,6 +52,25 @@ public class MPermissions
                     1);
         }
     }
+
+    public static void requestFineLocationPermission(Fragment fragment) {
+        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+        {
+            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
+        } else {
+            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+    }
+    public static void requestCoarsePermission(Fragment fragment) {
+        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION))
+        {
+            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
+        } else {
+            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
+    }
     /**
      * Shows OK/Cancel confirmation dialog about camera permission.
      */

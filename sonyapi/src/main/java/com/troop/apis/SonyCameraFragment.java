@@ -1,10 +1,13 @@
 package com.troop.apis;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleSsdpClient;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
+import com.troop.marshmallowpermission.MPermissions;
 
 /**
  * Created by troop on 06.06.2015.
@@ -47,6 +51,8 @@ public class SonyCameraFragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            checkMpermission();
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
         this.wrapperSony = new CameraUiWrapperSony(surfaceView, appSettingsManager);
         this.cameraUiWrapper = wrapperSony;
@@ -60,6 +66,20 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
 
         return view;
+    }
+
+    private void checkMpermission()
+    {
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestFineLocationPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestCoarsePermission(this);
+        }
     }
 
     private void setTextFromWifi(final String txt)

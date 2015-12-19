@@ -138,8 +138,10 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
     {
         Log.d(TAG, "SurfaceTextureAvailable");
-        PreviewSurfaceRdy = true;
-        StartCamera();
+        if (!PreviewSurfaceRdy) {
+            this.PreviewSurfaceRdy = true;
+            StartCamera();
+        }
     }
 
     @Override
@@ -153,7 +155,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         StopPreview();
         StopCamera();
         Log.d(TAG, "Surface destroyed");
-        PreviewSurfaceRdy = false;
+        this.PreviewSurfaceRdy = false;
         return false;
     }
 

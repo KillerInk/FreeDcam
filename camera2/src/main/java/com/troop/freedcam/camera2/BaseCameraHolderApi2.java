@@ -132,7 +132,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         this.context = context;
-        manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
 
@@ -143,7 +143,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     //###########################
     //###########################
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public boolean OpenCamera(int camera)
     {
@@ -163,7 +162,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback,backgroundHandler);
+            manager.openCamera(cam, mStateCallback,null);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
@@ -281,7 +280,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     }
 
-    private void startPreviewPicture() {
+    private void startPreviewPicture()
+    {
         try {
             Log.d(TAG, "Start Preview");
             largestImageSize = Collections.max(
