@@ -71,7 +71,8 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         {
             ((ExtendedSurfaceView)i_activity.GetSurfaceView()).SwitchViewMode();
         }
-        i_activity.SwitchCameraAPI(appSettingsManager.getCamApi());
+        cameraUiWrapper.StopCamera();
+        cameraUiWrapper.StartCamera();
         valueText.setText(getCamera(currentCamera));
     }
 
