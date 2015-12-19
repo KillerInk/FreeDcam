@@ -115,11 +115,12 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return wbvalues.length-1;
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return 150;
-        if (DeviceUtils.isMoto_MSM8974())
+        else if (DeviceUtils.isMoto_MSM8974())
             return 8000;
-        return 0;
+        else
+            return 0;
     }
     //M8 Step values "wb-ct-step"
     @Override
@@ -127,9 +128,10 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return 0;
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return -1;
-        return 0;
+        else
+            return 0;
     }
 
     @Override
