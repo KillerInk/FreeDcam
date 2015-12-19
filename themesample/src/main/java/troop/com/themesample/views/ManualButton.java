@@ -291,7 +291,12 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         if (runValue < realMin)
             runValue = realMin;
         if (runValue >= realMax && realMax > 0)
-            runValue = realMax;
+        {
+            if (realMin != -1)
+                runValue = realMax;
+            else
+                runValue = realMax+1;
+        }
         Log.d(TAG, "setValue:" + runValue);
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
