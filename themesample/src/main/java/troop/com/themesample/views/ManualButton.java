@@ -255,7 +255,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         Log.d(TAG, "add to queue:" + value);
         valueQueue.add(value);
 
-        new Thread(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 //setparameter();
@@ -269,7 +269,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 }
 
             }
-        }).start();
+        });
 
 
     }
