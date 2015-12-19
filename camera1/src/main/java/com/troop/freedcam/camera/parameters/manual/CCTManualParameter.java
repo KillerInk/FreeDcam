@@ -94,6 +94,8 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int min = Integer.parseInt(parameters.get(min_value));
         int max = Integer.parseInt(parameters.get(max_value));
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            max = 7500;
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
         for (int i = min; i<=max;i+=100)
@@ -119,6 +121,8 @@ public class CCTManualParameter extends BaseManualParameter {
             return 150;
         else if (DeviceUtils.isMoto_MSM8974())
             return 8000;
+        else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            return 7500;
         else
             return 0;
     }
