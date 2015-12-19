@@ -29,7 +29,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2()|| DeviceUtils.isXiaomiMI3W())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2()|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
             return true;
         else
             return false;
