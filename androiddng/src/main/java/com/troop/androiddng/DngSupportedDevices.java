@@ -155,8 +155,16 @@ public class DngSupportedDevices
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
                         Matrixes.G4_noise_3x1_matrix);
-            case 2969600://g2 mipi front
-                return new Nexus6Profile(64, 1236, 1200, Mipi, BGGR, 2472);
+            case 2969600:
+                switch (device) {
+                    case Xiaomi_mi3:
+                        return new Nexus6Profile(64, 1976, 1200, Mipi16, RGGb, 0);
+                    default:
+                        return new Nexus6Profile(64, 1236, 1200, Mipi, BGGR, 2472);//g2 mipi front
+                }
+            case 3170304://Xiaomi_mi3 front Qcom
+                        return new Nexus6Profile(0, 1976, 1200, Qcom, RGGb, 0);
+
             case 42923008://Moto_MSM8982_8994
                 return new DngProfile(64,5344 ,4016 ,Plain, RGGb, 0,
                         Matrixes.imx230_identity_matrix1,
