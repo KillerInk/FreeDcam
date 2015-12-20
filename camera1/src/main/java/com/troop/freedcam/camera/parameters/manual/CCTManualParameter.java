@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.os.Build;
 
 import com.lge.media.TimedTextEx;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -28,6 +29,7 @@ public class CCTManualParameter extends BaseManualParameter {
     final String LG_Min = "lg-wb-supported-min";
     final String LG_Max = "lg-wb-supported-max";
     final String LG_WB = "lg-wb";
+
 
 
     String[] wbvalues;
@@ -61,13 +63,24 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = true;
             createStringArray();
         } //&& !DeviceUtils.isZTEADV()
-        else if (parameters.containsKey(WB_MANUAL) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT) || DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        else if (DeviceUtils.isXiaomiMI3W() ||DeviceUtils.isXiaomiMI4W())
         {
-            this.value = WB_MANUAL;
-            this.max_value = MAX_WB_CCT;
-            this.min_value = MIN_WB_CCT;
-            this.isSupported = true;
-            createStringArray();
+            if (Build.VERSION.SDK_INT < 23)
+            {
+                this.value = WB_MANUAL;
+                this.max_value = MAX_WB_CCT;
+                this.min_value = MIN_WB_CCT;
+                this.isSupported = true;
+                createStringArray();
+            }
+            else
+            {
+                this.value = "manual-wb-value";
+                this.max_value = MAX_WB_CCT;
+                this.min_value = MIN_WB_CCT;
+                this.isSupported = true;
+                createStringArray();
+            }
         }
         else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             isSupported = true;
@@ -94,8 +107,8 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int min = Integer.parseInt(parameters.get(min_value));
         int max = Integer.parseInt(parameters.get(max_value));
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-            max = 7500;
+        // if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        //  max = 7500;
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
         for (int i = min; i<=max;i+=100)
@@ -121,8 +134,8 @@ public class CCTManualParameter extends BaseManualParameter {
             return 150;
         else if (DeviceUtils.isMoto_MSM8974())
             return 8000;
-        else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-            return 7500;
+            // else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            //   return 7500;
         else
             return 0;
     }
@@ -171,10 +184,22 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
             {
-                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() || DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() ) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+
+                else if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W()   )
+                {
+                    if (Build.VERSION.SDK_INT < 23)
+                    {
+                        camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
+                    }
+                    else
+                    {
+                        camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
+                    }
+                }
                 else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
-                    camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
+                camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                 parameters.put(value, wbvalues[currentWBPos]);
             }
         }
