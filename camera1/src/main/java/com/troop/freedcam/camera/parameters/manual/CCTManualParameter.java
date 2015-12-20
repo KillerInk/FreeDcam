@@ -139,7 +139,8 @@ public class CCTManualParameter extends BaseManualParameter {
             return 8000;
          else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23)
             {
-
+                if (Build.VERSION.SDK_INT < 23)
+                {
                     return 7500;
                 }
                 else
