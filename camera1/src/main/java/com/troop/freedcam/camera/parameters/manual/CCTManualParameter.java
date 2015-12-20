@@ -137,7 +137,7 @@ public class CCTManualParameter extends BaseManualParameter {
             return 150;
         else if (DeviceUtils.isMoto_MSM8974())
             return 8000;
-         else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23)
+         else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
             {
                 if (Build.VERSION.SDK_INT < 23)
                 {
