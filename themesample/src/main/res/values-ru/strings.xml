@@ -54,7 +54,7 @@
     <string name="setting_cds_header">Correlated double sampling: </string>
     <string name="setting_cds_description">Sensor electrical readout measured twice</string>
     <string name="setting_dis_header">Цифр. стабилизация изображения: </string>
-    <string name="setting_lensshade_header">Lens shade: </string>
+    <string name="setting_lensshade_header">Тени линз</string>
     <string name="setting_lensshade_description">Уменьшает виньетирование </string>
     <string name="setting_chromaflash.header">Вспышка  Chroma:</string>
     <string name="setting_chromaflash.description"> Технология вспышки от  Qualcomm</string>
@@ -72,15 +72,15 @@
     <string name="setting_zsl_description">Буферизация кадра для мгновенной съемки. Для RAW выключите</string>
 
     <string name="setting_camera2_">Настройки Camera 2</string>
-    <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
+    <string name="setting_colorcorrection_header">Настройки температуры цвета: </string>
     <string name="setting_colorcorrection_description">Изменяйте вручную или автоматически</string>
     <string name="setting_controlmode_header">Управление камерой:</string>
     <string name="setting_controlmode_description">Контролирование основных функций, выключите для ручного контроля</string>
-    <string name="setting_edge_header">EdgeMode: </string>
+    <string name="setting_edge_header">Виньетирование:</string>
     <string name="setting_edge_description"></string>
     <string name="setting_hotpixel_header">Коррекция горячих пикселей:</string>
     <string name="setting_hotpixel_description"></string>
-    <string name="setting_tonemap_header">Tonemap: </string>
+    <string name="setting_tonemap_header">Соответствие цвета:</string>
     <string name="setting_tonemap_description"></string>
 
     <string name="setting_sonycameraremote_">Настройки Sony Camera Remote</string>
