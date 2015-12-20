@@ -109,7 +109,6 @@ public class CCTManualParameter extends BaseManualParameter {
         int max = Integer.parseInt(parameters.get(max_value));
         if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23)
                     max = 7500;
-
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
         for (int i = min; i<=max;i+=100)
