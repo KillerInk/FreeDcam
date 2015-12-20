@@ -1,5 +1,7 @@
 <resources>
     <!-- leftmenufragment  -->
+    <string name="all_perms_granted">Все разрешения получены</string>
+    <string name="all_perms_denied">Что-то пошло не так! Попробуйте еще раз</string>
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Настройки изображения</string>
     <string name="setting_bayerformat_description">RAW в DNG</string>

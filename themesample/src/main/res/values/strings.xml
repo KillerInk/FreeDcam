@@ -1,5 +1,7 @@
 <resources>
     <!-- leftmenufragment  -->
+    <string name="all_perms_granted">All permissions granted</string>
+    <string name="all_perms_denied">All permissions denied, try yet</string>
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Settings</string>
     <string name="setting_Automation">Automated Capture</string>

@@ -599,5 +599,26 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST);
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        // Make sure it's our original READ_CONTACTS request
+        if (requestCode == CAMERA_PERMISSIONS_REQUEST && requestCode == ACCESS_FINE_LOCATION_PERMISSIONS_REQUEST && requestCode == RECORD_AUDIO_PERMISSIONS_REQUEST && requestCode == READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    )
+            {
+                Toast.makeText(this, getString(R.string.all_perms_granted), Toast.LENGTH_SHORT).show();
 
+
+            } else
+            {
+                Toast.makeText(this, getString(R.string.all_perms_denied), Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }
