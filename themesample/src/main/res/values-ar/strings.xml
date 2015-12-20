@@ -20,7 +20,7 @@
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
-    <string name="setting_api_header">Api: </string>
+    <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Select the Api you want to use</string>
     <string name="setting_externalshutter_description">The key wich can trigger the shutter from a headset</string>
     <string name="setting_externalshutter_header">ExternalShutterKey: </string>
