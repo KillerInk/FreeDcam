@@ -10,7 +10,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
@@ -464,13 +463,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 colorpattern = DngSupportedDevices.GRBG;
                 break;
             case 2:
-                colorpattern = DngSupportedDevices.gbrg;
+                colorpattern = DngSupportedDevices.GBRG;
                 break;
             case 3:
                 colorpattern = DngSupportedDevices.BGGR;
                 break;
             default:
-                colorpattern = DngSupportedDevices.RGGb;
+                colorpattern = DngSupportedDevices.RGGB;
                 break;
         }
         float[] m1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
