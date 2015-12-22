@@ -36,6 +36,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
+    int marginLeft;
+    int marginRight;
     int recthalf;
     protected ImageView cancelFocus;
     protected ImageView meteringArea;
@@ -283,10 +285,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             return;
         disWidth = activity.GetPreviewWidth();
         disHeight = activity.GetPreviewHeight();
-
-        FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
-        if (wrapper.Focus != null)
-            wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+        marginLeft = activity.GetPreviewLeftMargine();
+        marginRight = activity.GetPreviewRightMargine();
+        if (x > marginLeft && x < disWidth + marginLeft ) {
+            if (x < marginLeft + recthalf)
+                x = marginLeft + recthalf;
+            if (x > marginRight - recthalf)
+                x = marginRight - recthalf;
+            if (y < recthalf)
+                y = recthalf;
+            if (y > disHeight - recthalf)
+                y = disHeight - recthalf;
+            FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
+            if (wrapper.Focus != null)
+                wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+        }
     }
 
     /*
