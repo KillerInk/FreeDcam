@@ -48,6 +48,26 @@
                 android:id="@+id/editText_height" />
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Blacklevel:"
+                android:id="@+id/textView4" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText_blacklevel" />
+        </LinearLayout>
+
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_rawFormat" />
+
     </LinearLayout>
 
     <Button

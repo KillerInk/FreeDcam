@@ -11,9 +11,9 @@
         <item>G4</item>
     </string-array>
     <string-array name="raw_format">
-        <item>Plain16bit</item>
         <item>Mipi10bit</item>
         <item>QCom16bit</item>
+        <item>Plain16bit</item>
         <item>Mipi16bit</item>
     </string-array>
 </resources>

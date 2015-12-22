@@ -26,6 +26,7 @@ public class DngConvertingFragment extends Fragment
     View view;
     EditText editTextwidth;
     EditText editTextheight;
+    EditText editTextblacklvl;
     Spinner spinnerMatrixProfile;
     Spinner spinnerColorPattern;
     Spinner spinnerrawFormat;
@@ -41,6 +42,7 @@ public class DngConvertingFragment extends Fragment
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
+        this.editTextblacklvl = (EditText)view.findViewById(R.id.editText_blacklevel);
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
         ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.matrixes, android.R.layout.simple_spinner_item);
@@ -119,19 +121,7 @@ public class DngConvertingFragment extends Fragment
         spinnerrawFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        dngprofile.rawType = DngSupportedDevices.Plain;
-                        break;
-                    case 1:
-                        dngprofile.rawType = DngSupportedDevices.Mipi;
-                        break;
-                    case 2:
-                        dngprofile.rawType = DngSupportedDevices.Qcom;
-                        break;
-                    case 3:
-                        dngprofile.rawType = DngSupportedDevices.Mipi16;
-                }
+                dngprofile.rawType = position;
             }
 
             @Override
@@ -158,6 +148,8 @@ public class DngConvertingFragment extends Fragment
             }
             editTextwidth.setText(dngprofile.widht + "");
             editTextheight.setText(dngprofile.height + "");
+            editTextblacklvl.setText(dngprofile.blacklevel+"");
+
             if (dngprofile.BayerPattern.equals(DngSupportedDevices.BGGR))
                 spinnerColorPattern.setSelection(0);
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.RGGB))
@@ -166,6 +158,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerColorPattern.setSelection(2);
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
                 spinnerColorPattern.setSelection(3);
+
             if (dngprofile.matrix1.equals(Matrixes.Nex6CCM1))
                 spinnerMatrixProfile.setSelection(0);
             else
@@ -178,6 +171,9 @@ public class DngConvertingFragment extends Fragment
         @Override
         public void onClick(View v)
         {
+            dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
+            dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
+            dngprofile.blacklevel = (Integer.parseInt(editTextblacklvl.getText().toString()));
 
         }
     };
