@@ -10,6 +10,7 @@ import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 18.11.2014.
@@ -109,7 +110,8 @@ public class VideoModuleG3 extends VideoModule
 
             camParametersHandler.setString("dual-recorder", "0");
             //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
-            camParametersHandler.setString("preview-format", "nv12-venus");
+            if(!DeviceUtils.isG4())
+                camParametersHandler.setString("preview-format", "nv12-venus");
             camParametersHandler.setString("lge-camera", "1");
         }
         else
