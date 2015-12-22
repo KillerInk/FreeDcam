@@ -35,6 +35,13 @@
             android:layout_marginRight="5dp"
             />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="RawToDng"
+            android:id="@+id/button_rawToDng"
+            android:textSize="10dp" />
+
     </LinearLayout>
 
     <GridView

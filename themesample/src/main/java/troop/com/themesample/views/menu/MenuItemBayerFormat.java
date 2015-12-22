@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +58,15 @@ public class MenuItemBayerFormat extends MenuItem
         }
 
         bayerformats = new ArrayList<String>();
-        for(String s : parameter.GetValues())
+        if (DeviceUtils.isG4())
         {
-            if (s.contains("bayer"))
-            {
-                bayerformats.add(s);
+            bayerformats.add("bayer-mipi-10bggr");
+        }
+        else {
+            for (String s : parameter.GetValues()) {
+                if (s.contains("bayer")) {
+                    bayerformats.add(s);
+                }
             }
         }
         if (bayerformats.size() > 0)

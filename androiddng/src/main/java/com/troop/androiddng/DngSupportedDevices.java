@@ -76,6 +76,8 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.Lenovo_k910;
         if(DeviceUtils.isG2())
             return DngSupportedDevices.SupportedDevices.LG_G2;
+        if (DeviceUtils.isG4())
+            return SupportedDevices.Lg_G4;
         if (DeviceUtils.hasIMX135())
             return DngSupportedDevices.SupportedDevices.zteAdv;
         if(DeviceUtils.isZTEADVIMX214())
@@ -123,6 +125,17 @@ public class DngSupportedDevices
 
     public DngProfile getProfile(SupportedDevices device, int filesize)
     {
+        if (device == SupportedDevices.Lg_G4)
+            return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+                    Matrixes.G4_identity_matrix1,
+                    Matrixes.G4_identity_matrix2,
+                    Matrixes.G4_identity_neutra,
+                    Matrixes.G4_foward_matrix1,
+                    Matrixes.G4_foward_matrix2,
+                    Matrixes.G4_reduction_matrix1,
+                    Matrixes.G4_reduction_matrix2,
+                    Matrixes.G4_noise_3x1_matrix);
+
         switch (filesize) {
             case 9830400: //NGM Forward Art
 				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,

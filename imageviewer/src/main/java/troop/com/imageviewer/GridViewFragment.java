@@ -69,6 +69,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     private Button deleteButton;
     private Button gobackButton;
     private Button filetypeButton;
+    private Button rawToDngButton;
     final String savedInstanceString = "lastpath";
     String savedInstanceFilePath;
     FormatTypes formatsToShow = FormatTypes.all;
@@ -175,6 +176,28 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             @Override
             public void onClick(View v) {
                 showPopup(v);
+            }
+        });
+
+        rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
+        rawToDngButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                ArrayList<String> ar = new ArrayList<String>();
+                for (FileHolder f : files)
+                {
+                    if (f.IsSelected() && f.getFile().getAbsolutePath().endsWith("raw"))
+                    {
+                        ar.add(f.getFile().getAbsolutePath());
+                    }
+
+                }
+                final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
+                String[]t = new String[ar.size()];
+                ar.toArray(t);
+                i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
+                startActivity(i);
             }
         });
 
@@ -591,10 +614,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
             case normal:
             {
                 deleteButton.setVisibility(View.GONE);
+                rawToDngButton.setVisibility(View.GONE);
                 break;
             }
             case selection:
                 deleteButton.setVisibility(View.VISIBLE);
+                rawToDngButton.setVisibility(View.VISIBLE);
                 break;
 
         }
