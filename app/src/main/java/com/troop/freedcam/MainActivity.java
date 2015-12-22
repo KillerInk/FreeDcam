@@ -3,7 +3,6 @@ package com.troop.freedcam;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -600,7 +599,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
@@ -612,15 +610,12 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
                     )
             {
                 Toast.makeText(this, getString(R.string.all_perms_granted), Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
 
             } else
             {
                 Toast.makeText(this, getString(R.string.all_perms_denied), Toast.LENGTH_SHORT).show();
-                Intent intent = getIntent();
-                finish();
+
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
