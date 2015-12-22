@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_pattern">
+        <item>BGGR</item>
+        <item>RGGB</item>
+        <item>GRBG</item>
+        <item>GBRG</item>
+    </string-array>
+</resources>

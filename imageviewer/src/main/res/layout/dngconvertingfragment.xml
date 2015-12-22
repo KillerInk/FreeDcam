@@ -51,7 +51,14 @@
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_MatrixProfile" />
+            android:id="@+id/spinner_MatrixProfile"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_ColorPattern"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <Button
