@@ -1,18 +1,14 @@
 package com.troop.freedcam;
 
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,7 +18,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -86,7 +81,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         setContentView(R.layout.main_v2);
 
         createUI();
-        getPermission();
+
     }
 
     private void checkStartLogging()
@@ -575,50 +570,4 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         return null;
     }
 
-    private static final int CAMERA_PERMISSIONS_REQUEST = 1;
-    private static final int ACCESS_FINE_LOCATION_PERMISSIONS_REQUEST = 1;
-    private static final int RECORD_AUDIO_PERMISSIONS_REQUEST = 1;
-    private static final int READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST = 1;
-
-    public void getPermission()
-    {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},CAMERA_PERMISSIONS_REQUEST);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},ACCESS_FINE_LOCATION_PERMISSIONS_REQUEST);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},RECORD_AUDIO_PERMISSIONS_REQUEST);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST);
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        // Make sure it's our original READ_CONTACTS request
-        if (requestCode == CAMERA_PERMISSIONS_REQUEST && requestCode == ACCESS_FINE_LOCATION_PERMISSIONS_REQUEST && requestCode == RECORD_AUDIO_PERMISSIONS_REQUEST && requestCode == READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST) {
-            if (grantResults.length == 1 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    )
-            {
-                Toast.makeText(this, getString(R.string.all_perms_granted), Toast.LENGTH_SHORT).show();
-
-
-            } else
-            {
-                Toast.makeText(this, getString(R.string.all_perms_denied), Toast.LENGTH_SHORT).show();
-
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 }
