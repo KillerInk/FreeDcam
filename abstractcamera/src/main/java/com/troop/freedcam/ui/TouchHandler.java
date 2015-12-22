@@ -7,7 +7,7 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    final int distance = 100;
+    final int distance = 150;
     public int startX;
     public int startY;
     public int currentX;
@@ -63,19 +63,34 @@ public class TouchHandler
         if (x >= distance || y >= distance)
         {
             swipe = true;
-            if (x >= y)
-                doHorizontalSwipe();
-            else
-                doVerticalSwipe();
+            if (x >= y) {
+                if (currentX > startX)
+                    doLeftToRightSwipe();
+                else
+                    doRightToLeftSwipe();
+            }
+            else{
+                if (currentY > startY)
+                    doTopToBottomSwipe();
+                else
+                    doBottomToTopSwipe();
+            }
         }
     }
 
-    protected void doHorizontalSwipe()
+    protected void doLeftToRightSwipe()
     {
-
     }
 
-    protected void doVerticalSwipe()
+    protected void doRightToLeftSwipe()
+    {
+    }
+
+    protected void doTopToBottomSwipe()
+    {
+    }
+
+    protected void doBottomToTopSwipe()
     {
     }
 

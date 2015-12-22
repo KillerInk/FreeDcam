@@ -20,6 +20,8 @@ import com.troop.freedcam.ui.I_swipe;
 import com.troop.freedcam.ui.SwipeMenuListner;
 import com.troop.freedcam.ui.guide.GuideHandler;
 
+import java.io.File;
+
 import troop.com.themesample.R;
 import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
@@ -73,7 +75,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     static RelativeLayout right_camerUI_holder;
     static ManualFragmentRotatingSeekbar manualModesFragment;
     static FrameLayout manualModes_holder;
-    boolean manualsettingsIsOpen = true;
+    boolean manualsettingsIsOpen = false;
     boolean settingsOpen = false;
     final int animationTime = 500;
 
@@ -90,6 +92,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     SettingsMenuFragment settingsMenuFragment;
     FrameLayout settingsmenuholer;
+    File lastFile;
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
@@ -228,8 +231,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
-        manualsettingsIsOpen = true;
-        //manualModes_holder.setVisibility(View.GONE);
+        manualsettingsIsOpen = false;
+        manualModes_holder.setVisibility(View.GONE);
 
 
 
@@ -305,14 +308,14 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         manualsettingsIsOpen = false;
         Log.d(TAG, "HideSettings");
-        manualModes_holder.setVisibility(View.VISIBLE);
+        manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
     {
         Log.d(TAG, "ShowSettings");
         manualsettingsIsOpen = true;
-        manualModes_holder.setVisibility(View.GONE);
+        manualModes_holder.setVisibility(View.VISIBLE);
     }
 
 
@@ -359,13 +362,26 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         currentOpendChild = null;
     }
 
+
+
     @Override
-    public void doHorizontalSwipe() {
+    public void  doRightToLeftSwipe() {
+
+        i_activity.loadImageViewerFragment(lastFile);
 
     }
 
     @Override
-    public void doVerticalSwipe() {
+    public void doLeftToRightSwipe(){}
+
+    @Override
+    public void doTopToBottomSwipe(){
+        hide_ManualSettings();
+    }
+
+    @Override
+    public void doBottomToTopSwipe(){
+        showManualSettings();
 
     }
 
@@ -412,7 +428,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
-        manualModes_holder.setVisibility(View.VISIBLE);
+        if(manualsettingsIsOpen)
+            manualModes_holder.setVisibility(View.VISIBLE);
         settingsmenuholer.setVisibility(View.GONE);
     }
 }

@@ -5,15 +5,15 @@ package com.troop.freedcam.ui;
  */
 public interface I_swipe
 {
-    /*
-    Gets called when a horizontal swipe is detected
-     */
-    void doHorizontalSwipe();
 
-    /**
-     * Gets called on vertical swipe detected
-     */
-    void doVerticalSwipe();
+    void doLeftToRightSwipe();
+
+    void doRightToLeftSwipe();
+
+    void doTopToBottomSwipe();
+
+    void doBottomToTopSwipe();
+
 
     /**
      * Gets called when a click is detected
