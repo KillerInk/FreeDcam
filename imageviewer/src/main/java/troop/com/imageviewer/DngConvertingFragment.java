@@ -28,6 +28,7 @@ public class DngConvertingFragment extends Fragment
     EditText editTextheight;
     Spinner spinnerMatrixProfile;
     Spinner spinnerColorPattern;
+    Spinner spinnerrawFormat;
     Button buttonconvertToDng;
     String[] filesToConvert;
     DngSupportedDevices.DngProfile dngprofile;
@@ -89,8 +90,7 @@ public class DngConvertingFragment extends Fragment
         spinnerColorPattern.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position)
-                {
+                switch (position) {
                     case 0:
                         dngprofile.BayerPattern = DngSupportedDevices.BGGR;
                         break;
@@ -111,6 +111,34 @@ public class DngConvertingFragment extends Fragment
             }
         });
 
+        this.spinnerrawFormat = (Spinner)view.findViewById(R.id.spinner_rawFormat);
+        ArrayAdapter<CharSequence> rawadapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.raw_format, android.R.layout.simple_spinner_item);
+        rawadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerrawFormat.setAdapter(rawadapter);
+        spinnerrawFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        dngprofile.rawType = DngSupportedDevices.Plain;
+                        break;
+                    case 1:
+                        dngprofile.rawType = DngSupportedDevices.Mipi;
+                        break;
+                    case 2:
+                        dngprofile.rawType = DngSupportedDevices.Qcom;
+                        break;
+                    case 3:
+                        dngprofile.rawType = DngSupportedDevices.Mipi16;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }
@@ -137,11 +165,12 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GRBG))
                 spinnerColorPattern.setSelection(2);
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
-                spinnerColorPattern.setSelection(0);
+                spinnerColorPattern.setSelection(3);
             if (dngprofile.matrix1.equals(Matrixes.Nex6CCM1))
                 spinnerMatrixProfile.setSelection(0);
             else
                 spinnerMatrixProfile.setSelection(1);
+            spinnerrawFormat.setSelection(dngprofile.rawType);
         }
     }
 

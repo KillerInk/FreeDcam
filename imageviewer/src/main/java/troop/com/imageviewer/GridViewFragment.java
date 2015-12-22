@@ -180,6 +180,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
         });
 
         rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
+        rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
