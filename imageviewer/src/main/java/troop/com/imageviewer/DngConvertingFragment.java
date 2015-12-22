@@ -41,13 +41,49 @@ public class DngConvertingFragment extends Fragment
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
+        ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.matrixes, android.R.layout.simple_spinner_item);
+        matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMatrixProfile.setAdapter(matrixadapter);
+        spinnerMatrixProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        dngprofile.matrix1 = Matrixes.Nex6CCM1;
+                        dngprofile.matrix2 = Matrixes.Nex6CCM2;
+                        dngprofile.neutral = Matrixes.Nex6NM;
+                        dngprofile.fowardmatrix1 = Matrixes.Nexus6_foward_matrix1;
+                        dngprofile.fowardmatrix2 = Matrixes.Nexus6_foward_matrix2;
+                        dngprofile.reductionmatrix1= Matrixes.Nexus6_reduction_matrix1;
+                        dngprofile.reductionmatrix1= Matrixes.Nexus6_reduction_matrix2;
+                        dngprofile.noiseprofile = Matrixes.Nexus6_noise_3x1_matrix;
+                        break;
+                    case 1:
+                        dngprofile.matrix1 = Matrixes.G4CCM1;
+                        dngprofile.matrix2 = Matrixes.G4CCM2;
+                        dngprofile.neutral = Matrixes.G4NM;
+                        dngprofile.fowardmatrix1 = Matrixes.G4_foward_matrix1;
+                        dngprofile.fowardmatrix2 = Matrixes.G4_foward_matrix2;
+                        dngprofile.reductionmatrix1= Matrixes.G4_reduction_matrix1;
+                        dngprofile.reductionmatrix1= Matrixes.G4_reduction_matrix2;
+                        dngprofile.noiseprofile = Matrixes.G4_noise_3x1_matrix;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         this.buttonconvertToDng = (Button)view.findViewById(R.id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
+
         this.spinnerColorPattern =(Spinner)view.findViewById(R.id.spinner_ColorPattern);
         ArrayAdapter<CharSequence> coloradapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.color_pattern, android.R.layout.simple_spinner_item);
-
-        // Specify the layout to use when the list of choices appears
         coloradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerColorPattern.setAdapter(coloradapter);
         spinnerColorPattern.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -102,6 +138,10 @@ public class DngConvertingFragment extends Fragment
                 spinnerColorPattern.setSelection(2);
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
                 spinnerColorPattern.setSelection(0);
+            if (dngprofile.matrix1.equals(Matrixes.Nex6CCM1))
+                spinnerMatrixProfile.setSelection(0);
+            else
+                spinnerMatrixProfile.setSelection(1);
         }
     }
 

@@ -498,14 +498,14 @@ public class DngSupportedDevices
         public int rawType;
         public String BayerPattern;
         public int rowsize;
-        float[]matrix1;
-        float[]matrix2;
-        float[]neutral;
-        float[]fowardmatrix1;
-        float[]fowardmatrix2;
-        float[]reductionmatrix1;
-        float[]reductionmatrix2;
-        float[]noiseprofile;
+        public float[]matrix1;
+        public float[]matrix2;
+        public float[]neutral;
+        public float[]fowardmatrix1;
+        public float[]fowardmatrix2;
+        public float[]reductionmatrix1;
+        public float[]reductionmatrix2;
+        public float[]noiseprofile;
 
         public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
         {

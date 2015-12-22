@@ -6,4 +6,8 @@
         <item>GRBG</item>
         <item>GBRG</item>
     </string-array>
+    <string-array name="matrixes">
+        <item>Nexus6</item>
+        <item>G4</item>
+    </string-array>
 </resources>
