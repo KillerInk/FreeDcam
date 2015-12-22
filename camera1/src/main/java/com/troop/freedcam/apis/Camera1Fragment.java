@@ -1,5 +1,6 @@
 package com.troop.freedcam.apis;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -30,6 +31,8 @@ public class Camera1Fragment extends AbstractCameraFragment
             this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, appSettingsManager);
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            checkMarshmallowPermissions();
         super.onCreateView(inflater, container, null);
         return view;
     }

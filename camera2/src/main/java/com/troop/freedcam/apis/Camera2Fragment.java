@@ -77,28 +77,5 @@ public class Camera2Fragment extends AbstractCameraFragment
         return null;
     }
 
-    private void checkMarshmallowPermissions()
-    {
-        if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestCameraPermission(this);
-        }
-        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestSDPermission(this);
-        }
-        if (getActivity().checkSelfPermission(Manifest.permission.CAPTURE_AUDIO_OUTPUT)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestAudioSDPermission(this);
-        }
-        if (getActivity().checkSelfPermission(Manifest.permission.CAPTURE_VIDEO_OUTPUT)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestAudioVideoPermission(this);
-        }
 
-    }
 }

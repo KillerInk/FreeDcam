@@ -1,5 +1,7 @@
 package com.troop.freedcam.apis;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.marshmallowpermission.MPermissions;
 
 /**
  * Created by troop on 06.06.2015.
@@ -75,6 +78,31 @@ public abstract class AbstractCameraFragment extends Fragment
     public interface CamerUiWrapperRdy
     {
         void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
+    }
+
+    protected void checkMarshmallowPermissions()
+    {
+        if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestCameraPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestSDPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.CAPTURE_AUDIO_OUTPUT)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestAudioSDPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.CAPTURE_VIDEO_OUTPUT)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestAudioVideoPermission(this);
+        }
+
     }
 
 }
