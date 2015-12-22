@@ -1,7 +1,12 @@
 package troop.com.imageviewer;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +19,12 @@ import android.widget.Toast;
 
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
+import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by troop on 22.12.2015.
@@ -33,12 +41,14 @@ public class DngConvertingFragment extends Fragment
     Button buttonconvertToDng;
     String[] filesToConvert;
     DngSupportedDevices.DngProfile dngprofile;
+    Handler handler;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DeviceUtils.contex = getActivity().getApplicationContext();
+        handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
@@ -174,9 +184,62 @@ public class DngConvertingFragment extends Fragment
             dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
             dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
             dngprofile.blacklevel = (Integer.parseInt(editTextblacklvl.getText().toString()));
+            final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG","");
+            pr.setMax(filesToConvert.length);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    int t = 0;
+                    for(String s: filesToConvert)
+                    {
+                        convertRawToDng(new File(s));
+                        t++;
+                        final int i = t;
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                pr.setProgress(i);
+                            }
+                        });
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            pr.dismiss();
+                        }
+                    });
+                }
+            }).start();
 
         }
     };
+
+    private void convertRawToDng(File file)
+    {
+        byte[] data = null;
+        try {
+            data = RawToDng.readFile(file);
+            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        RawToDng dng = RawToDng.GetInstance();
+        dng.SetBayerData(data, out);
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        dng.WriteDngWithProfile(dngprofile);
+        data = null;
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        getActivity().sendBroadcast(intent);
+    }
 
 
 }
