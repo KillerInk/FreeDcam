@@ -103,6 +103,8 @@ public class MediatekSaver extends JpegSaver {
         });
     }
 
+
+    private int loopBreaker = 0;
     private void CreateDNG_DeleteRaw()
     {
         final RawToDng dngConverter = RawToDng.GetInstance();
@@ -112,7 +114,14 @@ public class MediatekSaver extends JpegSaver {
         try {
             while (!checkFileCanRead(DeviceSwitcher()))
             {
-                Thread.sleep(100);
+                if (loopBreaker < 20) {
+                    Thread.sleep(100);
+                    loopBreaker++;
+                }
+                else {
+                    iWorkeDone.OnError("Error:Cant find raw");
+                    return;
+                }
             }
             data = RawToDng.readFile(DeviceSwitcher());
             Log.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
@@ -200,18 +209,26 @@ public class MediatekSaver extends JpegSaver {
         return dump;*/
     }
 
-    public boolean checkFileCanRead(File file){
-        if (!file.exists())
-            return false;
-        if (!file.canRead())
-            return false;
+    public boolean checkFileCanRead(File file)
+    {
         try {
-            FileReader fileReader = new FileReader(file.getAbsolutePath());
-            fileReader.read();
-            fileReader.close();
-        } catch (Exception e) {
+            if (!file.exists())
+                return false;
+            if (!file.canRead())
+                return false;
+            try {
+                FileReader fileReader = new FileReader(file.getAbsolutePath());
+                fileReader.read();
+                fileReader.close();
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        catch (NullPointerException ex)
+        {
             return false;
         }
+
         return true;
     }
 
