@@ -9,11 +9,14 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.I_swipe;
+import com.troop.freedcam.ui.SwipeMenuListner;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -25,7 +28,7 @@ import java.util.List;
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment
+public class ScreenSlideFragment extends Fragment implements I_swipe
 {
     final static String TAG = ScreenSlideActivity.class.getSimpleName();
 
@@ -50,13 +53,22 @@ public class ScreenSlideFragment extends Fragment
     public int defitem = -1;
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    SwipeMenuListner touchHandler;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.screenslide_fragment, container, false);
-
+        touchHandler = new SwipeMenuListner(this);
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(R.id.pager);
+        mPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return touchHandler.onTouchEvent(event);
+            }
+        });
 
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +152,34 @@ public class ScreenSlideFragment extends Fragment
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(files.length);
+    }
+
+    @Override
+    public void doLeftToRightSwipe()
+    {
+        Log.d(TAG, "left to right");
+        if (activity != null && mPager.getCurrentItem() == 0)
+            activity.loadCameraUiFragment();
+    }
+
+    @Override
+    public void doRightToLeftSwipe() {
+        Log.d(TAG, "right to left");
+    }
+
+    @Override
+    public void doTopToBottomSwipe() {
+
+    }
+
+    @Override
+    public void doBottomToTopSwipe() {
+
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+
     }
 
 

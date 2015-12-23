@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -22,17 +23,23 @@ public class TouchHandler
     {
         boolean fireagain = true;
 
-        switch (event.getAction()) {
+        switch (event.getAction())
+        {
             case MotionEvent.ACTION_DOWN:
                 startX = (int) event.getX();
                 startY = (int) event.getY();
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
                 start = System.currentTimeMillis();
-
+                Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
                 break;
            // case MotionEvent.A
             case MotionEvent.ACTION_MOVE:
+                if (startX == 0 && startY == 0)
+                {
+                    startX = (int) event.getX();
+                    startY = (int) event.getY();
+                }
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
                 detectSwipeDirection();
@@ -49,6 +56,8 @@ public class TouchHandler
                 }
                 swipe = false;
                 fireagain = false;
+                currentX = 0;
+                startX = 0;
                 break;
         }
 
@@ -63,6 +72,7 @@ public class TouchHandler
         if (x >= distance || y >= distance)
         {
             swipe = true;
+            Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
             if (x >= y) {
                 if (currentX > startX)
                     doLeftToRightSwipe();
