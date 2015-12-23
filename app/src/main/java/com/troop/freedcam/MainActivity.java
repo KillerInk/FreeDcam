@@ -496,7 +496,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             System.gc();
         }
         android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.replace(R.id.themeFragmentholder,themeHandler.GetThemeFragment(false));
         transaction.commitAllowingStateLoss();
 
