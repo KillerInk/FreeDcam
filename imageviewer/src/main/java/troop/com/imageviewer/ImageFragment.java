@@ -299,32 +299,23 @@ public class ImageFragment extends Fragment
                     {
                         if (file.getAbsolutePath().endsWith(".jpg")) {
                             play.setVisibility(View.VISIBLE);
-                            play.setText("Open");
                         }
-                        if (file.getAbsolutePath().endsWith(".jps")) {
-                            play.setVisibility(View.VISIBLE);
-                            play.setText("Open");
-                        }
-                        if (file.getAbsolutePath().endsWith(".mp4")) {
-                            play.setText("Play");
+                        else if (file.getAbsolutePath().endsWith(".jps")) {
                             play.setVisibility(View.VISIBLE);
                         }
-                        if (file.getAbsolutePath().endsWith(".dng")) {
-                            play.setText("Open DNG");
+                        else if (file.getAbsolutePath().endsWith(".mp4")) {
                             play.setVisibility(View.VISIBLE);
                         }
-                        if (file.getAbsolutePath().endsWith(".raw")) {
-                            play.setText("Convert to DNG");
+                        else if (file.getAbsolutePath().endsWith(".dng")) {
                             play.setVisibility(View.VISIBLE);
+                        }
+                        else if (file.getAbsolutePath().endsWith(".raw")) {
+                            play.setVisibility(View.GONE);
                         }
                     }
                     else
                     {
-                        if (file.getAbsolutePath().endsWith(".raw")) {
-                            play.setText("Try Convert to DNG");
-                            play.setVisibility(View.VISIBLE);
-                        } else
-                            play.setVisibility(View.GONE);
+                        play.setVisibility(View.GONE);
                     }
                 }
             });

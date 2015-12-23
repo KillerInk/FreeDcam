@@ -21,16 +21,17 @@
         android:layout_alignParentBottom="true">
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_closeView"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentRight="true"
-            android:textSize="10dp"
-            android:text="Close" />
-
-
     </RelativeLayout>
+
+    <Button
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
+        android:id="@+id/button_closeView"
+        android:textSize="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/go_back"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
