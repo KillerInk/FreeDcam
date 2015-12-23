@@ -148,8 +148,12 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                         if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
                                 || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
                         {
-                            savedInstanceFilePath =null;
-                            loadDefaultFolders();
+                            if(topPath.equals(inter) || topPath.equals(external)) {
+                                savedInstanceFilePath = null;
+                                loadDefaultFolders();
+                            }
+                            else
+                                getActivity().finish();
                         }
                         else {
                             loadFiles(files[0].getFile());
@@ -193,6 +197,13 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
+                }
+                for (FileHolder f : files)
+                {
+                    if (f.IsSelected() )
+                    {
+                        f.SetSelected(false);
+                    }
                 }
                 final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
                 String[]t = new String[ar.size()];
