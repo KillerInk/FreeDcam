@@ -52,9 +52,7 @@
         android:layout_width="180dp"
         android:layout_height="100dp"
         android:id="@+id/histoView"
-        android:layout_above="@+id/linearLayout"
-        android:layout_toRightOf="@+id/imageView_PicView"
-        android:layout_toEndOf="@+id/imageView_PicView" />
+        android:layout_above="@+id/linearLayout" />
 
     <LinearLayout
         android:orientation="vertical"

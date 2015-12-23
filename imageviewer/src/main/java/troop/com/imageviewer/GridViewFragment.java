@@ -200,11 +200,9 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
                 }
                 for (FileHolder f : files)
                 {
-                    if (f.IsSelected() )
-                    {
-                        f.SetSelected(false);
-                    }
+                    f.SetSelected(false);
                 }
+                setViewMode(ViewStates.normal);
                 final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
                 String[]t = new String[ar.size()];
                 ar.toArray(t);
