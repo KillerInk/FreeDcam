@@ -66,7 +66,8 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                return touchHandler.onTouchEvent(event);
+                 touchHandler.onTouchEvent(event);
+                 return false;
             }
         });
 
