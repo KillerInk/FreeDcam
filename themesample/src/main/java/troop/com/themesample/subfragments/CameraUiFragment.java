@@ -228,7 +228,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+        transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
         manualsettingsIsOpen = false;
@@ -308,13 +308,15 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         manualsettingsIsOpen = false;
         Log.d(TAG, "HideSettings");
-        manualModes_holder.setVisibility(View.GONE);
+        manualModes_holder.animate().translationY(manualModes_holder.getHeight()).setDuration(300);
+        //manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
     {
         Log.d(TAG, "ShowSettings");
         manualsettingsIsOpen = true;
+        manualModes_holder.animate().translationY(0).setDuration(300);
         manualModes_holder.setVisibility(View.VISIBLE);
     }
 
