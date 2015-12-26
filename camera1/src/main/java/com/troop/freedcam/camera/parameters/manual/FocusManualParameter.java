@@ -88,6 +88,7 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         catch (NumberFormatException ex)
         {
+            isSupported = false;
             return  0;
         }
 
