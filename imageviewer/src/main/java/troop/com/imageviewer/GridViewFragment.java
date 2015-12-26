@@ -56,10 +56,8 @@ import java.util.Comparator;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class GridViewFragment extends BaseGridViewFragment
 {
-    GridView gridView;
-    View view;
     private ImageAdapter mPagerAdapter;
     FileHolder[] files;
     int mImageThumbSize = 0;
@@ -96,11 +94,7 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.gridviewfragment, container, false);
-        this.gridView = (GridView) view.findViewById(R.id.gridView);
-        gridView.setOnItemClickListener(this);
-        gridView.setOnItemLongClickListener(this);
+        super.onCreateView(inflater, container, savedInstanceState);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
@@ -215,9 +209,15 @@ public class GridViewFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     @Override
+    protected void inflate(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(R.layout.basegridview, container, false);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null){
+        if(savedInstanceState != null)
+        {
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
 
         }
