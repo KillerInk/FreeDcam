@@ -83,7 +83,14 @@ public class FocusManualParameter extends  BaseManualParameter
             else
                 return -1;
         else
+        try {
             return Integer.parseInt(parameters.get(min_value));
+        }
+        catch (NumberFormatException ex)
+        {
+            return  0;
+        }
+
     }
 //m8 Step Value
     @Override
