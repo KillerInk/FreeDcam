@@ -63,7 +63,7 @@ public class GridViewFragment extends BaseGridViewFragment
     int mImageThumbSize = 0;
     CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
-    private ViewStates currentViewState = ViewStates.normal;
+
     private Button deleteButton;
     private Button gobackButton;
     private Button filetypeButton;
@@ -73,11 +73,7 @@ public class GridViewFragment extends BaseGridViewFragment
     FormatTypes formatsToShow = FormatTypes.all;
     boolean pos0ret = false;
 
-    public enum ViewStates
-    {
-        normal,
-        selection,
-    }
+
 
     public enum FormatTypes
     {
@@ -210,7 +206,7 @@ public class GridViewFragment extends BaseGridViewFragment
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.basegridview, container, false);
+        view = inflater.inflate(R.layout.gridviewfragment, container, false);
     }
 
     @Override
@@ -404,7 +400,8 @@ public class GridViewFragment extends BaseGridViewFragment
 
 
 
-    private class ImageAdapter extends BaseAdapter {
+    private class ImageAdapter extends BaseAdapter
+    {
         private final Context mContext;
 
         public ImageAdapter(Context context) {

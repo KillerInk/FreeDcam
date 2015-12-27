@@ -16,7 +16,14 @@ public class BaseGridViewFragment extends Fragment implements AdapterView.OnItem
 {
     protected GridView gridView;
     protected View view;
+    protected boolean pos0ret = false;
+    protected ViewStates currentViewState = ViewStates.normal;
 
+    public enum ViewStates
+    {
+        normal,
+        selection,
+    }
 
     @Nullable
     @Override
