@@ -310,9 +310,9 @@ public class DngSupportedDevices
                     case Xiaomi_Redmi_Note:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Xiaomi_mi3:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Xiaomi_mi4:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, 0);
                     case OnePlusOne:
