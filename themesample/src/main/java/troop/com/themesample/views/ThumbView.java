@@ -25,10 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import troop.com.imageviewer.FileHolder;
+import troop.com.imageviewer.holder.FileHolder;
 import troop.com.imageviewer.FileUtils;
-import troop.com.imageviewer.GridViewFragment;
-import troop.com.imageviewer.ScreenSlideFragment;
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.themesample.R;
 
 /**

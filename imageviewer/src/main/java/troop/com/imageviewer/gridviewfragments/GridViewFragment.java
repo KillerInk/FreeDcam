@@ -1,7 +1,6 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.gridviewfragments;
 
 import android.Manifest;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,26 +15,16 @@ import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
@@ -43,15 +32,18 @@ import com.troop.freedcam.utils.StringUtils;
 import com.troop.marshmallowpermission.MPermissions;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import troop.com.imageviewer.CacheHelper;
+import troop.com.imageviewer.DngConvertingActivity;
+import troop.com.imageviewer.DngConvertingFragment;
+import troop.com.imageviewer.gridimageviews.GridImageView;
+import troop.com.imageviewer.R;
+import troop.com.imageviewer.ScreenSlideActivity;
+import troop.com.imageviewer.holder.FileHolder;
 
 /**
  * Created by troop on 11.12.2015.

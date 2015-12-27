@@ -1,4 +1,4 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.gridviewfragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import troop.com.imageviewer.R;
 
 /**
  * Created by troop on 23.12.2015.

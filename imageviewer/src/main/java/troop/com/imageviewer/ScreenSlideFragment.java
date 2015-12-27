@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+import troop.com.imageviewer.holder.FileHolder;
+
 /**
  * Created by troop on 18.09.2015.
  */

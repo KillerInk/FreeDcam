@@ -11,6 +11,8 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.utils.DeviceUtils;
 
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+
 /**
  * Created by troop on 21.08.2015.
  */

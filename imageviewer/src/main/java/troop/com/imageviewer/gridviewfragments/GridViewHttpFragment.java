@@ -1,13 +1,14 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.gridviewfragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import troop.com.imageviewer.R;
 
 /**
  * Created by troop on 23.12.2015.

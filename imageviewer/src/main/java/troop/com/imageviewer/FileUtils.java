@@ -3,6 +3,9 @@ package troop.com.imageviewer;
 import java.io.File;
 import java.util.List;
 
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+import troop.com.imageviewer.holder.FileHolder;
+
 /**
  * Created by Ingo on 13.12.2015.
  */

@@ -1,4 +1,4 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.gridimageviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,11 +6,15 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import troop.com.imageviewer.R;
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+import troop.com.imageviewer.holder.BaseHolder;
+import troop.com.imageviewer.holder.FileHolder;
 
 /**
  * Created by troop on 11.12.2015.
@@ -20,7 +24,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     ImageView imageView;
     TextView textView;
     CheckBox checkBox;
-    private FileHolder fileHolder;
+    private BaseHolder fileHolder;
     public GridImageView(Context context) {
         super(context);
         init(context);
@@ -65,7 +69,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         imageView.setImageBitmap(bitmap);
     }
 
-    public void SetEventListner(FileHolder fileHolder)
+    public void SetEventListner(BaseHolder fileHolder)
     {
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
