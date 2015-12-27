@@ -67,6 +67,16 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
 
     }
 
+    @Override
+    public boolean isAeMeteringSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean isWbMeteringSupported() {
+        return false;
+    }
+
 
     @Override
     public void onAutoFocus(CameraFocusEvent event)

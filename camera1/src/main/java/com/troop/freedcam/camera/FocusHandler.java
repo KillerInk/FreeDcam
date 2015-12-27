@@ -26,6 +26,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     List<Camera.Area> areas;
     boolean isFocusing = false;
 
+    private boolean aeMeteringSupported =false;
+
     public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
@@ -95,6 +97,17 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
         this.parametersHandler = cameraUiWrapper.camParametersHandler;
+    }
+
+    @Override
+    public boolean isAeMeteringSupported()
+    {
+        return aeMeteringSupported;
+    }
+
+    @Override
+    public boolean isWbMeteringSupported() {
+        return false;
     }
 
     @Override

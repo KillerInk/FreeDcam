@@ -12,4 +12,6 @@ public abstract class AbstractFocusHandler
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height){};
     public abstract void SetAwbAreas(FocusRect awbRect, int width, int height);
     public I_Focus focusEvent;
+    public abstract boolean isAeMeteringSupported();
+    public abstract boolean isWbMeteringSupported();
 }

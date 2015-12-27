@@ -120,7 +120,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             meteringRect = centerImageView(meteringArea);
-            meteringArea.setVisibility(View.VISIBLE);
+            if (wrapper.Focus.isAeMeteringSupported())
+                meteringArea.setVisibility(View.VISIBLE);
+            else
+                meteringArea.setVisibility(View.GONE);
         }
         else
         {

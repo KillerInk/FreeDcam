@@ -264,6 +264,16 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     }
 
     @Override
+    public boolean isAeMeteringSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean isWbMeteringSupported() {
+        return false;
+    }
+
+    @Override
     public void ParametersLoaded()
     {
         if (focusEvent == null
