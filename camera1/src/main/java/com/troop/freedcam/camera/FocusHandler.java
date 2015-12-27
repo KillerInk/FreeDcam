@@ -67,11 +67,17 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             if (val.contains("spot"))
             {
                 if (focusEvent != null)
+                {
+                    aeMeteringSupported = true;
                     focusEvent.AEMeteringSupported(true);
+                }
             }
             else {
                 if (focusEvent != null)
+                {
+                    aeMeteringSupported = false;
                     focusEvent.AEMeteringSupported(false);
+                }
             }
 
         }
