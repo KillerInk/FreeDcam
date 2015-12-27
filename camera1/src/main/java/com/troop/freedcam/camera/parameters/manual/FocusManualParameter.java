@@ -103,10 +103,10 @@ public class FocusManualParameter extends  BaseManualParameter
             else
                 return Integer.parseInt(parameters.get(value));
         }
-        catch (Exception ex)
+        catch (NumberFormatException ex)
         {
             Log.d(TAG, "get ManualFocus value failed");
-            return 0;
+            return -1;
         }
     }
 
