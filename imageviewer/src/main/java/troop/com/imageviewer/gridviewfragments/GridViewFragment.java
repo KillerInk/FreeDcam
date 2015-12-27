@@ -227,6 +227,7 @@ public class GridViewFragment extends BaseGridViewFragment
                     {
                         if (f.IsSelected())
                         {
+                            cacheHelper.deleteFileFromDiskCache(f.getFile().getName());
                             boolean d = f.getFile().delete();
                             Log.d(TAG,"File delted:" + f.getFile().getName() + " :" + d);
                         }

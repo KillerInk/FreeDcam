@@ -159,6 +159,20 @@ public class CacheHelper
         //END_INCLUDE(get_bitmap_from_disk_cache)
     }
 
+    public void deleteFileFromDiskCache(String file)
+    {
+        if (mDiskLruCache != null)
+        {
+            if (file.contains(" "))
+                file = file.replace(" ", "_");
+            try {
+                mDiskLruCache.remove(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // Creates a unique subdirectory of the designated app cache directory. Tries to use external
 // but if not mounted, falls back on internal storage.
     public static File getDiskCacheDir(Context context, String uniqueName) {
@@ -179,4 +193,6 @@ public class CacheHelper
     public Bitmap getBitmapFromMemCache(String key) {
         return mMemoryCache.get(key);
     }
+
+
 }
