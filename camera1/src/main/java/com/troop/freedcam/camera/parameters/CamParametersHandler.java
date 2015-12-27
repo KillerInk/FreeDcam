@@ -260,6 +260,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ExposureMode = new ExposureModeParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
+            ExposureMode.addEventListner(((FocusHandler)cameraHolder.Focus).aeModeListner);
         }
         catch (Exception ex)
         {

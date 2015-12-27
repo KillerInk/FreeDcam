@@ -25,7 +25,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     int count;
     List<Camera.Area> areas;
     boolean isFocusing = false;
-    
+
     public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
@@ -39,6 +39,37 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             {
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(false);
+            }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
+    public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.contains("spot"))
+            {
+                if (focusEvent != null)
+                    focusEvent.AEMeteringSupported(true);
+            }
+            else {
+                if (focusEvent != null)
+                    focusEvent.AEMeteringSupported(false);
             }
 
         }
