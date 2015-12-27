@@ -6,6 +6,7 @@ import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -24,6 +25,39 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     int count;
     List<Camera.Area> areas;
     boolean isFocusing = false;
+    
+    public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.equals("auto")|| val.equals("macro"))
+            {
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(true);
+            }
+            else
+            {
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(false);
+            }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {

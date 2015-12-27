@@ -66,6 +66,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import com.troop.freedcam.camera.FocusHandler;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -356,6 +358,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             FocusMode = new FocusModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
+            FocusMode.addEventListner(((FocusHandler)cameraHolder.Focus).focusModeListner);
         }
         catch (Exception ex)
         {
