@@ -4,6 +4,8 @@ package com.troop.freedcam.camera.parameters.manual;
  * Created by George on 1/21/2015.
  */
 
+import android.os.Build;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -42,10 +44,10 @@ public class BurstManualParam extends BaseManualParameter {
         if (DeviceUtils.isLG_G3()||DeviceUtils.isXiaomiMI4W())
             return 9;
         if (DeviceUtils.isXiaomiMI3W())
-            //if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("jpeg"))
-            //return 100;
-            //else
+            if (Build.VERSION.SDK_INT < 23)
                 return 6;
+            else
+                return 10;
         else
             return 0;
     }
