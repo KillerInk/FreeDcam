@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
@@ -25,6 +27,7 @@ import troop.com.views.RotatingSeekbar;
  */
 public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I_ParametersLoaded, SeekBar.OnSeekBarChangeListener
 {
+    private int currentValuePos = 0;
 
     RotatingSeekbar seekbar;
     ManualButton mf;
@@ -199,6 +202,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
                 currentButton.SetActive(true);
                 seekbar.SetStringValues(currentButton.getStringValues());
                 seekbar.setProgress(currentButton.getCurrentItem());
+                currentValuePos = currentButton.getCurrentItem();
+                Log.d(TAG, "CurrentvaluePos " + currentValuePos);
             }
 
         }
@@ -211,8 +216,12 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
         Log.d(TAG, "onProgressChanged:" + progress);
-        currentButton.setValueToParameters(progress);
-        currentButton.onCurrentValueChanged(progress);
+        currentValuePos = progress;
+        if (!(wrapper instanceof CameraUiWrapperSony)) {
+            currentButton.setValueToParameters(progress);
+            currentButton.onCurrentValueChanged(progress);
+
+        }
     }
 
     @Override
@@ -222,6 +231,9 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+        if (wrapper instanceof CameraUiWrapperSony) {
+            currentButton.setValueToParameters(currentValuePos);
+            currentButton.onCurrentValueChanged(currentValuePos);
+        }
     }
 }
