@@ -417,7 +417,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             canvas.drawBitmap(frame, src, dst, mFramePaint);
         if (frameExtractor != null)
             drawFrameInformation(frameExtractor, canvas, dst);
-        getHolder().unlockCanvasAndPost(canvas);
+        try {
+            getHolder().unlockCanvasAndPost(canvas);
+        }
+        catch(IllegalStateException ex)
+        {}
     }
 
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
