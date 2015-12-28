@@ -365,7 +365,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * 
      * @param frame
      */
-    private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor) {
+    private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
+    {
+        try {
         if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
             onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
             return;
@@ -417,7 +419,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             canvas.drawBitmap(frame, src, dst, mFramePaint);
         if (frameExtractor != null)
             drawFrameInformation(frameExtractor, canvas, dst);
-        try {
+
             getHolder().unlockCanvasAndPost(canvas);
         }
         catch(IllegalStateException ex)
