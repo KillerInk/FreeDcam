@@ -45,6 +45,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     final int stringColor = Color.parseColor("#FFFFFFFF");
     final int stringColorActive = Color.parseColor("#FF000000");
     boolean imageusing = false;
+    int pos = 0;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<Integer>(3);
 
@@ -109,18 +110,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-                realMax = parameter.GetMaxValue();
-                realMin = parameter.GetMinValue();
-                parameterValues = parameter.getStringValues();
-                if (parameterValues == null)
-                {
-                    ArrayList<String> list = new ArrayList<>();
-                    for (int i = realMin; i<= realMax; i++)
-                    {
-                        list.add(i+"");
-                    }
-                    parameterValues = new String[list.size()];
-                    list.toArray(parameterValues);
+                if (!(parameter instanceof BaseManualParameterSony)) {
+                    realMax = parameter.GetMaxValue();
+                    realMin = parameter.GetMinValue();
+                    createStringParametersStrings(parameter);
                 }
             }
             else
@@ -129,6 +122,20 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         else
             onIsSupportedChanged(false);
 
+    }
+
+    private void createStringParametersStrings(AbstractManualParameter parameter) {
+        parameterValues = parameter.getStringValues();
+        if (parameterValues == null && realMax > 0)
+        {
+            ArrayList<String> list = new ArrayList<>();
+            for (int i = realMin; i<= realMax; i++)
+            {
+                list.add(i+"");
+            }
+            parameterValues = new String[list.size()];
+            list.toArray(parameterValues);
+        }
     }
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
@@ -171,6 +178,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     public void onMaxValueChanged(int max)
     {
         this.realMax = max;
+        createStringParametersStrings(parameter);
     }
 
     @Override
@@ -179,7 +187,12 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     }
 
     @Override
-    public void onCurrentValueChanged(int current) {
+    public void onCurrentValueChanged(int current)
+    {
+        if (realMin < 0)
+            this.pos = current + realMin *-1;
+        else
+            this.pos = current;
         setTextValue(current);
     }
 
@@ -226,8 +239,6 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             else
                 return parameterValues[pos];
         }
-        else if (parameterValues == null)
-            return parameter.GetStringValue();
 
         return null;
     }
@@ -239,12 +250,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public int getCurrentItem()
     {
-        int t = parameter.GetValue() + (realMin*-1);
-        if (t < realMin)
-            t = realMin;
-        if (t >= realMax)
-            t= realMax;
-        return  t;
+        return  parameter.GetValue();
     }
 
     boolean currentlysettingsparameter = false;
@@ -285,7 +291,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             e.printStackTrace();
             currentlysettingsparameter = false;
         }
-
+        pos = runValue;
         if (realMin < -1)
             runValue += realMin;
         if (runValue < realMin)

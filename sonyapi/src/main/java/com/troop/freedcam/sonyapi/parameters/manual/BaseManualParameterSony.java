@@ -260,5 +260,12 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     public void onCurrentStringValueChanged(String value)
     {
         this.value = value;
+        if (values == null)
+            return;
+        for (int i = 0; i< values.length; i++)
+        {
+            if (value.equals(values[i]))
+                onCurrentValueChanged(i);
+        }
     }
 }
