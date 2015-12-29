@@ -110,11 +110,11 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
                 onIsSupportedChanged(parameter.IsSupported());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-                if (!(parameter instanceof BaseManualParameterSony)) {
+
                     realMax = parameter.GetMaxValue();
                     realMin = parameter.GetMinValue();
                     createStringParametersStrings(parameter);
-                }
+
             }
             else
                 onIsSupportedChanged(false);
