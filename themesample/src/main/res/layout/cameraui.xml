@@ -36,8 +36,9 @@
         android:background="@drawable/focusclose"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/shutter_button"
-        android:layout_marginRight="@dimen/uiSettingsWidthRight" />
+        android:layout_marginRight="@dimen/uiSettingsWidthRight"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/uiSettingsWidthRight" />
 
     <LinearLayout
         android:orientation="horizontal"
