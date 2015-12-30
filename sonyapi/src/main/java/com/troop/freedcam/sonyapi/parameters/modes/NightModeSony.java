@@ -19,6 +19,8 @@ public class NightModeSony extends BaseModeParameterSony
 {
     private String currentval = StringUtils.OFF;
     SimpleStreamSurfaceView simpleStreamSurfaceView;
+    final String GRAYSCALE = "GrayScale";
+    final String ZOOMPREVIEW = "ZoomPreview";
 
     public NightModeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(handler, VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
@@ -29,8 +31,10 @@ public class NightModeSony extends BaseModeParameterSony
     {
         if (valueToSet.equals(StringUtils.ON))
             simpleStreamSurfaceView.nightmode = on;
-        else if(valueToSet.equals("StarFinder"))
-            simpleStreamSurfaceView.nightmode = starfinder;
+        else if(valueToSet.equals(GRAYSCALE))
+            simpleStreamSurfaceView.nightmode = grayscale;
+        else if(valueToSet.equals(ZOOMPREVIEW))
+            simpleStreamSurfaceView.nightmode = zoompreview;
         else
             simpleStreamSurfaceView.nightmode = off;
     }
@@ -44,8 +48,10 @@ public class NightModeSony extends BaseModeParameterSony
                 return StringUtils.ON;
             case off:
                 return StringUtils.OFF;
-            case starfinder:
-                return "StarFinder";
+            case grayscale:
+                return GRAYSCALE;
+            case zoompreview:
+                return ZOOMPREVIEW;
             default:
                 return StringUtils.OFF;
         }
@@ -53,7 +59,7 @@ public class NightModeSony extends BaseModeParameterSony
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF, "StarFinder"};
+        return new String[] {StringUtils.ON, StringUtils.OFF, GRAYSCALE, ZOOMPREVIEW};
     }
 
     @Override

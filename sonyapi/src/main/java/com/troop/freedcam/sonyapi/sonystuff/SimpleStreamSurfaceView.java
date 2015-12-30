@@ -75,7 +75,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     {
         on,
         off,
-        starfinder,
+        grayscale,
+        zoompreview,
     }
 
     private void initRenderScript()
@@ -278,6 +279,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         break;
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
+
                     drawFrame(frameBitmap, dataExtractor, frameExtractor);
                 }
 
@@ -368,57 +370,69 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
     {
         try {
-        if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
-            onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
-            return;
-        }
-
-        //canvas.drawColor(Color.BLACK);
-        int w = frame.getWidth();
-        int h = frame.getHeight();
-        Rect src = new Rect(0, 0, w, h);
-
-        float by = Math.min((float) getWidth() / w, (float) getHeight() / h);
-        int offsetX = (getWidth() - (int) (w * by)) / 2;
-        int offsetY = (getHeight() - (int) (h * by)) / 2;
-        Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
-        if (nightmode == NightPreviewModes.on)
-        {
-            if(!drawNightPreview(frame, frameExtractor, src, dst))
+            if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
+                onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
                 return;
-        }
-        else if (nightmode == NightPreviewModes.starfinder)
-        {
-            mInputAllocation.copyFrom(frame);
-            blurRS.setInput(mInputAllocation);
-            blurRS.setRadius(1.5f);
-            blurRS.forEach(mOutputAllocation);
-            mInputAllocation.copyFrom(mOutputAllocation);
-            starfinderRS.set_gCurrentFrame(mInputAllocation);
-            starfinderRS.forEach_processBrightness(mOutputAllocation);
-            mOutputAllocation.copyTo(drawBitmap);
+            }
 
-        }
-        if (focuspeak) {
-            if (nightmode == NightPreviewModes.on || nightmode == NightPreviewModes.starfinder)
-                mInputAllocation.copyFrom(drawBitmap);
-            else
+            //canvas.drawColor(Color.BLACK);
+            int w = frame.getWidth();
+            int h = frame.getHeight();
+            Rect src = new Rect(0, 0, w, h);
+            if (nightmode == NightPreviewModes.zoompreview)
+            {
+                int w4 = w /6;
+                int h4 = w/6;
+                src = new Rect(w/2 -w4, h/2 -h4, w/2 +w4, h/2+h4);
                 mInputAllocation.copyFrom(frame);
-            focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-            focuspeak_argb.forEach_peak(mOutputAllocation);
-            mOutputAllocation.copyTo(drawBitmap);
+                blurRS.setInput(mInputAllocation);
+                blurRS.setRadius(0.3f);
+                blurRS.forEach(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+            }
 
-        }
-        Canvas canvas = getHolder().lockCanvas();
-        if (canvas == null) {
-            return;
-        }
-        if (nightmode == NightPreviewModes.on || nightmode == NightPreviewModes.starfinder || focuspeak)
-            canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
-        else
-            canvas.drawBitmap(frame, src, dst, mFramePaint);
-        if (frameExtractor != null)
-            drawFrameInformation(frameExtractor, canvas, dst);
+
+            float by = Math.min((float) getWidth() / w, (float) getHeight() / h);
+            int offsetX = (getWidth() - (int) (w * by)) / 2;
+            int offsetY = (getHeight() - (int) (h * by)) / 2;
+            Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
+            if (nightmode == NightPreviewModes.on)
+            {
+                if(!drawNightPreview(frame, frameExtractor, src, dst))
+                    return;
+            }
+            else if (nightmode == NightPreviewModes.grayscale)
+            {
+                mInputAllocation.copyFrom(frame);
+                blurRS.setInput(mInputAllocation);
+                blurRS.setRadius(1.5f);
+                blurRS.forEach(mOutputAllocation);
+                mInputAllocation.copyFrom(mOutputAllocation);
+                starfinderRS.set_gCurrentFrame(mInputAllocation);
+                starfinderRS.forEach_processBrightness(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+
+            }
+            if (focuspeak) {
+                if (nightmode != NightPreviewModes.off)
+                    mInputAllocation.copyFrom(drawBitmap);
+                else
+                    mInputAllocation.copyFrom(frame);
+                focuspeak_argb.set_gCurrentFrame(mInputAllocation);
+                focuspeak_argb.forEach_peak(mOutputAllocation);
+                mOutputAllocation.copyTo(drawBitmap);
+
+            }
+            Canvas canvas = getHolder().lockCanvas();
+            if (canvas == null) {
+                return;
+            }
+            if (nightmode != NightPreviewModes.off || focuspeak)
+                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+            else
+                canvas.drawBitmap(frame, src, dst, mFramePaint);
+            if (frameExtractor != null)
+                drawFrameInformation(frameExtractor, canvas, dst);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
