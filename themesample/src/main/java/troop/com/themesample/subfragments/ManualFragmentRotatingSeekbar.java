@@ -25,7 +25,7 @@ import troop.com.views.RotatingSeekbar;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I_ParametersLoaded, SeekBar.OnSeekBarChangeListener
+public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I_ParametersLoaded, SeekBar.OnSeekBarChangeListener, AbstractManualParameter.I_ManualParameterEvent
 {
     private int currentValuePos = 0;
 
@@ -182,6 +182,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         @Override
         public void onClick(View v)
         {
+            if (currentButton != null)
+                currentButton.RemoveParameterListner(ManualFragmentRotatingSeekbar.this);
             //when same button gets clicked second time
             if(v == currentButton && seekbar.getVisibility() == View.VISIBLE)
             {
@@ -200,6 +202,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
                 //set the returned view as active and fill seekbar
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
+                currentButton.SetParameterListner(ManualFragmentRotatingSeekbar.this);
                 seekbar.SetStringValues(currentButton.getStringValues());
                 seekbar.setProgress(currentButton.getCurrentItem());
                 currentValuePos = currentButton.getCurrentItem();
@@ -235,5 +238,44 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
             currentButton.setValueToParameters(currentValuePos);
             currentButton.onCurrentValueChanged(currentValuePos);
         }
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value)
+    {
+        if (!value) {
+            seekbar.setVisibility(View.GONE);
+            currentButton.SetActive(false);
+        }
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onCurrentStringValueChanged(String value) {
+
     }
 }
