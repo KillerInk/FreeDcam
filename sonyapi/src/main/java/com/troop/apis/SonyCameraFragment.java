@@ -207,6 +207,8 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void getConfiguredNetworks()
     {
+        if(connected)
+            return;
         setTextFromWifi("Looking up Configured Wifi Networks");
         try {
             configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
@@ -226,6 +228,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
             {
                 deviceNetworkToConnect = s;
                 Log.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
+                setTextFromWifi("Device to Connect:" + deviceNetworkToConnect);
                 break;
             }
         }
