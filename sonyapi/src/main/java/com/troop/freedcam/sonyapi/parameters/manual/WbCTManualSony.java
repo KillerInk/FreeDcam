@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -17,6 +18,8 @@ public class WbCTManualSony extends BaseManualParameterSony
     int min =0;
     int max = 0;
     int step = 0;
+
+    private String[] values;
     public WbCTManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
@@ -83,7 +86,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             public void run() {
                 try
                 {
-                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(val * step) ;
+                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(val) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -124,6 +127,11 @@ public class WbCTManualSony extends BaseManualParameterSony
                                 step = ar.getInt(2);
                                 max = ar.getInt(0)/step;
                                 min = ar.getInt(1)/step;
+                                ArrayList<String> r = new ArrayList<String>();
+                                for (int t = min; t < max; t++)
+                                    r.add(t*step+"");
+                                values =new String[r.size()];
+                                r.toArray(values);
                                 BackgroundMaxValueChanged(max);
                                 BackgroundMinValueChanged(min);
                                 BackgroundIsSetSupportedChanged(true);
@@ -137,5 +145,21 @@ public class WbCTManualSony extends BaseManualParameterSony
                 }
             }
         }).start();
+        while (values == null)
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
     }
+
+    @Override
+    public String[] getStringValues()
+    {
+        if (values == null)
+            getMinMax();
+        return values;
+    }
+
+
 }
