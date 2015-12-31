@@ -60,10 +60,8 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     Log.d(TAG, "SetValue " + valueToSet);
                     array = new JSONArray().put(0, valueToSet);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    if (min <0 )
-                        currentValueChanged(valueToSet + min * -1);
-                    else
-                        currentValueChanged(valueToSet);
+
+                        //currentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, "Error SetValue " + valueToSet);
@@ -159,6 +157,11 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     @Override
     public void onMinValueChanged(int min) {
         this.min = min;
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current) {
+        this.val = current;
     }
 
     public String[] getStringValues()

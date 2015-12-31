@@ -141,6 +141,11 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onExposureCompensationChanged(int epxosurecomp) {
+            ParameterHandler.ManualExposure.currentValueChanged(epxosurecomp);
+        }
+
+        @Override
         public void onShutterSpeedChanged(String shutter) {
             ParameterHandler.ManualShutter.currentValueStringCHanged(shutter);
         }
@@ -211,6 +216,16 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                     }
                 }}).start();
+        }
+
+        @Override
+        public void onProgramShiftValueChanged(int shift) {
+
+        }
+
+        @Override
+        public void onProgramShiftValuesChanged(String[] shift) {
+
         }
 
         @Override

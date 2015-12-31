@@ -103,6 +103,8 @@ public class SimpleCameraEventObserver {
         void onPostViewImageRevieved(String url);
         void onImageRecieved(String url);
         void onImagesRecieved(String[] url);
+        void onProgramShiftValueChanged(int shift);
+        void onProgramShiftValuesChanged(String[] shift);
 
     }
 
@@ -379,7 +381,7 @@ public class SimpleCameraEventObserver {
 
         int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
 
-        if (cexpo != -1 && cexpo != mExposureComp)
+        if (cexpo != -1)
         {
             sendLog("getEvent currentExposure: " + cexpo);
             mExposureComp = cexpo;
