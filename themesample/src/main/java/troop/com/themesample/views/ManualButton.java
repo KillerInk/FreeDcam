@@ -136,8 +136,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     private void createStringParametersStrings(AbstractManualParameter parameter) {
         parameterValues = parameter.getStringValues();
-        if (parameterValues == null && realMax <= 0)
-            parameter.GetMaxValue();
+
         if (parameterValues == null && realMax > 0)
         {
             ArrayList<String> list = new ArrayList<>();
@@ -201,10 +200,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     @Override
     public void onCurrentValueChanged(int current)
     {
-        if (realMin < 0)
-            this.pos = current + realMin *-1;
-        else
+
             this.pos = current;
+
+        Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
         setTextValue(current);
     }
 
@@ -233,6 +232,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(current+"");
+                Log.d(TAG, "setTextValue:" + valueTextView.getText());
             }
         });
 
@@ -240,8 +240,6 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public String getStringValue(int pos)
     {
-        if(parameterValues == null)
-            parameterValues = parameter.getStringValues();
         if (parameterValues != null && parameterValues.length > 0)
         {
             if (pos >= parameterValues.length)
@@ -264,7 +262,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public int getCurrentItem()
     {
-        return  parameter.GetValue();
+        if (realMin < 0)
+            return  parameter.GetValue() + realMin * -1;
+        else
+            return parameter.GetValue();
     }
 
     boolean currentlysettingsparameter = false;

@@ -22,8 +22,12 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     int min =-1000;
     int max =-1000;
     private String[] values;
+    private BaseManualParameterSony shutter;
+    private BaseManualParameterSony fnumber;
     public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
+        this.shutter = (BaseManualParameterSony)parameterHandlerSony.ManualShutter;
+        this.fnumber = (BaseManualParameterSony)parameterHandlerSony.ManualFNumber;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     {
         if (min == -1000)
             getminmax();
-        return min;
+        return 0;
     }
 
     @Override
@@ -57,13 +61,23 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     {
         if (max == -1000)
             getminmax();
-        return max;
+        return values.length;
     }
 
     @Override
     public String[] getStringValues()
     {
+        if (values == null)
+            getminmax();
         return values;
+    }
+
+    @Override
+    public String GetStringValue()
+    {
+        if (values == null)
+            getminmax();
+        return values[val];
     }
 
     private void getminmax() {
@@ -86,15 +100,30 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         max = Integer.parseInt(values[0]);
                         min = Integer.parseInt(values[1]);
                         ArrayList<String> r = new ArrayList<String>();
-                        for (int i = min; i< max; i++)
+                        for (int i = min; i<= max; i++)
                         {
                             r.add(i+"");
                         }
                         values =new String[r.size()];
-                        BackgroundValuesChanged(values);
+
+                        String[] shut = shutter.getStringValues();
+                        if (shut != null && r != null && shut.length == r.size())
+                        {
+                            String s = shutter.GetStringValue();
+                            for (int i = 0; i < shut.length; i++)
+                            {
+                                if (s.equals(shut[i]))
+                                {
+                                    val = i;
+                                    break;
+                                }
+                            }
+                        }
                         r.toArray(values);
+                        BackgroundValuesChanged(values);
                         BackgroundMinValueChanged(min);
                         BackgroundMaxValueChanged(max);
+                        onCurrentValueChanged(val);
 
 
                     } catch (IOException e) {
@@ -108,7 +137,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     }
                 }
             }).start();
-            while (min == -1000)
+            while (values == null)
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -137,5 +166,25 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 }
             }
         }).start();
+    }
+
+    @Override
+    public int GetValue() {
+        return val;
+    }
+
+    @Override
+    public void onCurrentValueChanged(int current) {
+        this.val = current;
+    }
+
+    @Override
+    public void onMaxValueChanged(int max) {
+        this.max = max;
+    }
+
+    @Override
+    public void onMinValueChanged(int min) {
+        this.min = min;
     }
 }

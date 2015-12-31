@@ -364,7 +364,7 @@ public class SimpleCameraEventObserver {
 
         int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
 
-        if (minexpo != -1 && minexpo != mExposureCompMin)
+        if (minexpo != -5000 && minexpo != mExposureCompMin)
         {
             sendLog("getEvent minExposure: " + minexpo);
             mExposureCompMin = minexpo;
@@ -372,7 +372,7 @@ public class SimpleCameraEventObserver {
         }
         int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
 
-        if (maxexpo != -1 && maxexpo != mExposureCompMax)
+        if (maxexpo != -5000 && maxexpo != mExposureCompMax)
         {
             sendLog("getEvent maxExposure: " + maxexpo);
             mExposureCompMax = maxexpo;
@@ -381,11 +381,11 @@ public class SimpleCameraEventObserver {
 
         int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
 
-        if (cexpo != -1)
+        if (cexpo != -5000)
         {
             sendLog("getEvent currentExposure: " + cexpo);
             mExposureComp = cexpo;
-            fireExposurCompChangeListener(cexpo);
+            fireExposurCompChangeListener(cexpo+ minexpo * -1);
         }
 
         // storageId

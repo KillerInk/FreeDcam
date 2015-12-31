@@ -100,7 +100,7 @@ public class JsonUtils
 
     public static int findIntInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
 
-        int ret = -1;
+        int ret = -5000;
         JSONArray resultsObj = replyJson.getJSONArray("result");
         if (!resultsObj.isNull(indexpos)) {
             JSONObject intInformationObj = resultsObj.getJSONObject(indexpos);
