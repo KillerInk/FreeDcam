@@ -177,7 +177,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             @Override
             public void run()
             {
-                if (valueToSet == values.length || valueToSet < 0)
+                if (valueToSet >= values.length || valueToSet < 0)
                     return;
                 String val = values[valueToSet];
                 value = val;

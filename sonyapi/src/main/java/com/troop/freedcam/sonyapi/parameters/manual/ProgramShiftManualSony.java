@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -20,6 +21,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     final String TAG = ProgramShiftManualSony.class.getSimpleName();
     int min =-1000;
     int max =-1000;
+    private String[] values;
     public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
@@ -61,10 +63,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     @Override
     public String[] getStringValues()
     {
-        //getminmax();
-        Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
-        return null;
-
+        return values;
     }
 
     private void getminmax() {
@@ -86,6 +85,14 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                             return;
                         max = Integer.parseInt(values[0]);
                         min = Integer.parseInt(values[1]);
+                        ArrayList<String> r = new ArrayList<String>();
+                        for (int i = min; i< max; i++)
+                        {
+                            r.add(i+"");
+                        }
+                        values =new String[r.size()];
+                        BackgroundValuesChanged(values);
+                        r.toArray(values);
                         BackgroundMinValueChanged(min);
                         BackgroundMaxValueChanged(max);
 
@@ -101,6 +108,12 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     }
                 }
             }).start();
+            while (min == -1000)
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
         }
     }
 

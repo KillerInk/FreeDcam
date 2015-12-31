@@ -126,6 +126,8 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     private void createStringParametersStrings(AbstractManualParameter parameter) {
         parameterValues = parameter.getStringValues();
+        if (parameterValues == null && realMax <= 0)
+            parameter.GetMaxValue();
         if (parameterValues == null && realMax > 0)
         {
             ArrayList<String> list = new ArrayList<>();
@@ -245,6 +247,8 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public String[] getStringValues()
     {
+        if (parameterValues == null)
+            createStringParametersStrings(parameter);
         return parameterValues;
     }
 
