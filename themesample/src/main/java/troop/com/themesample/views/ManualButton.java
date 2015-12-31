@@ -95,6 +95,16 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
     }
 
+    public void RemoveParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
+    {
+        parameter.removeEventListner(t);
+    }
+
+    public void SetParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
+    {
+        parameter.addEventListner(t);
+    }
+
     public void SetAbstractManualParameter(AbstractManualParameter parameter)
     {
         this.parameter = parameter;
