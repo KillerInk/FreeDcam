@@ -102,8 +102,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ObjectTracking = new ObjectTrackingSony(uiHandler,"getTrackingFocus","setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ObjectTracking);
 
-        WhiteBalanceMode = new WhiteBalanceModeSony(uiHandler,"getWhiteBalance","setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony) WhiteBalanceMode);
+
 
         Zoom = new ZoomManualSony("actZoom","","actZoom", this);
         parametersChangedList.add((ZoomManualSony)Zoom);
@@ -122,6 +121,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         CCT = new WbCTManualSony("","","", this);
         parametersChangedList.add((BaseManualParameterSony) CCT);
+
+        WhiteBalanceMode = new WhiteBalanceModeSony(uiHandler,"getWhiteBalance","setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi, (WbCTManualSony)CCT);
+        parametersChangedList.add((BaseModeParameterSony) WhiteBalanceMode);
 
         PostViewSize = new BaseModeParameterSony(uiHandler, "getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PostViewSize);
@@ -168,4 +170,6 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     public void LockExposureAndWhiteBalance(boolean lock) {
         super.LockExposureAndWhiteBalance(lock);
     }
+
+
 }

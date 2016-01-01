@@ -35,8 +35,6 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetMaxValue()
     {
-        if (values == null)
-            getMinMax();
         return values.length;
     }
 
@@ -48,7 +46,8 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        new Thread(new Runnable() {
+        if (this.val == -200)
+            new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -64,7 +63,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                             return;
                         }
 
-                        onCurrentValueChanged(val / step);
+                        currentValueChanged(val / step);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -81,6 +80,10 @@ public class WbCTManualSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet)
     {
         this.val = valueToSet;
+        if (valueToSet > values.length)
+            this.val = values.length;
+        if (valueToSet < 0)
+            this.val = 0;
         final int set= val;
         new Thread(new Runnable() {
             @Override
@@ -88,6 +91,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                 try
                 {
                     Log.d("WBCT", values[set]);
+
                     JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(values[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
@@ -105,8 +109,41 @@ public class WbCTManualSony extends BaseManualParameterSony
         {
             GetValue();
         }
+
+
     }
 
+    public void SetMinMAx(JSONObject ob) throws JSONException {
+        if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
+        {
+            JSONArray ar = ob.getJSONArray("colorTemperatureRange");
+            step = ar.getInt(2);
+            max = ar.getInt(0)/step;
+            min = ar.getInt(1)/step;
+            ArrayList<String> r = new ArrayList<String>();
+            for (int t = min; t < max; t++)
+                r.add(t*step+"");
+            values =new String[r.size()];
+            r.toArray(values);
+            BackgroundValuesChanged(values);
+            BackgroundIsSetSupportedChanged(true);
+        }
+    }
+
+    public void setValueInternal(int val)
+    {
+        for (int i= 0; i< values.length; i++)
+        {
+            if (values[i].equals(val))
+                this.val = i;
+        }
+        if (this.val == -200)
+            return;
+        currentValueStringCHanged(values[this.val]);
+
+        currentValueChanged(this.val);
+
+    }
 
     private void getMinMax()
     {
@@ -123,21 +160,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                         for (int i = 0; i< subarray.length(); i++)
                         {
                             JSONObject ob = subarray.getJSONObject(i);
-                            if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
-                            {
-                                JSONArray ar = ob.getJSONArray("colorTemperatureRange");
-                                step = ar.getInt(2);
-                                max = ar.getInt(0)/step;
-                                min = ar.getInt(1)/step;
-                                ArrayList<String> r = new ArrayList<String>();
-                                for (int t = min; t < max; t++)
-                                    r.add(t*step+"");
-                                values =new String[r.size()];
-                                r.toArray(values);
-                                BackgroundMaxValueChanged(values.length);
-                                BackgroundMinValueChanged(0);
-                                BackgroundIsSetSupportedChanged(true);
-                            }
+                            SetMinMAx(ob);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -163,5 +186,8 @@ public class WbCTManualSony extends BaseManualParameterSony
         return values;
     }
 
-
+    @Override
+    public String GetStringValue() {
+        return values[this.val];
+    }
 }

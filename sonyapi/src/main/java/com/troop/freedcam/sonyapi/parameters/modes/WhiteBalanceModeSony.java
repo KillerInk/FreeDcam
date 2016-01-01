@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
 import org.json.JSONArray;
@@ -15,8 +16,11 @@ import java.io.IOException;
  */
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
-    public WhiteBalanceModeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
+
+    WbCTManualSony wb;
+    public WhiteBalanceModeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi,WbCTManualSony wb) {
         super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+        this.wb = wb;
     }
 
     protected String[] processValuesToReturn() {
@@ -29,7 +33,19 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             {
                 JSONObject ob = subarray.getJSONObject(i);
                 ret[i] = ob.getString("whiteBalanceMode");
+                if (ret[i].equals("Color Temperature"))
+                {
+
+                    wb.SetMinMAx(ob);
+                }
             }
+            JSONObject ob = array.getJSONObject(0);
+            if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
+            {
+                int cur = ob.getInt("colorTemperature");
+                wb.setValueInternal(cur);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
