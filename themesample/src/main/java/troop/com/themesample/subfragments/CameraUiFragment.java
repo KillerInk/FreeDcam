@@ -1,5 +1,7 @@
 package troop.com.themesample.subfragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +96,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     FrameLayout settingsmenuholer;
     File lastFile;
 
+    final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
+    SharedPreferences sharedPref;
+
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
@@ -161,9 +166,17 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
+
+        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
         this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
@@ -233,6 +246,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.commitAllowingStateLoss();
         manualsettingsIsOpen = false;
         manualModes_holder.setVisibility(View.GONE);
+        
+        if(!manualsettingsIsOpen)
+            manualModes_holder.setVisibility(View.GONE);
 
 
 
@@ -283,6 +299,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     public void onPause()
     {
         infoOverlayHandler.StopUpdating();
+        sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN,manualsettingsIsOpen).commit();
         super.onPause();
 
     }
