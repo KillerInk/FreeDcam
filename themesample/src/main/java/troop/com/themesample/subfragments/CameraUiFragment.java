@@ -244,8 +244,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.add(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
-        manualsettingsIsOpen = false;
-        manualModes_holder.setVisibility(View.GONE);
         
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
