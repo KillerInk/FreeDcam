@@ -66,13 +66,15 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         @Override
         public void onShootModeChanged(String shootMode) {
-            if(cameraShotMode != null)
+            if(cameraShotMode != null && !shootMode.equals(cameraShotMode))
                 cameraShotMode.onShootModeChanged(shootMode);
         }
 
         @Override
         public void onCameraStatusChanged(String status)
         {
+            if (cameraStatus.equals(status))
+                return;
             cameraStatus = status;
             Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)

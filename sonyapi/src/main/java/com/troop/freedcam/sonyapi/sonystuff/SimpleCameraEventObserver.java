@@ -165,14 +165,8 @@ public class SimpleCameraEventObserver {
 
     private boolean mIsActive = false;
 
-    // Current Camera Status value.
-    private String mCameraStatus;
-
     // Current Liveview Status value.
     private boolean mLiveviewStatus;
-
-    // Current Shoot Mode value.
-    private String mShootMode;
 
     // Current Zoom Position value.
     private int mZoomPosition;
@@ -331,8 +325,7 @@ public class SimpleCameraEventObserver {
         // CameraStatus
         String cameraStatus = JsonUtils.findCameraStatus(replyJson);
         sendLog("getEvent cameraStatus: " + cameraStatus);
-        if (cameraStatus != null && !cameraStatus.equals(mCameraStatus)) {
-            mCameraStatus = cameraStatus;
+        if (cameraStatus != null) {
             fireCameraStatusChangeListener(cameraStatus);
         }
 
@@ -347,8 +340,7 @@ public class SimpleCameraEventObserver {
         // ShootMode
         String shootMode = JsonUtils.findShootMode(replyJson);
 
-        if (shootMode != null && !shootMode.equals(mShootMode)) {
-            mShootMode = shootMode;
+        if (shootMode != null) {
             sendLog("getEvent shootMode: " + shootMode);
             fireShootModeChangeListener(shootMode);
         }
@@ -612,26 +604,8 @@ public class SimpleCameraEventObserver {
      * 
      * @return camera status
      */
-    public String getCameraStatus() {
-        return mCameraStatus;
-    }
-
-    /**
-     * Returns the current Camera Status value.
-     * 
-     * @return camera status
-     */
     public boolean getLiveviewStatus() {
         return mLiveviewStatus;
-    }
-
-    /**
-     * Returns the current Shoot Mode value.
-     * 
-     * @return shoot mode
-     */
-    public String getShootMode() {
-        return mShootMode;
     }
 
     /**

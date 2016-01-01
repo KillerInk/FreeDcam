@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 import org.json.JSONArray;
@@ -33,16 +35,14 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetMaxValue()
     {
-        if (max == 0)
+        if (values == null)
             getMinMax();
-        return max;
+        return values.length;
     }
 
     @Override
     public int GetMinValue() {
-        if (min == 0)
-            getMinMax();
-        return min;
+        return 0;
     }
 
     @Override
@@ -80,13 +80,15 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public void SetValue(final int valueToSet)
     {
-        val = valueToSet;
+        this.val = valueToSet;
+        final int set= val;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try
                 {
-                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(val) ;
+                    Log.d("WBCT", values[set]);
+                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(values[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -132,8 +134,8 @@ public class WbCTManualSony extends BaseManualParameterSony
                                     r.add(t*step+"");
                                 values =new String[r.size()];
                                 r.toArray(values);
-                                BackgroundMaxValueChanged(max);
-                                BackgroundMinValueChanged(min);
+                                BackgroundMaxValueChanged(values.length);
+                                BackgroundMinValueChanged(0);
                                 BackgroundIsSetSupportedChanged(true);
                             }
                         }
