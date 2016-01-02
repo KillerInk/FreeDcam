@@ -43,7 +43,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
             events.remove(parameterEvent);
     }
 
-    public void currentValueChanged(int current)
+    public void ThrowCurrentValueChanged(int current)
     {
         for (int i= 0; i< events.size(); i ++)
         {
@@ -58,7 +58,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
-    public void currentValueStringCHanged(String value)
+    public void ThrowCurrentValueStringCHanged(String value)
     {
         for (int i= 0; i< events.size(); i ++)
         {
@@ -204,7 +204,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     public void SetValue(int valueToSet)
     {
         setvalue(valueToSet);
-        //currentValueChanged(valueToSet);
+        //ThrowCurrentValueChanged(valueToSet);
     }
 
     @Override

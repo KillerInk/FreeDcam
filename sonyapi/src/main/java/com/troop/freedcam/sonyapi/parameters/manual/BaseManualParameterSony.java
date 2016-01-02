@@ -154,7 +154,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                                 break;
                             }
                         }
-                        currentValueChanged(val);
+                        ThrowCurrentValueChanged(val);
                     } catch (IOException e) {
                         e.printStackTrace();
                         val = 0;
@@ -185,7 +185,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 try {
                     array = new JSONArray().put(0, val);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    currentValueChanged(valueToSet);
+                    ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

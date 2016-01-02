@@ -27,8 +27,6 @@ import android.location.Location;
 import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.DeadObjectException;
-import android.os.Environment;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 import android.util.Log;
@@ -39,17 +37,12 @@ import android.view.TextureView;
 import android.view.WindowManager;
 
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
-import com.troop.freedcam.camera2.parameters.modes.ColorModeApi2;
-import com.troop.freedcam.camera2.parameters.modes.FocusModeApi2;
-import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
-import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
@@ -471,7 +464,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             e.printStackTrace();
         }
         if (ParameterHandler.Burst != null)
-            ParameterHandler.Burst.currentValueChanged(ParameterHandler.Burst.GetValue());
+            ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
     }
 
     public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
@@ -658,10 +651,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                             try {
                                 final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 if(expores != 0) {
-                                    ParameterHandler.ManualShutter.currentValueStringCHanged(getShutterString(expores));
+                                    ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
                                 }
                                 else
-                                    ParameterHandler.ManualShutter.currentValueStringCHanged("1/60");
+                                    ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged("1/60");
                             }
                             catch (Exception e)
                             {
@@ -669,12 +662,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                             }
                             try {
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                ParameterHandler.ISOManual.currentValueStringCHanged(""+iso);
+                                ParameterHandler.ISOManual.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {}
                             try {
                                 final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                ParameterHandler.ManualFocus.currentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
+                                ParameterHandler.ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
                             }
                             catch (NullPointerException ex) {}
                         }

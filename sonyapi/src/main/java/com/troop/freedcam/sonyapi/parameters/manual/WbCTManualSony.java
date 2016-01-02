@@ -63,7 +63,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                             return;
                         }
 
-                        currentValueChanged(val / step);
+                        ThrowCurrentValueChanged(val / step);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -139,9 +139,9 @@ public class WbCTManualSony extends BaseManualParameterSony
         }
         if (this.val == -200)
             return;
-        currentValueStringCHanged(values[this.val]);
+        ThrowCurrentValueStringCHanged(values[this.val]);
 
-        currentValueChanged(this.val);
+        ThrowCurrentValueChanged(this.val);
 
     }
 
