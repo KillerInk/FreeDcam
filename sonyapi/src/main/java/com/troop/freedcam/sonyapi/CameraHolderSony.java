@@ -248,7 +248,10 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onExposureModesChanged(String[] expomode)
         {
-            if (ParameterHandler.ExposureMode.GetValues().length != expomode.length)
+            String[] s = ParameterHandler.ExposureMode.GetValues();
+            if ((expomode== null || expomode.length == 0) || (s ==null || s.length == 0 ))
+                return;
+            if (s.length != expomode.length)
                 ParameterHandler.ExposureMode.BackgroundValuesHasChanged(expomode);
         }
 
