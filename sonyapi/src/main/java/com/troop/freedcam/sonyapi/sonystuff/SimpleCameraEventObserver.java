@@ -105,6 +105,8 @@ public class SimpleCameraEventObserver {
         void onImagesRecieved(String[] url);
         void onProgramShiftValueChanged(int shift);
         void onProgramShiftValuesChanged(String[] shift);
+        void onExposureModeChanged(String expomode);
+        void onExposureModesChanged(String[] expomode);
 
     }
 
@@ -153,6 +155,15 @@ public class SimpleCameraEventObserver {
         }
         public void onExposureCompensationChanged(int epxosurecomp){};
 
+        @Override
+        public void onExposureModeChanged(String expomode) {
+
+        }
+
+        @Override
+        public void onExposureModesChanged(String[] expomode) {
+
+        }
     }
 
     protected final Handler mUiHandler;
@@ -377,7 +388,21 @@ public class SimpleCameraEventObserver {
         {
             sendLog("getEvent currentExposure: " + cexpo);
             mExposureComp = cexpo;
-            fireExposurCompChangeListener(cexpo+ minexpo * -1);
+            fireExposurCompChangeListener(cexpo + minexpo * -1);
+        }
+
+        //ExposureMode
+
+        String expoMode = JsonUtils.findStringInformation(replyJson, 18, "exposureMode", "currentExposureMode");
+        if (expoMode != null && !expoMode.equals(""))
+        {
+            fireExpoModeChangedListener(expoMode);
+        }
+
+        String[] expomodes = JsonUtils.findStringArrayInformation(replyJson,18, "exposureMode","exposureModeCandidates");
+        if (expomodes != null && expomodes.length > 0)
+        {
+            fireExpoModesChangedListener(expomodes);
         }
 
         // storageId
@@ -876,6 +901,28 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onWhiteBalanceValueChanged(wb);
+                }
+            }
+        });
+    }
+
+    private void fireExpoModeChangedListener(final String expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onExposureModeChanged(expo);
+                }
+            }
+        });
+    }
+
+    private void fireExpoModesChangedListener(final String[] expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onExposureModesChanged(expo);
                 }
             }
         });

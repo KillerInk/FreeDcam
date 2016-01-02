@@ -245,9 +245,22 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         }
 
+        @Override
+        public void onExposureModesChanged(String[] expomode)
+        {
+            if (ParameterHandler.ExposureMode.GetValues().length != expomode.length)
+                ParameterHandler.ExposureMode.BackgroundValuesHasChanged(expomode);
+        }
 
-
-
+        @Override
+        public void onExposureModeChanged(String expomode) {
+            if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
+                ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);
+            if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
+                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(false);
+            else
+                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(true);
+        }
     };
 
     private SimpleRemoteApi mRemoteApi;
