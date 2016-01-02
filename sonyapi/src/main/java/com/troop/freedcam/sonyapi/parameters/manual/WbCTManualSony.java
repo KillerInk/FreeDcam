@@ -85,6 +85,7 @@ public class WbCTManualSony extends BaseManualParameterSony
         if (valueToSet < 0)
             this.val = 0;
         final int set= val;
+        final String[] t = values;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -92,7 +93,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                 {
                     Log.d("WBCT", values[set]);
 
-                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(values[set])) ;
+                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
                     e.printStackTrace();
