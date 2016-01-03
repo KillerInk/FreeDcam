@@ -235,7 +235,7 @@ public class VideoModule extends AbstractModule
             recorder.setCaptureRate(frame);
         }
 
-        if (profile.contains("1080p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("60"))
+        if (profile.contains("1080p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("60"))
         {
           //  recorder.setCaptureRate(60);
             recorder.setVideoFrameRate(60);
@@ -246,7 +246,7 @@ public class VideoModule extends AbstractModule
         }
 
 
-        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("120"))
+        if (profile.contains("720p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("120"))
         {
             recorder.setCaptureRate(120);
             // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
@@ -256,7 +256,7 @@ public class VideoModule extends AbstractModule
             ParameterHandler.Denoise.SetValue("denoise-off", true);
         }
 
-        if (profile.contains("720p") && AppSettingsManager.SETTING_HighSpeedVideo.contains("150"))
+        if (profile.contains("720p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("150"))
         {
             recorder.setCaptureRate(150);
             recorder.setCaptureRate(150);

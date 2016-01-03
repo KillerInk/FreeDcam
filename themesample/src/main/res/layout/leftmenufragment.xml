@@ -58,10 +58,10 @@
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp" />
 
-                <troop.com.themesample.views.menu.MenuItemHighSpeedVideo
+                <troop.com.themesample.views.menu.MenuItemHighFramerateVideo
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/MenuItemHighSpeedVideo"
+                    android:id="@+id/MenuItemHighFramerateVideo"
                     app:Description="@string/setting_videohfr_description"
                     app:HeaderText="@string/setting_videohfr_header"
                     app:ValueText="OFF"

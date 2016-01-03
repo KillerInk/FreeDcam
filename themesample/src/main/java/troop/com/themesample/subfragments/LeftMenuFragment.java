@@ -58,7 +58,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     MenuItemVideoProfile videoProfile;
     troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
-    troop.com.themesample.views.menu.MenuItemHighSpeedVideo HighSpeedVideo;
+    troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
     MenuItemTimeLapseFrames timeLapseFrames;
 
     troop.com.themesample.views.menu.MenuItem OverrideVideoProfile;
@@ -197,11 +197,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoHDR.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
-        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItemHighSpeedVideo)view.findViewById(R.id.MenuItemHighSpeedVideo);
-        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
-        HighSpeedVideo.SetParameter(wrapper.camParametersHandler.VideoHighSpeedVideo);
-        HighSpeedVideo.SetMenuItemListner(this);
-        HighSpeedVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
+        HighFramerateVideo = (troop.com.themesample.views.menu.MenuItemHighFramerateVideo)view.findViewById(R.id.MenuItemHighFramerateVideo);
+        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo);
+        HighFramerateVideo.SetParameter(wrapper.camParametersHandler.VideoHighFramerateVideo);
+        HighFramerateVideo.SetMenuItemListner(this);
+        HighFramerateVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
         if (!(wrapper instanceof CameraUiWrapper)) {

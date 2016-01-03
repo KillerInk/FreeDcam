@@ -11,11 +11,11 @@ import java.util.HashMap;
 /**
  * Created by GeorgeKiarie on 9/22/2015.
  */
-public class HighSpeedVideo extends  BaseModeParameter
+public class HighFramerateVideo extends  BaseModeParameter
 {
     BaseCameraHolder baseCameraHolder;
 
-    public HighSpeedVideo(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public HighFramerateVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
         super(handler,parameters, parameterChanged, value, values);
 
