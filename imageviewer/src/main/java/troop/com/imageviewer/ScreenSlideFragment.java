@@ -118,6 +118,8 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
     {
         List<FileHolder> images = new ArrayList<FileHolder>();
         File folder = new File(FilePathToLoad);
+        if(folder.listFiles() == null || folder.listFiles().length ==0)
+            return;
         FileUtils.readFilesFromFolder(folder, images, filestoshow);
         files = images.toArray(new FileHolder[images.size()]);
 
