@@ -168,6 +168,9 @@ public class VideoModule extends AbstractModule
     }
 
     protected MediaRecorder initRecorder() {
+        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
@@ -235,40 +238,23 @@ public class VideoModule extends AbstractModule
             recorder.setCaptureRate(frame);
         }
 
-        if (profile.contains("1080p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("60"))
-        {
-          //  recorder.setCaptureRate(60);
-            recorder.setVideoFrameRate(60);
-            recorder.setVideoEncodingBitRate(60000000);
+           if (!hfr.equals("off")) {
+               camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
+               camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+               camParametersHandler.Denoise.SetValue("denoise-off", true);
+               camParametersHandler.setString("preview-format", "nv12-venus");
+               recorder.setCaptureRate(Integer.parseInt(hfr));
+               recorder.setVideoFrameRate(30);
+            }
 
-
-
-        }
-
-
-        if (profile.contains("720p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("120"))
-        {
-            recorder.setCaptureRate(120);
-            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
-        }
-
-        if (profile.contains("720p") && AppSettingsManager.SETTING_HighFramerateVideo.contains("150"))
-        {
-            recorder.setCaptureRate(150);
-            recorder.setCaptureRate(150);
-            // ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
-        }
-
-
-
+           if (!hsr.equals("off")) {
+               camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
+               camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+               camParametersHandler.Denoise.SetValue("denoise-off", true);
+               camParametersHandler.setString("preview-format", "nv12-venus");
+               recorder.setCaptureRate(Integer.parseInt(hsr));
+               recorder.setVideoFrameRate(Integer.parseInt(hsr));
+           }
         return recorder;
     }
 

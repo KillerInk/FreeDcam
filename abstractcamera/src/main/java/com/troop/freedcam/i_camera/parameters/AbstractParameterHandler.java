@@ -78,6 +78,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter VideoHighFramerateVideo;
+    public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
 
     //yet only seen on m9

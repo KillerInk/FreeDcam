@@ -77,6 +77,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
     troop.com.themesample.views.menu.MenuItem videoStabilization;
+    troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
 
     Interfaces.I_MenuItemClick onMenuItemClick;
@@ -202,6 +203,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         HighFramerateVideo.SetParameter(wrapper.camParametersHandler.VideoHighFramerateVideo);
         HighFramerateVideo.SetMenuItemListner(this);
         HighFramerateVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
+
+        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHighSpeedVideo);
+        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
+        HighSpeedVideo.SetParameter(wrapper.camParametersHandler.VideoHighSpeedVideo);
+        HighSpeedVideo.SetMenuItemListner(this);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
         if (!(wrapper instanceof CameraUiWrapper)) {

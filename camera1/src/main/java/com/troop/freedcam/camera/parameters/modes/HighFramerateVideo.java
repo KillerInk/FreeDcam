@@ -58,6 +58,8 @@ public class HighFramerateVideo extends  BaseModeParameter
     {
         if (DeviceUtils.isMoto_MSM8974())
             return new String[] {"off","60"};
+        else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            return new String[] {"off","60","90","120"};
         else
             return super.GetValues();
     }
