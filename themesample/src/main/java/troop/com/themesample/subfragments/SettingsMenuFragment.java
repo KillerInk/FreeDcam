@@ -165,6 +165,11 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         currentOpendItem = item;
 
         valuesMenuFragment = new ValuesMenuFragment();
+        if (item.GetValues() == null) {
+            item.onIsSupportedChanged(false);
+            value_menu_status = VALUE_MENU_CLOSED;
+            return;
+        }
         valuesMenuFragment.SetMenuItem(item.GetValues(), this);
 
         if (fromLeftFragment)
