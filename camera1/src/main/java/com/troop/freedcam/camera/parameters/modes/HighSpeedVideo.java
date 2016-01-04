@@ -51,6 +51,10 @@ public class HighSpeedVideo extends  BaseModeParameter {
     @Override
     public String GetValue()
     {
-        return (parameters.get(value));
+        String tmp = parameters.get(value);
+        if ( tmp == null || tmp == "")
+            return "off";
+        else
+            return (parameters.get(value));
     }
 }
