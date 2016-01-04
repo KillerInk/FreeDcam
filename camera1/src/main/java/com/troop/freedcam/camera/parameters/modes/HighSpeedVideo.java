@@ -9,43 +9,26 @@ import com.troop.freedcam.utils.DeviceUtils;
 import java.util.HashMap;
 
 /**
- * Created by GeorgeKiarie on 9/22/2015.
+ * Created by Ar4eR on 03.01.16.
  */
-public class HighSpeedVideo extends  BaseModeParameter
-{
-    BaseCameraHolder baseCameraHolder;
+public class HighSpeedVideo extends  BaseModeParameter {
 
-    public HighSpeedVideo(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    final String[] hsr_values = {"off","60","90","120"};
+    public HighSpeedVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
-        super(handler,parameters, parameterChanged, value, values);
+        super(handler, parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADV234() ||DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isMoto_MSM8974()||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
-            String tmp = parameters.get("video-hfr");
-            if (tmp != null && !tmp.equals("")) {
-
-                this.values = "video-hfr-values";
-                this.value = "video-hfr";
-            }
-            this.isSupported = true;
+        this.isSupported = true;
+        this.value = "video-hsr";
+        //this.values="video-hfr-values";
+        try {
+            parameters.get(value);
         }
-        else
-        {
+        catch (Exception ex) {
             this.isSupported = false;
         }
-        try {
-           System.out.println("Kraatus90 HFR Sizes"+ parameters.get("hfr-size-values"));
-            System.out.println("Kraatus90 HFR values" + parameters.get("video-hfr-values"));
-            System.out.println("Kraatus90 HFR "+ parameters.get("video-hfr"));
-
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-
-
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
+
     }
 
     @Override
@@ -56,52 +39,18 @@ public class HighSpeedVideo extends  BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DeviceUtils.isMoto_MSM8974())
-            return new String[] {"off","60"};
-        else
-            return super.GetValues();
+        return hsr_values;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        //baseCameraHolder.StopPreview();
-        if (DeviceUtils.isLG_G3())
-        {
-            if (valueToSet.equals("off"))
-                super.SetValue("0", setToCam);
-            if (valueToSet.equals("on"))
-                super.SetValue("1", setToCam);
-            if (valueToSet.equals("auto"))
-                super.SetValue("2", setToCam);
-        }
-        else
-            super.SetValue(valueToSet, setToCam);
-        //baseCameraHolder.StartPreview();
+        super.SetValue(valueToSet, setToCam);
     }
 
     @Override
     public String GetValue()
     {
-
-        if (DeviceUtils.isMoto_MSM8974())
-
-        {
-            return new String ("off");
-        }
-        else {
-            String ret = super.GetValue();
-            if (ret == null || ret == "")
-                ret = "off";
-            else if (ret.equals("0"))
-                ret = "off";
-            else if (ret.equals("1"))
-                ret = "on";
-            else if (ret.equals("2"))
-                ret = "auto";
-
-
-            return ret;
-        }
+        return (parameters.get(value));
     }
 }

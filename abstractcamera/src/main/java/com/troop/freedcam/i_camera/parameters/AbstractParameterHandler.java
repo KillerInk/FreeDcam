@@ -77,6 +77,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoProfilesG3;
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
+    public AbstractModeParameter VideoHighFramerateVideo;
     public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
 

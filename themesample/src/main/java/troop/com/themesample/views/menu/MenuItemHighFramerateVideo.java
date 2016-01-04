@@ -10,17 +10,17 @@ import java.util.ArrayList;
 /**
  * Created by GeorgeKiarie on 9/22/2015.
  */
-public class MenuItemHighSpeedVideo extends MenuItem
+public class MenuItemHighFramerateVideo extends MenuItem
 {
 
     protected ArrayList<String> modulesToShow;
     String currentModule;
     AbstractModuleHandler moduleHandler;
-    public MenuItemHighSpeedVideo(Context context) {
+    public MenuItemHighFramerateVideo(Context context) {
         super(context);
     }
 
-    public MenuItemHighSpeedVideo(Context context, AttributeSet attrs) {
+    public MenuItemHighFramerateVideo(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

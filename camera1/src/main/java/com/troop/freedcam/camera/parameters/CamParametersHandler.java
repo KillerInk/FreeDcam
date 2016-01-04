@@ -37,6 +37,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
+import com.troop.freedcam.camera.parameters.modes.HighFramerateVideo;
 import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
@@ -486,6 +487,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             VideoHDR = new VideoHDRModeParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        try {
+            VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
         }
         catch (Exception ex)
         {
