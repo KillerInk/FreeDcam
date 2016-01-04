@@ -559,6 +559,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.addCallbackBuffer(new byte[s.height * s.width *
                         ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
             }
+            mCamera.setPreviewCallbackWithBuffer(previewCallback);
         }
         catch (NullPointerException ex)
         {
