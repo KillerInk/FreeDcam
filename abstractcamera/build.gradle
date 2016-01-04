@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.0.0'
     provided project(':marshmallowpermission')
+    compile 'com.android.support:support-v4:23.1.1'
 }

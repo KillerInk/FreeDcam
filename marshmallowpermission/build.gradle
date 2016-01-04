@@ -19,5 +19,5 @@ android {
 }
 
 dependencies {
-    provided 'com.android.support:support-v4:23.0.1'
+    provided 'com.android.support:support-v4:23.1.1'
 }
