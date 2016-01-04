@@ -5,8 +5,10 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureCompManualParameterSony;
@@ -43,14 +45,16 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private Set<String> mSupportedApiSet;
     List<I_SonyApi> parametersChangedList;
     SimpleStreamSurfaceView surfaceView;
+    AbstractCameraUiWrapper wrapper;
 
-    public ParameterHandlerSony(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
+    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
     {
-        super(cameraHolder, appSettingsManager, uiHandler);
-        this.cameraHolder = (CameraHolderSony)cameraHolder;
+        super(cameraHolder.cameraHolder, appSettingsManager, uiHandler);
+        this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         parametersChangedList  = new ArrayList<I_SonyApi>();
         this.surfaceView = surfaceView;
+        this.wrapper = cameraHolder;
     }
 
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
@@ -78,6 +82,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
     private void createParameters()
     {
+        Module = new ModuleParameters(uiHandler, appSettingsManager, wrapper);
         PictureSize = new PictureSizeSony(uiHandler,"getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 

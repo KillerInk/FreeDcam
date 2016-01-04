@@ -92,6 +92,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ObjectTracking;
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
+    public AbstractModeParameter Module;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;

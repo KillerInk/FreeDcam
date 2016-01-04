@@ -56,7 +56,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager, backgroundHandler);
         super.cameraHolder = this.cameraHolder;
         cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
+        camParametersHandler = new ParameterHandlerApi2(this, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager, backgroundHandler);
 

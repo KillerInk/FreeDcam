@@ -63,6 +63,7 @@ import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.parameters.LocationParameter;
+import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -568,6 +569,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
+        Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();
         cameraHolder.SetCameraParameters(cameraParameters);
