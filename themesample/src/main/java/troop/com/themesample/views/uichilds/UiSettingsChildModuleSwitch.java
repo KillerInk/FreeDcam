@@ -37,7 +37,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         if (cameraUiWrapper.moduleHandler == null)
             return;
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null) {
-            cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+
 
         }
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)

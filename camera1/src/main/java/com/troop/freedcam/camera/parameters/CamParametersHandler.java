@@ -800,6 +800,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
+        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
         //PreviewFormat.SetValue("yuv420sp", false);
     }

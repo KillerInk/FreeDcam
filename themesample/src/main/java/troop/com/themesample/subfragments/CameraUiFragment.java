@@ -123,7 +123,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void setWrapper(String from)
     {
-        Log.d(TAG,"###########################Set CameraWrapper to CameraUiItems################################# " + from);
+        Log.d(TAG, "###########################Set CameraWrapper to CameraUiItems################################# " + from);
        // wbtest.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
 
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
@@ -139,7 +139,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         night.SetParameter(wrapper.camParametersHandler.NightMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
         thumbView.INIT(i_activity, wrapper);
-        modeSwitch.SetCameraUiWrapper(wrapper);
+
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
         this.messageHandler = new UserMessageHandler(view, appSettingsManager);
@@ -161,6 +161,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
         focuspeak.SetCameraUiWrapper(wrapper);
+        modeSwitch.SetCameraUiWrapper(wrapper);
 
 
     }

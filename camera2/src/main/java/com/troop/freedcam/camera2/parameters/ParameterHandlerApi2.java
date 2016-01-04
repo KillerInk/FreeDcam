@@ -149,11 +149,13 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
+        wrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
 
     @Override
     public void SetAppSettingsToParameters()
     {
+
         setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
         setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
         setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);

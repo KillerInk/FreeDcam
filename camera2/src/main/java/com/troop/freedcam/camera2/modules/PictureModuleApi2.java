@@ -589,7 +589,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters() {
         super.UnloadNeededParameters();
-        cameraHolder.StopPreview();
+        //cameraHolder.StopPreview();
     }
 
 }
