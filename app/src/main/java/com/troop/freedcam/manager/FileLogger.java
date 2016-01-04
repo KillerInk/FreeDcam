@@ -21,6 +21,7 @@ public class FileLogger
 {
     private static boolean LOGTOFILE = false;
     private static boolean isrunning = false;
+    private static Process process;
 
     public static void StartLogging()
     {
@@ -32,7 +33,13 @@ public class FileLogger
             @Override
             public void run()
             {
-                processlog();
+                File file = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
+                try {
+                    process = Runtime.getRuntime().exec("logcat -f"+file.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //processlog();
             }
         }).start();
     }
@@ -40,90 +47,7 @@ public class FileLogger
     public static void StopLogging()
     {
         LOGTOFILE = false;
-    }
-
-
-    private static void processlog()
-    {
-        BufferedReader bufferedReader = null;
-        FileOutputStream fileOut = null;
-        OutputStreamWriter outputstream = null;
-        File file = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd hh.mm.ss", new Date().getTime()) + ".txt");
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-            file.getParentFile().mkdir();
-        }
-
-        try {
-            fileOut = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        outputstream = new OutputStreamWriter(fileOut);
-
-        try {
-            while (LOGTOFILE)
-            {
-
-                Process process = Runtime.getRuntime().exec("logcat");
-                bufferedReader = new BufferedReader(
-                        new InputStreamReader(process.getInputStream()));
-                // Write the string to the file
-
-                waitforLine(bufferedReader, outputstream);
-
-                //Runtime.getRuntime().exec("logcat -c");
-                Thread.sleep(300);
-            }
-        }
-        catch (IOException e)
-        {
-            LOGTOFILE = false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            isrunning = false;
-            try {
-                if (outputstream != null) {
-                    outputstream.flush();
-                    outputstream.close();
-                }
-                if (bufferedReader != null)
-                    bufferedReader.close();
-                if (fileOut != null)
-                    fileOut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static void waitforLine(final BufferedReader bufferedReader, final OutputStreamWriter outputstream) throws IOException {
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                String line;
-                try {
-                    while (LOGTOFILE)
-                    {
-                        if ((line = bufferedReader.readLine()) != null)
-                            outputstream.write(DateFormat.format("yyyy-MM-dd hh:mm:ss", new Date().getTime())+ ":" +line + "\n");
-                        else
-                            Thread.sleep(500);
-                    }
-                } catch (IOException e) {
-                    try {
-                        if (outputstream != null)
-                            outputstream.flush();
-
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        process.destroy();
+        process = null;
     }
 }
