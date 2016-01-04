@@ -93,6 +93,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         this.valueTextView = (TextView)findViewById(R.id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
+        onIsSupportedChanged(false);
     }
 
     public void RemoveParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
