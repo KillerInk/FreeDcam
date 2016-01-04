@@ -114,16 +114,16 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if(view != null)
-            setWrapper();
+            setWrapper("SetCameraUIWrapper");
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(wrapper);
     }
 
-    private void setWrapper()
+    private void setWrapper(String from)
     {
         if (wrapper == null || wrapper.camParametersHandler == null)
             return;
-
+        Log.d(TAG,"###########################Set CameraWrapper to CameraUiItems################################# " + from);
        // wbtest.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
 
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
@@ -276,7 +276,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setWrapper();
+        //setWrapper("onViewCreated");
     }
 
     @Override
@@ -304,7 +304,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     @Override
     public void ParametersLoaded() {
-        setWrapper();
+        setWrapper("ParametersLoaded");
     }
 
     View.OnClickListener settingsButtonClick = new View.OnClickListener() {

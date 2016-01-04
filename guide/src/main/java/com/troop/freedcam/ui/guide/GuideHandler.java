@@ -40,7 +40,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void onResume() {
         super.onResume();
-        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
+
     }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -49,7 +49,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
         //this.i_activity = i_activity;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-
+        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
         //cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 
