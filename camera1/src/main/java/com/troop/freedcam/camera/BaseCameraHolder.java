@@ -38,6 +38,8 @@ import java.util.Map;
  */
 public class BaseCameraHolder extends AbstractCameraHolder
 {
+
+    final int BUFFERCOUNT = 5;
     Camera mCamera;
 
     private Camera.Parameters mCameraParam;
@@ -551,14 +553,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (!isPreviewRunning && !isRdy)
                 return;
             Size s = new Size(ParameterHandler.PreviewSize.GetValue());
-            //Add 3 pre allocated buffers. that avoids that the camera create with each frame a new one
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            mCamera.setPreviewCallbackWithBuffer(previewCallback);
+            //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
+            for (int i = 0; i<BUFFERCOUNT;i++)
+            {
+                mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                        ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            }
         }
         catch (NullPointerException ex)
         {
@@ -574,9 +574,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             mCamera.setPreviewCallbackWithBuffer(null);
             //Clear added Callbackbuffers
-            mCamera.addCallbackBuffer(null);
-            mCamera.addCallbackBuffer(null);
-            mCamera.addCallbackBuffer(null);
+            for (int i = 0; i<BUFFERCOUNT;i++)
+            {
+                mCamera.addCallbackBuffer(null);
+            }
         }
         catch (NullPointerException ex)
         {
@@ -587,7 +588,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
     {
-
             if (mCamera == null)
                 return;
             mCamera.setErrorCallback(new Camera.ErrorCallback() {
