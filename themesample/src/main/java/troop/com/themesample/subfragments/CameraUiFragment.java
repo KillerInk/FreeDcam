@@ -115,10 +115,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if(view != null)
             setWrapper("SetCameraUIWrapper");
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);
-        if(manualModesFragment != null)
-            manualModesFragment.SetCameraUIWrapper(wrapper);
+
     }
 
     private void setWrapper(String from)
@@ -163,7 +160,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
 
-
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
+        if(manualModesFragment != null)
+            manualModesFragment.SetCameraUIWrapper(wrapper);
     }
 
     @Override
@@ -278,7 +278,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setWrapper("onViewCreated");
+        setWrapper("onViewCreated");
     }
 
     @Override
