@@ -137,7 +137,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         super.SetCameraUIWrapper(wrapper);
         try {
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-            setWrapper("SetCameraUIWrapper");
+            //setWrapper();
         }
         catch (NullPointerException ex)
         {
@@ -175,6 +175,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     @Override
     public void ParametersLoaded() {
+        if (wrapper != null)
             setWrapper("ParametersLoaded");
     }
 

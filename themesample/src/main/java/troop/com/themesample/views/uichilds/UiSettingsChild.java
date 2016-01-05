@@ -101,7 +101,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         valueText = (TextView)findViewById(R.id.textView2);
         valueText.setSelected(true);
         this.setOnClickListener(this);
-        onIsSupportedChanged(false);
+
     }
 
     private Drawable switchICOn(String param)
@@ -135,6 +135,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
+            Log.d(TAG, "Paramters is null or Unsupported");
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;

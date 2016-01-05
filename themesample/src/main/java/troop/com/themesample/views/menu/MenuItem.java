@@ -51,6 +51,7 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener
         finally {
             a.recycle();
         }
+        Log.d(TAG, "Ctor done");
     }
 
     @Override

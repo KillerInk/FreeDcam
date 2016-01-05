@@ -117,12 +117,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             setWrapper("SetCameraUIWrapper");
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(wrapper);
-        if(manualModesFragment != null)
-            manualModesFragment.SetCameraUIWrapper(wrapper);
     }
 
     private void setWrapper(String from)
     {
+        if (wrapper == null || wrapper.camParametersHandler == null)
+            return;
         Log.d(TAG, "###########################Set CameraWrapper to CameraUiItems################################# " + from);
        // wbtest.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
 
@@ -240,7 +240,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(wrapper);
-
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
