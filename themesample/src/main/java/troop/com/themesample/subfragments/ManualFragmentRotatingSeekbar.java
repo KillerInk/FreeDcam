@@ -126,8 +126,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*if (wrapper != null)
-            setWrapper("onViewCreated");*/
+        if (wrapper != null)
+            setWrapper();
     }
 
 
@@ -137,7 +137,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         super.SetCameraUIWrapper(wrapper);
         try {
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-            //setWrapper();
+            setWrapper();
         }
         catch (NullPointerException ex)
         {
@@ -152,9 +152,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         super.SetStuff(appSettingsManager, i_activity);
     }
 
-    private void setWrapper(String from)
-    {
-        Log.d(TAG,"###########################Set CameraWrapper to ManualItems################################# " +from);
+    private void setWrapper() {
         contrast.SetAbstractManualParameter(wrapper.camParametersHandler.ManualContrast);
         burst.SetAbstractManualParameter(wrapper.camParametersHandler.Burst);
         brightness.SetAbstractManualParameter(wrapper.camParametersHandler.ManualBrightness);
@@ -176,7 +174,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     @Override
     public void ParametersLoaded() {
         if (wrapper != null)
-            setWrapper("ParametersLoaded");
+            setWrapper();
     }
 
     //######## ManualButton Stuff#####
