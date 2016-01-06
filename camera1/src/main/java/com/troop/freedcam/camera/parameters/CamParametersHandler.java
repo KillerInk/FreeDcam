@@ -494,14 +494,14 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+            VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
         try {
-            VideoHighSpeedVideo = new HighSpeedVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+            VideoHighSpeedVideo = new HighSpeedVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }
         catch (Exception ex)
         {

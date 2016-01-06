@@ -159,9 +159,6 @@ public abstract class AbstractVideoModule extends AbstractModule
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }
-        camParametersHandler.setString("preview-format", "yuv420sp");
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
         workfinished(true);
     }
 
