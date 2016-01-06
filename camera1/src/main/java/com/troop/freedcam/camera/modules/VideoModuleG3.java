@@ -15,7 +15,7 @@ import com.troop.freedcam.utils.DeviceUtils;
 /**
  * Created by troop on 18.11.2014.
  */
-public class VideoModuleG3 extends VideoModule
+public class VideoModuleG3 extends AbstractVideoModule
 {
     protected MediaRecorderEx recorder;
     CamParametersHandler camParametersHandler;
@@ -91,6 +91,11 @@ public class VideoModuleG3 extends VideoModule
     public void LoadNeededParameters()
     {
         loadProfileSpecificParameters();
+    }
+
+    @Override
+    public void UnloadNeededParameters() {
+
     }
 
     public void UpdatePreview()

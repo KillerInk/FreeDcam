@@ -21,163 +21,25 @@ import java.io.File;
 /**
  * Created by troop on 16.08.2014.
  */
-public class VideoModule extends AbstractModule
+public class VideoModule extends AbstractVideoModule
 {
-    private static String TAG = "freedcam.VideoModule";
+    private static String TAG = VideoModule.class.getSimpleName();
 
-    protected MediaRecorder recorder;
-    String mediaSavePath;
-    BaseCameraHolder baseCameraHolder;
-    CamParametersHandler camParametersHandler;
+
 
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
-        name  = ModuleHandler.MODULE_VIDEO;
-        this.baseCameraHolder = cameraHandler;
-        camParametersHandler = (CamParametersHandler) ParameterHandler;
     }
 
 
-    @Override
-    public String ShortName() {
-        return "Mov";
-    }
 
-    @Override
-    public String LongName() {
-        return "Movie";
-    }
-
-//I_Module START
-    @Override
-    public String ModuleName() {
-        return name;
-    }
-
-    @Override
-    public void DoWork()
-    {
-        if (!isWorking)
-            startRecording();
-        else
-            stopRecording();
-
-    }
-
-    @Override
-    public boolean IsWorking() {
-        return isWorking;
-    }
-//I_Module END
-
-
-    private void startRecording()
-    {
+    protected MediaRecorder initRecorder() {
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         if (DeviceUtils.isXiaomiMI3W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH") || DeviceUtils.isXiaomiMI4W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH"))
             prepareRecordUHD();
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR") || !hfr.equals("off") || !hsr.equals("off"))
             prepareRecordUHD();
-        prepareRecorder();
-        workstarted();
-
-    }
-
-    protected void stopRecording()
-    {
-        try {
-            recorder.stop();
-            Log.e(TAG, "Stop Recording");
-        }
-        catch (Exception ex)
-        {
-            Log.e(TAG, "Stop Recording failed, was called bevor start");
-            baseCameraHolder.errorHandler.OnError("Stop Recording failed, was called bevor start");
-            ex.printStackTrace();
-        }
-        finally
-        {
-            recorder.reset();
-            baseCameraHolder.GetCamera().lock();
-            recorder.release();
-            isWorking = false;
-            final File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            eventHandler.WorkFinished(file);
-            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-        }
-        camParametersHandler.setString("preview-format", "yuv420sp");
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
-        workfinished(true);
-    }
-
-    protected void prepareRecorder()
-    {
-        try
-        {
-            Log.d(TAG, "InitMediaRecorder");
-            isWorking = true;
-            baseCameraHolder.GetCamera().unlock();
-            recorder =  initRecorder();
-            recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
-                @Override
-                public void onError(MediaRecorder mr, int what, int extra) {
-                    Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
-                }
-            });
-
-            mediaSavePath = StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4");
-
-            setRecorderOutPutFile(mediaSavePath);
-
-            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
-                recorder.setOrientationHint(180);
-            else
-                recorder.setOrientationHint(0);
-
-           // baseCameraHolder.StopPreview();
-            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-
-            recorder.setPreviewDisplay(baseCameraHolder.getSurfaceHolder());
-           // baseCameraHolder.StartPreview();
-
-            try {
-                Log.d(TAG,"Preparing Recorder");
-                recorder.prepare();
-                Log.d(TAG, "Recorder Prepared, Starting Recording");
-                recorder.start();
-                Log.d(TAG, "Recording started");
-                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
-
-            } catch (Exception e)
-            {
-                Log.e(TAG,"Recording failed");
-                baseCameraHolder.errorHandler.OnError("Start Recording failed");
-                e.printStackTrace();
-                recorder.reset();
-                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-                isWorking = false;
-                baseCameraHolder.GetCamera().lock();
-                recorder.release();
-            }
-        }
-        catch (NullPointerException ex)
-        {
-            ex.printStackTrace();
-            baseCameraHolder.errorHandler.OnError("Start Recording failed");
-            recorder.reset();
-            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-            isWorking = false;
-            baseCameraHolder.GetCamera().lock();
-            recorder.release();
-        }
-    }
-
-    protected MediaRecorder initRecorder() {
-        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
-        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
 
         recorder = new MediaRecorder();
         recorder.reset();
@@ -260,10 +122,7 @@ public class VideoModule extends AbstractModule
         return recorder;
     }
 
-    protected void setRecorderOutPutFile(String s)
-    {
-        recorder.setOutputFile(s);
-    }
+
 
     @Override
     public void LoadNeededParameters()
