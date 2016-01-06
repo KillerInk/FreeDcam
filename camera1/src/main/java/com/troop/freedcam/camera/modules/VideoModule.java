@@ -36,12 +36,6 @@ public class VideoModule extends AbstractVideoModule
     protected MediaRecorder initRecorder() {
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
-        if (DeviceUtils.isXiaomiMI3W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH") || DeviceUtils.isXiaomiMI4W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH"))
-            prepareRecordUHD();
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR") || !hfr.equals("off") || !hsr.equals("off"))
-            prepareRecordUHD();
-
-
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
@@ -186,16 +180,6 @@ public class VideoModule extends AbstractVideoModule
             baseCameraHolder.StartPreview();
         }
        // camParametersHandler.UHDDO();
-    }
-    private void prepareRecordUHD() {
-        camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
-        camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-        camParametersHandler.VideoStabilization.SetValue("false", true);
-        camParametersHandler.Denoise.SetValue("denoise-off", true);
-        camParametersHandler.setString("dual-recorder", "0");
-        camParametersHandler.setString("preview-format", "nv12-venus");
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
     }
 
     private void videoTime(int VB, int AB)
