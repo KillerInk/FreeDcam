@@ -71,6 +71,16 @@ public class MPermissions
                     1);
         }
     }
+
+    public static void requestMicPermission(Fragment fragment) {
+        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO))
+        {
+            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
+        } else {
+            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
+                    1);
+        }
+    }
     /**
      * Shows OK/Cancel confirmation dialog about camera permission.
      */

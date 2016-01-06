@@ -102,6 +102,21 @@ public abstract class AbstractCameraFragment extends Fragment
         {
             MPermissions.requestAudioVideoPermission(this);
         }
+        if (getActivity().checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestMicPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestCoarsePermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestFineLocationPermission(this);
+        }
 
     }
 
