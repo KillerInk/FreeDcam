@@ -49,14 +49,16 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private ScriptC_focus_peak_cam1 mScriptFocusPeak;
     boolean enable = false;
     boolean doWork = false;
+    Context context;
 
     public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
+        this.context = context;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
-        mRS = RenderScript.create(context);
+
 
 
     }
@@ -71,6 +73,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     {
         if (enabled)
         {
+            mRS = RenderScript.create(context.getApplicationContext());
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
             Log.d(TAG, "Set PreviewCallback");
@@ -80,6 +83,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         {
             Log.d(TAG, "stop focuspeak");
             clear_preview();
+            mRS.destroy();
+            mRS = null;
 
         }
         if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
@@ -109,15 +114,20 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void reset(int width, int height)
     {
-
+        mHeight = height;
+        mWidth = width;
+        if (mRS == null)
+        {
+            clear_preview();
+            return;
+        }
         Log.d(TAG, "reset allocs to :" + width + "x" + height);
         try {
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
         }
         catch (NullPointerException ex){}
 
-        mHeight = height;
-        mWidth = width;
+
 
         Log.d(TAG, "tbin");
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
