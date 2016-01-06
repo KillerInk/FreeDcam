@@ -65,7 +65,7 @@ public abstract class AbstractVideoModule extends AbstractModule
 //I_Module END
 
 
-    private void startRecording()
+    protected void startRecording()
     {
         prepareRecorder();
         workstarted();

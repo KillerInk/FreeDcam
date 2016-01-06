@@ -31,15 +31,21 @@ public class VideoModule extends AbstractVideoModule
         super(cameraHandler, Settings, eventHandler);
     }
 
-
-
-    protected MediaRecorder initRecorder() {
+    @Override
+    protected void startRecording()
+    {
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         if (DeviceUtils.isXiaomiMI3W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH") || DeviceUtils.isXiaomiMI4W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH"))
             prepareRecordUHD();
         if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR") || !hfr.equals("off") || !hsr.equals("off"))
             prepareRecordUHD();
+        super.startRecording();
+    }
+    @Override
+    protected MediaRecorder initRecorder() {
+        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
 
         recorder = new MediaRecorder();
         recorder.reset();
