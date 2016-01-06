@@ -59,8 +59,6 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
 
-
-
     }
 
     public void Enable(boolean enable)
@@ -93,21 +91,27 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void clear_preview()
     {
-        if (mWidth == 0 || mHeight == 0)
+        Log.d(TAG,"clear preview" + mWidth +"/"+mHeight);
+        if (mWidth == 0 || mHeight == 0) {
+            Log.d(TAG,"Cant clear widht and height 0");
             return;
+        }
         final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(map);
         canvas.drawColor(Color.TRANSPARENT);
-        if ( mAllocationOut != null) {
-
+        if ( mAllocationOut != null)
+        {
+            Log.d(TAG, "use outalloc to draw");
             mAllocationOut.copyFrom(map);
             mAllocationOut.ioSend();
             map.recycle();
         }
         else
         {
-            output.draw(canvas);
+            Log.d(TAG,"direct draw canvas");
+            output.setAlpha(0);
         }
+        Log.d(TAG,"Preview cleared");
     }
 
     public boolean isEnable() { return  enable;}
@@ -127,7 +131,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         }
         catch (NullPointerException ex){}
 
-
+        output.setAlpha(1);
 
         Log.d(TAG, "tbin");
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
@@ -172,7 +176,10 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
         @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        {
+            mWidth = width;
+            mHeight = height;
             Log.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
             if (mAllocationOut != null)
@@ -189,7 +196,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             mSurface = new Surface(surface);
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(mSurface);
-            else Log.d(TAG, "Allocout null");
+            else {
+                Log.d(TAG, "Allocout null");
+
+            }
+            clear_preview();
         }
 
         @Override
