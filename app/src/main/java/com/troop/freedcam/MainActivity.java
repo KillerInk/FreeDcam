@@ -6,14 +6,12 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,13 +43,11 @@ import troop.com.imageviewer.ScreenSlideFragment;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy
+public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
 {
     protected ViewGroup appViewGroup;
-    boolean histogramFragmentOpen = false;
     static OrientationHandler orientationHandler;
     int flags;
-
     private static String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
     static AppSettingsManager appSettingsManager;
@@ -69,6 +65,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
         super.onCreate(null);
         DeviceUtils.contex = this.getApplicationContext();
+        orientationHandler = new OrientationHandler(this, this);
         checkStartLogging();
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -80,8 +77,38 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
 
-        createUI();
+        createHandlers();
+    }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        HIDENAVBAR();
+        Log.d(TAGLIFE, "Activity onResume");
+    }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        orientationHandler.Stop();
+        Log.d(TAGLIFE, "Activity onPause");
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
+        if (hasFocus)
+            HIDENAVBAR();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (debuglogging) {
+            debuglogging = false;
+            FileLogger.StopLogging();
+        }
     }
 
     private void checkStartLogging()
@@ -91,29 +118,33 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             debuglogging = true;
             FileLogger.StartLogging();
         }
-
     }
 
-    private void createUI() {
-        orientationHandler = new OrientationHandler(this, this);
+    private void createHandlers() {
+
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
         timerHandler = new TimerHandler(this);
-        //initUI
-        apiHandler = new ApiHandler(appSettingsManager, apiEvent);
+        apiHandler = new ApiHandler(appSettingsManager, this);
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-        timerHandler = new TimerHandler(this);
+        themeHandler.GetThemeFragment(true,cameraFragment.GetCameraUiWrapper());
     }
 
-    boolean loadingWrapper = false;
+    /**
+     * gets called from ApiHandler when apidetection has finished
+     * thats loads the CameraFragment on appstart
+     */
+    @Override
+    public void apiDetectionDone() {
+        loadCameraUiWrapper();
+        orientationHandler.Start();
+    }
+
     private void loadCameraUiWrapper()
     {
-        if(!loadingWrapper)
-        {
             Log.d(TAG, "loading cameraWrapper");
-            loadingWrapper = true;
             destroyCameraUiWrapper();
             cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
             cameraFragment.Init(appSettingsManager, this);
@@ -121,29 +152,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
             transaction.commitAllowingStateLoss();
-
-            loadingWrapper = false;
             Log.d(TAG, "loaded cameraWrapper");
 
-
-        }
-    }
-
-
-    @Override
-    public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
-    {
-
-        cameraUiWrapper.SetCameraChangedListner(this);
-
-        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
-        initCameraUIStuff(cameraUiWrapper);
-        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
-        Log.d(TAG, "add events");
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
 
     private void destroyCameraUiWrapper()
@@ -159,24 +169,29 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         }
     }
 
+    //gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
+    @Override
+    public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        cameraUiWrapper.SetCameraChangedListner(this);
+        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+        initCameraUIStuff(cameraUiWrapper);
+        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+        Log.d(TAG, "add events");
+        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+    }
+
+
+
     private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        themeHandler.SetCameraUIWrapper(cameraUiWrapper);
-        if (themeHandler.getCurrenttheme() == null)
-            themeHandler.GetThemeFragment(true);
-        else
-            themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
+        themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
     }
-
-    @Override
-    public void MenuActive(boolean status)
-    {
-
-    }
-
-
 
     public void HIDENAVBAR()
     {
@@ -189,8 +204,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             //HIDE nav and action bar
             final View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
-            {
+            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
                     if (visibility > 0) {
@@ -199,72 +213,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
                     }
                 }
             });
-        }
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        HIDENAVBAR();
-
-
-        Log.d(TAGLIFE, "Activity onResume");
-    }
-
-    private Runnable loadwrapper = new Runnable() {
-        @Override
-        public void run()
-        {
-
-            //if (cameraFragment == null)
-                loadCameraUiWrapper();
-            orientationHandler.Start();
-        }
-    };
-
-    ApiEvent apiEvent = new ApiEvent()
-    {
-        @Override
-        public void apiDetectionDone() {
-            loadwrapper.run();
-        }
-    };
-    protected void onPause()
-    {
-        super.onPause();
-
-
-        orientationHandler.Stop();
-        //destroyCameraUiWrapper();
-        Log.d(TAGLIFE, "Activity onPause");
-    }
-
-    @Override
-    public void onDetachedFromWindow()
-    {
-        super.onDetachedFromWindow();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-
-        Log.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
-        if (hasFocus)
-            HIDENAVBAR();
-    }
-
-    @Override
-    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
-        super.onWindowAttributesChanged(params);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (debuglogging) {
-            debuglogging = false;
-            FileLogger.StopLogging();
         }
     }
 
@@ -293,12 +241,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         return haskey;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        return  super.onTouchEvent(event);
-    }
-
 
     @Override
     public int OrientationChanged(int orientation)
@@ -321,7 +263,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public void SetTheme(String Theme)
     {
-        themeHandler.SetTheme(Theme);
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
 
@@ -424,54 +366,18 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
                 width = metrics.heightPixels;
                 height = metrics.widthPixels;
             }
-
         }
         return new int[]{width,height};
     }
 
     @Override
     public void
-    ShowHistogram(boolean enable)
-    {
-
-    }
-
-    @Override
-    public Context GetActivityContext() {
-        return getApplicationContext();
-    }
-
-    boolean previewWasRunning = false;
+    ShowHistogram(boolean enable) {}
 
     @Override
     public void loadImageViewerFragment(File file)
     {
-        /*if (file == null) {
-            Intent intent = new Intent(this, ScreenSlideActivity.class);
-            startActivity(intent);
-        }
-        else {
-            Uri uri = Uri.fromFile(file);
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            if (file.getAbsolutePath().endsWith("mp4"))
-                i.setDataAndType(uri, "video/*");
-            else
-                i.setDataAndType(uri, "image/*");
-            String title = "Choose App:";
-            // Create intent to show chooser
-            Intent chooser = Intent.createChooser(i, title);
-
-            // Verify the intent will resolve to at least one activity
-            if (i.resolveActivity(getPackageManager()) != null) {
-                startActivity(chooser);
-            }
-        }*/
         try {
-
-
-            themeHandler.DestroyUI();
-            previewWasRunning = true;
-            //cameraFragment.GetCameraUiWrapper().cameraHolder.StopPreview();
             imageViewerFragment = new ScreenSlideFragment();
             imageViewerFragment.Set_I_Activity(this);
             android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
@@ -488,18 +394,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public void loadCameraUiFragment()
     {
-        if (previewWasRunning) {
-            //cameraFragment.GetCameraUiWrapper().cameraHolder.StartPreview();
-            previewWasRunning = false;
-            imageViewerFragment.onDestroyView();
-            imageViewerFragment = null;
-            System.gc();
-        }
-        android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(R.id.themeFragmentholder,themeHandler.GetThemeFragment(false));
-        transaction.commitAllowingStateLoss();
-
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
     @Override
@@ -508,59 +403,33 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     }
 
     @Override
-    public void onCameraOpen(String message)
-    {
-    }
+    public void onCameraOpen(String message) {}
 
     @Override
-    public void onCameraOpenFinish(String message)
-    {
-
-    }
+    public void onCameraOpenFinish(String message) {}
 
     @Override
-    public void onCameraClose(String message) {
-
-    }
+    public void onCameraClose(String message) {}
 
     @Override
-    public void onPreviewOpen(String message)
-    {
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals(StringUtils.ON) )
-            ShowHistogram(true);
-    }
+    public void onPreviewOpen(String message) {}
 
     @Override
-    public void onPreviewClose(String message) {
-        ShowHistogram(false);
-    }
+    public void onPreviewClose(String message) {}
 
     @Override
-    public void onCameraError(String error)
-    {
-        /*if (cameraFragment.GetCameraUiWrapper() instanceof CameraUiWrapperSony)
-        {
-            appSettingsManager.setCamApi(AppSettingsManager.API_1);
-            loadCameraUiWrapper();
-        }*/
-    }
+    public void onCameraError(String error) {}
 
     @Override
-    public void onCameraStatusChanged(String status) {
-
-    }
+    public void onCameraStatusChanged(String status) {}
 
     @Override
-    public void onModuleChanged(I_Module module)
-    {
-
-    }
+    public void onModuleChanged(I_Module module) {}
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
-        Log.d(TAG, "conf changed");
-        int or =  newConfig.orientation;
+        Log.d(TAG, "onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
     }
 

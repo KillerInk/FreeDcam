@@ -44,53 +44,49 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
 public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+    UiSettingsChild flash;
+    UiSettingsChild iso;
+    UiSettingsChild autoexposure;
+    UiSettingsChild whitebalance;
+    UiSettingsChild focus;
+    UiSettingsChild night;
+    UiSettingsChildFormat format;
+    UiSettingsChildCameraSwitch cameraSwitch;
+    UiSettingsChildExit exit;
+    UiSettingsChildModuleSwitch modeSwitch;
+    UiSettingsMenu menu;
+    UiSettingsChild contShot;
 
-    //static ImageButtonWB test;
+    UiSettingsChild currentOpendChild;
+    HorizontalValuesFragment horizontalValuesFragment;
+    SwipeMenuListner touchHandler;
+    ShutterButton shutterButton;
 
-   // static ImgItem wbtest;
-    static UiSettingsChild flash;
-    static UiSettingsChild iso;
-    static UiSettingsChild autoexposure;
-    static UiSettingsChild whitebalance;
-    static UiSettingsChild focus;
-    static UiSettingsChild night;
-    static UiSettingsChildFormat format;
-    static UiSettingsChildCameraSwitch cameraSwitch;
-    static UiSettingsChildExit exit;
-    static UiSettingsChildModuleSwitch modeSwitch;
-    static UiSettingsMenu menu;
-    static UiSettingsChild contShot;
+    UiSettingsFocusPeak focuspeak;
 
-    static UiSettingsChild currentOpendChild;
-    static HorizontalValuesFragment horizontalValuesFragment;
-    static SwipeMenuListner touchHandler;
-    static ShutterButton shutterButton;
+    UserMessageHandler messageHandler;
 
-    static UiSettingsFocusPeak focuspeak;
+    ThumbView thumbView;
 
-    private UserMessageHandler messageHandler;
-
-    static ThumbView thumbView;
-
-    static ImageView ManualSettingsButton;
-    static LinearLayout left_cameraUI_holder;
-    static RelativeLayout right_camerUI_holder;
-    static ManualFragmentRotatingSeekbar manualModesFragment;
-    static FrameLayout manualModes_holder;
+    ImageView ManualSettingsButton;
+    LinearLayout left_cameraUI_holder;
+    RelativeLayout right_camerUI_holder;
+    ManualFragmentRotatingSeekbar manualModesFragment;
+    FrameLayout manualModes_holder;
     boolean manualsettingsIsOpen = false;
     boolean settingsOpen = false;
     final int animationTime = 500;
 
-    static FocusImageHandler focusImageHandler;
+    FocusImageHandler focusImageHandler;
 
 
-    static View view;
-    static I_Activity i_activity;
-    static AppSettingsManager appSettingsManager;
-    static SampleInfoOverlayHandler infoOverlayHandler;
+    View view;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+    SampleInfoOverlayHandler infoOverlayHandler;
 
-    static GuideHandler guideHandler;
-    static LinearLayout guidHolder;
+    GuideHandler guideHandler;
+    LinearLayout guidHolder;
 
     SettingsMenuFragment settingsMenuFragment;
     FrameLayout settingsmenuholer;
@@ -156,19 +152,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
         }
-
-        guideHandler.setCameraUiWrapper(wrapper);
-        guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
+        guideHandler.setCameraUiWrapper(wrapper, appSettingsManager);
+        //guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
 
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -237,14 +226,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetMenuItemListner(this);
 
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
-        manualModesFragment.SetStuff(appSettingsManager, i_activity);
-        manualModesFragment.SetCameraUIWrapper(wrapper);
 
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
-        transaction.add(R.id.manualModesHolder, manualModesFragment);
-        transaction.commitAllowingStateLoss();
         
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
@@ -252,8 +234,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
 
         guideHandler = new GuideHandler();
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.guideHolder, guideHandler, "Guide");
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.guideHolder, guideHandler, "Guide");
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
 
@@ -265,7 +247,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-        transaction.add(R.id.settingsMenuHolder, settingsMenuFragment);
+        transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
         transaction.commitAllowingStateLoss();
         settingsmenuholer.setVisibility(View.GONE);
 
@@ -277,6 +259,14 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        manualModesFragment = new ManualFragmentRotatingSeekbar();
+        manualModesFragment.SetStuff(appSettingsManager, i_activity);
+        manualModesFragment.SetCameraUIWrapper(wrapper);
+
+        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
+        transaction.replace(R.id.manualModesHolder, manualModesFragment);
+        transaction.commitAllowingStateLoss();
         setWrapper();
     }
 

@@ -2,6 +2,7 @@ package com.troop.freedcam.ui.menu;
 
 import android.app.Activity;
 import android.hardware.SensorManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -15,9 +16,9 @@ public class OrientationHandler implements AbstractModuleHandler.I_worker
     OrientationEventListener orientationEventListener;
     boolean parametersLoaded = false;
     I_orientation orientationListner;
-    Activity activity;
+    FragmentActivity activity;
 
-    public OrientationHandler(Activity activity, final I_orientation orientationListner)
+    public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {
         this.orientationListner = orientationListner;
         this.activity = activity;

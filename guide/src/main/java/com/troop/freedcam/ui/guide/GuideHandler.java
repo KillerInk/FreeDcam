@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by George on 1/19/2015.
@@ -25,7 +26,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
-    //I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,13 +41,13 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void onResume() {
         super.onResume();
-        SetViewG(cameraUiWrapper.camParametersHandler.GuideList.GetValue());
+        //SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
     }
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        //this.i_activity = i_activity;
+        this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
 

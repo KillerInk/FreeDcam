@@ -19,10 +19,7 @@ public interface I_Activity
     int GetPreviewRightMargine();
     int GetPreviewTopMargine();
     int[] GetScreenSize();
-    void MenuActive(boolean status);
     void ShowHistogram(boolean enable);
-    Context GetActivityContext();
-
     void loadImageViewerFragment(File file);
     void loadCameraUiFragment();
     void closeActivity();

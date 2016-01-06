@@ -102,6 +102,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     @Override
     public void SetValue(int valueToSet)
     {
+        if (valueToSet >= usedShutterValues.length)
+            valueToSet -= 1;
         current = valueToSet;
         long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
         Log.d(TAG, "ExposureTimeToSet:" + val);
