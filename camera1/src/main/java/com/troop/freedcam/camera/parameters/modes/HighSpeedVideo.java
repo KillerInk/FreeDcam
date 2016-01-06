@@ -3,7 +3,9 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -13,8 +15,11 @@ import java.util.HashMap;
  */
 public class HighSpeedVideo extends  BaseModeParameter {
 
+    BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
+
     final String[] hsr_values = {"off","60","90","120"};
-    public HighSpeedVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public HighSpeedVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper)
     {
         super(handler, parameters, parameterChanged, value, values);
 
@@ -27,7 +32,8 @@ public class HighSpeedVideo extends  BaseModeParameter {
         catch (Exception ex) {
             this.isSupported = false;
         }
-        this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
+        this.cameraHolder = parameterChanged;
+        this.cameraUiWrapper = cameraUiWrapper;
 
     }
 
@@ -46,6 +52,8 @@ public class HighSpeedVideo extends  BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam)
     {
         super.SetValue(valueToSet, setToCam);
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+            cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
     }
 
     @Override

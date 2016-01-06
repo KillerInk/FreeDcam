@@ -31,15 +31,10 @@ public class VideoModule extends AbstractVideoModule
         super(cameraHandler, Settings, eventHandler);
     }
 
-
-
+    @Override
     protected MediaRecorder initRecorder() {
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
-        if (DeviceUtils.isXiaomiMI3W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH") || DeviceUtils.isXiaomiMI4W() && Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HIGH"))
-            prepareRecordUHD();
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR") || !hfr.equals("off") || !hsr.equals("off"))
-            prepareRecordUHD();
 
         recorder = new MediaRecorder();
         recorder.reset();
@@ -136,14 +131,35 @@ public class VideoModule extends AbstractVideoModule
 
     @Override
     public void UnloadNeededParameters() {
-        // ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported())
             ParameterHandler.VideoHDR.SetValue("off", true);
     }
 
     private void loadProfileSpecificParameters()
     {
-        camParametersHandler.setString("preview-format", "yuv420sp");
+        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+        String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+        if (profile.equals("4kUHD") || DeviceUtils.isXiaomiMI3W() && profile.contains("HIGH") || DeviceUtils.isXiaomiMI4W() && profile.contains("HIGH")) {
+            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            camParametersHandler.VideoStabilization.SetValue("false", true);
+            camParametersHandler.Denoise.SetValue("denoise-off", true);
+            camParametersHandler.setString("dual-recorder", "0");
+            camParametersHandler.setString("preview-format", "nv12-venus");
+        }
+        else if (!hfr.equals("off") || !hsr.equals("off") || profile.contains("HFR")) {
+            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            camParametersHandler.VideoStabilization.SetValue("false", true);
+            camParametersHandler.Denoise.SetValue("denoise-off", true);
+            camParametersHandler.setString("dual-recorder", "0");
+            camParametersHandler.setString("preview-format", "nv12-venus");
+        }
+        else
+            camParametersHandler.setString("preview-format", "yuv420sp");
+
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         if (videoProfilesG3Parameter != null) {
@@ -164,16 +180,6 @@ public class VideoModule extends AbstractVideoModule
             baseCameraHolder.StartPreview();
         }
        // camParametersHandler.UHDDO();
-    }
-    private void prepareRecordUHD() {
-        camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
-        camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-        camParametersHandler.VideoStabilization.SetValue("false", true);
-        camParametersHandler.Denoise.SetValue("denoise-off", true);
-        camParametersHandler.setString("dual-recorder", "0");
-        camParametersHandler.setString("preview-format", "nv12-venus");
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
     }
 
     private void videoTime(int VB, int AB)

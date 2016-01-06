@@ -3,7 +3,9 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -13,9 +15,10 @@ import java.util.HashMap;
  */
 public class HighFramerateVideo extends  BaseModeParameter
 {
-    BaseCameraHolder baseCameraHolder;
+    BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
 
-    public HighFramerateVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public HighFramerateVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values,  CameraUiWrapper cameraUiWrapper)
     {
         super(handler,parameters, parameterChanged, value, values);
 
@@ -42,10 +45,8 @@ public class HighFramerateVideo extends  BaseModeParameter
         {
 
         }
-
-
-
-        this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
+        this.cameraHolder = parameterChanged;
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
@@ -79,6 +80,8 @@ public class HighFramerateVideo extends  BaseModeParameter
         }
         else
             super.SetValue(valueToSet, setToCam);
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+            cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
         //baseCameraHolder.StartPreview();
     }
 
