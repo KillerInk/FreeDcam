@@ -254,6 +254,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
                 BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
                 factoryOptions.inSampleSize = 1;
+                factoryOptions.inPreferQualityOverSpeed = true;
 
                 if (mInMutableAvailable) {
                     initInBitmap(factoryOptions);
