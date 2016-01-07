@@ -255,6 +255,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
                 factoryOptions.inSampleSize = 1;
                 factoryOptions.inPreferQualityOverSpeed = true;
+                factoryOptions.inDither = false;
+                factoryOptions.inScaled = false;
 
                 if (mInMutableAvailable) {
                     initInBitmap(factoryOptions);
@@ -382,8 +384,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Rect src = new Rect(0, 0, w, h);
             if (nightmode == NightPreviewModes.zoompreview)
             {
-                int w4 = w /6;
-                int h4 = w/6;
+                int w4 = w /8;
+                int h4 = w/8;
                 src = new Rect(w/2 -w4, h/2 -h4, w/2 +w4, h/2+h4);
                 mInputAllocation.copyFrom(frame);
                 blurRS.setInput(mInputAllocation);
