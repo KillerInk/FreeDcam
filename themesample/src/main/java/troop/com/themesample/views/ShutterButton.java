@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
@@ -28,8 +29,20 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     IntervalHandler intervalHandler;
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
-    final int alpha = 150;
     boolean isVideo = false;
+    Showstate currentShow = Showstate.image_capture_stopped;
+
+    enum Showstate
+    {
+        video_recording_stopped,
+        video_recording_started,
+        image_capture_stopped,
+        image_capture_started,
+        continouse_capture_stopped_running,
+        continouse_capture_started_running,
+        continouse_capture_stopped_stop,
+        continouse_capture_started_stop,
+    }
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,16 +51,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     public ShutterButton(Context context) {
         super(context);
-        //init();
-        //start handler
-        Toast.makeText(context, "STARTING", Toast.LENGTH_SHORT).show();
-        //set delay to start
+        init();
     }
 
     private void init()
     {
-
-
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,148 +88,87 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper, messageHandler);
+        if (cameraUiWrapper.camParametersHandler.ContShootMode != null)
+            cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
 
-
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
-        {
-
-            isVideo = true;
-            setBackgroundResource(R.drawable.video_recording_start);
-            shutterOpenAnimation = (AnimationDrawable) getBackground();
-
-        }
-        else
-        {
-
-            isVideo = false;
-            setBackgroundResource(R.drawable.shuttercloseanimation);
-            //getBackground().setAlpha(alpha);
-            shutterOpenAnimation = (AnimationDrawable) getBackground();
-        }
-
-
+        ModuleChanged("");
     }
 
+    private void switchBackground(Showstate showstate)
+    {
+        currentShow = showstate;
+        switch (showstate)
+        {
+            case video_recording_stopped:
+                setBackgroundResource(R.drawable.video_recording_start);
+                break;
+            case video_recording_started:
+                setBackgroundResource(R.drawable.video_recording_stop);
+                break;
+            case image_capture_stopped:
+                setBackgroundResource(R.drawable.shuttercloseanimation);
+                break;
+            case image_capture_started:
+                setBackgroundResource(R.drawable.shutteropenanimation);
+                break;
+            case continouse_capture_started_running:
+                break;
+            case continouse_capture_started_stop:
+                break;
+            case continouse_capture_stopped_running:
+                break;
+            case continouse_capture_stopped_stop:
+                break;
+
+
+        }
+        shutterOpenAnimation = (AnimationDrawable) getBackground();
+        if (shutterOpenAnimation .isRunning()) {
+            shutterOpenAnimation .stop();
+        }
+        shutterOpenAnimation.setOneShot(true);
+        shutterOpenAnimation .start();
+    }
 
     @Override
     public String ModuleChanged(String module) {
 
         if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
-
-            isVideo = true;
-            setBackgroundResource(R.drawable.video_recording_start);
-            shutterOpenAnimation = (AnimationDrawable) getBackground();
-
+            switchBackground(Showstate.video_recording_stopped);
         }
         else {
-
-            isVideo = false;
-            setBackgroundResource(R.drawable.shuttercloseanimation);
-            //getBackground().setAlpha(alpha);
-            shutterOpenAnimation = (AnimationDrawable) getBackground();
+            switchBackground(Showstate.image_capture_stopped);
         }
             return null;
 
     }
-
 
     int workerCounter = 0;
     int finishcounter = 0;
     @Override
     public void onWorkStarted()
     {
-        if(isVideo)
-        {
-            doAnim();
-        }
+        if (currentShow == Showstate.video_recording_stopped)
+            currentShow = Showstate.video_recording_started;
         else
-        {
-            doAnimP2();
-        }
-                workerCounter++;
-                finishcounter = 0;
-
-    }
-
-    private void doAnim()
-    {
-
-        setBackgroundResource(R.drawable.video_recording_start);
-
-
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-        if (shutterOpenAnimation .isRunning()) {
-            shutterOpenAnimation .stop();
-    }
-        shutterOpenAnimation .start();
-
-    }
-
-    private void doAnimP()
-    {
-        setBackgroundResource(R.drawable.shutteropenanimation);
-        //getBackground().setAlpha(alpha);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-
-        if (shutterOpenAnimation .isRunning()) {
-            shutterOpenAnimation .stop();
-        }
-        shutterOpenAnimation.setOneShot(true);
-        shutterOpenAnimation .start();
-
-     //   shutterOpenAnimation.stop();
-
-     //   shutterOpenAnimation.start();
-    }
-
-    private void doAnimP2()
-    {
-        setBackgroundResource(R.drawable.shuttercloseanimation);
-        //getBackground().setAlpha(alpha);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-
-        if (shutterOpenAnimation .isRunning()) {
-            shutterOpenAnimation .stop();
-        }
-        shutterOpenAnimation.setOneShot(true);
-        shutterOpenAnimation .start();
-
-        //   shutterOpenAnimation.stop();
-
-        //   shutterOpenAnimation.start();
-
-      //  setBackgroundResource(R.drawable.shuttercloseanimation);
-        // getBackground().setAlpha(alpha);
-       // shutterOpenAnimation = (AnimationDrawable) getBackground();
-      //  shutterOpenAnimation.stop();
-       // shutterOpenAnimation.setOneShot(true);
-      //  shutterOpenAnimation.start();
-    }
-    private void doAnimP3()
-    {
-        setBackgroundResource(R.drawable.video_recording_stop);
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-        if (shutterOpenAnimation .isRunning())
-        {
-            shutterOpenAnimation .stop();
-        }
-        shutterOpenAnimation .start();
+            currentShow = Showstate.image_capture_started;
+        switchBackground(currentShow);
+        workerCounter++;
+        finishcounter = 0;
     }
 
     @Override
-    public void onWorkFinished(boolean finished) {
+    public void onWorkFinished(boolean finished)
+    {
         Log.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
         this.post(new Runnable() {
             @Override
             public void run() {
-                if (isVideo) {
-                    doAnimP3();
-                }
+                if (currentShow == Showstate.video_recording_started)
+                    switchBackground(Showstate.video_recording_stopped);
                 else
-                {
-                    doAnimP();
-                }
+                    switchBackground(Showstate.image_capture_stopped);
             }
         });
 
@@ -229,4 +176,26 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             intervalHandler.DoNextInterval();
 
     }
+
+    AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val) {
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 }
