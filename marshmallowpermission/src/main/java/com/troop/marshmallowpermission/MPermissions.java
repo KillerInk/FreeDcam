@@ -81,6 +81,25 @@ public class MPermissions
                     1);
         }
     }
+
+    public static void requestWifiPermission(Fragment fragment) {
+        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_WIFI_STATE))
+        {
+            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
+        } else {
+            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_WIFI_STATE},
+                    1);
+        }
+    }
+    public static void requestchangeWifiPermission(Fragment fragment) {
+        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CHANGE_WIFI_STATE))
+        {
+            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
+        } else {
+            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.CHANGE_WIFI_STATE},
+                    1);
+        }
+    }
     /**
      * Shows OK/Cancel confirmation dialog about camera permission.
      */

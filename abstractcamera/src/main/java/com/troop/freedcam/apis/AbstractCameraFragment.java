@@ -117,6 +117,16 @@ public abstract class AbstractCameraFragment extends Fragment
         {
             MPermissions.requestFineLocationPermission(this);
         }
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestWifiPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestchangeWifiPermission(this);
+        }
 
     }
 
