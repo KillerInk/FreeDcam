@@ -1,0 +1,9 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/shutter_cont_start6" android:duration="20" />
+    <item android:drawable="@drawable/shutter_cont_start5" android:duration="20" />
+    <item android:drawable="@drawable/shutter_cont_start4" android:duration="20" />
+    <item android:drawable="@drawable/shutter_cont_start3" android:duration="20" />
+    <item android:drawable="@drawable/shutter_cont_start2" android:duration="20" />
+    <item android:drawable="@drawable/shutter_cont_start1" android:duration="20" />
+</animation-list>

@@ -2,12 +2,10 @@ package troop.com.themesample.views;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -38,10 +36,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         video_recording_started,
         image_capture_stopped,
         image_capture_started,
-        continouse_capture_stopped_running,
-        continouse_capture_started_running,
-        continouse_capture_stopped_stop,
-        continouse_capture_started_stop,
+        continouse_capture_cancel,
+        continouse_capture_start,
+        continouse_capture_stop_fromcancel,
+        continouse_capture_stop,
+        continouse_capture_open,
+        continouse_capture_close,
+
+
     }
 
     public ShutterButton(Context context, AttributeSet attrs) {
@@ -68,10 +70,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                         appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, "0 sec");
                     }
                     if (!s.equals("off")) {
-                        if (!intervalHandler.IsWorking()) {
+                        if (!intervalHandler.IsWorking())
+                        {
                             intervalHandler.StartInterval();
-                        } else
+                            switchBackground(Showstate.continouse_capture_start, true);
+                        } else {
                             intervalHandler.CancelInterval();
+                            switchBackground(Showstate.continouse_capture_cancel, true);
+                        }
                     } else
                         intervalHandler.StartShutterTime();
                 }
@@ -94,7 +100,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         ModuleChanged("");
     }
 
-    private void switchBackground(Showstate showstate)
+    private void switchBackground(Showstate showstate, boolean animate)
     {
         currentShow = showstate;
         switch (showstate)
@@ -111,23 +117,35 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             case image_capture_started:
                 setBackgroundResource(R.drawable.shutteropenanimation);
                 break;
-            case continouse_capture_started_running:
+            case continouse_capture_start:
+                setBackgroundResource(R.drawable.contshot_start);
                 break;
-            case continouse_capture_started_stop:
+            case continouse_capture_cancel:
+                setBackgroundResource(R.drawable.contshot_cancel);
                 break;
-            case continouse_capture_stopped_running:
+            case continouse_capture_stop_fromcancel:
+                setBackgroundResource(R.drawable.contshot_stop_normal);
                 break;
-            case continouse_capture_stopped_stop:
+            case continouse_capture_stop:
+                setBackgroundResource(R.drawable.contshot_stop_normal);
+                break;
+            case continouse_capture_open:
+                setBackgroundResource(R.drawable.contshot_cancel_shown_open);
+                break;
+            case continouse_capture_close:
+                setBackgroundResource(R.drawable.contshot_cancel_shown_close);
                 break;
 
 
         }
         shutterOpenAnimation = (AnimationDrawable) getBackground();
-        if (shutterOpenAnimation .isRunning()) {
-            shutterOpenAnimation .stop();
+        if (animate) {
+            if (shutterOpenAnimation.isRunning()) {
+                shutterOpenAnimation.stop();
+            }
+            shutterOpenAnimation.setOneShot(true);
+            shutterOpenAnimation.start();
         }
-        shutterOpenAnimation.setOneShot(true);
-        shutterOpenAnimation .start();
     }
 
     @Override
@@ -135,10 +153,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
         if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
-            switchBackground(Showstate.video_recording_stopped);
+            switchBackground(Showstate.video_recording_stopped, false);
         }
         else {
-            switchBackground(Showstate.image_capture_stopped);
+            switchBackground(Showstate.image_capture_stopped,false);
         }
             return null;
 
@@ -149,11 +167,20 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
-        if (currentShow == Showstate.video_recording_stopped)
-            currentShow = Showstate.video_recording_started;
-        else
-            currentShow = Showstate.image_capture_started;
-        switchBackground(currentShow);
+        switch (currentShow)
+        {
+            case video_recording_stopped:
+                switchBackground(Showstate.video_recording_started,true);
+                break;
+            case image_capture_stopped:
+                switchBackground(Showstate.image_capture_started,true);
+                break;
+            case continouse_capture_start:
+                switchBackground(Showstate.continouse_capture_open,true);
+                break;
+            case continouse_capture_close:
+                switchBackground(Showstate.continouse_capture_open,true);
+        }
         workerCounter++;
         finishcounter = 0;
     }
@@ -165,22 +192,46 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         this.post(new Runnable() {
             @Override
             public void run() {
-                if (currentShow == Showstate.video_recording_started)
-                    switchBackground(Showstate.video_recording_stopped);
-                else
-                    switchBackground(Showstate.image_capture_stopped);
+
+                switch (currentShow)
+                {
+                    case video_recording_started:
+                        switchBackground(Showstate.video_recording_stopped,true);
+                        break;
+                    case image_capture_started:
+                        switchBackground(Showstate.image_capture_stopped,true);
+                        break;
+                    case continouse_capture_open:
+                        switchBackground(Showstate.continouse_capture_close,true);
+                        break;
+                    case continouse_capture_stop_fromcancel:
+                        switchBackground(Showstate.continouse_capture_stop_fromcancel,true);
+                        break;
+                    case continouse_capture_stop:
+                        switchBackground(Showstate.continouse_capture_stop, true);
+                        break;
+                }
+
+
             }
         });
 
-        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off"))
+        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off")) {
             intervalHandler.DoNextInterval();
+            currentShow =Showstate.continouse_capture_close;
+        }
 
     }
 
     AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
-        public void onValueChanged(String val) {
-
+        public void onValueChanged(String val)
+        {
+            //Single","Continuous","Spd Priority Cont.
+            if (val.equals("Single"))
+                switchBackground(Showstate.image_capture_stopped,false);
+            else
+                switchBackground(Showstate.continouse_capture_stop_fromcancel,false);
         }
 
         @Override
