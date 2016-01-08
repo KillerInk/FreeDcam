@@ -79,6 +79,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             @Override
             public void run() {
                 processValuesToSet(valueToSet);
+                BackgroundValueHasChanged(valueToSet);
             }
         }).start();
     }

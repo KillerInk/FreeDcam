@@ -52,7 +52,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 return true;
             } else {
                 cameraHolder.stopContShoot(this);
-                return true;
+                return false;
             }
         }
         else

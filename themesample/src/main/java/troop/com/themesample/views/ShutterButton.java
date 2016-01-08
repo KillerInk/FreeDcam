@@ -27,6 +27,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
     Showstate currentShow = Showstate.image_capture_stopped;
+    boolean contshot = false;
 
     enum Showstate
     {
@@ -63,7 +64,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 if (cameraUiWrapper != null)
                 {
                     boolean cancel = cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
-                    if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
+                    if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) ||contshot)
                     {
                         if (!cancel)
                         {
@@ -73,7 +74,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                                 switchBackground(Showstate.continouse_capture_cancel_nowork,true);
                         }
                         else
-                            switchBackground(Showstate.continouse_capture_start,true);
+                            switchBackground(Showstate.continouse_capture_start,false);
                     }
                 }
             }
@@ -156,7 +157,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         else  if(cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)) {
             switchBackground(Showstate.image_capture_stopped,true);
         }
-        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
+        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot)
             switchBackground(Showstate.continouse_capture_start,false);
             return null;
 
@@ -216,6 +217,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                     case continouse_capture_stop:
                         switchBackground(Showstate.continouse_capture_stop, true);
                         break;
+                    case continouse_capture_cancel_whilework:
+                        switchBackground(Showstate.continouse_capture_stop, true);
+                        break;
+
                 }
 
 
@@ -233,10 +238,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         public void onValueChanged(String val)
         {
             //Single","Continuous","Spd Priority Cont.
-            if (val.equals("Single"))
-                switchBackground(Showstate.image_capture_stopped,false);
-            else
-                switchBackground(Showstate.continouse_capture_stop_fromcancel,false);
+            if (val.contains("Single")) {
+                switchBackground(Showstate.image_capture_stopped, false);
+                contshot = false;
+            }
+            else {
+                switchBackground(Showstate.continouse_capture_start, false);
+                contshot = true;
+            }
         }
 
         @Override
