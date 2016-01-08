@@ -119,6 +119,9 @@ public abstract class AbstractParameterHandler
     public boolean IntervalCapture = false;
     public boolean IntervalCaptureFocusSet = false;
 
+    public AbstractModeParameter IntervalDuration;
+    public AbstractModeParameter IntervalShutterSleep;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -127,6 +130,8 @@ public abstract class AbstractParameterHandler
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
         locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
+        IntervalDuration = new IntervalDurationParameter(uiHandler);
+        IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
     }
 
     public void SetParametersToCamera() {};
@@ -180,6 +185,9 @@ public abstract class AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
+        setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
+
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");

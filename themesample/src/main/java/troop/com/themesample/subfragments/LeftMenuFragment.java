@@ -126,12 +126,12 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
         menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
-        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemIntervalDuration.SetCameraUIWrapper(wrapper);
         menuItemIntervalDuration.SetMenuItemListner(this);
 
         menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
         menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
-        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemTimer.SetCameraUIWrapper(wrapper);
         menuItemTimer.SetMenuItemListner(this);
 
         menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
