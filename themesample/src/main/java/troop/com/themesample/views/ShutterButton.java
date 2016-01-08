@@ -150,16 +150,22 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public String ModuleChanged(String module) {
 
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
-        {
-            switchBackground(Showstate.video_recording_stopped, true);
-        }
-        else  if(cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)) {
-            switchBackground(Showstate.image_capture_stopped,true);
-        }
-        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot)
-            switchBackground(Showstate.continouse_capture_start,false);
-            return null;
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+                {
+                    switchBackground(Showstate.video_recording_stopped, true);
+                }
+                else  if(cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)) {
+                    switchBackground(Showstate.image_capture_stopped,true);
+                }
+                else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot)
+                    switchBackground(Showstate.continouse_capture_start,false);
+
+            }
+        });
+        return null;
 
     }
 
