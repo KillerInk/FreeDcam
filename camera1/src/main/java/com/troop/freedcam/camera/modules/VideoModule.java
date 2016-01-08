@@ -106,7 +106,6 @@ public class VideoModule extends AbstractVideoModule
 
            if (!hfr.equals("off")) {
                recorder.setCaptureRate(Integer.parseInt(hfr));
-               recorder.setVideoFrameRate(30);
             }
 
            if (!hsr.equals("off")) {
@@ -155,7 +154,7 @@ public class VideoModule extends AbstractVideoModule
             camParametersHandler.VideoStabilization.SetValue("false", true);
             camParametersHandler.Denoise.SetValue("denoise-off", true);
             camParametersHandler.setString("dual-recorder", "0");
-            camParametersHandler.setString("preview-format", "nv12-venus");
+            camParametersHandler.setString("preview-format", "yuv420sp");
         }
         else
             camParametersHandler.setString("preview-format", "yuv420sp");
