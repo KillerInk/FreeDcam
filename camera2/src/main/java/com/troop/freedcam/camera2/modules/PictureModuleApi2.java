@@ -93,7 +93,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!cameraHolder.isWorking)
         {
@@ -101,7 +101,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             workstarted();
             TakePicture();
         }
-
+        return true;
     }
 
     public void TakePicture()

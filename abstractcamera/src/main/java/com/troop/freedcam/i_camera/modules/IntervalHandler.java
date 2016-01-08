@@ -1,9 +1,11 @@
-package troop.com.themesample.handler;
+package com.troop.freedcam.i_camera.modules;
 
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
+import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.Date;
@@ -14,7 +16,7 @@ import java.util.Date;
 public class IntervalHandler
 {
     AppSettingsManager appSettingsManager;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractModule picmodule;
 
     final String TAG = IntervalHandler.class.getSimpleName();
 
@@ -23,17 +25,15 @@ public class IntervalHandler
     int intervalToEndDuration = 0;
     Handler handler;
     long startTime = 0;
-    UserMessageHandler messageHandler;
     boolean working = false;
 
     public boolean IsWorking() {return  working;}
 
-    public IntervalHandler(AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, UserMessageHandler messageHandler)
+    public IntervalHandler(AppSettingsManager appSettingsManager, AbstractModule picmodule)
     {
         this.appSettingsManager = appSettingsManager;
-        this.cameraUiWrapper = cameraUiWrapper;
+        this.picmodule = picmodule;
         handler = new Handler();
-        this.messageHandler = messageHandler;
     }
 
     public void StartInterval()
@@ -41,10 +41,10 @@ public class IntervalHandler
         Log.d(TAG, "Start Start Interval");
         working = true;
         this.startTime = new Date().getTime();
-        String interval = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL).replace(" sec", "");
+        String interval = picmodule.ParameterHandler.IntervalShutterSleep.GetValue().replace(" sec", "");
         this.intervalDuration = Integer.parseInt(interval)*1000;
 
-        String endDuration = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).replace(" min","");
+        String endDuration = picmodule.ParameterHandler.IntervalDuration.GetValue().replace(" min","");
         this.intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
     }
@@ -61,21 +61,20 @@ public class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ",((double)((new Date().getTime() - IntervalHandler.this.startTime)) /1000) / 60);
         t+=("/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000);
-        messageHandler.SetUserMessage(t);
+        picmodule.baseCameraHolder.SendUIMessage(t);
 
     }
 
     int shuttercounter = 0;
     public void DoNextInterval()
     {
-
         long dif = new Date().getTime() - IntervalHandler.this.startTime;
         double min = (double)(dif /1000) / 60;
         if (min >= IntervalHandler.this.intervalToEndDuration)
         {
             Log.d(TAG, "Finished Interval");
-            cameraUiWrapper.camParametersHandler.IntervalCaptureFocusSet = false;
-            cameraUiWrapper.camParametersHandler.IntervalCapture = false;
+            picmodule.baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = false;
+            picmodule.baseCameraHolder.ParameterHandler.IntervalCapture = false;
             working = false;
             return;
         }
@@ -96,7 +95,7 @@ public class IntervalHandler
                 shuttercounter++;
             }
             else {
-                cameraUiWrapper.DoWork();
+                picmodule.DoWork();
                 shuttercounter = 0;
             }
         }
@@ -113,7 +112,7 @@ public class IntervalHandler
 
     private void msg()
     {
-        messageHandler.SetUserMessage(shutterWaitCounter+"");
+        picmodule.baseCameraHolder.SendUIMessage(shutterWaitCounter+"");
     }
 
     int shutterWaitCounter =0;
@@ -128,7 +127,7 @@ public class IntervalHandler
         }
         else
         {
-            cameraUiWrapper.DoWork();
+            picmodule.DoWork();
             shutterWaitCounter = 0;
         }
     }
@@ -137,8 +136,6 @@ public class IntervalHandler
     {
         String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
         try {
-
-
             if (shutterdelay.equals(""))
                 shutterdelay = "0 sec";
             if (!shutterdelay.equals("0 sec"))

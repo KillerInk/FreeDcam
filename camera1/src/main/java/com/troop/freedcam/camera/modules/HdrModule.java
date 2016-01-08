@@ -43,7 +43,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!isWorking)
         {
@@ -53,7 +53,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             {
                 baseCameraHolder.errorHandler.OnError("Error: Disable ZSL for Raw or Dng capture");
                 this.isWorking = false;
-                return;
+                return false;
             }
             startworking();
             if (!ParameterHandler.isAeBracketActive)
@@ -61,6 +61,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             else
                 baseCameraHolder.TakePicture(null,null, aeBracketCallback);
         }
+        return true;
     }
 
     @Override

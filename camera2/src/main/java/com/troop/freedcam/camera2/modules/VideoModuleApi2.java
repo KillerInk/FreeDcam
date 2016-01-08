@@ -34,13 +34,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (isRecording)
             stopRecording();
         else
             startRecording();
-        //super.DoWork();
+        return true;
     }
 
     @Override

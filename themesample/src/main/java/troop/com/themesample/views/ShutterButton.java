@@ -14,7 +14,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
-import troop.com.themesample.handler.IntervalHandler;
+
 import troop.com.themesample.handler.UserMessageHandler;
 
 /**
@@ -24,10 +24,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
-    IntervalHandler intervalHandler;
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
-    boolean isVideo = false;
     Showstate currentShow = Showstate.image_capture_stopped;
 
     enum Showstate
@@ -61,26 +59,9 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cameraUiWrapper != null) {
-                    String s = appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION);
-                    if (s.equals("")) {
-                        s = "off";
-                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL, "1 sec");
-                        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, s);
-                        appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, "0 sec");
-                    }
-                    if (!s.equals("off")) {
-                        if (!intervalHandler.IsWorking())
-                        {
-                            intervalHandler.StartInterval();
-                            switchBackground(Showstate.continouse_capture_stop, false);
-                        } else {
-                            intervalHandler.CancelInterval();
-                            switchBackground(Showstate.continouse_capture_cancel, true);
-                        }
-                    }
-                    else
-                        intervalHandler.StartShutterTime();
+                if (cameraUiWrapper != null)
+                {
+                    cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
                 }
             }
         });
@@ -94,7 +75,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        intervalHandler = new IntervalHandler(appSettingsManager, cameraUiWrapper, messageHandler);
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null)
             cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
 
@@ -155,11 +135,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
         if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
-            switchBackground(Showstate.video_recording_stopped, false);
+            switchBackground(Showstate.video_recording_stopped, true);
         }
-        else {
+        else  if(cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)) {
             switchBackground(Showstate.image_capture_stopped,true);
         }
+        else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
+            switchBackground(Showstate.continouse_capture_start,false);
             return null;
 
     }
@@ -221,7 +203,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         });
 
         if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off")) {
-            intervalHandler.DoNextInterval();
             currentShow =Showstate.continouse_capture_close;
         }
 

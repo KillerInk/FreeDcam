@@ -49,8 +49,8 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     }
 
     @Override
-    public void DoWork() {
-
+    public boolean DoWork() {
+        return false;
     }
 
     @Override

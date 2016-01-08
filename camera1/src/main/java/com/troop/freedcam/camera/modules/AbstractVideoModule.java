@@ -49,12 +49,13 @@ public abstract class AbstractVideoModule extends AbstractModule
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!isWorking)
             startRecording();
         else
             stopRecording();
+        return true;
 
     }
 

@@ -32,13 +32,14 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!isWorking)
         {
             cameraHolder.StartRecording();
         }
         else cameraHolder.StopRecording();
+        return true;
     }
 
     @Override

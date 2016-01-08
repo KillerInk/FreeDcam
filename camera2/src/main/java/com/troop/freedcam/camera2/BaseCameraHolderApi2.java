@@ -66,7 +66,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     private static String TAG = "freedcam.BaseCameraHolderApi2";
     public boolean isWorking = false;
     Context context;
-    public I_error errorHandler;
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
@@ -145,7 +144,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         String cam = camera +"";
         if (Build.VERSION.SDK_INT >= 23) {
             if (context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                errorHandler.OnError("Error: Permission for Camera are not granted!");
+                cameraChangedListner.onCameraError("Error: Permission for Camera are not granted!");
                 return false;
             }
         }
@@ -397,7 +396,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-            errorHandler.OnError("MediaRecorder Prepare failed");
+            cameraChangedListner.onCameraError("MediaRecorder Prepare failed");
             return;
         }
 

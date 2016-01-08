@@ -8,7 +8,7 @@ import android.os.Handler;
 public class IntervalDurationParameter extends AbstractModeParameter
 {
 
-    String current = "off";
+    String current = "1 min";
 
     public IntervalDurationParameter(Handler uiHandler) {
         super(uiHandler);
@@ -31,6 +31,6 @@ public class IntervalDurationParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"off","1 min", "2 min", "5 min","10 min","15 min","20 min ","25 min","30 min","60 min"/*,"Bulb"*/};
+        return new String[] {"1 min", "2 min", "5 min","10 min","15 min","20 min ","25 min","30 min","60 min"/*,"Bulb"*/};
     }
 }

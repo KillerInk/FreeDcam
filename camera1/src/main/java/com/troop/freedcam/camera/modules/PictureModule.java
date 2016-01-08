@@ -73,7 +73,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!this.isWorking)
         {
@@ -108,6 +108,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 }
             }
         }
+        return true;
 
     }
 

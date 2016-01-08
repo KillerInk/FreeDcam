@@ -34,7 +34,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!this.isWorking)
         {
@@ -43,7 +43,7 @@ public class PictureModuleMTK extends PictureModule
             mtksaver.TakePicture();
 
         }
-
+        return true;
     }
 
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.IntervalModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -36,12 +37,16 @@ public class ModuleHandler extends AbstractModuleHandler
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
+            IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,thl5000);
+            moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
         else//else //use default pictureModule
         {
             Log.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
+            IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,pictureModule);
+            moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
