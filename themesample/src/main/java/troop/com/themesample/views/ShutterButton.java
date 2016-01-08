@@ -73,12 +73,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                         if (!intervalHandler.IsWorking())
                         {
                             intervalHandler.StartInterval();
-                            switchBackground(Showstate.continouse_capture_start, true);
+                            switchBackground(Showstate.continouse_capture_stop, false);
                         } else {
                             intervalHandler.CancelInterval();
                             switchBackground(Showstate.continouse_capture_cancel, true);
                         }
-                    } else
+                    }
+                    else
                         intervalHandler.StartShutterTime();
                 }
             }
@@ -103,6 +104,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     private void switchBackground(Showstate showstate, boolean animate)
     {
         currentShow = showstate;
+        Log.d(TAG, "switchBackground:" + currentShow);
         switch (showstate)
         {
             case video_recording_stopped:
@@ -112,10 +114,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 setBackgroundResource(R.drawable.video_recording_stop);
                 break;
             case image_capture_stopped:
-                setBackgroundResource(R.drawable.shuttercloseanimation);
+                setBackgroundResource(R.drawable.shutteropenanimation);
                 break;
             case image_capture_started:
-                setBackgroundResource(R.drawable.shutteropenanimation);
+                setBackgroundResource(R.drawable.shuttercloseanimation);
                 break;
             case continouse_capture_start:
                 setBackgroundResource(R.drawable.contshot_start);
@@ -156,7 +158,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             switchBackground(Showstate.video_recording_stopped, false);
         }
         else {
-            switchBackground(Showstate.image_capture_stopped,false);
+            switchBackground(Showstate.image_capture_stopped,true);
         }
             return null;
 
@@ -167,6 +169,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
+        Log.d(TAG, "onWorkStarted CurrentShow:" + currentShow);
         switch (currentShow)
         {
             case video_recording_stopped:
@@ -189,6 +192,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     public void onWorkFinished(boolean finished)
     {
         Log.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
+        Log.d(TAG, "onWorkFinished CurrentShow:" + currentShow);
         this.post(new Runnable() {
             @Override
             public void run() {
