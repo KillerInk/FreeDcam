@@ -32,6 +32,7 @@ public abstract class AbstractCameraFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG,"onCreateView");
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         return super.onCreateView(inflater, container, savedInstanceState);

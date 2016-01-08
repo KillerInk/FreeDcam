@@ -164,7 +164,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-
+        Log.d(TAG, "####################ONCREATEDVIEW####################");
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
         this.view = inflater.inflate(R.layout.cameraui, container, false);
@@ -257,8 +257,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "####################VIEW CREATED####################");
         manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(wrapper);
@@ -353,7 +355,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
-        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }
 

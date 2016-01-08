@@ -198,8 +198,12 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     private void startPreviewinternal()
     {
+        Log.d(TAG,"startPreviewinternal previewRdy:" + PreviewSurfaceRdy +" cameraRdy" +cameraRdy);
+        if (PreviewSurfaceRdy && !cameraRdy)
+            startCamera();
         if (!PreviewSurfaceRdy || !cameraRdy)
             return;
+
 
         backgroundHandler.post(new Runnable() {
             @Override
