@@ -34,7 +34,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         video_recording_started,
         image_capture_stopped,
         image_capture_started,
-        continouse_capture_cancel,
+        continouse_capture_cancel_whilework,
+        continouse_capture_cancel_nowork,
         continouse_capture_start,
         continouse_capture_stop_fromcancel,
         continouse_capture_stop,
@@ -61,7 +62,19 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
                 {
-                    cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
+                    boolean cancel = cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
+                    if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
+                    {
+                        if (!cancel)
+                        {
+                            if (cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
+                                switchBackground(Showstate.continouse_capture_cancel_whilework, true);
+                            else
+                                switchBackground(Showstate.continouse_capture_cancel_nowork,true);
+                        }
+                        else
+                            switchBackground(Showstate.continouse_capture_start,true);
+                    }
                 }
             }
         });
@@ -102,8 +115,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             case continouse_capture_start:
                 setBackgroundResource(R.drawable.contshot_start);
                 break;
-            case continouse_capture_cancel:
-                setBackgroundResource(R.drawable.contshot_cancel);
+            case continouse_capture_cancel_whilework:
+                setBackgroundResource(R.drawable.contshot_cancel_whilework);
+                break;
+            case continouse_capture_cancel_nowork:
+                setBackgroundResource(R.drawable.video_recording_stop);
                 break;
             case continouse_capture_stop_fromcancel:
                 setBackgroundResource(R.drawable.contshot_stop_normal);
@@ -161,10 +177,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 switchBackground(Showstate.image_capture_started,true);
                 break;
             case continouse_capture_start:
-                switchBackground(Showstate.continouse_capture_open,true);
+                switchBackground(Showstate.continouse_capture_start,true);
                 break;
             case continouse_capture_close:
                 switchBackground(Showstate.continouse_capture_open,true);
+                break;
         }
         workerCounter++;
         finishcounter = 0;
@@ -190,6 +207,9 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                     case continouse_capture_open:
                         switchBackground(Showstate.continouse_capture_close,true);
                         break;
+                    case continouse_capture_start:
+                        switchBackground(Showstate.continouse_capture_close,true);
+                        break;
                     case continouse_capture_stop_fromcancel:
                         switchBackground(Showstate.continouse_capture_stop_fromcancel,true);
                         break;
@@ -202,9 +222,9 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             }
         });
 
-        if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off")) {
+        /*if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off")) {
             currentShow =Showstate.continouse_capture_close;
-        }
+        }*/
 
     }
 
