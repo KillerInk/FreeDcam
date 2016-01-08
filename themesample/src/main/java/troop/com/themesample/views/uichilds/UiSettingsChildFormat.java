@@ -38,6 +38,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
     }
 
@@ -65,6 +66,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
             camera1picFormat = null;
             super.SetParameter(cameraUiWrapper.camParametersHandler.PictureFormat);
         }
+        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
     }
 
     @Override

@@ -36,6 +36,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
 
+        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
 
     }
 
