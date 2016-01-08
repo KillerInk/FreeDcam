@@ -82,7 +82,8 @@ public class UiSettingsChildFormat extends UiSettingsChild
     {
         Log.d(TAG, "Parameters Loaded");
         if (parameter != null && parameter.IsSupported() &&
-                (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)))
+                (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)
+                || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL)))
         {
             setTextToTextBox(parameter);
             onIsSupportedChanged(true);
