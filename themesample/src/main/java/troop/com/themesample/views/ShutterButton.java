@@ -157,7 +157,9 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 {
                     switchBackground(Showstate.video_recording_stopped, true);
                 }
-                else  if(cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)) {
+                else  if((cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE)
+                        || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR))
+                        && !contshot) {
                     switchBackground(Showstate.image_capture_stopped,true);
                 }
                 else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot)
@@ -245,7 +247,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         {
             //Single","Continuous","Spd Priority Cont.
             if (val.contains("Single")) {
-                switchBackground(Showstate.image_capture_stopped, false);
+                switchBackground(Showstate.image_capture_started, false);
                 contshot = false;
             }
             else {
