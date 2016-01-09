@@ -46,7 +46,8 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
-            android:excludeFromRecents="false">
+            android:excludeFromRecents="false"
+            android:finishOnTaskLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
