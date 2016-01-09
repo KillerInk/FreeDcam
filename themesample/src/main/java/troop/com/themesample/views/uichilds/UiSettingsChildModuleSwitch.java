@@ -50,9 +50,16 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
-            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+    public String ModuleChanged(String module)
+    {
+        valueText.post(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+                    valueText.setText(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+            }
+        });
+
         return module;
     }
 }
