@@ -236,7 +236,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
-        transaction.addToBackStack(null);
+
         transaction.commitAllowingStateLoss();
 
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
@@ -248,6 +248,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
+        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
         settingsmenuholer.setVisibility(View.GONE);
 
@@ -257,8 +258,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "####################VIEW CREATED####################");
         manualModesFragment = new ManualFragmentRotatingSeekbar();
