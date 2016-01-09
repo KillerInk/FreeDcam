@@ -63,10 +63,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
                 {
-                    boolean cancel = cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
+
                     if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) ||contshot)
                     {
-                        if (!cancel)
+                        if (!cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork())
                         {
                             if (cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
                                 switchBackground(Showstate.continouse_capture_cancel_whilework, true);
@@ -76,6 +76,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                         else
                             switchBackground(Showstate.continouse_capture_start,false);
                     }
+                    else
+                        cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
                 }
             }
         });

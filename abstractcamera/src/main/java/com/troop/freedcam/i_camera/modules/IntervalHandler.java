@@ -25,9 +25,9 @@ public class IntervalHandler
     int intervalToEndDuration = 0;
     Handler handler;
     long startTime = 0;
-    boolean working = false;
+    private boolean working = false;
 
-    public boolean IsWorking() {return  working;}
+    public boolean IsWorking() {return  this.working;}
 
     public IntervalHandler(AppSettingsManager appSettingsManager, AbstractModule picmodule)
     {
@@ -38,8 +38,8 @@ public class IntervalHandler
 
     public void StartInterval()
     {
-        Log.d(TAG, "Start Start Interval");
-        working = true;
+        Log.d(TAG, "Start Interval");
+        this.working = true;
         this.startTime = new Date().getTime();
         String interval = picmodule.ParameterHandler.IntervalShutterSleep.GetValue().replace(" sec", "");
         this.intervalDuration = Integer.parseInt(interval)*1000;
@@ -51,9 +51,16 @@ public class IntervalHandler
 
     public void CancelInterval()
     {
+        Log.d(TAG,"Cancel Interval");
         handler.removeCallbacks(intervalDelayRunner);
         handler.removeCallbacks(shutterDelayRunner);
-        working = false;
+        shuttercounter = 0;
+        intervalDuration = 0;
+        intervalToEndDuration = 0;
+        intervalDelayCounter = 0;
+        shuttercounter = 0;
+        shutterWaitCounter = 0;
+        this.working = false;
     }
 
     private void sendMsg()

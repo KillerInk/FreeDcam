@@ -14,7 +14,7 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
     public IntervalModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, AbstractModule picModule) {
         super(cameraHandler, Settings, eventHandler);
         this.picModule = picModule;
-        picModule.SetWorkerListner(this);
+
         intervalHandler = new IntervalHandler(Settings,picModule);
         this.name = AbstractModuleHandler.MODULE_INTERVAL;
     }
@@ -44,7 +44,7 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
 
     @Override
     public void LoadNeededParameters() {
-
+        picModule.SetWorkerListner(this);
     }
 
     @Override
