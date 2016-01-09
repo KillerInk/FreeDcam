@@ -109,10 +109,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.wrapper = wrapper;
         if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        /*if(view != null)
+        if(view != null)
             setWrapper();
         if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);*/
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
     }
 
     private void setWrapper()
