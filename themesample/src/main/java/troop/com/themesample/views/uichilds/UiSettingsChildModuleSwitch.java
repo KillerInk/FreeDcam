@@ -36,10 +36,6 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super.SetParameter(cameraUiWrapper.camParametersHandler.Module);
         if (cameraUiWrapper.moduleHandler == null)
             return;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null) {
-
-
-        }
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
             onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
     }
@@ -48,12 +44,15 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     public void ParametersLoaded() {
         if (cameraUiWrapper.moduleHandler == null)
             return;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() == null) {
-            cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
-        }
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
             onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
     }
 
+    @Override
+    public String ModuleChanged(String module) {
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
+            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+        return module;
+    }
 }

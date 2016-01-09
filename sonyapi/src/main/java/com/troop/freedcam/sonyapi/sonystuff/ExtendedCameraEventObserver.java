@@ -34,7 +34,7 @@ public class ExtendedCameraEventObserver extends SimpleCameraEventObserver {
     }
 
     @Override
-    protected void processEvents(JSONObject replyJson) throws JSONException {
+    public void processEvents(JSONObject replyJson) throws JSONException {
         super.processEvents(replyJson);
 
 

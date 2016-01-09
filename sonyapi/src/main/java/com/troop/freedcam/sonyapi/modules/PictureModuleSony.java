@@ -149,7 +149,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             this.isWorking = false;
             workfinished(true);
         }
-        else if (status.equals("StillCapturing") && !isWorking) {
+        else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             this.isWorking = true;
             workstarted();
         }

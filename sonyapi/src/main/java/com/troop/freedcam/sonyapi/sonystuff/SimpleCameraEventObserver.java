@@ -25,7 +25,7 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    boolean LOGGING = false;
+    boolean LOGGING = true;
 
     private void sendLog(String msg)
     {
@@ -327,7 +327,7 @@ public class SimpleCameraEventObserver {
         return true;
     }
 
-    protected void processEvents(JSONObject replyJson) throws JSONException {
+    public void processEvents(JSONObject replyJson) throws JSONException {
         List<String> availableApis = JsonUtils.findAvailableApiList(replyJson);
         if (!availableApis.isEmpty()) {
             fireApiListModifiedListener(availableApis);
@@ -821,6 +821,7 @@ public class SimpleCameraEventObserver {
                 if (mListener != null) {
                     mListener.onShootModeChanged(shootMode);
                 }
+                else Log.d(TAG, "onShootModeChanged listner NULL!");
             }
         });
     }

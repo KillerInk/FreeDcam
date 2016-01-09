@@ -45,8 +45,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         super.SetCameraUIWrapper(wrapper);
         if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
-        if(getActivity() != null)
-            setWrapper();
+        //if(getActivity() != null)
+        //    setWrapper();
     }
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)

@@ -53,6 +53,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     private String cameraStatus = "IDLE";
 
     public I_CameraShotMode cameraShotMode;
+    JSONObject FullUiSetup;
 
     public interface I_CameraShotMode
     {
@@ -73,8 +74,8 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onCameraStatusChanged(String status)
         {
-            if (cameraStatus.equals(status))
-                return;
+            //if (cameraStatus.equals(status))
+            //    return;
             cameraStatus = status;
             Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
@@ -440,6 +441,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         String cameraStatus = null;
                         JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                         JSONArray resultsObj = replyJson.getJSONArray("result");
+                        FullUiSetup = replyJson;
                         JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
                         String type = cameraStatusObj.getString("type");
                         if ("cameraStatus".equals(type)) {
@@ -512,6 +514,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): EventObserver.start()");
                         mEventObserver.start();
+
                     }
 
                     // Liveview start
@@ -606,6 +609,11 @@ public class CameraHolderSony extends AbstractCameraHolder
         //public void run() {
         mEventObserver.setEventChangeListener(mEventListener);
         mEventObserver.start();
+        try {
+            mEventObserver.processEvents(FullUiSetup);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         //}
         //});
     }
