@@ -61,6 +61,9 @@ public class CameraHolderSony extends AbstractCameraHolder
         void onShootModeValuesChanged(String[] modes);
     }
 
+    public String GetCameraStatus()
+    { return cameraStatus;}
+
 
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
     {

@@ -120,10 +120,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                     }
                 }
             }).start();
-
-            return value;
         }
-        else
             return value;
 
     }

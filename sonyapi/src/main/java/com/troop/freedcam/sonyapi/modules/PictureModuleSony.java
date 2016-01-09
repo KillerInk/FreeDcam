@@ -70,6 +70,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     public void LoadNeededParameters()
     {
         cameraHolder.CameraStatusListner = this;
+        onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
 
     @Override
