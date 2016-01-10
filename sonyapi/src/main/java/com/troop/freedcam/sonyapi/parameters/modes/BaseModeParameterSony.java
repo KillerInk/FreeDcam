@@ -26,7 +26,6 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
 
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
-    protected Set<String> mSupportedApiSet;
     JSONObject jsonObject;
 
     protected boolean isSupported =false;
@@ -140,7 +139,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String[] GetValues()
     {
-        jsonObject =null;
+        /*jsonObject =null;
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -160,9 +159,9 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 e.printStackTrace();
             }
         }
-        String[] ret = processValuesToReturn();
+        String[] ret = processValuesToReturn();*/
 
-        return ret;
+        return values;
     }
 
     protected String[] processValuesToReturn() {

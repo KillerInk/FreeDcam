@@ -21,6 +21,29 @@ public class PictureSizeSony extends BaseModeParameterSony
     }
 
     @Override
+    public String[] GetValues()
+    {
+        jsonObject =null;
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    values = processValuesToReturn();
+                    BackgroundValuesHasChanged(values);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+
+        return values;
+    }
+
+    @Override
     protected void processValuesToSet(String valueToSet) {
         try
         {

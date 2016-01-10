@@ -17,7 +17,6 @@ import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
 import com.troop.freedcam.sonyapi.parameters.modes.BaseModeParameterSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ContShootModeParameterSony;
-import com.troop.freedcam.sonyapi.parameters.modes.ExposureModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.FocusPeakSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.parameters.modes.NightModeSony;
@@ -92,7 +91,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         FlashMode = new BaseModeParameterSony(uiHandler,"getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)FlashMode);
 
-        ExposureMode = new ExposureModeSony(uiHandler,"getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
+        ExposureMode = new BaseModeParameterSony(uiHandler,"getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
         ContShootMode = new ContShootModeParameterSony(uiHandler,"getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
