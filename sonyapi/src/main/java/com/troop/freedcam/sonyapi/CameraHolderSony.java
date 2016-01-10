@@ -269,6 +269,26 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onContshotModeChanged(String imagesize) {
+            ParameterHandler.ContShootMode.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onContshotModesChanged(String[] imagesize) {
+            ParameterHandler.ContShootMode.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onFocusModeChanged(String imagesize) {
+            ParameterHandler.FocusMode.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onFocusModesChanged(String[] imagesize) {
+            ParameterHandler.FocusMode.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
         public void onExposureModeChanged(String expomode) {
             if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
                 ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);
@@ -409,21 +429,13 @@ public class CameraHolderSony extends AbstractCameraHolder
             public void run() {
                 try {
                     // Get supported API list (Camera API)
+                    Log.d(TAG, "get event longpool false");
                     JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                     JSONArray resultsObj = replyJson.getJSONArray("result");
-                    JsonUtils.loadSupportedApiList(replyJson, mSupportedApiSet);
+                    JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
+                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
 
-                    try {
-                        // Get supported API list (AvContent API)
-                        JSONObject replyJsonAvcontent = mRemoteApi.getAvcontentMethodTypes();
-                        JsonUtils.loadSupportedApiList(replyJsonAvcontent, mSupportedApiSet);
-                    } catch (IOException e) {
-                        Log.d(TAG, "AvContent is not support.");
-                    }
-
-
-
-                    if (!JsonUtils.isApiSupported("setCameraFunction", mSupportedApiSet)) {
+                    if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet)) {
 
                         // this device does not support setCameraFunction.
                         // No need to check camera status.
@@ -436,7 +448,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // after confirmation of camera state, open connection.
                         Log.d(TAG, "this device support set camera function");
 
-                        if (!JsonUtils.isApiSupported("getEvent", mSupportedApiSet)) {
+                        if (!JsonUtils.isApiSupported("getEvent", mAvailableCameraApiSet)) {
                             Log.e(TAG, "this device is not support getEvent");
                             openConnection();
                             return;
@@ -492,25 +504,6 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                 try {
                     JSONObject replyJson = null;
-
-                    // getAvailableApiList
-                    Log.d(TAG, "openConnection(): getAvailableApiList");
-                    replyJson = mRemoteApi.getAvailableApiList();
-                    JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
-                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
-                    Log.d(TAG,"set CameraAPiset to ParameterHandler");
-
-                    // check version of the server device
-                    Log.d(TAG, "openConnection(): getApplicationInfo");
-                    if (JsonUtils.isCameraApiAvailable("getApplicationInfo", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): getApplicationInfo()");
-                        replyJson = mRemoteApi.getApplicationInfo();
-
-                    } else {
-                        // never happens;
-                        return;
-                    }
-
                     // startRecMode if necessary.
                     Log.d(TAG, "openConnection(): startRecMode");
                     if (JsonUtils.isCameraApiAvailable("startRecMode", mAvailableCameraApiSet)) {

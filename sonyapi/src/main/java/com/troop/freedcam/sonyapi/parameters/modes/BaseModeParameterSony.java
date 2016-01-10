@@ -106,7 +106,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String GetValue()
     {
-        if (value == null || value.equals("")) {
+        /*if (value == null || value.equals("")) {
             jsonObject = null;
             new Thread(new Runnable() {
                 @Override
@@ -120,7 +120,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                     }
                 }
             }).start();
-        }
+        }*/
             return value;
 
     }
