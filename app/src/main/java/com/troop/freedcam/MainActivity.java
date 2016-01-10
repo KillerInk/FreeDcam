@@ -104,8 +104,10 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
+        Log.d(TAGLIFE, "Activity onDestroy");
         if (debuglogging) {
             debuglogging = false;
             FileLogger.StopLogging();
