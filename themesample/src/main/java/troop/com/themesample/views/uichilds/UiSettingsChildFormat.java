@@ -82,7 +82,7 @@ public class UiSettingsChildFormat extends UiSettingsChild
     @Override
     public void ParametersLoaded()
     {
-        Log.d(TAG, "Parameters Loaded");
+        sendLog("Parameters Loaded");
         if (parameter != null && parameter.IsSupported() &&
                 (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE) || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR)
                 || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL)))

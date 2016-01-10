@@ -34,6 +34,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected AppSettingsManager appSettingsManager;
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
+    final protected boolean logging =false;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -71,7 +72,13 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         finally {
             a.recycle();
         }
-        Log.d(TAG, "Ctor done");
+        sendLog("Ctor done");
+    }
+
+    protected void sendLog(String log)
+    {
+        if (logging)
+            Log.d(TAG,log);
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -135,7 +142,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
-            Log.d(TAG, "Paramters is null or Unsupported");
+            sendLog("Paramters is null or Unsupported");
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;
@@ -196,14 +203,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(String val)
     {
-        Log.d(TAG, "Set Value to:" + val);
+        sendLog("Set Value to:" + val);
         valueText.setText(val);
     }
 
     @Override
     public void onIsSupportedChanged(boolean isSupported)
     {
-        Log.d(TAG, "isSupported:" + isSupported);
+        sendLog("isSupported:" + isSupported);
         if (isSupported)
             this.setVisibility(VISIBLE);
         else
@@ -213,7 +220,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onIsSetSupportedChanged(boolean isSupported)
     {
-        Log.d(TAG, "isSetSupported:" + isSupported);
+        sendLog("isSetSupported:" + isSupported);
         this.setEnabled(isSupported);
     }
 
@@ -230,7 +237,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void ParametersLoaded()
     {
-        Log.d(TAG, "Parameters Loaded");
+        sendLog("Parameters Loaded");
         if (parameter != null && parameter.IsSupported()) {
             setTextToTextBox(parameter);
             onIsSupportedChanged(true);

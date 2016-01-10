@@ -53,7 +53,7 @@ public class MenuItemBayerFormat extends MenuItem
         if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
-            Log.d(TAG, "Paramters is null or Unsupported");
+            sendLog("Paramters is null or Unsupported");
             return;
         }
 
