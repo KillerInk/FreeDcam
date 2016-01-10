@@ -346,12 +346,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
                             final String liveviewUrl = resultsObj.getString(0);
-                            /*context.runOnUiThread(new Runnable()
-                            {
-
-                                @Override
-                                public void run() {*/
-
+                            Log.d(TAG,"startLiveview");
                             mLiveviewSurface.start(liveviewUrl, //
                                     new SimpleStreamSurfaceView.StreamErrorListener() {
 
@@ -362,8 +357,6 @@ public class CameraHolderSony extends AbstractCameraHolder
                                             stopLiveview();
                                         }
                                     });
-                                /*}
-                            });*/
                             isPreviewRunning = true;
                         }
                     }
@@ -403,7 +396,6 @@ public class CameraHolderSony extends AbstractCameraHolder
                     // Get supported API list (Camera API)
                     JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
                     JsonUtils.loadSupportedApiList(replyJsonCamera, mSupportedApiSet);
-                    ParameterHandler.SetSupportedApiSet(mSupportedApiSet);
 
                     try {
                         // Get supported API list (AvContent API)
@@ -419,7 +411,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                         // this device does not support setCameraFunction.
                         // No need to check camera status.
-
+                        Log.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
                         openConnection();
 
                     } else {
@@ -443,8 +435,10 @@ public class CameraHolderSony extends AbstractCameraHolder
                         String type = cameraStatusObj.getString("type");
                         if ("cameraStatus".equals(type)) {
                             cameraStatus = cameraStatusObj.getString("cameraStatus");
-                            if (cameraChangedListner != null)
+                            if (cameraChangedListner != null) {
+                                Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
                                 cameraChangedListner.onCameraStatusChanged(cameraStatus);
+                            }
                         } else {
                             throw new IOException();
                         }
@@ -454,6 +448,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             openConnection();
                         } else {
                             // set Listener
+                            Log.d(TAG,"Change function to remote shooting");
                             startOpenConnectionAfterChangeCameraState();
 
                             // set Camera function to Remote Shooting
@@ -484,11 +479,14 @@ public class CameraHolderSony extends AbstractCameraHolder
                     JSONObject replyJson = null;
 
                     // getAvailableApiList
+                    Log.d(TAG, "openConnection(): getAvailableApiList");
                     replyJson = mRemoteApi.getAvailableApiList();
                     JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
                     ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
+                    Log.d(TAG,"set CameraAPiset to ParameterHandler");
 
                     // check version of the server device
+                    Log.d(TAG, "openConnection(): getApplicationInfo");
                     if (JsonUtils.isCameraApiAvailable("getApplicationInfo", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): getApplicationInfo()");
                         replyJson = mRemoteApi.getApplicationInfo();
@@ -499,6 +497,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     }
 
                     // startRecMode if necessary.
+                    Log.d(TAG, "openConnection(): startRecMode");
                     if (JsonUtils.isCameraApiAvailable("startRecMode", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): startRecMode()");
                         replyJson = mRemoteApi.startRecMode();
@@ -506,10 +505,10 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // Call again.
                         replyJson = mRemoteApi.getAvailableApiList();
                         JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
-                        ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
                     }
 
                     // getEvent start
+                    Log.d(TAG, "openConnection(): getEvent");
                     if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): EventObserver.start()");
                         mEventObserver.start();
@@ -517,29 +516,18 @@ public class CameraHolderSony extends AbstractCameraHolder
                     }
 
                     // Liveview start
-                    if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
+                    Log.d(TAG, "openConnection(): startLiveView");
+                    if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet) && cameraStatus.equals("IDLE")) {
                         Log.d(TAG, "openConnection(): LiveviewSurface.start()");
                         startLiveview();
                     }
-
-                    if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+                    Log.d(TAG, "openConnection(): setLiveViewFrameInfo");
+                    if((serverDevice.getFriendlyName().contains("ILCE-QX1")
+                            || serverDevice.getFriendlyName().contains("ILCE-QX30"))
+                            && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet)
+                            && cameraStatus.equals("IDLE"))
                     {
                         SetLiveViewFrameInfo(true);
-                    }
-
-                    // prepare UIs
-                    if (JsonUtils.isCameraApiAvailable("getAvailableShootMode", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): prepareShootModeSpinner()");
-
-                        // Note: hide progress bar on title after this calling.
-                    }
-
-                    // prepare UIs
-                    if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): prepareActZoomButtons()");
-
-                    } else {
-
                     }
 
                     Log.d(TAG, "openConnection(): completed.");

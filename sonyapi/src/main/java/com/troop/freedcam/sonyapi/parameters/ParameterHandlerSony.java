@@ -160,12 +160,6 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         createParameters();
     }
 
-    public void SetSupportedApiSet(Set<String> mSupportedApiSet)
-    {
-        this.mSupportedApiSet = mSupportedApiSet;
-
-    }
-
     @Override
     public void SetParametersToCamera() {
         super.SetParametersToCamera();
