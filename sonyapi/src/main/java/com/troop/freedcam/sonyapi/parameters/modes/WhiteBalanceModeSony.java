@@ -23,6 +23,36 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
         this.wb = wb;
     }
 
+    @Override
+    public String[] GetValues()
+    {
+        jsonObject =null;
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    values = processValuesToReturn();
+                    BackgroundValuesHasChanged(values);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        while (jsonObject == null)
+        {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return values;
+    }
+
     protected String[] processValuesToReturn() {
         String[] ret = null;
         try {

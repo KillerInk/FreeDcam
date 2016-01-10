@@ -259,7 +259,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         {
             //Single","Continuous","Spd Priority Cont.
             Log.d(TAG, "contshot:" + val);
-            if (val.contains("Single")) {
+            if (cameraUiWrapper.camParametersHandler.ContShootMode.GetValue().contains("Single")) {
                 switchBackground(Showstate.image_capture_started, false);
                 contshot = false;
             }

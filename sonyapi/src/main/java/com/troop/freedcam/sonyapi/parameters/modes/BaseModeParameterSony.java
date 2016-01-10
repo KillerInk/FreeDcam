@@ -175,4 +175,19 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         }
         return ret;
     }
+
+    @Override
+    public void BackgroundValueHasChanged(String value)
+    {
+        this.value = value;
+        super.BackgroundValueHasChanged(value);
+
+    }
+
+    @Override
+    public void BackgroundValuesHasChanged(String[] value)
+    {
+        this.values = value;
+        super.BackgroundValuesHasChanged(value);
+    }
 }

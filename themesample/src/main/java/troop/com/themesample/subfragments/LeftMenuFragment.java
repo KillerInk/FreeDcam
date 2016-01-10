@@ -104,10 +104,16 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
         themeItem.SetMenuItemListner(this);
 
-        bayerFormatItem = (MenuItemBayerFormat)view.findViewById(R.id.MenuItemBayerFormat);
-        bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
-        bayerFormatItem.SetParameter(wrapper.camParametersHandler.PictureFormat);
-        bayerFormatItem.SetMenuItemListner(this);
+        bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
+        if(wrapper instanceof CameraUiWrapper) {
+
+            bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
+            bayerFormatItem.SetParameter(wrapper.camParametersHandler.PictureFormat);
+            bayerFormatItem.SetMenuItemListner(this);
+            bayerFormatItem.setVisibility(View.VISIBLE);
+        }
+        else
+            bayerFormatItem.setVisibility(View.GONE);
 
         pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
         pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
@@ -187,8 +193,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);
         else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
-        else
+        else {
             videoProfile.SetParameter(null);
+
+        }
         videoProfile.SetMenuItemListner(this);
 
         videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
@@ -210,7 +218,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         HighSpeedVideo.SetMenuItemListner(this);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
-        if (!(wrapper instanceof CameraUiWrapper)) {
+        if (!(wrapper instanceof CameraUiWrapper) && wrapper.camParametersHandler.VideoSize != null && wrapper.camParametersHandler.VideoSize.IsSupported()) {
 
             VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE);
             VideoSize.SetParameter(wrapper.camParametersHandler.VideoSize);
