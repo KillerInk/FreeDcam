@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
@@ -155,7 +156,12 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public String ModuleChanged(String module) {
 
-        Log.d(TAG,"Module Changed");
+        Log.d(TAG, "Module Changed");
+        if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
+        {
+            contshotListner.onValueChanged(cameraUiWrapper.camParametersHandler.ContShootMode.GetValue());
+
+        }
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -252,6 +258,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         public void onValueChanged(String val)
         {
             //Single","Continuous","Spd Priority Cont.
+            Log.d(TAG, "contshot:" + val);
             if (val.contains("Single")) {
                 switchBackground(Showstate.image_capture_started, false);
                 contshot = false;
