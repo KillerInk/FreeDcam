@@ -394,8 +394,9 @@ public class CameraHolderSony extends AbstractCameraHolder
             public void run() {
                 try {
                     // Get supported API list (Camera API)
-                    JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
-                    JsonUtils.loadSupportedApiList(replyJsonCamera, mSupportedApiSet);
+                    JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    JsonUtils.loadSupportedApiList(replyJson, mSupportedApiSet);
 
                     try {
                         // Get supported API list (AvContent API)
@@ -428,8 +429,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                         // confirm current camera status
                         String cameraStatus = null;
-                        JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
-                        JSONArray resultsObj = replyJson.getJSONArray("result");
+
                         FullUiSetup = replyJson;
                         JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
                         String type = cameraStatusObj.getString("type");
