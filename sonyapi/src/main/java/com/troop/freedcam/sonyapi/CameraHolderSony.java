@@ -70,7 +70,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         @Override
         public void onShootModeChanged(String shootMode) {
-            if(cameraShotMode != null && !shootMode.equals(cameraShotMode))
+            if(cameraShotMode != null )
                 cameraShotMode.onShootModeChanged(shootMode);
         }
 
@@ -79,7 +79,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         {
             //if (cameraStatus.equals(status))
             //    return;
-            cameraStatus = status;
+            CameraHolderSony.this.cameraStatus = status;
             Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
@@ -104,12 +104,6 @@ public class CameraHolderSony extends AbstractCameraHolder
                     if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
                         startLiveview();
                     }
-                }
-                if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
-
-
-                } else {
-
                 }
             }
         }
@@ -449,6 +443,8 @@ public class CameraHolderSony extends AbstractCameraHolder
                         String type = cameraStatusObj.getString("type");
                         if ("cameraStatus".equals(type)) {
                             cameraStatus = cameraStatusObj.getString("cameraStatus");
+                            if (cameraChangedListner != null)
+                                cameraChangedListner.onCameraStatusChanged(cameraStatus);
                         } else {
                             throw new IOException();
                         }

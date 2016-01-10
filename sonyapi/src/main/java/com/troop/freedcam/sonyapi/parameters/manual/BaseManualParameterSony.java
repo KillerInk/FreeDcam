@@ -31,6 +31,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     String[] values;
     int val = -200;
     String value;
+    final boolean logging =false;
 
     private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
@@ -102,7 +103,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 {
                     try
                     {
-                        Log.d(TAG, "Trying to get String Values from: " +VALUES_TO_GET);
+                        sendLog("Trying to get String Values from: " +VALUES_TO_GET);
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
@@ -111,17 +112,17 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
+                        sendLog( "Error Trying to get String Values from: " +VALUES_TO_GET);
                         values = new String[0];
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
+                        sendLog("Error Trying to get String Values from: " + VALUES_TO_GET);
                         values = new String[0];
                     }
                 }
             }).start();
         }
-        Log.d(TAG, "Returning values from: " + VALUES_TO_GET);
+        sendLog("Returning values from: " + VALUES_TO_GET);
         return values;
 
     }
@@ -134,7 +135,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public int GetValue()
     {
-        if(val == -200) {
+        /*if(val == -200) {
             val = -1;
             new Thread(new Runnable() {
                 @Override
@@ -165,13 +166,15 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 }
             }).start();
 
-        }
+        }*/
+        sendLog("Get Value :" + val);
         return val;
     }
 
     @Override
     public void SetValue(final int valueToSet)
     {
+        sendLog("Set Value to " + valueToSet);
         this.val = valueToSet;
         new Thread(new Runnable() {
             @Override
@@ -202,6 +205,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     public String GetStringValue()
     {
+        sendLog("GetStringValue");
         if (value == null || value.equals("")) {
             if (this.values == null) {
                 this.values = getStringValues();
@@ -245,14 +249,14 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public void onCurrentValueChanged(int current)
     {
-        Log.d(TAG, "onCurrentValueChanged = "  +current);
+        sendLog("onCurrentValueChanged = "  +current);
         this.val = current;
     }
 
     @Override
     public void onValuesChanged(String[] values)
     {
-        Log.d(TAG, "onValueSChanged = "  +values.toString());
+        sendLog("onValueSChanged = "  +values.toString());
         this.values = values;
     }
 
@@ -267,5 +271,11 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             if (value.equals(values[i]))
                 onCurrentValueChanged(i);
         }
+    }
+
+    protected void sendLog(String log)
+    {
+        if (logging)
+            Log.d(TAG,VALUE_TO_SET + ":"+log);
     }
 }

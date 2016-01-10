@@ -33,6 +33,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
 
+
     }
 
     @Override
@@ -69,6 +70,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void LoadNeededParameters()
     {
+        Log.d(TAG,"LoadNeededParameters");
         cameraHolder.CameraStatusListner = this;
         onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
