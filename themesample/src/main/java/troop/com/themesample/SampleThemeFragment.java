@@ -58,12 +58,15 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,null);
+        super.onCreateView(inflater, container, null);
         this.view = inflater.inflate(R.layout.samplethemefragment, container, false);
         if (cameraUiFragment == null)
+        {
             cameraUiFragment = new CameraUiFragment();
-        cameraUiFragment.SetStuff(appSettingsManager, i_activity);
-        cameraUiFragment.SetCameraUIWrapper(wrapper);
+            cameraUiFragment.SetStuff(appSettingsManager, i_activity);
+            cameraUiFragment.SetCameraUIWrapper(wrapper);
+        }
+
 
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentholder, cameraUiFragment);

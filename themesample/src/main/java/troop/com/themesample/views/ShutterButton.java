@@ -87,6 +87,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, UserMessageHandler messageHandler)
     {
+        if (this.cameraUiWrapper == cameraUiWrapper)
+            return;
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
@@ -95,6 +97,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
 
         ModuleChanged("");
+        Log.d(TAG,"Set wrapper to ShutterButton");
     }
 
     private void switchBackground(Showstate showstate, boolean animate)
@@ -152,6 +155,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public String ModuleChanged(String module) {
 
+        Log.d(TAG,"Module Changed");
         this.post(new Runnable() {
             @Override
             public void run() {
