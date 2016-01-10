@@ -107,7 +107,9 @@ public class SimpleCameraEventObserver {
         void onProgramShiftValuesChanged(String[] shift);
         void onExposureModeChanged(String expomode);
         void onExposureModesChanged(String[] expomode);
-
+        void onImageFormatChanged(String imagesize);
+        void onImageFormatsChanged(String[] imagesize);
+        void onImageSizeChanged(String imagesize);
     }
 
     /**
@@ -356,6 +358,8 @@ public class SimpleCameraEventObserver {
             fireShootModeChangeListener(shootMode);
         }
 
+
+
         // zoomPosition
         int zoomPosition = JsonUtils.findZoomInformation(replyJson);
 
@@ -399,11 +403,25 @@ public class SimpleCameraEventObserver {
             fireExpoModeChangedListener(expoMode);
         }
 
-        String[] expomodes = JsonUtils.findStringArrayInformation(replyJson,18, "exposureMode","exposureModeCandidates");
+        String[] expomodes = JsonUtils.findStringArrayInformation(replyJson, 18, "exposureMode", "exposureModeCandidates");
         if (expomodes != null && expomodes.length > 0)
         {
             fireExpoModesChangedListener(expomodes);
         }
+
+        String imageFormat = JsonUtils.findStringInformation(replyJson, 37, "stillQuality", "stillQuality");
+        if (imageFormat != null && !imageFormat.equals(""))
+            fireImageFormatChangedListener(imageFormat);
+
+        String[] imageformats = JsonUtils.findStringArrayInformation(replyJson, 37, "stillQuality", "candidate");
+        if (imageformats != null && imageformats.length > 0)
+        {
+            fireImageFormatsChangedListener(imageformats);
+        }
+
+        String imagesize = JsonUtils.findStringInformation(replyJson, 14,"stillSize","currentSize" );
+        if (imagesize != null || imagesize.equals(""))
+            fireImageSizeChangedListener(imagesize);
 
         // storageId
         String storageId = JsonUtils.findStorageId(replyJson);
@@ -924,6 +942,39 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onExposureModesChanged(expo);
+                }
+            }
+        });
+    }
+
+    private void fireImageFormatsChangedListener(final String[] expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onImageFormatsChanged(expo);
+                }
+            }
+        });
+    }
+
+    private void fireImageFormatChangedListener(final String expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onImageFormatChanged(expo);
+                }
+            }
+        });
+    }
+
+    private void fireImageSizeChangedListener(final String expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onImageSizeChanged(expo);
                 }
             }
         });

@@ -254,6 +254,21 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onImageFormatChanged(String imagesize) {
+            ParameterHandler.PictureFormat.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onImageFormatsChanged(String[] imagesize) {
+            ParameterHandler.PictureFormat.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onImageSizeChanged(String imagesize) {
+            ParameterHandler.PictureSize.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
         public void onExposureModeChanged(String expomode) {
             if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
                 ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);
