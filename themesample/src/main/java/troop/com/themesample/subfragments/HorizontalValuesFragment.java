@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+
 import troop.com.themesample.R;
 import troop.com.themesample.views.uichilds.SimpleValueChild;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice
+public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice, AbstractModeParameter.I_ModeParameterEvent
 {
     View view;
     LinearLayout valuesHolder;
@@ -34,6 +36,10 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     @Override
     public void onResume() {
         super.onResume();
+        setValueToView();
+    }
+
+    private void setValueToView() {
         int i = 0;
         LinearLayout linearLayout = getNewLayout();
         if (values == null)
@@ -68,6 +74,11 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
         this.rdytoclose = rdytoclose;
     }
 
+    public void ListenToParameter(AbstractModeParameter parameter)
+    {
+        parameter.addEventListner(this);
+    }
+
     /*
     this gets attached to the Simplevalue childes and returns the value from the clicked SimpleValueChild
      */
@@ -76,5 +87,26 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     {
         if (rdytoclose != null)
             rdytoclose.onClose(value);
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+        this.values = values;
+        setValueToView();
     }
 }

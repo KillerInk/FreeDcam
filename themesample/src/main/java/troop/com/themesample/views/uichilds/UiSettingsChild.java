@@ -161,6 +161,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         setTextToTextBox(parameter);
     }
 
+    public AbstractModeParameter GetParameter()
+    {
+        return parameter;
+    }
+
     public void setTextToTextBox(AbstractModeParameter parameter)
     {
         if (parameter.IsSupported())

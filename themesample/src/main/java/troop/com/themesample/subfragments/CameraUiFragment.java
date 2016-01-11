@@ -347,7 +347,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         }
         currentOpendChild = item;
         horizontalValuesFragment = new HorizontalValuesFragment();
-        horizontalValuesFragment.SetStringValues(item.GetValues(), this);
+        String[] tmo = item.GetValues();
+        if (tmo != null && tmo.length >0)
+            horizontalValuesFragment.SetStringValues(tmo, this);
+        else
+            horizontalValuesFragment.ListenToParameter(item.GetParameter());
         infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
