@@ -39,7 +39,10 @@ public class MenuItemBayerFormat extends MenuItem
             appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, value);
             parameter.SetValue(value, false);
         }
+        onValueChanged(value);
     }
+
+
 
     @Override
     public String[] GetValues()
@@ -50,6 +53,7 @@ public class MenuItemBayerFormat extends MenuItem
     @Override
     public void SetParameter(AbstractModeParameter parameter)
     {
+
         if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
@@ -74,8 +78,8 @@ public class MenuItemBayerFormat extends MenuItem
         else
             onIsSupportedChanged(false);
         this.parameter = parameter;
-        if (parameter != null)
-            parameter.addEventListner(this);
+        /*if (parameter != null)
+            parameter.addEventListner(this);*/
 
         if (appSettingsManager.getString(APPSETTING_BAYERFORMAT).equals("") && bayerformats.size() >0) {
             appSettingsManager.setString(APPSETTING_BAYERFORMAT, bayerformats.get(0));
